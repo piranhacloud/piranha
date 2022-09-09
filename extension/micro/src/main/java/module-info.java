@@ -26,8 +26,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.extension.micro.MicroExtension;
 import cloud.piranha.core.api.WebApplicationExtension;
+import cloud.piranha.extension.micro.MicroExtension;
 
 module cloud.piranha.extension.micro {
     provides WebApplicationExtension with MicroExtension;
@@ -48,4 +48,5 @@ module cloud.piranha.extension.micro {
     requires cloud.piranha.extension.webxml;
     requires cloud.piranha.extension.welcomefile;
     requires cloud.piranha.extension.transact;
+    requires cloud.piranha.extension.eclipselink;
 }

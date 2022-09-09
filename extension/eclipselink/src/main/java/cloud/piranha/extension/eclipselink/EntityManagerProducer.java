@@ -25,46 +25,49 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.micro.shrinkwrap.loader;
+package cloud.piranha.extension.eclipselink;
 
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLStreamHandler;
-import java.net.URLStreamHandlerFactory;
+import static java.util.stream.Collectors.toMap;
+
+import java.util.Arrays;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
+
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.InjectionPoint;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.PersistenceProperty;
 
 /**
- * A factory for URL stream handlers using a static map to contain handlers.
- *
- * <p>
- * This factory should be registered with the JVM early. Later on the <code>HANDLERS</code> map
- * can be used to register individual URL stream handlers for various protocols.
+ * This producer takes care of providing a bean to inject for the <code>PersistenceContext</code> annotation.
  *
  * @author Arjan Tijms
  *
  */
-public class StaticURLStreamHandlerFactory implements URLStreamHandlerFactory {
+public class EntityManagerProducer {
 
     /**
-     * Stores the handlers.
+     *
+     * @param injectionPoint the injectionPoint
+     * @return EntityManager
      */
-    private static final Map<String, Function<URL, URLConnection>> HANDLERS = new ConcurrentHashMap<>();
+    @Produces
+    public EntityManager produce(InjectionPoint injectionPoint) {
+        PersistenceContext persistenceContext = injectionPoint.getAnnotated().getAnnotation(PersistenceContext.class);
 
-    /**
-     * {@return the handlers}
-     */
-    public static Map<String, Function<URL, URLConnection>> getHandlers() {
-        return HANDLERS;
+        return new PiranhaEntityManager(
+                    persistenceContext.unitName(),
+                    persistenceContext.type(),
+                    persistenceContext.synchronization(),
+                    propertiesToMap(persistenceContext.properties()));
+
     }
 
-    @Override
-    public URLStreamHandler createURLStreamHandler(String protocol) {
-        if (!HANDLERS.containsKey(protocol)) {
-            return null;
-        }
-
-        return new StaticStreamHandler(protocol, HANDLERS);
+    private Map<Object, Object> propertiesToMap(PersistenceProperty[] properties) {
+        return Arrays.stream(properties)
+                     .collect(toMap(
+                        persistenceProperty -> persistenceProperty.name(),
+                        persistenceProperty -> persistenceProperty.value()));
     }
+
 }

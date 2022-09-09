@@ -1,3 +1,6 @@
+import cloud.piranha.extension.eclipselink.EclipseLinkCdiExtension;
+import jakarta.enterprise.inject.spi.Extension;
+
 /*
  * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
@@ -38,6 +41,8 @@
  * @author Arjan Tijms
  */
 module cloud.piranha.extension.eclipselink {
+    provides Extension with EclipseLinkCdiExtension;
+
     exports cloud.piranha.extension.eclipselink;
     opens cloud.piranha.extension.eclipselink;
 
@@ -48,4 +53,6 @@ module cloud.piranha.extension.eclipselink {
     requires java.naming;
 
     requires eclipselink;
+    requires jakarta.cdi;
+    requires jakarta.transaction;
 }
