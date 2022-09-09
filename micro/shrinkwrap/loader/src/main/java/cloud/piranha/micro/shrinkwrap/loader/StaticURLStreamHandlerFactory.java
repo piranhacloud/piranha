@@ -37,13 +37,11 @@ import java.util.function.Function;
 
 /**
  * A factory for URL stream handlers using a static map to contain handlers.
- * 
+ *
  * <p>
  * This factory should be registered with the JVM early. Later on the <code>HANDLERS</code> map
  * can be used to register individual URL stream handlers for various protocols.
- * 
- * <p>
- * 
+ *
  * @author Arjan Tijms
  *
  */
@@ -51,7 +49,7 @@ public class StaticURLStreamHandlerFactory implements URLStreamHandlerFactory {
 
     /**
      * Stores the handlers.
-     */    
+     */
     private static final Map<String, Function<URL, URLConnection>> HANDLERS = new ConcurrentHashMap<>();
 
     /**
@@ -66,7 +64,7 @@ public class StaticURLStreamHandlerFactory implements URLStreamHandlerFactory {
         if (!HANDLERS.containsKey(protocol)) {
             return null;
         }
-        
+
         return new StaticStreamHandler(protocol, HANDLERS);
     }
 }

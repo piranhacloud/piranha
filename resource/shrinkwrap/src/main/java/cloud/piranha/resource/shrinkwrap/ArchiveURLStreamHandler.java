@@ -27,9 +27,10 @@
  */
 package cloud.piranha.resource.shrinkwrap;
 
+import static java.lang.System.Logger.Level.WARNING;
+
 import java.io.IOException;
 import java.io.InputStream;
-import static java.lang.System.Logger.Level.WARNING;
 import java.net.URL;
 import java.net.URLStreamHandler;
 
@@ -74,7 +75,7 @@ public class ArchiveURLStreamHandler extends URLStreamHandler {
             public InputStream getInputStream() throws IOException {
                 Node node = getNode();
                 if (node == null) {
-                    throw new IllegalStateException("Can't resolve URL " + requestedUrl.toExternalForm());
+                    throw new IOException("Can't resolve URL " + requestedUrl.toExternalForm());
                 }
 
                 Asset asset = node.getAsset();
