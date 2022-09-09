@@ -34,6 +34,7 @@ import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.async.AsyncExtension;
+import cloud.piranha.extension.eclipselink.EclipseLinkExtension;
 import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.localeencoding.LocaleEncodingExtension;
@@ -76,11 +77,14 @@ public class MicroExtension implements WebApplicationExtension {
         // Jakarta Transactions
         context.add(TransactExtension.class);
 
-        // Jakarta Security
+        // Jakarta Security (includes Jakarta CDI)
         context.add(JakartaSecurityExtension.class);
 
         // Jakarta Pages
         context.add(WaspExtension.class);
+
+        // Jakarta Persistence
+        context.add(EclipseLinkExtension.class);
     }
 
     @Override

@@ -25,28 +25,49 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.eclipselink;
 
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.extension.micro.MicroExtension;
+import static java.util.stream.Collectors.toMap;
 
-module cloud.piranha.extension.micro {
-    provides WebApplicationExtension with MicroExtension;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.async;
-    requires cloud.piranha.extension.exousia;
-    requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.localeencoding;
-    requires cloud.piranha.extension.mimetype;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.jakarta;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
-    requires cloud.piranha.extension.transact;
-    requires cloud.piranha.extension.eclipselink;
+import java.util.Arrays;
+import java.util.Map;
+
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.InjectionPoint;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.PersistenceProperty;
+
+/**
+ * This producer takes care of providing a bean to inject for the <code>PersistenceContext</code> annotation.
+ *
+ * @author Arjan Tijms
+ *
+ */
+public class EntityManagerProducer {
+
+    /**
+     *
+     * @param injectionPoint the injectionPoint
+     * @return EntityManager
+     */
+    @Produces
+    public EntityManager produce(InjectionPoint injectionPoint) {
+        PersistenceContext persistenceContext = injectionPoint.getAnnotated().getAnnotation(PersistenceContext.class);
+
+        return new PiranhaEntityManager(
+                    persistenceContext.unitName(),
+                    persistenceContext.type(),
+                    persistenceContext.synchronization(),
+                    propertiesToMap(persistenceContext.properties()));
+
+    }
+
+    private Map<Object, Object> propertiesToMap(PersistenceProperty[] properties) {
+        return Arrays.stream(properties)
+                     .collect(toMap(
+                        persistenceProperty -> persistenceProperty.name(),
+                        persistenceProperty -> persistenceProperty.value()));
+    }
+
 }
