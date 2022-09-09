@@ -59,7 +59,7 @@
     </dependencies>
 
     <build>
-        <finalName>piranha-coreprofile</finalName>
+        <finalName>piranha-dist-coreprofile</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -75,7 +75,7 @@
                             <transformers>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>cloud.piranha.coreprofile.CoreProfilePiranhaMain</mainClass>
+                                    <mainClass>cloud.piranha.dist.coreprofile.CoreProfilePiranhaMain</mainClass>
                                 </transformer>
                                 <transformer
                                     implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />

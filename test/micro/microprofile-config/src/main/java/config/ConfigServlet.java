@@ -25,21 +25,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package config;
 
-/**
- * The Piranha Core Profile module.
- * 
- * @author Manfred Riem (mriem@manorrock.com)
- */
-module cloud.piranha.coreprofile {
-    
-    exports cloud.piranha.dist.coreprofile;
-    opens cloud.piranha.dist.coreprofile;
-    requires transitive cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.coreprofile;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
-    uses cloud.piranha.http.api.HttpServer;
+import java.io.IOException;
+
+import jakarta.inject.Inject;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/servlet")
+public class ConfigServlet extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * ConfigApplicationBean
+     */
+    @Inject
+    private ConfigApplicationBean applicationBean;
+
+    /**
+     *
+     */
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/plain");
+        response.getWriter().write(
+            "default.property : " + applicationBean.getDefaultProperty() + "\n" +
+            "file.property : " + applicationBean.getFileProperty() + "\n" +
+            "application.property : " + applicationBean.getApplicationProperty() + "\n" +
+            "application.optionalProperty : " + applicationBean.getOptionalApplicationProperty().orElse("Not defined") + "\n"
+        );
+    }
+
 }

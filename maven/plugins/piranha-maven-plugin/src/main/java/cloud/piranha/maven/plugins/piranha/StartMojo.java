@@ -44,7 +44,7 @@ import org.apache.maven.plugins.annotations.Mojo;
  */
 @Mojo(name = "start", defaultPhase = NONE)
 public class StartMojo extends BaseMojo {
-    
+
     /**
      * Copy the WAR file to Piranha Core Profile.
      *
@@ -75,7 +75,7 @@ public class StartMojo extends BaseMojo {
      * Start and wait for Piranha Core Profile.
      */
     private void startPiranhaCoreProfile() throws IOException {
-        
+
         ArrayList<String> commands = new ArrayList<>();
         commands.add("java");
         commands.add("-jar");
@@ -84,7 +84,7 @@ public class StartMojo extends BaseMojo {
         commands.add(httpPort.toString());
         commands.add("--war-file");
         commands.add(warName + ".war");
-        if (contextPath != null) { 
+        if (contextPath != null) {
             commands.add("--context-path");
             if (contextPath.startsWith("/")) {
                 contextPath = contextPath.substring(1);
@@ -92,13 +92,30 @@ public class StartMojo extends BaseMojo {
             commands.add(contextPath);
         }
         commands.add("--write-pid");
-        
+
         new ProcessBuilder()
                 .directory(new File(runtimeDirectory))
                 .command(commands)
                 .start();
 
-        System.out.println("Application is available at: http://localhost:" + httpPort + "/" 
+        File pidFile = new File(runtimeDirectory + "/tmp/piranha.pid");
+        int count = 0;
+        System.out.print("Waiting for Piranha to be ready ");
+        while (!pidFile.exists()) {
+            try {
+                Thread.sleep(500);
+                count++;
+                System.out.print(".");
+            } catch (InterruptedException ie) {
+            }
+            if (count == 80) {
+                System.err.println("Warning, PID file not seen!");
+                break;
+            }
+        }
+        System.out.println();
+
+        System.out.println("Application is available at: http://localhost:" + httpPort + "/"
                 + (contextPath != null ? contextPath : warName));
     }
 }

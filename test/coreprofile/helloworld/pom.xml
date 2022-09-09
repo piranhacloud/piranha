@@ -50,7 +50,7 @@
     </dependencies>
 
     <build>
-        <finalName>piranha-test-coreprofile-1</finalName>
+        <finalName>piranha-test-coreprofile-helloworld</finalName>
         <plugins>
             <plugin>
                 <groupId>cloud.piranha.maven.plugins</groupId>

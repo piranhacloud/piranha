@@ -25,21 +25,37 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package helloworld;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
- * The Piranha Core Profile module.
- * 
+ * A 'Hello World!' Servlet.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.coreprofile {
-    
-    exports cloud.piranha.dist.coreprofile;
-    opens cloud.piranha.dist.coreprofile;
-    requires transitive cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.coreprofile;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
-    uses cloud.piranha.http.api.HttpServer;
+public class HelloWorldServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html");
+        try ( PrintWriter out = response.getWriter()) {
+            out.println("""
+                        <!DOCTYPE html>
+                        <html>
+                          <head>
+                            <title>Hello World!</title>
+                          </head>
+                          <body>
+                            <h1>Hello World!</h1>
+                          </body>
+                        </html>""");
+        }
+    }
 }

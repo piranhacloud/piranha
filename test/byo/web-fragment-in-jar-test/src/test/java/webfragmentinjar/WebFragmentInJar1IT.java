@@ -25,21 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package webfragmentinjar;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
+import cloud.piranha.extension.webxml.WebXmlInitializer;
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Piranha Core Profile module.
- * 
+ * The integration tests for the web-fragment.xml support.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.coreprofile {
-    
-    exports cloud.piranha.dist.coreprofile;
-    opens cloud.piranha.dist.coreprofile;
-    requires transitive cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.coreprofile;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
-    uses cloud.piranha.http.api.HttpServer;
+class WebFragmentInJar1IT {
+
+    /**
+     * Test web-fragment.xml support.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testLoadClass() throws Exception {
+        DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(new File("target/webapp"));
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.setClassLoader(classLoader);
+        webApplication.addInitializer(new WebXmlInitializer());
+        webApplication.initialize();
+        assertEquals("/webfragmentInJar", webApplication.getContextPath());
+    }
 }

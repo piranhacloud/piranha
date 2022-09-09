@@ -15,14 +15,10 @@
     <name>Piranha - Test - Project</name>
 
     <modules>
-        <module>arquillian</module>
         <module>byo</module>
         <module>coreprofile</module>
-        <module>helloworld</module>
         <module>micro</module>
-        <module>mojarra2</module>
         <module>server</module>
-        <module>webapp</module>
         <module>common</module>
     </modules>
 

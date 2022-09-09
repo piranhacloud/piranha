@@ -25,21 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package protectedservlet;
+
+import jakarta.enterprise.context.RequestScoped;
 
 /**
- * The Piranha Core Profile module.
+ * A CDI bean.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.coreprofile {
+@RequestScoped
+public class ProtectedBean {
     
-    exports cloud.piranha.dist.coreprofile;
-    opens cloud.piranha.dist.coreprofile;
-    requires transitive cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.coreprofile;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
-    uses cloud.piranha.http.api.HttpServer;
 }

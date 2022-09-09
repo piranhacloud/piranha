@@ -25,21 +25,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package protectedservlet;
+
+import java.io.IOException;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * The Piranha Core Profile module.
  * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
+ * 
  */
-module cloud.piranha.coreprofile {
-    
-    exports cloud.piranha.dist.coreprofile;
-    opens cloud.piranha.dist.coreprofile;
-    requires transitive cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.coreprofile;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
-    uses cloud.piranha.http.api.HttpServer;
+@WebServlet(urlPatterns = "/protected/servlet")
+public class ProtectedServlet extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        response.getWriter().write("This is a protected servlet \n");
+
+        String webName = null;
+        if (request.getUserPrincipal() != null) {
+            webName = request.getUserPrincipal().getName();
+        }
+
+        response.getWriter().write("web username: " + webName + "\n");
+
+        boolean webHasRole = request.isUserInRole("architect");
+
+        response.getWriter().write("web user has role \"architect\": " + webHasRole + "\n");
+
+    }
+
 }
