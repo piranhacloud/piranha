@@ -28,6 +28,7 @@
             <artifactId>piranha-core-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-apache-fileupload</artifactId>
@@ -106,6 +107,7 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-api</artifactId>
@@ -203,6 +205,13 @@
             <groupId>org.glassfish.expressly</groupId>
             <artifactId>expressly</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        
+        <!-- Jakarta Persistence implementation -->
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipselink</artifactId>
+            <version>${project.version}</version>
         </dependency>
         
         <!-- Jakarta XML Bind API -->
