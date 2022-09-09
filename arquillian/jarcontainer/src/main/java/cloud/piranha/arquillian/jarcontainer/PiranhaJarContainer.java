@@ -130,18 +130,10 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
             ioe.printStackTrace();
             return null;
         }
-        
-        /*
-         * Wait for 5 seconds.
-         */
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException ie) {
-        }
 
         HTTPContext httpContext = new HTTPContext("localhost", configuration.getHttpPort());
         httpContext.add(new Servlet(
-                "ArquillianServletRunnerEE9", 
+                "ArquillianServletRunnerEE9",
                 archive.getName().substring(0, archive.getName().lastIndexOf("."))));
         metadata.addContext(httpContext);
         return metadata;
@@ -310,7 +302,24 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
                         warFilename.getName(),
                         "--write-pid")
                 .start();
-        
+
+        File pidFile = new File(runtimeDirectory, "tmp/piranha.pid");
+        int count = 0;
+        System.out.print("Waiting for Piranha to be ready ");
+        while (!pidFile.exists()) {
+            try {
+                Thread.sleep(500);
+                count++;
+                System.out.print(".");
+            } catch (InterruptedException ie) {
+            }
+            if (count == 80) {
+                System.err.println("Warning, PID file not seen!");
+                break;
+            }
+        }
+        System.out.println();
+
         System.out.println("Running application from directory: " + runtimeDirectory);
         System.out.println("Application is available at: http://localhost:" + "8080" + "/" + warFilename.getName().substring(0, warFilename.getName().lastIndexOf(".")));
     }

@@ -16,6 +16,9 @@
     <name>Piranha - Test - Micro - Project</name>
 
     <modules>
+        <module>helloworld</module>
+        <module>microprofile-config</module>
+        <module>protected-servlet</module>
         <module>snoop</module>
     </modules>
 
@@ -30,6 +33,6 @@
             <groupId>me.alexpanov</groupId>
             <artifactId>free-port-finder</artifactId>
             <scope>test</scope>
-        </dependency>
+        </dependency>    
     </dependencies>
 </project>

@@ -9,8 +9,8 @@
         <version>22.9.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>test-micro-snoop</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>piranha-test-micro-snoop</artifactId>
+    <packaging>war</packaging>
 
     <name>Piranha - Test - Micro - Snoop</name>
 
@@ -19,12 +19,17 @@
     </properties>
 
     <dependencies>
+        <!-- provided -->
         <dependency>
-            <groupId>cloud.piranha.test.webapp</groupId>
-            <artifactId>test-webapp-snoop</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <!-- test -->
+        <dependency>
+            <groupId>cloud.piranha.test</groupId>
+            <artifactId>test-common</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.htmlunit</groupId>
@@ -37,26 +42,23 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.test</groupId>
-            <artifactId>test-common</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
-        
-        <!-- parallel build dependencies, should be removed from test scope -->
         <dependency>
-            <groupId>cloud.piranha.micro.shrinkwrap</groupId>
-            <artifactId>piranha-micro-shrinkwrap</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
+        <finalName>snoop</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <phase>post-integration-test</phase>
@@ -70,35 +72,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default-install</id>
-                        <phase>none</phase>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default-jar</id>
-                        <phase>none</phase>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <classpathDependencyExcludes>
-                        <classpathDependencyExclude>cloud.piranha.micro.shrinkwrap:piranha-micro-shrinkwrap</classpathDependencyExclude>
-                    </classpathDependencyExcludes>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -119,15 +92,6 @@
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
                                     <destFileName>piranha-micro-shrinkwrap.jar</destFileName>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>cloud.piranha.test.webapp</groupId>
-                                    <artifactId>test-webapp-snoop</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>war</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}</outputDirectory>
-                                    <destFileName>snoop.war</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
