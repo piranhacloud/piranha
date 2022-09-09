@@ -1,4 +1,4 @@
-# Create a simple REST service
+# Create a REST service
 
 If you are looking to create a REST service with Piranha then consider Piranha Core Profile. It features a runtime ideally suited for REST and micro services.
 
@@ -206,3 +206,5 @@ For the WAR file see the `target` directory. For the Piranha Core Profile distri
 ## Conclusion
 
 As you can see getting started with Piranha Core Profile does not have to take long.
+
+[Back](../)
