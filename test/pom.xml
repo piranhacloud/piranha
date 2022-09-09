@@ -16,21 +16,12 @@
 
     <modules>
         <module>arquillian</module>
-        <module>classloader</module>
-        <module>classloader2</module>
+        <module>byo</module>
         <module>coreprofile</module>
-        <module>exousia</module>
-        <module>hazelcast</module>
         <module>helloworld</module>
-        <module>jersey</module>
-        <module>jpa</module>
-        <module>jpms</module>
         <module>micro</module>
         <module>mojarra2</module>
         <module>server</module>
-        <module>soteria</module>
-        <module>webxml</module>
-        <module>weld</module>
         <module>webapp</module>
         <module>common</module>
     </modules>
