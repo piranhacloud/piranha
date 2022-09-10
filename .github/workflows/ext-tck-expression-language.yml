@@ -1,13 +1,5 @@
 name: ext-tck-expression-language
 on:
-  push:
-    branches:
-      - '*'
-    tags-ignore:
-      - 'v*'
-  pull_request:
-    branches:
-      - 'current'
   schedule:
   - cron: "0 8 10 * *"
   workflow_dispatch:
