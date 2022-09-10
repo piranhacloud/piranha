@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.apache.maven.plugin.MojoExecutionException;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.NONE;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -78,6 +79,9 @@ public class StartMojo extends BaseMojo {
 
         ArrayList<String> commands = new ArrayList<>();
         commands.add("java");
+        if (jvmArguments != null && !jvmArguments.equals("")) {
+            commands.addAll(Arrays.asList(jvmArguments.split(" ")));
+        }
         commands.add("-jar");
         commands.add(piranhaJarFile.getAbsolutePath());
         commands.add("--http-port");
@@ -109,7 +113,8 @@ public class StartMojo extends BaseMojo {
             } catch (InterruptedException ie) {
             }
             if (count == 80) {
-                System.err.println("Warning, PID file not seen!");
+                System.out.println();
+                System.out.println("Warning, PID file not seen!");
                 break;
             }
         }
