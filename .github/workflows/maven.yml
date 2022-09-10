@@ -24,7 +24,7 @@ jobs:
         mvn -B -DskipTests -DskipITs -ntp site
         rm -rf ../../../../maven/piranha-maven-plugin || true
         mkdir -p ../../../../maven/piranha-maven-plugin || true
-        cp -R * ../../../../maven/piranha-maven-plugin
+        cp -R * ../../../../maven/piranha-maven-plugin/target/site
         cd ../../../..
         rm -rf piranha
         git config --global user.email "noreply@piranha.cloud"
