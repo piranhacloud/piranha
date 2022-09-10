@@ -66,6 +66,12 @@ public abstract class BaseMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "8080", required = false)
     protected Integer httpPort;
+    
+    /**
+     * Stores the JVM arguments.
+     */
+    @Parameter(required = false)
+    protected String jvmArguments;
 
     /**
      * Stores the local repository directory.
