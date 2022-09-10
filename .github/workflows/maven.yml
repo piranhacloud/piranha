@@ -29,4 +29,6 @@ jobs:
         rm -rf piranha
         git config --global user.email "noreply@piranha.cloud"
         git config --global user.name "Automated publish"
-        git status
+        git add .
+        git commit -a -m "Publishing Maven plugin documentation"
+        git push
