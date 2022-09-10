@@ -28,12 +28,6 @@
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- test -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
