@@ -15,6 +15,7 @@
     <name>Piranha - HTTP - Grizzly Integration</name>
 
     <dependencies>
+        <!-- compile -->
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-api</artifactId>
@@ -36,25 +37,11 @@
             <artifactId>grizzly-npn-api</artifactId>
             <scope>compile</scope>
         </dependency>
+        <!-- test -->
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-tests</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
