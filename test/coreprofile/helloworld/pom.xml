@@ -66,6 +66,7 @@
                         <configuration>
                             <contextPath>/say</contextPath>
                             <httpPort>9000</httpPort>
+                            <!--<jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000</jvmArguments>-->
                         </configuration>
                     </execution>
                     <execution>
