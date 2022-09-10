@@ -22,7 +22,11 @@ jobs:
         mvn -B -DskipTests -DskipITs -ntp install
         cd maven/plugins/piranha-maven-plugin
         mvn -B -DskipTests -DskipITs -ntp site
+        mkdir -p ../../../../maven/piranha-maven-plugin || true
+        rm -rf ../../../../maven/piranha-maven-plugin
         cp -R * ../../../../maven/piranha-maven-plugin
+        cd ../../../..
+        rm -rf piranha
         git config --global user.email "noreply@piranha.cloud"
         git config --global user.name "Automated publish"
         git status
