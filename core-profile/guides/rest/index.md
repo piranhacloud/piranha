@@ -207,4 +207,10 @@ For the WAR file see the `target` directory. For the Piranha Core Profile distri
 
 As you can see getting started with Piranha Core Profile does not have to take long.
 
+## References
+
+1. [Piranha Core Profile](https://piranha.cloud/core-profile/)
+1. [Piranha Maven plugin documentation](https://piranha.cloud/maven/piranha-maven-plugin/plugin-info.html)
+1. [ZIP file containing sources](rest.zip)
+
 [Back](../)
