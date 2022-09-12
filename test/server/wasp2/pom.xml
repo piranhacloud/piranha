@@ -5,7 +5,7 @@
     <parent>
         <groupId>cloud.piranha.test.server</groupId>
         <artifactId>project</artifactId>
-        <version>22.9.0-SNAPSHOT</version>
+        <version>22.10.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-test-server-wasp2</artifactId>
