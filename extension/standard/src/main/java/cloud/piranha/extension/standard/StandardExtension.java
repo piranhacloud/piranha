@@ -51,7 +51,9 @@ import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
  * The extension that delivers the extensions for Piranha Micro/Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.11.0", forRemoval = true)
 public class StandardExtension implements WebApplicationExtension {
 
     @Override
