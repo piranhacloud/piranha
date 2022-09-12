@@ -32,12 +32,19 @@
  * <p>
  *  This module delivers the integration code needed for Mojarra.
  * </p>
+ * <p>
+ *  This module is deprecated and will be removed in a future release. To use 
+ *  Eclipse Mojarra in your application. Replace this module with the 
+ *  cloud.piranha.extension.scinitializer module and include the Eclipse Mojarra
+ *  JAR as part of your application.
+ * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated
  */
 @Deprecated(since = "22.9.0", forRemoval = true)
 module cloud.piranha.extension.mojarra {
+
     exports cloud.piranha.extension.mojarra;
     requires static cloud.piranha.extension.wasp;
     requires jakarta.servlet;
