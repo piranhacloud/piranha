@@ -32,6 +32,12 @@
  * <p>
  *  This module delivers the integration code needed for MyFaces.
  * </p>
+ * <p>
+ *  This module is deprecated and will be removed in a future release. To use 
+ *  Apache MyFaces in your application. Replace this module with the 
+ *  cloud.piranha.extension.scinitializer module and include the Apache MyFaces
+ *  JAR as part of your application.
+ * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated

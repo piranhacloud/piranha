@@ -18,22 +18,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>1.7.0.Alpha10</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.container</groupId>
-                <artifactId>arquillian-container-test-api</artifactId>
-                <version>1.7.0.Alpha10</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <dependencies>
         <!-- provided -->
         <dependency>
@@ -46,21 +30,27 @@
             <groupId>cloud.piranha.arquillian</groupId>
             <artifactId>piranha-arquillian-jarcontainer</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.arquillian.protocol</groupId>
-            <artifactId>arquillian-protocol-servlet</artifactId>
+            <groupId>org.jboss.arquillian.junit5</groupId>
+            <artifactId>arquillian-junit5-container</artifactId>
+            <version>${arquillian.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -69,14 +59,14 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
