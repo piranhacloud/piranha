@@ -36,20 +36,20 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * The HelloArquillian integration test.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class HelloArquillianIT {
 
     @ArquillianResource
