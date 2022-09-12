@@ -45,11 +45,17 @@
  *  <li>TEMPDIR</li>
  *  <li>web.xml</li>
  * </ul>
+ * <p>
+ *  This module is deprecated and will be removed in a future release. Depending
+ *  on your use case you can either replace it with the CoreProfileExtension or
+ *  the WebProfileExtension.
+ * </p>
  * 
  * @deprecated
  */
 @Deprecated(since = "22.9.0", forRemoval = true)
 module cloud.piranha.extension.lite {
+    
     exports cloud.piranha.extension.lite;
     opens cloud.piranha.extension.lite;
     requires cloud.piranha.core.api;
