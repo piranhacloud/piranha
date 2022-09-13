@@ -26,27 +26,22 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.extension.micro.MicroExtension;
-
-module cloud.piranha.extension.micro {
-    provides WebApplicationExtension with MicroExtension;
+/**
+ *  The Naming integration module.
+ *
+ * <p>
+ *  This module integrates Naming (JNDI) into Piranha.
+ * </p>
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+module cloud.piranha.extension.naming {
+    
+    exports cloud.piranha.extension.naming;
+    opens cloud.piranha.extension.naming;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.async;
-    requires cloud.piranha.extension.exousia;
-    requires cloud.piranha.extension.naming;
-    requires cloud.piranha.extension.localeencoding;
-    requires cloud.piranha.extension.mimetype;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.jakarta;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
-    requires cloud.piranha.extension.transact;
-    requires cloud.piranha.extension.eclipselink;
+    requires transitive cloud.piranha.naming.impl;
+    requires transitive cloud.piranha.naming.thread;
+    requires transitive java.naming;
+    requires jakarta.annotation;
 }

@@ -25,28 +25,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.naming;
 
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.extension.micro.MicroExtension;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
+import static java.lang.System.Logger.Level.DEBUG;
+import javax.naming.Context;
 
-module cloud.piranha.extension.micro {
-    provides WebApplicationExtension with MicroExtension;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.async;
-    requires cloud.piranha.extension.exousia;
-    requires cloud.piranha.extension.naming;
-    requires cloud.piranha.extension.localeencoding;
-    requires cloud.piranha.extension.mimetype;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.jakarta;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
-    requires cloud.piranha.extension.transact;
-    requires cloud.piranha.extension.eclipselink;
+/**
+ * The ServletRequestListener that sets the Context instance on the current
+ * thread just before request processing and removes the Context instance from
+ * the current after the request has been processed.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+public class NamingServletRequestListener implements ServletRequestListener {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(NamingServletRequestListener.class.getName());
+
+    @Override
+    public void requestDestroyed(ServletRequestEvent event) {
+        LOGGER.log(DEBUG, "Removing InitialContext");
+        ThreadInitialContextFactory.removeInitialContext();
+    }
+
+    @Override
+    public void requestInitialized(ServletRequestEvent event) {
+        LOGGER.log(DEBUG, "Setting InitialContext");
+        WebApplication webApplication = (WebApplication) event.getServletContext();
+        Context context = (Context) webApplication.getAttribute(Context.class.getName());
+        ThreadInitialContextFactory.setInitialContext(context);
+    }
 }
