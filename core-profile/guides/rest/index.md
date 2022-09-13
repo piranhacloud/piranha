@@ -31,7 +31,7 @@ Create an empty directory to store your Maven project. Inside of that directory 
     <properties>
         <jakarta.jakartaee-core-api.version>10.0.0</jakarta.jakartaee-core-api.version>
         <junit.version>5.9.0</junit.version>
-        <piranha-maven-plugin.version>22.9.0-SNAPSHOT</piranha-maven-plugin.version>
+        <piranha-maven-plugin.version>22.9.0</piranha-maven-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -91,6 +91,19 @@ Create an empty directory to store your Maven project. Inside of that directory 
                 <configuration>
                     <release>17</release>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M7</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
