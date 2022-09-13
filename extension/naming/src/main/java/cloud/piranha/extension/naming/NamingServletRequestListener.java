@@ -25,49 +25,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.naming;
+
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
+import static java.lang.System.Logger.Level.DEBUG;
+import javax.naming.Context;
 
 /**
- * The standard extension module.
+ * The ServletRequestListener that sets the Context instance on the current
+ * thread just before request processing and removes the Context instance from
+ * the current after the request has been processed.
  *
- * <p>
- *  This module of modules delivers the extensions for the standard version of
- *  Piranha Server/Micro. It adds the following extensions:
- * </p>
- * <ul>
- *  <li>Annotation Scanning</li>
- *  <li>Apache Commons File Upload (Multipart)</li>
- *  <li>Async</li>
- *  <li>Locale Encoding</li>
- *  <li>Logging</li>
- *  <li>Mime-type</li>
- *  <li>Naming (JNDI)</li>
- *  <li>Java Policy</li>
- *  <li>ServletContainerInitializer</li>
- *  <li>Servlet Security</li>
- *  <li>Servlet Annotations</li>
- *  <li>TEMPDIR</li>
- *  <li>WaSP (Pages)</li>
- *  <li>web.xml</li>
- *  <li>Welcome File</li>
- * </ul>
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.standard {
-    exports cloud.piranha.extension.standard;
-    opens cloud.piranha.extension.standard;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.async;
-    requires cloud.piranha.extension.naming;
-    requires cloud.piranha.extension.localeencoding;
-    requires cloud.piranha.extension.logging;
-    requires cloud.piranha.extension.mimetype;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
+public class NamingServletRequestListener implements ServletRequestListener {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(NamingServletRequestListener.class.getName());
+
+    @Override
+    public void requestDestroyed(ServletRequestEvent event) {
+        LOGGER.log(DEBUG, "Removing InitialContext");
+        ThreadInitialContextFactory.removeInitialContext();
+    }
+
+    @Override
+    public void requestInitialized(ServletRequestEvent event) {
+        LOGGER.log(DEBUG, "Setting InitialContext");
+        WebApplication webApplication = (WebApplication) event.getServletContext();
+        Context context = (Context) webApplication.getAttribute(Context.class.getName());
+        ThreadInitialContextFactory.setInitialContext(context);
+    }
 }

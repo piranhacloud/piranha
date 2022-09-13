@@ -37,10 +37,10 @@
  *  <li>Annotation Scanning</li>
  *  <li>Apache Commons File Upload (Multipart)</li>
  *  <li>Async</li>
- *  <li>Manorrock Herring (JNDI)</li>
  *  <li>Locale Encoding</li>
  *  <li>Logging</li>
  *  <li>Mime-type</li>
+ *  <li>Naming (JNDI)</li>
  *  <li>Java Policy</li>
  *  <li>ServletContainerInitializer</li>
  *  <li>Servlet Security</li>
@@ -58,7 +58,7 @@ module cloud.piranha.extension.webprofile {
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.extension.async;
-    requires cloud.piranha.extension.herring;
+    requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.localeencoding;
     requires cloud.piranha.extension.logging;
     requires cloud.piranha.extension.mimetype;
