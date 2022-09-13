@@ -50,8 +50,13 @@
  *  <li>web.xml</li>
  *  <li>Welcome File</li>
  * </ul>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.11.0", forRemoval = true)
 module cloud.piranha.extension.standard {
+    
     exports cloud.piranha.extension.standard;
     opens cloud.piranha.extension.standard;
     requires cloud.piranha.core.api;
