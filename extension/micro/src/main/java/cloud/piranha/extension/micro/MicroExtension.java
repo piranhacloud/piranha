@@ -51,10 +51,13 @@ import cloud.piranha.extension.webxml.WebXmlExtension;
 import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
 
 /**
- * The default {@link WebApplicationExtension} used to configure a web application for Piranha Micro.
+ * The default {@link WebApplicationExtension} used to configure a web 
+ * application for Piranha Micro.
  *
- * @see WebApplicationExtension
+ * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.9.0", forRemoval = true)
 public class MicroExtension implements WebApplicationExtension {
 
     @Override
