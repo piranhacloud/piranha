@@ -31,6 +31,7 @@
         <module>localeencoding</module>
         <module>logging</module>
         <module>micro</module>
+        <module>microprofile</module>
         <module>mimetype</module>
         <module>mojarra</module>
         <module>myfaces</module>
