@@ -33,11 +33,11 @@
  *  This module of modules that delivers the extensions for MicroProfile, as in:
  * </p>
  * <ul>
- *  <li>Herring (JNDI)</li>
  *  <li>Annotation Scanning</li>
  *  <li>Eclipse Parsson (JSON)</li>
  *  <li>Eclipse Yasson (JSON-B)</li>
  *  <li>Glassfish Jersey (REST)</li>
+ *  <li>Naming (JNDI)</li>
  *  <li>ServletContainerInitializer</li>
  * </ul>
  */
@@ -47,7 +47,7 @@ module cloud.piranha.extension.microprofile {
     opens cloud.piranha.extension.microprofile;
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.herring;
+    requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.scinitializer;
     requires jakarta.ws.rs;
     requires org.eclipse.parsson;
