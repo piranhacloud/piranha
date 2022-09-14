@@ -1,8 +1,8 @@
-name: maven
+name: documentation
 on:
   workflow_dispatch:
 jobs:
-  plugin-doc:
+  maven-plugin:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Sources
