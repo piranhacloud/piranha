@@ -33,7 +33,7 @@ Create an empty directory to store your Maven project. Inside of that directory 
         <arquillian.version>1.7.0.Alpha12</arquillian.version>
         <jakarta.jakartaee-core-api.version>10.0.0</jakarta.jakartaee-core-api.version>
         <junit.version>5.9.0</junit.version>
-        <piranha.version>22.9.0-SNAPSHOT</piranha.version>
+        <piranha.version>22.9.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -88,7 +88,7 @@ Create an empty directory to store your Maven project. Inside of that directory 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M5</version>
+                <version>3.0.0-M7</version>
                 <executions>
                     <execution>
                         <id>integration-test</id>
