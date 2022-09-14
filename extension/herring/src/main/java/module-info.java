@@ -33,12 +33,17 @@
  *  This module integrates Manorrock Herring into Piranha. See
  *  https://github.com/manorrock/herring for more information about its project.
  * </p>
+ * <p>
+ *  This module is deprecated and will be removed in a future release. Replace
+ *  this module with the cloud.piranha.extension.naming module.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated
  */
 @Deprecated(forRemoval = true, since = "21.9.0")
 module cloud.piranha.extension.herring {
+
     exports cloud.piranha.extension.herring;
     opens cloud.piranha.extension.herring;
     requires cloud.piranha.core.api;
