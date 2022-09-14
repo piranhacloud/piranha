@@ -24,6 +24,7 @@
         <module>eclipselink</module>
         <module>eleos</module>
         <module>exousia</module>
+        <module>fullprofile</module>
         <module>hazelcast</module>
         <module>herring</module>
         <module>lite</module>
