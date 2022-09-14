@@ -36,9 +36,9 @@ import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.async.AsyncExtension;
 import cloud.piranha.extension.eclipselink.EclipseLinkExtension;
 import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
-import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.localeencoding.LocaleEncodingExtension;
 import cloud.piranha.extension.mimetype.MimeTypeExtension;
+import cloud.piranha.extension.naming.NamingExtension;
 import cloud.piranha.extension.policy.PolicyExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.security.jakarta.JakartaSecurityExtension;
@@ -75,7 +75,7 @@ public class MicroExtension implements WebApplicationExtension {
         context.add(ServletAnnotationsExtension.class);
 
         // JNDI
-        context.add(HerringExtension.class);
+        context.add(NamingExtension.class);
 
         // Jakarta Transactions
         context.add(TransactExtension.class);

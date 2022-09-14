@@ -27,47 +27,21 @@
  */
 
 /**
- * The Web Profile extension module.
+ *  The Naming integration module.
  *
  * <p>
- *  This module of modules delivers the extensions for Piranha Micro and Piranha
- *  Server. It consists of the following extensions:
+ *  This module integrates Naming (JNDI) into Piranha.
  * </p>
- * <ul>
- *  <li>Annotation Scanning</li>
- *  <li>Apache Commons File Upload (Multipart)</li>
- *  <li>Async</li>
- *  <li>Locale Encoding</li>
- *  <li>Logging</li>
- *  <li>Mime-type</li>
- *  <li>Naming (JNDI)</li>
- *  <li>Java Policy</li>
- *  <li>ServletContainerInitializer</li>
- *  <li>Servlet Security</li>
- *  <li>Servlet Annotations</li>
- *  <li>TEMPDIR</li>
- *  <li>WaSP (Pages)</li>
- *  <li>web.xml</li>
- *  <li>Welcome File</li>
- * </ul>
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webprofile {
-    exports cloud.piranha.extension.webprofile;
-    opens cloud.piranha.extension.webprofile;
+module cloud.piranha.extension.naming {
+    
+    exports cloud.piranha.extension.naming;
+    opens cloud.piranha.extension.naming;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.async;
-    requires cloud.piranha.extension.naming;
-    requires cloud.piranha.extension.localeencoding;
-    requires cloud.piranha.extension.logging;
-    requires cloud.piranha.extension.mimetype;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
+    requires transitive cloud.piranha.naming.impl;
+    requires transitive cloud.piranha.naming.thread;
+    requires transitive java.naming;
+    requires jakarta.annotation;
 }
