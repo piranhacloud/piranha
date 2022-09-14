@@ -57,7 +57,7 @@ import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated
  */
-@Deprecated(since = "22.9.0", forRemoval = true)
+@Deprecated(since = "22.10.0", forRemoval = true)
 public class MicroExtension implements WebApplicationExtension {
 
     @Override

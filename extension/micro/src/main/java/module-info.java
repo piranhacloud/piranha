@@ -35,7 +35,7 @@ import cloud.piranha.extension.micro.MicroExtension;
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated
  */
-@Deprecated(since = "22.9.0", forRemoval = true)
+@Deprecated(since = "22.10.0", forRemoval = true)
 module cloud.piranha.extension.micro {
 
     provides WebApplicationExtension with MicroExtension;
