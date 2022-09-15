@@ -38,7 +38,9 @@ import static java.lang.System.Logger.Level.WARNING;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  * @see cloud.piranha.server.ServerPiranha
+ * @deprecated
  */
+@Deprecated(since = "22.10.0", forRemoval = true)
 public class ServerPiranhaBuilder {
 
     /**
