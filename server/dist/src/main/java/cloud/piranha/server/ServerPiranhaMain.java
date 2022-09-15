@@ -34,7 +34,10 @@ import cloud.piranha.extension.webprofile.WebProfileExtension;
  * The Main for Piranha Server.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ *
+ * @deprecated
  */
+@Deprecated(since = "22.10.0", forRemoval = true)
 public class ServerPiranhaMain {
 
     /**

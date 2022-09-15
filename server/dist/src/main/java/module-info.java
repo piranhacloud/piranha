@@ -33,7 +33,9 @@ import cloud.piranha.core.api.WebApplicationExtension;
  * The Piranha Server module.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.10.0", forRemoval = true)
 module cloud.piranha.server {
     exports cloud.piranha.server;
     opens cloud.piranha.server;
