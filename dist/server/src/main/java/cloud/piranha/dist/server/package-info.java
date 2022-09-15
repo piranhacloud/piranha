@@ -27,19 +27,28 @@
  */
 
 /**
- * The Piranha Core Profile Distribution module.
- * 
+ * <p>
+ * This package delivers you with a Servlet container version of Piranha.
+ * </p>
+ *
+ * <h2>Architecture diagram</h2>
+ *
+ * <p>
+ * The image below illustrates how the request and response handling is done by
+ * Piranha Server. When a request comes in to the HTTP server it dispatches it
+ * to the {@link cloud.piranha.core.api.WebApplicationServer} which uses a
+ * {@link cloud.piranha.core.api.WebApplicationServerRequestMapper} to
+ * determine which web application needs to serve the request and it the
+ * dispatches to it and then in turn the WebApplication uses
+ * {@link cloud.piranha.core.api.WebApplicationRequestMapper} to determine
+ * which FilterChain needs to process the incoming request and it dispatches to
+ * it.
+ * </p>
+ *
+ * <p>
+ * <img alt="Request and response handling" src="doc-files/request-response.png">
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.dist.coreprofile {
-    
-    exports cloud.piranha.dist.coreprofile;
-    opens cloud.piranha.dist.coreprofile;
-    requires transitive cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.coreprofile;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
-    uses cloud.piranha.http.api.HttpServer;
-}
+package cloud.piranha.dist.server;
