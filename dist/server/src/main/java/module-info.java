@@ -26,20 +26,27 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.core.api.WebApplicationExtension;
+
 /**
- * The Piranha Core Profile Distribution module.
- * 
+ * The Piranha Server Distribution module.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.dist.coreprofile {
-    
-    exports cloud.piranha.dist.coreprofile;
-    opens cloud.piranha.dist.coreprofile;
-    requires transitive cloud.piranha.core.api;
+module cloud.piranha.dist.server {
+
+    exports cloud.piranha.dist.server;
+    opens cloud.piranha.dist.server;
+    requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.coreprofile;
-    requires cloud.piranha.http.impl;
+    requires cloud.piranha.extension.lite;
+    requires cloud.piranha.extension.slim;
+    requires cloud.piranha.extension.standard;
+    requires cloud.piranha.extension.webprofile;
+    requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
     requires java.logging;
-    uses cloud.piranha.http.api.HttpServer;
+    uses HttpServer;
+    uses WebApplicationExtension;
 }
