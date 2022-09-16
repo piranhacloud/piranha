@@ -18,6 +18,7 @@
     <modules>
         <module>coreprofile</module>
         <module>server</module>
+        <module>webprofile</module>
     </modules>
     <dependencies>
         <!-- test -->
