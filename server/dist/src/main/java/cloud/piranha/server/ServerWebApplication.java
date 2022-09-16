@@ -35,7 +35,10 @@ import java.util.Objects;
 /**
  * This web application supports finding other contexts using
  * {@link ServletContext#getContext(String)}.
+ *
+ * @deprecated
  */
+@Deprecated(since = "22.10.0", forRemoval = true)
 public class ServerWebApplication extends DefaultWebApplication {
 
     /**
