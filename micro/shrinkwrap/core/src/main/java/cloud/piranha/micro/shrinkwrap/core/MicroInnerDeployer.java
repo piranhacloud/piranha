@@ -134,10 +134,17 @@ public class MicroInnerDeployer {
         WebFilter.class.getName(),
         ServletSecurity.class.getName(),
         MultipartConfig.class.getName(),
+
         // REST
-        "jakarta.ws.rs.Path", //Path.class,
-        "jakarta.ws.rs.ext.Provider", // Provider.class,
-        "jakarta.ws.rs.ApplicationPath", //  ApplicationPath.class,
+        "jakarta.ws.rs.Path",
+        "jakarta.ws.rs.ext.Provider",
+        "jakarta.ws.rs.ApplicationPath",
+
+        // Persistence
+        "jakarta.persistence.Entity",
+        "jakarta.persistence.Embeddable",
+        "jakarta.persistence.Converter",
+        "jakarta.persistence.MappedSuperclass",
 
         // General
         DeclareRoles.class.getName(), // Not Servlet, but often used on Servlets
@@ -380,7 +387,7 @@ public class MicroInnerDeployer {
                         target.asField().declaringClass().toString(), true,
                         Thread.currentThread().getContextClassLoader());
             }
-            
+
             if (target.kind() == METHOD) {
                 return Class.forName(
                         target.asMethod().declaringClass().toString(), true,
@@ -388,7 +395,7 @@ public class MicroInnerDeployer {
             }
 
             return null;
-            
+
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException(e);
         }

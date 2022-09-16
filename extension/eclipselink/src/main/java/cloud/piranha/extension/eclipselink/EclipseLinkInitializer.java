@@ -28,11 +28,13 @@
 package cloud.piranha.extension.eclipselink;
 
 import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.INFO;
 
 import java.lang.System.Logger;
 import java.util.Set;
 
 import cloud.piranha.core.api.WebApplication;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -60,8 +62,12 @@ public class EclipseLinkInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication application = (WebApplication) servletContext;
 
-        LOGGER.log(DEBUG, "Initializing EclipseLink");
+        LOGGER.log(INFO, "Initializing EclipseLink");
 
+        CDI.current()
+           .select(EntityManagerFactoryCreator.class)
+           .get()
+           .setAnnotationManager(application.getManager().getAnnotationManager());
 
         LOGGER.log(DEBUG, "Initialized EclipseLink");
     }
