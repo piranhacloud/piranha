@@ -35,7 +35,9 @@ import java.lang.System.Logger;
  * The Main for Piranha Micro.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.10.0", forRemoval = true)
 public class MicroPiranhaMain {
 
     /**

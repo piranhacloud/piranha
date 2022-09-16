@@ -65,7 +65,9 @@ import java.util.zip.ZipInputStream;
  * The Piranha Micro runtime.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.10.0", forRemoval = true)
 public class MicroPiranha implements Piranha, Runnable {
 
     /**
