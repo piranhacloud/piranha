@@ -25,29 +25,23 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server;
+package cloud.piranha.dist.webprofile;
 
-import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.extension.webprofile.WebProfileExtension;
+import static java.lang.System.Logger.Level.WARNING;
+import java.lang.System.Logger;
 
 /**
- * The Main for Piranha Server.
+ * The Main for Piranha Micro.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- *
- * @deprecated
  */
-@Deprecated(since = "22.10.0", forRemoval = true)
-public class ServerPiranhaMain {
+public class WebProfilePiranhaMain {
 
     /**
-     * Get the default extension.
-     *
-     * @return the default extension.
+     * Stores the logger.
      */
-    protected Class<? extends WebApplicationExtension> getDefaultExtension() {
-        return WebProfileExtension.class;
-    }
+    private static final Logger LOGGER = System.getLogger(WebProfilePiranhaMain.class.getName());
 
     /**
      * Main method.
@@ -55,7 +49,7 @@ public class ServerPiranhaMain {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        ServerPiranhaBuilder builder = new ServerPiranhaMain().processArguments(arguments);
+        WebProfilePiranhaBuilder builder = new WebProfilePiranhaMain().processArguments(arguments);
         if (builder != null) {
             builder.build().start();
         } else {
@@ -67,26 +61,31 @@ public class ServerPiranhaMain {
      * Process the arguments.
      *
      * @param arguments the arguments.
-     * @return the builder.
      */
-    protected ServerPiranhaBuilder processArguments(String[] arguments) {
-        ServerPiranhaBuilder builder = new ServerPiranhaBuilder()
-                .defaultExtensionClass(getDefaultExtension())
+    private WebProfilePiranhaBuilder processArguments(String[] arguments) {
+        
+        WebProfilePiranhaBuilder builder = new WebProfilePiranhaBuilder()
+                .extensionClass(WebProfileExtension.class)
                 .exitOnStop(true);
-
+        int httpPort = 0;
+        int httpsPort = 0;
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
-                if (arguments[i].equals("--default-extension")) {
-                    builder = builder.defaultExtensionClass(arguments[i + 1]);
+                if (arguments[i].equals("--extension-class")) {
+                    builder = builder.extensionClass(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--help")) {
                     return null;
                 }
                 if (arguments[i].equals("--http-port")) {
-                    builder = builder.httpPort(Integer.parseInt(arguments[i + 1]));
+                    int arg = Integer.parseInt(arguments[i + 1]);
+                    builder = builder.httpsPort(arg);
+                    httpPort = arg;
                 }
                 if (arguments[i].equals("--https-port")) {
-                    builder = builder.httpsPort(Integer.parseInt(arguments[i + 1]));
+                    int arg = Integer.parseInt(arguments[i + 1]);
+                    builder = builder.httpsPort(arg);
+                    httpsPort = arg;
                 }
                 if (arguments[i].equals("--jpms")) {
                     builder = builder.jpms(true);
@@ -97,40 +96,54 @@ public class ServerPiranhaMain {
                 if (arguments[i].equals("--ssl-keystore-password")) {
                     builder = builder.sslKeystorePassword(arguments[i + 1]);
                 }
-                if (arguments[i].equals("--ssl-truststore-file")) {
-                    builder = builder.sslTruststoreFile(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--ssl-truststore-password")) {
-                    builder = builder.sslTruststorePassword(arguments[i + 1]);
-                }
                 if (arguments[i].equals("--verbose")) {
                     builder = builder.verbose(true);
                 }
-                if (arguments[i].equals("--webapps-dir")) {
-                    builder = builder.webAppsDir(arguments[i + 1]);
+                if (arguments[i].equals("--war-file")) {
+                    builder = builder.warFile(arguments[i + 1]);
+                }
+                if (arguments[i].equals("--webapp-dir")) {
+                    builder = builder.webAppDir(arguments[i + 1]);
+                }
+                if (arguments[i].equals("--write-pid")) {
+                    builder = builder.pid(ProcessHandle.current().pid());
                 }
             }
+            checkPorts(httpPort, httpsPort);
         }
         return builder;
+    }
+
+    private void checkPorts(int httpPort, int httpsPort) {
+        if(httpsPort != 0 && httpPort == httpsPort) {
+            LOGGER.log(WARNING, "The http and the https ports are the same. Please use different ports");
+            System.exit(-1);
+        }
     }
 
     /**
      * Show help.
      */
-    protected static void showHelp() {
+    private static void showHelp() {
         System.out.println();
         System.out.println(
                 """
-                  --default-extension <className>    - Set the default extension
-                  --help                             - Show this help
-                  --http-port <integer>              - Set the HTTP port (use -1 to disable)
-                  --https-port <integer>             - Set the HTTPS port (disabled by default)
-                  --jpms                             - Enable Java Platform Module System
-                  --ssl-keystore-file <file>         - Set the SSL keystore file 
-                  --ssl-keystore-password <string>   - Set the SSL keystore password
-                  --ssl-truststore-file <file>       - Set the SSL keystore file
-                  --ssl-truststore-password <string> - Set the SSL keystore password
-                  --webapps-dir <directory>          - Set the web applications directory
+                  --extension-class <className>    - Set the extension to use
+                  --help                           - Show this help
+                  --http-port <integer>            - Set the HTTP port (use -1 to disable)
+                  --https-port <integer>           - Set the HTTPS port (disabled by default)
+                  --jpms                           - Enable Java Platform Module System
+                  --ssl-keystore-file <file>       - Set the SSL keystore file (applies to the
+                                                     whole JVM)
+                  --ssl-keystore-password <string> - Set the SSL keystore password (applies to
+                                                     the whole JVM
+                  --verbose                        - Shows the runtime parameters
+                  --war-file <file>                - The WAR file to deploy
+                  --webapp-dir <directory>         - The directory to use for the web
+                                                     application (auto creates when it does not
+                                                     exist, if omitted runtime will use the 
+                                                     filename portion of --war-file)
+                  --write-pid                      - Write out a PID file
                 """);
     }
 }

@@ -25,33 +25,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server;
+package cloud.piranha.dist.webprofile;
 
-import java.io.File;
-import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import cloud.piranha.core.api.WebApplicationExtension;
+import cloud.piranha.extension.webprofile.WebProfileExtension;
+import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.WARNING;
 
 /**
- * The builder so you can easily build instances of
- * {@link cloud.piranha.server.ServerPiranha}.
+ * The Builder for Piranha Micro.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @see cloud.piranha.server.ServerPiranha
- * @deprecated
  */
-@Deprecated(since = "22.10.0", forRemoval = true)
-public class ServerPiranhaBuilder {
-
+public class WebProfilePiranhaBuilder {
+    
     /**
      * Stores the logger.
      */
-    private static final System.Logger LOGGER = System.getLogger(ServerPiranhaBuilder.class.getName());
+    private static final Logger LOGGER = System.getLogger(WebProfilePiranhaBuilder.class.getName());
 
     /**
-     * Stores the default extension class.
+     * Stores the extension class.
      */
-    private Class<? extends WebApplicationExtension> defaultExtensionClass;
+    private Class<? extends WebApplicationExtension> extensionClass;
 
     /**
      * Stores the exit on stop flag.
@@ -69,11 +65,6 @@ public class ServerPiranhaBuilder {
     private int httpsPort = -1;
 
     /**
-     * Stores the InitialContext factory.
-     */
-    private String initialContextFactory = "com.manorrock.herring.thread.ThreadInitialContextFactory";
-
-    /**
      * Stores the JPMS flag.
      */
     private boolean jpms = false;
@@ -89,37 +80,38 @@ public class ServerPiranhaBuilder {
     private String sslKeystorePassword;
 
     /**
-     * Stores the SSL truststore file.
-     */
-    private String sslTruststoreFile;
-
-    /**
-     * Stores the SSL truststore password.
-     */
-    private String sslTruststorePassword;
-
-    /**
      * Stores the verbose flag.
      */
     private boolean verbose = false;
 
     /**
-     * Stores the web applications directory.
+     * Stores the WAR file(name).
      */
-    private String webAppsDir = "webapps";
+    private String warFile;
 
     /**
-     * Build the server.
-     *
-     * @return the server.
+     * Stores the web application directory.
      */
-    public ServerPiranha build() {
+    private String webAppDir;
+
+    /**
+     * Stores the PID.
+     */
+    private Long pid;
+
+    /**
+     * Build the Piranha instance.
+     *
+     * @return the Piranha instance.
+     */
+    public WebProfilePiranha build() {
         if (verbose) {
             showArguments();
         }
-        System.setProperty(INITIAL_CONTEXT_FACTORY, initialContextFactory);
-        ServerPiranha piranha = new ServerPiranha();
-        piranha.setDefaultExtensionClass(defaultExtensionClass);
+        WebProfilePiranha piranha = new WebProfilePiranha();
+        if (extensionClass != null) {
+            piranha.setExtensionClass(extensionClass);
+        }
         piranha.setExitOnStop(exitOnStop);
         piranha.setHttpPort(httpPort);
         piranha.setHttpsPort(httpsPort);
@@ -130,41 +122,14 @@ public class ServerPiranhaBuilder {
         if (sslKeystorePassword != null) {
             piranha.setSslKeystorePassword(sslKeystorePassword);
         }
-        if (sslTruststoreFile != null) {
-            piranha.setSslKeystoreFile(sslTruststoreFile);
+        if (warFile != null) {
+            piranha.setWarFile(warFile);
         }
-        if (sslTruststorePassword != null) {
-            piranha.setSslKeystorePassword(sslTruststorePassword);
+        if (webAppDir != null) {
+            piranha.setWebAppDir(webAppDir);
         }
-        piranha.setWebAppsDir(new File(webAppsDir));
+        piranha.setPid(pid);
         return piranha;
-    }
-
-    /**
-     * Set the default extension class.
-     *
-     * @param defaultExtensionClass the default extension class.
-     * @return the builder.
-     */
-    public ServerPiranhaBuilder defaultExtensionClass(Class<? extends WebApplicationExtension> defaultExtensionClass) {
-        this.defaultExtensionClass = defaultExtensionClass;
-        return this;
-    }
-
-    /**
-     * Set the default extension class.
-     *
-     * @param defaultExtensionClassName the default extension class name.
-     * @return the builder.
-     */
-    public ServerPiranhaBuilder defaultExtensionClass(String defaultExtensionClassName) {
-        try {
-            this.defaultExtensionClass = Class.forName(defaultExtensionClassName)
-                    .asSubclass(WebApplicationExtension.class);
-        } catch (ClassNotFoundException cnfe) {
-            LOGGER.log(WARNING, "Unable to load default extension class", cnfe);
-        }
-        return this;
     }
 
     /**
@@ -173,8 +138,36 @@ public class ServerPiranhaBuilder {
      * @param exitOnStop the exit on stop flag.
      * @return the builder.
      */
-    public ServerPiranhaBuilder exitOnStop(boolean exitOnStop) {
+    public WebProfilePiranhaBuilder exitOnStop(boolean exitOnStop) {
         this.exitOnStop = exitOnStop;
+        return this;
+    }
+
+    /**
+     * Set the extension class.
+     *
+     * @param extensionClass the extension class.
+     * @return the builder.
+     */
+    public WebProfilePiranhaBuilder extensionClass(
+            Class<? extends WebApplicationExtension> extensionClass) {
+        this.extensionClass = extensionClass;
+        return this;
+    }
+
+    /**
+     * Set the extension class.
+     *
+     * @param extensionClassName the default extension class name.
+     * @return the builder.
+     */
+    public WebProfilePiranhaBuilder extensionClass(String extensionClassName) {
+        try {
+            this.extensionClass = Class.forName(extensionClassName)
+                .asSubclass(WebApplicationExtension.class);
+        } catch (ClassNotFoundException cnfe) {
+            LOGGER.log(WARNING, "Unable to load extension class", cnfe);
+        }
         return this;
     }
 
@@ -184,7 +177,7 @@ public class ServerPiranhaBuilder {
      * @param httpPort the HTTP server port.
      * @return the builder.
      */
-    public ServerPiranhaBuilder httpPort(int httpPort) {
+    public WebProfilePiranhaBuilder httpPort(int httpPort) {
         this.httpPort = httpPort;
         return this;
     }
@@ -195,7 +188,7 @@ public class ServerPiranhaBuilder {
      * @param httpsPort the HTTPS server port.
      * @return the builder.
      */
-    public ServerPiranhaBuilder httpsPort(int httpsPort) {
+    public WebProfilePiranhaBuilder httpsPort(int httpsPort) {
         this.httpsPort = httpsPort;
         return this;
     }
@@ -206,7 +199,7 @@ public class ServerPiranhaBuilder {
      * @param jpms the JPMS flag.
      * @return the builder.
      */
-    public ServerPiranhaBuilder jpms(boolean jpms) {
+    public WebProfilePiranhaBuilder jpms(boolean jpms) {
         this.jpms = jpms;
         return this;
     }
@@ -215,34 +208,35 @@ public class ServerPiranhaBuilder {
      * Show the arguments used.
      */
     private void showArguments() {
-        System.out.printf("""
+        System.out.printf(
+                """
                 
-                PIRANHA SERVER
+                PIRANHA MICRO
                 
                 Arguments
                 =========
                 
-                Default extension class : %s
-                Exit on stop            : %s
-                HTTP port               : %s
-                HTTPS port              : %s
-                JPMS enabled            : %s
-                SSL keystore file       : %s
-                SSL keystore password   : ****
-                SSL truststore file     : %s
-                SSL truststore password : ****
-                Web applications dir    : %s
+                Extension class       : %s
+                Exit on stop          : %s
+                HTTP port             : %s
+                HTTPS port            : %s
+                JPMS enabled          : %s
+                PID                   : %s
+                SSL keystore file     : %s
+                SSK keystore password : ****
+                WAR filename          : %s
+                Web application dir   : %s
                 
                 """,
-                defaultExtensionClass.getName(),
+                extensionClass != null ? extensionClass.getName() : WebProfileExtension.class.getName(),
                 exitOnStop,
                 httpPort,
                 httpsPort,
                 jpms,
+                pid,
                 sslKeystoreFile,
-                sslTruststoreFile,
-                webAppsDir
-        );
+                warFile,
+                webAppDir);
     }
 
     /**
@@ -251,7 +245,7 @@ public class ServerPiranhaBuilder {
      * @param sslKeystoreFile the SSL keystore file.
      * @return the builder.
      */
-    public ServerPiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
+    public WebProfilePiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
         this.sslKeystoreFile = sslKeystoreFile;
         return this;
     }
@@ -262,30 +256,8 @@ public class ServerPiranhaBuilder {
      * @param sslKeystorePassword the SSL keystore password.
      * @return the builder.
      */
-    public ServerPiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
+    public WebProfilePiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
         this.sslKeystorePassword = sslKeystorePassword;
-        return this;
-    }
-
-    /**
-     * Set the SSL truststore file.
-     *
-     * @param sslTruststoreFile the SSL truststore file.
-     * @return the builder.
-     */
-    public ServerPiranhaBuilder sslTruststoreFile(String sslTruststoreFile) {
-        this.sslTruststoreFile = sslTruststoreFile;
-        return this;
-    }
-
-    /**
-     * Set the SSL truststore password.
-     *
-     * @param sslTruststorePassword the SSL truststore password.
-     * @return the builder.
-     */
-    public ServerPiranhaBuilder sslTruststorePassword(String sslTruststorePassword) {
-        this.sslTruststorePassword = sslTruststorePassword;
         return this;
     }
 
@@ -295,19 +267,41 @@ public class ServerPiranhaBuilder {
      * @param verbose the verbose flag.
      * @return the builder.
      */
-    public ServerPiranhaBuilder verbose(boolean verbose) {
+    public WebProfilePiranhaBuilder verbose(boolean verbose) {
         this.verbose = verbose;
         return this;
     }
 
     /**
-     * Set the web applications directory.
+     * Set the WAR file.
      *
-     * @param webAppsDir the web applications directory.
+     * @param warFile the WAR file.
      * @return the builder.
      */
-    public ServerPiranhaBuilder webAppsDir(String webAppsDir) {
-        this.webAppsDir = webAppsDir;
+    public WebProfilePiranhaBuilder warFile(String warFile) {
+        this.warFile = warFile;
+        return this;
+    }
+
+    /**
+     * Set the web application directory.
+     *
+     * @param webAppDir the web application directory.
+     * @return the builder.
+     */
+    public WebProfilePiranhaBuilder webAppDir(String webAppDir) {
+        this.webAppDir = webAppDir;
+        return this;
+    }
+
+    /**
+     * Set the PID.
+     *
+     * @param pid the PID.
+     * @return the builder.
+     */
+    public WebProfilePiranhaBuilder pid(Long pid) {
+        this.pid = pid;
         return this;
     }
 }

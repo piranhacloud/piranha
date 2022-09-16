@@ -26,28 +26,20 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.core.api.WebApplicationExtension;
-
 /**
- * The Piranha Server module.
- *
+ * The Piranha WebProfile distribution module.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
- * @deprecated
  */
-@Deprecated(since = "22.10.0", forRemoval = true)
-module cloud.piranha.server {
-    exports cloud.piranha.server;
-    opens cloud.piranha.server;
-    requires cloud.piranha.core.api;
+module cloud.piranha.dist.webprofile {
+    
+    exports cloud.piranha.dist.webprofile;
+    opens cloud.piranha.dist.webprofile;
+    requires transitive cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.lite;
-    requires cloud.piranha.extension.slim;
-    requires cloud.piranha.extension.standard;
     requires cloud.piranha.extension.webprofile;
-    requires cloud.piranha.http.api;
+    requires cloud.piranha.http.impl;
     requires cloud.piranha.http.webapp;
     requires java.logging;
-    uses HttpServer;
-    uses WebApplicationExtension;
+    uses cloud.piranha.http.api.HttpServer;
 }
