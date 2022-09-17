@@ -30,7 +30,9 @@
  * The Piranha Micro module.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.10.0", forRemoval = true)
 module cloud.piranha.micro {
     exports cloud.piranha.micro;
     opens cloud.piranha.micro;
