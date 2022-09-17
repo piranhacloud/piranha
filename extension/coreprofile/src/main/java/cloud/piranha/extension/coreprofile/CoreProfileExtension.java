@@ -42,7 +42,7 @@ public class CoreProfileExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
-        context.add(NamingExtension.class);                        // Naming (JNDI)
+        context.add(NamingExtension.class);                         // Naming (JNDI)
         context.add(AnnotationScanExtension.class);
         context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
     }
