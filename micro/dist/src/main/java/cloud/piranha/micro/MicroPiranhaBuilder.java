@@ -36,7 +36,9 @@ import static java.lang.System.Logger.Level.WARNING;
  * The Builder for Piranha Micro.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.10.0", forRemoval = true)
 public class MicroPiranhaBuilder {
     
     /**
