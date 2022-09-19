@@ -143,7 +143,7 @@ create the ```pom.xml``` file with the content as below.
 ```
 
 Note the POM file contains a `debug` profile in the profiles section that
-we will leverage later on to activate the NetBeans debugging.
+we will leverage later on to activate the VSCode debugging.
 
 ## Add the application class
 
@@ -256,6 +256,6 @@ place it all comes together nicely!
 
 1. [Piranha Core Profile](https://piranha.cloud/core-profile/)
 1. [Piranha Maven plugin documentation](https://piranha.cloud/maven/piranha-maven-plugin/plugin-info.html)
-1. [ZIP file containing sources](netbeans-debug.zip)
+1. [ZIP file containing sources](vscode-debug.zip)
 
 [Back](../)
