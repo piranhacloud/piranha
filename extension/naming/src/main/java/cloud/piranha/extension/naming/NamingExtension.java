@@ -27,25 +27,27 @@
  */
 package cloud.piranha.extension.naming;
 
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.naming.impl.DefaultInitialContext;
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
-import jakarta.annotation.Resource;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
+import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+
 import javax.naming.CompositeName;
 import javax.naming.Context;
-import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import javax.naming.NamingException;
 import javax.naming.Reference;
 import javax.naming.spi.NamingManager;
+
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import cloud.piranha.naming.impl.DefaultInitialContext;
+import jakarta.annotation.Resource;
 
 /**
  * The WebApplicationExtension that is responsible for setting up the proper
@@ -72,11 +74,12 @@ public class NamingExtension implements WebApplicationExtension {
         LOGGER.log(DEBUG, "Configuring JNDI support");
         if (System.getProperty(INITIAL_CONTEXT_FACTORY) == null) {
             LOGGER.log(INFO, INITIAL_CONTEXT_FACTORY + " was not set, setting it");
-            System.setProperty(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
+            System.setProperty(INITIAL_CONTEXT_FACTORY, DefaultInitialContextFactory.class.getName());
         }
-        if (!System.getProperty(INITIAL_CONTEXT_FACTORY).equals(ThreadInitialContextFactory.class.getName())) {
-            LOGGER.log(WARNING, INITIAL_CONTEXT_FACTORY + " is not set to " + ThreadInitialContextFactory.class.getName());
+        if (!System.getProperty(INITIAL_CONTEXT_FACTORY).equals(DefaultInitialContextFactory.class.getName())) {
+            LOGGER.log(WARNING, INITIAL_CONTEXT_FACTORY + " is not set to " + DefaultInitialContextFactory.class.getName());
         }
+
         Context context = new DefaultInitialContext();
 
         Context proxyContext = (Context) Proxy.newProxyInstance(
@@ -131,6 +134,7 @@ public class NamingExtension implements WebApplicationExtension {
                             }
                         }
 
+                        // De-referencing can eventually be moved to DefaultInitialContext
                         if (method.getName().equals("lookup") && returnValue instanceof Reference) {
                             returnValue = NamingManager.getObjectInstance(
                                 returnValue, new CompositeName(args[0].toString()), null, null);
@@ -143,8 +147,7 @@ public class NamingExtension implements WebApplicationExtension {
                 }
             });
 
+        DefaultInitialContextFactory.setInitialContext(proxyContext);
         webApplication.setAttribute(Context.class.getName(), proxyContext);
-        ThreadInitialContextFactory.setInitialContext(proxyContext);
-        webApplication.addListener(NamingServletRequestListener.class.getName());
     }
 }

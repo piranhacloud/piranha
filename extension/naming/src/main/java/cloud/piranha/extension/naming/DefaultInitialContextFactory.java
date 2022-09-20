@@ -25,52 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.eclipselink;
+package cloud.piranha.extension.naming;
 
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.INFO;
+import java.util.Hashtable;
 
-import java.lang.System.Logger;
-import java.util.Set;
+import javax.naming.Context;
+import javax.naming.NamingException;
+import javax.naming.spi.InitialContextFactory;
 
-import cloud.piranha.core.api.WebApplication;
-import jakarta.enterprise.inject.spi.CDI;
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
+import cloud.piranha.naming.impl.DefaultInitialContext;
 
 /**
- * The EclipseLink initializer.
+ * The default InitialContextFactory.
  *
- * @author Arjan Tijms
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public class EclipseLinkInitializer implements ServletContainerInitializer {
+public class DefaultInitialContextFactory implements InitialContextFactory {
 
     /**
-     * Stores the logger.
+     * Stores the initial context.
      */
-    private static final Logger LOGGER = System.getLogger(EclipseLinkInitializer.class.getName());
+    private static Context INITIAL_CONTEXT = new DefaultInitialContext();
 
     /**
-     * Initialize EclipseLink.
+     * Sets the static (initial) context
+     * @param context the (initial) context
+     */
+    public static void setInitialContext(Context context) {
+        INITIAL_CONTEXT = context;
+    }
+
+    /**
+     * Get the initial context.
      *
-     * @param classes the classes.
-     * @param servletContext the Servlet context.
-     * @throws ServletException when a Servlet error occurs.
+     * @return the initial context.
+     * @param environment the environment.
+     * @throws NamingException when a naming error occurs.
      */
     @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        WebApplication application = (WebApplication) servletContext;
-
-        LOGGER.log(INFO, "Initializing EclipseLink");
-
-        CDI.current()
-           .select(EntityManagerFactoryCreator.class)
-           .get()
-           .setAnnotationManager(application.getManager().getAnnotationManager());
-
-        LOGGER.log(DEBUG, "Initialized EclipseLink");
+    public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
+        return INITIAL_CONTEXT;
     }
+
 
 
 }

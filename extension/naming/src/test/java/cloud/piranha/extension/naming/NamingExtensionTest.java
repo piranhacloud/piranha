@@ -27,19 +27,21 @@
  */
 package cloud.piranha.extension.naming;
 
+import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import org.junit.jupiter.api.Test;
+
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedResponse;
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
-import javax.naming.Context;
-import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
 /**
  * The JUnit tests for the NamingExtension class.
  *
@@ -54,7 +56,7 @@ class NamingExtensionTest {
      */
     @Test
     void testConfigure() throws Exception {
-        System.setProperty(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
+        System.setProperty(INITIAL_CONTEXT_FACTORY, DefaultInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .extension(NamingExtension.class)
                 .listener(TestServletRequestListener.class.getName())
@@ -83,7 +85,7 @@ class NamingExtensionTest {
                 .build()
                 .start();
         assertEquals(System.getProperty(INITIAL_CONTEXT_FACTORY),
-                ThreadInitialContextFactory.class.getName());
+                DefaultInitialContextFactory.class.getName());
     }
 
     /**
