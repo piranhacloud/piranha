@@ -42,8 +42,13 @@ import org.eclipse.persistence.internal.jpa.deployment.SEPersistenceUnitInfo;
 import org.eclipse.persistence.jpa.Archive;
 import org.eclipse.persistence.jpa.PersistenceProvider;
 
+import cloud.piranha.core.api.AnnotationManager;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.Converter;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.MappedSuperclass;
 
 /**
 * This bean takes care of creating an EntityManagerFactory using EclipseLink specific APIs.
@@ -58,6 +63,27 @@ public class EntityManagerFactoryCreator {
      * Stores previously created EntityManagerFactories per unit name.
      */
     private Map<String, EntityManagerFactory> entityManagerFactories = new ConcurrentHashMap<>();
+
+    /**
+     * The AnnotationManager used to lookup entity classes etc
+     */
+    private AnnotationManager annotationManager;
+
+    /**
+     * Gets the AnnotationManager used to lookup entity classes etc
+     * @return
+     */
+    public AnnotationManager getAnnotationManager() {
+        return annotationManager;
+    }
+
+    /**
+     * Sets the AnnotationManager used to lookup entity classes etc
+     * @param annotationManager
+     */
+    public void setAnnotationManager(AnnotationManager annotationManager) {
+        this.annotationManager = annotationManager;
+    }
 
     /**
      * Gets the <code>EntityManagerFactory</code> corresponding to the unit name. Created if needed.
@@ -88,6 +114,15 @@ public class EntityManagerFactoryCreator {
         }
 
         persistenceUnitInfo.setTransactionType(JTA);
+
+        // SEPersistenceUnitInfo defaults to exclude unlisted true. We can't yet distinguish between the user setting
+        // this and the class defaulting to it. For now scanned classes are always added.
+
+        persistenceUnitInfo.getManagedClassNames().addAll(
+            annotationManager.getAnnotations(Entity.class, Embeddable.class, Converter.class, MappedSuperclass.class)
+                             .stream()
+                             .map(e -> e.getTargetType().getName())
+                             .toList());
 
         // Use GlassFish JNDI names for getting the transaction manager. Eventually this should
         // be standardised.
