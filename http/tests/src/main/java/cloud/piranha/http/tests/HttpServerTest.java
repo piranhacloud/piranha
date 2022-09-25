@@ -37,6 +37,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -299,7 +300,8 @@ public abstract class HttpServerTest {
         int port = findPort();
         HttpServer server = createServer(port, HttpServerTest::returnProtocol);
         server.start();
-        try ( Socket socket = new Socket("localhost", port);  OutputStream outputStream = socket.getOutputStream()) {
+        try ( Socket socket = new Socket(InetAddress.getLocalHost().getHostAddress(), port);
+              OutputStream outputStream = socket.getOutputStream()) {
             outputStream.write(("GET / HTTP/1.0\r\nHost: localhost:" + port + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
             InputStream inputStream = socket.getInputStream();
@@ -322,7 +324,8 @@ public abstract class HttpServerTest {
         HttpServer server = createServer(port, HttpServerTest::returnProtocol);
         server.start();
 
-        try ( Socket socket = new Socket("localhost", port);  OutputStream outputStream = socket.getOutputStream()) {
+        try (Socket socket = new Socket(InetAddress.getLocalHost().getHostAddress(), port);
+             OutputStream outputStream = socket.getOutputStream()) {
             outputStream.write(("GET / HTTP/1.1\r\nHost: localhost:" + port + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
             InputStream inputStream = socket.getInputStream();
