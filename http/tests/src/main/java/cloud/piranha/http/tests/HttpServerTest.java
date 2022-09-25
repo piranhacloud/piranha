@@ -50,6 +50,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import me.alexpanov.net.FreePortFinder;
+import org.junitpioneer.jupiter.RetryingTest;
 
 /**
  * An abstract JUnit test for any HttpServer implementation.
@@ -295,7 +296,7 @@ public abstract class HttpServerTest {
      *
      * @throws Exception when an error occurs.
      */
-    @Test
+    @RetryingTest(3)
     void testRequestHTTP10() throws Exception {
         int port = findPort();
         HttpServer server = createServer(port, HttpServerTest::returnProtocol);
@@ -318,7 +319,7 @@ public abstract class HttpServerTest {
      *
      * @throws Exception when an error occurs.
      */
-    @Test
+    @RetryingTest(3)
     void testRequestHTTP11() throws Exception {
         int port = findPort();
         HttpServer server = createServer(port, HttpServerTest::returnProtocol);
