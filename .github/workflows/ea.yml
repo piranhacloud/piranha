@@ -1,15 +1,15 @@
-name: build-ea
+name: ea
 on:
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
 jobs:
-  Temurin:
+  temurin:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        java: [ '19-ea' ]
+        java: [ '20-ea' ]
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
@@ -26,12 +26,12 @@ jobs:
       if: always()
       with:
         files: '**/target/surefire-reports/*.xml'
-  Zulu:
+  zulu:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        java: [ '19-ea' ]
+        java: [ '20-ea' ]
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
@@ -48,12 +48,12 @@ jobs:
       if: always()
       with:
         files: '**/target/surefire-reports/*.xml'        
-  Oracle_OpenJDK:
+  oracle_openjdk:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        java: [ 'EA', '19' ]
+        java: [ 'EA', '20' ]
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources

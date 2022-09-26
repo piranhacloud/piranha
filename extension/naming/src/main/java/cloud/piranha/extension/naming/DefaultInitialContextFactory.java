@@ -25,25 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.naming;
+
+import java.util.Hashtable;
+
+import javax.naming.Context;
+import javax.naming.NamingException;
+import javax.naming.spi.InitialContextFactory;
+
+import cloud.piranha.naming.impl.DefaultInitialContext;
 
 /**
- * The HTTP tests module.
- *
- * <p>
- * This module delivers the test framework that can be used by any of the HTTP
- * implementations for testing the implementation.
- * </p>
+ * The default InitialContextFactory.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.http.tests {
-    
-    exports cloud.piranha.http.tests;
-    opens cloud.piranha.http.tests;
-    requires transitive cloud.piranha.http.api;
-    requires java.net.http;
-    requires static org.junit.jupiter.api;
-    requires static org.apiguardian.api;
-    requires free.port.finder;
-    requires org.junitpioneer;
+public class DefaultInitialContextFactory implements InitialContextFactory {
+
+    /**
+     * Stores the initial context.
+     */
+    private static Context INITIAL_CONTEXT = new DefaultInitialContext();
+
+    /**
+     * Sets the static (initial) context
+     * @param context the (initial) context
+     */
+    public static void setInitialContext(Context context) {
+        INITIAL_CONTEXT = context;
+    }
+
+    /**
+     * Get the initial context.
+     *
+     * @return the initial context.
+     * @param environment the environment.
+     * @throws NamingException when a naming error occurs.
+     */
+    @Override
+    public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
+        return INITIAL_CONTEXT;
+    }
+
+
+
 }
