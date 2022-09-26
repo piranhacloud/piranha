@@ -15,12 +15,6 @@
 
     <name>Piranha - ClassLoader - Project</name>
 
-    <modules>
-        <module>caching</module>
-        <module>resource</module>
-        <module>webapp</module>
-    </modules>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
