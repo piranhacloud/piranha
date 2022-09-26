@@ -37,6 +37,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -49,6 +50,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import me.alexpanov.net.FreePortFinder;
+import org.junitpioneer.jupiter.RetryingTest;
 
 /**
  * An abstract JUnit test for any HttpServer implementation.
@@ -294,12 +296,13 @@ public abstract class HttpServerTest {
      *
      * @throws Exception when an error occurs.
      */
-    @Test
+    @RetryingTest(3)
     void testRequestHTTP10() throws Exception {
         int port = findPort();
         HttpServer server = createServer(port, HttpServerTest::returnProtocol);
         server.start();
-        try ( Socket socket = new Socket("localhost", port);  OutputStream outputStream = socket.getOutputStream()) {
+        try ( Socket socket = new Socket(InetAddress.getLocalHost().getHostAddress(), port);
+              OutputStream outputStream = socket.getOutputStream()) {
             outputStream.write(("GET / HTTP/1.0\r\nHost: localhost:" + port + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
             InputStream inputStream = socket.getInputStream();
@@ -316,13 +319,14 @@ public abstract class HttpServerTest {
      *
      * @throws Exception when an error occurs.
      */
-    @Test
+    @RetryingTest(3)
     void testRequestHTTP11() throws Exception {
         int port = findPort();
         HttpServer server = createServer(port, HttpServerTest::returnProtocol);
         server.start();
 
-        try ( Socket socket = new Socket("localhost", port);  OutputStream outputStream = socket.getOutputStream()) {
+        try (Socket socket = new Socket(InetAddress.getLocalHost().getHostAddress(), port);
+             OutputStream outputStream = socket.getOutputStream()) {
             outputStream.write(("GET / HTTP/1.1\r\nHost: localhost:" + port + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
             InputStream inputStream = socket.getInputStream();
