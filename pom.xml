@@ -94,7 +94,7 @@
         <parsson.version>1.1.1</parsson.version>
         <soteria.version>3.0.0</soteria.version>
         <wasp.version>3.1.0</wasp.version>
-        <weld.version>5.0.1.Final</weld.version>
+        <weld.version>5.1.0.Final</weld.version>
         <yasson.version>3.0.1</yasson.version>
         <!-- plugins -->
         <!-- other -->
