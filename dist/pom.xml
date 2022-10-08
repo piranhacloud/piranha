@@ -18,6 +18,7 @@
     <modules>
         <module>coreprofile</module>
         <module>server</module>
+        <module>servlet</module>
         <module>webprofile</module>
     </modules>
     <dependencies>
