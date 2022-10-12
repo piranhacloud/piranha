@@ -39,13 +39,13 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-herring</artifactId>
+            <artifactId>piranha-extension-mojarra</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-mojarra</artifactId>
+            <artifactId>piranha-extension-naming</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

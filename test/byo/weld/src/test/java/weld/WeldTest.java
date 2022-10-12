@@ -33,9 +33,9 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
-import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.mojarra.MojarraInitializer;
-import com.manorrock.herring.thread.ThreadInitialContextFactory;
+import cloud.piranha.extension.naming.DefaultInitialContextFactory;
+import cloud.piranha.extension.naming.NamingExtension;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import org.junit.jupiter.api.Test;
 
@@ -56,11 +56,11 @@ class WeldTest {
      */
     @Test
     void testIndexHtml() throws Exception {
-        System.getProperties().put(INITIAL_CONTEXT_FACTORY, ThreadInitialContextFactory.class.getName());
+        System.getProperties().put(INITIAL_CONTEXT_FACTORY, DefaultInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .aliasedDirectoryResource("target/classes", "/WEB-INF/classes")
-                .extension(HerringExtension.class)
+                .extension(NamingExtension.class)
                 .initializer(WeldInitializer.class.getName())
                 .initializer(MojarraInitializer.class.getName())
                 .build()
