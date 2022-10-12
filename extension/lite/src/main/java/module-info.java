@@ -60,7 +60,7 @@ module cloud.piranha.extension.lite {
     opens cloud.piranha.extension.lite;
     requires cloud.piranha.core.api;
     requires transitive cloud.piranha.extension.annotationscan;
-    requires transitive cloud.piranha.extension.herring;
+    requires transitive cloud.piranha.extension.naming;
     requires transitive cloud.piranha.extension.localeencoding;
     requires transitive cloud.piranha.extension.mimetype;
     requires transitive cloud.piranha.extension.policy;

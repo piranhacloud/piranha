@@ -94,7 +94,7 @@
 
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-herring</artifactId>
+            <artifactId>piranha-extension-naming</artifactId>
             <version>${project.version}</version>
         </dependency>
 

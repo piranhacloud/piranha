@@ -26,7 +26,6 @@
         <module>exousia</module>
         <module>fullprofile</module>
         <module>hazelcast</module>
-        <module>herring</module>
         <module>lite</module>
         <module>localeencoding</module>
         <module>logging</module>

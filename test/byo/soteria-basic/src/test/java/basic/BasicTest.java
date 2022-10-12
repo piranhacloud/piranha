@@ -44,7 +44,7 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
-import cloud.piranha.extension.herring.HerringExtension;
+import cloud.piranha.extension.naming.NamingExtension;
 import cloud.piranha.extension.security.jakarta.JakartaSecurityAllInitializer;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.webxml.WebXmlInitializer;
@@ -64,7 +64,7 @@ class BasicTest {
                         new SecurityConstraint("/protected/servlet", "architect")))
                 .extensions(
                         ServletSecurityManagerExtension.class,
-                        HerringExtension.class)
+                        NamingExtension.class)
                 .initializers(
                         WebXmlInitializer.class,
                         JakartaSecurityAllInitializer.class,

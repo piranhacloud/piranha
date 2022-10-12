@@ -29,7 +29,7 @@ package cloud.piranha.extension.webxml;
 
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.extension.herring.HerringExtension;
+import cloud.piranha.extension.naming.NamingExtension;
 import cloud.piranha.resource.impl.DirectoryResource;
 import java.io.File;
 import javax.naming.InitialContext;
@@ -52,7 +52,7 @@ class DataSourceTest {
     void testDataSource() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-        extensionContext.add(HerringExtension.class);
+        extensionContext.add(NamingExtension.class);
         extensionContext.configure(webApplication);
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/dataSource")));
         webApplication.addInitializer(new WebXmlInitializer());
