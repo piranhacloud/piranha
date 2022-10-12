@@ -25,7 +25,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-lite</artifactId>
+            <artifactId>piranha-extension-servlet</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

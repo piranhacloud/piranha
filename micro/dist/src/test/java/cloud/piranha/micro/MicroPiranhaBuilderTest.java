@@ -27,6 +27,7 @@
  */
 package cloud.piranha.micro;
 
+import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.extension.slim.SlimExtension;
 import java.net.ConnectException;
 import java.net.Socket;
@@ -48,7 +49,7 @@ class MicroPiranhaBuilderTest {
     @Test
     void testExtensionClass() throws Exception {
         MicroPiranha piranha = new MicroPiranhaBuilder()
-                .extensionClass("cloud.piranha.extension.lite.LiteExtension")
+                .extensionClass(ServletExtension.class.getName())
                 .httpPort(8080)
                 .verbose(true)
                 .build();

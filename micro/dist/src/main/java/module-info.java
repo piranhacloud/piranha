@@ -38,7 +38,7 @@ module cloud.piranha.micro {
     opens cloud.piranha.micro;
     requires transitive cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.lite;
+    requires cloud.piranha.extension.servlet;
     requires cloud.piranha.extension.slim;
     requires cloud.piranha.extension.standard;
     requires cloud.piranha.extension.webprofile;
