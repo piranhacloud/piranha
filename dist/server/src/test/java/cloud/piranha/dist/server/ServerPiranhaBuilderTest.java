@@ -27,7 +27,7 @@
  */
 package cloud.piranha.dist.server;
 
-import cloud.piranha.extension.lite.LiteExtension;
+import cloud.piranha.extension.servlet.ServletExtension;
 import java.net.ConnectException;
 import java.net.Socket;
 import javax.net.SocketFactory;
@@ -53,7 +53,7 @@ class ServerPiranhaBuilderTest {
     @Test
     void testHttpPort() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
-                .defaultExtensionClass(LiteExtension.class)
+                .defaultExtensionClass(ServletExtension.class)
                 .httpPort(8118)
                 .build();
         piranha.start();
@@ -73,7 +73,7 @@ class ServerPiranhaBuilderTest {
     @Test
     void testHttpPort2() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
-                .defaultExtensionClass(LiteExtension.class)
+                .defaultExtensionClass(ServletExtension.class)
                 .httpPort(-1)
                 .httpsPort(8043)
                 .build();
@@ -95,7 +95,7 @@ class ServerPiranhaBuilderTest {
     @Test
     void testHttpsPort2() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
-                .defaultExtensionClass(LiteExtension.class)
+                .defaultExtensionClass(ServletExtension.class)
                 .sslKeystoreFile("src/main/zip/etc/keystore.jks")
                 .sslKeystorePassword("password")
                 .httpPort(8228)
@@ -121,7 +121,7 @@ class ServerPiranhaBuilderTest {
     @Test
     void testDefaultExtensionClass() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
-                .defaultExtensionClass("cloud.piranha.extension.lite.LiteExtension")
+                .defaultExtensionClass(ServletExtension.class.getName())
                 .httpPort(8080)
                 .verbose(true)
                 .build();

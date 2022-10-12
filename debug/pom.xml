@@ -100,12 +100,6 @@
 
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-lite</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-localeencoding</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -783,18 +777,5 @@
             <groupId>org.omnifaces</groupId>
             <artifactId>microprofile-jwt-auth</artifactId>
         </dependency>
-        
-        <!-- The manorrock haring -->
-        <dependency>
-            <groupId>com.manorrock.herring</groupId>
-            <artifactId>herring</artifactId>
-            <version>21.11.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.manorrock.herring</groupId>
-            <artifactId>herring-thread</artifactId>
-            <version>21.11.0</version>
-        </dependency>
-
     </dependencies>
 </project>

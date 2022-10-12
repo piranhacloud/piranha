@@ -71,7 +71,7 @@ public class ServerPiranhaBuilder {
     /**
      * Stores the InitialContext factory.
      */
-    private String initialContextFactory = "com.manorrock.herring.thread.ThreadInitialContextFactory";
+    private String initialContextFactory = "cloud.piranha.naming.thread.ThreadInitialContextFactory";
 
     /**
      * Stores the JPMS flag.
