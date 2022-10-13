@@ -50,13 +50,13 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-mojarra</artifactId>
+            <artifactId>piranha-extension-naming</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-naming</artifactId>
+            <artifactId>piranha-extension-scinitializer</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -80,6 +80,11 @@
         <dependency>
             <groupId>org.eclipse</groupId>
             <artifactId>yasson</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.faces</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -27,15 +27,15 @@
  */
 package weld;
 
-import cloud.piranha.extension.weld.WeldInitializer;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
-import cloud.piranha.extension.mojarra.MojarraInitializer;
 import cloud.piranha.extension.naming.DefaultInitialContextFactory;
 import cloud.piranha.extension.naming.NamingExtension;
+import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
+import cloud.piranha.extension.webxml.WebXmlExtension;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import org.junit.jupiter.api.Test;
 
@@ -61,8 +61,8 @@ class WeldTest {
                 .directoryResource("src/main/webapp")
                 .aliasedDirectoryResource("target/classes", "/WEB-INF/classes")
                 .extension(NamingExtension.class)
-                .initializer(WeldInitializer.class.getName())
-                .initializer(MojarraInitializer.class.getName())
+                .extension(WebXmlExtension.class)
+                .extension(ServletContainerInitializerExtension.class)
                 .build()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()
