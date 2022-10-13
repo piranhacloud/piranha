@@ -32,10 +32,9 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
-import cloud.piranha.extension.mojarra.MojarraInitializer;
 import cloud.piranha.extension.naming.NamingExtension;
+import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
-import cloud.piranha.extension.weld.WeldInitializer;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -59,8 +58,7 @@ class EclipseLinkTest {
                 .aliasedDirectoryResource("target/classes", "/WEB-INF/classes")
                 .extension(NamingExtension.class)
                 .extension(WebXmlExtension.class)
-                .initializer(WeldInitializer.class.getName())
-                .initializer(MojarraInitializer.class.getName())
+                .extension(ServletContainerInitializerExtension.class)
                 .build()
                 .start();
         EmbeddedRequest request = new EmbeddedRequestBuilder()

@@ -124,12 +124,6 @@
 
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-mojarra</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-myfaces</artifactId>
             <version>${project.version}</version>
         </dependency>
