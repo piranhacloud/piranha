@@ -150,13 +150,6 @@
             <artifactId>piranha-extension-servletannotations</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-slim</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-slim-security</artifactId>
