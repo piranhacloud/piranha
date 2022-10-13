@@ -14,7 +14,6 @@
     <modules>
         <module>programmatic</module>
         <module>servlet</module>
-        <module>slim</module>
         <module>wasp</module>
         <module>wasp2</module>
     </modules>

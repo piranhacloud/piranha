@@ -41,7 +41,6 @@ module cloud.piranha.dist.server {
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.servlet;
-    requires cloud.piranha.extension.slim;
     requires cloud.piranha.extension.standard;
     requires cloud.piranha.extension.webprofile;
     requires cloud.piranha.http.api;
