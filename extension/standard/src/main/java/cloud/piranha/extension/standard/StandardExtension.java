@@ -50,6 +50,11 @@ import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
 /**
  * The extension that delivers the extensions for Piranha Micro/Server.
  *
+ * <p>
+ *  As this module is deprecated and will be removed in the future, please 
+ *  migrate to use the cloud.piranha.extension.servlet module instead.
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated
  */

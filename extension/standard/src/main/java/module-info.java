@@ -50,6 +50,10 @@
  *  <li>web.xml</li>
  *  <li>Welcome File</li>
  * </ul>
+ * <p>
+ *  As this module is deprecated and will be removed in the future, please 
+ *  migrate to use the cloud.piranha.extension.servlet module instead.
+ * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated
