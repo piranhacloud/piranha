@@ -9,7 +9,7 @@
         <version>22.11.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cloud.piranha</groupId>
+    <groupId>cloud.piranha.dist</groupId>
     <artifactId>piranha-dist-servlet</artifactId>
     <packaging>jar</packaging>
 
