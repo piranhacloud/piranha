@@ -31,7 +31,6 @@
         <module>micro</module>
         <module>microprofile</module>
         <module>mimetype</module>
-        <module>myfaces</module>
         <module>naming</module>
         <module>policy</module>
         <module>scinitializer</module>

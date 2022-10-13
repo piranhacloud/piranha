@@ -211,7 +211,7 @@ public class WebProfilePiranhaBuilder {
         System.out.printf(
                 """
                 
-                PIRANHA MICRO
+                PIRANHA
                 
                 Arguments
                 =========
