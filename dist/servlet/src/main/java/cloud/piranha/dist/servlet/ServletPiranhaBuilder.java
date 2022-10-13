@@ -211,7 +211,7 @@ public class ServletPiranhaBuilder {
         System.out.printf(
                 """
                 
-                PIRANHA MICRO
+                PIRANHA
                 
                 Arguments
                 =========

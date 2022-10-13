@@ -215,7 +215,7 @@ public class ServerPiranhaBuilder {
     private void showArguments() {
         System.out.printf("""
                 
-                PIRANHA SERVER
+                PIRANHA
                 
                 Arguments
                 =========

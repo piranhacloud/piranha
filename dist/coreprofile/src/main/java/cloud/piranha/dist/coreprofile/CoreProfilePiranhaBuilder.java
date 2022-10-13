@@ -230,7 +230,7 @@ public class CoreProfilePiranhaBuilder {
         System.out.printf(
                 """
                 
-                PIRANHA CORE PROFILE
+                PIRANHA
                 
                 Arguments
                 =========
