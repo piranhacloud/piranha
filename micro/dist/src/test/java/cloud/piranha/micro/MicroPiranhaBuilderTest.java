@@ -28,7 +28,6 @@
 package cloud.piranha.micro;
 
 import cloud.piranha.extension.servlet.ServletExtension;
-import cloud.piranha.extension.slim.SlimExtension;
 import java.net.ConnectException;
 import java.net.Socket;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -71,7 +70,7 @@ class MicroPiranhaBuilderTest {
     @Test
     void testExtensionClass2() throws Exception {
         MicroPiranha piranha = new MicroPiranhaBuilder()
-                .extensionClass(SlimExtension.class)
+                .extensionClass(ServletExtension.class)
                 .httpPort(8081)
                 .verbose(true)
                 .build();
