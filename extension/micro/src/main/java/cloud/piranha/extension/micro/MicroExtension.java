@@ -51,43 +51,31 @@ import cloud.piranha.extension.webxml.WebXmlExtension;
 import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
 
 /**
- * The default {@link WebApplicationExtension} used to configure a web 
- * application for Piranha Micro.
+ * The {@link WebApplicationExtension} used to configure a web application for
+ * Piranha Micro.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @deprecated
  */
-@Deprecated(since = "22.10.0", forRemoval = true)
 public class MicroExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
         // Servlet
-        context.add(AsyncExtension.class);
-        context.add(LocaleEncodingExtension.class);
-        context.add(MimeTypeExtension.class);
-        context.add(PolicyExtension.class);
-        context.add(TempDirExtension.class);
-        context.add(WelcomeFileExtension.class);
-        context.add(ServletSecurityManagerExtension.class);
-        context.add(ApacheMultiPartExtension.class);
-        context.add(WebXmlExtension.class);
-        context.add(ServletAnnotationsExtension.class);
-
-        // JNDI
-        context.add(NamingExtension.class);
-
-        // Jakarta Transactions
-        context.add(TransactExtension.class);
-
-        // Jakarta Security (includes Jakarta CDI)
-        context.add(JakartaSecurityExtension.class);
-
-        // Jakarta Pages
-        context.add(WaspExtension.class);
-
-        // Jakarta Persistence
-        context.add(EclipseLinkExtension.class);
+        context.add(AsyncExtension.class);                      // Async
+        context.add(LocaleEncodingExtension.class);             // locale-encoding
+        context.add(MimeTypeExtension.class);                   // mimetype
+        context.add(PolicyExtension.class);                     // Policy
+        context.add(TempDirExtension.class);                    // TEMPDIR
+        context.add(WelcomeFileExtension.class);                // welcome-file
+        context.add(ServletSecurityManagerExtension.class);     // Servlet security
+        context.add(ApacheMultiPartExtension.class);            // Upload
+        context.add(WebXmlExtension.class);                     // web.xml
+        context.add(ServletAnnotationsExtension.class);         // Servlet annotations
+        context.add(NamingExtension.class);                     // Naming (JNDI)
+        context.add(TransactExtension.class);                   // Jakarta Transaction
+        context.add(JakartaSecurityExtension.class);            // Jakarta Security (includes Jakarta CDI)
+        context.add(WaspExtension.class);                       // Jakarta Pages
+        context.add(EclipseLinkExtension.class);                // Jakarta Persistence
     }
 
     @Override
