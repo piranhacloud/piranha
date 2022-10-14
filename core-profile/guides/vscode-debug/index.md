@@ -32,7 +32,7 @@ create the ```pom.xml``` file with the content as below.
     <properties>
         <jakarta.jakartaee-core-api.version>10.0.0</jakarta.jakartaee-core-api.version>
         <junit.version>5.9.0</junit.version>
-        <piranha-maven-plugin.version>22.9.0</piranha-maven-plugin.version>
+        <piranha-maven-plugin.version>22.10.0</piranha-maven-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
