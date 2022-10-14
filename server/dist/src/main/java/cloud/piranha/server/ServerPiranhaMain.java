@@ -35,6 +35,11 @@ import cloud.piranha.extension.webprofile.WebProfileExtension;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  *
+ * <p>
+ *  This module and distribution is deprecated. Please use the 
+ *  cloud.piranha.dist.server module and its distribution instead.
+ * </p>
+ * 
  * @deprecated
  */
 @Deprecated(since = "22.10.0", forRemoval = true)

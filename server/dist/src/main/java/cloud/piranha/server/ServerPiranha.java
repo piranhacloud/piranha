@@ -63,8 +63,12 @@ import java.util.zip.ZipInputStream;
 /**
  * The Piranha Server runtime.
  *
+ * <p>
+ *  This module and distribution is deprecated. Please use the 
+ *  cloud.piranha.dist.server module and its distribution instead.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
- *
  * @deprecated
  */
 @Deprecated(since = "22.10.0", forRemoval = true)
