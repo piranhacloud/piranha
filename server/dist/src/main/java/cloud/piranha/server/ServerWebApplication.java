@@ -36,6 +36,11 @@ import java.util.Objects;
  * This web application supports finding other contexts using
  * {@link ServletContext#getContext(String)}.
  *
+ * <p>
+ *  This module and distribution is deprecated. Please use the 
+ *  cloud.piranha.dist.server module and its distribution instead.
+ * </p>
+ * 
  * @deprecated
  */
 @Deprecated(since = "22.10.0", forRemoval = true)
