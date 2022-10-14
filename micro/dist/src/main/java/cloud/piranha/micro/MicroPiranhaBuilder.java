@@ -35,6 +35,11 @@ import static java.lang.System.Logger.Level.WARNING;
 /**
  * The Builder for Piranha Micro.
  *
+ * <p>
+ *  This module and distribution is deprecated. Please use the 
+ *  cloud.piranha.dist.servlet module and its distribution instead.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated
  */

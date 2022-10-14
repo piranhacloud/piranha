@@ -29,6 +29,11 @@
 /**
  * The Piranha Micro module.
  * 
+ * <p>
+ *  This module and distribution is deprecated. Please use the 
+ *  cloud.piranha.dist.servlet module and its distribution instead.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  * @deprecated
  */
