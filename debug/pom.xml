@@ -464,16 +464,6 @@
             <artifactId>microprofile-jwt-auth-api</artifactId>
         </dependency>
 
-        <!-- Apache Johnzon -->
-        <dependency>
-            <groupId>org.apache.johnzon</groupId>
-            <artifactId>johnzon-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.johnzon</groupId>
-            <artifactId>johnzon-jsonb</artifactId>
-        </dependency>
-
         <!-- Apache Maven -->
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -482,12 +472,6 @@
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
             <artifactId>maven-plugin-annotations</artifactId>
-        </dependency>
-
-        <!-- Apache MyFaces -->
-        <dependency>
-            <groupId>org.apache.myfaces.core</groupId>
-            <artifactId>myfaces-impl</artifactId>
         </dependency>
 
         <!-- Eclipse EclipseLink -->

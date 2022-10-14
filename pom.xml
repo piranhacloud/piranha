@@ -72,30 +72,32 @@
 
     <properties>
         <!-- dependencies -->
-        <arquillian.version>1.7.0.Alpha12</arquillian.version>
+        <arquillian.version>1.7.0.Alpha13</arquillian.version>
         <checkstyle.version>10.3.2</checkstyle.version>
         <eclipselink.version>4.0.0-RC1</eclipselink.version>
         <exousia.version>2.1.0</exousia.version>
         <expressly.version>5.0.0</expressly.version>
         <grizzly.version>4.0.0</grizzly.version>
         <hazelcast.version>5.1.3</hazelcast.version>
-        <htmlunit.version>2.63.0</htmlunit.version>
-        <hibernate-validator.version>8.0.0.CR3</hibernate-validator.version>
+        <htmlunit.version>2.65.1</htmlunit.version>
+        <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
         <jakarta.faces.version>4.0.0</jakarta.faces.version>
         <jandex.version>2.4.3.Final</jandex.version>
-        <jaxb.version>4.0.0</jaxb.version>
-        <jersey.version>3.1.0-M7</jersey.version>
-        <jstl.version>3.0.0</jstl.version>
-        <junit.version>5.9.0</junit.version>
-        <junit-platform-launcher.version>1.9.0</junit-platform-launcher.version>
+        <jaxb.version>4.0.1</jaxb.version>
+        <jersey.version>3.1.0-M8</jersey.version>
+        <jstl.version>3.0.1</jstl.version>
+        <junit.version>5.9.1</junit.version>
+        <junit-platform-launcher.version>1.9.1</junit-platform-launcher.version>
         <hsqldb.version>2.7.0</hsqldb.version>
         <maven-plugin-api.version>3.8.6</maven-plugin-api.version>
-        <myfaces.version>4.0.0-RC1</myfaces.version>
+        <myfaces.version>4.0.0</myfaces.version>
         <parsson.version>1.1.1</parsson.version>
         <soteria.version>3.0.0</soteria.version>
+        <tyrus.version>2.0.2</tyrus.version>
+        <undertow.version>2.3.0.Final</undertow.version>
         <wasp.version>3.1.0</wasp.version>
         <weld.version>5.1.0.Final</weld.version>
-        <yasson.version>3.0.1</yasson.version>
+        <yasson.version>3.0.2</yasson.version>
         <!-- plugins -->
         <!-- other -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -132,18 +134,6 @@
                 <version>1.21</version>
             </dependency>
             
-            <!-- Apache Johnzon  -->
-            <dependency>
-                <groupId>org.apache.johnzon</groupId>
-                <artifactId>johnzon-core</artifactId>
-                <version>1.2.18</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.johnzon</groupId>
-                <artifactId>johnzon-jsonb</artifactId>
-                <version>1.2.18</version>
-            </dependency>
-
             <!-- Apache Maven -->
             <dependency>
                 <groupId>org.apache.maven</groupId>
@@ -297,7 +287,7 @@
             <dependency>
                 <groupId>org.glassfish.tyrus</groupId>
                 <artifactId>tyrus-container-servlet</artifactId>
-                <version>2.0.2</version>
+                <version>${tyrus.version}</version>
             </dependency>
             
             <!-- Eclipse WaSP -->
@@ -409,7 +399,7 @@
             <dependency>
                 <groupId>io.undertow</groupId>
                 <artifactId>undertow-core</artifactId>
-                <version>2.2.19.Final</version>
+                <version>${undertow.version}</version>
             </dependency>
             
             <!-- JBoss Weld -->
