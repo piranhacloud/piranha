@@ -19,6 +19,7 @@
         <module>coreprofile</module>
         <module>micro</module>
         <module>server</module>
+        <module>servlet</module>
         <module>common</module>
     </modules>
 

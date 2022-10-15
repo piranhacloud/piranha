@@ -54,6 +54,12 @@ public abstract class BaseMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
     protected String buildDirectory;
+    
+    /**
+     * Stores the distribution to use.
+     */
+    @Parameter(defaultValue = "coreprofile", required = false)
+    protected String distribution;
 
     /**
      * Stores the context path.
@@ -166,14 +172,14 @@ public abstract class BaseMojo extends AbstractMojo {
     protected void getPiranhaJarFile() throws IOException {
         URL downloadUrl = createMavenCentralArtifactUrl(
                 "cloud.piranha.dist",
-                "piranha-dist-coreprofile",
+                "piranha-dist-" + distribution,
                 version,
                 "jar"
         );
 
         String artifactPath = createArtifactPath(
                 "cloud.piranha.dist",
-                "piranha-dist-coreprofile",
+                "piranha-dist-" + distribution,
                 version,
                 "jar"
         );
