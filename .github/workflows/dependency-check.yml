@@ -16,4 +16,4 @@ jobs:
         java-version: 17
     - name: Analyze with Dependency Check
       run: |
-        mvn -B -ntp -P dependency-check install
+        mvn -B -ntp -P dependency-check dependency-check:aggregate
