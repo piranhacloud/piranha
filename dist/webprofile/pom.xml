@@ -9,7 +9,6 @@
         <version>22.11.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cloud.piranha</groupId>
     <artifactId>piranha-dist-webprofile</artifactId>
     <packaging>jar</packaging>
 

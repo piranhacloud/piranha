@@ -79,7 +79,7 @@ public class WebProfilePiranhaMain {
                 }
                 if (arguments[i].equals("--http-port")) {
                     int arg = Integer.parseInt(arguments[i + 1]);
-                    builder = builder.httpsPort(arg);
+                    builder = builder.httpPort(arg);
                     httpPort = arg;
                 }
                 if (arguments[i].equals("--https-port")) {

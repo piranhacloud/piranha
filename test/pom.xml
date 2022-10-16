@@ -16,11 +16,12 @@
 
     <modules>
         <module>byo</module>
+        <module>common</module>
         <module>coreprofile</module>
         <module>micro</module>
         <module>server</module>
         <module>servlet</module>
-        <module>common</module>
+        <module>webprofile</module>
     </modules>
 
     <properties>
