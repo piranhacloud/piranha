@@ -598,12 +598,6 @@
             <artifactId>free-port-finder</artifactId>
         </dependency>
 
-        <!-- HSQLDB -->
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-        </dependency>
-
         <!-- HtmlUnit -->
         <dependency>
             <groupId>net.sourceforge.htmlunit</groupId>
