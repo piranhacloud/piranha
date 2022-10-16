@@ -18,8 +18,8 @@
     </session-config>
     <data-source>
         <name>jdbc/demo</name>
-        <class-name>org.hsqldb.jdbc.JDBCDataSource</class-name>
-        <url>jdbc:hsqldb:mem:demo</url>
+        <class-name>org.h2.jdbcx.JdbcDataSource</class-name>
+        <url>jdbc:h2:mem:eclipselink;DB_CLOSE_DELAY=-1</url>
         <user>sa</user>
     </data-source>
 </web-app>

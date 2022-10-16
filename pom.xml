@@ -88,7 +88,7 @@
         <jstl.version>3.0.1</jstl.version>
         <junit.version>5.9.1</junit.version>
         <junit-platform-launcher.version>1.9.1</junit-platform-launcher.version>
-        <hsqldb.version>2.7.0</hsqldb.version>
+        <h2.version>2.1.214</h2.version>
         <maven-plugin-api.version>3.8.6</maven-plugin-api.version>
         <myfaces.version>4.0.0</myfaces.version>
         <parsson.version>1.1.1</parsson.version>
@@ -311,13 +311,13 @@
                 <version>1.1.1</version>
             </dependency>
             
-            <!-- HSQLDB -->
+            <!-- H2 database -->
             <dependency>
-                <groupId>org.hsqldb</groupId>
-                <artifactId>hsqldb</artifactId>
-                <version>${hsqldb.version}</version>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
             </dependency>
-            
+
             <!-- HtmlUnit -->
             <dependency>
                 <groupId>net.sourceforge.htmlunit</groupId>
