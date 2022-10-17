@@ -74,7 +74,7 @@
         <!-- dependencies -->
         <arquillian.version>1.7.0.Alpha13</arquillian.version>
         <checkstyle.version>10.3.2</checkstyle.version>
-        <eclipselink.version>4.0.0-RC1</eclipselink.version>
+        <eclipselink.version>4.0.0</eclipselink.version>
         <exousia.version>2.1.0</exousia.version>
         <expressly.version>5.0.0</expressly.version>
         <grizzly.version>4.0.0</grizzly.version>
@@ -172,6 +172,11 @@
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>org.eclipse.persistence.jpa</artifactId>
+                <version>${eclipselink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>org.eclipse.persistence.json</artifactId>
                 <version>${eclipselink.version}</version>
             </dependency>
             

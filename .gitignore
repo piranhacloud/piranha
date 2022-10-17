@@ -14,3 +14,4 @@ target/
 *.original~
 
 /server/dist/tmp/piranha.stopped
+dist/server/tmp/
