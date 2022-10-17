@@ -31,7 +31,7 @@
         <jakarta.servlet.jsp-api.version>3.1.0</jakarta.servlet.jsp-api.version>
         <jakarta.servlet.jsp.jstl-api.version>3.0.0</jakarta.servlet.jsp.jstl-api.version>
         <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
-        <jakarta.websocket-api.version>2.0.0</jakarta.websocket-api.version>
+        <jakarta.websocket-api.version>2.1.0</jakarta.websocket-api.version>
         <jakarta.xml.bind-api.version>4.0.0</jakarta.xml.bind-api.version>
         <microprofile-jwt-auth-api.version>2.1-RC2</microprofile-jwt-auth-api.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -169,6 +169,11 @@
             <dependency>
                 <groupId>jakarta.websocket</groupId>
                 <artifactId>jakarta.websocket-api</artifactId>
+                <version>${jakarta.websocket-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.websocket</groupId>
+                <artifactId>jakarta.websocket-client-api</artifactId>
                 <version>${jakarta.websocket-api.version}</version>
             </dependency>
             
