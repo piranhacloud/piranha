@@ -93,7 +93,7 @@
         <myfaces.version>4.0.0</myfaces.version>
         <parsson.version>1.1.1</parsson.version>
         <soteria.version>3.0.0</soteria.version>
-        <tyrus.version>2.0.2</tyrus.version>
+        <tyrus.version>2.1.1</tyrus.version>
         <undertow.version>2.3.0.Final</undertow.version>
         <wasp.version>3.1.0</wasp.version>
         <weld.version>5.1.0.Final</weld.version>
