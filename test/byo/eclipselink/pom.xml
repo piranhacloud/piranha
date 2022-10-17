@@ -93,6 +93,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.json</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.faces</artifactId>
             <scope>test</scope>
