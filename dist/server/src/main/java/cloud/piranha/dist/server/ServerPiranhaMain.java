@@ -28,7 +28,7 @@
 package cloud.piranha.dist.server;
 
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.extension.webprofile.WebProfileExtension;
+import cloud.piranha.extension.servlet.ServletExtension;
 
 /**
  * The Main for Piranha Server.
@@ -43,7 +43,7 @@ public class ServerPiranhaMain {
      * @return the default extension.
      */
     protected Class<? extends WebApplicationExtension> getDefaultExtension() {
-        return WebProfileExtension.class;
+        return ServletExtension.class;
     }
 
     /**

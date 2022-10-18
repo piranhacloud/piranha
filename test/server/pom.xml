@@ -12,8 +12,8 @@
     <packaging>pom</packaging>
     <name>Piranha - Test - Server - Project</name>
     <modules>
+        <module>helloworld</module>
         <module>programmatic</module>
-        <module>servlet</module>
         <module>wasp</module>
         <module>wasp2</module>
     </modules>

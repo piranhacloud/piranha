@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package servlet;
+package helloworld;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -35,11 +35,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * The ServerServlet Servlet.
+ * The HelloWorldServlet Servlet.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServerServlet extends HttpServlet {
+public class HelloWorldServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -51,10 +51,10 @@ public class ServerServlet extends HttpServlet {
                         <!DOCTYPE html>
                         <html>
                           <head>
-                            <title>Server Servlet!</title>
+                            <title>Hello World!</title>
                           </head>
                           <body>
-                            <h1>Server Servlet!</h1>
+                            <h1>Hello World!</h1>
                           </body>
                         </html>""");
         }
