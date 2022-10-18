@@ -83,6 +83,8 @@ public class TransactInitializer implements ServletContainerInitializer {
         dynamic.setAsyncSupported(true);
         application.addFilterMapping(TransactFilter.class.getSimpleName(), false, "/*");
 
+        System.setProperty("ee.omnifish.transact.jts.dblogging.use.nontx.connection.for.add", "true");
+
         LOGGER.log(DEBUG, "Initialized Transact");
     }
 
