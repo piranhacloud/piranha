@@ -41,7 +41,9 @@ import java.util.EventListener;
  * The Weld variant of the ObjectInstanceManager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.11.0", forRemoval = true)
 public class WeldObjectInstanceManager implements ObjectInstanceManager {
     
    /**

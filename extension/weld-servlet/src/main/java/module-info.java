@@ -34,8 +34,15 @@
  *  by means of Weld. It only activates when Weld itself is available.
  * </p>
  * 
+ * <p>
+ *  This module is deprecated, please use the cloud.piranha.extension.weld
+ *  module instead.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.11.0", forRemoval = true)
 module cloud.piranha.extension.weld.servlet {
     exports cloud.piranha.extension.weld.servlet;
     opens cloud.piranha.extension.weld.servlet;

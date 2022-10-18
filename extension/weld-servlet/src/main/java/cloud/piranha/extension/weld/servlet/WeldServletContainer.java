@@ -38,7 +38,9 @@ import org.jboss.weld.resources.spi.ResourceLoader;
  * The Weld container.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
+@Deprecated(since = "22.11.0", forRemoval = true)
 public class WeldServletContainer implements Container {
 
     /**
