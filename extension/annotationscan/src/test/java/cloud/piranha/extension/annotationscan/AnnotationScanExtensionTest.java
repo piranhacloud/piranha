@@ -27,20 +27,23 @@
  */
 package cloud.piranha.extension.annotationscan;
 
+import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.resource.impl.DefaultResourceManager;
 import cloud.piranha.resource.impl.DefaultResourceManagerClassLoader;
+import jakarta.servlet.annotation.WebServlet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the AnnotationScanExtension class.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class AnnotationScanExtensionTest {
-    
+
     /**
      * Test configure method.
      */
@@ -48,13 +51,35 @@ class AnnotationScanExtensionTest {
     void testConfigure() {
         WebApplication webApplication = new DefaultWebApplication();
         DefaultResourceManager resourceManager = new DefaultResourceManager();
-        DefaultResourceManagerClassLoader classLoader = 
-                new DefaultResourceManagerClassLoader(resourceManager);
+        DefaultResourceManagerClassLoader classLoader
+                = new DefaultResourceManagerClassLoader(resourceManager);
         classLoader.setDelegateClassLoader(getClass().getClassLoader());
         webApplication.setClassLoader(classLoader);
         AnnotationScanExtension extension = new AnnotationScanExtension();
         extension.configure(webApplication);
         webApplication.initialize();
         assertEquals(classLoader, webApplication.getClassLoader());
+    }
+
+    /**
+     * Test configure method.
+     */
+    @Test
+    void testConfigure2() {
+        WebApplication webApplication = new DefaultWebApplication();
+        DefaultResourceManager resourceManager = new DefaultResourceManager();
+        DefaultResourceManagerClassLoader classLoader
+                = new DefaultResourceManagerClassLoader(resourceManager);
+        classLoader.setDelegateClassLoader(getClass().getClassLoader());
+        webApplication.setClassLoader(classLoader);
+        webApplication.setInitParameter(
+                "cloud.piranha.extension.annotationscan.AnnotatedClasses", 
+                "cloud.piranha.extension.annotationscan.TestServlet");
+        AnnotationScanExtension extension = new AnnotationScanExtension();
+        extension.configure(webApplication);
+        webApplication.initialize();
+        assertEquals(classLoader, webApplication.getClassLoader());
+        AnnotationManager annotationManager = webApplication.getManager().getAnnotationManager();
+        assertFalse(annotationManager.getAnnotations(WebServlet.class).isEmpty());
     }
 }

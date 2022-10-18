@@ -50,7 +50,7 @@ import java.util.stream.Stream;
 
 /**
  * This ServletContainerInitializer deep scans for annotations and adds them to
- the StandardAnnotationScanAnnotationManager.
+ * the StandardAnnotationScanAnnotationManager.
  *
  * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
@@ -72,13 +72,13 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication webApp = (WebApplication) servletContext;
-        
+
         AnnotationManager annotationManager = webApp.getManager().getAnnotationManager();
         if (annotationManager == null) {
-             annotationManager = new InternalAnnotationScanAnnotationManager();
+            annotationManager = new InternalAnnotationScanAnnotationManager();
             webApp.getManager().setAnnotationManager(annotationManager);
         }
-        
+
         final AnnotationManager annotationMgr = annotationManager;
 
         ClassLoader classLoader = webApp.getClassLoader();
@@ -87,15 +87,35 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
             return;
         }
 
-        resourceManagerClassLoader
-                .getResourceManager()
-                .getAllLocations()
-                .filter(e -> e.endsWith(".class") && !e.endsWith("module-info.class") && !e.startsWith("/META-INF/versions"))
-                .map(e -> loadClass(classLoader, e))
-                .filter(this::hasWebAnnotation)
-                .forEach(targetClazz -> getWebAnnotations(targetClazz)
-                .forEach(annotationInstance
-                        -> annotationMgr.addAnnotation(new InternalAnnotationScanAnnotationInfo<>(annotationInstance, targetClazz))));
+        if (servletContext.getInitParameter("cloud.piranha.extension.annotationscan.AnnotatedClasses") != null) {
+            String[] classNames = servletContext.getInitParameter("cloud.piranha.extension.annotationscan.AnnotatedClasses").split(",");
+            if (classNames.length > 0) {
+                for (String className : classNames) {
+                    Class clazz = null;
+                    try {
+                        clazz = classLoader.loadClass(className);
+                    } catch (ClassNotFoundException cnfe) {
+                        LOGGER.log(WARNING, "Unable to load class: " + className);
+                    }
+                    if (clazz != null && hasWebAnnotation(clazz)) {
+                        final Class targetClazz = clazz;
+                        getWebAnnotations(clazz).forEach(
+                                annotationInstance ->
+                                        annotationMgr.addAnnotation(new InternalAnnotationScanAnnotationInfo<>(annotationInstance, targetClazz)));
+                    }
+                }
+            }
+        } else {
+            resourceManagerClassLoader
+                    .getResourceManager()
+                    .getAllLocations()
+                    .filter(e -> e.endsWith(".class") && !e.endsWith("module-info.class") && !e.startsWith("/META-INF/versions"))
+                    .map(e -> loadClass(classLoader, e))
+                    .filter(this::hasWebAnnotation)
+                    .forEach(targetClazz -> getWebAnnotations(targetClazz)
+                    .forEach(annotationInstance
+                            -> annotationMgr.addAnnotation(new InternalAnnotationScanAnnotationInfo<>(annotationInstance, targetClazz))));
+        }
     }
 
     /**
