@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 jobs:
   dependency-check:
+    if: github.repository == 'piranhacloud/piranha'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
@@ -18,6 +19,7 @@ jobs:
       run: |
         mvn -B -ntp -P dependency-check dependency-check:aggregate || true
   sonarcloud:
+    if: github.repository == 'piranhacloud/piranha'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
