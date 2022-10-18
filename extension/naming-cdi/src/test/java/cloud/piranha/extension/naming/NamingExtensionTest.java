@@ -40,6 +40,8 @@ import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedResponse;
+import cloud.piranha.extension.naming.cdi.DefaultInitialContextFactory;
+import cloud.piranha.extension.naming.cdi.NamingExtension;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
 /**

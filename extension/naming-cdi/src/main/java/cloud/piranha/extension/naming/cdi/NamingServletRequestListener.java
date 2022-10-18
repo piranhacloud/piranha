@@ -25,48 +25,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.naming;
+package cloud.piranha.extension.naming.cdi;
 
-import java.util.Hashtable;
-
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
+import static java.lang.System.Logger.Level.DEBUG;
 import javax.naming.Context;
-import javax.naming.NamingException;
-import javax.naming.spi.InitialContextFactory;
-
-import cloud.piranha.naming.impl.DefaultInitialContext;
 
 /**
- * The default InitialContextFactory.
+ * The ServletRequestListener that sets the Context instance on the current
+ * thread just before request processing and removes the Context instance from
+ * the current after the request has been processed.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultInitialContextFactory implements InitialContextFactory {
+public class NamingServletRequestListener implements ServletRequestListener {
 
     /**
-     * Stores the initial context.
+     * Stores the logger.
      */
-    private static Context INITIAL_CONTEXT = new DefaultInitialContext();
+    private static final System.Logger LOGGER = System.getLogger(NamingServletRequestListener.class.getName());
 
-    /**
-     * Sets the static (initial) context
-     * @param context the (initial) context
-     */
-    public static void setInitialContext(Context context) {
-        INITIAL_CONTEXT = context;
-    }
-
-    /**
-     * Get the initial context.
-     *
-     * @return the initial context.
-     * @param environment the environment.
-     * @throws NamingException when a naming error occurs.
-     */
     @Override
-    public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
-        return INITIAL_CONTEXT;
+    public void requestDestroyed(ServletRequestEvent event) {
+        LOGGER.log(DEBUG, "Removing InitialContext");
+        ThreadInitialContextFactory.removeInitialContext();
     }
 
-
-
+    @Override
+    public void requestInitialized(ServletRequestEvent event) {
+        LOGGER.log(DEBUG, "Setting InitialContext");
+        WebApplication webApplication = (WebApplication) event.getServletContext();
+        Context context = (Context) webApplication.getAttribute(Context.class.getName());
+        ThreadInitialContextFactory.setInitialContext(context);
+    }
 }
