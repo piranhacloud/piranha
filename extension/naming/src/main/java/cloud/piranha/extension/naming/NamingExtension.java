@@ -37,6 +37,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Arrays;
+import java.util.Optional;
 
 import javax.naming.CompositeName;
 import javax.naming.Context;
@@ -48,6 +50,7 @@ import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.naming.impl.DefaultInitialContext;
 import jakarta.annotation.Resource;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * The WebApplicationExtension that is responsible for setting up the proper
@@ -106,9 +109,31 @@ public class NamingExtension implements WebApplicationExtension {
                                             String fieldName = classNameAndField[1];
 
                                             Class<?> beanClass = Class.forName(className, false, Thread.currentThread().getContextClassLoader());
-                                            Field beanField = beanClass.getDeclaredField(fieldName);
 
-                                            Resource[] resources = beanField.getAnnotationsByType(Resource.class);
+                                            Resource[] resources = null;
+                                            Class<?> type = null;
+
+                                            try {
+                                                Field beanField = beanClass.getDeclaredField(fieldName);
+                                                resources = beanField.getAnnotationsByType(Resource.class);
+                                                type = beanField.getType();
+                                            } catch (NoSuchFieldException | SecurityException exception) {
+                                                char chars[] = fieldName.toCharArray();
+                                                chars[0] = Character.toUpperCase(chars[0]);
+                                                String methodName = "set" + new String(chars);
+
+                                                Optional<Method> optionalMethod = Arrays.stream(beanClass.getDeclaredMethods())
+                                                      .filter(m -> m.getName().equals(methodName))
+                                                      .filter(m -> m.getParameterCount() == 1)
+                                                      .filter(m -> m.getAnnotationsByType(Resource.class) != null)
+                                                      .findFirst(); // ignore overloaded for now
+
+                                                if (optionalMethod.isPresent()) {
+                                                    resources = optionalMethod.get().getAnnotationsByType(Resource.class);
+                                                    type = optionalMethod.get().getParameterTypes()[0];
+                                                }
+                                            }
+
                                             if (resources != null && resources.length > 0) {
                                                 Resource resourceAnnnotation = resources[0];
 
@@ -117,6 +142,8 @@ public class NamingExtension implements WebApplicationExtension {
                                                     returnValue = method.invoke(context, new Object[] {lookup});
                                                     args = new Object[] {lookup};
                                                     invoked = true;
+                                                } else {
+                                                    return CDI.current().select(type).get();
                                                 }
                                             }
                                         }
@@ -127,6 +154,7 @@ public class NamingExtension implements WebApplicationExtension {
                                     invocationException.getTargetException() instanceof NamingException namingException) {
                                    throw namingException;
                                 }
+                                e.addSuppressed(t);
                             }
 
                             if (!invoked) {

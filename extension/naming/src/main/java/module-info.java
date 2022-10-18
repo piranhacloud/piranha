@@ -44,4 +44,5 @@ module cloud.piranha.extension.naming {
     requires transitive cloud.piranha.naming.thread;
     requires transitive java.naming;
     requires jakarta.annotation;
+    requires jakarta.cdi;
 }
