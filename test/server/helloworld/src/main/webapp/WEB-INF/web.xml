@@ -5,12 +5,12 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
     <servlet>
-        <servlet-name>ServerServlet</servlet-name>
-        <servlet-class>servlet.ServerServlet</servlet-class>
+        <servlet-name>HelloWorldServlet</servlet-name>
+        <servlet-class>helloworld.HelloWorldServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ServerServlet</servlet-name>
-        <url-pattern>/index.html</url-pattern>
+        <servlet-name>HelloWorldServlet</servlet-name>
+        <url-pattern>/HelloWorldServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

@@ -56,4 +56,19 @@ class HelloWorldIT {
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello World!"));
     }
+ 
+    /**
+     * Test helloworld.jsp.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testHelloWorldJsp() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI("http://localhost:9001/piranha-test-webprofile-helloworld/helloworld.jsp"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        assertTrue(response.body().contains("Hello World!"));
+    }
 }

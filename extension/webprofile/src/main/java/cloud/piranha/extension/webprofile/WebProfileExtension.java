@@ -67,8 +67,8 @@ public class WebProfileExtension implements WebApplicationExtension {
         context.add(ApacheMultiPartExtension.class);                // Servlet Part API support
         context.add(WaspJspManagerExtension.class);                 // addJspFile
         context.add(NamingExtension.class);                         // Naming (JNDI)
-        context.add(AnnotationScanExtension.class);                 // Annotation scanning
         context.add(WebXmlExtension.class);                         // web.xml
+        context.add(AnnotationScanExtension.class);                 // Annotation scanning
         context.add(ServletAnnotationsExtension.class);             // Servlet annotations
         context.add(WaspExtension.class);                           // WaSP
         context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
