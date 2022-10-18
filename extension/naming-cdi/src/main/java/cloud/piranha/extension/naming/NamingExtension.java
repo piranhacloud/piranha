@@ -50,6 +50,7 @@ import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.naming.impl.DefaultInitialContext;
 import jakarta.annotation.Resource;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * The WebApplicationExtension that is responsible for setting up the proper
@@ -142,7 +143,7 @@ public class NamingExtension implements WebApplicationExtension {
                                                     args = new Object[] {lookup};
                                                     invoked = true;
                                                 } else {
-                                                    throw new IllegalStateException("Cannot find " + type);
+                                                    return CDI.current().select(type).get();
                                                 }
                                             }
                                         }

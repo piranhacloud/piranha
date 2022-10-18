@@ -33,6 +33,7 @@
         <module>microprofile</module>
         <module>mimetype</module>
         <module>naming</module>
+        <module>naming-cdi</module>
         <module>policy</module>
         <module>scinitializer</module>
         <module>security-servlet</module>
