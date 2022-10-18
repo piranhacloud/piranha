@@ -27,21 +27,20 @@
  */
 
 /**
- *  The Naming integration module.
+ * The default data source module.
  *
  * <p>
- *  This module integrates Naming (JNDI) into Piranha.
- * </p>
+ * This adds a data source under the <code>java:comp/DefaultDataSource</code> JNDI name
+ * as specified by Jakarta EE.
  *
- * @author Manfred Riem (mriem@manorrock.com)
+ * @author Arjan Tijms
  */
-module cloud.piranha.extension.naming {
-
-    exports cloud.piranha.extension.naming;
-    opens cloud.piranha.extension.naming;
+module cloud.piranha.extension.datasource {
+    exports cloud.piranha.extension.datasource;
+    opens cloud.piranha.extension.datasource;
     requires cloud.piranha.core.api;
-    requires transitive cloud.piranha.naming.impl;
-    requires transitive cloud.piranha.naming.thread;
-    requires transitive java.naming;
-    requires jakarta.annotation;
+    requires java.sql;
+    requires java.naming;
+    requires jakarta.cdi;
+    requires jakarta.transaction;
 }

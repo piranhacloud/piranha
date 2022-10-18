@@ -25,23 +25,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.naming.cdi;
+
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
+import static java.lang.System.Logger.Level.DEBUG;
+import javax.naming.Context;
 
 /**
- *  The Naming integration module.
- *
- * <p>
- *  This module integrates Naming (JNDI) into Piranha.
- * </p>
+ * The ServletRequestListener that sets the Context instance on the current
+ * thread just before request processing and removes the Context instance from
+ * the current after the request has been processed.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.naming {
+public class NamingServletRequestListener implements ServletRequestListener {
 
-    exports cloud.piranha.extension.naming;
-    opens cloud.piranha.extension.naming;
-    requires cloud.piranha.core.api;
-    requires transitive cloud.piranha.naming.impl;
-    requires transitive cloud.piranha.naming.thread;
-    requires transitive java.naming;
-    requires jakarta.annotation;
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(NamingServletRequestListener.class.getName());
+
+    @Override
+    public void requestDestroyed(ServletRequestEvent event) {
+        LOGGER.log(DEBUG, "Removing InitialContext");
+        ThreadInitialContextFactory.removeInitialContext();
+    }
+
+    @Override
+    public void requestInitialized(ServletRequestEvent event) {
+        LOGGER.log(DEBUG, "Setting InitialContext");
+        WebApplication webApplication = (WebApplication) event.getServletContext();
+        Context context = (Context) webApplication.getAttribute(Context.class.getName());
+        ThreadInitialContextFactory.setInitialContext(context);
+    }
 }

@@ -25,23 +25,48 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.naming.cdi;
+
+import java.util.Hashtable;
+
+import javax.naming.Context;
+import javax.naming.NamingException;
+import javax.naming.spi.InitialContextFactory;
+
+import cloud.piranha.naming.impl.DefaultInitialContext;
 
 /**
- *  The Naming integration module.
- *
- * <p>
- *  This module integrates Naming (JNDI) into Piranha.
- * </p>
+ * The default InitialContextFactory.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.naming {
+public class DefaultInitialContextFactory implements InitialContextFactory {
 
-    exports cloud.piranha.extension.naming;
-    opens cloud.piranha.extension.naming;
-    requires cloud.piranha.core.api;
-    requires transitive cloud.piranha.naming.impl;
-    requires transitive cloud.piranha.naming.thread;
-    requires transitive java.naming;
-    requires jakarta.annotation;
+    /**
+     * Stores the initial context.
+     */
+    private static Context INITIAL_CONTEXT = new DefaultInitialContext();
+
+    /**
+     * Sets the static (initial) context
+     * @param context the (initial) context
+     */
+    public static void setInitialContext(Context context) {
+        INITIAL_CONTEXT = context;
+    }
+
+    /**
+     * Get the initial context.
+     *
+     * @return the initial context.
+     * @param environment the environment.
+     * @throws NamingException when a naming error occurs.
+     */
+    @Override
+    public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
+        return INITIAL_CONTEXT;
+    }
+
+
+
 }

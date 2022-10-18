@@ -9,10 +9,10 @@
         <version>22.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-extension-naming</artifactId>
+    <artifactId>piranha-extension-naming-cdi</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Extension - Naming</name>
+    <name>Piranha - Extension - Naming CDI</name>
 
     <dependencies>
         <!-- compile -->

@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.naming;
+package cloud.piranha.extension.naming.cdi;
 
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.INFO;
@@ -50,6 +50,7 @@ import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.naming.impl.DefaultInitialContext;
 import jakarta.annotation.Resource;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * The WebApplicationExtension that is responsible for setting up the proper
@@ -142,7 +143,7 @@ public class NamingExtension implements WebApplicationExtension {
                                                     args = new Object[] {lookup};
                                                     invoked = true;
                                                 } else {
-                                                    throw new IllegalStateException("Cannot find " + type);
+                                                    return CDI.current().select(type).get();
                                                 }
                                             }
                                         }

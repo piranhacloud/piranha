@@ -25,23 +25,41 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.datasource;
+
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
+
+import java.lang.System.Logger;
+
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import jakarta.servlet.ServletContainerInitializer;
 
 /**
- *  The Naming integration module.
+ * The WebApplicationExtension that adds the StandardTempDirInitializer.
  *
- * <p>
- *  This module integrates Naming (JNDI) into Piranha.
- * </p>
- *
- * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.naming {
+public class DefaultDatasourceExtension implements WebApplicationExtension {
 
-    exports cloud.piranha.extension.naming;
-    opens cloud.piranha.extension.naming;
-    requires cloud.piranha.core.api;
-    requires transitive cloud.piranha.naming.impl;
-    requires transitive cloud.piranha.naming.thread;
-    requires transitive java.naming;
-    requires jakarta.annotation;
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(DefaultDatasourceExtension.class.getName());
+
+    @Override
+    public void configure(WebApplication webApplication) {
+        LOGGER.log(DEBUG, "Adding the DefaultDatasourceExtension");
+        try {
+            webApplication.addInitializer(
+                webApplication.getClassLoader()
+                              .loadClass(DefaultDatasourceInitializer.class.getName())
+                              .asSubclass(ServletContainerInitializer.class)
+                              .getDeclaredConstructor()
+                              .newInstance());
+
+        } catch (SecurityException | ReflectiveOperationException | IllegalArgumentException ex) {
+            LOGGER.log(WARNING, "Unable to add the DefaultDatasourceExtension", ex);
+        }
+    }
 }

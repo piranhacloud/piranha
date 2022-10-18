@@ -21,6 +21,7 @@
         <module>async</module>
         <module>bytesstreamhandler</module>
         <module>coreprofile</module>
+        <module>default-datasource</module>
         <module>eclipselink</module>
         <module>eleos</module>
         <module>exousia</module>
@@ -32,6 +33,7 @@
         <module>microprofile</module>
         <module>mimetype</module>
         <module>naming</module>
+        <module>naming-cdi</module>
         <module>policy</module>
         <module>scinitializer</module>
         <module>security-servlet</module>
