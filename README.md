@@ -22,7 +22,7 @@ Download a JAR based distribution from <a href="https://repo1.maven.org/maven2/c
 And run your web application using:
 
 ```
-java -jar piranha-distro-XXX.jar --war-file your-webapplication.war
+java -jar piranha-dist-XXX.jar --war-file your-webapplication.war
 ```
 
 ## Getting Started
