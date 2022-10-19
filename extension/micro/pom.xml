@@ -52,7 +52,12 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-naming</artifactId>
+            <artifactId>piranha-extension-naming-cdi</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-default-datasource</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
