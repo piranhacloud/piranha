@@ -17,7 +17,10 @@ The following components are available in the Piranha Core Profile distribution:
 ## Documentation
 
 [Jakarta EE 10 Core Profile Specification](https://jakarta.ee/specifications/coreprofile/10/jakarta-coreprofile-spec-10.0.pdf)
+ 
 [Jakarta EE 10 Core Profile API documentation](https://jakarta.ee/specifications/coreprofile/10/apidocs/)
+
 [Developer Guides](guides/)
+
 
 [Back](../)
