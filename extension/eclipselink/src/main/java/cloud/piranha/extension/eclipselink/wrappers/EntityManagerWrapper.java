@@ -26,7 +26,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package cloud.piranha.extension.eclipselink;
+package cloud.piranha.extension.eclipselink.wrappers;
 
 import java.util.List;
 import java.util.Map;
