@@ -29,7 +29,7 @@ package cloud.piranha.extension.eclipselink;
 
 import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.literal.InjectLiteral;
-import jakarta.enterprise.inject.spi.AnnotatedField;
+import jakarta.enterprise.inject.spi.AnnotatedMember;
 import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.BeforeBeanDiscovery;
 import jakarta.enterprise.inject.spi.Extension;
@@ -53,7 +53,9 @@ public class EclipseLinkCdiExtension implements Extension {
     public void register(@Observes BeforeBeanDiscovery beforeBean, BeanManager beanManager) {
         addAnnotatedTypes(beforeBean, beanManager,
             EntityManagerProducer.class,
-            EntityManagerFactoryCreator.class);
+            EntityManagerFactoryCreator.class,
+            TxEntityManagerHolder.class,
+            NonTxEntityManagerHolder.class);
     }
 
     /**
@@ -63,11 +65,15 @@ public class EclipseLinkCdiExtension implements Extension {
      */
     public <T> void processAnnotatedType(@Observes ProcessAnnotatedType<T> pat) {
         pat.configureAnnotatedType()
-           .filterFields(e -> shouldInjectionAnnotationBeAddedToField(e))
+           .filterFields(e -> shouldInjectionAnnotationBeAdded(e))
            .forEach(e -> e.add(InjectLiteral.INSTANCE));
+
+        pat.configureAnnotatedType()
+            .filterMethods(m -> shouldInjectionAnnotationBeAdded(m))
+            .forEach(m -> m.add(InjectLiteral.INSTANCE));
     }
 
-    private static <X> boolean shouldInjectionAnnotationBeAddedToField(AnnotatedField<? super X> field) {
+    private static <X> boolean shouldInjectionAnnotationBeAdded(AnnotatedMember<? super X> field) {
         return !field.isAnnotationPresent(Inject.class) && field.isAnnotationPresent(PersistenceContext.class);
     }
 

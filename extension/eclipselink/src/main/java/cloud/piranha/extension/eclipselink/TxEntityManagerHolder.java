@@ -27,54 +27,45 @@
  */
 package cloud.piranha.extension.eclipselink;
 
-import static java.util.stream.Collectors.toMap;
+import java.io.Serializable;
+import java.util.function.Supplier;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import jakarta.enterprise.inject.Produces;
-import jakarta.enterprise.inject.spi.Annotated;
-import jakarta.enterprise.inject.spi.AnnotatedParameter;
-import jakarta.enterprise.inject.spi.InjectionPoint;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.PersistenceProperty;
+import jakarta.transaction.TransactionScoped;
 
 /**
- * This producer takes care of providing a bean to inject for the <code>PersistenceContext</code> annotation.
+ * Bean to store the entity manager during a transaction.
+ *
+ * <p>
+ * This should always hold the transactional entity manager, as the
+ * non-transactional one should be hold in a request scoped bean.
  *
  * @author Arjan Tijms
  *
  */
-public class EntityManagerProducer {
+@TransactionScoped
+public class TxEntityManagerHolder implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
-     *
-     * @param injectionPoint the injectionPoint
-     * @return EntityManager
+     * The entity manager that we store for the duration of a transaction
      */
-    @Produces
-    public EntityManager produce(InjectionPoint injectionPoint) {
-        Annotated annotated = injectionPoint.getAnnotated();
-        if (annotated instanceof AnnotatedParameter<?> annotatedParameter) {
-            annotated = annotatedParameter.getDeclaringCallable();
+    private EntityManager entityManager;
+
+    /**
+     * Gets the entity manager or computes and stores it if not yet available.
+     *
+     * @param entityManagerSupplier the supplier to get the entity manager from
+     * @return the new or previously stored entity manager
+     */
+    public EntityManager computeIfAbsent(Supplier<EntityManager> entityManagerSupplier) {
+        if (entityManager == null) {
+            entityManager = entityManagerSupplier.get();
         }
 
-        PersistenceContext persistenceContext = annotated.getAnnotation(PersistenceContext.class);
+        return entityManager;
 
-        return new PiranhaEntityManager(
-                    persistenceContext.unitName(),
-                    persistenceContext.type(),
-                    persistenceContext.synchronization(),
-                    propertiesToMap(persistenceContext.properties()));
-
-    }
-
-    private Map<Object, Object> propertiesToMap(PersistenceProperty[] properties) {
-        return Arrays.stream(properties)
-                     .collect(toMap(
-                        persistenceProperty -> persistenceProperty.name(),
-                        persistenceProperty -> persistenceProperty.value()));
     }
 
 }

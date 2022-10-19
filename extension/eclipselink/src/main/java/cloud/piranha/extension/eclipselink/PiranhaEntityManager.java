@@ -30,13 +30,16 @@ package cloud.piranha.extension.eclipselink;
 
 import static jakarta.persistence.PersistenceContextType.TRANSACTION;
 import static jakarta.persistence.SynchronizationType.SYNCHRONIZED;
+import static java.lang.System.Logger.Level.DEBUG;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.lang.System.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
+import cloud.piranha.extension.eclipselink.wrappers.EntityManagerWrapper;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -48,6 +51,9 @@ import jakarta.persistence.SynchronizationType;
 import jakarta.persistence.TransactionRequiredException;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.transaction.RollbackException;
+import jakarta.transaction.Synchronization;
+import jakarta.transaction.SystemException;
 import jakarta.transaction.Transaction;
 import jakarta.transaction.TransactionManager;
 
@@ -58,6 +64,11 @@ import jakarta.transaction.TransactionManager;
 public class PiranhaEntityManager extends EntityManagerWrapper implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(PiranhaEntityManager.class.getName());
 
     /**
      * Stores the unit name
@@ -109,14 +120,29 @@ public class PiranhaEntityManager extends EntityManagerWrapper implements Serial
 
         if (contextType == PersistenceContextType.TRANSACTION) {
 
-            Transaction tx = getCurrentTransaction();
+            Transaction transaction = getCurrentTransaction();
+            if (transaction != null) {
+                wrappedEntityManager = getTxScopedEntityManager();
 
-            if (tx != null) {
-                // Create an entity manager. Note the entity manager needs to be closed at some point still.
-                wrappedEntityManager = getEntityManagerFactory().createEntityManager(synchronizationType, properties);
+                try {
+                    final EntityManager closingEntityManager = wrappedEntityManager;
+                    transaction.registerSynchronization(new Synchronization() {
+                        @Override
+                        public void afterCompletion(int status) {
+                            closeTxScopedEntityManager(closingEntityManager);
+                        }
+
+                        @Override
+                        public void beforeCompletion() {
+                        }
+
+                    });
+                } catch (IllegalStateException | RollbackException | SystemException e) {
+                }
+
+            } else {
+                wrappedEntityManager = getNonTxScopedEntityManager();
             }
-
-            // Note the non-transactional entity manager is not supported yet, but should be.
         }
 
         return wrappedEntityManager;
@@ -394,6 +420,34 @@ public class PiranhaEntityManager extends EntityManagerWrapper implements Serial
         } catch (Exception e) {
             throw new IllegalStateException("Error getting current transaction", e);
         }
+    }
+
+    private EntityManager getTxScopedEntityManager() {
+        return
+            CDI.current()
+               .select(TxEntityManagerHolder.class)
+               .get()
+               .computeIfAbsent(() ->
+                   getEntityManagerFactory().createEntityManager(synchronizationType, properties));
+    }
+
+    private void closeTxScopedEntityManager(final EntityManager entityManager) {
+        if (entityManager != null && entityManager.isOpen()) {
+            try {
+                entityManager.close();
+            } catch (Throwable th) {
+                LOGGER.log(DEBUG, th);
+            }
+        }
+    }
+
+    private EntityManager getNonTxScopedEntityManager() {
+        return
+            CDI.current()
+               .select(NonTxEntityManagerHolder.class)
+               .get()
+               .computeIfAbsent(() ->
+                   getEntityManagerFactory().createEntityManager(synchronizationType, properties));
     }
 
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {

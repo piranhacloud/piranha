@@ -36,7 +36,6 @@ import jakarta.enterprise.inject.spi.Extension;
  *  This module integrates EclipseLink into Piranha. See
  *  https://github.com/eclipse-ee4j/eclipselink for more information about its
  *  project.
- * </p>
  *
  * @author Arjan Tijms
  */
@@ -55,4 +54,5 @@ module cloud.piranha.extension.eclipselink {
     requires eclipselink;
     requires jakarta.cdi;
     requires jakarta.transaction;
+    requires cloud.piranha.extension.datasource;
 }

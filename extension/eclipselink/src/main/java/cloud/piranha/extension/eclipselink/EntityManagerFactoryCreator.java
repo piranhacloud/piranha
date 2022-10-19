@@ -36,6 +36,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import org.eclipse.persistence.internal.jpa.deployment.JPAInitializer;
 import org.eclipse.persistence.internal.jpa.deployment.PersistenceUnitProcessor;
 import org.eclipse.persistence.internal.jpa.deployment.SEPersistenceUnitInfo;
@@ -43,6 +47,7 @@ import org.eclipse.persistence.jpa.Archive;
 import org.eclipse.persistence.jpa.PersistenceProvider;
 
 import cloud.piranha.core.api.AnnotationManager;
+import cloud.piranha.extension.datasource.TxJoiningDataSource;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.Converter;
 import jakarta.persistence.Embeddable;
@@ -115,6 +120,18 @@ public class EntityManagerFactoryCreator {
 
         persistenceUnitInfo.setTransactionType(JTA);
 
+        if (persistenceUnitInfo.getJtaDataSource() == null) {
+            persistenceUnitInfo.setJtaDataSource(getDefaultDataSource());
+        } else {
+            // Wrap the configured data source with one that joins any ongoing transaction
+            persistenceUnitInfo.setJtaDataSource(new TxJoiningDataSource(persistenceUnitInfo.getJtaDataSource()));
+        }
+
+        // Also set a non JTA data source, which EclipseLink uses for special read only queries
+        if (persistenceUnitInfo.getJtaDataSource() instanceof TxJoiningDataSource txJoiningDataSource) {
+            persistenceUnitInfo.setNonJtaDataSource(txJoiningDataSource.getWrapped());
+        }
+
         // SEPersistenceUnitInfo defaults to exclude unlisted true. We can't yet distinguish between the user setting
         // this and the class defaulting to it. For now scanned classes are always added.
 
@@ -166,6 +183,14 @@ public class EntityManagerFactoryCreator {
         }
 
         return persistenceUnitNames;
+    }
+
+    private DataSource getDefaultDataSource() {
+        try {
+            return InitialContext.doLookup("java:comp/DefaultDataSource");
+        } catch (NamingException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
 }
