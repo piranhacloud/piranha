@@ -41,7 +41,7 @@ module cloud.piranha.extension.micro {
     requires cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.extension.async;
     requires cloud.piranha.extension.exousia;
-    requires cloud.piranha.extension.naming;
+    requires cloud.piranha.extension.naming.cdi;
     requires cloud.piranha.extension.localeencoding;
     requires cloud.piranha.extension.mimetype;
     requires cloud.piranha.extension.policy;
@@ -55,4 +55,5 @@ module cloud.piranha.extension.micro {
     requires cloud.piranha.extension.welcomefile;
     requires cloud.piranha.extension.transact;
     requires cloud.piranha.extension.eclipselink;
+    requires cloud.piranha.extension.datasource;
 }
