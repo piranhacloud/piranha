@@ -8,11 +8,11 @@
         <version>22.11.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cloud.piranha.test.byo</groupId>
+    <groupId>cloud.piranha.test.embedded</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha - Test - BYO - Project</name>
+    <name>Piranha - Test - Embedded - Project</name>
 
     <modules>
         <module>classloader</module>
@@ -22,7 +22,6 @@
         <module>hazelcast</module>
         <module>helloworld</module>
         <module>jersey</module>
-        <module>jpms</module>
         <module>soteria-basic</module>
         <module>soteria-form</module>
         <module>web-fragment-in-jar</module>

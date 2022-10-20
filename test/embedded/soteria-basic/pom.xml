@@ -1,36 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.test.byo</groupId>
+        <groupId>cloud.piranha.test.embedded</groupId>
         <artifactId>project</artifactId>
         <version>22.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-test-byo-jersey</artifactId>
+    <artifactId>piranha-test-embedded-soteria-basic</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha - Test - BYO - Jersey</name>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <name>Piranha - Test - Embedded - Soteria BASIC</name>
 
     <dependencies>
         <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.inject</groupId>
-            <artifactId>jersey-hk2</artifactId>
-            <scope>runtime</scope>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-embedded</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-exousia</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-naming</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-security-jakarta</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -44,7 +54,7 @@
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-weld</artifactId>
             <version>${project.version}</version>
-            <scope>runtime</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

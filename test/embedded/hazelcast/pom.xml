@@ -3,48 +3,26 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.test.byo</groupId>
+        <groupId>cloud.piranha.test.embedded</groupId>
         <artifactId>project</artifactId>
         <version>22.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-test-byo-weld</artifactId>
+    <artifactId>piranha-test-embedded-hazelcast</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha - Test - BYO - Weld</name>
+    <name>Piranha - Test - Embedded - Hazelcast HTTP Session</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
+        <!-- provided -->
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-scinitializer</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-weld</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-webxml</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.faces</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <!-- test -->
         <dependency>
@@ -55,7 +33,31 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-hazelcast</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-naming</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-scinitializer</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-webxml</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-weld</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -75,6 +77,16 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.faces</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.expressly</groupId>
+            <artifactId>expressly</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.wasp</groupId>
             <artifactId>wasp</artifactId>
             <scope>test</scope>
@@ -84,22 +96,5 @@
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.glassfish.expressly</groupId>
-            <artifactId>expressly</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

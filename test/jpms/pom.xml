@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.test.byo</groupId>
+        <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
         <version>22.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-test-byo-jpms</artifactId>
+    <artifactId>piranha-test-jpms</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha - Test - BYO - JPMS</name>
+    <name>Piranha - Test - JPMS</name>
 
     <dependencies>
         <dependency>
