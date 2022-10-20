@@ -9,10 +9,10 @@
         <version>22.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-test-coreprofile-helloworld</artifactId>
+    <artifactId>piranha-test-coreprofile-hello</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha - Test - Core Profile - Hello World</name>
+    <name>Piranha - Test - Core Profile - Hello</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

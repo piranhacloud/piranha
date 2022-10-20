@@ -17,6 +17,6 @@
 
     <modules>
         <module>helloarquillian</module>
-        <module>helloworld</module>
+        <module>hello</module>
     </modules>
 </project>

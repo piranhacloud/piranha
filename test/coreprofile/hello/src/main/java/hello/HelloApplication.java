@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package helloworld;
+package hello;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
@@ -36,5 +36,5 @@ import jakarta.ws.rs.core.Application;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @ApplicationPath("")
-public class HelloWorldApplication extends Application {
+public class HelloApplication extends Application {
 }
