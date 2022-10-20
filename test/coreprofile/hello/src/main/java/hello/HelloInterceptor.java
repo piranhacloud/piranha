@@ -25,35 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package helloworld;
+package hello;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
+import jakarta.interceptor.AroundInvoke;
+import jakarta.interceptor.Interceptor;
+import jakarta.interceptor.InvocationContext;
 
 /**
- * The HelloWorld integration test.
+ * The Hello interceptor.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HelloWorldIT {
- 
+@Interceptor
+public class HelloInterceptor {
+
     /**
-     * Test the 'Hello World!' endpoint.
-     *
-     * @throws Exception when a serious error occurs.
+     * Intercept the call and return 'HelLo Intercepted!'.
+     * 
+     * @param context the invocation context.
+     * @return 'Hello Intercepted!'.
      */
-    @Test
-    void testHelloWorld() throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:9000/say/helloworld"))
-                .build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("Hello World!"));
+    @AroundInvoke
+    public Object intercepted(InvocationContext context) {
+        return "Hello Intercepted!";
     }
 }
