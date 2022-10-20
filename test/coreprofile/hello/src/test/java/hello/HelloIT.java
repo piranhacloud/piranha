@@ -40,6 +40,7 @@ import org.junit.jupiter.api.Test;
  *
  * <ol>
  *   <li>testHelloInject validates Jakarta Dependency Injection works</li>
+ *   <li>testHelloIntercept validates Jakarta Interceptors works</li>
  *   <li>testHelloJsonB validates Jakarta JSON binding works</li>
  *   <li>testHelloJsonP validates Jakarta JSON processing works</li>
  *   <li>testHelloWorld validates Jakarta REST works</li>
