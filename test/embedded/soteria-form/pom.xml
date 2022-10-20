@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.test.byo</groupId>
+        <groupId>cloud.piranha.test.embedded</groupId>
         <artifactId>project</artifactId>
         <version>22.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-test-byo-soteria-form</artifactId>
+    <artifactId>piranha-test-embedded-soteria-form</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha - Test - BYO - Soteria FORM</name>
+    <name>Piranha - Test - Embedded - Soteria FORM</name>
 
     <dependencies>
         <dependency>

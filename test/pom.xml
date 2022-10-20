@@ -15,9 +15,10 @@
     <name>Piranha - Test - Project</name>
 
     <modules>
-        <module>byo</module>
+        <module>embedded</module>
         <module>common</module>
         <module>coreprofile</module>
+        <module>jpms</module>
         <module>micro</module>
         <module>server</module>
         <module>servlet</module>
