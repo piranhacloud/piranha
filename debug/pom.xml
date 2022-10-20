@@ -308,12 +308,6 @@
 
         <dependency>
             <groupId>cloud.piranha.server</groupId>
-            <artifactId>piranha-server-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cloud.piranha.server</groupId>
             <artifactId>piranha-server-isolated</artifactId>
             <version>${project.version}</version>
         </dependency>

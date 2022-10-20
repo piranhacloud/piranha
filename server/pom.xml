@@ -16,7 +16,6 @@
     <name>Piranha - Server - Project</name>
 
     <modules>
-        <module>api</module>
         <module>dist</module>
         <module>isolated</module>
     </modules>
