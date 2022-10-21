@@ -30,6 +30,7 @@ package cloud.piranha.http.webapp;
 import cloud.piranha.http.api.HttpServerResponse;
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
 import java.io.IOException;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The HttpServerResponse variant of WebApplicationResponse.
@@ -37,6 +38,11 @@ import java.io.IOException;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HttpWebApplicationResponse extends DefaultWebApplicationResponse {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(HttpWebApplicationResponse.class.getName());
 
     /**
      * Stores the wrapped HttpServerResponse.
@@ -51,6 +57,14 @@ public class HttpWebApplicationResponse extends DefaultWebApplicationResponse {
     public HttpWebApplicationResponse(HttpServerResponse wrapped) {
         this.wrapped = wrapped;
         setUnderlyingOutputStream(wrapped.getOutputStream());
+        setResponseCloser(() -> {
+            try {
+                wrapped.closeResponse();
+            } catch (IOException ioe) {
+                LOGGER.log(WARNING, () -> "IOException when flushing the underlying async output stream", ioe);
+            }
+        });
+
     }
 
     @Override
