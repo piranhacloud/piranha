@@ -39,90 +39,72 @@ import org.junit.jupiter.api.Test;
  * The Hello integration tests.
  *
  * <ol>
- *   <li>testHelloInject validates Jakarta Dependency Injection works</li>
- *   <li>testHelloIntercept validates Jakarta Interceptors works</li>
- *   <li>testHelloJsonB validates Jakarta JSON binding works</li>
- *   <li>testHelloJsonP validates Jakarta JSON processing works</li>
- *   <li>testHelloWorld validates Jakarta REST works</li>
+ * <li>testHelloElJsp validates Jakarta Expression Language works</li>
+ * <li>testHelloJspJsp validates Jakarta Pages works</li>
+ * <li>testHelloServlet validates Jakarta Servlet works</li>
  * </ol>
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class HelloIT {
- 
+
     /**
-     * Test the 'Hello Inject!' endpoint.
+     * Test helloworld.html.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testHelloInject() throws Exception {
+    void testHelloWorldHtml() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:9000/say/helloInject"))
-                .build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("Hello Inject!"));
-    }
- 
-    /**
-     * Test the 'Hello Intercepted!' endpoint.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testHelloIntercept() throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:9000/say/helloIntercept"))
-                .build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("Hello Intercepted!"));
-    }
- 
-    /**
-     * Test the 'Hello World!' in JSON endpoint.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testHelloJsonB() throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:9000/say/helloJsonB"))
-                .build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("{\"helloWorld\":\"Hello World!\"}"));
-    }
- 
-    /**
-     * Test the 'Hello World!' POST endpoint.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testHelloJsonP() throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:9000/say/helloJsonP"))
-                .POST(HttpRequest.BodyPublishers.ofString("\"Hello World from POST!\""))
-                .build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("{\"helloWorld\":\"Hello World from POST!\"}"));
-    }
- 
-    /**
-     * Test the 'Hello World!' endpoint.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testHelloWorld() throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:9000/say/helloWorld"))
+                .newBuilder(new URI("http://localhost:8080/piranha-test-servlet-hello/helloworld.html"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello World!"));
+    }
+
+    /**
+     * Test helloel.jsp.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testHelloElJsp() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI("http://localhost:8080/piranha-test-servlet-hello/helloel.jsp?name=EL"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        assertTrue(response.body().contains("Hello EL!"));
+    }
+
+    /**
+     * Test hellojsp.jsp.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testHelloJspJsp() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI("http://localhost:8080/piranha-test-servlet-hello/hellojsp.jsp"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        assertTrue(response.body().contains("Hello JSP!"));
+    }
+
+    /**
+     * Test HelloServlet Servlet.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testHelloServlet() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI("http://localhost:8080/piranha-test-servlet-hello/helloservlet"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        assertTrue(response.body().contains("Hello Servlet!"));
     }
 }

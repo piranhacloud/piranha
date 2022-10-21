@@ -291,10 +291,20 @@
             <!-- Eclipse Tyrus -->
             <dependency>
                 <groupId>org.glassfish.tyrus</groupId>
+                <artifactId>tyrus-client</artifactId>
+                <version>${tyrus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.tyrus</groupId>
+                <artifactId>tyrus-container-grizzly-client</artifactId>
+                <version>${tyrus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.tyrus</groupId>
                 <artifactId>tyrus-container-servlet</artifactId>
                 <version>${tyrus.version}</version>
             </dependency>
-            
+                    
             <!-- Eclipse WaSP -->
             <dependency>
                 <groupId>org.glassfish.wasp</groupId>

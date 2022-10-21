@@ -52,7 +52,16 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
      */
     public HttpWebApplicationRequest(HttpServerRequest wrapped) {
         this.wrapped = wrapped;
-        setServletPath(wrapped.getRequestTarget());
+        if (wrapped.getRequestTarget() != null) {
+            if (!wrapped.getRequestTarget().contains("?")) {
+                setServletPath(wrapped.getRequestTarget());
+            } else {
+                setServletPath(wrapped.getRequestTarget().substring(0, 
+                        wrapped.getRequestTarget().indexOf("?")));
+                setQueryString(wrapped.getRequestTarget().substring(
+                        wrapped.getRequestTarget().indexOf("?") + 1));
+            }
+        }
         setInputStream(wrapped.getInputStream());
         if (wrapped.getHeader("Content-Length") != null) {
             setContentLength(Integer.valueOf(wrapped.getHeader("Content-Length")));

@@ -9,16 +9,22 @@
         <version>22.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-test-servlet-helloworld</artifactId>
+    <artifactId>piranha-test-servlet-hello</artifactId>
     <packaging>war</packaging>
 
-    <name>Piranha - Test - Servlet - Hello World</name>
+    <name>Piranha - Test - Servlet - Hello</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
+        <!-- provided -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <!-- test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -38,7 +44,7 @@
     </dependencies>
 
     <build>
-        <finalName>piranha-test-servlet-helloworld</finalName>
+        <finalName>piranha-test-servlet-hello</finalName>
         <plugins>
             <plugin>
                 <groupId>cloud.piranha.maven.plugins</groupId>
@@ -53,8 +59,7 @@
                         </goals>
                         <configuration>
                             <distribution>servlet</distribution>
-                            <httpPort>9000</httpPort>
-                            <!-- <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000</jvmArguments> -->
+                            <!--<jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000</jvmArguments>--> 
                         </configuration>
                     </execution>
                     <execution>

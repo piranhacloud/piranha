@@ -25,50 +25,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package helloworld;
+package hello;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
- * The 'Hello World!' integration test.
+ * The HelloServlet Servlet.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HelloWorldIT {
- 
+public class HelloServlet extends HttpServlet {
+
     /**
-     * Test index.html.
-     *
-     * @throws Exception when a serious error occurs.
+     * Process the GET request.
+     * 
+     * @param request the request.
+     * @param response the response.
+     * @throws ServletException when a Servlet error occurs.
+     * @throws IOException when an I/O error occurs.
      */
-    @Test
-    void testIndexHtml() throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:9000/piranha-test-servlet-helloworld"))
-                .build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("Hello World!"));
-    }
- 
-    /**
-     * Test helloworld.jsp.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testHelloWorldJsp() throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:9000/piranha-test-servlet-helloworld/helloworld.jsp"))
-                .build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("Hello World!"));
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("text/html");
+        try ( PrintWriter out = response.getWriter()) {
+            out.println("""
+                        <!DOCTYPE html>
+                        <html>
+                          <head>
+                            <title>Hello Servlet!</title>
+                          </head>
+                          <body>
+                            <h1>Hello Servlet!</h1>
+                          </body>
+                        </html>""");
+        }
     }
 }
