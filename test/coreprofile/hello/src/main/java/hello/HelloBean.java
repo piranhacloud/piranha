@@ -69,10 +69,10 @@ public class HelloBean {
     public String helloInject() {
         return injected.helloInject();
     }
-    
+
     /**
      * Say 'Hello Intercepted!' using an Interceptor.
-     * 
+     *
      * @return 'Hello Intercepted!'.
      */
     @GET
@@ -104,11 +104,12 @@ public class HelloBean {
     @Consumes("application/json")
     @Path("/helloJsonP")
     public HelloJson helloJsonP(String jsonString) {
-        JsonParser parser = Json.createParser(new StringReader(jsonString));
-        parser.next();
-        String string = parser.getString();
         HelloJson helloWorld = new HelloJson();
-        helloWorld.setHelloWorld(string);
+        try ( JsonParser parser = Json.createParser(new StringReader(jsonString));) {
+            parser.next();
+            String string = parser.getString();
+            helloWorld.setHelloWorld(string);
+        }
         return helloWorld;
     }
 
