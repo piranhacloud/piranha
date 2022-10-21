@@ -38,13 +38,11 @@ import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.core.api.WebApplicationServer;
 import cloud.piranha.core.api.WebApplicationServerRequestMapper;
-import cloud.piranha.core.impl.DefaultWebApplicationResponse;
 import jakarta.servlet.ServletException;
 import java.io.IOException;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.ERROR;
-import static java.lang.System.Logger.Level.WARNING;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -100,30 +98,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         requestMapper.addMapping(webApplication, webApplication.getContextPath());
     }
 
-    /**
-     * Create the web application server response.
-     *
-     * @param httpResponse the HTTP server response.
-     * @return the web application server response.
-     */
-    public DefaultWebApplicationResponse createResponse(HttpServerResponse httpResponse) {
-        DefaultWebApplicationResponse applicationResponse = new DefaultWebApplicationResponse();
-        applicationResponse.setUnderlyingOutputStream(httpResponse.getOutputStream());
-
-        applicationResponse.setResponseCloser(() -> {
-            try {
-                httpResponse.closeResponse();
-            } catch (IOException ioe) {
-                LOGGER.log(WARNING, () -> "IOException when flushing the underlying async output stream", ioe);
-            }
-        });
-
-        return applicationResponse;
-    }
-
-    /**
-     * {@return the request mapper}
-     */
     @Override
     public WebApplicationServerRequestMapper getRequestMapper() {
         return requestMapper;
@@ -132,7 +106,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     @Override
     public void initialize() {
         LOGGER.log(DEBUG, "Starting initialization of {0} web application(s)", webApplications.size());
-        for(WebApplication webApp : webApplications.values()) {
+        for (WebApplication webApp : webApplications.values()) {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
                 Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
@@ -149,7 +123,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         HttpServerProcessorEndState state = COMPLETED;
         try {
             HttpWebApplicationRequest serverRequest = new HttpWebApplicationRequest(request);
-            DefaultWebApplicationResponse serverResponse = createResponse(response);
+            HttpWebApplicationResponse serverResponse = new HttpWebApplicationResponse(response);
             service(serverRequest, serverResponse);
             if (serverRequest.isAsyncStarted()) {
                 state = ASYNCED;
@@ -200,19 +174,11 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         }
     }
 
-    /**
-     * Set the request mapper.
-     *
-     * @param requestMapper the request mapper.
-     */
     @Override
     public void setRequestMapper(WebApplicationServerRequestMapper requestMapper) {
         this.requestMapper = requestMapper;
     }
 
-    /**
-     * Start the server.
-     */
     @Override
     public void start() {
         LOGGER.log(DEBUG, "Starting HTTP web application server");
@@ -228,9 +194,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         LOGGER.log(DEBUG, "Started HTTP web application server");
     }
 
-    /**
-     * Stop the server.
-     */
     @Override
     public void stop() {
         LOGGER.log(DEBUG, "Stopping HTTP web application server");
