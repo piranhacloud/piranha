@@ -59,7 +59,7 @@
                         </goals>
                         <configuration>
                             <distribution>servlet</distribution>
-                            <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000</jvmArguments> 
+                            <!--<jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000</jvmArguments>--> 
                         </configuration>
                     </execution>
                     <execution>
