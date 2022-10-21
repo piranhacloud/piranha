@@ -38,20 +38,15 @@ import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.core.api.WebApplicationServer;
 import cloud.piranha.core.api.WebApplicationServerRequestMapper;
-import cloud.piranha.core.impl.CookieParser;
-import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import java.io.IOException;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.WARNING;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
 
 /**
  * The default WebApplicationServer.
@@ -106,88 +101,6 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     }
 
     /**
-     * Create the web application server request.
-     *
-     * @param request the HTTP server request.
-     * @return the web application server request.
-     */
-    private WebApplicationRequest createRequest(HttpServerRequest request) {
-        DefaultWebApplicationRequest applicationServerRequest = new DefaultWebApplicationRequest();
-        copyHttpRequestToApplicationRequest(request, applicationServerRequest);
-        applicationServerRequest.setServletPath("");
-
-        Iterator<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasNext()) {
-            String name = headerNames.next();
-            String value = request.getHeader(name);
-            request.getHeaders(name).forEachRemaining(x -> applicationServerRequest.addHeader(name, x));
-            if (name.equalsIgnoreCase("Content-Type")) {
-                applicationServerRequest.setContentType(value);
-            }
-            if (name.equalsIgnoreCase("Content-Length")) {
-                applicationServerRequest.setContentLength(Integer.parseInt(value));
-            }
-            if (name.equalsIgnoreCase("COOKIE")) {
-                applicationServerRequest.setCookies(processCookies(applicationServerRequest, value));
-            }
-        }
-
-        String contextPath = applicationServerRequest.getContextPath();
-        if (contextPath != null) {
-            String jsessionid = ";jsessionid=";
-            int indexJsessionid = contextPath.indexOf(jsessionid);
-            if (indexJsessionid > -1) {
-                applicationServerRequest.setContextPath(contextPath.substring(0, indexJsessionid));
-                if (!applicationServerRequest.isRequestedSessionIdFromCookie()) {
-                    applicationServerRequest.setRequestedSessionIdFromURL(true);
-                    applicationServerRequest.setRequestedSessionId(contextPath.substring(indexJsessionid + jsessionid.length()));
-                }
-            }
-        }
-        
-        if (request.isSecure()) {
-            applicationServerRequest.setScheme("https");
-        }
-
-        return applicationServerRequest;
-    }
-
-    private Cookie[] processCookies(DefaultWebApplicationRequest result, String cookiesValue) {
-        Cookie[] cookies = CookieParser.parse(cookiesValue);
-
-        Stream.of(cookies)
-                .filter(x -> "JSESSIONID".equals(x.getName()))
-                .findAny()
-                .ifPresent(cookie -> {
-                    result.setRequestedSessionIdFromCookie(true);
-                    result.setRequestedSessionId(cookie.getValue());
-                });
-
-        return cookies;
-    }
-
-    private void copyHttpRequestToApplicationRequest(HttpServerRequest httpRequest, DefaultWebApplicationRequest applicationRequest) {
-        applicationRequest.setLocalAddr(httpRequest.getLocalAddress());
-        applicationRequest.setLocalName(httpRequest.getLocalHostname());
-        applicationRequest.setLocalPort(httpRequest.getLocalPort());
-        applicationRequest.setRemoteAddr(httpRequest.getRemoteAddress());
-        applicationRequest.setRemoteHost(httpRequest.getRemoteHostname());
-        applicationRequest.setRemotePort(httpRequest.getRemotePort());
-        applicationRequest.setServerName(httpRequest.getLocalHostname());
-        applicationRequest.setServerPort(httpRequest.getLocalPort());
-        applicationRequest.setMethod(httpRequest.getMethod());
-        if (httpRequest.getRequestTarget() != null && httpRequest.getRequestTarget().contains("?")) {
-            String requestTarget = httpRequest.getRequestTarget();
-            applicationRequest.setContextPath(requestTarget.substring(0, requestTarget.indexOf("?")));
-            applicationRequest.setQueryString(requestTarget.substring(requestTarget.indexOf("?") + 1));
-        } else {
-            applicationRequest.setContextPath(httpRequest.getRequestTarget());
-        }
-        applicationRequest.setInputStream(httpRequest.getInputStream());
-        applicationRequest.setProtocol(httpRequest.getProtocol());
-    }
-
-    /**
      * Create the web application server response.
      *
      * @param httpResponse the HTTP server response.
@@ -235,7 +148,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     public HttpServerProcessorEndState process(HttpServerRequest request, HttpServerResponse response) {
         HttpServerProcessorEndState state = COMPLETED;
         try {
-            DefaultWebApplicationRequest serverRequest = (DefaultWebApplicationRequest) createRequest(request);
+            HttpWebApplicationRequest serverRequest = new HttpWebApplicationRequest(request);
             DefaultWebApplicationResponse serverResponse = createResponse(response);
             service(serverRequest, serverResponse);
             if (serverRequest.isAsyncStarted()) {
