@@ -1,5 +1,7 @@
 FROM eclipse-temurin:17
-RUN mkdir /usr/local/piranha
-ADD target/piranha-dist-coreprofile.jar /usr/local/piranha
-WORKDIR /usr/local/piranha
+RUN adduser piranha
+ADD target/piranha-dist-coreprofile.jar /home/piranha
+WORKDIR /home/piranha
+RUN chown piranha:piranha piranha-dist-coreprofile.jar
+USER piranha
 CMD ["java", "-jar", "piranha-dist-coreprofile.jar"]

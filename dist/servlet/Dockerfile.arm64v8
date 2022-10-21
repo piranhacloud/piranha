@@ -1,5 +1,7 @@
 FROM eclipse-temurin:17
-RUN mkdir /usr/local/piranha
-ADD target/piranha-dist-servlet.jar /usr/local/piranha
-WORKDIR /usr/local/piranha
+RUN adduser piranha
+ADD target/piranha-dist-servlet.jar /home/piranha
+WORKDIR /home/piranha
+RUN chown piranha:piranha piranha-dist-servlet.jar
+USER piranha
 CMD ["java", "-jar", "piranha-dist-servlet.jar"]
