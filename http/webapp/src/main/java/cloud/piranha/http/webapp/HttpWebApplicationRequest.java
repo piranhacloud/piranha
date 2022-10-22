@@ -29,6 +29,8 @@ package cloud.piranha.http.webapp;
 
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -69,6 +71,22 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
     }
 
     @Override
+    public long getDateHeader(String name) {
+        long result = -1;
+        if (wrapped.getHeader(name) != null) {
+            try {
+                String value = wrapped.getHeader(name);
+                SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+                result = format.parse(value).getTime();
+            } catch (ParseException exception) {
+                throw new IllegalArgumentException(
+                        "Cannot convert header to a date", exception);
+            }
+        }
+        return result;
+    }
+
+    @Override
     public String getHeader(String name) {
         return wrapped.getHeader(name);
     }
@@ -85,6 +103,20 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
         ArrayList<String> headers = new ArrayList<>();
         wrapped.getHeaders(name).forEachRemaining(headers::add);
         return Collections.enumeration(headers);
+    }
+
+    @Override
+    public int getIntHeader(String name) {
+        int result = -1;
+        if (wrapped.getHeader(name) != null) {
+            try {
+                result = Integer.parseInt(wrapped.getHeader(name));
+            } catch (NumberFormatException exception) {
+                throw new NumberFormatException(
+                        "Cannot convert header to an int");
+            }
+        }
+        return result;
     }
 
     @Override
