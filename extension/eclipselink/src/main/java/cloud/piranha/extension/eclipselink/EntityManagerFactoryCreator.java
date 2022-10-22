@@ -29,6 +29,7 @@ package cloud.piranha.extension.eclipselink;
 
 import static jakarta.persistence.spi.PersistenceUnitTransactionType.JTA;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -119,6 +120,22 @@ public class EntityManagerFactoryCreator {
         }
 
         persistenceUnitInfo.setTransactionType(JTA);
+
+        if (persistenceUnitInfo.getJtaDataSource() != null && persistenceUnitInfo.getJtaDataSource().getClass().getName().equals("org.eclipse.persistence.internal.jpa.jdbc.DataSourceImpl")) {
+            for (Method method : persistenceUnitInfo.getJtaDataSource().getClass().getDeclaredMethods()) {
+                if (method.getName().equals("getName")) {
+                    try {
+                        String name = (String) method.invoke(persistenceUnitInfo.getJtaDataSource());
+
+                        persistenceUnitInfo.setJtaDataSource(InitialContext.doLookup(name));
+                        break;
+
+                    } catch (ReflectiveOperationException | IllegalArgumentException | NamingException e1) {
+                        throw new IllegalStateException(e1);
+                    }
+                }
+            }
+        }
 
         if (persistenceUnitInfo.getJtaDataSource() == null) {
             persistenceUnitInfo.setJtaDataSource(getDefaultDataSource());
