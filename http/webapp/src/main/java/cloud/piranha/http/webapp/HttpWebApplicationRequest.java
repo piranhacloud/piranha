@@ -71,6 +71,15 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
     }
 
     @Override
+    public String getContentType() {
+        if (contentType == null) {
+            return wrapped.getHeader("Content-Type");
+        } else {
+            return contentType;
+        }
+    }
+
+    @Override
     public long getDateHeader(String name) {
         long result = -1;
         if (wrapped.getHeader(name) != null) {
@@ -133,5 +142,10 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
             }
         }
         return queryString;
+    }
+
+    @Override
+    public boolean isSecure() {
+        return wrapped.isSecure();
     }
 }
