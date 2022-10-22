@@ -166,8 +166,10 @@ public class TestSnoopServlet extends HttpServlet {
             out.println("</html>");
         } else {
             switch (request.getQueryString()) {
+                case "getContentType" -> testGetContentType(request, response);
                 case "getDateHeader" -> testGetDateHeader(request, response);
                 case "getIntHeader" -> testGetIntHeader(request, response);
+                case "isSecure" -> testIsSecure(request, response);
             }
         }
     }
@@ -199,6 +201,19 @@ public class TestSnoopServlet extends HttpServlet {
     }
 
     /**
+     * Test getContenType method.
+     * 
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     */
+    private void testGetContentType(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String contentType = request.getContentType();
+        PrintWriter writer = response.getWriter();
+        writer.println(contentType);
+    }
+
+    /**
      * Test getDateHeader method.
      * 
      * @param request the request.
@@ -222,5 +237,18 @@ public class TestSnoopServlet extends HttpServlet {
         int intHeader = request.getIntHeader("MY_INT");
         PrintWriter writer = response.getWriter();
         writer.println(intHeader);
+    }
+
+    /**
+     * Test isSecure method.
+     * 
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     */
+    private void testIsSecure(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        boolean isSecure = request.isSecure();
+        PrintWriter writer = response.getWriter();
+        writer.println(isSecure);
     }
 }

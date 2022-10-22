@@ -44,16 +44,16 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HttpWebApplicationRequestTest {
-    
+        
     /**
-     * Test getDateHeader method.
+     * Test getContentType method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetDateHeader() throws Exception {
+    void testGetContentType() throws Exception {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(8200, server, false);
+        HttpServer httpServer = new DefaultHttpServer(8201, server, false);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("");
         application.addServlet("snoop", new TestSnoopServlet());
@@ -65,7 +65,40 @@ public class HttpWebApplicationRequestTest {
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest
-                    .newBuilder(new URI("http://localhost:8200/Snoop?getDateHeader"))
+                    .newBuilder(new URI("http://localhost:8201/Snoop?getContentType"))
+                    .header("Content-Type", "application/json")
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            assertTrue(response.body().contains("application/json"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+        httpServer.stop();
+        server.stop();
+    }
+    
+    /**
+     * Test getDateHeader method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testGetDateHeader() throws Exception {
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
+        HttpServer httpServer = new DefaultHttpServer(8202, server, false);
+        DefaultWebApplication application = new DefaultWebApplication();
+        application.setContextPath("");
+        application.addServlet("snoop", new TestSnoopServlet());
+        application.addServletMapping("snoop", "Snoop");
+        server.addWebApplication(application);
+        server.initialize();
+        server.start();
+        httpServer.start();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest
+                    .newBuilder(new URI("http://localhost:8202/Snoop?getDateHeader"))
                     .header("MY_DATE", "Wed, 16 Oct 2019 07:28:00 GMT")
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -86,7 +119,7 @@ public class HttpWebApplicationRequestTest {
     @Test
     void testGetIntHeader() throws Exception {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
-        HttpServer httpServer = new DefaultHttpServer(8201, server, false);
+        HttpServer httpServer = new DefaultHttpServer(8203, server, false);
         DefaultWebApplication application = new DefaultWebApplication();
         application.setContextPath("");
         application.addServlet("snoop", new TestSnoopServlet());
@@ -98,12 +131,45 @@ public class HttpWebApplicationRequestTest {
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest
-                    .newBuilder(new URI("http://localhost:8201/Snoop?getIntHeader"))
+                    .newBuilder(new URI("http://localhost:8203/Snoop?getIntHeader"))
                     .header("MY_INT", "1234")
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             assertTrue(response.body().contains("1234"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+        httpServer.stop();
+        server.stop();
+    }
+
+    
+    /**
+     * Test isSecure method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testIsSecure() throws Exception {
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
+        HttpServer httpServer = new DefaultHttpServer(8204, server, false);
+        DefaultWebApplication application = new DefaultWebApplication();
+        application.setContextPath("");
+        application.addServlet("snoop", new TestSnoopServlet());
+        application.addServletMapping("snoop", "Snoop");
+        server.addWebApplication(application);
+        server.initialize();
+        server.start();
+        httpServer.start();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest
+                    .newBuilder(new URI("http://localhost:8204/Snoop?isSecure"))
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            assertTrue(response.body().contains("false"));
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
