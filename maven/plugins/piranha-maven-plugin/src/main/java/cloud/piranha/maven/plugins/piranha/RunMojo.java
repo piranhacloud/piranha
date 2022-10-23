@@ -29,64 +29,66 @@ package cloud.piranha.maven.plugins.piranha;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.apache.maven.plugin.MojoExecutionException;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.NONE;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
- * This goal will deploy the Maven WAR module, start Piranha Core Profile and
- * wait for it. It echoes the Piranha Core Profile console back to you for your
- * convenience.
+ * This goal will deploy the Maven WAR module, start Piranha and wait for it. It
+ * echoes the Piranha console back to you for your convenience.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @Mojo(name = "run", defaultPhase = NONE)
 public class RunMojo extends BaseMojo {
-    
-    /**
-     * Copy the WAR file to Piranha Micro.
-     *
-     * @throws IOException when an I/O error occurs.
-     */
-    private void copyWarFileToPiranhaCoreProfile() throws IOException {
-        File warFile = new File(buildDirectory, warName + ".war");
-        File outputFile = new File(runtimeDirectory, warName + ".war");
-        if (!outputFile.getParentFile().exists()) {
-            outputFile.getParentFile().mkdirs();
-        }
-        Files.copy(warFile.toPath(), outputFile.toPath(), REPLACE_EXISTING);
-    }
 
     @Override
     public void execute() throws MojoExecutionException {
         try {
             determineVersionToUse();
-            getPiranhaJarFile();
-            copyWarFileToPiranhaCoreProfile();
-            startAndWaitForPiranhaCoreProfile();
+            jarGetPiranhaJarFile();
+            jarCopyWarFile();
+            startAndWait();
         } catch (IOException ioe) {
             throw new MojoExecutionException(ioe);
         }
     }
 
     /**
-     * Start and wait for Piranha Core Profile.
+     * Start and wait for Piranha.
      */
-    private void startAndWaitForPiranhaCoreProfile() throws IOException {
+    private void startAndWait() throws IOException {
 
-        System.out.println("Application is available at: http://localhost:8080/" + warName);
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("java");
+        if (jvmArguments != null && !jvmArguments.equals("")) {
+            commands.addAll(Arrays.asList(jvmArguments.split(" ")));
+        }
+        commands.add("-jar");
+        commands.add(piranhaJarFile.getAbsolutePath());
+        commands.add("--http-port");
+        commands.add(httpPort.toString());
+        commands.add("--war-file");
+        commands.add(warName + ".war");
+        if (contextPath != null) {
+            commands.add("--context-path");
+            if (contextPath.startsWith("/")) {
+                contextPath = contextPath.substring(1);
+            }
+            commands.add(contextPath);
+        }
+        commands.add("--write-pid");
 
         Process process = new ProcessBuilder()
                 .directory(new File(runtimeDirectory))
-                .command("java",
-                        "-jar",
-                        piranhaJarFile.getAbsolutePath(),
-                        "--war-file",
-                        warName + ".war")
+                .command(commands)
                 .inheritIO()
                 .start();
+
+        System.out.println("Application is available at: http://localhost:"
+                + httpPort + "/" + (contextPath != null ? contextPath : warName));
 
         try {
             process.waitFor();

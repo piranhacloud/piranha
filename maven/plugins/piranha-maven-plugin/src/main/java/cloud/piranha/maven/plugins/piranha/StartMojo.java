@@ -29,8 +29,6 @@ package cloud.piranha.maven.plugins.piranha;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -46,36 +44,22 @@ import org.apache.maven.plugins.annotations.Mojo;
 @Mojo(name = "start", defaultPhase = NONE)
 public class StartMojo extends BaseMojo {
 
-    /**
-     * Copy the WAR file to Piranha Core Profile.
-     *
-     * @throws IOException when an I/O error occurs.
-     */
-    private void copyWarFileToPiranhaCoreProfile() throws IOException {
-        File warFile = new File(buildDirectory, warName + ".war");
-        File outputFile = new File(runtimeDirectory, warName + ".war");
-        if (!outputFile.getParentFile().exists()) {
-            outputFile.getParentFile().mkdirs();
-        }
-        Files.copy(warFile.toPath(), outputFile.toPath(), REPLACE_EXISTING);
-    }
-
     @Override
     public void execute() throws MojoExecutionException {
         try {
             determineVersionToUse();
-            getPiranhaJarFile();
-            copyWarFileToPiranhaCoreProfile();
-            startPiranhaCoreProfile();
+            jarGetPiranhaJarFile();
+            jarCopyWarFile();
+            startPiranha();
         } catch (IOException ioe) {
             throw new MojoExecutionException(ioe);
         }
     }
 
     /**
-     * Start and wait for Piranha Core Profile.
+     * Start Piranha.
      */
-    private void startPiranhaCoreProfile() throws IOException {
+    private void startPiranha() throws IOException {
 
         ArrayList<String> commands = new ArrayList<>();
         commands.add("java");

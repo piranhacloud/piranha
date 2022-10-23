@@ -34,6 +34,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
@@ -58,25 +59,25 @@ public abstract class BaseMojo extends AbstractMojo {
     /**
      * Stores the distribution to use.
      */
-    @Parameter(defaultValue = "coreprofile", required = false)
+    @Parameter(defaultValue = "coreprofile", property="piranha.distribution", required = false)
     protected String distribution;
 
     /**
      * Stores the context path.
      */
-    @Parameter(required = false)
+    @Parameter(required = false, property="piranha.contextPath")
     protected String contextPath;
 
     /**
      * Stores the HTTP port.
      */
-    @Parameter(defaultValue = "8080", required = false)
+    @Parameter(defaultValue = "8080", property="piranha.httpPort", required = false)
     protected Integer httpPort;
     
     /**
      * Stores the JVM arguments.
      */
-    @Parameter(required = false)
+    @Parameter(required = false, property="piranha.jvmArguments")
     protected String jvmArguments;
 
     /**
@@ -92,19 +93,19 @@ public abstract class BaseMojo extends AbstractMojo {
     /**
      * Stores the runtime directory.
      */
-    @Parameter(defaultValue = "${project.build.directory}/piranha", required = true)
+    @Parameter(defaultValue = "${project.build.directory}/piranha", property="piranha.runtimeDirectory", required = true)
     protected String runtimeDirectory;
 
     /**
      * Stores the version of the Piranha runtime to use.
      */
-    @Parameter(required = false)
+    @Parameter(property="piranha.version", required = false)
     protected String version;
 
     /**
      * Stores the WAR name.
      */
-    @Parameter(defaultValue = "${project.build.finalName}", required = true, readonly = true)
+    @Parameter(defaultValue = "${project.build.finalName}", property="piranha.warName", required = true, readonly = true)
     protected String warName;
 
     /**
@@ -163,13 +164,27 @@ public abstract class BaseMojo extends AbstractMojo {
             version = getClass().getPackage().getImplementationVersion();
         }
     }
+    
+    /**
+     * Copy the WAR file.
+     *
+     * @throws IOException when an I/O error occurs.
+     */
+    protected void jarCopyWarFile() throws IOException {
+        File warFile = new File(buildDirectory, warName + ".war");
+        File outputFile = new File(runtimeDirectory, warName + ".war");
+        if (!outputFile.getParentFile().exists()) {
+            outputFile.getParentFile().mkdirs();
+        }
+        Files.copy(warFile.toPath(), outputFile.toPath(), REPLACE_EXISTING);
+    }
 
     /**
      * Get the Piranha distribution JAR file.
      *
      * @throws IOException when an I/O error occurs.
      */
-    protected void getPiranhaJarFile() throws IOException {
+    protected void jarGetPiranhaJarFile() throws IOException {
         URL downloadUrl = createMavenCentralArtifactUrl(
                 "cloud.piranha.dist",
                 "piranha-dist-" + distribution,

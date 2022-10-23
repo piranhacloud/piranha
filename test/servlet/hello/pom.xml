@@ -15,6 +15,7 @@
     <name>Piranha - Test - Servlet - Hello</name>
 
     <properties>
+        <piranha.distribution>servlet</piranha.distribution>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
