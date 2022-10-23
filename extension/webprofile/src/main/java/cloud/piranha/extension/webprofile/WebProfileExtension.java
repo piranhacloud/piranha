@@ -32,6 +32,8 @@ import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.async.AsyncExtension;
+import cloud.piranha.extension.datasource.DefaultDatasourceExtension;
+import cloud.piranha.extension.eclipselink.EclipseLinkExtension;
 import cloud.piranha.extension.localeencoding.LocaleEncodingExtension;
 import cloud.piranha.extension.logging.LoggingExtension;
 import cloud.piranha.extension.mimetype.MimeTypeExtension;
@@ -42,10 +44,12 @@ import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.servletannotations.ServletAnnotationsExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
+import cloud.piranha.extension.transact.TransactExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
 import cloud.piranha.extension.wasp.WaspJspManagerExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
 import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
+import cloud.piranha.extension.weld.WeldExtension;
 
 /**
  * The extension that delivers the extensions for Piranha Micro/Server.
@@ -70,8 +74,12 @@ public class WebProfileExtension implements WebApplicationExtension {
         context.add(WebXmlExtension.class);                         // web.xml
         context.add(AnnotationScanExtension.class);                 // Annotation scanning
         context.add(ServletAnnotationsExtension.class);             // Servlet annotations
-        context.add(WaspExtension.class);                           // WaSP
-        context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
+        context.add(WeldExtension.class);
+        context.add(DefaultDatasourceExtension.class);              // Default data source
+        context.add(TransactExtension.class);                       // OmniFish Transaction
         context.add(ServletSecurityExtension.class);                // Security implementation
+        context.add(WaspExtension.class);                           // WaSP
+        context.add(EclipseLinkExtension.class);                    // Jakarta Persistence
+        context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
     }
 }

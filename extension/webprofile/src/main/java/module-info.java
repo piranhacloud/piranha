@@ -37,6 +37,7 @@
  *  <li>Annotation Scanning</li>
  *  <li>Apache Commons File Upload (Multipart)</li>
  *  <li>Async</li>
+ *  <li>Default DataSource</li>
  *  <li>Locale Encoding</li>
  *  <li>Logging</li>
  *  <li>Mime-type</li>
@@ -46,18 +47,22 @@
  *  <li>Servlet Security</li>
  *  <li>Servlet Annotations</li>
  *  <li>TEMPDIR</li>
+ *  <li>OmniFish Transaction</li>
  *  <li>WaSP (Pages)</li>
  *  <li>web.xml</li>
  *  <li>Welcome File</li>
  * </ul>
  */
 module cloud.piranha.extension.webprofile {
+    
     exports cloud.piranha.extension.webprofile;
     opens cloud.piranha.extension.webprofile;
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.extension.async;
+    requires cloud.piranha.extension.datasource;
+    requires cloud.piranha.extension.eclipselink;
     requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.localeencoding;
     requires cloud.piranha.extension.logging;
@@ -67,7 +72,9 @@ module cloud.piranha.extension.webprofile {
     requires cloud.piranha.extension.security.servlet;
     requires cloud.piranha.extension.servletannotations;
     requires cloud.piranha.extension.tempdir;
+    requires cloud.piranha.extension.transact;
     requires cloud.piranha.extension.wasp;
     requires cloud.piranha.extension.webxml;
     requires cloud.piranha.extension.welcomefile;
+    requires cloud.piranha.extension.weld;
 }

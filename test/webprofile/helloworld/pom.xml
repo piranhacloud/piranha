@@ -15,10 +15,17 @@
     <name>Piranha - Test - Web Profile - Hello World</name>
 
     <properties>
+        <piranha.distribution>webprofile</piranha.distribution>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
+        <!-- provided -->
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-web-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <!-- test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -54,7 +61,7 @@
                         <configuration>
                             <distribution>webprofile</distribution>
                             <httpPort>9001</httpPort>
-                            <!-- <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000</jvmArguments> -->
+                            <!--<jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000</jvmArguments>-->
                         </configuration>
                     </execution>
                     <execution>

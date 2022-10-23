@@ -25,33 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package helloworld;
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.core.api.WebApplicationExtension;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
- * The Piranha Server module.
- *
- * <p>
- *  This module and distribution is deprecated. Please use the 
- *  cloud.piranha.dist.server module and its distribution instead.
- * </p>
+ * The one and only application bean.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
- * @deprecated
  */
-@Deprecated(since = "22.10.0", forRemoval = true)
-module cloud.piranha.server {
-    exports cloud.piranha.server;
-    opens cloud.piranha.server;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.servlet;
-    requires cloud.piranha.extension.standard;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
-    requires java.naming;
-    uses HttpServer;
-    uses WebApplicationExtension;
+@Named(value = "applicationBean")
+@ApplicationScoped
+public class ApplicationBean {
 }
