@@ -102,20 +102,20 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
      * @param value the value.
      */
     public void addHeader(String name, String value) {
-        if (!headers.containsKey(name)) {
+        if (!headers.containsKey(name.toUpperCase())) {
             ArrayList<String> values = new ArrayList<>();
             values.add(value);
-            headers.put(name, values);
+            headers.put(name.toUpperCase(), values);
         } else {
-            headers.get(name).add(value);
+            headers.get(name.toUpperCase()).add(value);
         }
     }
 
     @Override
     public String getHeader(String name) {
         String header = null;
-        if (headers.get(name) != null) {
-            header = headers.get(name).isEmpty() ? null : headers.get(name).get(0);
+        if (headers.get(name.toUpperCase()) != null) {
+            header = headers.get(name.toUpperCase()).isEmpty() ? null : headers.get(name.toUpperCase()).get(0);
         }
         return header;
     }
@@ -127,9 +127,9 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
 
     @Override
     public Iterator<String> getHeaders(String name) {
-        return headers.get(name) == null
+        return headers.get(name.toUpperCase()) == null
                 ? new ArrayList<String>().iterator()
-                : headers.get(name).iterator();
+                : headers.get(name.toUpperCase()).iterator();
     }
 
     @Override
@@ -192,7 +192,7 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     public String getRequestTarget() {
         return requestTarget;
     }
-    
+
     @Override
     public boolean isSecure() {
         return socket instanceof SSLSocket;
@@ -221,35 +221,37 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
      *
      */
     private void parse() {
-        try {
-            InputStream parseStream = socket.getInputStream();
-            StringBuilder line = new StringBuilder();
-            int read = parseStream.read();
-            boolean requestLineParsed = false;
-            if (read != -1) {
-                while (read != -1 && parseStream.available() > 0) {
-                    if ('\r' != (char) read) {
-                        line.append((char) read);
-                    }
-                    read = parseStream.read();
-                    if ('\n' == (char) read) {
-                        if (line.length() > 0) {
-                            if (!requestLineParsed) {
-                                parseRequestLine(line.toString());
-                                requestLineParsed = true;
+        if (socket != null) {
+            try {
+                InputStream parseStream = socket.getInputStream();
+                StringBuilder line = new StringBuilder();
+                int read = parseStream.read();
+                boolean requestLineParsed = false;
+                if (read != -1) {
+                    while (read != -1 && parseStream.available() > 0) {
+                        if ('\r' != (char) read) {
+                            line.append((char) read);
+                        }
+                        read = parseStream.read();
+                        if ('\n' == (char) read) {
+                            if (line.length() > 0) {
+                                if (!requestLineParsed) {
+                                    parseRequestLine(line.toString());
+                                    requestLineParsed = true;
+                                } else {
+                                    parseHeader(line.toString());
+                                }
+                                line = new StringBuilder();
+                                read = parseStream.read();
                             } else {
-                                parseHeader(line.toString());
+                                read = -1;
                             }
-                            line = new StringBuilder();
-                            read = parseStream.read();
-                        } else {
-                            read = -1;
                         }
                     }
                 }
+            } catch (IOException exception) {
+                LOGGER.log(WARNING, "An I/O error occurred while parsing the request", exception);
             }
-        } catch (IOException exception) {
-            LOGGER.log(WARNING, "An I/O error occurred while parsing the request", exception);
         }
     }
 
