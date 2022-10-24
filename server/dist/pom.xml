@@ -39,12 +39,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-webprofile</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-webapp</artifactId>
             <version>${project.version}</version>
@@ -72,16 +66,6 @@
             <artifactId>junit-jupiter-params</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!-- Dependencies only needed for parallel Maven builds
-        In a maven parallel build, the following artifacts must be built before this artifact, therefore we add them as a dependencies here. Otherwise there are port clashes in integration tests -->
-        <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-micro</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <build>

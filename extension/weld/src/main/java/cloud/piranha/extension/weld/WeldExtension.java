@@ -25,33 +25,20 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.weld;
 
-import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 
 /**
- * The Piranha Server module.
+ * The extension that integrates Weld.
  *
- * <p>
- *  This module and distribution is deprecated. Please use the 
- *  cloud.piranha.dist.server module and its distribution instead.
- * </p>
- * 
  * @author Manfred Riem (mriem@manorrock.com)
- * @deprecated
  */
-@Deprecated(since = "22.10.0", forRemoval = true)
-module cloud.piranha.server {
-    exports cloud.piranha.server;
-    opens cloud.piranha.server;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.servlet;
-    requires cloud.piranha.extension.standard;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
-    requires java.naming;
-    uses HttpServer;
-    uses WebApplicationExtension;
+public class WeldExtension implements WebApplicationExtension {
+
+    @Override
+    public void configure(WebApplication webApplication) {
+        webApplication.addInitializer(WeldInitializer.class.getName());
+    }
 }
