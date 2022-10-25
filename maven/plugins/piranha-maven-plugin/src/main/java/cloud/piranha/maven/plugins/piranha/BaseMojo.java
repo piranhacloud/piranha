@@ -111,7 +111,7 @@ public abstract class BaseMojo extends AbstractMojo {
     /**
      * Stores the WAR name.
      */
-    @Parameter(defaultValue = "${project.build.finalName}", required = true, readonly = true)
+    @Parameter(defaultValue = "${project.build.finalName}", property="piranha.warName", required = true, readonly = true)
     protected String warName;
 
     /**
@@ -169,6 +169,20 @@ public abstract class BaseMojo extends AbstractMojo {
         if (version == null) {
             version = getClass().getPackage().getImplementationVersion();
         }
+    }
+    
+    /**
+     * Copy the WAR file.
+     *
+     * @throws IOException when an I/O error occurs.
+     */
+    protected void jarCopyWarFile() throws IOException {
+        File warFile = new File(buildDirectory, warName + ".war");
+        File outputFile = new File(runtimeDirectory, warName + ".war");
+        if (!outputFile.getParentFile().exists()) {
+            outputFile.getParentFile().mkdirs();
+        }
+        Files.copy(warFile.toPath(), outputFile.toPath(), REPLACE_EXISTING);
     }
 
     /**
