@@ -52,9 +52,15 @@ import org.apache.maven.plugins.annotations.Parameter;
 /**
  * This goal will deploy the Maven WAR module, start Piranha Server and wait for
  * it. It echoes the Piranha Server console back to you for your convenience.
+ * 
+ * <p>
+ *  This plugin has been replaced by the piranha-maven-plugin.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
+@Deprecated(since = "22.11.0", forRemoval = true)
 @Mojo(name = "run", defaultPhase = LifecyclePhase.NONE)
 public class RunMojo extends ServerMojo {
     

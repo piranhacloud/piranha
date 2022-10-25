@@ -33,8 +33,14 @@ import org.apache.maven.plugins.annotations.Parameter;
 /**
  * The abstract base class for the RunMojo and StartMojo.
  * 
+ * <p>
+ *  This plugin has been replaced by the piranha-maven-plugin.
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
+@Deprecated(since = "22.11.0", forRemoval = true)
 public abstract class ServerMojo extends AbstractMojo {
     
     /**
