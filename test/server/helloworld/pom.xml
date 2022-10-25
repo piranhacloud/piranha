@@ -38,7 +38,7 @@
         <plugins>
             <plugin>
                 <groupId>cloud.piranha.maven.plugins</groupId>
-                <artifactId>piranha-server-maven-plugin</artifactId>
+                <artifactId>piranha-maven-plugin</artifactId>
                 <version>${project.version}</version>
                 <executions>
                     <execution>
@@ -57,6 +57,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <distribution>server</distribution>
                     <httpPort>8001</httpPort>
                 </configuration>
             </plugin>

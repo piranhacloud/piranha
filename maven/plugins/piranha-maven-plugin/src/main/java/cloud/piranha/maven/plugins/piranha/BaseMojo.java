@@ -35,6 +35,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.util.zip.ZipFile;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
@@ -55,29 +56,29 @@ public abstract class BaseMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
     protected String buildDirectory;
-    
+
     /**
      * Stores the distribution to use.
      */
-    @Parameter(defaultValue = "coreprofile", property="piranha.distribution", required = false)
+    @Parameter(defaultValue = "coreprofile", property = "piranha.distribution", required = false)
     protected String distribution;
 
     /**
      * Stores the context path.
      */
-    @Parameter(required = false, property="piranha.contextPath")
+    @Parameter(required = false, property = "piranha.contextPath")
     protected String contextPath;
 
     /**
      * Stores the HTTP port.
      */
-    @Parameter(defaultValue = "8080", property="piranha.httpPort", required = false)
+    @Parameter(defaultValue = "8080", property = "piranha.httpPort", required = false)
     protected Integer httpPort;
-    
+
     /**
      * Stores the JVM arguments.
      */
-    @Parameter(required = false, property="piranha.jvmArguments")
+    @Parameter(required = false, property = "piranha.jvmArguments")
     protected String jvmArguments;
 
     /**
@@ -86,26 +87,31 @@ public abstract class BaseMojo extends AbstractMojo {
     protected File localRepositoryDirectory = new File(System.getProperty("user.home"), ".m2/repository");
 
     /**
-     * Stores the Piranha JAR file.
+     * Stores the Piranha JAR/Zip file.
      */
-    protected File piranhaJarFile;
+    protected File piranhaFile;
+
+    /**
+     * Stores the Piranha type (jar or zip).
+     */
+    protected String piranhaType = "jar";
 
     /**
      * Stores the runtime directory.
      */
-    @Parameter(defaultValue = "${project.build.directory}/piranha", property="piranha.runtimeDirectory", required = true)
+    @Parameter(defaultValue = "${project.build.directory}/piranha", property = "piranha.runtimeDirectory", required = true)
     protected String runtimeDirectory;
 
     /**
      * Stores the version of the Piranha runtime to use.
      */
-    @Parameter(property="piranha.version", required = false)
+    @Parameter(property = "piranha.version", required = false)
     protected String version;
 
     /**
      * Stores the WAR name.
      */
-    @Parameter(defaultValue = "${project.build.finalName}", property="piranha.warName", required = true, readonly = true)
+    @Parameter(defaultValue = "${project.build.finalName}", required = true, readonly = true)
     protected String warName;
 
     /**
@@ -164,15 +170,20 @@ public abstract class BaseMojo extends AbstractMojo {
             version = getClass().getPackage().getImplementationVersion();
         }
     }
-    
+
     /**
      * Copy the WAR file.
      *
      * @throws IOException when an I/O error occurs.
      */
-    protected void jarCopyWarFile() throws IOException {
+    protected void copyWarFile() throws IOException {
         File warFile = new File(buildDirectory, warName + ".war");
-        File outputFile = new File(runtimeDirectory, warName + ".war");
+        File outputFile;
+        if (piranhaType.equals("jar")) {
+            outputFile = new File(runtimeDirectory, warName + ".war");
+        } else {
+            outputFile = new File(runtimeDirectory + File.separator + "webapps", warName + ".war");
+        }
         if (!outputFile.getParentFile().exists()) {
             outputFile.getParentFile().mkdirs();
         }
@@ -180,40 +191,86 @@ public abstract class BaseMojo extends AbstractMojo {
     }
 
     /**
-     * Get the Piranha distribution JAR file.
+     * Download the Piranha distribution.
      *
      * @throws IOException when an I/O error occurs.
      */
-    protected void jarGetPiranhaJarFile() throws IOException {
+    protected void downloadDistribution() throws IOException {
+        if (distribution.equals("server")) {
+            piranhaType = "zip";
+        }
+
         URL downloadUrl = createMavenCentralArtifactUrl(
                 "cloud.piranha.dist",
                 "piranha-dist-" + distribution,
                 version,
-                "jar"
+                piranhaType
         );
 
         String artifactPath = createArtifactPath(
                 "cloud.piranha.dist",
                 "piranha-dist-" + distribution,
                 version,
-                "jar"
+                piranhaType
         );
 
-        File zipFile = new File(localRepositoryDirectory, artifactPath);
-        if (!zipFile.exists()) {
-            if (!zipFile.getParentFile().mkdirs()) {
+        File file = new File(localRepositoryDirectory, artifactPath);
+        if (!file.exists()) {
+            if (!file.getParentFile().mkdirs()) {
                 System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
             }
         }
 
         try ( InputStream inputStream = downloadUrl.openStream()) {
             Files.copy(inputStream,
-                    zipFile.toPath(),
+                    file.toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (FileNotFoundException fnfe) {
-            System.err.println("Could not download JAR file, defaulting back to local Maven repository");
+            System.err.println("Could not download distribution, defaulting back to local Maven repository");
         }
 
-        piranhaJarFile = new File(localRepositoryDirectory, artifactPath);
+        piranhaFile = new File(localRepositoryDirectory, artifactPath);
+    }
+
+    /**
+     * Extract the distribution.
+     */
+    protected void extractDistribution() {
+        if (piranhaType.equals("zip")) {
+            try {
+                ZipFile zipFile = new ZipFile(piranhaFile);
+                File targetDir = new File(runtimeDirectory).getParentFile();
+                if (!targetDir.exists()) {
+                    if (!targetDir.mkdirs()) {
+                        System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
+                    }
+                }
+                zipFile.entries().asIterator().forEachRemaining(zipEntry -> {
+                    if (zipEntry.isDirectory()) {
+                        File directory = new File(targetDir, zipEntry.getName());
+                        if (!directory.exists()) {
+                            if (!directory.mkdirs()) {
+                                System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
+                            }
+                        }
+                    } else {
+                        try {
+                            File file = new File(targetDir, zipEntry.getName());
+                            Files.copy(zipFile.getInputStream(zipEntry), file.toPath(), REPLACE_EXISTING);
+                            if (zipEntry.getName().toLowerCase().endsWith(".sh")) {
+                                if (!file.setExecutable(true)) {
+                                    System.err.println("Unable to set " + zipEntry.getName() + " to executable");
+                                }
+                            }
+                        } catch (IOException ioe) {
+                            ioe.printStackTrace(System.err);
+                        }
+                    }
+                }
+                );
+            } catch (IOException ioe) {
+                System.err.println("I/O error occurred opening zip file: " + piranhaFile.toString());
+            }
+        }
     }
 }

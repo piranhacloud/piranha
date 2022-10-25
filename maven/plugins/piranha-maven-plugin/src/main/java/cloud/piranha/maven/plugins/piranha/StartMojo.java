@@ -36,8 +36,8 @@ import static org.apache.maven.plugins.annotations.LifecyclePhase.NONE;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
- * This goal will deploy the Maven WAR module and start Piranha Core Profile in
- * a separate process.
+ * This goal will deploy your web application and start Piranha in a separate
+ * process.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -48,8 +48,9 @@ public class StartMojo extends BaseMojo {
     public void execute() throws MojoExecutionException {
         try {
             determineVersionToUse();
-            jarGetPiranhaJarFile();
-            jarCopyWarFile();
+            downloadDistribution();
+            extractDistribution();
+            copyWarFile();
             startPiranha();
         } catch (IOException ioe) {
             throw new MojoExecutionException(ioe);
@@ -57,21 +58,16 @@ public class StartMojo extends BaseMojo {
     }
 
     /**
-     * Start Piranha.
+     * Start Piranha using a JAR distribution.
      */
-    private void startPiranha() throws IOException {
-
+    private void startJarPiranha() throws IOException {
         ArrayList<String> commands = new ArrayList<>();
         commands.add("java");
         if (jvmArguments != null && !jvmArguments.equals("")) {
             commands.addAll(Arrays.asList(jvmArguments.split(" ")));
         }
         commands.add("-jar");
-        commands.add(piranhaJarFile.getAbsolutePath());
-        commands.add("--http-port");
-        commands.add(httpPort.toString());
-        commands.add("--war-file");
-        commands.add(warName + ".war");
+        commands.add(piranhaFile.getAbsolutePath());
         if (contextPath != null) {
             commands.add("--context-path");
             if (contextPath.startsWith("/")) {
@@ -79,13 +75,52 @@ public class StartMojo extends BaseMojo {
             }
             commands.add(contextPath);
         }
+        commands.add("--http-port");
+        commands.add(httpPort.toString());
+        commands.add("--war-file");
+        commands.add(warName + ".war");
         commands.add("--write-pid");
-
         new ProcessBuilder()
                 .directory(new File(runtimeDirectory))
                 .command(commands)
                 .start();
+    }
 
+    /**
+     * Start Piranha using a ZIP distribution.
+     */
+    private void startZipPiranha() throws IOException {
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("/bin/bash");
+        commands.add("-c");
+        StringBuilder arguments = new StringBuilder();
+        arguments.append("./start.sh");
+        arguments.append(" --http-port ").append(httpPort.toString());
+        if (contextPath != null) {
+            arguments.append(" --context-path ");
+            if (contextPath.startsWith("/")) {
+                contextPath = contextPath.substring(1);
+            }
+            arguments.append(contextPath);
+        }
+        arguments.append(" --verbose --write-pid");
+        commands.add(arguments.toString());
+        new ProcessBuilder()
+                .directory(new File(runtimeDirectory + File.separator + "bin"))
+                .command(commands)
+                .start();
+    }
+
+    /**
+     * Start Piranha.
+     */
+    private void startPiranha() throws IOException {
+        switch (piranhaType) {
+            case "jar" ->
+                startJarPiranha();
+            case "zip" ->
+                startZipPiranha();
+        }
         File pidFile = new File(runtimeDirectory + "/tmp/piranha.pid");
         int count = 0;
         System.out.print("Waiting for Piranha to be ready ");
@@ -96,14 +131,13 @@ public class StartMojo extends BaseMojo {
                 System.out.print(".");
             } catch (InterruptedException ie) {
             }
-            if (count == 80) {
+            if (count == 100) {
                 System.out.println();
                 System.out.println("Warning, PID file not seen!");
                 break;
             }
         }
         System.out.println();
-
         System.out.println("Application is available at: http://localhost:" + httpPort + "/"
                 + (contextPath != null ? contextPath : warName));
     }
