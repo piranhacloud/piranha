@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class HelloWorldIT {
- 
+    
     /**
      * Test the 'helloworld.jsp' page.
      *
@@ -56,7 +56,7 @@ class HelloWorldIT {
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello World!"));
     }
- 
+
     /**
      * Test the HelloWorldServlet.
      *

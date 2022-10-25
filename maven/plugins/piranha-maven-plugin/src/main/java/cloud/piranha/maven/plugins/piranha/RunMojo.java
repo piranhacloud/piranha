@@ -36,7 +36,7 @@ import static org.apache.maven.plugins.annotations.LifecyclePhase.NONE;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
- * This goal will deploy the Maven WAR module, start Piranha and wait for it. It
+ * This goal will deploy your web application, start Piranha and wait for it. It
  * echoes the Piranha console back to you for your convenience.
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -48,30 +48,27 @@ public class RunMojo extends BaseMojo {
     public void execute() throws MojoExecutionException {
         try {
             determineVersionToUse();
-            jarGetPiranhaJarFile();
-            jarCopyWarFile();
-            startAndWait();
+            downloadDistribution();
+            extractDistribution();
+            copyWarFile();
+            startPiranhaAndWait();
         } catch (IOException ioe) {
             throw new MojoExecutionException(ioe);
         }
     }
 
-    /**
-     * Start and wait for Piranha.
-     */
-    private void startAndWait() throws IOException {
 
+    /**
+     * Start Piranha using a JAR distribution.
+     */
+    private void startJarPiranha() throws IOException {
         ArrayList<String> commands = new ArrayList<>();
         commands.add("java");
         if (jvmArguments != null && !jvmArguments.equals("")) {
             commands.addAll(Arrays.asList(jvmArguments.split(" ")));
         }
         commands.add("-jar");
-        commands.add(piranhaJarFile.getAbsolutePath());
-        commands.add("--http-port");
-        commands.add(httpPort.toString());
-        commands.add("--war-file");
-        commands.add(warName + ".war");
+        commands.add(piranhaFile.getAbsolutePath());
         if (contextPath != null) {
             commands.add("--context-path");
             if (contextPath.startsWith("/")) {
@@ -79,22 +76,69 @@ public class RunMojo extends BaseMojo {
             }
             commands.add(contextPath);
         }
+        commands.add("--http-port");
+        commands.add(httpPort.toString());
+        commands.add("--war-file");
+        commands.add(warName + ".war");
         commands.add("--write-pid");
-
         Process process = new ProcessBuilder()
                 .directory(new File(runtimeDirectory))
                 .command(commands)
                 .inheritIO()
                 .start();
-
         System.out.println("Application is available at: http://localhost:"
                 + httpPort + "/" + (contextPath != null ? contextPath : warName));
-
         try {
             process.waitFor();
         } catch (InterruptedException ie) {
             ie.printStackTrace(System.err);
             Thread.currentThread().interrupt();
+        }
+    }
+
+    /**
+     * Start Piranha using a ZIP distribution.
+     */
+    private void startZipPiranha() throws IOException {
+        ArrayList<String> commands = new ArrayList<>();
+        commands.add("/bin/bash");
+        commands.add("-c");
+        StringBuilder arguments = new StringBuilder();
+        arguments.append("./run.sh");
+        arguments.append(" --http-port ").append(httpPort.toString());
+        if (contextPath != null) {
+            arguments.append(" --context-path ");
+            if (contextPath.startsWith("/")) {
+                contextPath = contextPath.substring(1);
+            }
+            arguments.append(contextPath);
+        }
+        arguments.append(" --verbose --write-pid");
+        commands.add(arguments.toString());
+        Process process = new ProcessBuilder()
+                .directory(new File(runtimeDirectory + File.separator + "bin"))
+                .command(commands)
+                .inheritIO()
+                .start();
+        System.out.println("Application is available at: http://localhost:"
+                + httpPort + "/" + (contextPath != null ? contextPath : warName));
+        try {
+            process.waitFor();
+        } catch (InterruptedException ie) {
+            ie.printStackTrace(System.err);
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    /**
+     * Start Piranha.
+     */
+    private void startPiranhaAndWait() throws IOException {
+        switch (piranhaType) {
+            case "jar" ->
+                startJarPiranha();
+            case "zip" ->
+                startZipPiranha();
         }
     }
 }
