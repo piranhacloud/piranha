@@ -143,15 +143,14 @@ public class HttpWebApplicationRequestTest {
         httpServer.stop();
         server.stop();
     }
-
     
     /**
-     * Test isSecure method.
+     * Test getLocalAddr method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testIsSecure() throws Exception {
+    void testGetLocalAddr() throws Exception {
         HttpWebApplicationServer server = new HttpWebApplicationServer();
         HttpServer httpServer = new DefaultHttpServer(8204, server, false);
         DefaultWebApplication application = new DefaultWebApplication();
@@ -165,7 +164,39 @@ public class HttpWebApplicationRequestTest {
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest
-                    .newBuilder(new URI("http://localhost:8204/Snoop?isSecure"))
+                    .newBuilder(new URI("http://localhost:8204/Snoop?getLocalAddr"))
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            assertTrue(response.body().contains("127.0.0.1"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+        httpServer.stop();
+        server.stop();
+    }
+    
+    /**
+     * Test isSecure method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testIsSecure() throws Exception {
+        HttpWebApplicationServer server = new HttpWebApplicationServer();
+        HttpServer httpServer = new DefaultHttpServer(8205, server, false);
+        DefaultWebApplication application = new DefaultWebApplication();
+        application.setContextPath("");
+        application.addServlet("snoop", new TestSnoopServlet());
+        application.addServletMapping("snoop", "Snoop");
+        server.addWebApplication(application);
+        server.initialize();
+        server.start();
+        httpServer.start();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest
+                    .newBuilder(new URI("http://localhost:8205/Snoop?isSecure"))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());

@@ -129,6 +129,11 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
     }
 
     @Override
+    public String getLocalAddr() {
+        return wrapped.getLocalAddress();
+    }
+
+    @Override
     public String getMethod() {
         return wrapped.getMethod();
     }
