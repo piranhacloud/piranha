@@ -48,8 +48,14 @@ import org.apache.maven.plugins.annotations.Parameter;
 /**
  * This goal will stop a Piranha Micro that was started with the <code>start</code> goal.
  *
+ * <p>
+ *  This plugin has been replaced by the piranha-maven-plugin.
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
+@Deprecated(since = "22.11.0", forRemoval = true)
 @Mojo(name = "stop", defaultPhase = LifecyclePhase.NONE)
 public class StopMojo extends AbstractMojo {
 
