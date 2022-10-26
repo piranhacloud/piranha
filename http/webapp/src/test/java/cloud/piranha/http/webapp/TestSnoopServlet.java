@@ -169,6 +169,7 @@ public class TestSnoopServlet extends HttpServlet {
                 case "getContentType" -> testGetContentType(request, response);
                 case "getDateHeader" -> testGetDateHeader(request, response);
                 case "getIntHeader" -> testGetIntHeader(request, response);
+                case "getLocalAddr" -> testGetLocalAddr(request, response);
                 case "isSecure" -> testIsSecure(request, response);
             }
         }
@@ -237,6 +238,19 @@ public class TestSnoopServlet extends HttpServlet {
         int intHeader = request.getIntHeader("MY_INT");
         PrintWriter writer = response.getWriter();
         writer.println(intHeader);
+    }
+
+    /**
+     * Test getLocalAddr method.
+     * 
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     */
+    private void testGetLocalAddr(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String localAddr = request.getLocalAddr();
+        PrintWriter writer = response.getWriter();
+        writer.println(localAddr);
     }
 
     /**
