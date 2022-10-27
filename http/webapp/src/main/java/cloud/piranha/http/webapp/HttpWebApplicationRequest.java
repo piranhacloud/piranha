@@ -29,8 +29,11 @@ package cloud.piranha.http.webapp;
 
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import static java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME;
+
+import java.time.Instant;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -85,9 +88,8 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
         if (wrapped.getHeader(name) != null) {
             try {
                 String value = wrapped.getHeader(name);
-                SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
-                result = format.parse(value).getTime();
-            } catch (ParseException exception) {
+                result = Instant.from(RFC_1123_DATE_TIME.parse(value)).toEpochMilli();
+            } catch (DateTimeParseException exception) {
                 throw new IllegalArgumentException(
                         "Cannot convert header to a date", exception);
             }
