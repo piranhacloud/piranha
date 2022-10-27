@@ -57,7 +57,7 @@ class HelloIT {
     void testHelloWorldHtml() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/piranha-test-servlet-hello/helloworld.html"))
+                .newBuilder(new URI("http://localhost:9090/piranha-test-servlet-hello/helloworld.html"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello World!"));
@@ -72,7 +72,7 @@ class HelloIT {
     void testHelloElJsp() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/piranha-test-servlet-hello/helloel.jsp?name=EL"))
+                .newBuilder(new URI("http://localhost:9090/piranha-test-servlet-hello/helloel.jsp?name=EL"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello EL!"));
@@ -87,7 +87,7 @@ class HelloIT {
     void testHelloJspJsp() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/piranha-test-servlet-hello/hellojsp.jsp"))
+                .newBuilder(new URI("http://localhost:9090/piranha-test-servlet-hello/hellojsp.jsp"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello JSP!"));
@@ -102,7 +102,7 @@ class HelloIT {
     void testHelloServlet() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/piranha-test-servlet-hello/helloservlet"))
+                .newBuilder(new URI("http://localhost:9090/piranha-test-servlet-hello/helloservlet"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello Servlet!"));

@@ -96,10 +96,10 @@ class ServerPiranhaIT {
         ProcessBuilder builder = new ProcessBuilder();
         Process process;
 
-        if (System.getProperty("os.name").toLowerCase().equals("windows")) {
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
             process = builder.
                     directory(new File("target/piranha/bin")).
-                    command("start.cmd").
+                    command("cmd", "/c", "start.cmd").
                     start();
         } else {
             process = builder.
@@ -113,10 +113,10 @@ class ServerPiranhaIT {
         File pidFile = new File("target/piranha/tmp/piranha.pid");
         assertTrue(pidFile.exists());
 
-        if (System.getProperty("os.name").toLowerCase().equals("windows")) {
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
             process = builder.
                     directory(new File("target/piranha/bin")).
-                    command("stop.cmd").
+                    command("cmd", "/c", "stop.cmd").
                     start();
         } else {
             process = builder.

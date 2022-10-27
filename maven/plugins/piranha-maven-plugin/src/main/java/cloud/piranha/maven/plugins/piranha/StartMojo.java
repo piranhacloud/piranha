@@ -91,10 +91,16 @@ public class StartMojo extends BaseMojo {
      */
     private void startZipPiranha() throws IOException {
         ArrayList<String> commands = new ArrayList<>();
-        commands.add("/bin/bash");
-        commands.add("-c");
         StringBuilder arguments = new StringBuilder();
-        arguments.append("./start.sh");
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            commands.add("cmd");
+            commands.add("/c");
+            arguments.append("start.cmd");
+        } else {
+            commands.add("/bin/bash");
+            commands.add("-c");
+            arguments.append("./start.sh");
+        }
         arguments.append(" --http-port ").append(httpPort.toString());
         if (contextPath != null) {
             arguments.append(" --context-path ");
