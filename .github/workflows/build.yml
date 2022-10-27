@@ -28,7 +28,7 @@ jobs:
       run: mvn --no-transfer-progress -B install
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
-      if: ${{ os.runner != 'Windows' }}
+      if: ${{ runner.os != 'Windows' }}
       with:
         files: '**/target/surefire-reports/*.xml'     
   codeql:
