@@ -51,7 +51,7 @@ class HelloWorldIT {
     void testHelloWorldJsp() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8001/piranha-test-server-helloworld/helloworld.jsp"))
+                .newBuilder(new URI("http://localhost:8080/piranha-test-server-helloworld/helloworld.jsp"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello World!"));
@@ -66,7 +66,7 @@ class HelloWorldIT {
     void testHelloWorldServlet() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8001/piranha-test-server-helloworld/HelloWorldServlet"))
+                .newBuilder(new URI("http://localhost:8080/piranha-test-server-helloworld/HelloWorldServlet"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello World!"));

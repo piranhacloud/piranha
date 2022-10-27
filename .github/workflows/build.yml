@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         java: [ '17', '19' ]
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
     steps:
     - name: Checkout Sources
       uses: actions/checkout@v2
@@ -28,7 +28,7 @@ jobs:
       run: mvn --no-transfer-progress -B install
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
-      if: always()
+      if: ${{ runner.os != 'Windows' }}
       with:
         files: '**/target/surefire-reports/*.xml'     
   codeql:
