@@ -52,7 +52,7 @@ class IndexJspIT {
     void testIndexJsp() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8000/piranha-test-server-wasp/index.jsp"))
+                .newBuilder(new URI("http://localhost:8080/piranha-test-server-wasp/index.jsp"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("This web application contains the following tests:"));
@@ -68,7 +68,7 @@ class IndexJspIT {
     void testIndexJsp2() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8000/piranha-test-server-wasp/"))
+                .newBuilder(new URI("http://localhost:8080/piranha-test-server-wasp/"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("This web application contains the following tests:"));

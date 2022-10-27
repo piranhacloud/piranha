@@ -60,6 +60,7 @@
                         </goals>
                         <configuration>
                             <distribution>servlet</distribution>
+                            <httpPort>9090</httpPort>
                             <!--<jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000</jvmArguments>--> 
                         </configuration>
                     </execution>

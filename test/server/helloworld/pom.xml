@@ -58,7 +58,7 @@
                 </executions>
                 <configuration>
                     <distribution>server</distribution>
-                    <httpPort>8001</httpPort>
+                    <httpPort>8080</httpPort>
                 </configuration>
             </plugin>
             <plugin>

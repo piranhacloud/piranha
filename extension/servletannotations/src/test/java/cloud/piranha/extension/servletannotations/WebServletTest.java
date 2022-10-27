@@ -40,6 +40,7 @@ import cloud.piranha.resource.impl.ClassResource;
 import cloud.piranha.resource.impl.DirectoryResource;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -72,7 +73,7 @@ class WebServletTest {
         EmbeddedResponse response = new EmbeddedResponseBuilder().bodyOnly(true).build();
         application.service(request, response);
         application.stop();
-        assertEquals("Hurray, it worked!\n", response.getResponseAsString());
+        assertTrue(response.getResponseAsString().contains("Hurray, it worked!"));
     }
 
     /**
@@ -98,7 +99,7 @@ class WebServletTest {
         EmbeddedResponse response = new EmbeddedResponseBuilder().bodyOnly(true).build();
         application.service(request, response);
         application.stop();
-        assertEquals("Hurray, it worked!\n", response.getResponseAsString());
+        assertTrue(response.getResponseAsString().contains("Hurray, it worked!"));
     }
 
     /**
@@ -124,7 +125,7 @@ class WebServletTest {
         EmbeddedResponse response = new EmbeddedResponseBuilder().bodyOnly(true).build();
         application.service(request, response);
         application.stop();
-        assertEquals("Hurray, it worked!\n", response.getResponseAsString());
+        assertTrue(response.getResponseAsString().contains("Hurray, it worked!"));
     }
 
     /**
@@ -150,7 +151,7 @@ class WebServletTest {
         EmbeddedResponse response = new EmbeddedResponseBuilder().bodyOnly(true).build();
         application.service(request, response);
         application.stop();
-        assertEquals("Hurray, it worked!\n", response.getResponseAsString());
+        assertTrue(response.getResponseAsString().contains("Hurray, it worked!"));
     }
 
     /**
@@ -176,7 +177,7 @@ class WebServletTest {
         EmbeddedResponse response = new EmbeddedResponseBuilder().bodyOnly(true).build();
         application.service(request, response);
         application.stop();
-        assertEquals("Hurray, it worked!\n", response.getResponseAsString());
+        assertTrue(response.getResponseAsString().contains("Hurray, it worked!"));
     }
 
     /**
@@ -202,6 +203,6 @@ class WebServletTest {
         EmbeddedResponse response = new EmbeddedResponseBuilder().bodyOnly(true).build();
         application.service(request, response);
         application.stop();
-        assertEquals("Hurray, it worked!\n", response.getResponseAsString());
+        assertTrue(response.getResponseAsString().contains("Hurray, it worked!"));
     }
 }
