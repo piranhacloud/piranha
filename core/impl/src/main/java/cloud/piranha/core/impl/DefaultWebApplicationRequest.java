@@ -1059,6 +1059,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     public void setContentLength(int contentLength) {
         this.contentLength = contentLength;
+        
+        headerManager.setHeader("Content-Length", Integer.toString(contentLength));
     }
 
     /**
@@ -1068,6 +1070,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     public void setContentType(String contentType) {
         this.contentType = contentType;
+        
+        headerManager.setHeader("Content-Type", contentType);
 
         if (contentType.startsWith(MULTIPART_FORM_DATA)) {
             // "multipart/form-data" contains a boundary and no charset
@@ -1120,7 +1124,17 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * @param value the value (string).
      */
     public void setHeader(String name, String value) {
-        headerManager.setHeader(name, value);
+        if (name.toLowerCase().equals("content-type")) {
+            setContentType(value);
+        } else if (name.toLowerCase().equals("content-length")) {
+            try {
+                setContentLength(Integer.parseInt(value));
+            } catch(NumberFormatException nfe) {
+                LOGGER.log(WARNING, "Unable to setContentLength as header value is unparseable", nfe);
+            }
+        } else {
+            headerManager.setHeader(name, value);
+        }
     }
 
     /**
