@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Set up Java
       uses: actions/setup-java@v2
       with:
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
     - name: Set up Java
       uses: actions/setup-java@v2
       with:
@@ -126,7 +126,7 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v1
+      uses: actions/checkout@v3
     - name: Setup Java ${{ matrix.java }}
       uses: oracle-actions/setup-java@v1
       with:
@@ -144,7 +144,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Set up Java
       uses: actions/setup-java@v2
       with:
