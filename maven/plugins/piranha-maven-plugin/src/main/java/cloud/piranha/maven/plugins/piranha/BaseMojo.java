@@ -176,20 +176,6 @@ public abstract class BaseMojo extends AbstractMojo {
      *
      * @throws IOException when an I/O error occurs.
      */
-    protected void jarCopyWarFile() throws IOException {
-        File warFile = new File(buildDirectory, warName + ".war");
-        File outputFile = new File(runtimeDirectory, warName + ".war");
-        if (!outputFile.getParentFile().exists()) {
-            outputFile.getParentFile().mkdirs();
-        }
-        Files.copy(warFile.toPath(), outputFile.toPath(), REPLACE_EXISTING);
-    }
-
-    /**
-     * Copy the WAR file.
-     *
-     * @throws IOException when an I/O error occurs.
-     */
     protected void copyWarFile() throws IOException {
         File warFile = new File(buildDirectory, warName + ".war");
         File outputFile;
@@ -251,8 +237,7 @@ public abstract class BaseMojo extends AbstractMojo {
      */
     protected void extractDistribution() {
         if (piranhaType.equals("zip")) {
-            try {
-                ZipFile zipFile = new ZipFile(piranhaFile);
+            try (ZipFile zipFile = new ZipFile(piranhaFile)) {
                 File targetDir = new File(runtimeDirectory).getParentFile();
                 if (!targetDir.exists()) {
                     if (!targetDir.mkdirs()) {

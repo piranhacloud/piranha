@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpWebApplicationRequestTest {
+class HttpWebApplicationRequestTest {
         
     /**
      * Test getContentType method.
