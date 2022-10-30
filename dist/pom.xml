@@ -17,6 +17,7 @@
 
     <modules>
         <module>coreprofile</module>
+        <module>microprofile</module>
         <module>server</module>
         <module>servlet</module>
         <module>webprofile</module>
