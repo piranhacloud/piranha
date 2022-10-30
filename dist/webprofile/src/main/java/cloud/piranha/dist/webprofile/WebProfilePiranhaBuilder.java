@@ -45,6 +45,11 @@ public class WebProfilePiranhaBuilder {
     private static final Logger LOGGER = System.getLogger(WebProfilePiranhaBuilder.class.getName());
 
     /**
+     * Stores the context path.
+     */
+    private String contextPath = null;
+
+    /**
      * Stores the extension class.
      */
     private Class<? extends WebApplicationExtension> extensionClass;
@@ -58,6 +63,11 @@ public class WebProfilePiranhaBuilder {
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
+
+    /**
+     * Stores the HTTP server class.
+     */
+    private String httpServerClass;
 
     /**
      * Stores the HTTPS port.
@@ -112,8 +122,12 @@ public class WebProfilePiranhaBuilder {
         if (extensionClass != null) {
             piranha.setExtensionClass(extensionClass);
         }
+        if (contextPath != null) {
+            piranha.setContextPath(contextPath);
+        }
         piranha.setExitOnStop(exitOnStop);
         piranha.setHttpPort(httpPort);
+        piranha.setHttpServerClass(httpServerClass);
         piranha.setHttpsPort(httpsPort);
         piranha.setJpmsEnabled(jpms);
         if (sslKeystoreFile != null) {
@@ -130,6 +144,17 @@ public class WebProfilePiranhaBuilder {
         }
         piranha.setPid(pid);
         return piranha;
+    }
+
+    /**
+     * Set the context path.
+     * 
+     * @param contextPath the context path.
+     * @return the builder.
+     */
+    public WebProfilePiranhaBuilder contextPath(String contextPath) {
+        this.contextPath = contextPath;
+        return this;
     }
 
     /**
@@ -183,6 +208,17 @@ public class WebProfilePiranhaBuilder {
     }
 
     /**
+     * Set the HTTP server class.
+     * 
+     * @param httpServerClass the HTTP server class.
+     * @return the builder.
+     */
+    public WebProfilePiranhaBuilder httpServerClass(String httpServerClass) {
+        this.httpServerClass = httpServerClass;
+        return this;
+    }
+    
+    /**
      * Set the HTTPS server port.
      *
      * @param httpsPort the HTTPS server port.
@@ -216,9 +252,11 @@ public class WebProfilePiranhaBuilder {
                 Arguments
                 =========
                 
+                Context path          : %s
                 Extension class       : %s
                 Exit on stop          : %s
                 HTTP port             : %s
+                HTTP server class     : %s
                 HTTPS port            : %s
                 JPMS enabled          : %s
                 PID                   : %s
@@ -228,9 +266,11 @@ public class WebProfilePiranhaBuilder {
                 Web application dir   : %s
                 
                 """,
+                contextPath,
                 extensionClass != null ? extensionClass.getName() : WebProfileExtension.class.getName(),
                 exitOnStop,
                 httpPort,
+                httpServerClass,
                 httpsPort,
                 jpms,
                 pid,

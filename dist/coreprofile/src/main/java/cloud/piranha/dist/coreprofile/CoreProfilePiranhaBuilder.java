@@ -63,6 +63,11 @@ public class CoreProfilePiranhaBuilder {
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
+    
+    /**
+     * Stores the HTTP server class.
+     */
+    private String httpServerClass;
 
     /**
      * Stores the HTTPS port.
@@ -122,6 +127,7 @@ public class CoreProfilePiranhaBuilder {
         }
         piranha.setExitOnStop(exitOnStop);
         piranha.setHttpPort(httpPort);
+        piranha.setHttpServerClass(httpServerClass);
         piranha.setHttpsPort(httpsPort);
         piranha.setJpmsEnabled(jpms);
         if (sslKeystoreFile != null) {
@@ -202,6 +208,17 @@ public class CoreProfilePiranhaBuilder {
     }
 
     /**
+     * Set the HTTP server class.
+     * 
+     * @param httpServerClass the HTTP server class.
+     * @return the builder.
+     */
+    public CoreProfilePiranhaBuilder httpServerClass(String httpServerClass) {
+        this.httpServerClass = httpServerClass;
+        return this;
+    }
+    
+    /**
      * Set the HTTPS server port.
      *
      * @param httpsPort the HTTPS server port.
@@ -239,6 +256,7 @@ public class CoreProfilePiranhaBuilder {
                 Extension class       : %s
                 Exit on stop          : %s
                 HTTP port             : %s
+                HTTP server class     : %s
                 HTTPS port            : %s
                 JPMS enabled          : %s
                 PID                   : %s
@@ -252,6 +270,7 @@ public class CoreProfilePiranhaBuilder {
                 extensionClass != null ? extensionClass.getName() : CoreProfileExtension.class.getName(),
                 exitOnStop,
                 httpPort,
+                httpServerClass,
                 httpsPort,
                 jpms,
                 pid,

@@ -54,6 +54,7 @@ import java.lang.module.Configuration;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleFinder;
 import java.lang.module.ModuleReference;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.ServiceLoader;
@@ -96,6 +97,11 @@ public class ServerPiranha implements Piranha, Runnable {
      * Stores the HTTP server.
      */
     private HttpServer httpServer;
+
+    /**
+     * Stores the HTTP server class.
+     */
+    private String httpServerClass;
 
     /**
      * Stores the HTTPS port.
@@ -386,6 +392,15 @@ public class ServerPiranha implements Piranha, Runnable {
     }
 
     /**
+     * Set the HTTP server class.
+     * 
+     * @param httpServerClass the HTTP server class.
+     */
+    public void setHttpServerClass(String httpServerClass) {
+        this.httpServerClass = httpServerClass;
+    }
+    
+    /**
      * Set the HTTPS server port.
      *
      * @param httpsPort the HTTPS server port.
@@ -516,10 +531,28 @@ public class ServerPiranha implements Piranha, Runnable {
      */
     public void startHttpServer() {
         if (httpPort > 0) {
-            httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
-            httpServer.setServerPort(httpPort);
-            httpServer.setHttpServerProcessor(webApplicationServer);
-            httpServer.start();
+            if (httpServerClass != null) {
+                try {
+                    httpServer = (HttpServer) Class.forName(httpServerClass)
+                            .getDeclaredConstructor().newInstance();
+                } catch (ClassNotFoundException | IllegalAccessException
+                        | IllegalArgumentException | InstantiationException
+                        | NoSuchMethodException | SecurityException
+                        | InvocationTargetException t) {
+                    LOGGER.log(ERROR, "Unable to construct HTTP server", t);
+                }
+            } else {
+                //
+                // this mechanism is deprecated and will be removed in the next release.
+                //
+                httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+                LOGGER.log(WARNING, "HttpServer service loading is deprecated, use --http-server-class instead");
+            }
+            if (httpServer != null) {
+                httpServer.setServerPort(httpPort);
+                httpServer.setHttpServerProcessor(webApplicationServer);
+                httpServer.start();
+            }
         }
     }
 

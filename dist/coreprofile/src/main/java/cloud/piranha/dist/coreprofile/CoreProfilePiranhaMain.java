@@ -85,6 +85,9 @@ public class CoreProfilePiranhaMain {
                     builder = builder.httpPort(arg);
                     httpPort = arg;
                 }
+                if (arguments[i].equals("--http-server-class")) {
+                    builder = builder.httpServerClass(arguments[i + 1]);
+                }
                 if (arguments[i].equals("--https-port")) {
                     int arg = Integer.parseInt(arguments[i + 1]);
                     builder = builder.httpsPort(arg);
