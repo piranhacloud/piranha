@@ -64,6 +64,25 @@ jobs:
         docker manifest annotate piranhacloud/micro:$VERSION \
           piranhacloud/micro:arm64v8-$VERSION --os linux --arch arm64 --variant v8
         docker manifest push piranhacloud/micro:$VERSION
+    - name: Build Piranha CoreProfile image
+      run: |
+        cd dist/microprofile
+        TAG=${GITHUB_REF}
+        INDEX=${TAG%v*}
+        VERSION=${TAG:${#INDEX}}
+        docker build --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/microprofile:amd64-$VERSION .
+        docker build --platform linux/arm64/v8 -f Dockerfile.arm64v8 -t piranhacloud/microprofile:arm64v8-$VERSION .
+        docker push piranhacloud/microprofile:amd64-$VERSION
+        docker push piranhacloud/microprofile:arm64v8-$VERSION
+        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker manifest create piranhacloud/microprofile:$VERSION \
+          piranhacloud/microprofile:amd64-$VERSION \
+          piranhacloud/microprofile:arm64v8-$VERSION
+        docker manifest annotate piranhacloud/microprofile:$VERSION \
+          piranhacloud/microprofile:amd64-$VERSION --os linux --arch amd64
+        docker manifest annotate piranhacloud/microprofile:$VERSION \
+          piranhacloud/microprofile:arm64v8-$VERSION --os linux --arch arm64 --variant v8
+        docker manifest push piranhacloud/microprofile:$VERSION
     - name: Build Piranha Server image
       run: |
         cd dist/server

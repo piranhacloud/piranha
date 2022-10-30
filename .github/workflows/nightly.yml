@@ -68,6 +68,22 @@ jobs:
         docker manifest annotate piranhacloud/micro:snapshot \
           piranhacloud/micro:arm64v8-snapshot --os linux --arch arm64 --variant v8
         docker manifest push piranhacloud/micro:snapshot
+    - name: Build Piranha Micro Profile image
+      run: |
+        cd dist/microprofile
+        docker build --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/microprofile:amd64-snapshot .
+        docker build --platform linux/arm64/v8 -f Dockerfile.arm64v8 -t piranhacloud/microprofile:arm64v8-snapshot .
+        docker push piranhacloud/microprofile:amd64-snapshot
+        docker push piranhacloud/microprofile:arm64v8-snapshot
+        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker manifest create --amend piranhacloud/microprofile:snapshot \
+          piranhacloud/microprofile:amd64-snapshot \
+          piranhacloud/microprofile:arm64v8-snapshot
+        docker manifest annotate piranhacloud/microprofile:snapshot \
+          piranhacloud/microprofile:amd64-snapshot --os linux --arch amd64
+        docker manifest annotate piranhacloud/microprofile:snapshot \
+          piranhacloud/microprofile:arm64v8-snapshot --os linux --arch arm64 --variant v8
+        docker manifest push piranhacloud/microprofile:snapshot
     - name: Build Piranha Server image
       run: |
         cd dist/server
