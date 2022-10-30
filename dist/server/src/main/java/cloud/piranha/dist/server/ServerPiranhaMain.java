@@ -82,11 +82,14 @@ public class ServerPiranhaMain {
                 if (arguments[i].equals("--http-port")) {
                     builder = builder.httpPort(Integer.parseInt(arguments[i + 1]));
                 }
-                if (arguments[i].equals("--help")) {
+                if (arguments[i].equals("--http-server-class")) {
                     builder = builder.httpServerClass(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--https-port")) {
                     builder = builder.httpsPort(Integer.parseInt(arguments[i + 1]));
+                }
+                if (arguments[i].equals("--https-server-class")) {
+                    builder = builder.httpsServerClass(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--jpms")) {
                     builder = builder.jpms(true);
@@ -124,7 +127,9 @@ public class ServerPiranhaMain {
                   --default-extension <className>    - Set the default extension
                   --help                             - Show this help
                   --http-port <integer>              - Set the HTTP port (use -1 to disable)
+                  --http-server-class                - Set the HTTP server class
                   --https-port <integer>             - Set the HTTPS port (disabled by default)
+                  --https-server-class               - Set the HTTPS server class
                   --jpms                             - Enable Java Platform Module System
                   --ssl-keystore-file <file>         - Set the SSL keystore file 
                   --ssl-keystore-password <string>   - Set the SSL keystore password
