@@ -105,6 +105,11 @@ public class ServletPiranha implements Piranha, Runnable {
     private int httpsPort = 8043;
 
     /**
+     * Stores the HTTPS server class.
+     */
+    private String httpsServerClass;
+
+    /**
      * Stores the JMPS enabled flag.
      */
     private boolean jpmsEnabled = false;
@@ -201,10 +206,10 @@ public class ServletPiranha implements Piranha, Runnable {
                 try {
                     httpServer = (HttpServer) Class.forName(httpServerClass)
                             .getDeclaredConstructor().newInstance();
-                } catch (ClassNotFoundException | IllegalAccessException | 
-                        IllegalArgumentException | InstantiationException | 
-                        NoSuchMethodException | SecurityException | 
-                        InvocationTargetException t) {
+                } catch (ClassNotFoundException | IllegalAccessException
+                        | IllegalArgumentException | InstantiationException
+                        | NoSuchMethodException | SecurityException
+                        | InvocationTargetException t) {
                     LOGGER.log(ERROR, "Unable to construct HTTP server", t);
                 }
             } else {
@@ -222,7 +227,24 @@ public class ServletPiranha implements Piranha, Runnable {
         }
 
         if (httpsPort > 0) {
-            HttpServer httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+            HttpServer httpsServer = null;
+            if (httpServerClass != null) {
+                try {
+                    httpsServer = (HttpServer) Class.forName(httpServerClass)
+                            .getDeclaredConstructor().newInstance();
+                } catch (ClassNotFoundException | IllegalAccessException
+                        | IllegalArgumentException | InstantiationException
+                        | NoSuchMethodException | SecurityException
+                        | InvocationTargetException t) {
+                    LOGGER.log(ERROR, "Unable to construct HTTPS server", t);
+                }
+            } else {
+                //
+                // this mechanism is deprecated and will be removed in the next release.
+                //
+                httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+                LOGGER.log(WARNING, "HttpServer service loading is deprecated, use --https-server-class instead");
+            }
             httpsServer.setHttpServerProcessor(webApplicationServer);
             httpsServer.setServerPort(httpsPort);
             httpsServer.setSSL(true);
@@ -397,6 +419,15 @@ public class ServletPiranha implements Piranha, Runnable {
      */
     public void setHttpsPort(int httpsPort) {
         this.httpsPort = httpsPort;
+    }
+
+    /**
+     * Set the HTTPS server class.
+     *
+     * @param httpsServerClass the HTTPS server class.
+     */
+    public void setHttpsServerClass(String httpsServerClass) {
+        this.httpsServerClass = httpsServerClass;
     }
 
     /**

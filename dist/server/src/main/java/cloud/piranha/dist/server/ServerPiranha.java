@@ -114,6 +114,11 @@ public class ServerPiranha implements Piranha, Runnable {
     private HttpServer httpsServer;
 
     /**
+     * Stores the HTTPS server class.
+     */
+    private String httpsServerClass;
+
+    /**
      * Stores the JMPS enabled flag.
      */
     private boolean jpmsEnabled = false;
@@ -393,13 +398,13 @@ public class ServerPiranha implements Piranha, Runnable {
 
     /**
      * Set the HTTP server class.
-     * 
+     *
      * @param httpServerClass the HTTP server class.
      */
     public void setHttpServerClass(String httpServerClass) {
         this.httpServerClass = httpServerClass;
     }
-    
+
     /**
      * Set the HTTPS server port.
      *
@@ -407,6 +412,15 @@ public class ServerPiranha implements Piranha, Runnable {
      */
     public void setHttpsPort(int httpsPort) {
         this.httpsPort = httpsPort;
+    }
+
+    /**
+     * Set the HTTPS server class.
+     *
+     * @param httpsServerClass the HTTPS server class.
+     */
+    public void setHttpsServerClass(String httpsServerClass) {
+        this.httpsServerClass = httpsServerClass;
     }
 
     /**
@@ -561,11 +575,29 @@ public class ServerPiranha implements Piranha, Runnable {
      */
     private void startHttpsServer() {
         if (httpsPort > 0) {
-            httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
-            httpsServer.setHttpServerProcessor(webApplicationServer);
-            httpsServer.setServerPort(httpsPort);
-            httpsServer.setSSL(true);
-            httpsServer.start();
+            if (httpsServerClass != null) {
+                try {
+                    httpsServer = (HttpServer) Class.forName(httpsServerClass)
+                            .getDeclaredConstructor().newInstance();
+                } catch (ClassNotFoundException | IllegalAccessException
+                        | IllegalArgumentException | InstantiationException
+                        | NoSuchMethodException | SecurityException
+                        | InvocationTargetException t) {
+                    LOGGER.log(ERROR, "Unable to construct HTTP server", t);
+                }
+            } else {
+                //
+                // this mechanism is deprecated and will be removed in the next release.
+                //
+                httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+                LOGGER.log(WARNING, "HttpServer service loading is deprecated, use --https-server-class instead");
+            }
+            if (httpsServer != null) {
+                httpsServer.setHttpServerProcessor(webApplicationServer);
+                httpsServer.setServerPort(httpsPort);
+                httpsServer.setSSL(true);
+                httpsServer.start();
+            }
         }
     }
 

@@ -32,7 +32,7 @@ import static java.lang.System.Logger.Level.WARNING;
 import java.lang.System.Logger;
 
 /**
- * The Main for Piranha Micro.
+ * The Main for Piranha Web Profile.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -93,6 +93,9 @@ public class WebProfilePiranhaMain {
                     builder = builder.httpsPort(arg);
                     httpsPort = arg;
                 }
+                if (arguments[i].equals("--https-server-class")) {
+                    builder = builder.httpsServerClass(arguments[i + 1]);
+                }
                 if (arguments[i].equals("--jpms")) {
                     builder = builder.jpms(true);
                 }
@@ -138,7 +141,9 @@ public class WebProfilePiranhaMain {
                   --help                           - Show this help
                   --context-path <string>          - Set the Servlet context path
                   --http-port <integer>            - Set the HTTP port (use -1 to disable)
+                  --http-server-class <className>  - Set the HTTP server class to use
                   --https-port <integer>           - Set the HTTPS port (disabled by default)
+                  --https-server-class <className> - Set the HTTPS server class to use
                   --jpms                           - Enable Java Platform Module System
                   --ssl-keystore-file <file>       - Set the SSL keystore file (applies to the
                                                      whole JVM)

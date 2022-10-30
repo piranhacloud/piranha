@@ -72,6 +72,11 @@ public class ServerPiranhaBuilder {
     private int httpsPort = -1;
 
     /**
+     * Stores the HTTPS server class.
+     */
+    private String httpsServerClass;
+
+    /**
      * Stores the InitialContext factory.
      */
     private String initialContextFactory = "cloud.piranha.naming.thread.ThreadInitialContextFactory";
@@ -127,6 +132,7 @@ public class ServerPiranhaBuilder {
         piranha.setHttpPort(httpPort);
         piranha.setHttpServerClass(httpServerClass);
         piranha.setHttpsPort(httpsPort);
+        piranha.setHttpsServerClass(httpsServerClass);
         piranha.setJpmsEnabled(jpms);
         if (sslKeystoreFile != null) {
             piranha.setSslKeystoreFile(sslKeystoreFile);
@@ -216,6 +222,17 @@ public class ServerPiranhaBuilder {
     }
 
     /**
+     * Set the HTTPS server class.
+     * 
+     * @param httpsServerClass the HTTPS server class.
+     * @return the builder.
+     */
+    public ServerPiranhaBuilder httpsServerClass(String httpsServerClass) {
+        this.httpsServerClass = httpsServerClass;
+        return this;
+    }
+
+    /**
      * Enable/disable JPMS.
      *
      * @param jpms the JPMS flag.
@@ -242,6 +259,7 @@ public class ServerPiranhaBuilder {
                 HTTP port               : %s
                 HTTP server class       : %s
                 HTTPS port              : %s
+                HTTPS server class      : %s
                 JPMS enabled            : %s
                 SSL keystore file       : %s
                 SSL keystore password   : ****
@@ -255,6 +273,7 @@ public class ServerPiranhaBuilder {
                 httpPort,
                 httpServerClass,
                 httpsPort,
+                httpsServerClass,
                 jpms,
                 sslKeystoreFile,
                 sslTruststoreFile,

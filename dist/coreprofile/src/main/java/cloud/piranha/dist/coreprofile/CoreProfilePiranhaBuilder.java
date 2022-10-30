@@ -73,6 +73,11 @@ public class CoreProfilePiranhaBuilder {
      * Stores the HTTPS port.
      */
     private int httpsPort = -1;
+    
+    /**
+     * Stores the HTTPS server class.
+     */
+    private String httpsServerClass;
 
     /**
      * Stores the JPMS flag.
@@ -129,6 +134,7 @@ public class CoreProfilePiranhaBuilder {
         piranha.setHttpPort(httpPort);
         piranha.setHttpServerClass(httpServerClass);
         piranha.setHttpsPort(httpsPort);
+        piranha.setHttpsServerClass(httpsServerClass);
         piranha.setJpmsEnabled(jpms);
         if (sslKeystoreFile != null) {
             piranha.setSslKeystoreFile(sslKeystoreFile);
@@ -230,6 +236,17 @@ public class CoreProfilePiranhaBuilder {
     }
 
     /**
+     * Set the HTTPS server class.
+     * 
+     * @param httpsServerClass the HTTPS server class.
+     * @return the builder.
+     */
+    public CoreProfilePiranhaBuilder httpsServerClass(String httpsServerClass) {
+        this.httpsServerClass = httpsServerClass;
+        return this;
+    }
+
+    /**
      * Enable/disable JPMS.
      *
      * @param jpms the JPMS flag.
@@ -258,6 +275,7 @@ public class CoreProfilePiranhaBuilder {
                 HTTP port             : %s
                 HTTP server class     : %s
                 HTTPS port            : %s
+                HTTPS server class    : %s
                 JPMS enabled          : %s
                 PID                   : %s
                 SSL keystore file     : %s
@@ -272,6 +290,7 @@ public class CoreProfilePiranhaBuilder {
                 httpPort,
                 httpServerClass,
                 httpsPort,
+                httpsServerClass,
                 jpms,
                 pid,
                 sslKeystoreFile,
