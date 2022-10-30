@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 /**
  * The JUnit tests for the DefaultWebApplicationRequest class.
  */
-public class DefaultWebApplicationRequestTest {
+class DefaultWebApplicationRequestTest {
     
     /**
      * Test getContentType method.
@@ -42,7 +42,7 @@ public class DefaultWebApplicationRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetContentType() throws Exception {
+    void testGetContentType() throws Exception {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         assertNull(request.getContentType());
         request.setContentType("text/html");
@@ -56,7 +56,7 @@ public class DefaultWebApplicationRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    public void testGetContentLength() throws Exception {
+    void testGetContentLength() throws Exception {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         assertEquals(-1, request.getContentLength());
         request.setContentLength(1234);

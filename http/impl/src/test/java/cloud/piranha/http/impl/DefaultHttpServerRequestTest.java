@@ -35,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultHttpServerRequestTest {
+class DefaultHttpServerRequestTest {
     
     /**
      * Test getHeader method.
