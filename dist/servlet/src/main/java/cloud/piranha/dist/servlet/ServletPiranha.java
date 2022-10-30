@@ -56,6 +56,7 @@ import java.lang.module.Configuration;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleFinder;
 import java.lang.module.ModuleReference;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.zip.ZipEntry;
@@ -79,6 +80,11 @@ public class ServletPiranha implements Piranha, Runnable {
     private Class<? extends WebApplicationExtension> extensionClass = ServletExtension.class;
 
     /**
+     * Stores the context path.
+     */
+    private String contextPath = null;
+
+    /**
      * Stores the exit on stop flag.
      */
     private boolean exitOnStop = true;
@@ -87,6 +93,11 @@ public class ServletPiranha implements Piranha, Runnable {
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
+
+    /**
+     * Stores the HTTP server class.
+     */
+    private String httpServerClass;
 
     /**
      * Stores the HTTPS port.
@@ -185,10 +196,29 @@ public class ServletPiranha implements Piranha, Runnable {
         webApplicationServer = new HttpWebApplicationServer();
 
         if (httpPort > 0) {
-            HttpServer httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+            HttpServer httpServer = null;
+            if (httpServerClass != null) {
+                try {
+                    httpServer = (HttpServer) Class.forName(httpServerClass)
+                            .getDeclaredConstructor().newInstance();
+                } catch (ClassNotFoundException | IllegalAccessException | 
+                        IllegalArgumentException | InstantiationException | 
+                        NoSuchMethodException | SecurityException | 
+                        InvocationTargetException t) {
+                    LOGGER.log(ERROR, "Unable to construct HTTP server", t);
+                }
+            } else {
+                //
+                // this mechanism is deprecated and will be removed in the next release.
+                //
+                httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+                LOGGER.log(WARNING, "HttpServer service loading is deprecated, use --http-server-class instead");
+            }
+            if (httpServer != null) {
             httpServer.setServerPort(httpPort);
             httpServer.setHttpServerProcessor(webApplicationServer);
             httpServer.start();
+        }
         }
 
         if (httpsPort > 0) {
@@ -199,10 +229,10 @@ public class ServletPiranha implements Piranha, Runnable {
             httpsServer.start();
         }
 
-        String contextPath = null;
-
         if (warFile != null && warFile.getName().toLowerCase().endsWith(".war")) {
+            if (contextPath == null) {
             contextPath = warFile.getName().substring(0, warFile.getName().length() - 4);
+            }
             if (webAppDir == null) {
                 webAppDir = new File(contextPath);
             }
@@ -269,7 +299,7 @@ public class ServletPiranha implements Piranha, Runnable {
                     LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
                 }
             }
-            try (PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
+            try ( PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
                 writer.println(pid);
                 writer.flush();
             } catch (IOException ioe) {
@@ -315,6 +345,15 @@ public class ServletPiranha implements Piranha, Runnable {
     }
 
     /**
+     * Set the context path.
+     *
+     * @param contextPath the context path.
+     */
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
+    }
+
+    /**
      * Set the default extension class.
      *
      * @param extensionClass the default extension class.
@@ -340,6 +379,15 @@ public class ServletPiranha implements Piranha, Runnable {
      */
     public void setHttpPort(int httpPort) {
         this.httpPort = httpPort;
+    }
+
+    /**
+     * Set the HTTP server class.
+     *
+     * @param httpServerClass the HTTP server class.
+     */
+    public void setHttpServerClass(String httpServerClass) {
+        this.httpServerClass = httpServerClass;
     }
 
     /**

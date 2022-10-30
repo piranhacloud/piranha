@@ -82,6 +82,9 @@ public class ServerPiranhaMain {
                 if (arguments[i].equals("--http-port")) {
                     builder = builder.httpPort(Integer.parseInt(arguments[i + 1]));
                 }
+                if (arguments[i].equals("--help")) {
+                    builder = builder.httpServerClass(arguments[i + 1]);
+                }
                 if (arguments[i].equals("--https-port")) {
                     builder = builder.httpsPort(Integer.parseInt(arguments[i + 1]));
                 }

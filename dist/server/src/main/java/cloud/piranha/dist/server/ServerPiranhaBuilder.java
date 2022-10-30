@@ -60,6 +60,11 @@ public class ServerPiranhaBuilder {
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
+    
+    /**
+     * Stores the HTTP server class.
+     */
+    private String httpServerClass;
 
     /**
      * Stores the HTTPS port.
@@ -120,6 +125,7 @@ public class ServerPiranhaBuilder {
         piranha.setDefaultExtensionClass(defaultExtensionClass);
         piranha.setExitOnStop(exitOnStop);
         piranha.setHttpPort(httpPort);
+        piranha.setHttpServerClass(httpServerClass);
         piranha.setHttpsPort(httpsPort);
         piranha.setJpmsEnabled(jpms);
         if (sslKeystoreFile != null) {
@@ -188,6 +194,17 @@ public class ServerPiranhaBuilder {
     }
 
     /**
+     * Set the HTTP server class.
+     * 
+     * @param httpServerClass the HTTP server class.
+     * @return the builder.
+     */
+    public ServerPiranhaBuilder httpServerClass(String httpServerClass) {
+        this.httpServerClass = httpServerClass;
+        return this;
+    }
+
+    /**
      * Set the HTTPS server port.
      *
      * @param httpsPort the HTTPS server port.
@@ -223,6 +240,7 @@ public class ServerPiranhaBuilder {
                 Default extension class : %s
                 Exit on stop            : %s
                 HTTP port               : %s
+                HTTP server class       : %s
                 HTTPS port              : %s
                 JPMS enabled            : %s
                 SSL keystore file       : %s
@@ -235,6 +253,7 @@ public class ServerPiranhaBuilder {
                 defaultExtensionClass.getName(),
                 exitOnStop,
                 httpPort,
+                httpServerClass,
                 httpsPort,
                 jpms,
                 sslKeystoreFile,
