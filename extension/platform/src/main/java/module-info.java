@@ -27,11 +27,11 @@
  */
 
 /**
- * The Full Profile extension module.
+ * The Platform extension module.
  *
  * <p>
- *  This module of modules that delivers the extensions for the Jakarta Full
- *  Profile, as in:
+ *  This module of modules that delivers the extensions for the Jakarta EE 
+ *  Platform, as in:
  * </p>
  * <ul>
  *  <li>Annotation Scanning</li>
@@ -43,10 +43,10 @@
  *  <li>ServletContainerInitializer</li>
  * </ul>
  */
-module cloud.piranha.extension.fullprofile {
+module cloud.piranha.extension.platform {
     
-    exports cloud.piranha.extension.fullprofile;
-    opens cloud.piranha.extension.fullprofile;
+    exports cloud.piranha.extension.platform;
+    opens cloud.piranha.extension.platform;
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.naming;

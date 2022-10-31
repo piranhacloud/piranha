@@ -25,7 +25,6 @@
         <module>eclipselink</module>
         <module>eleos</module>
         <module>exousia</module>
-        <module>fullprofile</module>
         <module>hazelcast</module>
         <module>localeencoding</module>
         <module>logging</module>
@@ -51,6 +50,7 @@
         <module>welcomefile</module>
         <module>weld</module>
         <module>weld-servlet</module>
+        <module>platform</module>
     </modules>
 
     <dependencyManagement>
