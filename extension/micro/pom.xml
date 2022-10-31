@@ -261,7 +261,7 @@
         </dependency>
         
         <dependency>
-            <groupId>org.omnifaces</groupId>
+            <groupId>ee.omnifish</groupId>
             <artifactId>omnibeans</artifactId>
         </dependency>
         

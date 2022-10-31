@@ -526,7 +526,7 @@
             
             <!-- OmniFaces Beans -->
             <dependency>
-                <groupId>org.omnifaces</groupId>
+                <groupId>ee.omnifish</groupId>
                 <artifactId>omnibeans</artifactId>
                 <version>0.1</version>
             </dependency>
