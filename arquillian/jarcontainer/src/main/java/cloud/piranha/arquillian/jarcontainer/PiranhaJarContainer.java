@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.System.Logger.Level;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -53,6 +54,11 @@ import org.jboss.shrinkwrap.descriptor.api.Descriptor;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContainerConfiguration> {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(PiranhaJarContainer.class.getName());
 
     /**
      * Stores the 'Unable to create directories' message.
@@ -81,12 +87,12 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
 
     @Override
     public void start() throws LifecycleException {
-        System.out.println("Starting server");
+        LOGGER.log(Level.INFO, "Starting server");
     }
 
     @Override
     public void stop() throws LifecycleException {
-        System.out.println("Stopping server");
+        LOGGER.log(Level.INFO,"Stopping server");
 
         /*
          * Delete the PID file.
@@ -103,7 +109,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
 
     @Override
     public ProtocolMetaData deploy(Archive<?> archive) throws DeploymentException {
-        System.out.println("Deploying - " + archive.getName());
+        LOGGER.log(Level.INFO, "Deploying - " + archive.getName());
 
         ProtocolMetaData metadata = new ProtocolMetaData();
 
@@ -145,7 +151,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
 
     @Override
     public void undeploy(Archive<?> archive) throws DeploymentException {
-        System.out.println("Undeploying - " + archive.getName());
+        LOGGER.log(Level.INFO, "Undeploying - " + archive.getName());
 
         /*
          * Delete the PID file.
@@ -214,7 +220,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
         File zipFile = new File(localRepositoryDir, artifactPath);
         if (!zipFile.exists()) {
             if (!zipFile.getParentFile().mkdirs()) {
-                System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
+                LOGGER.log(Level.WARNING, UNABLE_TO_CREATE_DIRECTORIES);
             }
         }
 
@@ -223,7 +229,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
                     zipFile.toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (FileNotFoundException fnfe) {
-            System.err.println("Could not download JAR file, defaulting back to local Maven repository");
+            LOGGER.log(Level.WARNING, "Could not download JAR file, defaulting back to local Maven repository");
         }
 
         return new File(localRepositoryDir, artifactPath);
@@ -305,23 +311,23 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
 
         File pidFile = new File(runtimeDirectory, "tmp/piranha.pid");
         int count = 0;
-        System.out.print("Waiting for Piranha to be ready ");
+        LOGGER.log(Level.INFO, "Waiting for Piranha to be ready ");
         while (!pidFile.exists()) {
             try {
                 Thread.sleep(500);
                 count++;
-                System.out.print(".");
+                LOGGER.log(Level.INFO, ".");
             } catch (InterruptedException ie) {
             }
             if (count == 80) {
-                System.err.println("Warning, PID file not seen!");
+                LOGGER.log(Level.WARNING, "Warning, PID file not seen!");
                 break;
             }
         }
-        System.out.println();
+        LOGGER.log(Level.INFO, "");
 
-        System.out.println("Running application from directory: " + runtimeDirectory);
-        System.out.println("Application is available at: http://localhost:" + "8080" + "/" + warFilename.getName().substring(0, warFilename.getName().lastIndexOf(".")));
+        LOGGER.log(Level.INFO, "Running application from directory: " + runtimeDirectory);
+        LOGGER.log(Level.INFO, "Application is available at: http://localhost:" + "8080" + "/" + warFilename.getName().substring(0, warFilename.getName().lastIndexOf(".")));
     }
 
     /**

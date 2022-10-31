@@ -30,6 +30,7 @@ package cloud.piranha.micro;
 import cloud.piranha.extension.webprofile.WebProfileExtension;
 import static java.lang.System.Logger.Level.WARNING;
 import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 
 /**
  * The Main for Piranha Micro.
@@ -132,8 +133,8 @@ public class MicroPiranhaMain {
      * Show help.
      */
     private static void showHelp() {
-        System.out.println();
-        System.out.println(
+        LOGGER.log(Level.INFO, "");
+        LOGGER.log(Level.INFO,
                 """
                   --extension-class <className>    - Set the extension to use
                   --help                           - Show this help

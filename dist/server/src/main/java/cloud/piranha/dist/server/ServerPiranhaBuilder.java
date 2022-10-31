@@ -28,6 +28,8 @@
 package cloud.piranha.dist.server;
 
 import java.io.File;
+import java.lang.System.Logger.Level;
+
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import cloud.piranha.core.api.WebApplicationExtension;
 import static java.lang.System.Logger.Level.WARNING;
@@ -247,7 +249,7 @@ public class ServerPiranhaBuilder {
      * Show the arguments used.
      */
     private void showArguments() {
-        System.out.printf("""
+        LOGGER.log(Level.INFO, """
                 
                 PIRANHA
                 
@@ -267,7 +269,7 @@ public class ServerPiranhaBuilder {
                 SSL truststore password : ****
                 Web applications dir    : %s
                 
-                """,
+                """.formatted(
                 defaultExtensionClass.getName(),
                 exitOnStop,
                 httpPort,
@@ -278,7 +280,7 @@ public class ServerPiranhaBuilder {
                 sslKeystoreFile,
                 sslTruststoreFile,
                 webAppsDir
-        );
+        ));
     }
 
     /**

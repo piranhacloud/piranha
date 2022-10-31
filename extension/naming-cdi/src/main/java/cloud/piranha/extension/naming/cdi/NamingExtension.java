@@ -118,7 +118,7 @@ public class NamingExtension implements WebApplicationExtension {
                                                 resources = beanField.getAnnotationsByType(Resource.class);
                                                 type = beanField.getType();
                                             } catch (NoSuchFieldException | SecurityException exception) {
-                                                char chars[] = fieldName.toCharArray();
+                                                char[] chars = fieldName.toCharArray();
                                                 chars[0] = Character.toUpperCase(chars[0]);
                                                 String methodName = "set" + new String(chars);
 
