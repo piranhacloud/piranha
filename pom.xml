@@ -524,6 +524,25 @@
                 <version>4.1.77.Final</version>
             </dependency>
             
+            <!-- OmniFaces Beans -->
+            <dependency>
+                <groupId>org.omnifaces</groupId>
+                <artifactId>omnibeans</artifactId>
+                <version>0.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.omnifaces</groupId>
+                <artifactId>omniservices</artifactId>
+                <version>0.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.omnifaces</groupId>
+                <artifactId>omniutils</artifactId>
+                <version>0.13</version>
+            </dependency>
+            
             <!-- OmniFaces Config -->
             <dependency>
                 <groupId>org.omnifaces</groupId>
