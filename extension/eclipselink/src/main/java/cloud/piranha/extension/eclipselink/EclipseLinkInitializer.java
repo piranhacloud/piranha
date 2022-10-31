@@ -62,6 +62,10 @@ public class EclipseLinkInitializer implements ServletContainerInitializer {
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication application = (WebApplication) servletContext;
 
+        if (!isCDIEnabled()) {
+            return;
+        }
+
         LOGGER.log(INFO, "Initializing EclipseLink");
 
         CDI.current()
@@ -70,6 +74,15 @@ public class EclipseLinkInitializer implements ServletContainerInitializer {
            .setAnnotationManager(application.getManager().getAnnotationManager());
 
         LOGGER.log(DEBUG, "Initialized EclipseLink");
+    }
+
+    private boolean isCDIEnabled() {
+        try {
+            CDI.current();
+            return true;
+        } catch (IllegalStateException e) {
+            return false;
+        }
     }
 
 

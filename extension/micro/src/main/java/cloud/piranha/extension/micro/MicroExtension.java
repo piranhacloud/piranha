@@ -74,8 +74,8 @@ public class MicroExtension implements WebApplicationExtension {
         context.add(ServletAnnotationsExtension.class);         // Servlet annotations
         context.add(NamingExtension.class);                     // Naming (JNDI)
         context.add(DefaultDatasourceExtension.class);          // Default data source
-        context.add(TransactExtension.class);                   // Jakarta Transaction
         context.add(JakartaSecurityExtension.class);            // Jakarta Security (includes Jakarta CDI)
+        context.add(TransactExtension.class);                   // Jakarta Transaction
         context.add(WaspExtension.class);                       // Jakarta Pages
         context.add(EclipseLinkExtension.class);                // Jakarta Persistence
     }

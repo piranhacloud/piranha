@@ -27,17 +27,18 @@
  */
 package cloud.piranha.extension.soteria;
 
-import java.util.Set;
+import static java.lang.System.Logger.Level.DEBUG;
+
 import java.lang.System.Logger;
+import java.util.Set;
 
 import org.glassfish.soteria.servlet.SamRegistrationInstaller;
 
 import cloud.piranha.core.api.WebApplication;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
-
-import static java.lang.System.Logger.Level.DEBUG;
 
 /**
  * The Soteria initializer.
@@ -62,13 +63,26 @@ public class SoteriaInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         LOGGER.log(DEBUG, "Initializing Soteria");
-        
+
+        if (!isCDIEnabled()) {
+            return;
+        }
+
         WebApplication webApplication = (WebApplication) servletContext;
         webApplication.getManager().getSecurityManager().setUsernamePasswordLoginHandler(new IdentityStoreLoginHandler());
-        
+
         SamRegistrationInstaller installer = new SamRegistrationInstaller();
-        
+
         installer.onStartup(classes, servletContext);
         LOGGER.log(DEBUG, "Initialized Soteria");
+    }
+
+    private boolean isCDIEnabled() {
+        try {
+            CDI.current();
+            return true;
+        } catch (IllegalStateException e) {
+            return false;
+        }
     }
 }

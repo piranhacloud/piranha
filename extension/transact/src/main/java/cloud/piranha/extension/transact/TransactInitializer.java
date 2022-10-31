@@ -38,6 +38,7 @@ import javax.naming.Reference;
 
 import cloud.piranha.core.api.WebApplication;
 import ee.omnifish.transact.cdi.beans.JndiToCdiReference;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
@@ -68,6 +69,10 @@ public class TransactInitializer implements ServletContainerInitializer {
 
         LOGGER.log(DEBUG, "Initializing Transact");
 
+        if (!isCDIEnabled()) {
+            return;
+        }
+
         Reference reference = new JndiToCdiReference();
 
         try {
@@ -87,6 +92,16 @@ public class TransactInitializer implements ServletContainerInitializer {
 
         LOGGER.log(DEBUG, "Initialized Transact");
     }
+
+    private boolean isCDIEnabled() {
+        try {
+            CDI.current();
+            return true;
+        } catch (IllegalStateException e) {
+            return false;
+        }
+    }
+
 
 
 }
