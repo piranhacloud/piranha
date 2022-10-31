@@ -253,6 +253,28 @@
             <scope>runtime</scope>
         </dependency>
         
+        <!-- Jakarta Enterprise Beans API -->
+        <dependency>
+            <groupId>jakarta.ejb</groupId>
+            <artifactId>jakarta.ejb-api</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>ee.omnifish</groupId>
+            <artifactId>omnibeans</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.omnifaces</groupId>
+            <artifactId>omniservices</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.omnifaces</groupId>
+            <artifactId>omniutils</artifactId>
+        </dependency>
+        
         <!-- MicroProfile JWT API -->
         <dependency>
             <groupId>org.eclipse.microprofile.jwt</groupId>

@@ -27,16 +27,17 @@
  */
 package cloud.piranha.extension.weld;
 
+import java.util.Set;
+
 import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletException;
-import java.util.Set;
 
 /**
  * The Weld Integration ServletContainerInitializer.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class WeldInitializer implements ServletContainerInitializer {
@@ -51,10 +52,17 @@ public class WeldInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         servletContext.setInitParameter("WELD_CONTEXT_ID_KEY", servletContext.toString());
+        servletContext.setInitParameter("org.jboss.weld.environment.servlet.emptyBeansXmlModeAll", "true");
+
         WebApplication webApplication = (WebApplication) servletContext;
         WeldInitListener weldInitListener = webApplication.createListener(WeldInitListener.class);
-        servletContext.addListener(weldInitListener);
-        webApplication.getManager().setObjectInstanceManager(new WeldObjectInstanceManager());
-        weldInitListener.delegate().contextInitialized(new ServletContextEvent(servletContext));
+
+        try {
+            weldInitListener.delegate().contextInitialized(new ServletContextEvent(servletContext));
+            webApplication.getManager().setObjectInstanceManager(new WeldObjectInstanceManager());
+            servletContext.addListener(weldInitListener);
+        } catch (IllegalStateException e) {
+            // CDI not available
+        }
     }
 }
