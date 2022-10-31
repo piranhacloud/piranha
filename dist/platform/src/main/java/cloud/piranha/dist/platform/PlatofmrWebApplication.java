@@ -25,25 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.fullprofile;
+package cloud.piranha.dist.platform;
 
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationExtensionContext;
-import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
-import cloud.piranha.extension.naming.NamingExtension;
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
+import cloud.piranha.core.api.WebApplicationServerRequestMapper;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import jakarta.servlet.ServletContext;
+import java.util.Objects;
 
 /**
- * The extension that delivers the extensions for Jakarta Full Profile.
- *
- * @author Manfred Riem (mriem@manorrock.com)
+ * This web application supports finding other contexts using
+ * {@link ServletContext#getContext(String)}.
  */
-public class FullProfileExtension implements WebApplicationExtension {
+public class PlatofmrWebApplication extends DefaultWebApplication {
+
+    /**
+     * Stores the request mapper.
+     */
+    private final WebApplicationServerRequestMapper requestMapper;
+
+    /**
+     * Constructor.
+     *
+     * @param requestMapper the request mapper.
+     */
+    public PlatofmrWebApplication(WebApplicationServerRequestMapper requestMapper) {
+        this.requestMapper = Objects.requireNonNull(requestMapper);
+    }
 
     @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(NamingExtension.class);                         // Naming (JNDI)
-        context.add(AnnotationScanExtension.class);
-        context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
+    public ServletContext getContext(String uripath) {
+        return requestMapper.findMapping(uripath);
     }
 }
