@@ -17,6 +17,7 @@
 
     <modules>
         <module>coreprofile</module>
+        <module>isolated</module>
         <module>microprofile</module>
         <module>server</module>
         <module>servlet</module>

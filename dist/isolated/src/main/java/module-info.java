@@ -30,19 +30,14 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.core.api.WebApplicationExtension;
 
 /**
- * The Isolated Piranha Server module.
+ * The Isolated Piranha module.
  *
- * <p>
- *  Please use the cloud.pirnaha.dist.isolated instead of this module.
- * </p>
- * 
  * @author Manfred Riem (mriem@manorrock.com)
- * @deprecated
  */
-@Deprecated(since = "22.11.0", forRemoval = true)
-module cloud.piranha.server.isolated {
-    opens cloud.piranha.server.isolated;
-    exports cloud.piranha.server.isolated;
+module cloud.piranha.dist.isolated {
+    
+    opens cloud.piranha.dist.isolated;
+    exports cloud.piranha.dist.isolated;
     requires transitive cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.embedded;
