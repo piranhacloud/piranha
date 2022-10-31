@@ -30,6 +30,7 @@ package cloud.piranha.dist.microprofile;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.extension.microprofile.MicroProfileExtension;
 import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import static java.lang.System.Logger.Level.WARNING;
 
 /**
@@ -261,7 +262,7 @@ public class MicroProfilePiranhaBuilder {
      * Show the arguments used.
      */
     private void showArguments() {
-        System.out.printf(
+        LOGGER.log(Level.INFO,
                 """
                 
                 PIRANHA
@@ -283,7 +284,7 @@ public class MicroProfilePiranhaBuilder {
                 WAR filename          : %s
                 Web application dir   : %s
                 
-                """,
+                """.formatted(
                 contextPath,
                 extensionClass != null ? extensionClass.getName() : MicroProfileExtension.class.getName(),
                 exitOnStop,
@@ -295,7 +296,7 @@ public class MicroProfilePiranhaBuilder {
                 pid,
                 sslKeystoreFile,
                 warFile,
-                webAppDir);
+                webAppDir));
     }
 
     /**

@@ -30,6 +30,8 @@ package cloud.piranha.dist.servlet;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.extension.servlet.ServletExtension;
 import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+
 import static java.lang.System.Logger.Level.WARNING;
 
 /**
@@ -261,7 +263,7 @@ public class ServletPiranhaBuilder {
      * Show the arguments used.
      */
     private void showArguments() {
-        System.out.printf(
+        LOGGER.log(Level.INFO,
                 """
                 
                 PIRANHA
@@ -283,7 +285,7 @@ public class ServletPiranhaBuilder {
                 WAR filename          : %s
                 Web application dir   : %s
                 
-                """,
+                """.formatted(
                 contextPath,
                 extensionClass != null ? extensionClass.getName() : ServletExtension.class.getName(),
                 exitOnStop,
@@ -295,7 +297,7 @@ public class ServletPiranhaBuilder {
                 pid,
                 sslKeystoreFile,
                 warFile,
-                webAppDir);
+                webAppDir));
     }
 
     /**

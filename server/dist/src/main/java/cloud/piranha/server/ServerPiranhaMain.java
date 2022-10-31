@@ -27,6 +27,8 @@
  */
 package cloud.piranha.server;
 
+import java.lang.System.Logger.Level;
+
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.extension.servlet.ServletExtension;
 
@@ -44,6 +46,11 @@ import cloud.piranha.extension.servlet.ServletExtension;
  */
 @Deprecated(since = "22.10.0", forRemoval = true)
 public class ServerPiranhaMain {
+
+    /**
+     * Stores the logger
+     */
+    private static final System.Logger LOGGER = System.getLogger(ServerPiranhaMain.class.getName());
 
     /**
      * Get the default extension.
@@ -123,8 +130,8 @@ public class ServerPiranhaMain {
      * Show help.
      */
     protected static void showHelp() {
-        System.out.println();
-        System.out.println(
+        LOGGER.log(Level.INFO, "");
+        LOGGER.log(Level.INFO,
                 """
                   --default-extension <className>    - Set the default extension
                   --help                             - Show this help

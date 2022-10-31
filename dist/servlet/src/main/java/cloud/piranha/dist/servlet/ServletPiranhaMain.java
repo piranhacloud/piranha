@@ -30,6 +30,7 @@ package cloud.piranha.dist.servlet;
 import cloud.piranha.extension.servlet.ServletExtension;
 import static java.lang.System.Logger.Level.WARNING;
 import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 
 /**
  * The Main for Piranha Servlet.
@@ -134,8 +135,8 @@ public class ServletPiranhaMain {
      * Show help.
      */
     private static void showHelp() {
-        System.out.println();
-        System.out.println(
+        LOGGER.log(Level.INFO, "");
+        LOGGER.log(Level.INFO,
                 """
                   --extension-class <className>    - Set the extension to use
                   --help                           - Show this help
