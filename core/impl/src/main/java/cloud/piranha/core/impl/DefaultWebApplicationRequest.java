@@ -1124,9 +1124,9 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * @param value the value (string).
      */
     public void setHeader(String name, String value) {
-        if (name.toLowerCase().equals("content-type")) {
+        if (name.equalsIgnoreCase("content-type")) {
             setContentType(value);
-        } else if (name.toLowerCase().equals("content-length")) {
+        } else if (name.equalsIgnoreCase("content-length")) {
             try {
                 setContentLength(Integer.parseInt(value));
             } catch(NumberFormatException nfe) {

@@ -30,6 +30,8 @@ package cloud.piranha.micro;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.extension.standard.StandardExtension;
 import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+
 import static java.lang.System.Logger.Level.WARNING;
 
 /**
@@ -215,7 +217,7 @@ public class MicroPiranhaBuilder {
      * Show the arguments used.
      */
     private void showArguments() {
-        System.out.printf(
+        LOGGER.log(Level.INFO,
                 """
                 
                 PIRANHA MICRO
@@ -234,7 +236,7 @@ public class MicroPiranhaBuilder {
                 WAR filename          : %s
                 Web application dir   : %s
                 
-                """,
+                """.formatted(
                 extensionClass != null ? extensionClass.getName() : StandardExtension.class.getName(),
                 exitOnStop,
                 httpPort,
@@ -243,7 +245,7 @@ public class MicroPiranhaBuilder {
                 pid,
                 sslKeystoreFile,
                 warFile,
-                webAppDir);
+                webAppDir));
     }
 
     /**
