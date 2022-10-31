@@ -56,6 +56,12 @@
  *  information.
  * </p>
  *
+ * <p>
+ *  Please use the cloud.pirnaha.dist.isolated instead of this module.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.11.0", forRemoval = true)
 package cloud.piranha.server.isolated;

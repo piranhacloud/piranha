@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.server.isolated;
+package cloud.piranha.dist.isolated;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,38 +53,22 @@ import static java.lang.System.Logger.Level.WARNING;
 import java.nio.file.Files;
 
 /**
- * The Servlet container version of Piranha.
+ * The Isolated of Piranha.
  *
- * <p>
- * This version of Piranha makes it possible for you to run multiple web
- * applications at the same time.
- * </p>
- *
- * <p>
- * It has a shutdown mechanism that allows you to shutdown the server by
- * removing the piranha.pid file that should be created by the startup script.
- * </p>
- *
- * <p>
- *  Please use the cloud.pirnaha.dist.isolated instead of this module.
- * </p>
- * 
  * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms
- * @deprecated
  */
-@Deprecated(since = "22.11.0", forRemoval = true)
-public class IsolatedServerPiranha implements Piranha, Runnable {
+public class IsolatedPiranha implements Piranha, Runnable {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(IsolatedServerPiranha.class.getName());
+    private static final Logger LOGGER = System.getLogger(IsolatedPiranha.class.getName());
 
     /**
      * Stores the one and only instance of the server.
      */
-    private static IsolatedServerPiranha theOneAndOnlyInstance;
+    private static IsolatedPiranha theOneAndOnlyInstance;
 
     /**
      * Stores the SSL flag.
@@ -99,7 +83,7 @@ public class IsolatedServerPiranha implements Piranha, Runnable {
     /**
      * {@return the instance}
      */
-    public static IsolatedServerPiranha get() {
+    public static IsolatedPiranha get() {
         return theOneAndOnlyInstance;
     }
 
@@ -109,7 +93,7 @@ public class IsolatedServerPiranha implements Piranha, Runnable {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        theOneAndOnlyInstance = new IsolatedServerPiranha();
+        theOneAndOnlyInstance = new IsolatedPiranha();
         theOneAndOnlyInstance.processArguments(arguments);
         theOneAndOnlyInstance.run();
     }
@@ -138,6 +122,8 @@ public class IsolatedServerPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, () -> "Starting Piranha");
 
         webApplicationServer = new HttpWebApplicationServer();
+
+        // deprecated, replace by specific instance.
         HttpServer httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
         httpServer.setServerPort(8080);
         httpServer.setHttpServerProcessor(webApplicationServer);
