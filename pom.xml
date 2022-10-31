@@ -554,7 +554,7 @@
             <dependency>
                 <groupId>org.omnifaces</groupId>
                 <artifactId>eleos</artifactId>
-                <version>1.0.2</version>
+                <version>3.0.0</version>
             </dependency>
 
             <!-- OmniFaces JWT Auth -->
