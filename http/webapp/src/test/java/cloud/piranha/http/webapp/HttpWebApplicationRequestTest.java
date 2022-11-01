@@ -64,6 +64,7 @@ class HttpWebApplicationRequestTest {
     @AfterEach
     void afterEach() {
         server.stop();
+        httpServer.stop();
     }
     
     /**
