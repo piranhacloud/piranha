@@ -27,30 +27,36 @@
  */
 package cloud.piranha.http.impl;
 
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.api.HttpServerProcessor;
 import java.io.IOException;
 import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.api.HttpServerProcessor;
-
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.WARNING;
-
 /**
- * The default implementation of HTTP Server.
+ * The default implementation of a HTTP Server.
  *
+ * <p>
+ *  When you create the DefaultHttpServer with a port number of -2, it will
+ *  automatically assign a random port in the range of 1025-9999 when you call
+ *  <code>start()</code>. You can determine which port was assigned by calling
+ *  <code>getServerPort()</code>.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultHttpServer implements HttpServer {
@@ -110,7 +116,7 @@ public class DefaultHttpServer implements HttpServer {
      */
     public DefaultHttpServer() {
         threadFactory = new DefaultHttpServerThreadFactory();
-        serverPort = 8765;
+        serverPort = -2;
         serverStopRequest = false;
     }
 
@@ -139,7 +145,6 @@ public class DefaultHttpServer implements HttpServer {
         this.ssl = ssl;
     }
 
-
     /**
      * Constructor
      *
@@ -155,6 +160,16 @@ public class DefaultHttpServer implements HttpServer {
         this.soTimeout = soTimeout;
     }
 
+    @Override
+    public HttpServerProcessor getHttpServerProcessor() {
+        return processor;
+    }
+
+    @Override
+    public int getServerPort() {
+        return serverPort;
+    }
+
     /**
      * {@return the SO_TIMEOUT}
      */
@@ -162,9 +177,11 @@ public class DefaultHttpServer implements HttpServer {
         return soTimeout;
     }
 
-    /**
-     * @see HttpServer#isRunning()
-     */
+    @Override
+    public boolean getSSL() {
+        return ssl;
+    }
+
     @Override
     public boolean isRunning() {
         boolean result = false;
@@ -174,13 +191,26 @@ public class DefaultHttpServer implements HttpServer {
         return result;
     }
 
-    /**
-     * @see HttpServer#start()
-     */
+    @Override
+    public void setHttpServerProcessor(HttpServerProcessor httpServerProcessor) {
+        processor = httpServerProcessor;
+    }
+
+    @Override
+    public void setServerPort(int serverPort) {
+        this.serverPort = serverPort;
+    }
+
+    @Override
+    public void setSSL(boolean ssl) {
+        this.ssl = ssl;
+    }
+
     @Override
     public void start() {
         LOGGER.log(DEBUG, () -> "Starting HTTP server on port " + serverPort);
         try {
+            determineServerPort();
             executorService = Executors.newCachedThreadPool(threadFactory);
             serverStopRequest = false;
             if (ssl) {
@@ -211,9 +241,6 @@ public class DefaultHttpServer implements HttpServer {
         }
     }
 
-    /**
-     * @see HttpServer#stop()
-     */
     @Override
     public void stop() {
         LOGGER.log(DEBUG, () -> "Stopping HTTP server on port " + serverPort);
@@ -237,33 +264,19 @@ public class DefaultHttpServer implements HttpServer {
         LOGGER.log(DEBUG, () -> "Stopped HTTP server on port " + serverPort);
     }
 
-    @Override
-    public int getServerPort() {
-        return serverPort;
-    }
-
-    @Override
-    public void setServerPort(int serverPort) {
-        this.serverPort = serverPort;
-    }
-
-    @Override
-    public void setSSL(boolean ssl) {
-        this.ssl = ssl;
-    }
-
-    @Override
-    public boolean getSSL() {
-        return ssl;
-    }
-
-    @Override
-    public void setHttpServerProcessor(HttpServerProcessor httpServerProcessor) {
-        processor = httpServerProcessor;
-    }
-
-    @Override
-    public HttpServerProcessor getHttpServerProcessor() {
-        return processor;
+    private void determineServerPort() {
+        if (serverPort == -2) {
+            Random random = new Random();
+            while (serverPort == -2) {
+                int candidatePort = random.nextInt(1025, 9999);
+                try {
+                    Socket socket = new Socket("127.0.0.1", candidatePort);
+                    socket.getInputStream();
+                } catch (IOException ex) {
+                    serverPort = candidatePort;
+                    break;
+                }
+            }
+        }
     }
 }
