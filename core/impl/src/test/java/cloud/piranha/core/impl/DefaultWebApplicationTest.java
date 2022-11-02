@@ -29,14 +29,12 @@ package cloud.piranha.core.impl;
 
 import cloud.piranha.resource.impl.DefaultResourceManager;
 import cloud.piranha.resource.impl.DirectoryResource;
-import jakarta.servlet.DispatcherType;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.ServletRegistration.Dynamic;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.Date;
 import java.util.Enumeration;
@@ -805,17 +803,6 @@ class DefaultWebApplicationTest {
         webApplication.log("KABOOM");
         assertNull(webApplication.getManager().getLoggingManager());
     }
-
-    @Test
-    void testGetContentType() throws Exception {
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
-        assertNull(response.getContentType());
-        response.setContentType("text/html");
-        response.getWriter();
-        assertEquals("text/html;charset=ISO-8859-1", response.getContentType());
-        response.close();
-    }
     
     /**
      * Test getMimeType method.
@@ -824,21 +811,5 @@ class DefaultWebApplicationTest {
     void testGetMimeType() {
         DefaultWebApplication application = new DefaultWebApplication();
         assertNull(application.getMimeType("index.html"));
-    }
-
-    /**
-     * Test setBufferSize method.
-     * 
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testSetBufferSize() throws Exception {
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        try ( ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            response.setUnderlyingOutputStream(baos);
-            response.flush();
-            assertThrows(IllegalStateException.class, () -> response.setBufferSize(20));
-        }
-        response.close();
     }
 }

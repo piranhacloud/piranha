@@ -51,7 +51,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
- * An abstract JUnit test for any WebApplicationRequest implementation.
+ * The JUnit tests for any WebApplicationRequest implementation.
  *
  * <p>
  * Note all these tests only use the public APIs of WebApplication,
