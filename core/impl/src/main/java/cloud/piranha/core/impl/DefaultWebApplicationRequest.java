@@ -79,6 +79,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import static java.util.Objects.requireNonNull;
+import java.util.UUID;
 
 /**
  * The default WebApplicationRequest.
@@ -91,16 +92,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(DefaultWebApplicationRequest.class.getName());
-    
+
     /**
      * Defines the 'multipart/form-data' constant.
      */
     private static final String MULTIPART_FORM_DATA = "multipart/form-data";
-
-    /**
-     * Stores the auth type.
-     */
-    protected String authType;
 
     /**
      * Stores the async context.
@@ -121,6 +117,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the attribute manager.
      */
     protected AttributeManager attributeManager;
+
+    /**
+     * Stores the auth type.
+     */
+    protected String authType;
 
     /**
      * Stores the character encoding.
@@ -158,6 +159,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     protected DispatcherType dispatcherType;
 
     /**
+     * Stores the finished flag.
+     */
+    protected boolean finished;
+
+    /**
      * Stores the gotInputStream flag.
      */
     protected boolean gotInputStream;
@@ -176,6 +182,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the httpServletMapping.
      */
     protected HttpServletMapping httpServletMapping;
+
+    /**
+     * Stores the number of items read from the input stream
+     */
+    protected int index;
 
     /**
      * Stores the input stream.
@@ -208,6 +219,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     protected MultipartConfigElement multipartConfig;
 
     /**
+     * Stores the original servlet path.
+     */
+    protected String originalServletPath;
+
+    /**
      * Stores the parameters.
      */
     protected HashMap<String, String[]> parameters;
@@ -228,9 +244,19 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     protected String protocol;
 
     /**
+     * Stores the protocol request id.
+     */
+    protected String protocolRequestId;
+
+    /**
      * Stores the query string.
      */
     protected String queryString;
+
+    /**
+     * Stores the read listener.
+     */
+    protected ReadListener readListener;
 
     /**
      * Stores the reader.
@@ -251,6 +277,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the remote port.
      */
     protected int remotePort;
+
+    /**
+     * Stores the request id.
+     */
+    protected String requestId;
 
     /**
      * Stores the requested session id.
@@ -283,24 +314,24 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     protected int serverPort;
 
     /**
+     * Stores the servlet connection.
+     */
+    protected ServletConnection servletConnection;
+    
+    /**
      * Stores the servlet path.
      */
     protected String servletPath;
-
+    
     /**
-     * Stores the original servlet path.
+     * Stores the upgrade handler.
      */
-    protected String originalServletPath;
+    protected HttpUpgradeHandler upgradeHandler;
 
     /**
      * Stores the upgraded flag.
      */
     protected boolean upgraded;
-
-    /**
-     * Stores the upgrade handler.
-     */
-    protected HttpUpgradeHandler upgradeHandler;
 
     /**
      * Stores the user principal.
@@ -311,21 +342,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      * Stores the web application
      */
     protected WebApplication webApplication;
-
-    /**
-     * Stores the finished flag.
-     */
-    private boolean finished;
-
-    /**
-     * The number of items read from the input stream
-     */
-    private int index;
-
-    /**
-     * Stores the read listener.
-     */
-    private ReadListener readListener;
 
     /**
      * Constructor.
@@ -346,12 +362,25 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.inputStream = new ByteArrayInputStream(new byte[0]);
         this.method = "GET";
         this.protocol = "HTTP/1.1";
+        this.protocolRequestId = "";
+        this.requestId = UUID.randomUUID().toString();
         this.scheme = "http";
         this.serverName = "localhost";
         this.serverPort = 80;
         this.servletPath = "";
+        this.servletConnection = new DefaultServletConnection();
         this.parameters = new HashMap<>();
         this.upgraded = false;
+    }
+
+    /**
+     * Add the header.
+     *
+     * @param name the name.
+     * @param value the value (string).
+     */
+    public void addHeader(String name, String value) {
+        headerManager.addHeader(name, value);
     }
 
     /**
@@ -368,7 +397,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
             return string;
         }
-
         return "/" + string;
     }
 
@@ -467,15 +495,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return currentSessionId;
     }
 
-    /**
-     * Sets the current session id
-     *
-     * @param currentSessionId the current session id
-     */
-    public void setCurrentSessionId(String currentSessionId) {
-        this.currentSessionId = currentSessionId;
-    }
-
     @Override
     public long getDateHeader(String name) {
         return headerManager.getDateHeader(name);
@@ -503,14 +522,10 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
     @Override
     public HttpServletMapping getHttpServletMapping() {
+        if (httpServletMapping == null) {
+            return WebApplicationRequest.super.getHttpServletMapping();
+        }
         return httpServletMapping;
-    }
-
-    /**
-     * @param httpServletMapping the httpServletMapping to set
-     */
-    public void setHttpServletMapping(HttpServletMapping httpServletMapping) {
-        this.httpServletMapping = httpServletMapping;
     }
 
     @Override
@@ -596,10 +611,12 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * @param multipartConfig the multipartConfig to set
+     * Gets the original Servlet Path
+     *
+     * @return the original Servlet Path
      */
-    public void setMultipartConfig(MultipartConfigElement multipartConfig) {
-        this.multipartConfig = multipartConfig;
+    public String getOriginalServletPath() {
+        return originalServletPath;
     }
 
     @Override
@@ -714,26 +731,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
     }
 
-    /**
-     * Merge query string from this request and from the attribute
-     * {@link RequestDispatcher#INCLUDE_QUERY_STRING} if the dispatcher type is
-     * {@link DispatcherType#INCLUDE}
-     *
-     * @return the query string merged
-     */
-    private String mergeQueryFromAttributes() {
-        String queryStringFromAttribute = dispatcherType == INCLUDE ? (String) getAttribute(INCLUDE_QUERY_STRING) : null;
-        if (queryStringFromAttribute == null) {
-            return queryString;
-        }
-
-        if (queryString == null) {
-            return queryStringFromAttribute;
-        }
-
-        return queryStringFromAttribute + "&" + queryString;
-    }
-
     @Override
     public Part getPart(String name) throws IOException, ServletException {
         verifyMultipartFormData();
@@ -766,6 +763,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     @Override
+    public String getProtocolRequestId() {
+        return protocolRequestId;
+    }
+
+    @Override
     public String getQueryString() {
         return queryString;
     }
@@ -787,14 +789,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
             throw new IllegalStateException("Cannot getReader because getInputStream has been previously called");
         }
         return reader;
-    }
-
-    private boolean isSupported(String csn) {
-        try {
-            return Charset.isSupported(csn);
-        } catch (IllegalCharsetNameException x) {
-            return false;
-        }
     }
 
     @Override
@@ -832,11 +826,25 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     @Override
+    public String getRequestId() {
+        return requestId;
+    }
+
+    @Override
     public String getRequestURI() {
         return addOrRemoveSlashIfNeeded(
                 contextPath
                 + coalesce(originalServletPath, servletPath)
                 + coalesce(pathInfo, ""));
+    }
+
+    /**
+     * {@return the request URI with query string}
+     */
+    public String getRequestURIWithQueryString() {
+        String requestURI = getRequestURI();
+        String queryString = getQueryString();
+        return queryString == null ? requestURI : requestURI + "?" + queryString;
     }
 
     @Override
@@ -869,6 +877,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public int getServerPort() {
         return serverPort;
+    }
+
+    @Override
+    public ServletConnection getServletConnection() {
+        return servletConnection;
     }
 
     @Override
@@ -929,6 +942,16 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     @Override
+    public boolean isFinished() {
+        return finished;
+    }
+
+    @Override
+    public boolean isReady() {
+        return true;
+    }
+
+    @Override
     public boolean isRequestedSessionIdFromCookie() {
         return requestedSessionIdFromCookie;
     }
@@ -953,6 +976,14 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return "https".equals(scheme);
     }
 
+    private boolean isSupported(String csn) {
+        try {
+            return Charset.isSupported(csn);
+        } catch (IllegalCharsetNameException x) {
+            return false;
+        }
+    }
+    
     @Override
     public boolean isUpgraded() {
         return upgraded;
@@ -971,6 +1002,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public void login(String username, String password) throws ServletException {
         if (webApplication.getManager().getSecurityManager() != null) {
             webApplication.getManager().getSecurityManager().login(this, username, password);
+        } else {
+            throw new ServletException("No security manager configured");
         }
     }
 
@@ -982,6 +1015,41 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
     }
 
+    /**
+     * Merge query string from this request and from the attribute
+     * {@link RequestDispatcher#INCLUDE_QUERY_STRING} if the dispatcher type is
+     * {@link DispatcherType#INCLUDE}
+     *
+     * @return the query string merged
+     */
+    private String mergeQueryFromAttributes() {
+        String queryStringFromAttribute = dispatcherType == INCLUDE ? (String) getAttribute(INCLUDE_QUERY_STRING) : null;
+        if (queryStringFromAttribute == null) {
+            return queryString;
+        }
+
+        if (queryString == null) {
+            return queryStringFromAttribute;
+        }
+
+        return queryStringFromAttribute + "&" + queryString;
+    }
+
+    @Override
+    public int read() throws IOException {
+        if (finished || getContentLength() == 0) {
+            return -1;
+        }
+
+        int read = inputStream.read();
+        index++;
+        if (index == getContentLength() || read == -1) {
+            finished = true;
+        }
+
+        return read;
+    }
+
     @Override
     public void removeAttribute(String name) {
         Object oldValue = attributeManager.getAttribute(name);
@@ -989,6 +1057,15 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         if (webApplication != null && webApplication.getManager().getHttpRequestManager() != null) {
             webApplication.getManager().getHttpRequestManager().attributeRemoved(this, name, oldValue);
         }
+    }
+
+    /**
+     * Set the async started flag.
+     *
+     * @param asyncStarted the async started flag.
+     */
+    public void setAsyncStarted(boolean asyncStarted) {
+        this.asyncStarted = asyncStarted;
     }
 
     /**
@@ -1026,11 +1103,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
     }
 
-    /**
-     * Set the auth type.
-     *
-     * @param authType the auth type.
-     */
     @Override
     public void setAuthType(String authType) {
         this.authType = authType;
@@ -1059,7 +1131,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     public void setContentLength(int contentLength) {
         this.contentLength = contentLength;
-        
+
         headerManager.setHeader("Content-Length", Integer.toString(contentLength));
     }
 
@@ -1070,7 +1142,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     public void setContentType(String contentType) {
         this.contentType = contentType;
-        
+
         headerManager.setHeader("Content-Type", contentType);
 
         if (contentType.startsWith(MULTIPART_FORM_DATA)) {
@@ -1112,6 +1184,15 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
     }
 
+    /**
+     * Sets the current session id
+     *
+     * @param currentSessionId the current session id
+     */
+    public void setCurrentSessionId(String currentSessionId) {
+        this.currentSessionId = currentSessionId;
+    }
+
     @Override
     public void setDispatcherType(DispatcherType dispatcherType) {
         this.dispatcherType = dispatcherType;
@@ -1129,7 +1210,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         } else if (name.equalsIgnoreCase("content-length")) {
             try {
                 setContentLength(Integer.parseInt(value));
-            } catch(NumberFormatException nfe) {
+            } catch (NumberFormatException nfe) {
                 LOGGER.log(WARNING, "Unable to setContentLength as header value is unparseable", nfe);
             }
         } else {
@@ -1138,13 +1219,12 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Add the header.
-     *
-     * @param name the name.
-     * @param value the value (string).
+     * Set the HTTP servlet mapping.
+     * 
+     * @param httpServletMapping the HTTP servlet mapping.
      */
-    public void addHeader(String name, String value) {
-        headerManager.addHeader(name, value);
+    public void setHttpServletMapping(HttpServletMapping httpServletMapping) {
+        this.httpServletMapping = httpServletMapping;
     }
 
     /**
@@ -1193,6 +1273,24 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
+     * Set the multipart config.
+     * 
+     * @param multipartConfig the multipartConfig.
+     */
+    public void setMultipartConfig(MultipartConfigElement multipartConfig) {
+        this.multipartConfig = multipartConfig;
+    }
+
+    /**
+     * Set the original Servlet path
+     *
+     * @param originalServletPath the original Servlet path
+     */
+    public void setOriginalServletPath(String originalServletPath) {
+        this.originalServletPath = originalServletPath;
+    }
+
+    /**
      * Set the parameter values.
      *
      * @param name the parameter name.
@@ -1227,6 +1325,20 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     public void setQueryString(String queryString) {
         this.queryString = queryString;
+    }
+
+    @Override
+    public void setReadListener(ReadListener listener) {
+        if (listener == null) {
+            throw new NullPointerException("Read listener cannot be null");
+        }
+        if (this.readListener != null) {
+            throw new IllegalStateException("Read listener can only be set once");
+        }
+        if (!isAsyncStarted() && !isUpgraded()) {
+            throw new IllegalStateException("Read listener cannot be set as the request is not upgraded nor the async is started");
+        }
+        this.readListener = listener;
     }
 
     /**
@@ -1316,25 +1428,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Gets the original Servlet Path
-     *
-     * @return the original Servlet Path
-     *
-     */
-    public String getOriginalServletPath() {
-        return originalServletPath;
-    }
-
-    /**
-     * Set the original Servlet Path
-     *
-     * @param originalServletPath the original Servlet Path
-     */
-    public void setOriginalServletPath(String originalServletPath) {
-        this.originalServletPath = originalServletPath;
-    }
-
-    /**
      * Set the upgraded flag.
      *
      * @param upgraded the upgraded flag.
@@ -1351,31 +1444,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public void setWebApplication(WebApplication webApplication) {
         this.webApplication = webApplication;
-    }
-
-    /**
-     * Unwrap the request.
-     *
-     * @param <T> the type to unwrap to.
-     * @param request the request.
-     * @param type the class type of the result
-     * @return the unwrapped request.
-     */
-    public static <T> T unwrap(ServletRequest request, Class<T> type) {
-        ServletRequest currentRequest = request;
-        while (currentRequest instanceof ServletRequestWrapper wrapper) {
-            currentRequest = wrapper.getRequest();
-        }
-        return type.cast(currentRequest);
-    }
-
-    /**
-     * Set the async started flag.
-     *
-     * @param asyncStarted the async started flag.
-     */
-    public void setAsyncStarted(boolean asyncStarted) {
-        this.asyncStarted = asyncStarted;
     }
 
     @Override
@@ -1421,6 +1489,27 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         return asyncContext;
     }
 
+    @Override
+    public String toString() {
+        return getRequestURIWithQueryString() + " " + super.toString();
+    }
+
+    /**
+     * Unwrap the request.
+     *
+     * @param <T> the type to unwrap to.
+     * @param request the request.
+     * @param type the class type of the result
+     * @return the unwrapped request.
+     */
+    public static <T> T unwrap(ServletRequest request, Class<T> type) {
+        ServletRequest currentRequest = request;
+        while (currentRequest instanceof ServletRequestWrapper wrapper) {
+            currentRequest = wrapper.getRequest();
+        }
+        return type.cast(currentRequest);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException {
@@ -1442,80 +1531,5 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         if (contentType != null && !contentType.startsWith(MULTIPART_FORM_DATA)) {
             throw new ServletException("Request not of type multipart/form-data");
         }
-    }
-
-    // -------------------------------------------------------------------------
-    //  ServletInputStream methods
-    // -------------------------------------------------------------------------
-    @Override
-    public boolean isFinished() {
-        return finished;
-    }
-
-    @Override
-    public boolean isReady() {
-        return true;
-    }
-
-    @Override
-    public void setReadListener(ReadListener listener) {
-        if (listener == null) {
-            throw new NullPointerException("Read listener cannot be null");
-        }
-        if (this.readListener != null) {
-            throw new IllegalStateException("Read listener can only be set once");
-        }
-        if (!isAsyncStarted() && !isUpgraded()) {
-            throw new IllegalStateException("Read listener cannot be set as the request is not upgraded nor the async is started");
-        }
-        this.readListener = listener;
-    }
-
-    @Override
-    public int read() throws IOException {
-        if (finished || getContentLength() == 0) {
-            return -1;
-        }
-
-        int read = inputStream.read();
-        index++;
-        if (index == getContentLength() || read == -1) {
-            finished = true;
-        }
-
-        return read;
-    }
-
-    /**
-     * {@return the request URI with query string}
-     */
-    public String getRequestURIWithQueryString() {
-        String requestURI = getRequestURI();
-        String queryString = getQueryString();
-        return queryString == null ? requestURI : requestURI + "?" + queryString;
-    }
-
-    @Override
-    public String toString() {
-        return getRequestURIWithQueryString() + " " + super.toString();
-    }
-    
-    // ------------------------------------------------------------------------
-    //  Servlet 6 APIs
-    // ------------------------------------------------------------------------
-
-    @Override
-    public String getRequestId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public String getProtocolRequestId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public ServletConnection getServletConnection() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

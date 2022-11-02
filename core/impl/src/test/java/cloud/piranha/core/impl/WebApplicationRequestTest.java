@@ -39,18 +39,15 @@ import jakarta.servlet.http.HttpUpgradeHandler;
 import jakarta.servlet.http.WebConnection;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -59,131 +56,6 @@ import org.junit.jupiter.api.Test;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class WebApplicationRequestTest {
-
-    /**
-     * Test authenticate method.
-     */
-    @Test
-    void testAuthenticate() {
-        try {
-            DefaultWebApplication webApp = new DefaultWebApplication();
-            DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-            request.setWebApplication(webApp);
-            TestWebApplicationResponse response = new TestWebApplicationResponse();
-            assertFalse(request.authenticate(response));
-            request.close();
-        } catch (IOException | ServletException exception) {
-            fail();
-        }
-    }
-
-    /**
-     * Test authenticate method.
-     */
-    @Test
-    void testAuthenticate2() {
-        try {
-            DefaultWebApplication webApp = new DefaultWebApplication();
-            TestWebApplicationRequest request = new TestWebApplicationRequest();
-            request.setWebApplication(webApp);
-            TestWebApplicationResponse response = new TestWebApplicationResponse();
-            request.authenticate(response);
-            request.close();
-        } catch (IOException | ServletException ex) {
-            fail();
-        }
-    }
-
-    /**
-     * Test getAsyncContext method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testGetAsyncContext() throws IOException {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNotNull(assertThrows(IllegalStateException.class,
-                () -> request.getAsyncContext()));
-        request.close();
-    }
-
-    /**
-     * Test getAsyncContext method.
-     */
-    @Test
-    void testGetAsyncContext2() {
-        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        response.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        request.setAsyncSupported(true);
-        request.startAsync();
-        assertNotNull(request.getAsyncContext());
-    }
-
-    /**
-     * Test getContentLengthLong method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testGetContentLengthLong() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertEquals(-1L, request.getContentLengthLong());
-        request.close();
-    }
-
-    /**
-     * Test getDateHeader method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testGetDateHeader() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertEquals(-1L, request.getDateHeader("notfound"));
-        request.close();
-    }
-
-    /**
-     * Test getInputStream method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testGetInputStream() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNotNull(request.getInputStream());
-        request.close();
-    }
-
-    /**
-     * Test getInputStream method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testGetInputStream2() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNotNull(request.getInputStream());
-        assertNotNull(assertThrows(IllegalStateException.class,
-                () -> request.getReader()));
-        request.close();
-    }
-
-    /**
-     * Test getIntHeader method.
-     *
-     * @throws Exception when a serious error ocucrs.
-     */
-    @Test
-    void testGetIntHeader() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertEquals(-1, request.getIntHeader("notfound"));
-        request.close();
-    }
 
     /**
      * Test getLocale method.
@@ -278,51 +150,11 @@ class WebApplicationRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetReader() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNotNull(request.getReader());
-        request.close();
-    }
-
-    /**
-     * Test getReader method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
     void testGetReader2() throws Exception {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertNotNull(request.getReader());
         assertNotNull(assertThrows(IllegalStateException.class,
                 () -> request.getInputStream()));
-        request.close();
-    }
-
-    /**
-     * Test getRequestDispatcher method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testGetRequestDispatcher() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
-        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApp);
-        assertNotNull(request.getRequestDispatcher("/test"));
-        request.close();
-    }
-
-    /**
-     * Test getUpgradeHandler method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testGetUpgradeHandler() throws Exception {
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        assertNull(request.getUpgradeHandler());
         request.close();
     }
 
@@ -348,107 +180,6 @@ class WebApplicationRequestTest {
     void testIsUpgraded() throws Exception {
         DefaultWebApplicationRequest request = new TestWebApplicationRequest();
         assertFalse(request.isUpgraded());
-        request.close();
-    }
-
-    /**
-     * Test isUserInRole method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testIsUserInRole() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        assertFalse(request.isUserInRole("notmatched"));
-        request.close();
-    }
-
-    /**
-     * Test login method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testLogin() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        request.login("username", "password");
-        assertNull(request.getUserPrincipal());
-        request.close();
-    }
-
-    /**
-     * Test removeAttribute method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testRemoveAttribute() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        request.setAttribute("name", "value");
-        assertNotNull(request.getAttribute("name"));
-        request.removeAttribute("name");
-        assertNull(request.getAttribute("name"));
-        request.close();
-    }
-
-    /**
-     * Test setCharacterEncoding method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testSetCharacterEncoding() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNull(request.getCharacterEncoding());
-        request.setCharacterEncoding("UTF-8");
-        assertEquals("UTF-8", request.getCharacterEncoding());
-        request.close();
-    }
-
-    /**
-     * Test setCharacterEncoding method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testSetCharacterEncoding2() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNull(request.getCharacterEncoding());
-        request.getReader();
-        request.setCharacterEncoding("UTF-8");
-        assertNotEquals("UTF-8", request.getCharacterEncoding());
-        request.close();
-    }
-
-    /**
-     * Test setCharacterEncoding method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testSetCharacterEncoding3() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNotNull(assertThrows(UnsupportedEncodingException.class,
-                () -> request.setCharacterEncoding("doesnotexist")));
-        request.close();
-    }
-
-    /**
-     * Test setCharacterEncoding method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testSetCharacterEncoding4() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNotNull(assertThrows(UnsupportedEncodingException.class,
-                () -> request.setCharacterEncoding(null)));
         request.close();
     }
 
@@ -628,31 +359,6 @@ class WebApplicationRequestTest {
 
     /**
      * Test upgrade method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testUpgrade() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNotNull(request.upgrade(TestUpgradeHttpUpgradeHandler.class));
-        request.close();
-    }
-
-    /**
-     * Test upgrade method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testUpgrade2() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNotNull(assertThrows(ServletException.class,
-                () -> request.upgrade(TestUpgrade2HttpUpgradeHandler.class)));
-        request.close();
-    }
-
-    /**
-     * Test upgrade method.
      */
     @Test
     void testUpgrade3() throws Exception {
@@ -667,29 +373,6 @@ class WebApplicationRequestTest {
         request.setMethod("POST");
         webApplication.service(request, response);
         assertEquals(101, response.getStatus());
-    }
-
-    /**
-     * A HttpUpgradeHandler used by testUpgrade2 method.
-     */
-    public static class TestUpgrade2HttpUpgradeHandler implements HttpUpgradeHandler {
-
-        /**
-         * Constructor.
-         *
-         * @throws IllegalAccessException on purpose.
-         */
-        public TestUpgrade2HttpUpgradeHandler() throws IllegalAccessException {
-            throw new IllegalAccessException();
-        }
-
-        @Override
-        public void init(WebConnection wc) {
-        }
-
-        @Override
-        public void destroy() {
-        }
     }
 
     /**
@@ -802,26 +485,6 @@ class WebApplicationRequestTest {
         @Override
         public void onError(final Throwable t) {
             t.printStackTrace();
-        }
-    }
-
-    /**
-     * A HttpUpgradeHandler used by testUpgrade method.
-     */
-    public static class TestUpgradeHttpUpgradeHandler implements HttpUpgradeHandler {
-
-        /**
-         * Constructor.
-         */
-        public TestUpgradeHttpUpgradeHandler() {
-        }
-
-        @Override
-        public void init(WebConnection wc) {
-        }
-
-        @Override
-        public void destroy() {
         }
     }
 }
