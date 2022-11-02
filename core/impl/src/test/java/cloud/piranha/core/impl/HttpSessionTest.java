@@ -35,7 +35,6 @@ import jakarta.servlet.SessionTrackingMode;
 import static jakarta.servlet.SessionTrackingMode.COOKIE;
 import static jakarta.servlet.SessionTrackingMode.SSL;
 import static jakarta.servlet.SessionTrackingMode.URL;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -140,54 +139,6 @@ class HttpSessionTest {
         webApplication.service(request, response);
         assertNotNull(webApplication.getAttribute("attributeReplaced"));
         webApplication.stop();
-    }
-
-    /**
-     * Test changeSessionId method.
-     */
-    @Test
-    void testChangeSessionId() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        webApp.linkRequestAndResponse(request, response);
-        request.setWebApplication(webApp);
-        assertNotNull(assertThrows(IllegalStateException.class,
-                () -> request.changeSessionId()));
-    }
-
-    /**
-     * Test changeSessionId method.
-     */
-    @Test
-    void testChangeSessionId2() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
-        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        webApp.linkRequestAndResponse(request, response);
-        request.setWebApplication(webApp);
-        HttpSession session = request.getSession(true);
-        String sessionId1 = session.getId();
-        request.setRequestedSessionId(session.getId());
-        String sessionId2 = request.changeSessionId();
-        assertNotEquals(sessionId1, sessionId2);
-    }
-
-    /**
-     * Test changeSessionId method.
-     */
-    @Test
-    void testChangeSessionId3() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
-        webApp.linkRequestAndResponse(request, response);
-        request.setWebApplication(webApp);
-        HttpSession session = request.getSession(true);
-        String previousSessionId = session.getId();
-        String newSessionId = request.changeSessionId();
-        assertNotEquals(previousSessionId, newSessionId);
-        assertEquals(newSessionId, request.getSession(false).getId());
     }
 
     /**

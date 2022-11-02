@@ -27,24 +27,94 @@
  */
 package cloud.piranha.core.impl;
 
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * The JUnit tests for the DefaultWebApplicationRequest class.
  */
-class DefaultWebApplicationRequestTest {
+class DefaultWebApplicationRequestTest extends cloud.piranha.core.tests.WebApplicationRequestTest {
+
+    @Override
+    protected WebApplication createWebApplication() {
+        return new DefaultWebApplication();
+    }
+
+    @Override
+    protected WebApplicationRequest createWebApplicationRequest() {
+        return new DefaultWebApplicationRequest();
+    }
+
+    @Override
+    protected WebApplicationResponse createWebApplicationResponse() {
+        return new DefaultWebApplicationResponse();
+    }
     
+    /**
+     * Test changeSessionId method.
+     */
+    @Test
+    void testChangeSessionId3() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        HttpSession session = request.getSession(true);
+        String sessionId1 = session.getId();
+        request.setRequestedSessionId(session.getId());
+        String sessionId2 = request.changeSessionId();
+        assertNotEquals(sessionId1, sessionId2);
+    }
+
+    /**
+     * Test getAsyncContext method.
+     */
+    @Test
+    void testGetAsyncContext2() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        request.setAsyncSupported(true);
+        request.startAsync();
+        assertNotNull(request.getAsyncContext());
+    }
+
+    /**
+     * Test changeSessionId method.
+     */
+    @Test
+    void testChangeSessionId2() {
+        DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultWebApplicationResponse response = new TestWebApplicationResponse();
+        DefaultWebApplicationRequest request = new TestWebApplicationRequest();
+        webApp.linkRequestAndResponse(request, response);
+        request.setWebApplication(webApp);
+        HttpSession session = request.getSession(true);
+        String sessionId1 = session.getId();
+        request.setRequestedSessionId(session.getId());
+        String sessionId2 = request.changeSessionId();
+        assertNotEquals(sessionId1, sessionId2);
+    }
+
     /**
      * Test getContentType method.
      * 
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetContentType() throws Exception {
+    void testGetContentType2() throws Exception {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        assertNull(request.getContentType());
         request.setContentType("text/html");
         assertEquals("text/html", request.getContentType());
         assertEquals("text/html", request.getHeader("Content-Type"));
@@ -56,9 +126,8 @@ class DefaultWebApplicationRequestTest {
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetContentLength() throws Exception {
+    void testGetContentLength2() throws Exception {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        assertEquals(-1, request.getContentLength());
         request.setContentLength(1234);
         assertEquals(1234, request.getContentLength());
         assertEquals("1234", request.getHeader("Content-Length"));

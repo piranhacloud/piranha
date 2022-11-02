@@ -278,18 +278,6 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test getDispatcherType.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testGetDispatcherType() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertEquals(DispatcherType.REQUEST, request.getDispatcherType());
-        request.close();
-    }
-
-    /**
      * Test getEffectiveMajorVersion method.
      */
     @Test
@@ -364,19 +352,6 @@ class DefaultWebApplicationTest {
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.addServlet("Snoop", TestSnoopServlet.class);
         assertNotNull(webApp.getNamedDispatcher("Snoop"));
-    }
-
-    /**
-     * Test getParameterMap.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testGetParameterMap() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertNotNull(request.getParameterMap());
-        assertNotNull(request.getParameterNames());
-        request.close();
     }
 
     /**
@@ -659,38 +634,6 @@ class DefaultWebApplicationTest {
             webApp.start();
             fail();
         } catch (RuntimeException e) {
-        }
-    }
-
-    /**
-     * Test login method.
-     */
-    @Test
-    void testLogin() {
-        try {
-            DefaultWebApplication webApp = new DefaultWebApplication();
-            TestWebApplicationRequest request = new TestWebApplicationRequest();
-            request.setWebApplication(webApp);
-            request.login("admin", "password");
-            request.close();
-        } catch (Exception exception) {
-            fail();
-        }
-    }
-
-    /**
-     * Test logout method.
-     */
-    @Test
-    void testLogout() {
-        try {
-            DefaultWebApplication webApp = new DefaultWebApplication();
-            TestWebApplicationRequest request = new TestWebApplicationRequest();
-            request.setWebApplication(webApp);
-            request.logout();
-            request.close();
-        } catch (Exception exception) {
-            fail();
         }
     }
 
