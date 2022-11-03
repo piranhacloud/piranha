@@ -38,6 +38,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * The JUnit tests for the DefaultWebApplicationRequest class.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
 class DefaultWebApplicationRequestTest extends cloud.piranha.core.tests.WebApplicationRequestTest {
 

@@ -418,14 +418,18 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
 
     @Override
     public void resetBuffer() {
-        bufferResetting = true;
-        try {
-            if (gotWriter) {
-                writer.flush(); // output will be written and ignored.
+        if (!committed) {
+            bufferResetting = true;
+            try {
+                if (gotWriter) {
+                    writer.flush(); // output will be written and ignored.
+                }
+                this.buffer = new byte[buffer.length];
+            } finally {
+                bufferResetting = false;
             }
-            this.buffer = new byte[buffer.length];
-        } finally {
-            bufferResetting = false;
+        } else {
+            throw new IllegalStateException("Buffer already committed, not resetting");
         }
     }
 
