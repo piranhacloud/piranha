@@ -41,5 +41,6 @@ module cloud.piranha.core.tests {
     exports cloud.piranha.core.tests;
     opens cloud.piranha.core.tests;
     requires cloud.piranha.core.api;
+    requires cloud.piranha.resource.impl;
     requires org.junit.jupiter.api;
 }

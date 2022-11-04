@@ -322,6 +322,7 @@ public class DefaultWebApplication implements WebApplication {
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
         manager = new DefaultWebApplicationManager();
         manager.getHttpSessionManager().setWebApplication(this);
+        manager.setJspManager(new DefaultJspManager());
     }
 
     @Override
@@ -883,7 +884,7 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public String getServerInfo() {
-        return "";
+        return "DefaultWebApplication/6.0";
     }
 
     @Override
@@ -1081,6 +1082,11 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public boolean isInitialized() {
         return status >= INITIALIZED && status < ERROR;
+    }
+    
+    @Override
+    public boolean isServicing() {
+        return status == SERVICING;
     }
     
     @Override

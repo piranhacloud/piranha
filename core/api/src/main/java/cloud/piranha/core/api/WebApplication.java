@@ -239,6 +239,13 @@ public interface WebApplication extends ServletContext {
     boolean isMetadataComplete();
 
     /**
+     * Is the web application currently servicing requests.
+     * 
+     * @return true if it is, false otherwise.
+     */
+    boolean isServicing();
+    
+    /**
      * Link the request and response.
      *
      * @param request the request.
