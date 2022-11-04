@@ -27,59 +27,35 @@
  */
 package cloud.piranha.core.impl;
 
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-import java.util.Set;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.jupiter.api.Test;
+import cloud.piranha.core.api.JspManager;
+import cloud.piranha.core.api.WebApplication;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
 
 /**
- * The JUnit tests for testing everything related to the
- * ServletContainerInitializer API.
+ * The default JspManager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ServletContainerInitializerTest {
+public class DefaultJspManager implements JspManager {
 
     /**
-     * Test addInitializer method.
-     *
-     * @throws Exception when a serious error occurs.
+     * Stores the JSP config descriptor.
      */
-    @Test
-    void testAddInitializer() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addInitializer(new TestInitializer());
-        webApp.initialize();
-        assertNotNull(webApp.getAttribute("initializerCalled"));
+    private JspConfigDescriptor descriptor;
+
+    @Override
+    public ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile) {
+        return null;
     }
 
-    /**
-     * Test addInitializer method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAddInitializer3() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addInitializer(TestInitializer.class.getName());
-        webApp.initialize();
-        assertNotNull(webApp.getAttribute("initializerCalled"));
+    @Override
+    public JspConfigDescriptor getJspConfigDescriptor() {
+        return descriptor;
     }
 
-    /**
-     * A test ServletContainerInitializer used to make sure they are called when
-     * the web application initializes.
-     */
-    public static class TestInitializer implements ServletContainerInitializer {
-
-        public TestInitializer() {
-        }
-
-        @Override
-        public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-            servletContext.setAttribute("initializerCalled", true);
-        }
+    @Override
+    public void setJspConfigDescriptor(JspConfigDescriptor descriptor) {
+        this.descriptor = descriptor;
     }
 }

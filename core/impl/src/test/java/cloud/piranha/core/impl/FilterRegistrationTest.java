@@ -72,33 +72,6 @@ class FilterRegistrationTest {
     }
 
     /**
-     * Test getFilterRegistration method.
-     */
-    @Test
-    void testGetFilterRegistration() {
-        webApp.addFilter("filter", TestFilterRegistrationFilter.class);
-        assertNotNull(webApp.getFilterRegistration("filter"));
-    }
-
-    /**
-     * Test getFilterRegistration method.
-     */
-    @Test
-    void testGetFilterRegistration2() {
-        webApp.addFilter("filter", "doesnotexist");
-        assertNotNull(webApp.getFilterRegistration("filter"));
-    }
-
-    /**
-     * Test getFilterRegistrations method.
-     */
-    @Test
-    void testGetFilterRegistrations() {
-        webApp.addFilter("filter", TestFilterRegistrationFilter.class);
-        assertFalse(webApp.getFilterRegistrations().isEmpty());
-    }
-
-    /**
      * Test getName method.
      */
     @Test

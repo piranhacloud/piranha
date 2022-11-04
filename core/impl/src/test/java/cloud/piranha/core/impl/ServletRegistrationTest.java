@@ -112,30 +112,12 @@ class ServletRegistrationTest {
     }
 
     /**
-     * Test getServletRegistrations method.
-     */
-    @Test
-    void testGetServletRegistration() {
-        webApp.addServlet("servlet", TestServlet.class);
-        assertNotNull(webApp.getServletRegistration("servlet"));
-    }
-
-    /**
      * Test getFilterRegistration method.
      */
     @Test
     void testGetServletRegistration2() {
         webApp.addServlet("servlet", "doesnotexist");
         assertNotNull(webApp.getServletRegistration("servlet"));
-    }
-
-    /**
-     * Test getFilterRegistrations method.
-     */
-    @Test
-    void testGetServletRegistration3() {
-        webApp.addServlet("servlet", TestServlet.class);
-        assertFalse(webApp.getServletRegistrations().isEmpty());
     }
 
     /**

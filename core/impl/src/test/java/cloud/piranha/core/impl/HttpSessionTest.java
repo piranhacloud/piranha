@@ -269,15 +269,6 @@ class HttpSessionTest {
     }
 
     /**
-     * Test getDefaultSessionTrackingModes method.
-     */
-    @Test
-    void testGetDefaultSessionTrackingModes() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertTrue(webApp.getDefaultSessionTrackingModes().contains(SessionTrackingMode.COOKIE));
-    }
-
-    /**
      * Test getDomain method.
      */
     @Test
@@ -509,15 +500,6 @@ class HttpSessionTest {
     void testGetSessionCookieConfig() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         assertNotNull(sessionManager.getSessionCookieConfig());
-    }
-
-    /**
-     * Test getSessionCookieConfig method.
-     */
-    @Test
-    void testGetSessionCookieConfig2() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNotNull(webApp.getSessionCookieConfig());
     }
 
     /**

@@ -69,81 +69,6 @@ class ServletTest {
     }
 
     /**
-     * Test addServlet method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAddServlet() throws Exception {
-        webApplication.addServlet("Broken Servlet", new TestBrokenServlet());
-        webApplication.addServletMapping("Broken Servlet", "/echo");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setServletPath("/echo");
-        webApplication.initialize();
-        webApplication.start();
-        try {
-            webApplication.service(request, response);
-            fail();
-        } catch(RuntimeException ue) {
-        }
-        assertNotNull(webApplication.getAttribute("Broken Servlet"));
-        webApplication.stop();
-    }
-
-    /**
-     * Test addServlet method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAddServlet2() throws Exception {
-        try {
-            assertNotNull(webApplication.addServlet("Echo", TestServlet.class));
-            webApplication.addServletMapping("Echo", "/echo");
-            TestWebApplicationResponse response = new TestWebApplicationResponse();
-            response.setBodyOnly(false);
-            TestWebApplicationRequest request = new TestWebApplicationRequest();
-            request.setServletPath("/echo");
-            webApplication.initialize();
-            webApplication.start();
-            webApplication.service(request, response);
-            assertTrue(new String(response.getResponseBytes()).contains("200"));
-            assertTrue(new String(response.getResponseBytes()).contains("SUCCESS"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
-
-    /**
-     * Test addServlet method.
-     */
-    @Test
-    void testAddServlet3() {
-        ServletRegistration.Dynamic dynamic = webApplication.addServlet("bogus", Servlet.class);
-        assertNotNull(dynamic);
-    }
-
-    /**
-     * Test addServlet method.
-     */
-    @Test
-    void testAddServlet4() {
-        ServletRegistration.Dynamic dynamic = webApplication.addServlet("echo", "servlet.EchoServlet");
-        assertNotNull(dynamic);
-    }
-
-    /**
-     * Test addServlet method.
-     */
-    @Test
-    void testAddServlet5() {
-        ServletRegistration.Dynamic dynamic = webApplication.addServlet("bogus", "servlet.BogusServlet");
-        assertNotNull(dynamic);
-    }
-
-    /**
      * Test service method.
      *
      * @throws Exception when a serious error occurs.
@@ -161,26 +86,6 @@ class ServletTest {
         webApplication.service(request, response);
         assertTrue(new String(response.getResponseBytes()).contains("200"));
         assertTrue(new String(response.getResponseBytes()).contains("SUCCESS"));
-    }
-
-    /**
-     * Test to verify instantiating a broken servlet fails.
-     */
-    public static class TestBrokenServlet extends HttpServlet {
-
-        private static final long serialVersionUID = 1L;
-
-        /**
-         * Initialize the servlet.
-         *
-         * @param servletConfig the servlet config.
-         * @throws ServletException when a servlet error occurs.
-         */
-        @Override
-        public void init(ServletConfig servletConfig) throws ServletException {
-            servletConfig.getServletContext().setAttribute("Broken Servlet", true);
-            throw new RuntimeException("Broken Servlet");
-        }
     }
 
     /**

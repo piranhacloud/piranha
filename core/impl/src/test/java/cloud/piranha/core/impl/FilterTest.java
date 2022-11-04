@@ -38,7 +38,6 @@ import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
 import jakarta.servlet.FilterRegistration;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -52,8 +51,7 @@ import org.junit.jupiter.api.Test;
 import cloud.piranha.core.api.WebApplication;
 
 /**
- * The JUnit tests for testing everything related to the addFilter method and
- * the Filter API.
+ * The JUnit tests for testing everything related to the Filter API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -72,136 +70,6 @@ class FilterTest {
     @BeforeEach
     void setUp() throws Exception {
         webApp = new DefaultWebApplication();
-    }
-
-    /**
-     * Test addFilter method.
-     */
-    @Test
-    void testAddFilter() {
-        webApp.addFilter("Broken Filter", new TestBrokenFilter());
-        webApp.initialize();
-        assertNotNull(webApp.getAttribute("Broken Filter"));
-    }
-
-    /**
-     * Test addFilter method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAddFilter2() throws Exception {
-        webApp.addFilter("Filter 1", new TestMultiple1Filter());
-        webApp.addFilterMapping("Filter 1", "/*");
-        webApp.addFilter("Filter 2", new TestMultiple2Filter());
-        webApp.addFilterMapping("Filter 2", "/*");
-        webApp.addServlet("End Servlet", new TestEndServlet());
-        webApp.addServletMapping("End Servlet", "/multipleFilters");
-        webApp.initialize();
-        webApp.start();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApp);
-        request.setServletPath("/multipleFilters");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApp);
-        webApp.service(request, response);
-        assertEquals(200, response.getStatus());
-    }
-
-    /**
-     * Test addFilter method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAddFilter4() throws Exception {
-        webApp.initialize();
-        webApp.start();
-        TestMultiple1Filter filter = new TestMultiple1Filter();
-        assertThrows(IllegalStateException.class, () -> webApp.addFilter("filter", filter));
-    }
-
-    /**
-     * Test addFilter method.
-     */
-    @Test
-    void testAddFilter5() {
-        assertNotNull(webApp.addFilter("filter", TestMultiple1Filter.class));
-        assertNotNull(webApp.getFilterRegistration("filter"));
-        assertEquals(TestMultiple1Filter.class.getName(), webApp.getFilterRegistration("filter").getClassName());
-    }
-
-    /**
-     * Test addFilter method.
-     */
-    @Test
-    void testAddFilter6() {
-        assertNotNull(webApp.addFilter("filter", "doesnotexit"));
-    }
-
-    /**
-     * Test addFilter method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAddFilter7() throws Exception {
-        webApp.initialize();
-        webApp.start();
-        assertThrows(IllegalStateException.class, () -> webApp.addFilter("filter", "should throw IllegalStateException"));
-    }
-
-    /**
-     * Test addFilter method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAddFilter8() throws Exception {
-        webApp.initialize();
-        assertThrows(IllegalArgumentException.class, () -> webApp.addFilter(null, "filter name is null so throw IllegalArgumentException"));
-    }
-
-    /**
-     * Test addFilter method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAddFilter9() throws Exception {
-        webApp.initialize();
-        assertThrows(IllegalArgumentException.class, () -> webApp.addFilter(null, Filter.class));
-    }
-
-    /**
-     * Test addFilter method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAddFilter10() throws Exception {
-        webApp.initialize();
-        assertNotNull(webApp.addFilter("filter", Filter.class));
-        assertNull(webApp.addFilter("filter", Filter.class));
-    }
-
-    /**
-     * Test addFilter method.
-     */
-    @Test
-    void testAddFilter11() {
-        webApp.initialize();
-        assertNotNull(webApp.addFilter("filter", "InCompleteRegistrationFilter"));
-        assertNull(webApp.addFilter("filter", "InCompleteRegistrationFilter"));
-    }
-
-    /**
-     * Test addFilter method.
-     */
-    @Test
-    void testAddFilter12() {
-        assertNotNull(webApp.addFilter("filter", "InCompleteRegistrationFilter"));
-        assertNotNull(webApp.getFilterRegistration("filter"));
     }
 
     /**
@@ -231,45 +99,6 @@ class FilterTest {
         Filter filter = new TestMultiple1Filter();
         FilterRegistration.Dynamic registration = webApp.addFilter("filter", filter);
         assertEquals(TestMultiple1Filter.class.getName(), registration.getClassName());
-    }
-
-    /**
-     * Test broken filter.
-     */
-    class TestBrokenFilter implements Filter {
-
-        /**
-         * Initialize the filter.
-         *
-         * @param filterConfig the filter config.
-         * @throws ServletException when a servlet error occurs.
-         */
-        @Override
-        public void init(FilterConfig filterConfig) throws ServletException {
-            ServletContext servletContext = filterConfig.getServletContext();
-            servletContext.setAttribute("Broken Filter", true);
-            throw new ServletException("Broken Filter");
-        }
-
-        /**
-         * Do the filter processing.
-         *
-         * @param request the request.
-         * @param response the response.
-         * @param chain the chain.
-         * @throws IOException when an I/O error occurs.
-         * @throws ServletException when a servlet error occurs.
-         */
-        @Override
-        public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        }
-
-        /**
-         * Destroy the filter.
-         */
-        @Override
-        public void destroy() {
-        }
     }
 
     /**

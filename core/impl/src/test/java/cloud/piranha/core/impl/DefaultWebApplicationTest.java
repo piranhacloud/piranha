@@ -27,17 +27,18 @@
  */
 package cloud.piranha.core.impl;
 
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.resource.impl.DefaultResourceManager;
 import cloud.piranha.resource.impl.DirectoryResource;
-import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.ServletContextListener;
+import cloud.piranha.core.tests.WebApplicationTest;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.ServletRegistration.Dynamic;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -53,28 +54,23 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultWebApplicationTest {
+class DefaultWebApplicationTest extends WebApplicationTest {
 
-    /**
-     * Test addJspFile method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAddJspFile() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNull(webApp.addJspFile("MyJspFile", "myjspfile.jsp"));
+    @Override
+    protected WebApplication createWebApplication() {
+        return new DefaultWebApplication();
     }
 
-    /**
-     * Test addJspFile method
-     */
-    @Test
-    void testAddJspFile2() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.initialize();
-        webApp.start();
-        assertThrows(IllegalStateException.class, () -> webApp.addJspFile("MyJspFile", "myjspfile.jsp"));
+    @Override
+    protected WebApplicationRequest createWebApplicationRequest() {
+        return new DefaultWebApplicationRequest();
+    }
+
+    @Override
+    protected WebApplicationResponse createWebApplicationResponse() {
+        DefaultWebApplicationResponse  response = new DefaultWebApplicationResponse();
+        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
+        return response;
     }
 
     /**
@@ -106,59 +102,6 @@ class DefaultWebApplicationTest {
         dynamic.addMapping("/echo");
         assertTrue(dynamic.getMappings().size() > 0);
         assertEquals(0, dynamic.addMapping("/echo").size());
-    }
-
-    /**
-     * Test addResource method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAddResource() throws Exception {
-        DefaultResourceManager resourceManager = new DefaultResourceManager();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setResourceManager(resourceManager);
-        webApp.addResource(new DirectoryResource(new File(".")));
-        assertNotNull(webApp.getResource("/src/main/java"));
-    }
-
-    /**
-     * Test destroy method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testDestroy() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addListener(new TestWebApplicationDestroyListener());
-        webApp.initialize();
-        webApp.destroy();
-        assertNotNull(webApp.getAttribute("contextDestroyed"));
-    }
-
-    /**
-     * Test listener to validate the destroy method was called.
-     */
-    class TestWebApplicationDestroyListener implements ServletContextListener {
-
-        /**
-         * Context initialized event.
-         *
-         * @param event the event.
-         */
-        @Override
-        public void contextInitialized(ServletContextEvent event) {
-        }
-
-        /**
-         * Context destroyed event.
-         *
-         * @param event the event.
-         */
-        @Override
-        public void contextDestroyed(ServletContextEvent event) {
-            event.getServletContext().setAttribute("contextDestroyed", true);
-        }
     }
 
     /**
@@ -247,24 +190,6 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test getAttributeNames method.
-     */
-    @Test
-    void testGetAttributeNames() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNotNull(webApp.getAttributeNames());
-    }
-
-    /**
-     * Test getContext method.
-     */
-    @Test
-    void testGetContext() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNull(webApp.getContext("/does_not_matter"));
-    }
-
-    /**
      * Test getObjectInstanceManager method.
      */
     @Test
@@ -294,145 +219,12 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test getInitParameter method.
-     */
-    @Test
-    void testGetInitParameter() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setInitParameter("initParameter", Boolean.TRUE.toString());
-        assertEquals("true", webApp.getInitParameter("initParameter"));
-    }
-
-    /**
-     * Test getInitParameterNames method.
-     */
-    @Test
-    void testGetInitParameterNames() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setInitParameter("initParameter", Boolean.TRUE.toString());
-        Enumeration<String> enumeration = webApp.getInitParameterNames();
-        assertEquals("initParameter", enumeration.nextElement());
-        assertFalse(enumeration.hasMoreElements());
-    }
-
-    /**
      * Test getJspConfigDescriptor method.
      */
     @Test
     void testGetJspConfigDescriptor() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getJspConfigDescriptor());
-    }
-
-    /**
-     * Test getMajorVersion method.
-     */
-    @Test
-    void testGetMajorVersion() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(6, webApp.getMajorVersion());
-    }
-
-    /**
-     * Test getMinorVersion method.
-     */
-    @Test
-    void testGetMinorVersion() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(0, webApp.getMinorVersion());
-    }
-
-    /**
-     * Test getNamedDispatcher method.
-     */
-    @Test
-    void testGetNamedDispatcher() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addServlet("Snoop", TestSnoopServlet.class);
-        assertNotNull(webApp.getNamedDispatcher("Snoop"));
-    }
-
-    /**
-     * Test getRealPath method.
-     */
-    @Test
-    void testGetRealPath() {
-        DefaultResourceManager resourceManager = new DefaultResourceManager();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setResourceManager(resourceManager);
-        assertNull(webApp.getRealPath("index.html"));
-    }
-
-    /**
-     * Test getRealPath method.
-     */
-    @Test
-    void testGetRealPath2() {
-        DefaultResourceManager resourceManager = new DefaultResourceManager();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setResourceManager(resourceManager);
-        webApp.addResource(new DirectoryResource(new File(".")));
-        assertNotNull(webApp.getRealPath("/src/main/java"));
-    }
-
-    /**
-     * Test getRequest method.
-     */
-    @Test
-    void testGetRequest() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        webApp.linkRequestAndResponse(request, response);
-        assertNotNull(webApp.getRequest(response));
-    }
-
-    /**
-     * Test getRequestCharacterEncoding method.
-     */
-    @Test
-    void testGetRequestCharacterEncoding() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNull(webApp.getRequestCharacterEncoding());
-        webApp.setRequestCharacterEncoding("UTF-8");
-        assertEquals("UTF-8", webApp.getRequestCharacterEncoding());
-    }
-
-    /**
-     * Test getRequestDispatcher.
-     *
-     * @throws Exception
-     */
-    @Test
-    void testGetRequestDispatcher() throws Exception {
-        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
-        webApp.addServlet("Snoop", TestSnoopServlet.class);
-        webApp.addServletMapping("Snoop", "/Snoop");
-        assertNotNull(webApp.getRequestDispatcher("/Snoop"));
-    }
-
-    /**
-     * Test getResourceAsStream method.
-     */
-    @Test
-    void testGetResourceAsStream() {
-        DefaultResourceManager resourceManager = new DefaultResourceManager();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setResourceManager(resourceManager);
-        webApp.addResource(new DirectoryResource(new File(".")));
-        assertNotNull(webApp.getResourceAsStream("/pom.xml"));
-    }
-
-    /**
-     * Test getResourcePaths method.
-     */
-    @Test
-    void testGetResourcePaths() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNull(webApp.getResourcePaths("/this_will_be_null/"));
-        assertNull(webApp.getResourcePaths(null));
     }
 
     @Test
@@ -480,53 +272,12 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test getResponseCharacterEncoding.
-     */
-    @Test
-    void testGetResponseCharacterEncoding() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNull(webApp.getResponseCharacterEncoding());
-        webApp.setResponseCharacterEncoding("UTF-8");
-        assertEquals("UTF-8", webApp.getResponseCharacterEncoding());
-    }
-
-    /**
      * Test getSecurityManager.
      */
     @Test
     void testGetSecurityManager() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertNull(webApp.getManager().getSecurityManager());
-    }
-
-    /**
-     * Test getServerInfo method.
-     */
-    @Test
-    void testGetServerInfo() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals("", webApp.getServerInfo());
-    }
-
-    /**
-     * Test getServletContextName method.
-     */
-    @Test
-    void testGetServletContextName() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setServletContextName("MYNAME");
-        assertNotNull(webApp.getServletContextName());
-        assertEquals("MYNAME", webApp.getServletContextName());
-    }
-
-    /**
-     * Test getServletRegistrations method.
-     */
-    @Test
-    void testGetServletRegistrations() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNotNull(webApp.getServletRegistrations());
-        assertTrue(webApp.getServletRegistrations().isEmpty());
     }
 
     /**
@@ -636,18 +387,6 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test removeAttribute method.
-     */
-    @Test
-    void testRemoveAttribute() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setAttribute("name", "value");
-        assertNotNull(webApp.getAttribute("name"));
-        webApp.removeAttribute("name");
-        assertNull(webApp.getAttribute("name"));
-    }
-
-    /**
      * Test service method (ServletRequestListeners)
      *
      * @throws Exception
@@ -717,80 +456,9 @@ class DefaultWebApplicationTest {
      * Test setAttribute method.
      */
     @Test
-    void testSetAttribute() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setAttribute("myattribute", null);
-        assertNull(webApp.getAttribute("myattribute"));
-    }
-
-    /**
-     * Test setAttribute method.
-     */
-    @Test
     void testSetAttribute2() {
         DefaultWebApplication webApp = new DefaultWebApplication();
         assertThrows(NullPointerException.class, () -> webApp.setAttribute(null, "KABOOM"));
-    }
-
-    /**
-     * Test getAttribute method.
-     */
-    @Test
-    void testGetAttribute() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertThrows(NullPointerException.class, () -> webApp.getAttribute(null));
-    }
-
-    /**
-     * Test setClassLoader method.
-     */
-    @Test
-    void testSetClassLoader() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNotNull(webApp.getClassLoader());
-        webApp.setClassLoader(null);
-        assertNull(webApp.getClassLoader());
-    }
-
-    /**
-     * Test setInitParameter method.
-     */
-    @Test
-    void testSetInitParameter() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertTrue(webApp.setInitParameter("name", "value"));
-        assertFalse(webApp.setInitParameter("name", "value"));
-    }
-
-    /**
-     * Test setInitParameter method.
-     */
-    @Test
-    void testSetInitParameter2() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.initialize();
-        webApp.start();
-        assertThrows(IllegalStateException.class, () -> webApp.setInitParameter("name", "value"));
-    }
-
-    /**
-     * Test setInitParameter method.
-     */
-    @Test
-    void testSetInitParameter3() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertThrows(NullPointerException.class, () -> webApp.setInitParameter(null, "KABOOM"));
-    }
-
-    /**
-     * Test setInitParameter method.
-     */
-    @Test
-    void testSetInitParameter4() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.initialize();
-        webApp.start();
-        assertThrows(NullPointerException.class, () -> webApp.setInitParameter(null, "KABOOM"));
     }
 
     /**
@@ -802,14 +470,5 @@ class DefaultWebApplicationTest {
         webApplication.getManager().setLoggingManager(null);
         webApplication.log("KABOOM");
         assertNull(webApplication.getManager().getLoggingManager());
-    }
-    
-    /**
-     * Test getMimeType method.
-     */
-    @Test
-    void testGetMimeType() {
-        DefaultWebApplication application = new DefaultWebApplication();
-        assertNull(application.getMimeType("index.html"));
     }
 }
