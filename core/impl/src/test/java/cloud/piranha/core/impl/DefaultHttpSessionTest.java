@@ -27,6 +27,10 @@
  */
 package cloud.piranha.core.impl;
 
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
+import cloud.piranha.core.tests.HttpSessionTest;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.ServletException;
@@ -64,7 +68,22 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HttpSessionTest {
+class DefaultHttpSessionTest extends HttpSessionTest {
+
+    @Override
+    protected WebApplication createWebApplication() {
+        return new DefaultWebApplication();
+    }
+
+    @Override
+    protected WebApplicationRequest createWebApplicationRequest() {
+        return new DefaultWebApplicationRequest();
+    }
+
+    @Override
+    protected WebApplicationResponse createWebApplicationResponse() {
+        return new DefaultWebApplicationResponse();
+    }
 
     /**
      * Test attributeAdded method.
@@ -181,30 +200,6 @@ class HttpSessionTest {
     }
 
     /**
-     * Test getAttribute method.
-     */
-    @Test
-    void testGetAttribute() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultHttpSession session = new DefaultHttpSession(webApp);
-        session.setSessionManager(new DefaultHttpSessionManager());
-        session.setAttribute("TEST", "TEST");
-        assertEquals("TEST", session.getAttribute("TEST"));
-        session.removeAttribute("TEST");
-        assertNull(session.getAttribute("TEST"));
-    }
-
-    /**
-     * Test getAttributeNames method.
-     */
-    @Test
-    void testGetAttributeNames() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultHttpSession session = new DefaultHttpSession(webApp);
-        assertFalse(session.getAttributeNames().hasMoreElements());
-    }
-
-    /**
      * Test getComment method.
      */
     @Test
@@ -259,16 +254,6 @@ class HttpSessionTest {
     */
 
     /**
-     * Test getCreationTime method.
-     */
-    @Test
-    void testGetCreationTime() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultHttpSession session = new DefaultHttpSession(webApp);
-        assertTrue(session.getCreationTime() > 0);
-    }
-
-    /**
      * Test getDomain method.
      */
     @Test
@@ -314,28 +299,6 @@ class HttpSessionTest {
     }
 
     /**
-     * Test getId method.
-     */
-    @Test
-    void testGetId() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultHttpSession session = new DefaultHttpSession(webApp);
-        session.setId("ID");
-        assertEquals("ID", session.getId());
-    }
-
-    /**
-     * Test getLastAccessedTime method.
-     */
-    @Test
-    void testGetLastAccessedTime() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultHttpSession session = new DefaultHttpSession(webApp);
-        assertTrue(session.getCreationTime() > 0);
-        assertTrue(session.getLastAccessedTime() >= session.getCreationTime());
-    }
-
-    /**
      * Test getMaxAge method.
      */
     @Test
@@ -346,17 +309,6 @@ class HttpSessionTest {
         assertEquals(-1, sessionManager.getMaxAge());
         sessionManager.setMaxAge(60);
         assertEquals(60, sessionManager.getMaxAge());
-    }
-
-    /**
-     * Test getMaxInactiveInterval method.
-     */
-    @Test
-    void testGetMaxInactiveInterval() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultHttpSession session = new DefaultHttpSession(webApp);
-        session.setMaxInactiveInterval(1000);
-        assertEquals(1000, session.getMaxInactiveInterval());
     }
 
     /**
@@ -381,17 +333,6 @@ class HttpSessionTest {
         sessionManager.setWebApplication(webApplication);
         sessionManager.setPath("/");
         assertEquals("/", sessionManager.getPath());
-    }
-
-    /**
-     * Test getServletContext method.
-     */
-    @Test
-    void testGetServletContext() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultHttpSession session = new DefaultHttpSession(webApp);
-        session.setSessionManager(webApp.getManager().getHttpSessionManager());
-        assertNotNull(session.getServletContext());
     }
 
     /**
@@ -536,22 +477,6 @@ class HttpSessionTest {
 
     /**
      * Test invalidate method.
-     */
-    @Test
-    void testInvalidate() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultHttpSession session = new DefaultHttpSession(webApp);
-        session.setSessionManager(new DefaultHttpSessionManager());
-        session.invalidate();
-        try {
-            session.isNew();
-            fail();
-        } catch (IllegalStateException expected) {
-        }
-    }
-
-    /**
-     * Test invalidate method.
      *
      * @throws IllegalStateException when the session is invalid.
      */
@@ -576,19 +501,6 @@ class HttpSessionTest {
         assertFalse(sessionManager.isHttpOnly());
         sessionManager.setHttpOnly(true);
         assertTrue(sessionManager.isHttpOnly());
-    }
-
-    /**
-     * Test isNew method.
-     */
-    @Test
-    void testIsNew() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultHttpSession session = new DefaultHttpSession(webApp);
-        session.setNew(true);
-        assertTrue(session.isNew());
-        session.setNew(false);
-        assertFalse(session.isNew());
     }
 
     /**
@@ -696,19 +608,6 @@ class HttpSessionTest {
         assertNotEquals(webApplication.getAttribute("oldSessionId"),
                 webApplication.getAttribute("newSessionId"));
         webApplication.stop();
-    }
-
-    /**
-     * Test setAttribute method.
-     */
-    @Test
-    void testSetAttribute() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        DefaultHttpSession session = new DefaultHttpSession(webApp);
-        session.setSessionManager(new DefaultHttpSessionManager());
-        session.setAttribute("TEST", "TEST");
-        session.setAttribute("TEST", null);
-        assertNull(session.getAttribute("TEST"));
     }
 
     /**
