@@ -25,50 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.core.impl;
 
-import java.util.EventListener;
-import jakarta.servlet.http.HttpServletRequest;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
+import java.io.ByteArrayOutputStream;
 
 /**
+ * The JUnit tests for the HttpSessionAttributeListener API.
  *
- * @author Arjan Tijms
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface HttpRequestManager {
+class HttpSessionAttributeListenerTest extends cloud.piranha.core.tests.HttpSessionAttributeListenerTest {
 
-    /**
-     * Add a listener.
-     *
-     * @param <T> the type.
-     * @param listener the listener.
-     */
-    <T extends EventListener> void addListener(T listener);
+    @Override
+    protected WebApplication createWebApplication() {
+        return new DefaultWebApplication();
+    }
 
-    /**
-     * Attribute added.
-     *
-     * @param request the HTTP request.
-     * @param name the name.
-     * @param value the value.
-     */
-    void attributeAdded(HttpServletRequest request, String name, Object value);
+    @Override
+    protected WebApplicationRequest createWebApplicationRequest() {
+        return new DefaultWebApplicationRequest();
+    }
 
-    /**
-     * Attribute removed.
-     *
-     * @param request the HTTP request.
-     * @param name the name.
-     * @param value the value
-     */
-    void attributeRemoved(HttpServletRequest request, String name, Object value);
-
-    /**
-     * Attribute replaced.
-     *
-     * @param request the HTTP request.
-     * @param name the name.
-     * @param value the value.
-     */
-    void attributeReplaced(HttpServletRequest request, String name, Object value);
-
+    @Override
+    protected WebApplicationResponse createWebApplicationResponse() {
+        DefaultWebApplicationResponse response  = new DefaultWebApplicationResponse();
+        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
+        return response;
+    }
 }

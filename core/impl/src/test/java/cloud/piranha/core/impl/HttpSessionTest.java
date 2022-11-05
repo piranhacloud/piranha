@@ -30,7 +30,6 @@ package cloud.piranha.core.impl;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
-import cloud.piranha.core.tests.HttpSessionTest;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.ServletException;
@@ -64,11 +63,11 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
- * All JUnit tests related to HttpSession functionality.
+ * The JUnit tests for the HttpSession API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultHttpSessionTest extends HttpSessionTest {
+class HttpSessionTest extends cloud.piranha.core.tests.HttpSessionTest {
 
     @Override
     protected WebApplication createWebApplication() {
@@ -83,81 +82,6 @@ class DefaultHttpSessionTest extends HttpSessionTest {
     @Override
     protected WebApplicationResponse createWebApplicationResponse() {
         return new DefaultWebApplicationResponse();
-    }
-
-    /**
-     * Test attributeAdded method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAttributeAdded() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addListener(new TestAttributeAddedListener());
-        webApplication.addServlet("testAttributeAddedServlet",
-                new TestAttributeAddedServlet());
-        webApplication.addServletMapping("testAttributeAddedServlet",
-                "/attributeAdded");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setServletPath("/attributeAdded");
-        request.setWebApplication(webApplication);
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
-        assertNotNull(webApplication.getAttribute("attributeAdded"));
-        webApplication.stop();
-    }
-
-    /**
-     * Test attributeRemoved method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAttributeRemoved() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addListener(new TestAttributeRemovedListener());
-        webApplication.addServlet("attributeRemovedServlet",
-                new TestAttributeRemovedServlet());
-        webApplication.addServletMapping("attributeRemovedServlet",
-                "/attributeRemoved");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setServletPath("/attributeRemoved");
-        request.setWebApplication(webApplication);
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
-        assertNotNull(webApplication.getAttribute("attributeRemoved"));
-        webApplication.stop();
-    }
-
-    /**
-     * Test attributeReplaced method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAttributeReplaced() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addListener(new TestAttributeReplacedListener());
-        webApplication.addServlet("attributeReplacedServlet",
-                new TestAttributeReplacedServlet());
-        webApplication.addServletMapping("attributeReplacedServlet",
-                "/attributeReplaced");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setServletPath("/attributeReplaced");
-        request.setWebApplication(webApplication);
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
-        assertNotNull(webApplication.getAttribute("attributeReplaced"));
-        webApplication.stop();
     }
 
     /**

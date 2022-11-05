@@ -63,13 +63,6 @@ public interface WebApplicationManager {
     ErrorPageManager getErrorPageManager();
     
     /**
-     * Get the HTTP request manager.
-     * 
-     * @return the HTTP request manager.
-     */
-    HttpRequestManager getHttpRequestManager();
-    
-    /**
      * Get the HTTP session manager.
      * 
      * @return the HTTP session manager.
@@ -133,6 +126,13 @@ public interface WebApplicationManager {
     SecurityManager getSecurityManager();
     
     /**
+     * Get the servlet request manager.
+     * 
+     * @return the servlet request manager. 
+     */
+    ServletRequestManager getServletRequestManager();
+    
+    /**
      * Get the web.xml manager.
      * 
      * @return the web.xml manager.
@@ -166,13 +166,6 @@ public interface WebApplicationManager {
      * @param errorPageManager the error page manager.
      */
     void setErrorPageManager(ErrorPageManager errorPageManager);
-    
-    /**
-     * Set the HTTP request manager.
-     * 
-     * @param httpRequestManager the HTTP request manager.
-     */
-    void setHttpRequestManager(HttpRequestManager httpRequestManager);
     
     /**
      * Set the HTTP session manager.
@@ -236,6 +229,13 @@ public interface WebApplicationManager {
      * @param securityManager the security manager.
      */
     void setSecurityManager(SecurityManager securityManager);
+    
+    /**
+     * Set the servlet request manager.
+     * 
+     * @param servletRequestManager the servlet request manager.
+     */
+    void setServletRequestManager(ServletRequestManager servletRequestManager);
     
     /**
      * Set the web.xml manager.

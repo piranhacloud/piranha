@@ -27,46 +27,32 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.HttpRequestManager;
-import jakarta.servlet.ServletRequestAttributeEvent;
-import jakarta.servlet.ServletRequestAttributeListener;
-import jakarta.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.List;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
+import java.io.ByteArrayOutputStream;
 
 /**
+ * The JUnit tests for the HttpSessionIdListener API.
  *
- * @author Arjan Tijms
- *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultHttpRequestManager implements HttpRequestManager {
-
-    /**
-     * Stores the session listeners.
-     */
-    private final List<ServletRequestAttributeListener> attributeListeners = new ArrayList<>();
+class HttpSessionSessionIdListenerTest extends cloud.piranha.core.tests.HttpSessionIdListenerTest {
 
     @Override
-    public <T extends EventListener> void addListener(T listener) {
-        if (listener instanceof ServletRequestAttributeListener attributeListener) {
-            attributeListeners.add(attributeListener);
-        }
+    protected WebApplication createWebApplication() {
+        return new DefaultWebApplication();
     }
 
     @Override
-    public void attributeAdded(HttpServletRequest request, String name, Object value) {
-        attributeListeners.stream().forEach(listener -> listener.attributeAdded(new ServletRequestAttributeEvent(request.getServletContext(), request, name, value)));
+    protected WebApplicationRequest createWebApplicationRequest() {
+        return new DefaultWebApplicationRequest();
     }
 
     @Override
-    public void attributeRemoved(HttpServletRequest request, String name, Object value) {
-        attributeListeners.stream().forEach(listener -> listener.attributeRemoved(new ServletRequestAttributeEvent(request.getServletContext(), request, name, value)));
+    protected WebApplicationResponse createWebApplicationResponse() {
+        DefaultWebApplicationResponse response  = new DefaultWebApplicationResponse();
+        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
+        return response;
     }
-
-    @Override
-    public void attributeReplaced(HttpServletRequest request, String name, Object value) {
-        attributeListeners.stream().forEach(listener -> listener.attributeReplaced(new ServletRequestAttributeEvent(request.getServletContext(), request, name, value)));
-    }
-
 }

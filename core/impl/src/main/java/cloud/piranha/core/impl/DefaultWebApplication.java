@@ -49,7 +49,6 @@ import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.ServletRegistration.Dynamic;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletRequestAttributeListener;
-import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.SessionCookieConfig;
@@ -322,7 +321,6 @@ public class DefaultWebApplication implements WebApplication {
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
         manager = new DefaultWebApplicationManager();
         manager.getHttpSessionManager().setWebApplication(this);
-        manager.setJspManager(new DefaultJspManager());
     }
 
     @Override
@@ -471,10 +469,10 @@ public class DefaultWebApplication implements WebApplication {
             contextAttributeListeners.add(servletContextAttributeListener);
         }
         if (listener instanceof ServletRequestListener servletRequestListener) {
-            requestListeners.add(servletRequestListener);
+            getManager().getServletRequestManager().addListener(servletRequestListener);
         }
         if (listener instanceof ServletRequestAttributeListener servletRequestAttributeListener) {
-            getManager().getHttpRequestManager().addListener(servletRequestAttributeListener);
+            getManager().getServletRequestManager().addListener(servletRequestAttributeListener);
         }
         if (listener instanceof HttpSessionAttributeListener) {
             getManager().getHttpSessionManager().addListener(listener);
@@ -1180,7 +1178,9 @@ public class DefaultWebApplication implements WebApplication {
         verifyRequestResponseTypes(request, response);
 
         linkRequestAndResponse(request, response);
-        requestInitialized(request);
+        if (getManager().getServletRequestManager() != null) {
+            getManager().getServletRequestManager().requestInitialized(request);
+        }
 
         DefaultWebApplicationRequest webAppRequest = (DefaultWebApplicationRequest) request;
         DefaultWebApplicationResponse webAppResponse = (DefaultWebApplicationResponse) response;
@@ -1195,7 +1195,9 @@ public class DefaultWebApplication implements WebApplication {
             session.setLastAccessedTime(System.currentTimeMillis());
         }
 
-        requestDestroyed(request);
+        if (getManager().getServletRequestManager() != null) {
+            getManager().getServletRequestManager().requestDestroyed(request);
+        }
         unlinkRequestAndResponse(request, response);
 
         if (webAppRequest.isUpgraded()) {
@@ -1433,28 +1435,6 @@ public class DefaultWebApplication implements WebApplication {
             permanent = ue.isPermanent();
         }
         return permanent;
-    }
-
-    /**
-     * Fire the request destroyed event.
-     *
-     * @param request the request.
-     */
-    private void requestDestroyed(ServletRequest request) {
-        if (!requestListeners.isEmpty()) {
-            requestListeners.stream().forEach(servletRequestListener -> servletRequestListener.requestDestroyed(new ServletRequestEvent(this, request)));
-        }
-    }
-
-    /**
-     * Fire the request initialized event.
-     *
-     * @param request the request.
-     */
-    private void requestInitialized(ServletRequest request) {
-        if (!requestListeners.isEmpty()) {
-            requestListeners.stream().forEach(servletRequestListener -> servletRequestListener.requestInitialized(new ServletRequestEvent(this, request)));
-        }
     }
 
     @Override

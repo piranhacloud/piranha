@@ -1054,8 +1054,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     public void removeAttribute(String name) {
         Object oldValue = attributeManager.getAttribute(name);
         attributeManager.removeAttribute(name);
-        if (webApplication != null && webApplication.getManager().getHttpRequestManager() != null) {
-            webApplication.getManager().getHttpRequestManager().attributeRemoved(this, name, oldValue);
+        if (webApplication != null && webApplication.getManager().getServletRequestManager() != null) {
+            webApplication.getManager().getServletRequestManager().attributeRemoved(this, name, oldValue);
         }
     }
 
@@ -1087,18 +1087,18 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
             }
 
             attributeManager.setAttribute(name, value);
-            if (webApplication != null && webApplication.getManager().getHttpRequestManager() != null) {
+            if (webApplication != null && webApplication.getManager().getServletRequestManager() != null) {
                 if (!added) {
-                    webApplication.getManager().getHttpRequestManager().attributeAdded(this, name, value);
+                    webApplication.getManager().getServletRequestManager().attributeAdded(this, name, value);
                 } else {
-                    webApplication.getManager().getHttpRequestManager().attributeReplaced(this, name, oldValue);
+                    webApplication.getManager().getServletRequestManager().attributeReplaced(this, name, oldValue);
                 }
             }
         } else {
             Object oldValue = attributeManager.getAttribute(name);
             attributeManager.removeAttribute(name);
-            if (webApplication != null && webApplication.getManager().getHttpRequestManager() != null) {
-                webApplication.getManager().getHttpRequestManager().attributeRemoved(this, name, oldValue);
+            if (webApplication != null && webApplication.getManager().getServletRequestManager() != null) {
+                webApplication.getManager().getServletRequestManager().attributeRemoved(this, name, oldValue);
             }
         }
     }

@@ -25,34 +25,66 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
+package cloud.piranha.core.api;
 
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
-import java.io.ByteArrayOutputStream;
+import jakarta.servlet.ServletRequest;
+import java.util.EventListener;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * The JUnit tests for the ServletContextAttributeListener API.
- *
+ * The ServletRequest manager.
+ * 
+ * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ServletContextAttributeListenerTest extends cloud.piranha.core.tests.ServletContextAttributeListenerTest {
+public interface ServletRequestManager {
 
-    @Override
-    protected WebApplication createWebApplication() {
-        return new DefaultWebApplication();
-    }
+    /**
+     * Add a listener.
+     *
+     * @param <T> the type.
+     * @param listener the listener.
+     */
+    <T extends EventListener> void addListener(T listener);
 
-    @Override
-    protected WebApplicationRequest createWebApplicationRequest() {
-        return new DefaultWebApplicationRequest();
-    }
+    /**
+     * Fire the attribute added event.
+     *
+     * @param request the request.
+     * @param name the name.
+     * @param value the value.
+     */
+    void attributeAdded(HttpServletRequest request, String name, Object value);
 
-    @Override
-    protected WebApplicationResponse createWebApplicationResponse() {
-        DefaultWebApplicationResponse response  = new DefaultWebApplicationResponse();
-        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
-        return response;
-    }
+    /**
+     * Fire the attribute removed event.
+     *
+     * @param request the request.
+     * @param name the name.
+     * @param value the value
+     */
+    void attributeRemoved(HttpServletRequest request, String name, Object value);
+
+    /**
+     * Fire the attribute replaced event.
+     *
+     * @param request the request.
+     * @param name the name.
+     * @param value the value.
+     */
+    void attributeReplaced(HttpServletRequest request, String name, Object value);
+    
+    /**
+     * Fire the request destroyed event.
+     *
+     * @param request the request.
+     */
+    void requestDestroyed(ServletRequest request);
+
+    /**
+     * Fire the request initialized event.
+     *
+     * @param request the request.
+     */
+    void requestInitialized(ServletRequest request);
 }

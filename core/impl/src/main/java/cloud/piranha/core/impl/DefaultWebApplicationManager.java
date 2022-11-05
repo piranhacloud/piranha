@@ -30,7 +30,6 @@ package cloud.piranha.core.impl;
 import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.core.api.AsyncManager;
 import cloud.piranha.core.api.ErrorPageManager;
-import cloud.piranha.core.api.HttpRequestManager;
 import cloud.piranha.core.api.HttpSessionManager;
 import cloud.piranha.core.api.JspManager;
 import cloud.piranha.core.api.LocaleEncodingManager;
@@ -44,6 +43,7 @@ import cloud.piranha.core.api.WebApplicationManager;
 import cloud.piranha.core.api.WebXmlManager;
 import cloud.piranha.resource.api.ResourceManager;
 import cloud.piranha.resource.impl.DefaultResourceManager;
+import cloud.piranha.core.api.ServletRequestManager;
 
 /**
  * The default WebApplicationManager.
@@ -68,11 +68,6 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     protected ErrorPageManager errorPageManager = new DefaultErrorPageManager();
     
     /**
-     * Stores the HTTP request manager.
-     */
-    protected HttpRequestManager httpRequestManager = new DefaultHttpRequestManager();
-    
-    /**
      * Stores the HTTP session manager.
      */
     protected HttpSessionManager httpSessionManager = new DefaultHttpSessionManager();
@@ -80,7 +75,7 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     /**
      * Stores the JSP manager.
      */
-    protected JspManager jspManager;
+    protected JspManager jspManager = new DefaultJspManager();
     
     /**
      * Stores the locale encoding manager.
@@ -118,6 +113,11 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     protected SecurityManager securityManager;
     
     /**
+     * Stores the servlet request manager.
+     */
+    protected ServletRequestManager servletRequestManager = new DefaultServletRequestManager();
+
+    /**
      * Stores the web.xml manager.
      */
     protected WebXmlManager webXmlManager;
@@ -140,11 +140,6 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     @Override
     public ErrorPageManager getErrorPageManager() {
         return errorPageManager;
-    }
-
-    @Override
-    public HttpRequestManager getHttpRequestManager() {
-        return httpRequestManager;
     }
 
     @Override
@@ -193,6 +188,11 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     }
 
     @Override
+    public ServletRequestManager getServletRequestManager() {
+        return servletRequestManager;
+    }
+
+    @Override
     public WebXmlManager getWebXmlManager() {
         return webXmlManager;
     }
@@ -218,8 +218,8 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     }
 
     @Override
-    public void setHttpRequestManager(HttpRequestManager httpRequestManager) {
-        this.httpRequestManager = httpRequestManager;
+    public void setServletRequestManager(ServletRequestManager servletRequestManager) {
+        this.servletRequestManager = servletRequestManager;
     }
 
     @Override
