@@ -129,10 +129,6 @@ public abstract class WebApplicationTest {
             @Override
             public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
             }
-
-            @Override
-            public void destroy() {
-            }
         });
         webApplication.initialize();
         assertNotNull(webApplication.getAttribute("TestAddFilter2"));
@@ -149,17 +145,9 @@ public abstract class WebApplicationTest {
         webApplication.addFilter("TestAddFilter3a", new Filter() {
 
             @Override
-            public void destroy() {
-            }
-
-            @Override
             public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
                 request.setAttribute("TestAddFilter3a", "true");
                 chain.doFilter(request, response);
-            }
-
-            @Override
-            public void init(FilterConfig filterConfig) throws ServletException {
             }
         });
         webApplication.addFilterMapping("TestAddFilter3a", "/*");
@@ -313,6 +301,24 @@ public abstract class WebApplicationTest {
     }
 
     /**
+     * Test addFilter method.
+     */
+    @Test
+    void testAddFilter13() {
+        WebApplication webApplication = createWebApplication();
+        assertNotNull(webApplication.addFilter("filter", new Filter() {
+            @Override
+            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+            }
+        }));
+        assertNull(webApplication.addFilter("filter", new Filter() {
+            @Override
+            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+            }
+        }));
+    }
+
+    /**
      * Test addFilterMapping method.
      *
      * @throws Exception when a serious error occurs.
@@ -321,17 +327,10 @@ public abstract class WebApplicationTest {
     void testAddFilterMapping() throws Exception {
         WebApplication webApplication = createWebApplication();
         webApplication.addFilter("TestAddFilterMapping", new Filter() {
-            @Override
-            public void destroy() {
-            }
 
             @Override
             public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
                 request.getServletContext().setAttribute("TestAddFilterMapping", true);
-            }
-
-            @Override
-            public void init(FilterConfig filterConfig) throws ServletException {
             }
         });
         webApplication.addFilterMapping("TestAddFilterMapping", "/*");
@@ -372,6 +371,24 @@ public abstract class WebApplicationTest {
     }
 
     /**
+     * Test addInitialized method
+     */
+    @Test
+    void testAddInitializer3() {
+        WebApplication webApplication = createWebApplication();
+        webApplication.addInitializer(TestAddInitializer3Initializer.class.getName());
+        webApplication.addInitializer(new ServletContainerInitializer() {
+            @Override
+            public void onStartup(Set<Class<?>> classes, ServletContext context) throws ServletException {
+                WebApplication webApplication = (WebApplication) context;
+                context.setAttribute("testAddInitializer3", webApplication.getInitializers().size());
+            }
+        });
+        webApplication.initialize();
+        assertEquals(1, webApplication.getAttribute("testAddInitializer3"));
+    }
+
+    /**
      * Test addJspFile method.
      */
     @Test
@@ -390,6 +407,26 @@ public abstract class WebApplicationTest {
         webApplication.start();
         assertThrows(IllegalStateException.class, ()
                 -> webApplication.addJspFile("TestAddJspFile2", "testAddJspFile2.jsp"));
+    }
+
+    /**
+     * Test addJspFile method.
+     */
+    @Test
+    void testAddJspFile3() {
+        WebApplication webApplication = createWebApplication();
+        assertThrows(IllegalArgumentException.class, ()
+                -> webApplication.addJspFile(null, "testAddJspFile3.jsp"));
+    }
+
+    /**
+     * Test addJspFile method.
+     */
+    @Test
+    void testAddJspFile4() {
+        WebApplication webApplication = createWebApplication();
+        webApplication.getManager().setJspManager(null);
+        assertNull(webApplication.addJspFile("TestAddJspFile4", "testAddJspFile4.jsp"));
     }
 
     /**
@@ -693,16 +730,9 @@ public abstract class WebApplicationTest {
     void testGetFilterRegistration() {
         WebApplication webApplication = createWebApplication();
         webApplication.addFilter("TestGetFilterRegistrationFilter", new Filter() {
-            @Override
-            public void destroy() {
-            }
 
             @Override
             public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-            }
-
-            @Override
-            public void init(FilterConfig filterConfig) throws ServletException {
             }
         });
         assertNotNull(webApplication.getFilterRegistration("TestGetFilterRegistrationFilter"));
@@ -1497,6 +1527,25 @@ public abstract class WebApplicationTest {
         @Override
         public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
             servletContext.setAttribute("TestAddInitializer2", true);
+        }
+    }
+
+    /**
+     * Test initializer that is used by testAddInitializer2.
+     */
+    public static class TestAddInitializer3Initializer implements ServletContainerInitializer {
+
+        /**
+         * Constructor.
+         *
+         * @throws IOException when an I/O error occurs.
+         */
+        public TestAddInitializer3Initializer() throws IOException {
+            throw new IOException();
+        }
+
+        @Override
+        public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         }
     }
 

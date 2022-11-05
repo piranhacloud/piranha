@@ -25,34 +25,59 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
+package cloud.piranha.core.tests;
 
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
-import java.io.ByteArrayOutputStream;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the ServletContextAttributeListener API.
- *
+ * The JUnit tests for the ServletContextListener API.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ServletContextAttributeListenerTest extends cloud.piranha.core.tests.ServletContextAttributeListenerTest {
+public abstract class ServletContextListenerTest {
+    
+    /**
+     * Create a web application.
+     * 
+     * @return the web application.
+     */
+    public abstract WebApplication createWebApplication();
 
-    @Override
-    protected WebApplication createWebApplication() {
-        return new DefaultWebApplication();
+    /**
+     * Test contextDestroyed method.
+     */
+    @Test
+    void testContextDestroyed() {
+        WebApplication webApplication = createWebApplication();
+        webApplication.addListener(new ServletContextListener() {
+            @Override
+            public void contextDestroyed(ServletContextEvent event) {
+                event.getServletContext().setAttribute("TestContextDestroyed", true);
+            }
+        });
+        webApplication.initialize();
+        webApplication.destroy();
+        assertNotNull(webApplication.getAttribute("TestContextDestroyed"));
     }
 
-    @Override
-    protected WebApplicationRequest createWebApplicationRequest() {
-        return new DefaultWebApplicationRequest();
-    }
-
-    @Override
-    protected WebApplicationResponse createWebApplicationResponse() {
-        DefaultWebApplicationResponse response  = new DefaultWebApplicationResponse();
-        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
-        return response;
+    /**
+     * Test contextInitialized method.
+     */
+    @Test
+    void testContextInitialized() {
+        WebApplication webApplication = createWebApplication();
+        webApplication.addListener(new ServletContextListener() {
+            @Override
+            public void contextInitialized(ServletContextEvent event) {
+                event.getServletContext().setAttribute("TestContextInitialized", true);
+            }
+        });
+        webApplication.initialize();
+        webApplication.destroy();
+        assertNotNull(webApplication.getAttribute("TestContextInitialized"));
     }
 }

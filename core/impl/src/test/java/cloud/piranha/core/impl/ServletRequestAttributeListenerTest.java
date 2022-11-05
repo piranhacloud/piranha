@@ -27,180 +27,32 @@
  */
 package cloud.piranha.core.impl;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.io.IOException;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequestAttributeEvent;
-import jakarta.servlet.ServletRequestAttributeListener;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
+import java.io.ByteArrayOutputStream;
 
 /**
  * The JUnit tests for the ServletRequestAttributeListener API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ServletRequestAttributeListenerTest {
+class ServletRequestAttributeListenerTest extends cloud.piranha.core.tests.ServletRequestAttributeListenerTest {
 
-    /**
-     * Stores the web application.
-     */
-    protected WebApplication webApplication;
-
-    /**
-     * Setup before testing.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @BeforeEach
-    void setUp() throws Exception {
-        webApplication = new DefaultWebApplication();
+    @Override
+    public WebApplication createWebApplication() {
+        return new DefaultWebApplication();
     }
 
-    /**
-     * Test attributeAdded method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAttributeAdded() throws Exception {
-        webApplication.addListener(new TestServletRequestAttributeListener());
-        webApplication.addServlet("servletRequestAttributeServlet",
-                new TestServletRequestAttributeServlet());
-        webApplication.addServletMapping("servletRequestAttributeServlet",
-                "/servletRequestAttribute");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setServletPath("/servletRequestAttribute");
-        request.setWebApplication(webApplication);
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
-        assertNotNull(webApplication.getAttribute("attributeAdded"));
-        webApplication.stop();
+    @Override
+    public WebApplicationRequest createWebApplicationRequest() {
+        return new DefaultWebApplicationRequest();
     }
 
-    /**
-     * Test attributeRemoved method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAttributeRemoved() throws Exception {
-        webApplication.addListener(new TestServletRequestAttributeListener());
-        webApplication.addServlet("servletRequestAttributeServlet",
-                new TestServletRequestAttributeServlet());
-        webApplication.addServletMapping("servletRequestAttributeServlet",
-                "/servletRequestAttribute");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setServletPath("/servletRequestAttribute");
-        request.setWebApplication(webApplication);
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
-        assertNotNull(webApplication.getAttribute("attributeRemoved"));
-        webApplication.stop();
-    }
-
-    /**
-     * Test attributeReplaced method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testAttributeReplaced() throws Exception {
-        webApplication.addListener(new TestServletRequestAttributeListener());
-        webApplication.addServlet("servletRequestAttributeServlet",
-                new TestServletRequestAttributeServlet());
-        webApplication.addServletMapping("servletRequestAttributeServlet",
-                "/servletRequestAttribute");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setServletPath("/servletRequestAttribute");
-        request.setWebApplication(webApplication);
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
-        assertNotNull(webApplication.getAttribute("attributeReplaced"));
-        webApplication.stop();
-    }
-
-    /**
-     * Test HttpServlet to validate the servlet request attributes where added,
-     * remove and replaced.
-     */
-    class TestServletRequestAttributeServlet extends HttpServlet {
-
-        /**
-         * Process GET method.
-         *
-         * @param request the request.
-         * @param response the response.
-         * @throws IOException when an I/O error occurs.
-         * @throws ServletException when a Servlet error occurs.
-         */
-        @Override
-        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-            request.setAttribute("attributeAdded", true);
-            request.setAttribute("attributeRemoved", true);
-            request.removeAttribute("attributeRemoved");
-            request.setAttribute("attributeReplaced", false);
-            request.setAttribute("attributeReplaced", true);
-        }
-    }
-
-    /**
-     * Test ServletRequestAttributeListener to validate attributeAdded,
-     * attributeRemoved and attributeReplaced are properly called.
-     */
-    class TestServletRequestAttributeListener implements ServletRequestAttributeListener {
-
-        /**
-         * Handle attribute added event.
-         *
-         * @param event the event.
-         */
-        @Override
-        public void attributeAdded(ServletRequestAttributeEvent event) {
-            if (event.getName().equals("attributeAdded")) {
-                event.getServletContext().setAttribute("attributeAdded", true);
-            }
-        }
-
-        /**
-         * Handle attribute removed event.
-         *
-         * @param event the event.
-         */
-        @Override
-        public void attributeRemoved(ServletRequestAttributeEvent event) {
-            if (event.getName().equals("attributeRemoved")) {
-                event.getServletContext().setAttribute("attributeRemoved", true);
-            }
-        }
-
-        /**
-         * Handle attribute replaced event.
-         *
-         * @param event the event.
-         */
-        @Override
-        public void attributeReplaced(ServletRequestAttributeEvent event) {
-            if (event.getName().equals("attributeReplaced")) {
-                event.getServletContext().setAttribute("attributeReplaced", true);
-            }
-        }
+    @Override
+    public WebApplicationResponse createWebApplicationResponse() {
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
+        return response;
     }
 }

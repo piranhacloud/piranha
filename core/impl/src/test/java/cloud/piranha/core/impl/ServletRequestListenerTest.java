@@ -27,92 +27,32 @@
  */
 package cloud.piranha.core.impl;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import jakarta.servlet.ServletRequestEvent;
-import jakarta.servlet.ServletRequestListener;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
+import java.io.ByteArrayOutputStream;
 
 /**
  * The JUnit tests for ServletRequestListener API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ServletRequestListenerTest {
+class ServletRequestListenerTest extends cloud.piranha.core.tests.ServletRequestListenerTest {
 
-    /**
-     * Stores the web application.
-     */
-    protected WebApplication webApplication;
-
-    /**
-     * Setup before testing.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @BeforeEach
-    void setUp() throws Exception {
-        webApplication = new DefaultWebApplication();
+    @Override
+    protected WebApplication createWebApplication() {
+        return new DefaultWebApplication();
     }
 
-    /**
-     * Test requestDestroyed method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testRequestDestroyed() throws Exception {
-        webApplication.addListener(new TestServletRequestListener());
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
-        assertNotNull(webApplication.getAttribute("requestDestroyed"));
-        webApplication.stop();
+    @Override
+    protected WebApplicationRequest createWebApplicationRequest() {
+        return new DefaultWebApplicationRequest();
     }
 
-    /**
-     * Test requestInitialized method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testRequestInitialized() throws Exception {
-        webApplication.addListener(new TestServletRequestListener());
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        webApplication.initialize();
-        webApplication.start();
-        webApplication.service(request, response);
-        assertNotNull(webApplication.getAttribute("requestInitialized"));
-        webApplication.stop();
-    }
-
-    class TestServletRequestListener implements ServletRequestListener {
-
-        /**
-         * Handle request destroyed event.
-         *
-         * @param event the event.
-         */
-        @Override
-        public void requestDestroyed(ServletRequestEvent event) {
-            event.getServletContext().setAttribute("requestDestroyed", true);
-        }
-
-        /**
-         * Handle request initialized event.
-         *
-         * @param event the event.
-         */
-        @Override
-        public void requestInitialized(ServletRequestEvent event) {
-            event.getServletContext().setAttribute("requestInitialized", true);
-        }
+    @Override
+    protected WebApplicationResponse createWebApplicationResponse() {
+        DefaultWebApplicationResponse response  = new DefaultWebApplicationResponse();
+        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
+        return response;
     }
 }

@@ -249,6 +249,23 @@ public abstract class HttpSessionTest {
     }
 
     /**
+     * Test setAttribute method.
+     */
+    @Test
+    void testSetAttribute2() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        HttpSession session = request.getSession();
+        session.setAttribute("TestSetAttribute", "TestSetAttribute");
+        session.setAttribute("TestSetAttribute", null);
+        assertNull(session.getAttribute("TestSetAttribute"));
+    }
+
+    /**
      * Test setMaxInactiveInterval method.
      */
     @Test

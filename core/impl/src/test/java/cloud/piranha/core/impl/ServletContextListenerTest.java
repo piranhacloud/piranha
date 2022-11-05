@@ -27,73 +27,17 @@
  */
 package cloud.piranha.core.impl;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.ServletContextListener;
-
-import org.junit.jupiter.api.Test;
+import cloud.piranha.core.api.WebApplication;
 
 /**
- * The JUnit tests for testing everything related to the ServletContextListener
- * API.
+ * The JUnit tests for the ServletContextListener API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ServletContextListenerTest {
+class ServletContextListenerTest extends cloud.piranha.core.tests.ServletContextListenerTest {
 
-    /**
-     * Test contextDestroyed method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testContextDestroyed() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addListener(new TestServletContextListener());
-        webApplication.initialize();
-        webApplication.destroy();
-        assertNotNull(webApplication.getAttribute("contextDestroyed"));
-    }
-
-    /**
-     * Test contextInitialized method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testContextInitialized() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addListener(new TestServletContextListener());
-        webApplication.initialize();
-        webApplication.destroy();
-        assertNotNull(webApplication.getAttribute("contextInitialized"));
-    }
-
-    /**
-     * Test ServletContextListener to validate contextInitialized and
-     * contextDestroyed are properly called.
-     */
-    class TestServletContextListener implements ServletContextListener {
-
-        /**
-         * Context destroyed event.
-         *
-         * @param event the event.
-         */
-        @Override
-        public void contextDestroyed(ServletContextEvent event) {
-            event.getServletContext().setAttribute("contextDestroyed", true);
-        }
-
-        /**
-         * Context initialized event.
-         *
-         * @param event the event.
-         */
-        @Override
-        public void contextInitialized(ServletContextEvent event) {
-            event.getServletContext().setAttribute("contextInitialized", true);
-        }
+    @Override
+    public WebApplication createWebApplication() {
+        return new DefaultWebApplication();
     }
 }

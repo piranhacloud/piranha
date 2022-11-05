@@ -33,11 +33,11 @@ import cloud.piranha.core.api.WebApplicationResponse;
 import java.io.ByteArrayOutputStream;
 
 /**
- * The JUnit tests for the ServletContextAttributeListener API.
+ * The JUnit tests for the HttpSessionListener API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ServletContextAttributeListenerTest extends cloud.piranha.core.tests.ServletContextAttributeListenerTest {
+class HttpSessionListenerTest extends cloud.piranha.core.tests.HttpSessionListenerTest {
 
     @Override
     protected WebApplication createWebApplication() {
