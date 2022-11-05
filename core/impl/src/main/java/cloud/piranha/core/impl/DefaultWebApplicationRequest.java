@@ -1368,11 +1368,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.remotePort = remotePort;
     }
 
-    /**
-     * Set the requested session id.
-     *
-     * @param requestedSessionId the requested session id.
-     */
+    @Override
     public void setRequestedSessionId(String requestedSessionId) {
         this.requestedSessionId = requestedSessionId;
     }
