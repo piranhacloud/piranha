@@ -39,7 +39,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletRequestEvent;
 
 /**
- * The default servlet request attribute manager.
+ * The default servlet request manager.
  *
  * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
