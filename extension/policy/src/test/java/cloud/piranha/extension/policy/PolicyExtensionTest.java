@@ -57,6 +57,6 @@ class PolicyExtensionTest {
         EmbeddedResponse response = new EmbeddedResponse();
         response.setWebApplication(webApplication);
         webApplication.service(request, response);
-        assertEquals(404, response.getStatus());
+        assertEquals(200, response.getStatus());
     }
 }
