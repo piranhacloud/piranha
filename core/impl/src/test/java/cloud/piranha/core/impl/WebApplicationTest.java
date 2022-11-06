@@ -30,13 +30,14 @@ package cloud.piranha.core.impl;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
+import java.io.ByteArrayOutputStream;
 
 /**
- * The JUnit tests for the WebApplicationRequest API.
+ * The JUnit tests for the WebApplicationResponse API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class WebApplicationRequestTest extends cloud.piranha.core.tests.WebApplicationRequestTest {
+class WebApplicationTest extends cloud.piranha.core.tests.WebApplicationTest {
 
     @Override
     protected WebApplication createWebApplication() {
@@ -50,6 +51,8 @@ class WebApplicationRequestTest extends cloud.piranha.core.tests.WebApplicationR
 
     @Override
     protected WebApplicationResponse createWebApplicationResponse() {
-        return new DefaultWebApplicationResponse();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
+        return response;
     }
 }

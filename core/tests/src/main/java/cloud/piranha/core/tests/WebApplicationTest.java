@@ -1440,6 +1440,16 @@ public abstract class WebApplicationTest {
         });
         assertTrue(webApplication.getEffectiveSessionTrackingModes().isEmpty());
     }
+    
+    /**
+     * Test setVirtualServerName method.
+     */
+    @Test
+    void testSetVirtualServerName() {
+        WebApplication webApplication = createWebApplication();
+        webApplication.setVirtualServerName("myname");
+        assertEquals("myname", webApplication.getVirtualServerName());
+    }
 
     /**
      * Test setWebApplicationRequestMapper method.

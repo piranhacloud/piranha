@@ -337,6 +337,13 @@ public interface WebApplication extends ServletContext {
     void setServletContextName(String servletContextName);
 
     /**
+     * Set the virtual server name.
+     * 
+     * @param virtualServerName the virtual server name. 
+     */
+    void setVirtualServerName(String virtualServerName);
+
+    /**
      * Set the web application request mapper.
      *
      * @param webApplicationRequestMapper the web application request mapper.
