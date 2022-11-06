@@ -774,6 +774,22 @@ public abstract class WebApplicationRequestTest {
     }
 
     /**
+     * Test isRequestedSessionIdValid method.
+     */
+    @Test
+    void testIsRequestedSessionIdValid2() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        HttpSession session = request.getSession(true);
+        request.setRequestedSessionId(session.getId());
+        assertTrue(request.isRequestedSessionIdValid());
+    }
+
+    /**
      * Test isSecure method.
      */
     @Test

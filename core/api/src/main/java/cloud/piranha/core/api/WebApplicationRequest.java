@@ -83,6 +83,14 @@ public interface WebApplicationRequest extends HttpServletRequest {
     void setDispatcherType(DispatcherType dispatcherType);
 
     /**
+     * Set the requested session id.
+     * 
+     * @param requestedSessionId the requested session id. 
+     */
+    default void setRequestedSessionId(String requestedSessionId) {
+    }
+
+    /**
      * Set the servlet path.
      *
      * @param servletPath the servlet path.
