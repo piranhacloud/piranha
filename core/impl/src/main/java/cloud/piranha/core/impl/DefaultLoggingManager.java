@@ -27,29 +27,28 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
+import cloud.piranha.core.api.LoggingManager;
+import static java.lang.System.Logger.Level.INFO;
 
 /**
- * The JUnit tests for the HttpSession API.
- *
+ * The default LoggingManager implementation.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HttpSessionTest extends cloud.piranha.core.tests.HttpSessionTest {
+public class DefaultLoggingManager implements LoggingManager {
 
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(DefaultLoggingManager.class.getName());
+    
     @Override
-    protected WebApplication createWebApplication() {
-        return new DefaultWebApplication();
+    public void log(String message) {
+        LOGGER.log(INFO, message);
     }
 
     @Override
-    protected WebApplicationRequest createWebApplicationRequest() {
-        return new DefaultWebApplicationRequest();
-    }
-
-    @Override
-    protected WebApplicationResponse createWebApplicationResponse() {
-        return new DefaultWebApplicationResponse();
+    public void log(String message, Throwable throwable) {
+        LOGGER.log(INFO, message, throwable);
     }
 }

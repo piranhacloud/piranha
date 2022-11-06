@@ -45,16 +45,20 @@ import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletRequestListener;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.SessionTrackingMode;
 import static jakarta.servlet.SessionTrackingMode.COOKIE;
+import static jakarta.servlet.SessionTrackingMode.URL;
 import jakarta.servlet.descriptor.JspConfigDescriptor;
 import jakarta.servlet.descriptor.JspPropertyGroupDescriptor;
 import jakarta.servlet.descriptor.TaglibDescriptor;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSessionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.EventListener;
 import java.util.HashSet;
@@ -606,6 +610,18 @@ public abstract class WebApplicationTest {
     }
 
     /**
+     * Test createListener method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testCreateListener4() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        assertNotNull(webApplication.createListener(
+                TestCreateListener4HttpSessionListener.class));
+    }
+
+    /**
      * Test createServlet method.
      */
     @Test
@@ -723,6 +739,17 @@ public abstract class WebApplicationTest {
         assertTrue(webApplication.getEffectiveSessionTrackingModes().contains(COOKIE));
     }
 
+    /**
+     * Test getEffectiveSessionTrackingModes method.
+     */
+    @Test
+    void testGetEffectiveSessionTrackingModes2() {
+        WebApplication webApplication = createWebApplication();
+        Set<SessionTrackingMode> trackingModes = EnumSet.of(URL);
+        webApplication.setSessionTrackingModes(trackingModes);
+        assertTrue(webApplication.getEffectiveSessionTrackingModes().contains(URL));
+    }
+    
     /**
      * Test getFilterRegistration method.
      */
@@ -1310,6 +1337,18 @@ public abstract class WebApplicationTest {
     }
 
     /**
+     * Test setEffectiveSessionTrackingModes method.
+     */
+    @Test
+    void testSetEffectiveSessionTrackingModes() {
+        WebApplication webApplication = createWebApplication();
+        webApplication.initialize();
+        webApplication.start();
+        Set<SessionTrackingMode> trackingModes = EnumSet.of(URL);
+        assertNotNull(assertThrows(IllegalStateException.class,
+                () -> webApplication.setSessionTrackingModes(trackingModes)));
+    }
+    /**
      * Test setInitParameter method.
      */
     @Test
@@ -1431,6 +1470,18 @@ public abstract class WebApplicationTest {
     }
 
     /**
+     * Test setSessionTimeout method
+     */
+    @Test
+    void testSessionTimeout2() {
+        WebApplication webApplication = createWebApplication();
+        webApplication.initialize();
+        webApplication.start();
+        assertNotNull(assertThrows(IllegalStateException.class,
+                () -> webApplication.setSessionTimeout(50)));
+    }
+
+    /**
      * Test setSessionTrackingModes method.
      */
     @Test
@@ -1440,7 +1491,7 @@ public abstract class WebApplicationTest {
         });
         assertTrue(webApplication.getEffectiveSessionTrackingModes().isEmpty());
     }
-    
+
     /**
      * Test setVirtualServerName method.
      */
@@ -1581,6 +1632,12 @@ public abstract class WebApplicationTest {
      * Test listener that is used by testCreateListener3.
      */
     public static class TestCreateListener3ServletRequestListener implements ServletRequestListener {
+    }
+
+    /**
+     * Test HttpSessionListener to validate createListener was called.
+     */
+    public static class TestCreateListener4HttpSessionListener implements HttpSessionListener {
     }
 
     /**

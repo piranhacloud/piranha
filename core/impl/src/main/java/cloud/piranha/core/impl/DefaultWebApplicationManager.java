@@ -85,7 +85,7 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     /**
      * Stores the logging manager.
      */
-    protected LoggingManager loggingManager;
+    protected LoggingManager loggingManager = new DefaultLoggingManager();
     
     /**
      * Stores the mime-type manager.

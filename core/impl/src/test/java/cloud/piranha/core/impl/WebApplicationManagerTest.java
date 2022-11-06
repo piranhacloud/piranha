@@ -28,28 +28,16 @@
 package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
 
 /**
- * The JUnit tests for the HttpSession API.
+ * The JUnit tests for the WebApplicationManager API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HttpSessionTest extends cloud.piranha.core.tests.HttpSessionTest {
+class WebApplicationManagerTest extends cloud.piranha.core.tests.WebApplicationManagerTest {
 
     @Override
     protected WebApplication createWebApplication() {
         return new DefaultWebApplication();
-    }
-
-    @Override
-    protected WebApplicationRequest createWebApplicationRequest() {
-        return new DefaultWebApplicationRequest();
-    }
-
-    @Override
-    protected WebApplicationResponse createWebApplicationResponse() {
-        return new DefaultWebApplicationResponse();
     }
 }

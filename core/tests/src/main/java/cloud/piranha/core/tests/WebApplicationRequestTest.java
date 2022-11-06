@@ -33,10 +33,16 @@ import cloud.piranha.core.api.WebApplicationResponse;
 import static jakarta.servlet.DispatcherType.INCLUDE;
 import static jakarta.servlet.DispatcherType.REQUEST;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpUpgradeHandler;
 import jakarta.servlet.http.WebConnection;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.Map;
@@ -701,6 +707,95 @@ public abstract class WebApplicationRequestTest {
     }
 
     /**
+     * Test getSession.
+     *
+     * @throws Exception
+     */
+    @Test
+    void testGetSession3() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        ServletRegistration.Dynamic dynamic = webApplication.addServlet("session",
+                new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+                response.setContentType("text/plain");
+                try ( PrintWriter out = response.getWriter()) {
+                    if (request.isRequestedSessionIdValid()) {
+                        HttpSession session = request.getSession(false);
+                        out.println("Session is " + session);
+                        if (session == null) {
+                            session = request.getSession();
+                            out.println("Session is " + session);
+                        }
+                    } else {
+                        HttpSession session = request.getSession();
+                        out.println("Session is " + session + ", from request");
+                    }
+                }
+            }
+        });
+        assertNotNull(dynamic);
+        dynamic.addMapping("/session");
+        webApplication.initialize();
+        webApplication.start();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        request.setServletPath("/session");
+        WebApplicationResponse response = createWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
+        webApplication.service(request, response);
+        assertNotNull(byteOutput.toByteArray().length > 0);
+    }
+
+    /**
+     * Test getSession method.
+     */
+    @Test
+    void testGetSession4() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        HttpSession session = request.getSession(true);
+        request.setRequestedSessionId(session.getId());
+        assertNotNull(request.getSession(false));
+    }
+    
+    /**
+     * Test getSession method.
+     */
+    @Test
+    void testGetSession5() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        HttpSession session = request.getSession(true);
+        request.setRequestedSessionId(session.getId());
+        assertNotNull(request.getSession());
+    }
+
+    /**
+     * Test getSession method.
+     */
+    @Test
+    void testGetSession6() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        HttpSession session = request.getSession(false);
+        assertNull(session);
+    }
+    
+    /**
      * Test getTrailerFields method.
      */
     @Test
@@ -1044,7 +1139,7 @@ public abstract class WebApplicationRequestTest {
         WebApplicationRequest request = createWebApplicationRequest();
         assertNotNull(request.upgrade(TestUpgradeHttpUpgradeHandler.class));
     }
-    
+
     /**
      * Test upgrade method.
      *
