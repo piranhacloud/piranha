@@ -90,7 +90,7 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     /**
      * Stores the mime-type manager.
      */
-    protected MimeTypeManager mimeTypeManager;
+    protected MimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
 
     /**
      * Stores the multi-part manager.
