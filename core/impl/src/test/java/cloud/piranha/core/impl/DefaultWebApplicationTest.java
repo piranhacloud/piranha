@@ -27,12 +27,8 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.resource.impl.DefaultResourceManager;
 import cloud.piranha.resource.impl.DirectoryResource;
-import cloud.piranha.core.tests.WebApplicationTest;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.ServletRegistration.Dynamic;
 import jakarta.servlet.ServletRequestEvent;
@@ -54,53 +50,35 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class DefaultWebApplicationTest extends WebApplicationTest {
-
-    @Override
-    protected WebApplication createWebApplication() {
-        return new DefaultWebApplication();
-    }
-
-    @Override
-    protected WebApplicationRequest createWebApplicationRequest() {
-        return new DefaultWebApplicationRequest();
-    }
-
-    @Override
-    protected WebApplicationResponse createWebApplicationResponse() {
-        DefaultWebApplicationResponse  response = new DefaultWebApplicationResponse();
-        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
-        return response;
-    }
+class DefaultWebApplicationTest {
 
     /**
      * Test addMapping method (verify the # of mappings > 0).
      */
     @Test
     void testAddMapping() {
-        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         ServletRegistration.Dynamic dynamic
-                = webApp.addServlet("echo", "servlet.EchoServlet");
+                = webApplication.addServlet("echo", "servlet.EchoServlet");
         assertNotNull(dynamic);
         dynamic.addMapping("/echo");
-        assertTrue(dynamic.getMappings().size() > 0);
+        assertFalse(dynamic.getMappings().isEmpty());
     }
 
     /**
-     * Test addMapping method (verify when we add twice addMapping will return a
-     * empty set).
+     * Test addMapping method.
+     * 
+     * <p>
+     *  Verify when we add twice addMapping will return a empty set.
+     * </p>
      */
     @Test
     void testAddMapping2() {
-        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
-        ServletRegistration.Dynamic dynamic = webApp.addServlet("echo", "servlet.EchoServlet");
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        ServletRegistration.Dynamic dynamic = webApplication.addServlet("echo", "servlet.EchoServlet");
         assertNotNull(dynamic);
         dynamic.addMapping("/echo");
-        assertTrue(dynamic.getMappings().size() > 0);
+        assertFalse(dynamic.getMappings().isEmpty());
         assertEquals(0, dynamic.addMapping("/echo").size());
     }
 
@@ -111,40 +89,44 @@ class DefaultWebApplicationTest extends WebApplicationTest {
      */
     @Test
     void testGetAsync() throws Exception {
-        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
-        Dynamic registration = webApp.addServlet("Chat", TestChat1Servlet.class);
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        Dynamic registration = webApplication.addServlet("Chat", TestChat1Servlet.class);
         registration.setAsyncSupported(true);
-        webApp.addServletMapping("Chat", "/chat");
-        webApp.initialize();
-        webApp.start();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApp);
+        webApplication.addServletMapping("Chat", "/chat");
+        webApplication.initialize();
+        webApplication.start();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
         request.setServletPath("/chat");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        webApp.service(request, response);
-        assertNotNull(response.getResponseBytes());
-        request = new TestWebApplicationRequest();
-        request.setWebApplication(webApp);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
+        webApplication.service(request, response);
+        assertNotNull(byteOutput.toByteArray().length > 0);
+        request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
         request.setAsyncSupported(true);
         request.setServletPath("/chat");
         request.setMethod("POST");
         request.setParameter("action", new String[]{"login"});
         request.setParameter("name", new String[]{"username"});
-        response = new TestWebApplicationResponse();
-        webApp.service(request, response);
-        assertNotNull(response.getResponseBytes());
-        request = new TestWebApplicationRequest();
-        request.setWebApplication(webApp);
+        response = new DefaultWebApplicationResponse();
+        byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
+        webApplication.service(request, response);
+        assertNotNull(byteOutput.toByteArray().length > 0);
+        request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
         request.setServletPath("/chat");
         request.setMethod("POST");
         request.setParameter("action", new String[]{"post"});
         request.setParameter("name", new String[]{"username"});
         request.setParameter("message", new String[]{new Date().toString()});
-        response = new TestWebApplicationResponse();
-        webApp.service(request, response);
-        assertNotNull(response.getResponseBytes());
+        response = new DefaultWebApplicationResponse();
+        byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
+        webApplication.service(request, response);
+        assertNotNull(byteOutput.toByteArray().length > 0);
     }
 
     /**
@@ -154,39 +136,43 @@ class DefaultWebApplicationTest extends WebApplicationTest {
      */
     @Test
     void testGetAsync2() throws Exception {
-        DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setWebApplicationRequestMapper(webAppRequestMapper);
-        Dynamic registration = webApp.addServlet("Chat", TestChat2Servlet.class);
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        Dynamic registration = webApplication.addServlet("Chat", TestChat2Servlet.class);
         registration.setAsyncSupported(true);
-        webApp.addServletMapping("Chat", "/chat");
-        webApp.initialize();
-        webApp.start();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApp);
+        webApplication.addServletMapping("Chat", "/chat");
+        webApplication.initialize();
+        webApplication.start();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
         request.setServletPath("/chat");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        webApp.service(request, response);
-        assertNotNull(response.getResponseBytes());
-        request = new TestWebApplicationRequest();
-        request.setWebApplication(webApp);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
+        webApplication.service(request, response);
+        assertNotNull(byteOutput.toByteArray().length > 0);
+        request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
         request.setServletPath("/chat");
         request.setMethod("POST");
         request.setParameter("action", new String[]{"login"});
         request.setParameter("name", new String[]{"username"});
-        response = new TestWebApplicationResponse();
-        webApp.service(request, response);
-        assertNotNull(response.getResponseBytes());
-        request = new TestWebApplicationRequest();
-        request.setWebApplication(webApp);
+        response = new DefaultWebApplicationResponse();
+        byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
+        webApplication.service(request, response);
+        assertNotNull(byteOutput.toByteArray().length > 0);
+        request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
         request.setServletPath("/chat");
         request.setMethod("POST");
         request.setParameter("action", new String[]{"post"});
         request.setParameter("name", new String[]{"username"});
         request.setParameter("message", new String[]{new Date().toString()});
-        response = new TestWebApplicationResponse();
-        webApp.service(request, response);
-        assertNotNull(response.getResponseBytes());
+        response = new DefaultWebApplicationResponse();
+        byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
+        webApplication.service(request, response);
+        assertNotNull(byteOutput.toByteArray().length > 0);
     }
 
     /**
@@ -194,37 +180,10 @@ class DefaultWebApplicationTest extends WebApplicationTest {
      */
     @Test
     void testGetObjectInstanceManager() {
-        DefaultWebApplication application = new DefaultWebApplication();
-        assertNotNull(application.getManager().getObjectInstanceManager());
-        application.getManager().setObjectInstanceManager(null);
-        assertNull(application.getManager().getObjectInstanceManager());
-    }
-
-    /**
-     * Test getEffectiveMajorVersion method.
-     */
-    @Test
-    void testGetEffectiveMajorVersion() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(6, webApp.getEffectiveMajorVersion());
-    }
-
-    /**
-     * Test getEffectiveMinorVersion method.
-     */
-    @Test
-    void testGetEffectiveMinorVersion() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertEquals(0, webApp.getEffectiveMinorVersion());
-    }
-
-    /**
-     * Test getJspConfigDescriptor method.
-     */
-    @Test
-    void testGetJspConfigDescriptor() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNull(webApp.getJspConfigDescriptor());
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        assertNotNull(webApplication.getManager().getObjectInstanceManager());
+        webApplication.getManager().setObjectInstanceManager(null);
+        assertNull(webApplication.getManager().getObjectInstanceManager());
     }
 
     @Test
@@ -281,16 +240,6 @@ class DefaultWebApplicationTest extends WebApplicationTest {
     }
 
     /**
-     * Test getVirtualServerName method.
-     */
-    @Test
-    void testGetVirtualServerName() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setVirtualServerName("myname");
-        assertEquals("myname", webApp.getVirtualServerName());
-    }
-
-    /**
      * Test include.
      *
      * @throws Exception when a serious error occurred.
@@ -304,13 +253,15 @@ class DefaultWebApplicationTest extends WebApplicationTest {
         webApp.addServletMapping("Include2", "/include2");
         webApp.initialize();
         webApp.start();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);
         request.setServletPath("/include");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
         response.setWebApplication(webApp);
         webApp.service(request, response);
-        assertTrue(new String(response.getResponseBytes()).contains("This was included"));
+        assertTrue(new String(byteOutput.toByteArray()).contains("This was included"));
     }
 
     /**
@@ -331,13 +282,15 @@ class DefaultWebApplicationTest extends WebApplicationTest {
         webApp.addServletMapping("Include3", "/include3");
         webApp.initialize();
         webApp.start();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);
         request.setServletPath("/include3");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
         response.setWebApplication(webApp);
         webApp.service(request, response);
-        assertTrue(new String(response.getResponseBytes()).contains("This was included"));
+        assertTrue(new String(byteOutput.toByteArray()).contains("This was included"));
     }
 
     /**
@@ -360,13 +313,15 @@ class DefaultWebApplicationTest extends WebApplicationTest {
         webApp.addServletMapping("Include4", "/include4");
         webApp.initialize();
         webApp.start();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);
         request.setServletPath("/include4");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
         response.setWebApplication(webApp);
         webApp.service(request, response);
-        assertTrue(new String(response.getResponseBytes()).contains("This was includedThis was included"));
+        assertTrue(new String(byteOutput.toByteArray()).contains("This was includedThis was included"));
     }
 
     /**
@@ -396,15 +351,16 @@ class DefaultWebApplicationTest extends WebApplicationTest {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApp = new DefaultWebApplication();
         webApp.setWebApplicationRequestMapper(webAppRequestMapper);
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);
         request.setServletPath("/Snoop");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
         response.setWebApplication(webApp);
         webApp.addServletMapping("Snoop", "/Snoop");
         webApp.addServlet("DefaultServlet", DefaultServlet.class.getName());
         webApp.addServletMapping("DefaultServlet", "/*");
-
         webApp.initialize();
         webApp.start();
         webApp.service(request, response);
@@ -438,14 +394,13 @@ class DefaultWebApplicationTest extends WebApplicationTest {
         webApp.addServletMapping("Snoop", "/Snoop");
         webApp.addServlet("DefaultServlet", DefaultServlet.class.getName());
         webApp.addServletMapping("DefaultServlet", "/*");
-
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApp);
         request.setServletPath("/Snoop");
-
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setUnderlyingOutputStream(byteOutput);
         response.setWebApplication(webApp);
-
         webApp.initialize();
         webApp.start();
         webApp.service(request, response);

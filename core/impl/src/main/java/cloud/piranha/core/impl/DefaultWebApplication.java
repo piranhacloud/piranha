@@ -1293,11 +1293,7 @@ public class DefaultWebApplication implements WebApplication {
         getManager().getHttpSessionManager().setSessionTimeout(sessionTimeout);
     }
 
-    /**
-     * Set the virtual server name.
-     *
-     * @param virtualServerName the virtual server name.
-     */
+    @Override
     public void setVirtualServerName(String virtualServerName) {
         this.virtualServerName = virtualServerName;
     }
