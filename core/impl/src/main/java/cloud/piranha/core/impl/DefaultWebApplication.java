@@ -152,7 +152,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the piranha.response constant
      */
     private static final String PIRANHA_RESPONSE = "piranha.response";
-        
+
     /**
      * Stores the attributes.
      */
@@ -253,21 +253,16 @@ public class DefaultWebApplication implements WebApplication {
     protected final List<ServletContextListener> contextListeners;
 
     /**
-     * Stores the servlet request listeners.
-     */
-    protected final List<ServletRequestListener> requestListeners;
-
-    /**
      * Stores the invocation finder, which finds a Servlet, Filter(chain) and
      * variants thereof to invoke for a given request path.
      */
     protected DefaultInvocationFinder invocationFinder;
-    
+
     /**
      * Stores the metadata complete flag.
      */
     protected boolean metadataComplete;
-    
+
     /**
      * Stores the request character encoding.
      */
@@ -294,7 +289,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the web application request mapper.
      */
     protected WebApplicationRequestMapper webApplicationRequestMapper;
-    
+
     /**
      * Stores the web application manager.
      */
@@ -311,7 +306,6 @@ public class DefaultWebApplication implements WebApplication {
         contextListeners = new ArrayList<>(1);
         contextPath = "";
         filters = new LinkedHashMap<>(1);
-        requestListeners = new ArrayList<>(1);
         initParameters = new ConcurrentHashMap<>(1);
         initializers = new ArrayList<>(1);
         responses = new ConcurrentHashMap<>(1);
@@ -409,7 +403,7 @@ public class DefaultWebApplication implements WebApplication {
         if (isEmpty(servletName)) {
             throw new IllegalArgumentException("Servlet name cannot be null or empty");
         }
-        return manager.getJspManager() != null 
+        return manager.getJspManager() != null
                 ? manager.getJspManager().addJspFile(this, servletName, jspFile)
                 : null;
     }
@@ -698,11 +692,11 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public JspConfigDescriptor getJspConfigDescriptor() {
         checkTainted();
-        return manager.getJspManager() != null 
+        return manager.getJspManager() != null
                 ? manager.getJspManager().getJspConfigDescriptor()
                 : null;
     }
-    
+
     /**
      * {@return the major version}
      */
@@ -718,7 +712,7 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public String getMimeType(String filename) {
-        return manager.getMimeTypeManager() != null 
+        return manager.getMimeTypeManager() != null
                 ? manager.getMimeTypeManager().getMimeType(filename)
                 : null;
     }
@@ -727,7 +721,7 @@ public class DefaultWebApplication implements WebApplication {
     public int getMinorVersion() {
         return 0;
     }
-    
+
     @Override
     public String getRealPath(String path) {
         String realPath = null;
@@ -997,7 +991,7 @@ public class DefaultWebApplication implements WebApplication {
                     // Get classes by target type
                     List<AnnotationInfo<?>> annotations = manager.getAnnotationManager()
                             .getAnnotations(value);
-                    
+
                     Stream<Class<?>> classStream = annotations.stream().map(AnnotationInfo::getTargetType);
 
                     classes = Stream.concat(instances, classStream).collect(Collectors.toSet());
@@ -1081,12 +1075,12 @@ public class DefaultWebApplication implements WebApplication {
     public boolean isInitialized() {
         return status >= INITIALIZED && status < ERROR;
     }
-    
+
     @Override
     public boolean isServicing() {
         return status == SERVICING;
     }
-    
+
     @Override
     public boolean isMetadataComplete() {
         return metadataComplete;
@@ -1134,6 +1128,120 @@ public class DefaultWebApplication implements WebApplication {
 
             environment.setServlet(null);
         }
+    }
+
+    //
+    // ------------ ALPHABETICAL BELOW THIS LINE ------------------------------
+    //
+    /**
+     * Attribute added.
+     *
+     * @param name the name.
+     * @param value the value.
+     */
+    private void attributeAdded(String name, Object value) {
+        contextAttributeListeners.stream().forEach(listener -> listener.attributeAdded(new ServletContextAttributeEvent(this, name, value)));
+    }
+
+    /**
+     * Attributed removed.
+     *
+     * @param name the name.
+     * @param previousValue the previous value.
+     */
+    private void attributeRemoved(String name, Object previousValue) {
+        contextAttributeListeners.stream().forEach(listener -> listener.attributeRemoved(new ServletContextAttributeEvent(this, name, previousValue)));
+    }
+
+    /**
+     * Attribute removed.
+     *
+     * @param name the name.
+     * @param value the value.
+     */
+    private void attributeReplaced(String name, Object value) {
+        contextAttributeListeners.stream().forEach(listener -> listener.attributeReplaced(new ServletContextAttributeEvent(this, name, value)));
+    }
+
+    /**
+     * Make sure the application is not servicing when this method is called.
+     */
+    private void checkServicing() {
+        if (status == SERVICING) {
+            throw new IllegalStateException("Cannot call this after web application has initialized");
+        }
+    }
+
+    /**
+     * Make sure the application is not tainted when this method is called.
+     */
+    private void checkTainted() {
+        if (tainted) {
+            throw new UnsupportedOperationException(
+                    "ServletContext is in tainted mode (as required by spec).");
+        }
+    }
+
+    /**
+     * Get the invocation request dispatcher.
+     *
+     * @param servletInvocation the servlet invocation.
+     * @return the invocation request dispatcher.
+     */
+    private DefaultServletRequestDispatcher getInvocationDispatcher(DefaultServletInvocation servletInvocation) {
+        return new DefaultServletRequestDispatcher(servletInvocation, this);
+    }
+
+    @Override
+    public WebApplicationManager getManager() {
+        return manager;
+    }
+
+    @Override
+    public RequestDispatcher getNamedDispatcher(String name) {
+        DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByName(name);
+        if (servletInvocation == null) {
+            return null;
+        }
+        return getInvocationDispatcher(servletInvocation);
+    }
+
+    @Override
+    public DefaultServletRequestDispatcher getRequestDispatcher(String path) {
+        try {
+            DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(null, path, null);
+            if (servletInvocation == null) {
+                return null;
+            }
+            return getInvocationDispatcher(servletInvocation);
+        } catch (IOException | ServletException e) {
+            LOGGER.log(WARNING, "Error occurred while getting request dispatcher", e);
+            return null;
+        }
+    }
+
+    /**
+     * Is the string null or empty.
+     *
+     * @param string the string
+     * @return true if it is, false otherwise.
+     */
+    private boolean isEmpty(String string) {
+        return string == null || string.isEmpty();
+    }
+
+    /**
+     * Is the servlet permanently unavailable.
+     *
+     * @param environment the Servlet environment.
+     * @return true if it is, false otherwise.
+     */
+    private boolean isPermanentlyUnavailable(DefaultServletEnvironment environment) {
+        boolean permanent = false;
+        if (environment.getUnavailableException() instanceof UnavailableException ue) {
+            permanent = ue.isPermanent();
+        }
+        return permanent;
     }
 
     /**
@@ -1205,7 +1313,7 @@ public class DefaultWebApplication implements WebApplication {
             webAppRequest.getUpgradeHandler().init(connection);
         }
     }
-    
+
     @Override
     public void setAttribute(String name, Object value) {
         Objects.requireNonNull(name);
@@ -1263,6 +1371,18 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
+    public void setJspConfigDescriptor(JspConfigDescriptor jspConfigDescriptor) {
+        if (getManager().getJspManager() != null) {
+            getManager().getJspManager().setJspConfigDescriptor(jspConfigDescriptor);
+        }
+    }
+
+    @Override
+    public void setMetadataComplete(boolean metadataComplete) {
+        this.metadataComplete = metadataComplete;
+    }
+
+    @Override
     public void setRequestCharacterEncoding(String requestCharacterEncoding) {
         this.requestCharacterEncoding = requestCharacterEncoding;
     }
@@ -1270,6 +1390,15 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void setResponseCharacterEncoding(String responseCharacterEncoding) {
         this.responseCharacterEncoding = responseCharacterEncoding;
+    }
+
+    @Override
+    public void setSessionTimeout(int sessionTimeout) {
+        checkTainted();
+        if (status != SETUP && status != INITIALIZED_DECLARED) {
+            throw new IllegalStateException("Illegal to set session timeout because state is not SETUP");
+        }
+        getManager().getHttpSessionManager().setSessionTimeout(sessionTimeout);
     }
 
     @Override
@@ -1282,15 +1411,6 @@ public class DefaultWebApplication implements WebApplication {
         checkTainted();
         checkServicing();
         getManager().getHttpSessionManager().setSessionTrackingModes(sessionTrackingModes);
-    }
-
-    @Override
-    public void setSessionTimeout(int sessionTimeout) {
-        checkTainted();
-        if (status != SETUP && status != INITIALIZED_DECLARED) {
-            throw new IllegalStateException("Illegal to set session timeout because state is not SETUP");
-        }
-        getManager().getHttpSessionManager().setSessionTimeout(sessionTimeout);
     }
 
     @Override
@@ -1325,122 +1445,9 @@ public class DefaultWebApplication implements WebApplication {
         responses.remove(response);
     }
 
-    @Override
-    public DefaultServletRequestDispatcher getRequestDispatcher(String path) {
-        try {
-            DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(null, path, null);
-            if (servletInvocation == null) {
-                return null;
-            }
-
-            return getInvocationDispatcher(servletInvocation);
-        } catch (IOException | ServletException e) {
-            LOGGER.log(WARNING, "Error occurred while getting request dispatcher", e);
-            return null;
-        }
-    }
-
-    @Override
-    public RequestDispatcher getNamedDispatcher(String name) {
-        DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByName(name);
-        if (servletInvocation == null) {
-            return null;
-        }
-
-        return getInvocationDispatcher(servletInvocation);
-    }
-
-    /**
-     * Attribute added.
-     *
-     * @param name the name.
-     * @param value the value.
-     */
-    private void attributeAdded(String name, Object value) {
-        contextAttributeListeners.stream().forEach(listener -> listener.attributeAdded(new ServletContextAttributeEvent(this, name, value)));
-    }
-
-    /**
-     * Attributed removed.
-     *
-     * @param name the name.
-     * @param previousValue the previous value.
-     */
-    private void attributeRemoved(String name, Object previousValue) {
-        contextAttributeListeners.stream().forEach(listener -> listener.attributeRemoved(new ServletContextAttributeEvent(this, name, previousValue)));
-    }
-
-    /**
-     * Attribute removed.
-     *
-     * @param name the name.
-     * @param value the value.
-     */
-    private void attributeReplaced(String name, Object value) {
-        contextAttributeListeners.stream().forEach(listener -> listener.attributeReplaced(new ServletContextAttributeEvent(this, name, value)));
-    }
-
-    /**
-     * Make sure the application is not servicing when this method is called.
-     */
-    private void checkServicing() {
-        if (status == SERVICING) {
-            throw new IllegalStateException("Cannot call this after web application has initialized");
-        }
-    }
-
-    /**
-     * Make sure the application is not tainted when this method is called.
-     */
-    private void checkTainted() {
-        if (tainted) {
-            throw new UnsupportedOperationException(
-                    "ServletContext is in tainted mode (as required by spec).");
-        }
-    }
-
-    /**
-     * Get the name request dispatcher.
-     *
-     * @param servletInvocation the servlet invocation.
-     * @return the request dispatcher.
-     */
-    private DefaultServletRequestDispatcher getInvocationDispatcher(DefaultServletInvocation servletInvocation) {
-        return new DefaultServletRequestDispatcher(servletInvocation, this);
-    }
-
-    /**
-     * Is the string null or empty.
-     *
-     * @param string the string
-     * @return true if it is, false otherwise.
-     */
-    private boolean isEmpty(String string) {
-        return string == null || string.isEmpty();
-    }
-
-    /**
-     * Is the servlet permanently unavailable.
-     *
-     * @param environment the Servlet environment.
-     * @return true if it is, false otherwise.
-     */
-    private boolean isPermanentlyUnavailable(DefaultServletEnvironment environment) {
-        boolean permanent = false;
-        if (environment.getUnavailableException() instanceof UnavailableException ue) {
-            permanent = ue.isPermanent();
-        }
-        return permanent;
-    }
-
-    @Override
-    public void setMetadataComplete(boolean metadataComplete) {
-        this.metadataComplete = metadataComplete;
-    }
-
     /**
      * Verify the request/response types.
-     * 
+     *
      * @param request the request.
      * @param response the response.
      * @throws ServletException when request or response is invalid.
@@ -1460,18 +1467,6 @@ public class DefaultWebApplication implements WebApplication {
     protected void verifyState(int desiredStatus, String message) {
         if (status != desiredStatus) {
             throw new RuntimeException(message);
-        }
-    }
-    
-    @Override
-    public WebApplicationManager getManager() {
-        return manager;
-    }
-
-    @Override
-    public void setJspConfigDescriptor(JspConfigDescriptor jspConfigDescriptor) {
-        if (getManager().getJspManager() != null) {
-            getManager().getJspManager().setJspConfigDescriptor(jspConfigDescriptor);
         }
     }
 }
