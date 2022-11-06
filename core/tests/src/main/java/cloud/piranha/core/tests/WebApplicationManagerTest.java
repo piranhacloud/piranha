@@ -25,31 +25,47 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
+package cloud.piranha.core.tests;
 
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the HttpSession API.
+ * The JUnit tests for any WebApplicationManager implementation.
+ *
+ * <p>
+ * Note all these tests only use the public APIs of WebApplicationManager.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HttpSessionTest extends cloud.piranha.core.tests.HttpSessionTest {
+public abstract class WebApplicationManagerTest {
 
-    @Override
-    protected WebApplication createWebApplication() {
-        return new DefaultWebApplication();
+    /**
+     * Create the web application.
+     *
+     * @return the web application.
+     */
+    protected abstract WebApplication createWebApplication();
+
+    /**
+     * Test getSessionManager method.
+     */
+    @Test
+    void testGetSessionManager() {
+        WebApplication webApplication = createWebApplication();
+        webApplication.getManager().setHttpSessionManager(null);
+        assertNull(webApplication.getManager().getHttpSessionManager());
     }
-
-    @Override
-    protected WebApplicationRequest createWebApplicationRequest() {
-        return new DefaultWebApplicationRequest();
-    }
-
-    @Override
-    protected WebApplicationResponse createWebApplicationResponse() {
-        return new DefaultWebApplicationResponse();
+    
+    /**
+     * Test getSessionManager method.
+     */
+    @Test
+    void testGetSessionManager2() {
+        WebApplication webApplication = createWebApplication();
+        assertNotNull(webApplication.getManager().getHttpSessionManager());
     }
 }
