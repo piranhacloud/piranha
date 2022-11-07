@@ -80,7 +80,7 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     /**
      * Stores the locale encoding manager.
      */
-    protected LocaleEncodingManager localeEncodingManager;
+    protected LocaleEncodingManager localeEncodingManager = new DefaultLocaleEncodingManager();
     
     /**
      * Stores the logging manager.
