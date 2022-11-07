@@ -326,11 +326,9 @@ public class DefaultWebApplication implements WebApplication {
     public FilterRegistration.Dynamic addFilter(String filterName, String className) {
         checkTainted();
         checkServicing();
-
         if (filterName == null || filterName.trim().equals("")) {
             throw new IllegalArgumentException("Filter name cannot be null or empty");
         }
-
         DefaultFilterEnvironment defaultFilterEnvironment;
         if (filters.containsKey(filterName)) {
             defaultFilterEnvironment = filters.get(filterName);
@@ -345,7 +343,6 @@ public class DefaultWebApplication implements WebApplication {
             filters.put(filterName, defaultFilterEnvironment);
         }
         defaultFilterEnvironment.setClassName(className);
-
         return defaultFilterEnvironment;
     }
 
@@ -353,7 +350,6 @@ public class DefaultWebApplication implements WebApplication {
     public FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
         checkTainted();
         checkServicing();
-
         if (filters.containsKey(filterName)) {
             DefaultFilterEnvironment filterEnvironment = filters.get(filterName);
             if (filterEnvironment.getClassName() != null) {
@@ -361,12 +357,9 @@ public class DefaultWebApplication implements WebApplication {
                 return null;
             }
         }
-
         DefaultFilterEnvironment filterEnvironment = new DefaultFilterEnvironment(this, filterName, filter);
         filters.put(filterName, filterEnvironment);
-
         return filterEnvironment;
-
     }
 
     @Override
@@ -374,7 +367,6 @@ public class DefaultWebApplication implements WebApplication {
         if (isMatchAfter) {
             return webApplicationRequestMapper.addFilterMapping(dispatcherTypes, filterName, urlPatterns);
         }
-
         return webApplicationRequestMapper.addFilterMappingBeforeExisting(dispatcherTypes, filterName, urlPatterns);
     }
 
@@ -403,9 +395,7 @@ public class DefaultWebApplication implements WebApplication {
         if (isEmpty(servletName)) {
             throw new IllegalArgumentException("Servlet name cannot be null or empty");
         }
-        return manager.getJspManager() != null
-                ? manager.getJspManager().addJspFile(this, servletName, jspFile)
-                : null;
+        return manager.getJspManager().addJspFile(this, servletName, jspFile);
     }
 
     @SuppressWarnings("unchecked")
@@ -427,11 +417,9 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void addListener(Class<? extends EventListener> type) {
         checkTainted();
-
         if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException(ILLEGAL_TO_ADD_LISTENER);
         }
-
         try {
             addListener(createListener(type));
         } catch (ServletException exception) {
@@ -442,11 +430,9 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public <T extends EventListener> void addListener(T listener) {
         checkTainted();
-
         if (status != SETUP && status != INITIALIZED_DECLARED) {
             throw new IllegalStateException(ILLEGAL_TO_ADD_LISTENER);
         }
-
         if (listener instanceof ServletContextListener servletContextListener) {
             if (source != null && !(source instanceof ServletContainerInitializer)) {
                 throw new IllegalArgumentException("Illegal to add ServletContextListener because this context was not passed to a ServletContainerInitializer");
@@ -458,7 +444,6 @@ public class DefaultWebApplication implements WebApplication {
                 declaredContextListeners.add(servletContextListener);
             }
         }
-
         if (listener instanceof ServletContextAttributeListener servletContextAttributeListener) {
             contextAttributeListeners.add(servletContextAttributeListener);
         }
@@ -493,7 +478,6 @@ public class DefaultWebApplication implements WebApplication {
     public Dynamic addServlet(String servletName, String className) {
         checkTainted();
         checkServicing();
-
         DefaultServletEnvironment servletEnvironment = servletEnvironments.get(servletName);
         if (servletEnvironment == null) {
             servletEnvironment = new DefaultServletEnvironment(this, servletName);
@@ -506,7 +490,6 @@ public class DefaultWebApplication implements WebApplication {
             }
             servletEnvironment.setClassName(className);
         }
-
         return servletEnvironment;
     }
 
@@ -514,7 +497,6 @@ public class DefaultWebApplication implements WebApplication {
     public Dynamic addServlet(String servletName, Servlet servlet) {
         checkTainted();
         checkServicing();
-
         if (servletEnvironments.containsKey(servletName)) {
             DefaultServletEnvironment servletEnvironment = servletEnvironments.get(servletName);
             if (!isEmpty(servletEnvironment.getClassName())) {
@@ -522,10 +504,8 @@ public class DefaultWebApplication implements WebApplication {
                 return null;
             }
         }
-
         DefaultServletEnvironment servletEnvironment = new DefaultServletEnvironment(this, servletName, servlet);
         servletEnvironments.put(servletName, servletEnvironment);
-
         return servletEnvironment;
     }
 
@@ -534,9 +514,53 @@ public class DefaultWebApplication implements WebApplication {
         return webApplicationRequestMapper.addServletMapping(servletName, urlPatterns);
     }
 
-    @Override
-    public String removeServletMapping(String urlPattern) {
-        return webApplicationRequestMapper.removeServletMapping(urlPattern);
+    /**
+     * Attribute added.
+     *
+     * @param name the name.
+     * @param value the value.
+     */
+    private void attributeAdded(String name, Object value) {
+        contextAttributeListeners.stream().forEach(listener -> listener.attributeAdded(new ServletContextAttributeEvent(this, name, value)));
+    }
+
+    /**
+     * Attributed removed.
+     *
+     * @param name the name.
+     * @param previousValue the previous value.
+     */
+    private void attributeRemoved(String name, Object previousValue) {
+        contextAttributeListeners.stream().forEach(listener -> listener.attributeRemoved(new ServletContextAttributeEvent(this, name, previousValue)));
+    }
+
+    /**
+     * Attribute removed.
+     *
+     * @param name the name.
+     * @param value the value.
+     */
+    private void attributeReplaced(String name, Object value) {
+        contextAttributeListeners.stream().forEach(listener -> listener.attributeReplaced(new ServletContextAttributeEvent(this, name, value)));
+    }
+
+    /**
+     * Make sure the application is not servicing when this method is called.
+     */
+    private void checkServicing() {
+        if (status == SERVICING) {
+            throw new IllegalStateException("Cannot call this after web application has initialized");
+        }
+    }
+
+    /**
+     * Make sure the application is not tainted when this method is called.
+     */
+    private void checkTainted() {
+        if (tainted) {
+            throw new UnsupportedOperationException(
+                    "ServletContext is in tainted mode (as required by spec).");
+        }
     }
 
     @Override
@@ -573,9 +597,7 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public void declareRoles(String... roles) {
-        if (manager.getSecurityManager() != null) {
-            manager.getSecurityManager().declareRoles(roles);
-        }
+        manager.getSecurityManager().declareRoles(roles);
     }
 
     @Override
@@ -622,13 +644,13 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
-        return getManager().getHttpSessionManager().getDefaultSessionTrackingModes();
+    public Servlet getDefaultServlet() {
+        return defaultServlet;
     }
 
     @Override
-    public Servlet getDefaultServlet() {
-        return defaultServlet;
+    public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
+        return getManager().getHttpSessionManager().getDefaultSessionTrackingModes();
     }
 
     @Override
@@ -648,18 +670,42 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public void setEffectiveMajorVersion(int effectiveMajorVersion) {
-        this.effectiveMajorVersion = effectiveMajorVersion;
-    }
-
-    @Override
-    public void setEffectiveMinorVersion(int effectiveMinorVersion) {
-        this.effectiveMinorVersion = effectiveMinorVersion;
-    }
-
-    @Override
     public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
         return getManager().getHttpSessionManager().getEffectiveSessionTrackingModes();
+    }
+
+    /**
+     * Returns the file path or the first nested folder
+     *
+     * @apiNote
+     * <p>
+     * <b>Examples.</b>
+     * <pre>{@code
+     *  getFileOrFirstFolder("/rootFolder", "/rootFolder/file.html").equals("/rootFolder/file.html")
+     * }</pre>
+     *
+     * <pre>{@code
+     *  getFileOrFirstFolder("/rootFolder", "/rootFolder/nestedFolder/file.html").equals("/rootFolder/nestedFolder/")
+     * }</pre>
+     *
+     * <pre>{@code
+     *  getFileOrFirstFolder("/rootFolder/nestedFolder", "/rootFolder/nestedFolder/file.html")
+     *      .equals("/rootFolder/nestedFolder/file.html")
+     * }</pre>
+     *
+     * @param path the path of root folder
+     * @param resource the resource that is a file directory or file
+     * @return the file path or the first nested folder
+     */
+    private String getFileOrFirstFolder(String path, String resource) {
+        String normalizedPath = path.endsWith("/") ? path : path + "/";
+        String[] split = resource.replace(normalizedPath, "/").split("/");
+        // It's a directory
+        if (split.length > 2) {
+            return normalizedPath + split[1] + "/";
+        }
+        // It's a file
+        return normalizedPath + split[1];
     }
 
     @Override
@@ -689,20 +735,30 @@ public class DefaultWebApplication implements WebApplication {
         return initializers;
     }
 
+    /**
+     * Get the invocation request dispatcher.
+     *
+     * @param servletInvocation the servlet invocation.
+     * @return the invocation request dispatcher.
+     */
+    private DefaultServletRequestDispatcher getInvocationDispatcher(DefaultServletInvocation servletInvocation) {
+        return new DefaultServletRequestDispatcher(servletInvocation, this);
+    }
+
     @Override
     public JspConfigDescriptor getJspConfigDescriptor() {
         checkTainted();
-        return manager.getJspManager() != null
-                ? manager.getJspManager().getJspConfigDescriptor()
-                : null;
+        return manager.getJspManager().getJspConfigDescriptor();
     }
 
-    /**
-     * {@return the major version}
-     */
     @Override
     public int getMajorVersion() {
         return 6;
+    }
+
+    @Override
+    public WebApplicationManager getManager() {
+        return manager;
     }
 
     @Override
@@ -712,9 +768,7 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public String getMimeType(String filename) {
-        return manager.getMimeTypeManager() != null
-                ? manager.getMimeTypeManager().getMimeType(filename)
-                : null;
+        return manager.getMimeTypeManager().getMimeType(filename);
     }
 
     @Override
@@ -723,12 +777,19 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
+    public RequestDispatcher getNamedDispatcher(String name) {
+        DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByName(name);
+        if (servletInvocation == null) {
+            return null;
+        }
+        return getInvocationDispatcher(servletInvocation);
+    }
+
+    @Override
     public String getRealPath(String path) {
         String realPath = null;
         try {
-
             URL resourceUrl = getResource(path);
-
             if (resourceUrl != null && "file".equals(resourceUrl.getProtocol())) {
                 File file = new File(resourceUrl.toURI());
                 if (file.exists()) {
@@ -741,94 +802,52 @@ public class DefaultWebApplication implements WebApplication {
         return realPath;
     }
 
-    /**
-     * Get the request associated with the response.
-     *
-     * @param response the response.
-     * @return the request.
-     */
     @Override
     public ServletRequest getRequest(ServletResponse response) {
         return responses.get(response);
     }
 
-    /**
-     * {@return the default request character encoding}
-     */
     @Override
     public String getRequestCharacterEncoding() {
         return requestCharacterEncoding;
     }
 
-    /**
-     * {@return the default response character encoding}
-     */
     @Override
-    public String getResponseCharacterEncoding() {
-        return responseCharacterEncoding;
+    public DefaultServletRequestDispatcher getRequestDispatcher(String path) {
+        try {
+            DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(null, path, null);
+            if (servletInvocation == null) {
+                return null;
+            }
+            return getInvocationDispatcher(servletInvocation);
+        } catch (IOException | ServletException e) {
+            LOGGER.log(WARNING, "Error occurred while getting request dispatcher", e);
+            return null;
+        }
     }
 
-    /**
-     * Get the resource.
-     *
-     * @param location the location.
-     * @return the URL.
-     * @throws MalformedURLException when the URL is malformed.
-     */
     @Override
     public URL getResource(String location) throws MalformedURLException {
         if (!location.startsWith("/")) {
             throw new MalformedURLException("Location " + location + " must start with a /");
         }
-
         return getManager().getResourceManager().getResource(location);
     }
 
-    /**
-     * Get the resource as a stream.
-     *
-     * @param location the resource location
-     * @return the input stream, or null if not found.
-     */
     @Override
     public InputStream getResourceAsStream(String location) {
         return getManager().getResourceManager().getResourceAsStream(location);
     }
 
-    /**
-     * Returns the file path or the first nested folder
-     *
-     * @apiNote
-     * <p>
-     * <b>Examples.</b>
-     * <pre>{@code
-     *  getFileOrFirstFolder("/rootFolder", "/rootFolder/file.html").equals("/rootFolder/file.html")
-     * }</pre>
-     *
-     * <pre>{@code
-     *  getFileOrFirstFolder("/rootFolder", "/rootFolder/nestedFolder/file.html").equals("/rootFolder/nestedFolder/")
-     * }</pre>
-     *
-     * <pre>{@code
-     *  getFileOrFirstFolder("/rootFolder/nestedFolder", "/rootFolder/nestedFolder/file.html")
-     *      .equals("/rootFolder/nestedFolder/file.html")
-     * }</pre>
-     *
-     * @param path the path of root folder
-     * @param resource the resource that is a file directory or file
-     * @return the file path or the first nested folder
-     */
-    private String getFileOrFirstFolder(String path, String resource) {
-        String normalizedPath = path.endsWith("/") ? path : path + "/";
-        String[] split = resource.replace(normalizedPath, "/").split("/");
-
-        // It's a directory
-        if (split.length > 2) {
-            return normalizedPath + split[1] + "/";
+    @Override
+    public Set<String> getResourcePaths(String path) {
+        if (path == null) {
+            return null;
         }
-
-        // It's a file
-        return normalizedPath + split[1];
+        if (!path.startsWith("/")) {
+            throw new IllegalArgumentException("Path must start with /");
+        }
+        return getResourcePathsImpl(path);
     }
 
     /**
@@ -857,21 +876,13 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public Set<String> getResourcePaths(String path) {
-        if (path == null) {
-            return null;
-        }
-
-        if (!path.startsWith("/")) {
-            throw new IllegalArgumentException("Path must start with /");
-        }
-
-        return getResourcePathsImpl(path);
+    public ServletResponse getResponse(ServletRequest request) {
+        return (ServletResponse) request.getAttribute(PIRANHA_RESPONSE);
     }
 
     @Override
-    public ServletResponse getResponse(ServletRequest request) {
-        return (ServletResponse) request.getAttribute(PIRANHA_RESPONSE);
+    public String getResponseCharacterEncoding() {
+        return responseCharacterEncoding;
     }
 
     @Override
@@ -939,23 +950,6 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    /**
-     * Finish the initialization.
-     */
-    @Override
-    public void initializeFinish() {
-        if (status == SETUP || status == INITIALIZED_DECLARED) {
-            status = INITIALIZED;
-            LOGGER.log(DEBUG, "Initialized web application at {0}", contextPath);
-        }
-        if (status == ERROR) {
-            LOGGER.log(WARNING, () -> "An error occurred initializing webapplication at " + contextPath);
-        }
-    }
-
-    /**
-     * Initialize the filters.
-     */
     @Override
     public void initializeFilters() {
         if (status == SETUP || status == INITIALIZED_DECLARED) {
@@ -972,9 +966,17 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    /**
-     * Initialize the servlet container initializers.
-     */
+    @Override
+    public void initializeFinish() {
+        if (status == SETUP || status == INITIALIZED_DECLARED) {
+            status = INITIALIZED;
+            LOGGER.log(DEBUG, "Initialized web application at {0}", contextPath);
+        }
+        if (status == ERROR) {
+            LOGGER.log(WARNING, () -> "An error occurred initializing webapplication at " + contextPath);
+        }
+    }
+
     @Override
     public void initializeInitializers() {
         boolean error = false;
@@ -1036,61 +1038,6 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    /**
-     * Initialize the servlets.
-     */
-    @Override
-    public void initializeServlets() {
-        if (status == SETUP || status == INITIALIZED_DECLARED) {
-            List<String> servletsToBeRemoved = new ArrayList<>();
-            List<String> servletNames = new ArrayList<>(servletEnvironments.keySet());
-
-            servletNames.stream().map(servletEnvironments::get).forEach(environment -> {
-                initializeServlet(environment);
-                if (isPermanentlyUnavailable(environment)) {
-                    servletsToBeRemoved.add(environment.getServletName());
-                }
-            });
-
-            for (String servletName : servletsToBeRemoved) {
-                // Servlet:SPEC:11 - If a permanent unavailability is indicated by the UnavailableException, the servlet container must
-                // remove the servlet from service ... and release the servlet instance.
-                servletEnvironments.remove(servletName);
-            }
-
-        }
-    }
-
-    /**
-     * Is the web application distributable.
-     *
-     * @return true if it is, false otherwise.
-     */
-    @Override
-    public boolean isDistributable() {
-        return distributable;
-    }
-
-    @Override
-    public boolean isInitialized() {
-        return status >= INITIALIZED && status < ERROR;
-    }
-
-    @Override
-    public boolean isServicing() {
-        return status == SERVICING;
-    }
-
-    @Override
-    public boolean isMetadataComplete() {
-        return metadataComplete;
-    }
-
-    /**
-     * Initialize the servlet.
-     *
-     * @param environment the default servlet environment.
-     */
     @SuppressWarnings("unchecked")
     private void initializeServlet(DefaultServletEnvironment environment) {
         try {
@@ -1130,94 +1077,31 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    //
-    // ------------ ALPHABETICAL BELOW THIS LINE ------------------------------
-    //
-    /**
-     * Attribute added.
-     *
-     * @param name the name.
-     * @param value the value.
-     */
-    private void attributeAdded(String name, Object value) {
-        contextAttributeListeners.stream().forEach(listener -> listener.attributeAdded(new ServletContextAttributeEvent(this, name, value)));
-    }
-
-    /**
-     * Attributed removed.
-     *
-     * @param name the name.
-     * @param previousValue the previous value.
-     */
-    private void attributeRemoved(String name, Object previousValue) {
-        contextAttributeListeners.stream().forEach(listener -> listener.attributeRemoved(new ServletContextAttributeEvent(this, name, previousValue)));
-    }
-
-    /**
-     * Attribute removed.
-     *
-     * @param name the name.
-     * @param value the value.
-     */
-    private void attributeReplaced(String name, Object value) {
-        contextAttributeListeners.stream().forEach(listener -> listener.attributeReplaced(new ServletContextAttributeEvent(this, name, value)));
-    }
-
-    /**
-     * Make sure the application is not servicing when this method is called.
-     */
-    private void checkServicing() {
-        if (status == SERVICING) {
-            throw new IllegalStateException("Cannot call this after web application has initialized");
-        }
-    }
-
-    /**
-     * Make sure the application is not tainted when this method is called.
-     */
-    private void checkTainted() {
-        if (tainted) {
-            throw new UnsupportedOperationException(
-                    "ServletContext is in tainted mode (as required by spec).");
-        }
-    }
-
-    /**
-     * Get the invocation request dispatcher.
-     *
-     * @param servletInvocation the servlet invocation.
-     * @return the invocation request dispatcher.
-     */
-    private DefaultServletRequestDispatcher getInvocationDispatcher(DefaultServletInvocation servletInvocation) {
-        return new DefaultServletRequestDispatcher(servletInvocation, this);
-    }
-
     @Override
-    public WebApplicationManager getManager() {
-        return manager;
-    }
+    public void initializeServlets() {
+        if (status == SETUP || status == INITIALIZED_DECLARED) {
+            List<String> servletsToBeRemoved = new ArrayList<>();
+            List<String> servletNames = new ArrayList<>(servletEnvironments.keySet());
 
-    @Override
-    public RequestDispatcher getNamedDispatcher(String name) {
-        DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByName(name);
-        if (servletInvocation == null) {
-            return null;
-        }
-        return getInvocationDispatcher(servletInvocation);
-    }
+            servletNames.stream().map(servletEnvironments::get).forEach(environment -> {
+                initializeServlet(environment);
+                if (isPermanentlyUnavailable(environment)) {
+                    servletsToBeRemoved.add(environment.getServletName());
+                }
+            });
 
-    @Override
-    public DefaultServletRequestDispatcher getRequestDispatcher(String path) {
-        try {
-            DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByPath(null, path, null);
-            if (servletInvocation == null) {
-                return null;
+            for (String servletName : servletsToBeRemoved) {
+                // Servlet:SPEC:11 - If a permanent unavailability is indicated by the UnavailableException, the servlet container must
+                // remove the servlet from service ... and release the servlet instance.
+                servletEnvironments.remove(servletName);
             }
-            return getInvocationDispatcher(servletInvocation);
-        } catch (IOException | ServletException e) {
-            LOGGER.log(WARNING, "Error occurred while getting request dispatcher", e);
-            return null;
+
         }
+    }
+
+    @Override
+    public boolean isDistributable() {
+        return distributable;
     }
 
     /**
@@ -1228,6 +1112,16 @@ public class DefaultWebApplication implements WebApplication {
      */
     private boolean isEmpty(String string) {
         return string == null || string.isEmpty();
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return status >= INITIALIZED && status < ERROR;
+    }
+
+    @Override
+    public boolean isMetadataComplete() {
+        return metadataComplete;
     }
 
     /**
@@ -1244,12 +1138,11 @@ public class DefaultWebApplication implements WebApplication {
         return permanent;
     }
 
-    /**
-     * Link the request and response.
-     *
-     * @param request the request.
-     * @param response the response.
-     */
+    @Override
+    public boolean isServicing() {
+        return status == SERVICING;
+    }
+
     @Override
     public void linkRequestAndResponse(ServletRequest request, ServletResponse response) {
         request.setAttribute(PIRANHA_RESPONSE, response);
@@ -1270,14 +1163,14 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    /**
-     * Remove the attribute with the given name.
-     *
-     * @param name the name.
-     */
     @Override
     public void removeAttribute(String name) {
         attributeRemoved(name, attributes.remove(name));
+    }
+
+    @Override
+    public String removeServletMapping(String urlPattern) {
+        return webApplicationRequestMapper.removeServletMapping(urlPattern);
     }
 
     @Override
@@ -1286,9 +1179,7 @@ public class DefaultWebApplication implements WebApplication {
         verifyRequestResponseTypes(request, response);
 
         linkRequestAndResponse(request, response);
-        if (getManager().getServletRequestManager() != null) {
-            getManager().getServletRequestManager().requestInitialized(request);
-        }
+        getManager().getServletRequestManager().requestInitialized(request);
 
         DefaultWebApplicationRequest webAppRequest = (DefaultWebApplicationRequest) request;
         DefaultWebApplicationResponse webAppResponse = (DefaultWebApplicationResponse) response;
@@ -1303,9 +1194,7 @@ public class DefaultWebApplication implements WebApplication {
             session.setLastAccessedTime(System.currentTimeMillis());
         }
 
-        if (getManager().getServletRequestManager() != null) {
-            getManager().getServletRequestManager().requestDestroyed(request);
-        }
+        getManager().getServletRequestManager().requestDestroyed(request);
         unlinkRequestAndResponse(request, response);
 
         if (webAppRequest.isUpgraded()) {
@@ -1355,6 +1244,16 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
+    public void setEffectiveMajorVersion(int effectiveMajorVersion) {
+        this.effectiveMajorVersion = effectiveMajorVersion;
+    }
+
+    @Override
+    public void setEffectiveMinorVersion(int effectiveMinorVersion) {
+        this.effectiveMinorVersion = effectiveMinorVersion;
+    }
+
+    @Override
     public boolean setInitParameter(String name, String value) {
         requireNonNull(name);
         checkTainted();
@@ -1372,9 +1271,7 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public void setJspConfigDescriptor(JspConfigDescriptor jspConfigDescriptor) {
-        if (getManager().getJspManager() != null) {
-            getManager().getJspManager().setJspConfigDescriptor(jspConfigDescriptor);
-        }
+        getManager().getJspManager().setJspConfigDescriptor(jspConfigDescriptor);
     }
 
     @Override

@@ -236,7 +236,7 @@ class DefaultWebApplicationTest {
     @Test
     void testGetSecurityManager() {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        assertNull(webApp.getManager().getSecurityManager());
+        assertNotNull(webApp.getManager().getSecurityManager());
     }
 
     /**

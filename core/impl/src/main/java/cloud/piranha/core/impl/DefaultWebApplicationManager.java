@@ -110,7 +110,7 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     /**
      * Stores the security manager.
      */
-    protected SecurityManager securityManager;
+    protected SecurityManager securityManager = new DefaultSecurityManager();
     
     /**
      * Stores the servlet request manager.

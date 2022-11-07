@@ -28,14 +28,6 @@
 package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.WebApplication;
-import java.util.HashMap;
-import jakarta.servlet.ServletRegistration;
-import jakarta.servlet.http.HttpServlet;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The JUnit tests for testing everything related to the ServletRegistration
@@ -43,146 +35,10 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ServletRegistrationTest {
-
-    /**
-     * Stores the web application.
-     */
-    protected WebApplication webApp;
-
-    /**
-     * Setup before testing.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @BeforeEach
-    void setUp() throws Exception {
-        webApp = new DefaultWebApplication();
-    }
-
-    /**
-     * Test getClassName method.
-     */
-    @Test
-    void testGetClassName() {
-        webApp.addServlet("servlet", TestServlet.class);
-        ServletRegistration registration = webApp.getServletRegistration("servlet");
-        assertNotNull(TestServlet.class.getCanonicalName(), registration.getClassName());
-    }
-
-    /**
-     * Test getInitParameter method.
-     */
-    @Test
-    void testGetInitParameter() {
-        webApp.addServlet("servlet", TestServlet.class);
-        ServletRegistration registration = webApp.getServletRegistration("servlet");
-        registration.setInitParameter("name", "value");
-        assertEquals("value", registration.getInitParameter("name"));
-    }
-    /**
-     * Test getInitParameters method.
-     */
-    @Test
-    void testGetInitParameters() {
-        webApp.addServlet("servlet", TestServlet.class);
-        ServletRegistration registration = webApp.getServletRegistration("servlet");
-        assertNotNull(registration.getInitParameters());
-    }
-
-    /**
-     * Test getName method.
-     */
-    @Test
-    void testGetName() {
-        webApp.addServlet("servlet", TestServlet.class);
-        assertNotNull("servlet", webApp.getServletRegistration("servlet").getName());
-    }
-
-    /**
-     * Test getRunAsRole method.
-     */
-    @Test
-    void testGetRunAsRole() {
-        webApp.addServlet("servlet", TestServlet.class);
-        ServletRegistration.Dynamic registration = (ServletRegistration.Dynamic) webApp.getServletRegistration("servlet");
-        registration.setRunAsRole("role");
-        assertNotNull(registration.getRunAsRole());
-        assertEquals("role", registration.getRunAsRole());
-    }
-
-    /**
-     * Test getFilterRegistration method.
-     */
-    @Test
-    void testGetServletRegistration2() {
-        webApp.addServlet("servlet", "doesnotexist");
-        assertNotNull(webApp.getServletRegistration("servlet"));
-    }
-
-    /**
-     * Test setInitParameters method.
-     */
-    @Test
-    void testSetInitParameters() {
-        webApp.addServlet("servlet", TestServlet.class);
-        ServletRegistration registration = webApp.getServletRegistration("servlet");
-        registration.setInitParameter("name", "value");
-        assertTrue(registration.setInitParameters(new HashMap<>()).isEmpty());
-    }
-
-    /**
-     * Test setInitParameters method.
-     */
-    @Test
-    void testSetInitParameters2() {
-        webApp.addServlet("servlet", TestServlet.class);
-        ServletRegistration registration = webApp.getServletRegistration("servlet");
-        HashMap<String, String> parameters = new HashMap<>();
-        parameters.put(null, null);
-        assertThrows(IllegalArgumentException.class, () -> registration.setInitParameters(parameters));
-    }
-
-    /**
-     * Test setInitParameters method.
-     */
-    @Test
-    void testSetInitParameters3() {
-        webApp.addServlet("servlet", TestServlet.class);
-        ServletRegistration registration = webApp.getServletRegistration("servlet");
-        HashMap<String, String> parameters = new HashMap<>();
-        parameters.put("name", null);
-        assertThrows(IllegalArgumentException.class, () -> registration.setInitParameters(parameters));
-    }
-
-    /**
-     * Test setInitParameters method.
-     */
-    @Test
-    void testSetInitParameters4() {
-        webApp.addServlet("servlet", TestServlet.class);
-        ServletRegistration registration = webApp.getServletRegistration("servlet");
-        HashMap<String, String> parameters = new HashMap<>();
-        parameters.put("name", "value");
-        assertTrue(registration.setInitParameters(parameters).isEmpty());
-    }
-
-    /**
-     * Test setInitParameters method.
-     */
-    @Test
-    void testSetInitParameters5() {
-        webApp.addServlet("servlet", TestServlet.class);
-        ServletRegistration registration = webApp.getServletRegistration("servlet");
-        HashMap<String, String> parameters = new HashMap<>();
-        parameters.put("name", "value");
-        assertTrue(registration.setInitParameters(parameters).isEmpty());
-        assertFalse(registration.setInitParameters(parameters).isEmpty());
-    }
-
-    /**
-     * Test servlet used in a test which tests adding a servlet registration.
-     */
-    static class TestServlet extends HttpServlet {
+class ServletRegistrationTest extends cloud.piranha.core.tests.ServletRegistrationTest {
+    
+    @Override
+    public WebApplication createWebApplication() {
+        return new DefaultWebApplication();
     }
 }

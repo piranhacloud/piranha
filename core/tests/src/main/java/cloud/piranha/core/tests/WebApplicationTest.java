@@ -424,16 +424,6 @@ public abstract class WebApplicationTest {
     }
 
     /**
-     * Test addJspFile method.
-     */
-    @Test
-    void testAddJspFile4() {
-        WebApplication webApplication = createWebApplication();
-        webApplication.getManager().setJspManager(null);
-        assertNull(webApplication.addJspFile("TestAddJspFile4", "testAddJspFile4.jsp"));
-    }
-
-    /**
      * Test addListener method.
      */
     @Test
