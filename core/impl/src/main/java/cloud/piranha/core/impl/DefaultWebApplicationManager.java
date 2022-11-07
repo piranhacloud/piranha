@@ -95,7 +95,7 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     /**
      * Stores the multi-part manager.
      */
-    protected MultiPartManager multiPartManager;
+    protected MultiPartManager multiPartManager = new DefaultMultiPartManager();
     
     /**
      * Stores the object instance manager.

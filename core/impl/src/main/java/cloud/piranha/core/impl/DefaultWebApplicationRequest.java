@@ -734,17 +734,15 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public Part getPart(String name) throws IOException, ServletException {
         verifyMultipartFormData();
-        return webApplication.getManager().getMultiPartManager() != null
-                ? webApplication.getManager().getMultiPartManager().getPart(webApplication, this, name)
-                : null;
+        return webApplication.getManager().getMultiPartManager()
+                .getPart(webApplication, this, name);
     }
 
     @Override
     public Collection<Part> getParts() throws IOException, ServletException {
         verifyMultipartFormData();
-        return webApplication.getManager().getMultiPartManager() != null
-                ? webApplication.getManager().getMultiPartManager().getParts(webApplication, this)
-                : Collections.emptyList();
+        return webApplication.getManager().getMultiPartManager()
+                .getParts(webApplication, this);
     }
 
     @Override
