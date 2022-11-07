@@ -763,7 +763,7 @@ public abstract class WebApplicationRequestTest {
         request.setRequestedSessionId(session.getId());
         assertNotNull(request.getSession(false));
     }
-    
+
     /**
      * Test getSession method.
      */
@@ -794,7 +794,7 @@ public abstract class WebApplicationRequestTest {
         HttpSession session = request.getSession(false);
         assertNull(session);
     }
-    
+
     /**
      * Test getTrailerFields method.
      */

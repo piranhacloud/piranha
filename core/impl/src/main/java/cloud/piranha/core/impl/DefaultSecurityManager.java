@@ -28,17 +28,58 @@
 package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.WebApplication;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Set;
 
 /**
- * The JUnit tests for testing everything related to the ServletRegistration
- * API.
+ * The default SecurityManager.
+ * 
+ * <p>
+ *  This SecurityManager is securing nothing.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ServletRegistrationTest extends cloud.piranha.core.tests.ServletRegistrationTest {
-    
+public class DefaultSecurityManager implements cloud.piranha.core.api.SecurityManager {
+
     @Override
-    public WebApplication createWebApplication() {
-        return new DefaultWebApplication();
+    public boolean authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        return false;
+    }
+
+    @Override
+    public void declareRoles(String[] roles) {
+    }
+
+    @Override
+    public Set<String> getRoles() {
+        return Collections.emptySet();
+    }
+
+    @Override
+    public WebApplication getWebApplication() {
+        return null;
+    }
+
+    @Override
+    public boolean isUserInRole(HttpServletRequest request, String role) {
+        return false;
+    }
+
+    @Override
+    public void login(HttpServletRequest request, String username, String password) throws ServletException {
+        throw new ServletException("Unable to login");
+    }
+
+    @Override
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    }
+
+    @Override
+    public void setWebApplication(WebApplication webApplication) {
     }
 }
