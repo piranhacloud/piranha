@@ -53,6 +53,15 @@ public interface WebApplicationRequest extends HttpServletRequest {
     default HttpUpgradeHandler getUpgradeHandler() {
         return null;
     }
+    
+    /**
+     * Get the web application request input stream.
+     * 
+     * @return the web application request input stream.
+     */
+    default WebApplicationRequestInputStream getWebApplicationRequestInputStream() {
+        return null;
+    }
 
     /**
      * {@return true when upgraded, false otherwise}
@@ -110,4 +119,12 @@ public interface WebApplicationRequest extends HttpServletRequest {
      * @param webApplication the web application.
      */
     void setWebApplication(WebApplication webApplication);
+
+    /**
+     * Set the web application input stream.
+     *
+     * @param webApplicationInputStream the web application input stream.
+     */
+    default void setWebApplicationInputStream(WebApplicationRequestInputStream webApplicationInputStream) {
+    }
 }

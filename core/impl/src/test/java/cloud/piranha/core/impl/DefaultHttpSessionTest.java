@@ -153,30 +153,24 @@ class DefaultHttpSessionTest {
 
     /**
      * Test setRequestedSessionIdFromCookie method.
-     * 
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetRequestedSessionIdFromCookie() throws Exception {
+    void testSetRequestedSessionIdFromCookie() {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertFalse(request.isRequestedSessionIdFromCookie());
         request.setRequestedSessionIdFromCookie(true);
         assertTrue(request.isRequestedSessionIdFromCookie());
-        request.close();
     }
 
     /**
      * Test setRequestedSessionIdFromURL method.
-     * 
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetRequestedSessionIdFromURL() throws Exception {
+    void testSetRequestedSessionIdFromURL() {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         assertFalse(request.isRequestedSessionIdFromURL());
         request.setRequestedSessionIdFromURL(true);
         assertTrue(request.isRequestedSessionIdFromURL());
-        request.close();
     }
 
     /**

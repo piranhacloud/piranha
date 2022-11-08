@@ -27,6 +27,7 @@
  */
 package cloud.piranha.http.webapp;
 
+import cloud.piranha.core.impl.DefaultWebApplicationRequestInputStream;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 
@@ -67,7 +68,10 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
                         wrapped.getRequestTarget().indexOf("?") + 1));
             }
         }
-        setInputStream(wrapped.getInputStream());
+        DefaultWebApplicationRequestInputStream webApplicationRequestInputStream = new DefaultWebApplicationRequestInputStream();
+        webApplicationRequestInputStream.setWebApplicationRequest(this);
+        webApplicationRequestInputStream.setInputStream(wrapped.getInputStream());
+        setWebApplicationInputStream(webApplicationRequestInputStream);
         if (wrapped.getHeader("Content-Length") != null) {
             setContentLength(Integer.valueOf(wrapped.getHeader("Content-Length")));
         }

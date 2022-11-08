@@ -27,6 +27,7 @@
  */
 package cloud.piranha.core.impl;
 
+import cloud.piranha.core.api.WebApplicationRequestInputStream;
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
@@ -160,7 +161,8 @@ class DefaultWebApplicationRequestTest {
     @Test
     void testGetParameterMap() {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setInputStream(new ByteArrayInputStream("param1=value1".getBytes(UTF_8)));
+        WebApplicationRequestInputStream requestInput = request.getWebApplicationRequestInputStream();
+        requestInput.setInputStream(new ByteArrayInputStream("param1=value1".getBytes(UTF_8)));
         request.setContentType("application/x-www-form-urlencoded");
         Map<String, String[]> parameterMap = request.getParameterMap();
         assertEquals(1, parameterMap.size());
@@ -173,7 +175,8 @@ class DefaultWebApplicationRequestTest {
     @Test
     void testGetParameterMap2() {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setInputStream(new ByteArrayInputStream("param1=value1".getBytes(UTF_8)));
+        WebApplicationRequestInputStream requestInput = request.getWebApplicationRequestInputStream();
+        requestInput.setInputStream(new ByteArrayInputStream("param1=value1".getBytes(UTF_8)));
         request.setContentType("application/x-www-form-urlencoded;charset=UTF-8");
         Map<String, String[]> parameterMap = request.getParameterMap();
         assertEquals(1, parameterMap.size());

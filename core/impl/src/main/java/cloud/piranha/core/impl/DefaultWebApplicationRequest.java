@@ -31,6 +31,7 @@ import cloud.piranha.core.api.AttributeManager;
 import cloud.piranha.core.api.HttpHeaderManager;
 import cloud.piranha.core.api.HttpSessionManager;
 import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequestInputStream;
 import cloud.piranha.core.api.WebApplicationRequest;
 import static cloud.piranha.core.impl.DefaultServletRequestDispatcher.PREVIOUS_REQUEST;
 import jakarta.servlet.AsyncContext;
@@ -54,10 +55,8 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpUpgradeHandler;
 import jakarta.servlet.http.Part;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.System.Logger;
@@ -86,7 +85,7 @@ import java.util.UUID;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationRequest extends ServletInputStream implements WebApplicationRequest {
+public class DefaultWebApplicationRequest implements WebApplicationRequest {
 
     /**
      * Stores the logger.
@@ -159,11 +158,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     protected DispatcherType dispatcherType;
 
     /**
-     * Stores the finished flag.
-     */
-    protected boolean finished;
-
-    /**
      * Stores the gotInputStream flag.
      */
     protected boolean gotInputStream;
@@ -191,7 +185,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     /**
      * Stores the input stream.
      */
-    protected InputStream inputStream;
+    protected WebApplicationRequestInputStream webApplicationInputStream;
 
     /**
      * Stores the local address.
@@ -359,7 +353,8 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.dispatcherType = DispatcherType.REQUEST;
         this.headerManager = new DefaultHttpHeaderManager();
         this.headerManager.setHeader("Accept", "*/*");
-        this.inputStream = new ByteArrayInputStream(new byte[0]);
+        this.webApplicationInputStream = new DefaultWebApplicationRequestInputStream();
+        this.webApplicationInputStream.setWebApplicationRequest(this);
         this.method = "GET";
         this.protocol = "HTTP/1.1";
         this.protocolRequestId = "";
@@ -372,7 +367,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         this.parameters = new HashMap<>();
         this.upgraded = false;
     }
-
+    
     /**
      * Add the header.
      *
@@ -533,7 +528,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         ServletInputStream result;
         if (!gotReader) {
             gotInputStream = true;
-            result = this;
+            result = webApplicationInputStream;
         } else {
             throw new IllegalStateException(
                     "Cannot getInputStream because getReader has been previously called");
@@ -696,10 +691,10 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
 
                     if (hasBody) {
                         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-                        int read = read();
+                        int read = webApplicationInputStream.read();
                         while (read != -1) {
                             byteOutput.write(read);
-                            read = read();
+                            read = webApplicationInputStream.read();
                         }
 
                         if (read != -1) {
@@ -780,7 +775,7 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
                     throw new UnsupportedEncodingException(charsetName);
                 }
 
-                reader = new BufferedReader(new InputStreamReader(this, charsetName));
+                reader = new BufferedReader(new InputStreamReader(webApplicationInputStream, charsetName));
             }
             gotReader = true;
         } else {
@@ -930,6 +925,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     @Override
+    public WebApplicationRequestInputStream getWebApplicationRequestInputStream() {
+        return webApplicationInputStream;
+    }
+
+    @Override
     public boolean isAsyncStarted() {
         return asyncStarted;
     }
@@ -937,16 +937,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public boolean isAsyncSupported() {
         return asyncSupported;
-    }
-
-    @Override
-    public boolean isFinished() {
-        return finished;
-    }
-
-    @Override
-    public boolean isReady() {
-        return true;
     }
 
     @Override
@@ -1031,21 +1021,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
         }
 
         return queryStringFromAttribute + "&" + queryString;
-    }
-
-    @Override
-    public int read() throws IOException {
-        if (finished || getContentLength() == 0) {
-            return -1;
-        }
-
-        int read = inputStream.read();
-        index++;
-        if (index == getContentLength() || read == -1) {
-            finished = true;
-        }
-
-        return read;
     }
 
     @Override
@@ -1226,15 +1201,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     }
 
     /**
-     * Set the input stream.
-     *
-     * @param inputStream the input stream.
-     */
-    public void setInputStream(InputStream inputStream) {
-        this.inputStream = inputStream;
-    }
-
-    /**
      * Set the local address.
      *
      * @param localAddress the local address.
@@ -1323,20 +1289,6 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
      */
     public void setQueryString(String queryString) {
         this.queryString = queryString;
-    }
-
-    @Override
-    public void setReadListener(ReadListener listener) {
-        if (listener == null) {
-            throw new NullPointerException("Read listener cannot be null");
-        }
-        if (this.readListener != null) {
-            throw new IllegalStateException("Read listener can only be set once");
-        }
-        if (!isAsyncStarted() && !isUpgraded()) {
-            throw new IllegalStateException("Read listener cannot be set as the request is not upgraded nor the async is started");
-        }
-        this.readListener = listener;
     }
 
     /**
@@ -1438,6 +1390,11 @@ public class DefaultWebApplicationRequest extends ServletInputStream implements 
     @Override
     public void setWebApplication(WebApplication webApplication) {
         this.webApplication = webApplication;
+    }
+
+    @Override
+    public void setWebApplicationInputStream(WebApplicationRequestInputStream webApplicationInputStream) {
+        this.webApplicationInputStream = webApplicationInputStream;
     }
 
     @Override
