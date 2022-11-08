@@ -269,8 +269,7 @@ public class DefaultHttpServer implements HttpServer {
             Random random = new Random();
             while (serverPort == -2) {
                 int candidatePort = random.nextInt(1025, 9999);
-                try {
-                    Socket socket = new Socket("127.0.0.1", candidatePort);
+                try (Socket socket = new Socket("127.0.0.1", candidatePort)) {
                     socket.getInputStream();
                 } catch (IOException ex) {
                     serverPort = candidatePort;
