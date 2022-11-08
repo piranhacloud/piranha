@@ -102,7 +102,7 @@ class DefaultWebApplicationTest {
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.setUnderlyingOutputStream(byteOutput);
         webApplication.service(request, response);
-        assertNotNull(byteOutput.toByteArray().length > 0);
+        assertTrue(byteOutput.toByteArray().length > 0);
         request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApplication);
         request.setAsyncSupported(true);
@@ -114,7 +114,7 @@ class DefaultWebApplicationTest {
         byteOutput = new ByteArrayOutputStream();
         response.setUnderlyingOutputStream(byteOutput);
         webApplication.service(request, response);
-        assertNotNull(byteOutput.toByteArray().length > 0);
+        assertTrue(byteOutput.toByteArray().length > 0);
         request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApplication);
         request.setServletPath("/chat");
@@ -126,7 +126,7 @@ class DefaultWebApplicationTest {
         byteOutput = new ByteArrayOutputStream();
         response.setUnderlyingOutputStream(byteOutput);
         webApplication.service(request, response);
-        assertNotNull(byteOutput.toByteArray().length > 0);
+        assertTrue(byteOutput.toByteArray().length > 0);
     }
 
     /**
@@ -149,7 +149,7 @@ class DefaultWebApplicationTest {
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.setUnderlyingOutputStream(byteOutput);
         webApplication.service(request, response);
-        assertNotNull(byteOutput.toByteArray().length > 0);
+        assertTrue(byteOutput.toByteArray().length > 0);
         request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApplication);
         request.setServletPath("/chat");
@@ -160,7 +160,7 @@ class DefaultWebApplicationTest {
         byteOutput = new ByteArrayOutputStream();
         response.setUnderlyingOutputStream(byteOutput);
         webApplication.service(request, response);
-        assertNotNull(byteOutput.toByteArray().length > 0);
+        assertTrue(byteOutput.toByteArray().length > 0);
         request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApplication);
         request.setServletPath("/chat");
@@ -172,7 +172,7 @@ class DefaultWebApplicationTest {
         byteOutput = new ByteArrayOutputStream();
         response.setUnderlyingOutputStream(byteOutput);
         webApplication.service(request, response);
-        assertNotNull(byteOutput.toByteArray().length > 0);
+        assertTrue(byteOutput.toByteArray().length > 0);
     }
 
     /**
