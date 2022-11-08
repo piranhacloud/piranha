@@ -149,11 +149,6 @@ public class DefaultWebApplication implements WebApplication {
     private static final Logger LOGGER = System.getLogger(DefaultWebApplication.class.getName());
 
     /**
-     * Stores the piranha.response constant
-     */
-    private static final String PIRANHA_RESPONSE = "piranha.response";
-
-    /**
      * Stores the attributes.
      */
     protected final Map<String, Object> attributes;
@@ -208,6 +203,11 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the status.
      */
     protected int status;
+    
+    /**
+     * Stores the active requests and the associated responses.
+     */
+    protected final Map<ServletRequest, ServletResponse> requests;
 
     /**
      * Stores the active responses and the associated requests.
@@ -308,6 +308,7 @@ public class DefaultWebApplication implements WebApplication {
         filters = new LinkedHashMap<>(1);
         initParameters = new ConcurrentHashMap<>(1);
         initializers = new ArrayList<>(1);
+        requests = new ConcurrentHashMap<>(1);
         responses = new ConcurrentHashMap<>(1);
         invocationFinder = new DefaultInvocationFinder(this);
         servletContextName = UUID.randomUUID().toString();
@@ -877,7 +878,7 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public ServletResponse getResponse(ServletRequest request) {
-        return (ServletResponse) request.getAttribute(PIRANHA_RESPONSE);
+        return requests.get(request);
     }
 
     @Override
@@ -1145,7 +1146,7 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public void linkRequestAndResponse(ServletRequest request, ServletResponse response) {
-        request.setAttribute(PIRANHA_RESPONSE, response);
+        requests.put(request, response);
         responses.put(response, request);
     }
 
@@ -1338,7 +1339,7 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public void unlinkRequestAndResponse(ServletRequest request, ServletResponse response) {
-        request.removeAttribute(PIRANHA_RESPONSE);
+        requests.remove(request);
         responses.remove(response);
     }
 

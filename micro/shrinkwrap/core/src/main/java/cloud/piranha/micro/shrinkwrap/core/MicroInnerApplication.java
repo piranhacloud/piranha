@@ -28,6 +28,7 @@
 package cloud.piranha.micro.shrinkwrap.core;
 
 import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequestInputStream;
 import cloud.piranha.core.impl.CookieParser;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
@@ -35,7 +36,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
@@ -100,7 +100,7 @@ public class MicroInnerApplication implements Consumer<Map<String, Object>> {
         applicationRequest.setContextPath((String) requestMap.get("ContextPath"));
         applicationRequest.setServletPath((String) requestMap.get("ServletPath"));
         applicationRequest.setQueryString((String) requestMap.get("QueryString"));
-        applicationRequest.setInputStream((InputStream) requestMap.get("InputStream"));
+        applicationRequest.setWebApplicationInputStream((WebApplicationRequestInputStream) requestMap.get("WebApplicationInputStream"));
 
         for (Map.Entry<String, List<String>> headerEntry : ((Map<String, List<String>>) requestMap.get("Headers")).entrySet()) {
             String name = headerEntry.getKey();

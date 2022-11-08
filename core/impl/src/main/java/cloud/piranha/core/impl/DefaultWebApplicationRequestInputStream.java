@@ -25,53 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.http.webapp;
+package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.Piranha;
-import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.api.HttpServerProcessorEndState;
-import static cloud.piranha.http.api.HttpServerProcessorEndState.COMPLETED;
-import cloud.piranha.http.api.HttpServerRequest;
-import cloud.piranha.http.api.HttpServerResponse;
-import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.ERROR;
+import cloud.piranha.core.api.WebApplicationRequestInputStream;
 
 /**
- * The Web Application HttpServerProcessor.
- *
+ * The default WebApplicationRequestInputStream.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpWebApplicationServerProcessor implements HttpServerProcessor {
-    
-    /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = System.getLogger(HttpWebApplicationServerProcessor.class.getName());
-
-    /**
-     * Stores the Piranha instance.
-     */
-    private final Piranha piranha;
-
-    /**
-     * Constructor.
-     *
-     * @param piranha the Piranha instance.
-     */
-    public HttpWebApplicationServerProcessor(Piranha piranha) {
-        this.piranha = piranha;
-    }
-
-    @Override
-    public HttpServerProcessorEndState process(HttpServerRequest request, HttpServerResponse response) {
-        try {
-            HttpWebApplicationRequest servletRequest = new HttpWebApplicationRequest(request);
-            HttpWebApplicationResponse servletResponse = new HttpWebApplicationResponse(response);
-            piranha.service(servletRequest, servletResponse);
-            servletResponse.flush();
-        } catch (Exception e) {
-            LOGGER.log(ERROR, "An exception occurred while processing the request", e);
-        }
-        return COMPLETED;
-    }
+public class DefaultWebApplicationRequestInputStream extends WebApplicationRequestInputStream {
 }
