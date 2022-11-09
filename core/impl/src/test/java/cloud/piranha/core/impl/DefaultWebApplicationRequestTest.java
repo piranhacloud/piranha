@@ -27,7 +27,7 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.WebApplicationRequestInputStream;
+import cloud.piranha.core.api.WebApplicationInputStream;
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
@@ -161,7 +161,7 @@ class DefaultWebApplicationRequestTest {
     @Test
     void testGetParameterMap() {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        WebApplicationRequestInputStream requestInput = request.getWebApplicationRequestInputStream();
+        WebApplicationInputStream requestInput = request.getWebApplicationInputStream();
         requestInput.setInputStream(new ByteArrayInputStream("param1=value1".getBytes(UTF_8)));
         request.setContentType("application/x-www-form-urlencoded");
         Map<String, String[]> parameterMap = request.getParameterMap();
@@ -175,7 +175,7 @@ class DefaultWebApplicationRequestTest {
     @Test
     void testGetParameterMap2() {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        WebApplicationRequestInputStream requestInput = request.getWebApplicationRequestInputStream();
+        WebApplicationInputStream requestInput = request.getWebApplicationInputStream();
         requestInput.setInputStream(new ByteArrayInputStream("param1=value1".getBytes(UTF_8)));
         request.setContentType("application/x-www-form-urlencoded;charset=UTF-8");
         Map<String, String[]> parameterMap = request.getParameterMap();
@@ -411,7 +411,7 @@ class DefaultWebApplicationRequestTest {
         request.setMethod("POST");
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         webApplication.service(request, response);
         assertEquals(101, response.getStatus());
     }

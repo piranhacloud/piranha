@@ -52,7 +52,7 @@ class WebApplicationTest extends cloud.piranha.core.tests.WebApplicationTest {
     @Override
     protected WebApplicationResponse createWebApplicationResponse() {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
+        response.getWebApplicationOutputStream().setOutputStream(new ByteArrayOutputStream());
         return response;
     }
 }

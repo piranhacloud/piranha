@@ -56,7 +56,7 @@ public class HttpWebApplicationResponse extends DefaultWebApplicationResponse {
      */
     public HttpWebApplicationResponse(HttpServerResponse wrapped) {
         this.wrapped = wrapped;
-        setUnderlyingOutputStream(wrapped.getOutputStream());
+        getWebApplicationOutputStream().setOutputStream(wrapped.getOutputStream());
         setResponseCloser(() -> {
             try {
                 wrapped.closeResponse();

@@ -27,12 +27,30 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.WebApplicationRequestInputStream;
+import cloud.piranha.core.api.WebApplicationOutputStream;
+import jakarta.servlet.WriteListener;
+import java.io.IOException;
 
 /**
- * The default WebApplicationRequestInputStream.
+ * The default WebApplicationOutputStream.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationRequestInputStream extends WebApplicationRequestInputStream {
+public class DefaultWebApplicationOutputStream 
+        extends WebApplicationOutputStream {
+
+    @Override
+    public boolean isReady() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setWriteListener(WriteListener writeListener) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void write(int integer) throws IOException {
+        outputStream.write(integer);
+    }
 }

@@ -31,7 +31,7 @@ import cloud.piranha.core.api.AttributeManager;
 import cloud.piranha.core.api.HttpHeaderManager;
 import cloud.piranha.core.api.HttpSessionManager;
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequestInputStream;
+import cloud.piranha.core.api.WebApplicationInputStream;
 import cloud.piranha.core.api.WebApplicationRequest;
 import static cloud.piranha.core.impl.DefaultServletRequestDispatcher.PREVIOUS_REQUEST;
 import jakarta.servlet.AsyncContext;
@@ -185,7 +185,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
     /**
      * Stores the input stream.
      */
-    protected WebApplicationRequestInputStream webApplicationInputStream;
+    protected WebApplicationInputStream webApplicationInputStream;
 
     /**
      * Stores the local address.
@@ -353,7 +353,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         this.dispatcherType = DispatcherType.REQUEST;
         this.headerManager = new DefaultHttpHeaderManager();
         this.headerManager.setHeader("Accept", "*/*");
-        this.webApplicationInputStream = new DefaultWebApplicationRequestInputStream();
+        this.webApplicationInputStream = new DefaultWebApplicationInputStream();
         this.webApplicationInputStream.setWebApplicationRequest(this);
         this.method = "GET";
         this.protocol = "HTTP/1.1";
@@ -925,7 +925,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
     }
 
     @Override
-    public WebApplicationRequestInputStream getWebApplicationRequestInputStream() {
+    public WebApplicationInputStream getWebApplicationInputStream() {
         return webApplicationInputStream;
     }
 
@@ -1393,7 +1393,8 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
     }
 
     @Override
-    public void setWebApplicationInputStream(WebApplicationRequestInputStream webApplicationInputStream) {
+    public void setWebApplicationInputStream(
+            WebApplicationInputStream webApplicationInputStream) {
         this.webApplicationInputStream = webApplicationInputStream;
     }
 

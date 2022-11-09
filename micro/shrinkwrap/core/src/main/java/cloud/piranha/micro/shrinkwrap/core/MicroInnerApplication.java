@@ -28,7 +28,8 @@
 package cloud.piranha.micro.shrinkwrap.core;
 
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequestInputStream;
+import cloud.piranha.core.api.WebApplicationOutputStream;
+import cloud.piranha.core.api.WebApplicationInputStream;
 import cloud.piranha.core.impl.CookieParser;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
@@ -36,7 +37,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -100,7 +100,7 @@ public class MicroInnerApplication implements Consumer<Map<String, Object>> {
         applicationRequest.setContextPath((String) requestMap.get("ContextPath"));
         applicationRequest.setServletPath((String) requestMap.get("ServletPath"));
         applicationRequest.setQueryString((String) requestMap.get("QueryString"));
-        applicationRequest.setWebApplicationInputStream((WebApplicationRequestInputStream) requestMap.get("WebApplicationInputStream"));
+        applicationRequest.setWebApplicationInputStream((WebApplicationInputStream) requestMap.get("WebApplicationInputStream"));
 
         for (Map.Entry<String, List<String>> headerEntry : ((Map<String, List<String>>) requestMap.get("Headers")).entrySet()) {
             String name = headerEntry.getKey();
@@ -140,7 +140,7 @@ public class MicroInnerApplication implements Consumer<Map<String, Object>> {
 
     private DefaultWebApplicationResponse copyMapToApplicationResponse(Map<String, Object> requestMap) {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setUnderlyingOutputStream((OutputStream) requestMap.get("UnderlyingOutputStream"));
+        response.setWebApplicationOutputStream((WebApplicationOutputStream) requestMap.get("WebApplicationOutputStream"));
         response.setResponseCloser((Runnable) requestMap.get("ResponseCloser"));
         return response;
     }

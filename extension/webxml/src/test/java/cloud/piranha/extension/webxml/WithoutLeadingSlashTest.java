@@ -60,7 +60,7 @@ class WithoutLeadingSlashTest {
         response.setWebApplication(webApplication);
         response.setBodyOnly(true);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApplication);

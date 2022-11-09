@@ -34,11 +34,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * The web application request input stream.
+ * The web application input stream.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class WebApplicationRequestInputStream extends ServletInputStream {
+public abstract class WebApplicationInputStream extends ServletInputStream {
 
     /**
      * Stores the finished flag.
@@ -73,7 +73,7 @@ public abstract class WebApplicationRequestInputStream extends ServletInputStrea
     /**
      * Constructor.
      */
-    public WebApplicationRequestInputStream() {
+    public WebApplicationInputStream() {
         inputStream = new ByteArrayInputStream(new byte[0]);
     }
 
@@ -124,9 +124,9 @@ public abstract class WebApplicationRequestInputStream extends ServletInputStrea
     }
 
     /**
-     * Set the web application webApplicationRequest.
+     * Set the web application request.
      * 
-     * @param webApplicationRequest the web application webApplicationRequest.
+     * @param webApplicationRequest the web application request.
      */
     public void setWebApplicationRequest(WebApplicationRequest webApplicationRequest) {
         this.webApplicationRequest = webApplicationRequest;

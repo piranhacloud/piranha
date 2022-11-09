@@ -30,6 +30,7 @@ package cloud.piranha.core.impl;
 import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationResponse;
+import cloud.piranha.core.api.WebApplicationOutputStream;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletOutputStream;
@@ -38,7 +39,6 @@ import jakarta.servlet.WriteListener;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
@@ -157,7 +157,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     /**
      * Stores the output stream.
      */
-    protected OutputStream outputStream;
+    protected WebApplicationOutputStream outputStream;
 
     /**
      * Stores the status code.
@@ -205,6 +205,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
         gotWriter = false;
         headerManager = new DefaultHttpHeaderManager();
         locale = Locale.getDefault();
+        outputStream = new DefaultWebApplicationOutputStream();
         status = 200;
         statusMessage = null;
         writer = null;
@@ -599,7 +600,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
      *
      * @param outputStream the output stream.
      */
-    public void setOutputStream(ServletOutputStream outputStream) {
+    public void setOutputStream(WebApplicationOutputStream outputStream) {
         this.outputStream = outputStream;
     }
 
@@ -680,7 +681,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     }
 
     @Override
-    public OutputStream getUnderlyingOutputStream() {
+    public WebApplicationOutputStream getWebApplicationOutputStream() {
         return outputStream;
     }
 
@@ -703,7 +704,7 @@ public class DefaultWebApplicationResponse extends ServletOutputStream implement
     }
 
     @Override
-    public final void setUnderlyingOutputStream(OutputStream outputStream) {
+    public void setWebApplicationOutputStream(WebApplicationOutputStream outputStream) {
         this.outputStream = outputStream;
     }
 

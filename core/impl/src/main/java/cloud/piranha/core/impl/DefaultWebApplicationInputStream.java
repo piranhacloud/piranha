@@ -27,32 +27,12 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
-import java.io.ByteArrayOutputStream;
+import cloud.piranha.core.api.WebApplicationInputStream;
 
 /**
- * The JUnit tests for the HttpSessionAttributeListener API.
- *
+ * The default WebApplicationInputStream.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HttpSessionAttributeListenerTest extends cloud.piranha.core.tests.HttpSessionAttributeListenerTest {
-
-    @Override
-    protected WebApplication createWebApplication() {
-        return new DefaultWebApplication();
-    }
-
-    @Override
-    protected WebApplicationRequest createWebApplicationRequest() {
-        return new DefaultWebApplicationRequest();
-    }
-
-    @Override
-    protected WebApplicationResponse createWebApplicationResponse() {
-        DefaultWebApplicationResponse response  = new DefaultWebApplicationResponse();
-        response.getWebApplicationOutputStream().setOutputStream(new ByteArrayOutputStream());
-        return response;
-    }
+public class DefaultWebApplicationInputStream extends WebApplicationInputStream {
 }

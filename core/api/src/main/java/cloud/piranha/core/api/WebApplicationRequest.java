@@ -55,11 +55,11 @@ public interface WebApplicationRequest extends HttpServletRequest {
     }
     
     /**
-     * Get the web application request input stream.
+     * Get the web application input stream.
      * 
-     * @return the web application request input stream.
+     * @return the web application input stream.
      */
-    default WebApplicationRequestInputStream getWebApplicationRequestInputStream() {
+    default WebApplicationInputStream getWebApplicationInputStream() {
         return null;
     }
 
@@ -125,6 +125,7 @@ public interface WebApplicationRequest extends HttpServletRequest {
      *
      * @param webApplicationInputStream the web application input stream.
      */
-    default void setWebApplicationInputStream(WebApplicationRequestInputStream webApplicationInputStream) {
+    default void setWebApplicationInputStream(
+            WebApplicationInputStream webApplicationInputStream) {
     }
 }

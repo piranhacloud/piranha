@@ -30,7 +30,6 @@ package cloud.piranha.core.api;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Collection;
 
 /**
@@ -56,16 +55,16 @@ public interface WebApplicationResponse extends HttpServletResponse {
     Runnable getResponseCloser();
 
     /**
-     * {@return the underlying output stream}
+     * {@return the web application output stream}
      */
-    OutputStream getUnderlyingOutputStream();
+    WebApplicationOutputStream getWebApplicationOutputStream();
 
     /**
-     * Set the underlying output stream.
+     * Set the web application output stream.
      *
-     * @param outputStream the underlying output stream.
+     * @param outputStream the web application output stream.
      */
-    void setUnderlyingOutputStream(OutputStream outputStream);
+    void setWebApplicationOutputStream(WebApplicationOutputStream outputStream);
         
     /**
      * Write the headers.

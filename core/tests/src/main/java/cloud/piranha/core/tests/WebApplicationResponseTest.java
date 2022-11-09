@@ -30,13 +30,14 @@ package cloud.piranha.core.tests;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
+import cloud.piranha.core.api.WebApplicationOutputStream;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.WriteListener;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -335,12 +336,12 @@ public abstract class WebApplicationResponseTest {
     }
 
     /**
-     * Test getUnderlyingOutputStream method.
+     * Test getWebApplicationOutputStream method.
      */
     @Test
     void testGetUnderlyingOutputStream() {
         WebApplicationResponse response = createWebApplicationResponse();
-        assertNotNull(response.getUnderlyingOutputStream());
+        assertNotNull(response.getWebApplicationOutputStream());
     }
 
     /**
@@ -801,13 +802,26 @@ public abstract class WebApplicationResponseTest {
     }
     
     /**
-     * Test setUnderlyingOutputStream method.
+     * Test setWebApplicationOutputStream method.
      */
     @Test
     void testSetUnderlyingOutputStream() {
         WebApplicationResponse response = createWebApplicationResponse();
-        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
-        assertTrue(response.getUnderlyingOutputStream() instanceof ByteArrayOutputStream);
+        response.setWebApplicationOutputStream(new WebApplicationOutputStream(){
+            @Override
+            public boolean isReady() {
+                return true;
+            }
+
+            @Override
+            public void setWriteListener(WriteListener writeListener) {
+            }
+
+            @Override
+            public void write(int b) throws IOException {
+            }
+        });
+        assertNotNull(response.getWebApplicationOutputStream());
     }
     
     /**

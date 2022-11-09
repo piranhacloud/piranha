@@ -743,7 +743,8 @@ public abstract class WebApplicationRequestTest {
         request.setServletPath("/session");
         WebApplicationResponse response = createWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+//        response.setWebApplicationOutputStream(byteOutput);
         webApplication.service(request, response);
         assertNotNull(byteOutput.toByteArray().length > 0);
     }
