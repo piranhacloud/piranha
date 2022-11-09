@@ -100,7 +100,7 @@ class DefaultWebApplicationTest {
         request.setServletPath("/chat");
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         webApplication.service(request, response);
         assertTrue(byteOutput.toByteArray().length > 0);
         request = new DefaultWebApplicationRequest();
@@ -112,7 +112,7 @@ class DefaultWebApplicationTest {
         request.setParameter("name", new String[]{"username"});
         response = new DefaultWebApplicationResponse();
         byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         webApplication.service(request, response);
         assertTrue(byteOutput.toByteArray().length > 0);
         request = new DefaultWebApplicationRequest();
@@ -124,7 +124,7 @@ class DefaultWebApplicationTest {
         request.setParameter("message", new String[]{new Date().toString()});
         response = new DefaultWebApplicationResponse();
         byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         webApplication.service(request, response);
         assertTrue(byteOutput.toByteArray().length > 0);
     }
@@ -147,7 +147,7 @@ class DefaultWebApplicationTest {
         request.setServletPath("/chat");
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         webApplication.service(request, response);
         assertTrue(byteOutput.toByteArray().length > 0);
         request = new DefaultWebApplicationRequest();
@@ -158,7 +158,7 @@ class DefaultWebApplicationTest {
         request.setParameter("name", new String[]{"username"});
         response = new DefaultWebApplicationResponse();
         byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         webApplication.service(request, response);
         assertTrue(byteOutput.toByteArray().length > 0);
         request = new DefaultWebApplicationRequest();
@@ -170,7 +170,7 @@ class DefaultWebApplicationTest {
         request.setParameter("message", new String[]{new Date().toString()});
         response = new DefaultWebApplicationResponse();
         byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         webApplication.service(request, response);
         assertTrue(byteOutput.toByteArray().length > 0);
     }
@@ -258,7 +258,7 @@ class DefaultWebApplicationTest {
         request.setServletPath("/include");
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         response.setWebApplication(webApp);
         webApp.service(request, response);
         assertTrue(new String(byteOutput.toByteArray()).contains("This was included"));
@@ -287,7 +287,7 @@ class DefaultWebApplicationTest {
         request.setServletPath("/include3");
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         response.setWebApplication(webApp);
         webApp.service(request, response);
         assertTrue(new String(byteOutput.toByteArray()).contains("This was included"));
@@ -318,7 +318,7 @@ class DefaultWebApplicationTest {
         request.setServletPath("/include4");
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         response.setWebApplication(webApp);
         webApp.service(request, response);
         assertTrue(new String(byteOutput.toByteArray()).contains("This was includedThis was included"));
@@ -356,7 +356,7 @@ class DefaultWebApplicationTest {
         request.setServletPath("/Snoop");
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         response.setWebApplication(webApp);
         webApp.addServletMapping("Snoop", "/Snoop");
         webApp.addServlet("DefaultServlet", DefaultServlet.class.getName());
@@ -399,7 +399,7 @@ class DefaultWebApplicationTest {
         request.setServletPath("/Snoop");
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         response.setWebApplication(webApp);
         webApp.initialize();
         webApp.start();

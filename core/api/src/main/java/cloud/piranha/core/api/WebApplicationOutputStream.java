@@ -25,34 +25,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
+package cloud.piranha.core.api;
 
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
+import jakarta.servlet.ServletOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 
 /**
- * The JUnit tests for the HttpSessionAttributeListener API.
- *
+ * The WebApplicationOutputStream API.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HttpSessionAttributeListenerTest extends cloud.piranha.core.tests.HttpSessionAttributeListenerTest {
+public abstract class WebApplicationOutputStream extends ServletOutputStream {
 
-    @Override
-    protected WebApplication createWebApplication() {
-        return new DefaultWebApplication();
+    /**
+     * Stores the output stream.
+     */
+    protected OutputStream outputStream;
+    
+    /**
+     * Constructor.
+     */
+    public WebApplicationOutputStream() {
+        this.outputStream = new ByteArrayOutputStream();
     }
-
-    @Override
-    protected WebApplicationRequest createWebApplicationRequest() {
-        return new DefaultWebApplicationRequest();
+    
+    /**
+     * Get the output stream.
+     * 
+     * @return the output stream.
+     */
+    public OutputStream getOutputStream() {
+        return outputStream;
     }
-
-    @Override
-    protected WebApplicationResponse createWebApplicationResponse() {
-        DefaultWebApplicationResponse response  = new DefaultWebApplicationResponse();
-        response.getWebApplicationOutputStream().setOutputStream(new ByteArrayOutputStream());
-        return response;
+    
+    /**
+     * Set the output stream.
+     * 
+     * @param outputStream the output stream. 
+     */
+    public void setOutputStream(OutputStream outputStream) {
+        this.outputStream = outputStream;
     }
 }

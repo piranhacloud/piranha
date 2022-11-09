@@ -123,7 +123,7 @@ class DefaultHttpSessionTest {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         webApplication.addServlet("TestSetCommentServlet", new TestSetCommentServlet());
         webApplication.addServletMapping("TestSetCommnetrServlet", "/*");
         webApplication.addListener(new TestSetCommentListener());

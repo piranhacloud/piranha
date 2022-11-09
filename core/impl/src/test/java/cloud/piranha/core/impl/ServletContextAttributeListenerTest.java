@@ -52,7 +52,7 @@ class ServletContextAttributeListenerTest extends cloud.piranha.core.tests.Servl
     @Override
     protected WebApplicationResponse createWebApplicationResponse() {
         DefaultWebApplicationResponse response  = new DefaultWebApplicationResponse();
-        response.setUnderlyingOutputStream(new ByteArrayOutputStream());
+        response.getWebApplicationOutputStream().setOutputStream(new ByteArrayOutputStream());
         return response;
     }
 }

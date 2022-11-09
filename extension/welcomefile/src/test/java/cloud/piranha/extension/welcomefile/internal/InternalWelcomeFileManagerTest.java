@@ -60,7 +60,7 @@ class InternalWelcomeFileManagerTest {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         response.setWebApplication(webApp);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         webApp.setDefaultServlet(new DefaultServlet());
         webApp.initialize();
         webApp.start();
@@ -87,7 +87,7 @@ class InternalWelcomeFileManagerTest {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         response.setWebApplication(webApp);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         webApp.setDefaultServlet(new DefaultServlet());
         webApp.initialize();
         webApp.start();

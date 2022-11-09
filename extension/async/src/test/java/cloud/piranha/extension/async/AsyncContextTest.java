@@ -59,7 +59,7 @@ class AsyncContextTest {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.setResponseCloser(() -> {});
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         response.setWebApplication(webApp);
         AsyncContext context = request.startAsync(request, response);
         context.dispatch();
@@ -84,7 +84,7 @@ class AsyncContextTest {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.setResponseCloser(() -> {});
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         response.setWebApplication(webApp);
         AsyncContext context = request.startAsync(request, response);
         context.dispatch("/mypath");
@@ -109,7 +109,7 @@ class AsyncContextTest {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.setResponseCloser(() -> {});
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         response.setWebApplication(webApp);
         AsyncContext context = request.startAsync(request, response);
         context.dispatch(webApp, "/mypath");
@@ -136,7 +136,7 @@ class AsyncContextTest {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.setResponseCloser(() -> {});
-        response.setUnderlyingOutputStream(byteOutput);
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         response.setWebApplication(webApp);
         AsyncContext context = request.startAsync(request, response);
         context.dispatch(webApp, "/mypath");

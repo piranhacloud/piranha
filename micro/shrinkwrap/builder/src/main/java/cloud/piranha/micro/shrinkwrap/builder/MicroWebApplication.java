@@ -171,7 +171,7 @@ public class MicroWebApplication extends DefaultWebApplication {
      */
     private Map<String, Object> responseToMap(WebApplicationResponse response) {
         return Map.of(
-                "UnderlyingOutputStream", response.getUnderlyingOutputStream(),
+                "WebApplicationOutputStream", response.getWebApplicationOutputStream(),
                 "ResponseCloser", response.getResponseCloser() == null ? doNothing : response.getResponseCloser());
     }
 }

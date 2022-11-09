@@ -28,6 +28,7 @@
 package cloud.piranha.embedded;
 
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
+import cloud.piranha.core.impl.DefaultWebApplicationOutputStream;
 import java.io.ByteArrayOutputStream;
 
 /**
@@ -44,7 +45,7 @@ public class EmbeddedResponse extends DefaultWebApplicationResponse {
      */
     public EmbeddedResponse() {
         this.bodyOnly = true;
-        this.outputStream = new ByteArrayOutputStream();
+        this.outputStream = new DefaultWebApplicationOutputStream();
     }
 
     /**
@@ -53,7 +54,7 @@ public class EmbeddedResponse extends DefaultWebApplicationResponse {
      * @return the body.
      */
     public byte[] getResponseAsByteArray() {
-        ByteArrayOutputStream byteOutputStream = (ByteArrayOutputStream) outputStream;
+        ByteArrayOutputStream byteOutputStream = (ByteArrayOutputStream) outputStream.getOutputStream();
         return byteOutputStream.toByteArray();
     }
 
