@@ -29,7 +29,6 @@ package cloud.piranha.core.api;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -45,6 +44,13 @@ public interface WebApplicationResponse extends HttpServletResponse {
     void closeAsyncResponse();
 
     /**
+     * Get the content language.
+     * 
+     * @return the content language.
+     */
+    String getContentLanguage();
+
+    /**
      * {@return the cookies}
      */
     Collection<Cookie> getCookies();
@@ -55,37 +61,44 @@ public interface WebApplicationResponse extends HttpServletResponse {
     Runnable getResponseCloser();
 
     /**
+     * Get the status message.
+     * 
+     * @return the status message.
+     */
+    String getStatusMessage();
+    
+    /**
+     * Get the web application.
+     * 
+     * @return the web application.
+     */
+    WebApplication getWebApplication();
+
+    /**
      * {@return the web application output stream}
      */
     WebApplicationOutputStream getWebApplicationOutputStream();
-
-    /**
-     * Set the web application output stream.
-     *
-     * @param outputStream the web application output stream.
-     */
-    void setWebApplicationOutputStream(WebApplicationOutputStream outputStream);
-        
-    /**
-     * Write the headers.
-     * 
-     * @throws IOException when an I/O error occurs.
-     */
-    void writeHeaders() throws IOException;
     
     /**
-     * Write the status line.
-     * 
-     * @throws IOException when an I/O error occurs.
+     * Are we in body only mode.
+     *
+     * @return true if we are only sending the body, false otherwise.
      */
-    void writeStatusLine() throws IOException;
+    boolean isBodyOnly();
 
     /**
-     * Set the web application.
-     *
-     * @param webApplication the web application.
+     * Is the buffer resetting.
+     * 
+     * @return true if it is, false otherwise.
      */
-    void setWebApplication(WebApplication webApplication);
+    boolean isBufferResetting();
+    
+    /**
+     * Set the body only mode.
+     * 
+     * @param bodyOnly the body only mode.
+     */
+    void setBodyOnly(boolean bodyOnly);
 
     /**
      * Set the response closer.
@@ -93,4 +106,18 @@ public interface WebApplicationResponse extends HttpServletResponse {
      * @param responseCloser the response closer.
      */
     void setResponseCloser(Runnable responseCloser);
+        
+    /**
+     * Set the web application.
+     *
+     * @param webApplication the web application.
+     */
+    void setWebApplication(WebApplication webApplication);
+    
+    /**
+     * Set the web application output stream.
+     *
+     * @param outputStream the web application output stream.
+     */
+    void setWebApplicationOutputStream(WebApplicationOutputStream outputStream);
 }

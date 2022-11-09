@@ -27,7 +27,6 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.WebApplicationOutputStream;
 import java.io.ByteArrayOutputStream;
 
 /**
@@ -43,19 +42,13 @@ public class TestWebApplicationResponse extends DefaultWebApplicationResponse {
     public TestWebApplicationResponse() {
         super();
         this.bodyOnly = true;
-        this.outputStream = new DefaultWebApplicationOutputStream();
     }
 
     /**
      * {@return the bytes in the buffer}
      */
     public byte[] getResponseBytes() {
-        ByteArrayOutputStream output = (ByteArrayOutputStream) this.outputStream.getOutputStream();
+        ByteArrayOutputStream output = (ByteArrayOutputStream) this.webApplicationOutputStream.getOutputStream();
         return output.toByteArray();
-    }
-
-    @Override
-    public WebApplicationOutputStream getWebApplicationOutputStream() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

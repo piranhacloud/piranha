@@ -54,7 +54,7 @@ class EmbeddedResponseBuilderTest {
                 .build();
         response.getWebApplicationOutputStream().setOutputStream(new ByteArrayOutputStream());
         response.addHeader("header", "not there");
-        response.flush();
+        response.flushBuffer();
         assertFalse(response.getResponseAsString().contains("not there"));
     }
 
@@ -70,7 +70,7 @@ class EmbeddedResponseBuilderTest {
                 .build();
         response.getWebApplicationOutputStream().setOutputStream(new ByteArrayOutputStream());
         response.addHeader("header", "there");
-        response.flush();
+        response.flushBuffer();
         assertTrue(response.getResponseAsString().contains("header: there"));
     }
 

@@ -33,5 +33,4 @@ package cloud.piranha.core.impl;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class TestWebApplicationRequest extends DefaultWebApplicationRequest {
-
 }

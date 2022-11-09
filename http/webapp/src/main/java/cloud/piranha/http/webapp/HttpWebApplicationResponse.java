@@ -64,7 +64,6 @@ public class HttpWebApplicationResponse extends DefaultWebApplicationResponse {
                 LOGGER.log(WARNING, () -> "IOException when flushing the underlying async output stream", ioe);
             }
         });
-
     }
 
     @Override
@@ -95,30 +94,5 @@ public class HttpWebApplicationResponse extends DefaultWebApplicationResponse {
     @Override
     public void setIntHeader(String name, int value) {
         wrapped.setHeader(name, Integer.toString(value));
-    }
-    
-
-    @Override
-    public void writeStatusLine() throws IOException {
-        wrapped.setStatus(status);
-        wrapped.writeStatusLine();
-    }
-
-    @Override
-    public void writeHeaders() throws IOException {
-        if (contentType != null) {
-            StringBuilder contentTypeBuilder = new StringBuilder();
-            contentTypeBuilder.append(contentType);
-            if (characterEncoding != null) {
-                contentTypeBuilder
-                        .append(";charset=")
-                        .append(characterEncoding);
-            }
-            setHeader("Content-Type", contentTypeBuilder.toString());
-        }
-        if (contentLanguage != null) {
-            setHeader("Content-Language", contentLanguage);
-        }
-        wrapped.writeHeaders();
     }
 }

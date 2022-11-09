@@ -45,7 +45,8 @@ public class EmbeddedResponse extends DefaultWebApplicationResponse {
      */
     public EmbeddedResponse() {
         this.bodyOnly = true;
-        this.outputStream = new DefaultWebApplicationOutputStream();
+        this.webApplicationOutputStream = new DefaultWebApplicationOutputStream();
+        this.webApplicationOutputStream.setResponse(this);
     }
 
     /**
@@ -54,7 +55,7 @@ public class EmbeddedResponse extends DefaultWebApplicationResponse {
      * @return the body.
      */
     public byte[] getResponseAsByteArray() {
-        ByteArrayOutputStream byteOutputStream = (ByteArrayOutputStream) outputStream.getOutputStream();
+        ByteArrayOutputStream byteOutputStream = (ByteArrayOutputStream) webApplicationOutputStream.getOutputStream();
         return byteOutputStream.toByteArray();
     }
 
