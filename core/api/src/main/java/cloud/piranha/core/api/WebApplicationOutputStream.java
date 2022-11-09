@@ -28,43 +28,67 @@
 package cloud.piranha.core.api;
 
 import jakarta.servlet.ServletOutputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
 /**
  * The WebApplicationOutputStream API.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public abstract class WebApplicationOutputStream extends ServletOutputStream {
 
     /**
-     * Stores the output stream.
+     * Flush the buffer.
+     * 
+     * @throws IOException when an I/O error occurs.
      */
-    protected OutputStream outputStream;
-    
+    public abstract void flushBuffer() throws IOException;
+
     /**
-     * Constructor.
+     * Get the buffer size.
+     *
+     * @return the buffer size.
      */
-    public WebApplicationOutputStream() {
-        this.outputStream = new ByteArrayOutputStream();
-    }
-    
+    public abstract int getBufferSize();
+
     /**
      * Get the output stream.
-     * 
+     *
      * @return the output stream.
      */
-    public OutputStream getOutputStream() {
-        return outputStream;
-    }
+    public abstract OutputStream getOutputStream();
+    
+    /**
+     * Get the web application response.
+     * 
+     * @return the web application response.
+     */
+    public abstract WebApplicationResponse getResponse();
+    
+    /**
+     * Reset the buffer.
+     */
+    public abstract void resetBuffer();
+
+    /**
+     * Set the buffer size.
+     * 
+     * @param bufferSize the buffer size.
+     */
+    public abstract void setBufferSize(int bufferSize);
     
     /**
      * Set the output stream.
-     * 
-     * @param outputStream the output stream. 
+     *
+     * @param outputStream the output stream.
      */
-    public void setOutputStream(OutputStream outputStream) {
-        this.outputStream = outputStream;
-    }
+    public abstract void setOutputStream(OutputStream outputStream);
+
+    /**
+     * Set the web application response.
+     * 
+     * @param response the web application response.
+     */
+    public abstract void setResponse(WebApplicationResponse response);
 }

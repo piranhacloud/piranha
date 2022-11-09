@@ -39,6 +39,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
@@ -805,20 +806,62 @@ public abstract class WebApplicationResponseTest {
      * Test setWebApplicationOutputStream method.
      */
     @Test
-    void testSetUnderlyingOutputStream() {
+    void testSetWebAplicationOutputStream() {
         WebApplicationResponse response = createWebApplicationResponse();
         response.setWebApplicationOutputStream(new WebApplicationOutputStream(){
             @Override
+            public void flushBuffer() throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public int getBufferSize() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public OutputStream getOutputStream() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public WebApplicationResponse getResponse() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void resetBuffer() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setBufferSize(int bufferSize) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setOutputStream(OutputStream outputStream) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public void setResponse(WebApplicationResponse response) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
             public boolean isReady() {
-                return true;
+                throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
             public void setWriteListener(WriteListener writeListener) {
+                throw new UnsupportedOperationException("Not supported yet.");
             }
 
             @Override
             public void write(int b) throws IOException {
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         });
         assertNotNull(response.getWebApplicationOutputStream());
@@ -832,28 +875,6 @@ public abstract class WebApplicationResponseTest {
         WebApplication webApplication = createWebApplication();
         WebApplicationResponse response = createWebApplicationResponse();
         response.setWebApplication(webApplication);
-    }
-    
-    /**
-     * Test writeHeaders method.
-     * 
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testWriteHeaders() throws Exception {
-        WebApplicationResponse response = createWebApplicationResponse();
-        response.writeHeaders();
-    }
-    
-    /**
-     * Test writeStatusLine method.
-     * 
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testWriteStatusLine() throws Exception {
-        WebApplicationResponse response = createWebApplicationResponse();
-        response.writeStatusLine();
     }
     
     /**
