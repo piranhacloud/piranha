@@ -63,6 +63,13 @@ public interface WebApplicationManager {
     ErrorPageManager getErrorPageManager();
     
     /**
+     * Get the dispatcher manager.
+     * 
+     * @return the dispatcher manager.
+     */
+    DispatcherManager getDispatcherManager();
+    
+    /**
      * Get the HTTP session manager.
      * 
      * @return the HTTP session manager.
