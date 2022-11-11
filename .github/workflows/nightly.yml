@@ -48,7 +48,7 @@ jobs:
         docker push piranhacloud/coreprofile:amd64-snapshot
         docker push piranhacloud/coreprofile:arm64v8-snapshot
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create --amend piranhacloud/coreprofile:snapshot \
+        docker manifest create piranhacloud/coreprofile:snapshot \
           piranhacloud/coreprofile:amd64-snapshot \
           piranhacloud/coreprofile:arm64v8-snapshot
         docker manifest annotate piranhacloud/coreprofile:snapshot \
@@ -64,7 +64,7 @@ jobs:
         docker push piranhacloud/micro:amd64-snapshot
         docker push piranhacloud/micro:arm64v8-snapshot
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create --amend piranhacloud/micro:snapshot \
+        docker manifest create piranhacloud/micro:snapshot \
           piranhacloud/micro:amd64-snapshot \
           piranhacloud/micro:arm64v8-snapshot
         docker manifest annotate piranhacloud/micro:snapshot \
@@ -80,7 +80,7 @@ jobs:
         docker push piranhacloud/microprofile:amd64-snapshot
         docker push piranhacloud/microprofile:arm64v8-snapshot
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create --amend piranhacloud/microprofile:snapshot \
+        docker manifest create piranhacloud/microprofile:snapshot \
           piranhacloud/microprofile:amd64-snapshot \
           piranhacloud/microprofile:arm64v8-snapshot
         docker manifest annotate piranhacloud/microprofile:snapshot \
@@ -96,7 +96,7 @@ jobs:
         docker push piranhacloud/server:amd64-snapshot
         docker push piranhacloud/server:arm64v8-snapshot
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create --amend piranhacloud/server:snapshot \
+        docker manifest create piranhacloud/server:snapshot \
           piranhacloud/server:amd64-snapshot \
           piranhacloud/server:arm64v8-snapshot
         docker manifest annotate piranhacloud/server:snapshot \
@@ -112,7 +112,7 @@ jobs:
         docker push piranhacloud/servlet:amd64-snapshot
         docker push piranhacloud/servlet:arm64v8-snapshot
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create --amend piranhacloud/servlet:snapshot \
+        docker manifest create piranhacloud/servlet:snapshot \
           piranhacloud/servlet:amd64-snapshot \
           piranhacloud/servlet:arm64v8-snapshot
         docker manifest annotate piranhacloud/servlet:snapshot \
@@ -128,7 +128,7 @@ jobs:
         docker push piranhacloud/webprofile:amd64-snapshot
         docker push piranhacloud/webprofile:arm64v8-snapshot
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create --amend piranhacloud/webprofile:snapshot \
+        docker manifest create piranhacloud/webprofile:snapshot \
           piranhacloud/webprofile:amd64-snapshot \
           piranhacloud/webprofile:arm64v8-snapshot
         docker manifest annotate piranhacloud/webprofile:snapshot \
