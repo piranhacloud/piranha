@@ -1,5 +1,5 @@
 FROM eclipse-temurin:17
-RUN adduser piranha
+RUN useradd -m piranha
 ADD target/piranha-dist-servlet.jar /home/piranha
 WORKDIR /home/piranha
 RUN chown piranha:piranha piranha-dist-servlet.jar
