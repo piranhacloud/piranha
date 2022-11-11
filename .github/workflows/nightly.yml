@@ -49,7 +49,7 @@ jobs:
         docker pull piranhacloud/coreprofile:amd64-snapshot
         docker pull piranhacloud/coreprofile:arm64v8-snapshot
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create --amend piranhacloud/coreprofile:snapshot \
+        docker manifest create piranhacloud/coreprofile:snapshot \
           piranhacloud/coreprofile:amd64-snapshot \
           piranhacloud/coreprofile:arm64v8-snapshot
         docker manifest annotate piranhacloud/coreprofile:snapshot \
@@ -65,7 +65,7 @@ jobs:
         docker pull piranhacloud/micro:amd64-snapshot
         docker pull piranhacloud/micro:arm64v8-snapshot
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create --amend piranhacloud/micro:snapshot \
+        docker manifest create piranhacloud/micro:snapshot \
           piranhacloud/micro:amd64-snapshot \
           piranhacloud/micro:arm64v8-snapshot
         docker manifest annotate piranhacloud/micro:snapshot \
@@ -81,7 +81,7 @@ jobs:
         docker pull piranhacloud/microprofile:amd64-snapshot
         docker pull piranhacloud/microprofile:arm64v8-snapshot
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create --amend piranhacloud/microprofile:snapshot \
+        docker manifest create piranhacloud/microprofile:snapshot \
           piranhacloud/microprofile:amd64-snapshot \
           piranhacloud/microprofile:arm64v8-snapshot
         docker manifest annotate piranhacloud/microprofile:snapshot \
@@ -92,12 +92,12 @@ jobs:
     - name: Build Piranha Server image
       run: |
         cd dist/server
-        docker buildx build --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/server:amd64-snapshot .
-        docker buildx build --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/server:arm64v8-snapshot .
+        docker buildx build --push --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/server:amd64-snapshot .
+        docker buildx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/server:arm64v8-snapshot .
         docker pull piranhacloud/server:amd64-snapshot
         docker pull piranhacloud/server:arm64v8-snapshot
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create --amend piranhacloud/server:snapshot \
+        docker manifest create piranhacloud/server:snapshot \
           piranhacloud/server:amd64-snapshot \
           piranhacloud/server:arm64v8-snapshot
         docker manifest annotate piranhacloud/server:snapshot \
@@ -113,7 +113,7 @@ jobs:
         docker pull piranhacloud/servlet:amd64-snapshot
         docker pull piranhacloud/servlet:arm64v8-snapshot
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create --amend piranhacloud/servlet:snapshot \
+        docker manifest create piranhacloud/servlet:snapshot \
           piranhacloud/servlet:amd64-snapshot \
           piranhacloud/servlet:arm64v8-snapshot
         docker manifest annotate piranhacloud/servlet:snapshot \
@@ -129,7 +129,7 @@ jobs:
         docker pull piranhacloud/webprofile:amd64-snapshot
         docker pull piranhacloud/webprofile:arm64v8-snapshot
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker manifest create --amend piranhacloud/webprofile:snapshot \
+        docker manifest create piranhacloud/webprofile:snapshot \
           piranhacloud/webprofile:amd64-snapshot \
           piranhacloud/webprofile:arm64v8-snapshot
         docker manifest annotate piranhacloud/webprofile:snapshot \
