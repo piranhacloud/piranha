@@ -922,11 +922,12 @@ public abstract class WebApplicationTest {
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setBodyOnly(true);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestGetNamedDispatcher2Servlet");
         dispatcher.forward(request, response);
-        assertEquals("HTTP/1.1 200\n\n", new String(byteOutput.toByteArray()));
+        assertEquals("", new String(byteOutput.toByteArray()));
     }
     
     /**
@@ -942,7 +943,7 @@ public abstract class WebApplicationTest {
             @Override
             protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
                 PrintWriter writer = response.getWriter();
-                writer.println("Request URI: " + request.getRequestURI());
+                writer.print("Request URI: " + request.getRequestURI());
                 writer.flush();
             }
         });
@@ -951,11 +952,12 @@ public abstract class WebApplicationTest {
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setBodyOnly(true);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestGetNamedDispatcher3Servlet");
         dispatcher.forward(request, response);
-        assertEquals("HTTP/1.1 200\n\nRequest URI: /\n", new String(byteOutput.toByteArray()));
+        assertEquals("Request URI: /", new String(byteOutput.toByteArray()));
     }
     
     /**
