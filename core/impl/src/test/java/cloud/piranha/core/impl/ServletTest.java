@@ -77,12 +77,17 @@ class ServletTest {
     void testService() throws Exception {
         assertNotNull(webApplication.addServlet("Echo", TestServlet.class));
         webApplication.addServletMapping("Echo", "/echo");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setBodyOnly(false);
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setServletPath("/echo");
         webApplication.initialize();
         webApplication.start();
+        
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setServletPath("/echo");
+        request.setWebApplication(webApplication);
+        
+        TestWebApplicationResponse response = new TestWebApplicationResponse();
+        response.setBodyOnly(false);
+        response.setWebApplication(webApplication);
+
         webApplication.service(request, response);
         assertTrue(new String(response.getResponseBytes()).contains("200"));
         assertTrue(new String(response.getResponseBytes()).contains("SUCCESS"));

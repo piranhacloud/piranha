@@ -30,12 +30,15 @@ package cloud.piranha.core.impl;
 import cloud.piranha.core.api.ServletEnvironment;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
+import jakarta.servlet.DispatcherType;
 import static jakarta.servlet.DispatcherType.FORWARD;
 import static jakarta.servlet.DispatcherType.INCLUDE;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletRequestWrapper;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.ServletResponseWrapper;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -61,57 +64,92 @@ public class DefaultNamedRequestDispatcher implements RequestDispatcher {
     }
 
     @Override
-    public void forward(ServletRequest servletRequest, ServletResponse servletResponse) 
+    public void forward(ServletRequest servletRequest, ServletResponse servletResponse)
             throws ServletException, IOException {
-        WebApplicationRequest request = (WebApplicationRequest) servletRequest;
-        WebApplicationResponse response = (WebApplicationResponse) servletResponse;
-        
+
+        WebApplicationRequest request = unwrap(servletRequest);
+        WebApplicationResponse response = unwrap(servletResponse);
+
         /* - JAVADOC
          *
          * If the response is already committed throw an IllegalStateException.
          */
-        if (response.isCommitted()) {
+        if (servletResponse.isCommitted()) {
             throw new IllegalStateException("Response has already been committed");
         }
 
-        /* - JAVADOC
+        /* - JAVADOC, Servlet:SPEC:77
          *
          * Clear uncommitted output in the response buffer before forwarding
          */
-        response.resetBuffer();
-        
+        servletResponse.resetBuffer();
+
         /* - JAVADOC
          *
          * Sets the dispatcher type of the given request to DispatcherType.FORWARD.
          */
+        DispatcherType dispatcherType = request.getDispatcherType();
         request.setDispatcherType(FORWARD);
-        environment.getServlet().service(request, response);
+        environment.getServlet().service(servletRequest, servletResponse);
 
         /* - Servlet:SPEC:80
          * 
          * If the request has not entered async mode and the response is not yet
          * committed we need to flush the response and close the outputstream.
          */
-        if (!request.isAsyncStarted() && !response.isCommitted()) {
-            response.flushBuffer();
-            try (OutputStream outputStream = response.getWebApplicationOutputStream()) {
+        if (!servletRequest.isAsyncStarted() && !servletResponse.isCommitted()) {
+            servletResponse.flushBuffer();
+            try ( OutputStream outputStream = response.getWebApplicationOutputStream()) {
                 outputStream.flush();
             }
+            request.setDispatcherType(dispatcherType);
         }
     }
 
     @Override
-    public void include(ServletRequest servletRequest, ServletResponse servletResponse) 
+    public void include(ServletRequest servletRequest, ServletResponse servletResponse)
             throws ServletException, IOException {
 
-        WebApplicationRequest request = (WebApplicationRequest) servletRequest;
-        WebApplicationResponse response = (WebApplicationResponse) servletResponse;
-        
-        /* - JAVADOC
+        WebApplicationRequest request = unwrap(servletRequest);
+        WebApplicationResponse response = unwrap(servletResponse);
+
+        /* - JAVADOC, Servlet:SPEC:192
          *
          * Set dispatcher type to DispatcherType.INCLUDE.
          */
+        DispatcherType dispatcherType = request.getDispatcherType();
         request.setDispatcherType(INCLUDE);
-        environment.getServlet().service(request, response);
+
+        environment.getServlet().service(servletRequest, servletResponse);
+
+        request.setDispatcherType(dispatcherType);
+    }
+
+    /**
+     * Unwrap the servlet request.
+     *
+     * @param servletRequest the servlet request.
+     * @return the web application request.
+     */
+    private WebApplicationRequest unwrap(ServletRequest servletRequest) {
+        ServletRequest currentRequest = servletRequest;
+        while (currentRequest instanceof ServletRequestWrapper wrapper) {
+            currentRequest = wrapper.getRequest();
+        }
+        return (WebApplicationRequest) currentRequest;
+    }
+
+    /**
+     * Unwrap the servlet response.
+     *
+     * @param servletResponse the servlet response.
+     * @return the web application response.
+     */
+    private WebApplicationResponse unwrap(ServletResponse servletResponse) {
+        ServletResponse currentResponse = servletResponse;
+        while (currentResponse instanceof ServletResponseWrapper wrapper) {
+            currentResponse = wrapper.getResponse();
+        }
+        return (WebApplicationResponse) currentResponse;
     }
 }

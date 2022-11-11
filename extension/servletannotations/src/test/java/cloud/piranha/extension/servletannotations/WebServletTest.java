@@ -39,7 +39,6 @@ import cloud.piranha.extension.webxml.WebXmlInitializer;
 import cloud.piranha.resource.impl.ClassResource;
 import cloud.piranha.resource.impl.DirectoryResource;
 import java.io.File;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
@@ -69,8 +68,13 @@ class WebServletTest {
         application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
         application.start();
+        
         EmbeddedRequest request = new EmbeddedRequestBuilder().servletPath("/url1").build();
+        request.setWebApplication(application);
+        
         EmbeddedResponse response = new EmbeddedResponseBuilder().bodyOnly(true).build();
+        response.setWebApplication(application);
+        
         application.service(request, response);
         application.stop();
         assertTrue(response.getResponseAsString().contains("Hurray, it worked!"));
@@ -95,8 +99,13 @@ class WebServletTest {
         application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
         application.start();
+        
         EmbeddedRequest request = new EmbeddedRequestBuilder().servletPath("/url1b").build();
+        request.setWebApplication(application);
+        
         EmbeddedResponse response = new EmbeddedResponseBuilder().bodyOnly(true).build();
+        response.setWebApplication(application);
+        
         application.service(request, response);
         application.stop();
         assertTrue(response.getResponseAsString().contains("Hurray, it worked!"));
@@ -122,7 +131,11 @@ class WebServletTest {
         application.initialize();
         application.start();
         EmbeddedRequest request = new EmbeddedRequestBuilder().servletPath("/url2/test").build();
+        request.setWebApplication(application);
+        
         EmbeddedResponse response = new EmbeddedResponseBuilder().bodyOnly(true).build();
+        response.setWebApplication(application);
+        
         application.service(request, response);
         application.stop();
         assertTrue(response.getResponseAsString().contains("Hurray, it worked!"));
@@ -147,8 +160,13 @@ class WebServletTest {
         application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
         application.start();
+        
         EmbeddedRequest request = new EmbeddedRequestBuilder().servletPath("/url2b/test").build();
+        request.setWebApplication(application);
+        
         EmbeddedResponse response = new EmbeddedResponseBuilder().bodyOnly(true).build();
+        response.setWebApplication(application);
+        
         application.service(request, response);
         application.stop();
         assertTrue(response.getResponseAsString().contains("Hurray, it worked!"));
@@ -174,7 +192,11 @@ class WebServletTest {
         application.initialize();
         application.start();
         EmbeddedRequest request = new EmbeddedRequestBuilder().servletPath("/my/extension/test.url3").build();
+        request.setWebApplication(application);
+        
         EmbeddedResponse response = new EmbeddedResponseBuilder().bodyOnly(true).build();
+        response.setWebApplication(application);
+        
         application.service(request, response);
         application.stop();
         assertTrue(response.getResponseAsString().contains("Hurray, it worked!"));
@@ -199,8 +221,13 @@ class WebServletTest {
         application.addInitializer(new ServletAnnotationsInitializer());
         application.initialize();
         application.start();
+        
         EmbeddedRequest request = new EmbeddedRequestBuilder().servletPath("/my/extension/test.url3b").build();
+        request.setWebApplication(application);
+        
         EmbeddedResponse response = new EmbeddedResponseBuilder().bodyOnly(true).build();
+        response.setWebApplication(application);
+        
         application.service(request, response);
         application.stop();
         assertTrue(response.getResponseAsString().contains("Hurray, it worked!"));

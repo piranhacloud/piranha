@@ -31,6 +31,7 @@ import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
+import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.webxml.WebXmlExtension;
 import java.util.Locale;
@@ -58,10 +59,15 @@ class StandardLocaleEncodingExtensionTest {
                 .extension(WebXmlExtension.class)
                 .build()
                 .start();
-        WebApplication webApp = piranha.getWebApplication();
+        WebApplication webApplication = piranha.getWebApplication();
 
+        EmbeddedRequest request = new EmbeddedRequest();
+        request.setWebApplication(webApplication);
+        
         EmbeddedResponse response = new EmbeddedResponse();
-        response.setWebApplication(webApp);
+        response.setWebApplication(webApplication);
+        
+        webApplication.linkRequestAndResponse(request, response);
 
         response.setContentType("text/html");
         assertEquals("iso-8859-1", response.getCharacterEncoding().toLowerCase());
@@ -141,11 +147,17 @@ class StandardLocaleEncodingExtensionTest {
                 .extension(LocaleEncodingExtension.class)
                 .build()
                 .start();
-        WebApplication webApp = piranha.getWebApplication();
+        WebApplication webApplication = piranha.getWebApplication();
 
+        EmbeddedRequest request = new EmbeddedRequest();
+        request.setWebApplication(webApplication);
+        
         EmbeddedResponse response = new EmbeddedResponse();
-        response.setWebApplication(webApp);
-        LocaleEncodingManager localeEncodingManager = webApp.getManager().getLocaleEncodingManager();
+        response.setWebApplication(webApplication);
+        
+        webApplication.linkRequestAndResponse(request, response);
+        
+        LocaleEncodingManager localeEncodingManager = webApplication.getManager().getLocaleEncodingManager();
         localeEncodingManager.addCharacterEncoding(Locale.JAPAN.toString(), "euc-jp");
         localeEncodingManager.addCharacterEncoding(Locale.CHINA.toString(), "gb18030");
 
@@ -247,11 +259,18 @@ class StandardLocaleEncodingExtensionTest {
                 .extension(LocaleEncodingExtension.class)
                 .build()
                 .start();
-        WebApplication webApp = piranha.getWebApplication();
-        webApp.getManager().getLocaleEncodingManager()
+        WebApplication webApplication = piranha.getWebApplication();
+        webApplication.getManager().getLocaleEncodingManager()
                 .addCharacterEncoding(new Locale("ja").toString(), "Shift_Jis");
+
+        EmbeddedRequest request = new EmbeddedRequest();
+        request.setWebApplication(webApplication);
+        
         EmbeddedResponse response = new EmbeddedResponse();
-        response.setWebApplication(webApp);
+        response.setWebApplication(webApplication);
+        
+        webApplication.linkRequestAndResponse(request, response);
+        
         response.setLocale(new Locale("ja"));
         response.setContentType("text/html");
         assertEquals("text/html;charset=Shift_Jis", response.getContentType());

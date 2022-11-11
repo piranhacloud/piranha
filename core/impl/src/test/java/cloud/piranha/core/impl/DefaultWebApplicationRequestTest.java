@@ -406,12 +406,17 @@ class DefaultWebApplicationRequestTest {
         webApplication.addServletMapping("Upgrade", "/*");
         webApplication.initialize();
         webApplication.start();
+        
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
         request.setHeader("Upgrade", "YES");
         request.setMethod("POST");
+        
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        
         webApplication.service(request, response);
         assertEquals(101, response.getStatus());
     }

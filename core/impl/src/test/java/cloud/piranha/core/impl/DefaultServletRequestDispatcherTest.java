@@ -76,18 +76,25 @@ class DefaultServletRequestDispatcherTest {
      */
     @Test
     void testForward2() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.setWebApplicationRequestMapper(new DefaultWebApplicationRequestMapper());
+        webApplication.addServlet("Snoop", TestSnoopServlet.class);
+        webApplication.addServletMapping("Snoop", "/Snoop");
+        webApplication.initialize();
+        webApplication.start();
+
         TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        
         TestWebApplicationResponse response = new TestWebApplicationResponse();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setWebApplicationRequestMapper(new DefaultWebApplicationRequestMapper());
-        webApp.addServlet("Snoop", TestSnoopServlet.class);
-        webApp.addServletMapping("Snoop", "/Snoop");
-        webApp.initialize();
-        webApp.start();
-        RequestDispatcher dispatcher = webApp.getRequestDispatcher("/Snoop");
+        response.setWebApplication(webApplication);
+        
+        webApplication.linkRequestAndResponse(request, response);
+        
+        RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/Snoop");
         dispatcher.forward(request, response);
         String responseText = new String(response.getResponseBytes());
-        webApp.stop();
+        webApplication.stop();
         assertTrue(responseText.contains("<title>Snoop</title>"));
     }
 
@@ -136,19 +143,23 @@ class DefaultServletRequestDispatcherTest {
      */
     @Test
     void testInclude() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addServlet("Echo", TestEcho1Servlet.class);
+        webApplication.initialize();
+        webApplication.start();
+
         TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        
         TestWebApplicationResponse response = new TestWebApplicationResponse();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addServlet("Echo", TestEcho1Servlet.class);
-        webApp.initialize();
-        webApp.start();
-        webApp.linkRequestAndResponse(request, response);
-        RequestDispatcher dispatcher = webApp.getNamedDispatcher("Echo");
+        response.setWebApplication(webApplication);
+
+        webApplication.linkRequestAndResponse(request, response);
+        
+        RequestDispatcher dispatcher = webApplication.getNamedDispatcher("Echo");
         dispatcher.include(request, response);
         response.flushBuffer();
         String responseText = new String(response.getResponseBytes());
-        webApp.unlinkRequestAndResponse(request, response);
-        webApp.stop();
         assertTrue(responseText.contains("ECHO"));
     }
 

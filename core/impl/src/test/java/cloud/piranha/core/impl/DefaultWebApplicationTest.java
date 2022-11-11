@@ -95,14 +95,19 @@ class DefaultWebApplicationTest {
         webApplication.addServletMapping("Chat", "/chat");
         webApplication.initialize();
         webApplication.start();
+        
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
         request.setServletPath("/chat");
+        request.setWebApplication(webApplication);
+        
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.setWebApplication(webApplication);
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        
         webApplication.service(request, response);
         assertTrue(byteOutput.toByteArray().length > 0);
+
         request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApplication);
         request.setAsyncSupported(true);
@@ -110,11 +115,15 @@ class DefaultWebApplicationTest {
         request.setMethod("POST");
         request.setParameter("action", new String[]{"login"});
         request.setParameter("name", new String[]{"username"});
+
         response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
         byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        
         webApplication.service(request, response);
         assertTrue(byteOutput.toByteArray().length > 0);
+        
         request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApplication);
         request.setServletPath("/chat");
@@ -122,9 +131,12 @@ class DefaultWebApplicationTest {
         request.setParameter("action", new String[]{"post"});
         request.setParameter("name", new String[]{"username"});
         request.setParameter("message", new String[]{new Date().toString()});
+        
         response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
         byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        
         webApplication.service(request, response);
         assertTrue(byteOutput.toByteArray().length > 0);
     }
@@ -142,25 +154,34 @@ class DefaultWebApplicationTest {
         webApplication.addServletMapping("Chat", "/chat");
         webApplication.initialize();
         webApplication.start();
+        
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApplication);
         request.setServletPath("/chat");
+        
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        
         webApplication.service(request, response);
         assertTrue(byteOutput.toByteArray().length > 0);
+        
         request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApplication);
         request.setServletPath("/chat");
         request.setMethod("POST");
         request.setParameter("action", new String[]{"login"});
         request.setParameter("name", new String[]{"username"});
+        
         response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
         byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        
         webApplication.service(request, response);
         assertTrue(byteOutput.toByteArray().length > 0);
+        
         request = new DefaultWebApplicationRequest();
         request.setWebApplication(webApplication);
         request.setServletPath("/chat");
@@ -168,9 +189,12 @@ class DefaultWebApplicationTest {
         request.setParameter("action", new String[]{"post"});
         request.setParameter("name", new String[]{"username"});
         request.setParameter("message", new String[]{new Date().toString()});
+        
         response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
         byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        
         webApplication.service(request, response);
         assertTrue(byteOutput.toByteArray().length > 0);
     }

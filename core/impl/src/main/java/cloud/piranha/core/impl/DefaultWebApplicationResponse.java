@@ -201,9 +201,10 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
 
     @Override
     public void addCookie(Cookie cookie) {
-        if (isInclude()) {
-            return;
-        }
+        /*
+         * Servlet:SPEC:192.4
+         */
+        verifyNotCommitted("addCookie");
         this.cookies.add(cookie);
     }
 
@@ -217,6 +218,9 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
         if (isCommitted()) {
             return;
         }
+        /*
+         * Servlet:SPEC:192.4
+         */
         if (isInclude()) {
             return;
         }
@@ -258,6 +262,9 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
     
     @Override
     public void flushBuffer() throws IOException {
+        /*
+         * Servlet:SPEC:192.3
+         */
         if (!isCommitted()) {
             webApplicationOutputStream.flushBuffer();
             setCommitted(true);
@@ -526,6 +533,9 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
 
     @Override
     public void setCharacterEncoding(String characterEncoding) {
+        /*
+         * Servlet:SPEC:192.4
+         */
         if (isInclude()) {
             return;
         }
@@ -551,6 +561,9 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
 
     @Override
     public void setContentLengthLong(long contentLength) {
+        /*
+         * Servlet:SPEC:192.4
+         */
         if (isInclude()) {
             return;
         }
@@ -560,6 +573,9 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
 
     @Override
     public void setContentType(String type) {
+        /*
+         * Servlet:SPEC:192.4
+         */
         if (isInclude()) {
             return;
         }
@@ -603,6 +619,9 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
 
     @Override
     public void setHeader(String name, String value) {
+        /*
+         * Servlet:SPEC:192.4
+         */
         if (isInclude()) {
             return;
         }
@@ -645,6 +664,9 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
 
     @Override
     public void setStatus(int status) {
+        /*
+         * Servlet:SPEC:192.4
+         */
         if (isInclude()) {
             return;
         }

@@ -37,10 +37,18 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class DefaultErrorPageManagerTest {
     @Test
     void testPagesByCode() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultErrorPageManager errorPageManager = new DefaultErrorPageManager();
         errorPageManager.addErrorPage(501, "/501");
         errorPageManager.addErrorPage(404, "/404");
+
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
+
+        webApplication.linkRequestAndResponse(request, response);
         response.setStatus(501);
         assertEquals("/501", errorPageManager.getErrorPage(null, response));
         response.setStatus(404);
@@ -49,18 +57,34 @@ class DefaultErrorPageManagerTest {
 
     @Test
     void testPagesByCode2() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultErrorPageManager errorPageManager = new DefaultErrorPageManager();
         errorPageManager.addErrorPage(404, "/404");
+
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
+
+        webApplication.linkRequestAndResponse(request, response);
         response.setStatus(501);
         assertNull(errorPageManager.getErrorPage(null, response));
     }
 
     @Test
     void testPagesByCode3() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultErrorPageManager errorPageManager = new DefaultErrorPageManager();
         errorPageManager.addErrorPage(404, "/404");
+
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
+
+        webApplication.linkRequestAndResponse(request, response);
         response.setStatus(500);
         assertNull(errorPageManager.getErrorPage(new NullPointerException(), response));
     }
