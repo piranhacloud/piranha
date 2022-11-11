@@ -90,11 +90,16 @@ class HazelcastTest {
                 .extension(ServletContainerInitializerExtension.class)
                 .build()
                 .start();
+        
         EmbeddedRequest request = new EmbeddedRequestBuilder()
                 .contextPath("")
                 .servletPath("/index.html")
                 .build();
+        request.setWebApplication(piranha.getWebApplication());
+        
         EmbeddedResponse response = new EmbeddedResponse();
+        response.setWebApplication(piranha.getWebApplication());
+        
         piranha.service(request, response);
         assertEquals(200, response.getStatus());
         assertTrue(response.getResponseAsString().contains("Hello Hazelcast"));

@@ -120,21 +120,25 @@ class DefaultHttpSessionTest {
     @Test
     void testSetComment() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         webApplication.addServlet("TestSetCommentServlet", new TestSetCommentServlet());
         webApplication.addServletMapping("TestSetCommnetrServlet", "/*");
         webApplication.addListener(new TestSetCommentListener());
         webApplication.initialize();
         webApplication.start();
+
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        
         try {
             webApplication.service(request, response);
         } catch (ServletException se) {
             fail();
         }
-        webApplication.stop();
     }
 
     /**

@@ -738,13 +738,16 @@ public abstract class WebApplicationRequestTest {
         dynamic.addMapping("/session");
         webApplication.initialize();
         webApplication.start();
+        
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
         request.setServletPath("/session");
+        
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
-//        response.setWebApplicationOutputStream(byteOutput);
+        
         webApplication.service(request, response);
         assertNotNull(byteOutput.toByteArray().length > 0);
     }

@@ -103,7 +103,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testAddDateHeader() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.addDateHeader("name", 1234);
         assertEquals("Thu, 1 Jan 1970 00:00:01 GMT", response.getHeader("name"));
     }
@@ -113,7 +118,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testAddHeader() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         assertFalse(response.containsHeader("name"));
         response.addHeader("name", "value");
         assertTrue(response.containsHeader("name"));
@@ -125,7 +135,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testAddIntHeader() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.addIntHeader("name", 1234);
         assertEquals("1234", response.getHeader("name"));
     }
@@ -146,7 +161,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testContainsHeader() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         assertFalse(response.containsHeader("name"));
         response.addHeader("name", "value");
         assertTrue(response.containsHeader("name"));
@@ -201,7 +221,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testGetCharacterEncoding() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         assertEquals("ISO-8859-1", response.getCharacterEncoding());
         response.setCharacterEncoding("UTF-8");
         assertEquals("UTF-8", response.getCharacterEncoding());
@@ -212,7 +237,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testGetContentType() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         assertNull(response.getContentType());
         response.setContentType("text/html");
         assertEquals("text/html", response.getContentType());
@@ -223,7 +253,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testGetContentType2() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         assertNull(response.getContentType());
         response.setContentType("text/html;charset=UTF-8");
         assertEquals("text/html;charset=UTF-8", response.getContentType());
@@ -245,7 +280,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testGetHeader() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.addHeader("name", "value");
         assertEquals("value", response.getHeader("name"));
     }
@@ -255,7 +295,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testGetHeaderNames() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         assertNotNull(response.getHeaderNames());
         assertTrue(response.getHeaderNames().isEmpty());
         response.addHeader("name", "value");
@@ -267,7 +312,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testGetHeaders() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         assertNotNull(response.getHeaders("name"));
         assertTrue(response.getHeaders("name").isEmpty());
         response.addHeader("name", "value");
@@ -303,7 +353,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testGetOutputStream2() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.getWriter();
         assertNotNull(assertThrows(IllegalStateException.class,
                 () -> response.getOutputStream()));
@@ -352,7 +407,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testGetWriter() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         assertNotNull(response.getWriter());
     }
 
@@ -401,7 +461,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testReset2() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setCharacterEncoding("UTF-8");
         assertEquals("UTF-8", response.getCharacterEncoding());
         response.reset();
@@ -416,7 +481,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testResetBuffer() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setCharacterEncoding("UTF-8");
         response.resetBuffer();
         assertEquals("UTF-8", response.getCharacterEncoding());
@@ -435,7 +505,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSendError() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.sendError(SC_INTERNAL_SERVER_ERROR, "error");
         response.flushBuffer();
         assertEquals(SC_INTERNAL_SERVER_ERROR, response.getStatus());
@@ -449,7 +524,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSendError2() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.sendError(SC_INTERNAL_SERVER_ERROR, "error");
         response.flushBuffer();
         assertNotNull(assertThrows(IllegalStateException.class,
@@ -469,8 +549,11 @@ public abstract class WebApplicationResponseTest {
         webApplication.initialize();
         webApplication.start();
         WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         request.setServletPath("/servlet");
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         assertNotNull(assertThrows(IllegalStateException.class,
                 () -> webApplication.service(request, response)));
     }
@@ -560,6 +643,7 @@ public abstract class WebApplicationResponseTest {
         webApplication.initialize();
         webApplication.start();
         WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         request.setContextPath("/app");
         request.setServletPath("/servlet5a");
         request.setWebApplication(webApplication);
@@ -589,7 +673,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetCharacterEncoding() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         String defaultEncoding = response.getCharacterEncoding();
         response.setCharacterEncoding("UTF-8");
         assertTrue("UTF-8".equalsIgnoreCase(response.getCharacterEncoding()));
@@ -603,7 +692,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetCharacterEncoding2() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         String defaultEncoding = response.getCharacterEncoding();
         response.setCharacterEncoding("UTF-8");
         assertTrue("UTF-8".equalsIgnoreCase(response.getCharacterEncoding()));
@@ -617,7 +711,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetCharacterEncoding3() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setCharacterEncoding("does-not-exist");
         assertTrue("does-not-exist".equalsIgnoreCase(response.getCharacterEncoding()));
         assertThrows(UnsupportedEncodingException.class, () -> {
@@ -630,7 +729,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetCharacterEncoding4() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setContentType("text/html");
         response.setCharacterEncoding("ISO-8859-7");
         String contentType = response.getContentType();
@@ -644,7 +748,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetContentLength() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setContentLength(12);
         assertEquals("12", response.getHeader("Content-Length"));
     }
@@ -654,7 +763,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetContentLength2() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setContentLengthLong(12L);
         assertEquals("12", response.getHeader("Content-Length"));
     }
@@ -664,7 +778,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetContentType() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setContentType(null);
         assertNull(response.getContentType());
     }
@@ -674,7 +793,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetContentType2() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setContentType("text/html");
         assertEquals("text/html", response.getContentType());
         assertEquals("ISO-8859-1", response.getCharacterEncoding());
@@ -685,7 +809,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetContentType3() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setContentType("text/html;charset=UTF-8");
         assertEquals("text/html;charset=UTF-8", response.getContentType());
         assertEquals("UTF-8", response.getCharacterEncoding());
@@ -696,7 +825,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetDateHeader() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setDateHeader("header", 1000);
         assertEquals("Thu, 1 Jan 1970 00:00:01 GMT", response.getHeader("header"));
         response.setDateHeader("header", 2000);
@@ -708,7 +842,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetDateHeader2() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setDateHeader("header", 1000);
         assertEquals("Thu, 1 Jan 1970 00:00:01 GMT", response.getHeader("header"));
     }
@@ -718,7 +857,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetHeader() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setHeader("header", "value1");
         response.addHeader("header", "value2");
         response.setHeader("header", "value3");
@@ -730,7 +874,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetHeader2() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setHeader("header", "value1");
         response.setHeader("header", "value2");
         assertEquals("value2", response.getHeader("header"));
@@ -741,7 +890,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetHeader3() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setHeader("header", "value1");
         assertEquals("value1", response.getHeader("header"));
     }
@@ -751,7 +905,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetIntHeader() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setIntHeader("header", 1);
         assertEquals("1", response.getHeader("header"));
     }
@@ -782,7 +941,12 @@ public abstract class WebApplicationResponseTest {
      */
     @Test
     void testSetStatus() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
         WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
         response.setStatus(500);
         assertEquals(500, response.getStatus());
     }

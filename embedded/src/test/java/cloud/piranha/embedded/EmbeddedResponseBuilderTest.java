@@ -49,9 +49,18 @@ class EmbeddedResponseBuilderTest {
      */
     @Test
     void testBodyOnly() throws Exception {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder().build();
+        
+        EmbeddedRequest request = new EmbeddedRequestBuilder().build();
+        request.setWebApplication(piranha.getWebApplication());
+        
         EmbeddedResponse response = new EmbeddedResponseBuilder()
                 .bodyOnly(true)
                 .build();
+        response.setWebApplication(piranha.getWebApplication());
+        
+        piranha.getWebApplication().linkRequestAndResponse(request, response);
+        
         response.getWebApplicationOutputStream().setOutputStream(new ByteArrayOutputStream());
         response.addHeader("header", "not there");
         response.flushBuffer();
@@ -65,9 +74,17 @@ class EmbeddedResponseBuilderTest {
      */
     @Test
     void testBodyOnly2() throws Exception {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder().build();
+        
+        EmbeddedRequest request = new EmbeddedRequestBuilder().build();
+        request.setWebApplication(piranha.getWebApplication());
+        
         EmbeddedResponse response = new EmbeddedResponseBuilder()
                 .bodyOnly(false)
                 .build();
+        response.setWebApplication(piranha.getWebApplication());
+        
+        piranha.getWebApplication().linkRequestAndResponse(request, response);
         response.getWebApplicationOutputStream().setOutputStream(new ByteArrayOutputStream());
         response.addHeader("header", "there");
         response.flushBuffer();

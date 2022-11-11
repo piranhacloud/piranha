@@ -186,6 +186,8 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
         }
 
         /*
+         * Servlet:SPEC:192.2
+         *
          * If the integer we are looking at will cause the buffer to overflow,
          * write out the buffer and then write the integer directly to the 
          * underlying output stream.
@@ -193,14 +195,16 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
         if (index == buffer.length - 1) {
             flushBuffer();
             outputStream.write(integer);
-        } /*
-         * Write the integer directly to the underlying output stream as the
-         * buffer was previously flushed.
-         */ else if (index == buffer.length) {
+        } else if (index == buffer.length) {
+            /*
+             * Write the integer directly to the underlying output stream as the
+             * buffer was previously flushed.
+             */
             outputStream.write(integer);
-        } /*
-         * Add the integer to the buffer.
-         */ else {
+        } else {
+            /*
+             * Add the integer to the buffer.
+             */
             this.buffer[index] = (byte) integer;
             this.index++;
         }

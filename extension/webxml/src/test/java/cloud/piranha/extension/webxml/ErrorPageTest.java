@@ -28,8 +28,10 @@
 package cloud.piranha.extension.webxml;
 
 import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
 import cloud.piranha.resource.impl.DirectoryResource;
+import static jakarta.servlet.DispatcherType.REQUEST;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
@@ -52,7 +54,17 @@ class ErrorPageTest {
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/errorPage")));
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
+        webApplication.start();
+        
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setDispatcherType(REQUEST);
+        request.setWebApplication(webApplication);
+
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        
+        webApplication.linkRequestAndResponse(request, response);
+        
         response.setStatus(404);
         assertEquals("/notfound.jsp", webApplication.getManager()
                 .getErrorPageManager().getErrorPage(null, response));
@@ -69,7 +81,18 @@ class ErrorPageTest {
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/errorPage")));
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
+        webApplication.start();
+        
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setDispatcherType(REQUEST);
+        request.setWebApplication(webApplication);
+
+        
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        
+        webApplication.linkRequestAndResponse(request, response);
+        
         response.setStatus(500);
         assertEquals("/error.jsp", webApplication.getManager()
                 .getErrorPageManager().getErrorPage(new IllegalStateException(), response));
