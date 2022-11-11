@@ -53,16 +53,19 @@ class DefaultServletRequestDispatcherTest {
      */
     @Test
     void testForward() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addServlet("Snoop", TestSnoopServlet.class);
+        webApplication.initialize();
+        webApplication.start();
         TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setWebApplication(webApplication);
         TestWebApplicationResponse response = new TestWebApplicationResponse();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addServlet("Snoop", TestSnoopServlet.class);
-        webApp.initialize();
-        webApp.start();
-        RequestDispatcher dispatcher = webApp.getNamedDispatcher("Snoop");
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        RequestDispatcher dispatcher = webApplication.getNamedDispatcher("Snoop");
         dispatcher.forward(request, response);
+        response.flushBuffer();
         String responseText = new String(response.getResponseBytes());
-        webApp.stop();
         assertTrue(responseText.contains("<title>Snoop</title>"));
     }
 

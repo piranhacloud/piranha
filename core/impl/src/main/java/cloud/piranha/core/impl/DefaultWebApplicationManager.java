@@ -29,6 +29,7 @@ package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.core.api.AsyncManager;
+import cloud.piranha.core.api.DispatcherManager;
 import cloud.piranha.core.api.ErrorPageManager;
 import cloud.piranha.core.api.HttpSessionManager;
 import cloud.piranha.core.api.JspManager;
@@ -61,6 +62,11 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
      * Stores the async manager.
      */
     protected AsyncManager asyncManager;
+    
+    /**
+     * Stores the dispatcher manager.
+     */
+    protected DispatcherManager dispatcherManager = new DefaultDispatcherManager();
     
     /**
      * Stores the error page manager.
@@ -135,6 +141,16 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     @Override
     public AsyncManager getAsyncManager() {
         return asyncManager;
+    }
+
+    /**
+     * Get the dispatcher manager.
+     * 
+     * @return the dispatcher manager.
+     */
+    @Override
+    public DispatcherManager getDispatcherManager() {
+        return dispatcherManager;
     }
 
     @Override

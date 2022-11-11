@@ -316,6 +316,7 @@ public class DefaultWebApplication implements WebApplication {
         webApplicationRequestMapper = new DefaultWebApplicationRequestMapper();
         manager = new DefaultWebApplicationManager();
         manager.getHttpSessionManager().setWebApplication(this);
+        manager.getDispatcherManager().setWebApplication(this);
     }
 
     @Override
@@ -779,11 +780,7 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public RequestDispatcher getNamedDispatcher(String name) {
-        DefaultServletInvocation servletInvocation = invocationFinder.findServletInvocationByName(name);
-        if (servletInvocation == null) {
-            return null;
-        }
-        return getInvocationDispatcher(servletInvocation);
+        return getManager().getDispatcherManager().getNamedDispatcher(name);
     }
 
     @Override

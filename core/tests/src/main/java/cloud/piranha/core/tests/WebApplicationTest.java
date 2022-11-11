@@ -34,6 +34,13 @@ import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
+import jakarta.servlet.RequestDispatcher;
+import static jakarta.servlet.RequestDispatcher.FORWARD_CONTEXT_PATH;
+import static jakarta.servlet.RequestDispatcher.FORWARD_MAPPING;
+import static jakarta.servlet.RequestDispatcher.FORWARD_PATH_INFO;
+import static jakarta.servlet.RequestDispatcher.FORWARD_QUERY_STRING;
+import static jakarta.servlet.RequestDispatcher.FORWARD_REQUEST_URI;
+import static jakarta.servlet.RequestDispatcher.FORWARD_SERVLET_PATH;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContainerInitializer;
@@ -55,8 +62,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSessionListener;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Enumeration;
@@ -870,9 +879,125 @@ public abstract class WebApplicationTest {
         WebApplication webApplication = createWebApplication();
         webApplication.addServlet("TestGetNamedDispatcherServlet", new HttpServlet() {
         });
+        webApplication.initialize();
         assertNotNull(webApplication.getNamedDispatcher("TestGetNamedDispatcherServlet"));
     }
+    
+    /**
+     * Test getNamedDispatcher method
+     * 
+     * @assertion Servlet:SPEC:181
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testGetNamedDispatcher2() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        webApplication.addServlet("TestGetNamedDispatcher2Servlet", new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                PrintWriter writer = response.getWriter();
+                if (request.getAttribute(FORWARD_CONTEXT_PATH) != null) {
+                    writer.println(request.getAttribute(FORWARD_CONTEXT_PATH));
+                }
+                if (request.getAttribute(FORWARD_MAPPING) != null) {
+                    writer.println(request.getAttribute(FORWARD_CONTEXT_PATH));
+                }
+                if (request.getAttribute(FORWARD_PATH_INFO) != null) {
+                    writer.println(request.getAttribute(FORWARD_PATH_INFO));
+                }
+                if (request.getAttribute(FORWARD_QUERY_STRING) != null) {
+                    writer.println(request.getAttribute(FORWARD_QUERY_STRING));
+                }
+                if (request.getAttribute(FORWARD_REQUEST_URI) != null) {
+                    writer.println(request.getAttribute(FORWARD_REQUEST_URI));
+                }
+                if (request.getAttribute(FORWARD_SERVLET_PATH) != null) {
+                    writer.println(request.getAttribute(FORWARD_SERVLET_PATH));
+                }
+                writer.flush();
+            }
+        });
+        webApplication.initialize();
+        webApplication.start();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setBodyOnly(true);
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestGetNamedDispatcher2Servlet");
+        dispatcher.forward(request, response);
+        assertEquals("", new String(byteOutput.toByteArray()));
+    }
+    
+    /**
+     * Test getNamedDispatcher method.
+     * 
+     * @assertion Servlet:SPEC:79
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testGetNamedDispatcher3() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        webApplication.addServlet("TestGetNamedDispatcher3Servlet", new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                PrintWriter writer = response.getWriter();
+                writer.print("Request URI: " + request.getRequestURI());
+                writer.flush();
+            }
+        });
+        webApplication.initialize();
+        webApplication.start();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setBodyOnly(true);
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestGetNamedDispatcher3Servlet");
+        dispatcher.forward(request, response);
+        assertEquals("Request URI: /", new String(byteOutput.toByteArray()));
+    }
+    
+    /**
+     * Test getNamedDispatcher method.
+     * 
+     * @assertion Servlet:SPEC:80
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testGetNamedDispatcher4() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        webApplication.addServlet("TestGetNamedDispatcher4Servlet", new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                PrintWriter writer = response.getWriter();
+                writer.print("Flushed!");
+            }
+        });
+        webApplication.initialize();
+        webApplication.start();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestGetNamedDispatcher4Servlet");
+        dispatcher.forward(request, response);
+        assertEquals("HTTP/1.1 200\n\nFlushed!", new String(byteOutput.toByteArray()));
+    }
 
+    /**
+     * Test getNamedDispatcher method.
+     */
+    @Test
+    void testGetNamedDispatcher5() {
+        WebApplication webApplication = createWebApplication();
+        webApplication.initialize();
+        assertNull(webApplication.getNamedDispatcher("TestGetNamedDispatcher5Servlet"));
+    }
+    
     /**
      * Test getRealPath method.
      */
