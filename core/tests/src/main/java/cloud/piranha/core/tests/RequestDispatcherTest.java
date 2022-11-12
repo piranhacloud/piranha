@@ -43,8 +43,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
@@ -117,18 +120,14 @@ public abstract class RequestDispatcherTest {
         });
         webApplication.initialize();
         webApplication.start();
-        
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
-        
         WebApplicationResponse response = createWebApplicationResponse();
         response.setWebApplication(webApplication);
         response.setBodyOnly(true);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
-        
         webApplication.linkRequestAndResponse(request, response);
-        
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestNamedForwardServlet");
         dispatcher.forward(request, response);
         assertEquals("", new String(byteOutput.toByteArray()));
@@ -153,18 +152,14 @@ public abstract class RequestDispatcherTest {
         });
         webApplication.initialize();
         webApplication.start();
-
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
-
         WebApplicationResponse response = createWebApplicationResponse();
         response.setWebApplication(webApplication);
         response.setBodyOnly(true);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
-        
         webApplication.linkRequestAndResponse(request, response);
-        
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestNamedForward2Servlet");
         dispatcher.forward(request, response);
         assertEquals("/", new String(byteOutput.toByteArray()));
@@ -188,21 +183,16 @@ public abstract class RequestDispatcherTest {
         });
         webApplication.initialize();
         webApplication.start();
-        
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
-        
         WebApplicationResponse response = createWebApplicationResponse();
         response.setWebApplication(webApplication);
         response.setBodyOnly(true);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
-        
         webApplication.linkRequestAndResponse(request, response);
-        
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestNamedForward3Servlet");
         dispatcher.forward(request, response);
-        
         assertEquals("SUCCESS", new String(byteOutput.toByteArray()));
     }
 
@@ -223,21 +213,133 @@ public abstract class RequestDispatcherTest {
         });
         webApplication.initialize();
         webApplication.start();
-        
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
-        
         WebApplicationResponse response = createWebApplicationResponse();
         response.setBodyOnly(true);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
-
         response.flushBuffer();      
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestNamedForward4Servlet");
         try {
             dispatcher.forward(request, response);
             fail();
         } catch (IllegalStateException ise) {
+        }
+    }
+    
+    /**
+     * Test include method on a named RequestDispatcher.
+     * 
+     * @assertion Servlet:SPEC:192.1
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testNamedInclude() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        webApplication.addServlet("TestNamedIncludeServlet", new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                PrintWriter writer = response.getWriter();
+                response.setStatus(202);
+                response.setHeader("header", "value");
+                writer.println("INCLUDED");
+            }
+        });
+        webApplication.initialize();
+        webApplication.start();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        response.setBodyOnly(false);
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        webApplication.linkRequestAndResponse(request, response);
+        RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestNamedIncludeServlet");
+        dispatcher.include(request, response);
+        response.flushBuffer();
+        assertTrue(new String(byteOutput.toByteArray()).contains("HTTP/1.1"));
+        assertFalse(new String(byteOutput.toByteArray()).contains("202"));
+        assertFalse(new String(byteOutput.toByteArray()).contains("header"));
+        assertFalse(new String(byteOutput.toByteArray()).contains("value"));
+        assertTrue(new String(byteOutput.toByteArray()).contains("INCLUDED"));
+    }
+    
+    /**
+     * Test include method on a named RequestDispatcher.
+     * 
+     * @assertion Servlet:SPEC:192.2
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testNamedInclude2() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        webApplication.addServlet("TestNamedInclude2Servlet", new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                OutputStream output = response.getOutputStream();
+                output.write('1');
+                output.write('2');
+                output.write('3');
+                output.write('4');
+                output.write('5');
+                if (response.isCommitted()) {
+                    output.write('6');
+                }
+            }
+        });
+        webApplication.initialize();
+        webApplication.start();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setBufferSize(5);
+        response.setWebApplication(webApplication);
+        response.setBodyOnly(true);
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        webApplication.linkRequestAndResponse(request, response);
+        RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestNamedInclude2Servlet");
+        dispatcher.include(request, response);
+        response.flushBuffer();
+        assertEquals("123456", new String(byteOutput.toByteArray()));
+    }
+    
+    /**
+     * Test include method on a named RequestDispatcher.
+     * 
+     * @assertion Servlet:SPEC:192.3
+     * @assertion Servlet:SPEC:192.4
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testNamedInclude3() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        webApplication.addServlet("TestNamedInclude3Servlet", new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                PrintWriter writer = response.getWriter();
+                response.flushBuffer();
+                writer.println(request.getSession().getId());
+            }
+        });
+        webApplication.initialize();
+        webApplication.start();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        response.setWebApplication(webApplication);
+        response.setBodyOnly(true);
+        webApplication.linkRequestAndResponse(request, response);
+        RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestNamedInclude3Servlet");
+        try {
+            dispatcher.include(request, response);
+            fail();
+        } catch(IllegalStateException ise) {
+            assertTrue(ise.getMessage().contains("addCookie"));
         }
     }
 }
