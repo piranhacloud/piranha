@@ -16,7 +16,6 @@
     <name>Piranha - Maven - Plugins - Project</name>
 
     <modules>
-        <module>piranha-micro-maven-plugin</module>
         <module>piranha-maven-plugin</module>
     </modules>
 </project>

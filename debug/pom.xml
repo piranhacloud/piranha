@@ -247,12 +247,6 @@
         </dependency>
 
         <dependency>
-            <groupId>cloud.piranha.maven.plugins</groupId>
-            <artifactId>piranha-micro-maven-plugin</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>cloud.piranha.micro.shrinkwrap</groupId>
             <artifactId>piranha-micro-shrinkwrap</artifactId>
             <version>${project.version}</version>
