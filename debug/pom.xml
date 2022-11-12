@@ -301,13 +301,6 @@
         </dependency>
 
         <dependency>
-            <groupId>cloud.piranha.server</groupId>
-            <artifactId>piranha-server-isolated</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-
-        <dependency>
             <groupId>cloud.piranha</groupId>
             <artifactId>piranha-embedded</artifactId>
             <version>${project.version}</version>

@@ -54,7 +54,6 @@
         <module>micro</module>
         <module>naming</module>
         <module>resource</module>
-        <module>server</module>
         <module>debug</module>
     </modules>
 
