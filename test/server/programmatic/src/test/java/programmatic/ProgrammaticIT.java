@@ -28,8 +28,8 @@
 package programmatic;
 
 import cloud.piranha.extension.servlet.ServletExtension;
-import cloud.piranha.server.ServerPiranha;
-import cloud.piranha.server.ServerPiranhaBuilder;
+import cloud.piranha.dist.server.ServerPiranha;
+import cloud.piranha.dist.server.ServerPiranhaBuilder;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
