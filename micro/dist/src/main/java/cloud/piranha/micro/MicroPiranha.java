@@ -36,7 +36,7 @@ import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.extension.standard.StandardExtension;
+import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
@@ -83,7 +83,7 @@ public class MicroPiranha implements Piranha, Runnable {
     /**
      * Stores the extension class.
      */
-    private Class<? extends WebApplicationExtension> extensionClass = StandardExtension.class;
+    private Class<? extends WebApplicationExtension> extensionClass = ServletExtension.class;
 
     /**
      * Stores the exit on stop flag.

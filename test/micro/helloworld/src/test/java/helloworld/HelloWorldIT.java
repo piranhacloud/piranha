@@ -27,7 +27,7 @@
  */
 package helloworld;
 
-import cloud.piranha.extension.standard.StandardExtension;
+import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.micro.MicroPiranha;
 import cloud.piranha.micro.MicroPiranhaBuilder;
 import cloud.piranha.test.common.PiranhaStartup;
@@ -75,7 +75,7 @@ class HelloWorldIT {
     void beforeEach() throws InterruptedException {
         piranhaPort = FreePortFinder.findFreeLocalPort();
         piranha = new MicroPiranhaBuilder()
-                .extensionClass(StandardExtension.class)
+                .extensionClass(ServletExtension.class)
                 .warFile("target/webapps/ROOT.war")
                 .webAppDir("target/webapps/ROOT")
                 .httpPort(piranhaPort)

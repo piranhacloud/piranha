@@ -33,7 +33,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-standard</artifactId>
+            <artifactId>piranha-extension-servlet</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
