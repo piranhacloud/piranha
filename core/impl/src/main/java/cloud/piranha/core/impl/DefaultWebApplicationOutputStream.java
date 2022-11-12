@@ -116,6 +116,7 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
         if (!response.isCommitted()) {
             outputStream.write(buffer, 0, index);
             index = buffer.length;
+            response.setCommitted(true);
         }
     }
 

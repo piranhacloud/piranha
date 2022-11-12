@@ -94,6 +94,13 @@ public interface WebApplicationResponse extends HttpServletResponse {
     boolean isBufferResetting();
     
     /**
+     * Set the committed flag.
+     * 
+     * @param committed the committed flag.
+     */
+    void setCommitted(boolean committed);
+    
+    /**
      * Set the body only mode.
      * 
      * @param bodyOnly the body only mode.
