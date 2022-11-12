@@ -27,7 +27,7 @@
  */
 package programmatic;
 
-import cloud.piranha.extension.standard.StandardExtension;
+import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.server.ServerPiranha;
 import cloud.piranha.server.ServerPiranhaBuilder;
 import java.net.URI;
@@ -66,7 +66,7 @@ class ProgrammaticIT {
     @BeforeEach
     void beforeEach() {
         piranha = new ServerPiranhaBuilder()
-                .defaultExtensionClass(StandardExtension.class)
+                .defaultExtensionClass(ServletExtension.class)
                 .httpPort(8200)
                 .webAppsDir("target/webapps")
                 .build();

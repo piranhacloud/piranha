@@ -28,10 +28,9 @@
 package cloud.piranha.micro;
 
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.extension.standard.StandardExtension;
+import cloud.piranha.extension.servlet.ServletExtension;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
-
 import static java.lang.System.Logger.Level.WARNING;
 
 /**
@@ -237,7 +236,7 @@ public class MicroPiranhaBuilder {
                 Web application dir   : %s
                 
                 """.formatted(
-                extensionClass != null ? extensionClass.getName() : StandardExtension.class.getName(),
+                extensionClass != null ? extensionClass.getName() : ServletExtension.class.getName(),
                 exitOnStop,
                 httpPort,
                 httpsPort,

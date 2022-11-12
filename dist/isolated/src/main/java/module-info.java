@@ -41,7 +41,7 @@ module cloud.piranha.dist.isolated {
     requires transitive cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.embedded;
-    requires cloud.piranha.extension.standard;
+    requires cloud.piranha.extension.servlet;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.webapp;
     requires cloud.piranha.micro.shrinkwrap.builder;

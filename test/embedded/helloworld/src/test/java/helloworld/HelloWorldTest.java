@@ -33,7 +33,7 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.embedded.EmbeddedResponseBuilder;
-import cloud.piranha.extension.standard.StandardExtension;
+import cloud.piranha.extension.servlet.ServletExtension;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,7 +66,7 @@ class HelloWorldTest {
     void beforeEach() {
         piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
-                .extension(StandardExtension.class)
+                .extension(ServletExtension.class)
                 .buildAndStart();
     }
 
