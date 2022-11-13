@@ -50,13 +50,13 @@
       
 <p><strong>Full name</strong>:</p>
       
-<p>cloud.piranha.maven.plugins:piranha-maven-plugin:22.11.0-SNAPSHOT:run</p>
+<p>cloud.piranha.maven.plugins:piranha-maven-plugin:22.12.0-SNAPSHOT:run</p>
       
 <p><strong>Description</strong>:</p>
       
-<div>This goal will deploy the Maven WAR module, start Piranha Core
-Profile and wait for it. It echoes the Piranha Core Profile console
-back to you for your convenience.</div>
+<div>This goal will deploy your web application, start Piranha and wait
+for it. It echoes the Piranha console back to you for your
+convenience.</div>
       
 <p><strong>Attributes</strong>:</p>
       
@@ -90,7 +90,7 @@ back to you for your convenience.</div>
             
 <td><code>-</code></td>
             
-<td>Stores the runtime directory.<br /><strong>Default value is</strong>: <code>${project.build.directory}/piranha</code>.<br /></td>
+<td>Stores the runtime directory.<br /><strong>Default value is</strong>: <code>${project.build.directory}/piranha</code>.<br /><strong>User property is</strong>: <code>piranha.runtimeDirectory</code>.<br /></td>
           </tr>
         </table>
       </section>
@@ -118,10 +118,21 @@ back to you for your convenience.</div>
             
 <td><code>-</code></td>
             
-<td>Stores the context path.<br /></td>
+<td>Stores the context path.<br /><strong>User property is</strong>: <code>piranha.contextPath</code>.<br /></td>
           </tr>
           
 <tr class="a">
+            
+<td align="left"><code><a href="#distribution">&lt;distribution&gt;</a></code></td>
+            
+<td><code>String</code></td>
+            
+<td><code>-</code></td>
+            
+<td>Stores the distribution to use.<br /><strong>Default value is</strong>: <code>coreprofile</code>.<br /><strong>User property is</strong>: <code>piranha.distribution</code>.<br /></td>
+          </tr>
+          
+<tr class="b">
             
 <td align="left"><code><a href="#httpPort">&lt;httpPort&gt;</a></code></td>
             
@@ -129,10 +140,10 @@ back to you for your convenience.</div>
             
 <td><code>-</code></td>
             
-<td>Stores the HTTP port.<br /><strong>Default value is</strong>: <code>8080</code>.<br /></td>
+<td>Stores the HTTP port.<br /><strong>Default value is</strong>: <code>8080</code>.<br /><strong>User property is</strong>: <code>piranha.httpPort</code>.<br /></td>
           </tr>
           
-<tr class="b">
+<tr class="a">
             
 <td align="left"><code><a href="#jvmArguments">&lt;jvmArguments&gt;</a></code></td>
             
@@ -140,10 +151,10 @@ back to you for your convenience.</div>
             
 <td><code>-</code></td>
             
-<td>Stores the JVM arguments.<br /></td>
+<td>Stores the JVM arguments.<br /><strong>User property is</strong>: <code>piranha.jvmArguments</code>.<br /></td>
           </tr>
           
-<tr class="a">
+<tr class="b">
             
 <td align="left"><code><a href="#version">&lt;version&gt;</a></code></td>
             
@@ -151,7 +162,7 @@ back to you for your convenience.</div>
             
 <td><code>-</code></td>
             
-<td>Stores the version of the Piranha runtime to use.<br /></td>
+<td>Stores the version of the Piranha runtime to use.<br /><strong>User property is</strong>: <code>piranha.version</code>.<br /></td>
           </tr>
         </table>
       </section>
@@ -167,6 +178,22 @@ back to you for your convenience.</div>
 <li><strong>Type</strong>: <code>java.lang.String</code></li>
           
 <li><strong>Required</strong>: <code>No</code></li>
+          
+<li><strong>User Property</strong>: <code>piranha.contextPath</code></li>
+        </ul><hr /></section><section>
+<h4><a name="a.3Cdistribution.3E"></a><strong><a name="distribution">&lt;distribution&gt;</a></strong></h4>
+        
+<div>Stores the distribution to use.</div>
+        
+<ul>
+          
+<li><strong>Type</strong>: <code>java.lang.String</code></li>
+          
+<li><strong>Required</strong>: <code>No</code></li>
+          
+<li><strong>User Property</strong>: <code>piranha.distribution</code></li>
+          
+<li><strong>Default</strong>: <code>coreprofile</code></li>
         </ul><hr /></section><section>
 <h4><a name="a.3ChttpPort.3E"></a><strong><a name="httpPort">&lt;httpPort&gt;</a></strong></h4>
         
@@ -177,6 +204,8 @@ back to you for your convenience.</div>
 <li><strong>Type</strong>: <code>java.lang.Integer</code></li>
           
 <li><strong>Required</strong>: <code>No</code></li>
+          
+<li><strong>User Property</strong>: <code>piranha.httpPort</code></li>
           
 <li><strong>Default</strong>: <code>8080</code></li>
         </ul><hr /></section><section>
@@ -189,6 +218,8 @@ back to you for your convenience.</div>
 <li><strong>Type</strong>: <code>java.lang.String</code></li>
           
 <li><strong>Required</strong>: <code>No</code></li>
+          
+<li><strong>User Property</strong>: <code>piranha.jvmArguments</code></li>
         </ul><hr /></section><section>
 <h4><a name="a.3CruntimeDirectory.3E"></a><strong><a name="runtimeDirectory">&lt;runtimeDirectory&gt;</a></strong></h4>
         
@@ -199,6 +230,8 @@ back to you for your convenience.</div>
 <li><strong>Type</strong>: <code>java.lang.String</code></li>
           
 <li><strong>Required</strong>: <code>Yes</code></li>
+          
+<li><strong>User Property</strong>: <code>piranha.runtimeDirectory</code></li>
           
 <li><strong>Default</strong>: <code>${project.build.directory}/piranha</code></li>
         </ul><hr /></section><section>
@@ -211,6 +244,8 @@ back to you for your convenience.</div>
 <li><strong>Type</strong>: <code>java.lang.String</code></li>
           
 <li><strong>Required</strong>: <code>No</code></li>
+          
+<li><strong>User Property</strong>: <code>piranha.version</code></li>
         </ul>
       </section></section></section>
     </section>
