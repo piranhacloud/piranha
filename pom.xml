@@ -83,7 +83,7 @@
         <jakarta.faces.version>4.0.0</jakarta.faces.version>
         <jandex.version>2.4.3.Final</jandex.version>
         <jaxb.version>4.0.1</jaxb.version>
-        <jersey.version>3.1.0-M8</jersey.version>
+        <jersey.version>3.1.0</jersey.version>
         <jstl.version>3.0.1</jstl.version>
         <junit.version>5.9.1</junit.version>
         <junit-platform-launcher.version>1.9.1</junit-platform-launcher.version>
