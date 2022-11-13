@@ -83,6 +83,7 @@
         <jakarta.faces.version>4.0.0</jakarta.faces.version>
         <jandex.version>3.0.3</jandex.version>
         <jaxb.version>4.0.1</jaxb.version>
+        <jboss-classfilewriter.version>1.2.5.Final</jboss-classfilewriter.version>
         <jersey.version>3.1.0</jersey.version>
         <jstl.version>3.0.1</jstl.version>
         <junit.version>5.9.1</junit.version>
@@ -94,6 +95,7 @@
         <maven-settings.version>4.0.0-alpha-2</maven-settings.version>
         <myfaces.version>4.0.0</myfaces.version>
         <parsson.version>1.1.1</parsson.version>
+        <shrinkwrap-impl-base.version>2.0.0-beta-1</shrinkwrap-impl-base.version>
         <soteria.version>3.0.1</soteria.version>
         <tyrus.version>2.1.1</tyrus.version>
         <undertow.version>2.3.0.Final</undertow.version>
@@ -358,7 +360,7 @@
             <dependency>
                 <groupId>org.jboss.classfilewriter</groupId>
                 <artifactId>jboss-classfilewriter</artifactId>
-                <version>1.2.5.Final</version>
+                <version>${jboss-classfilewriter.version}</version>
             </dependency>
             
             <!-- JBoss Hibernate Validator -->
@@ -379,7 +381,7 @@
             <dependency>
                 <groupId>org.jboss.shrinkwrap</groupId>
                 <artifactId>shrinkwrap-impl-base</artifactId>
-                <version>1.2.6</version>
+                <version>${shrinkwrap-impl-base.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.shrinkwrap.descriptors</groupId>
