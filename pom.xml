@@ -72,7 +72,7 @@
     <properties>
         <!-- dependencies -->
         <arquillian.version>1.7.0.Alpha13</arquillian.version>
-        <checkstyle.version>10.3.2</checkstyle.version>
+        <checkstyle.version>10.4</checkstyle.version>
         <eclipselink.version>4.0.0</eclipselink.version>
         <exousia.version>2.1.0</exousia.version>
         <expressly.version>5.0.0</expressly.version>
