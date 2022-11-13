@@ -380,7 +380,7 @@
             
             <!-- JBoss Jandex -->
             <dependency>
-                <groupId>org.jboss</groupId>
+                <groupId>org.jboss.jandex</groupId>
                 <artifactId>jandex</artifactId>
                 <version>${jandex.version}</version>
             </dependency>
