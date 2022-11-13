@@ -74,11 +74,15 @@
         <arquillian.version>1.7.0.Alpha13</arquillian.version>
         <bcel.version>6.6.1</bcel.version>
         <checkstyle.version>10.4</checkstyle.version>
+        <commons-compress.version>1.22</commons-compress.version>
         <commons-io.version>2.11.0</commons-io.version>
         <eclipselink.version>4.0.0</eclipselink.version>
+        <eleos.version>3.0.0</eleos.version>
         <exousia.version>2.1.0</exousia.version>
         <expressly.version>5.0.0</expressly.version>
+        <free-port-finder.version>1.1.1</free-port-finder.version>
         <grizzly.version>4.0.0</grizzly.version>
+        <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
         <hazelcast.version>5.2.0</hazelcast.version>
         <htmlunit.version>2.66.0</htmlunit.version>
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
@@ -87,6 +91,7 @@
         <jaxb.version>4.0.1</jaxb.version>
         <jboss-classfilewriter.version>1.2.5.Final</jboss-classfilewriter.version>
         <jersey.version>3.1.0</jersey.version>
+        <jsoup.version>1.15.3</jsoup.version>
         <jstl.version>3.0.1</jstl.version>
         <junit.version>5.9.1</junit.version>
         <junit-platform-launcher.version>1.9.1</junit-platform-launcher.version>
@@ -96,9 +101,17 @@
         <maven-plugin-tools-annotations.version>3.7.0</maven-plugin-tools-annotations.version>
         <maven-settings.version>4.0.0-alpha-2</maven-settings.version>
         <microprofile-jwt-auth.version>2.0.1</microprofile-jwt-auth.version>
+        <netty.version>4.1.84.Final</netty.version>
+        <omnibeans.version>0.1</omnibeans.version>
+        <omniservices.version>0.3</omniservices.version>
+        <omniutils.version>0.13</omniutils.version>
+        <omni-mp-config.version>3.0.0</omni-mp-config.version>
         <parsson.version>1.1.1</parsson.version>
         <shrinkwrap-impl-base.version>2.0.0-beta-1</shrinkwrap-impl-base.version>
+        <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
+        <shrinkwrap-resolver.version>3.1.4</shrinkwrap-resolver.version>
         <soteria.version>3.0.1</soteria.version>
+        <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.1.1</tyrus.version>
         <undertow.version>2.3.0.Final</undertow.version>
         <wasp.version>3.1.0</wasp.version>
@@ -111,20 +124,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Apache Commons IO -->
-            <!--
-
-              Added as a dependency to force the version of commons-io because
-              it is pulled in as a transitive dependency but the version that 
-              gets pulled in has a vulnerability (CVE-2021-29425).
-
-            -->
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
-            </dependency>
-            
             <!-- Apache Commons Compress -->
             <!--
 
@@ -137,7 +136,21 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-compress</artifactId>
-                <version>1.22</version>
+                <version>${commons-compress.version}</version>
+            </dependency>
+            
+            <!-- Apache Commons IO -->
+            <!--
+
+              Added as a dependency to force the version of commons-io because
+              it is pulled in as a transitive dependency but the version that 
+              gets pulled in has a vulnerability (CVE-2021-29425).
+
+            -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
             </dependency>
             
             <!-- Apache Maven -->
@@ -207,7 +220,7 @@
             <dependency>
                 <groupId>org.glassfish.grizzly</groupId>
                 <artifactId>grizzly-npn-api</artifactId>
-                <version>2.0.0</version>
+                <version>${grizzly-npn-api.version}</version>
             </dependency>
 
             <!-- Eclipse JAXB -->
@@ -322,7 +335,7 @@
             <dependency>
                 <groupId>me.alexpanov</groupId>
                 <artifactId>free-port-finder</artifactId>
-                <version>1.1.1</version>
+                <version>${free-port-finder.version}</version>
             </dependency>
             
             <!-- H2 database -->
@@ -365,13 +378,6 @@
                 <version>${hibernate-validator.version}</version>
             </dependency>
             
-            <!-- JBoss Jandex -->
-            <dependency>
-                <groupId>org.jboss</groupId>
-                <artifactId>jandex</artifactId>
-                <version>${jandex.version}</version>
-            </dependency>
-            
             <!-- JBoss Shrinkwrap -->
             <dependency>
                 <groupId>org.jboss.shrinkwrap</groupId>
@@ -381,32 +387,32 @@
             <dependency>
                 <groupId>org.jboss.shrinkwrap.descriptors</groupId>
                 <artifactId>shrinkwrap-descriptors-api-base</artifactId>
-                <version>2.0.0</version>
+                <version>${shrinkwrap-descriptors-api-base.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.shrinkwrap.resolver</groupId>
                 <artifactId>shrinkwrap-resolver-api-maven</artifactId>
-                <version>3.1.4</version>
+                <version>${shrinkwrap-resolver.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.shrinkwrap.resolver</groupId>
                 <artifactId>shrinkwrap-resolver-depchain</artifactId>
-                <version>3.1.4</version>
+                <version>${shrinkwrap-resolver.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.shrinkwrap.resolver</groupId>
                 <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-                <version>3.1.4</version>
+                <version>${shrinkwrap-resolver.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.shrinkwrap.resolver</groupId>
                 <artifactId>shrinkwrap-resolver-impl-maven-archive</artifactId>
-                <version>3.1.4</version>
+                <version>${shrinkwrap-resolver.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.shrinkwrap.resolver</groupId>
                 <artifactId>shrinkwrap-resolver-spi</artifactId>
-                <version>3.1.4</version>
+                <version>${shrinkwrap-resolver.version}</version>
             </dependency>
             
             <!-- JBoss Undertow -->
@@ -435,7 +441,7 @@
             <dependency>
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
-                <version>1.15.3</version>
+                <version>${jsoup.version}</version>
             </dependency>
                         
             <!-- JUnit -->
@@ -495,65 +501,53 @@
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-buffer</artifactId>
-                <version>4.1.77.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http</artifactId>
-                <version>4.1.77.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http2</artifactId>
-                <version>4.1.77.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-common</artifactId>
-                <version>4.1.77.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-handler</artifactId>
-                <version>4.1.77.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-transport</artifactId>
-                <version>4.1.77.Final</version>
+                <version>${netty.version}</version>
             </dependency>
             
             <!-- OmniFaces Beans -->
             <dependency>
                 <groupId>ee.omnifish</groupId>
                 <artifactId>omnibeans</artifactId>
-                <version>0.1</version>
+                <version>${omnibeans.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.omnifaces</groupId>
-                <artifactId>omniservices</artifactId>
-                <version>0.3</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.omnifaces</groupId>
-                <artifactId>omniutils</artifactId>
-                <version>0.13</version>
-            </dependency>
-            
             <!-- OmniFaces Config -->
             <dependency>
                 <groupId>org.omnifaces</groupId>
                 <artifactId>omni-mp-config</artifactId>
-                <version>3.0.0</version>
+                <version>${omni-mp-config.version}</version>
             </dependency>
-            
+
             <!-- OmniFaces Eleos -->
             <dependency>
                 <groupId>org.omnifaces</groupId>
                 <artifactId>eleos</artifactId>
-                <version>3.0.0</version>
+                <version>${eleos.version}</version>
             </dependency>
 
             <!-- OmniFaces JWT Auth -->
@@ -562,12 +556,33 @@
                 <artifactId>microprofile-jwt-auth</artifactId>
                 <version>${microprofile-jwt-auth.version}</version>
             </dependency>
-            
+
+            <!-- OmniFaces Services -->
+            <dependency>
+                <groupId>org.omnifaces</groupId>
+                <artifactId>omniservices</artifactId>
+                <version>${omniservices.version}</version>
+            </dependency>
+
             <!-- OmniFish Transact -->
             <dependency>
                 <groupId>ee.omnifish</groupId>
                 <artifactId>transact-cdi-beans</artifactId>
-                <version>1.0.1</version>
+                <version>${transact-cdi-beans.version}</version>
+            </dependency>
+
+            <!-- OmniFaces Utils -->
+            <dependency>
+                <groupId>org.omnifaces</groupId>
+                <artifactId>omniutils</artifactId>
+                <version>${omniutils.version}</version>
+            </dependency>
+            
+            <!-- Smallrye Jandex -->
+            <dependency>
+                <groupId>io.smallrye</groupId>
+                <artifactId>jandex</artifactId>
+                <version>${jandex.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
