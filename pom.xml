@@ -74,7 +74,7 @@
         <arquillian.version>1.7.0.Alpha13</arquillian.version>
         <bcel.version>6.6.1</bcel.version>
         <checkstyle.version>10.4</checkstyle.version>
-        <commons-io.version>2.11</commons-io.version>
+        <commons-io.version>2.11.0</commons-io.version>
         <eclipselink.version>4.0.0</eclipselink.version>
         <exousia.version>2.1.0</exousia.version>
         <expressly.version>5.0.0</expressly.version>
