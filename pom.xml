@@ -378,6 +378,13 @@
                 <version>${hibernate-validator.version}</version>
             </dependency>
             
+            <!-- JBoss Jandex -->
+            <dependency>
+                <groupId>org.jboss.jandex</groupId>
+                <artifactId>jandex</artifactId>
+                <version>${jandex.version}</version>
+            </dependency>
+            
             <!-- JBoss Shrinkwrap -->
             <dependency>
                 <groupId>org.jboss.shrinkwrap</groupId>
@@ -576,13 +583,6 @@
                 <groupId>org.omnifaces</groupId>
                 <artifactId>omniutils</artifactId>
                 <version>${omniutils.version}</version>
-            </dependency>
-            
-            <!-- Smallrye Jandex -->
-            <dependency>
-                <groupId>io.smallrye</groupId>
-                <artifactId>jandex</artifactId>
-                <version>${jandex.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
