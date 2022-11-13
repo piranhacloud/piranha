@@ -31,9 +31,12 @@
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
         <jakarta.servlet.jsp-api.version>3.1.0</jakarta.servlet.jsp-api.version>
         <jakarta.servlet.jsp.jstl-api.version>3.0.0</jakarta.servlet.jsp.jstl-api.version>
+        <jakarta.transaction-api.version>2.0.1</jakarta.transaction-api.version>
         <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
         <jakarta.websocket-api.version>2.1.0</jakarta.websocket-api.version>
+        <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
         <jakarta.xml.bind-api.version>4.0.0</jakarta.xml.bind-api.version>
+        <microprofile-config-api.version>3.0.1</microprofile-config-api.version>
         <microprofile-jwt-auth-api.version>2.1-RC2</microprofile-jwt-auth-api.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -163,7 +166,7 @@
             <dependency>
                 <groupId>jakarta.transaction</groupId>
                 <artifactId>jakarta.transaction-api</artifactId>
-                <version>2.0.1</version>
+                <version>${jakarta.transaction-api.version}</version>
             </dependency>
 
             <!-- Jakarta Bean Validation -->
@@ -189,7 +192,7 @@
             <dependency>
                 <groupId>jakarta.ws.rs</groupId>
                 <artifactId>jakarta.ws.rs-api</artifactId>
-                <version>3.1.0</version>
+                <version>${jakarta.ws.rs-api.version}</version>
             </dependency>
 
             <!-- Jakarta XML Binding -->
@@ -203,7 +206,7 @@
             <dependency>
                 <groupId>org.eclipse.microprofile.config</groupId>
                 <artifactId>microprofile-config-api</artifactId>
-                <version>3.0.1</version>
+                <version>${microprofile-config-api.version}</version>
             </dependency>
             
             <!-- MicroProfile JWT -->
@@ -212,7 +215,6 @@
                 <artifactId>microprofile-jwt-auth-api</artifactId>
                 <version>${microprofile-jwt-auth-api.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 </project>
