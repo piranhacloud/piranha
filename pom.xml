@@ -88,6 +88,7 @@
         <junit.version>5.9.1</junit.version>
         <junit-platform-launcher.version>1.9.1</junit-platform-launcher.version>
         <h2.version>2.1.214</h2.version>
+        <maven-plugin-annotations.version>3.7.0</maven-plugin-annotations.version>
         <maven-plugin-api.version>4.0.0-alpha-2</maven-plugin-api.version>
         <maven-settings.version>4.0.0-alpha-2</maven-settings.version>
         <myfaces.version>4.0.0</myfaces.version>
@@ -143,7 +144,7 @@
             <dependency>
                 <groupId>org.apache.maven.plugin-tools</groupId>
                 <artifactId>maven-plugin-annotations</artifactId>
-                <version>3.6.4</version>
+                <version>${maven-plugin-annotations.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.maven.plugin-tools</groupId>
