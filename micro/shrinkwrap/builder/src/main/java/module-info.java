@@ -34,8 +34,14 @@
  *  distribution.
  * </p>
  * 
+ * <p>
+ *  This module is deprecated in favor of the cloud.piranha.micro.builder module.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 module cloud.piranha.micro.shrinkwrap.builder {
     exports cloud.piranha.micro.shrinkwrap.builder;
     opens cloud.piranha.micro.shrinkwrap.builder;

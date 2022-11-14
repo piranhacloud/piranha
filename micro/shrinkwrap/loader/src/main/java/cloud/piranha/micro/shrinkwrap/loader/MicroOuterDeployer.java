@@ -89,8 +89,9 @@ import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
  * archive to it.
  *
  * @author Arjan Tijms
- *
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class MicroOuterDeployer {
 
     /**

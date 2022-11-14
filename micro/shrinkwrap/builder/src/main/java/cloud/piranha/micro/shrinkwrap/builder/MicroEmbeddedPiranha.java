@@ -33,8 +33,9 @@ import cloud.piranha.embedded.EmbeddedPiranha;
  * Embedded variant using Micro
  * 
  * @author Arjan Tijms
- *
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class MicroEmbeddedPiranha extends EmbeddedPiranha {
 
     /**

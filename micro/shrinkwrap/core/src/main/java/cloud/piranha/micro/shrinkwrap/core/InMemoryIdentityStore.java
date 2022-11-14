@@ -50,9 +50,10 @@ import jakarta.security.enterprise.identitystore.IdentityStore;
  * Servlet security.
  * 
  * @author Arjan Tijms
- *
+ * @deprecated
  */
 @ApplicationScoped
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class InMemoryIdentityStore implements IdentityStore {
     
     /**

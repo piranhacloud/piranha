@@ -48,7 +48,9 @@ import java.util.stream.Stream;
  * The inner Piranha Micro application.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class MicroInnerApplication implements Consumer<Map<String, Object>> {
     
     /**

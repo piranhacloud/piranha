@@ -30,8 +30,9 @@ package cloud.piranha.micro.shrinkwrap.loader;
 /**
  * 
  * @author arjan
- *
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class MicroInfo {
 
     /**

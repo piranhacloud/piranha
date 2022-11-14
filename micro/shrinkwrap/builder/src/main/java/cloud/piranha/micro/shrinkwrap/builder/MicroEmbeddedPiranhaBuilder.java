@@ -35,7 +35,9 @@ import cloud.piranha.micro.shrinkwrap.loader.MicroOuterDeployer;
  * Builder for an embedded Piranha instance based on Piranha Micro
  *
  * @author Arjan Tijms
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class MicroEmbeddedPiranhaBuilder {
 
     /**

@@ -110,8 +110,9 @@ import jakarta.servlet.annotation.WebServlet;
  * loader
  *
  * @author arjan
- *
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class MicroInnerDeployer {
 
     /**
