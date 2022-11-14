@@ -193,12 +193,6 @@
         </dependency>
 
         <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-weld-servlet</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-api</artifactId>
             <version>${project.version}</version>

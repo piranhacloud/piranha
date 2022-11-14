@@ -48,7 +48,6 @@
         <module>webxml</module>
         <module>welcomefile</module>
         <module>weld</module>
-        <module>weld-servlet</module>
         <module>platform</module>
     </modules>
 
