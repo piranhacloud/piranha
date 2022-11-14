@@ -49,7 +49,9 @@ import jakarta.servlet.ServletResponse;
  * A Piranha Micro web application.
  *
  * @author Arjan Tijms
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class MicroWebApplication extends DefaultWebApplication {
 
     /**

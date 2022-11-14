@@ -46,8 +46,9 @@ import org.jboss.weld.environment.deployment.discovery.BeanArchiveHandler;
  * an archive deployed to Piranha via the META-INF/piranha.idx file.
  * 
  * @author Arjan Tijms
- *
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 @Priority(10)
 public class PiranhaBeanArchiveHandler implements BeanArchiveHandler {
 

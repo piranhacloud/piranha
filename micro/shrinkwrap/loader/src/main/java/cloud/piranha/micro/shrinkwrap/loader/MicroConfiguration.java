@@ -39,7 +39,9 @@ import java.util.stream.Stream;
  * The configuration for Piranha Micro.
  *
  * @author Arjan Tijms
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class MicroConfiguration {
 
     /**

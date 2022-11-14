@@ -37,8 +37,9 @@ import jakarta.enterprise.inject.spi.Extension;
  * credentials have been added to it.
  *
  * @author Arjan Tijms
- *
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class CdiExtension implements Extension {
 
     /**

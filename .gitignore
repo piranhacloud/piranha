@@ -12,6 +12,5 @@ target/
 .idea
 *.iml
 *.original~
-
-/server/dist/tmp/piranha.stopped
 dist/server/tmp/
+dist/platform/tmp/

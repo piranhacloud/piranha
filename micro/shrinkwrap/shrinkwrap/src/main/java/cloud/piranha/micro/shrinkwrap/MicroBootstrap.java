@@ -41,7 +41,9 @@ import cloud.piranha.micro.shrinkwrap.loader.MicroOuterDeployer;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class MicroBootstrap implements Runnable {
 
     /**

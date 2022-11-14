@@ -54,6 +54,8 @@
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  * @see cloud.piranha.embedded.EmbeddedPiranhaBuilder
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 package cloud.piranha.micro.shrinkwrap.builder;

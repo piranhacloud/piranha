@@ -43,8 +43,9 @@ import java.util.function.Function;
  * can be used to register individual URL stream handlers for various protocols.
  *
  * @author Arjan Tijms
- *
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class StaticURLStreamHandlerFactory implements URLStreamHandlerFactory {
 
     /**

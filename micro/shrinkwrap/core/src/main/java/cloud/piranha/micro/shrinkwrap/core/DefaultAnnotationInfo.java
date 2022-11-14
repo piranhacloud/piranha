@@ -36,7 +36,9 @@ import java.lang.reflect.AnnotatedElement;
  * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
  * @param <T> the type.
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class DefaultAnnotationInfo<T> implements AnnotationInfo<T> {
 
     /**

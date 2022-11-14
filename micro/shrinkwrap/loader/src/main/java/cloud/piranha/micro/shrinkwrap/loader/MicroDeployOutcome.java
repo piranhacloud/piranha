@@ -34,8 +34,9 @@ import java.util.function.Consumer;
 /**
  *
  * @author Arjan Tijms
- *
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class MicroDeployOutcome {
 
     /**
