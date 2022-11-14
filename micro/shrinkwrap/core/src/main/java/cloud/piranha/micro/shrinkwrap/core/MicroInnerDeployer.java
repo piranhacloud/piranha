@@ -79,6 +79,7 @@ import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import cloud.piranha.extension.annotationscan.internal.InternalAnnotationScanAnnotationManager;
 import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.shrinkwrap.GlobalArchiveStreamHandler;
 import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
@@ -242,8 +243,7 @@ public class MicroInnerDeployer {
                 HttpWebApplicationServer webApplicationServer = new HttpWebApplicationServer();
                 webApplicationServer.addWebApplication(webApplication);
 
-                ServiceLoader<HttpServer> httpServers = ServiceLoader.load(HttpServer.class);
-                httpServer = httpServers.findFirst().orElseThrow();
+                httpServer = new DefaultHttpServer();
                 httpServer.setServerPort((Integer) config.get("micro.port"));
                 httpServer.setSSL(Boolean.getBoolean("piranha.http.ssl"));
                 httpServer.setHttpServerProcessor(webApplicationServer);

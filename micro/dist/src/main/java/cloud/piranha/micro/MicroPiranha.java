@@ -38,6 +38,7 @@ import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.ServletException;
@@ -56,6 +57,7 @@ import java.lang.module.Configuration;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleFinder;
 import java.lang.module.ModuleReference;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ServiceLoader;
 import java.util.zip.ZipEntry;
@@ -192,18 +194,48 @@ public class MicroPiranha implements Piranha, Runnable {
         webApplicationServer = new HttpWebApplicationServer();
 
         if (httpPort > 0) {
-            HttpServer httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
-            httpServer.setServerPort(httpPort);
-            httpServer.setHttpServerProcessor(webApplicationServer);
-            httpServer.start();
+            HttpServer httpServer = null;
+            String httpServerClass = null;
+            if (httpServerClass == null) {
+                httpServerClass = DefaultHttpServer.class.getName();
+            }
+            try {
+                httpServer = (HttpServer) Class.forName(httpServerClass)
+                        .getDeclaredConstructor().newInstance();
+            } catch (ClassNotFoundException | IllegalAccessException
+                    | IllegalArgumentException | InstantiationException
+                    | NoSuchMethodException | SecurityException
+                    | InvocationTargetException t) {
+                LOGGER.log(ERROR, "Unable to construct HTTP server", t);
+            }
+            if (httpServer != null) {
+                httpServer.setServerPort(httpPort);
+                httpServer.setHttpServerProcessor(webApplicationServer);
+                httpServer.start();
+            }
         }
 
         if (httpsPort > 0) {
-            HttpServer httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
-            httpsServer.setHttpServerProcessor(webApplicationServer);
-            httpsServer.setServerPort(httpsPort);
-            httpsServer.setSSL(true);
-            httpsServer.start();
+            HttpServer httpsServer = null;
+            String httpsServerClass = null;
+            if (httpsServerClass == null) {
+                httpsServerClass = DefaultHttpServer.class.getName();
+            }
+            try {
+                httpsServer = (HttpServer) Class.forName(httpsServerClass)
+                        .getDeclaredConstructor().newInstance();
+            } catch (ClassNotFoundException | IllegalAccessException
+                    | IllegalArgumentException | InstantiationException
+                    | NoSuchMethodException | SecurityException
+                    | InvocationTargetException t) {
+                LOGGER.log(ERROR, "Unable to construct HTTPS server", t);
+            }
+            if (httpsServer != null) {
+                httpsServer.setHttpServerProcessor(webApplicationServer);
+                httpsServer.setServerPort(httpsPort);
+                httpsServer.setSSL(true);
+                httpsServer.start();
+            }
         }
 
         String contextPath = null;

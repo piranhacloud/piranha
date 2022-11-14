@@ -39,6 +39,12 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
+            <artifactId>piranha-http-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-webapp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -159,65 +165,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>grizzly</id>
-            <dependencies>
-                <dependency>
-                    <groupId>cloud.piranha.http</groupId>
-                    <artifactId>piranha-http-grizzly</artifactId>
-                    <version>${project.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>impl</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>cloud.piranha.http</groupId>
-                    <artifactId>piranha-http-impl</artifactId>
-                    <version>${project.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>jdk</id>
-            <dependencies>
-                <dependency>
-                    <groupId>cloud.piranha.http</groupId>
-                    <artifactId>piranha-http-jdk</artifactId>
-                    <version>${project.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>netty</id>
-            <dependencies>
-                <dependency>
-                    <groupId>cloud.piranha.http</groupId>
-                    <artifactId>piranha-http-netty</artifactId>
-                    <version>${project.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>undertow</id>
-            <dependencies>
-                <dependency>
-                    <groupId>cloud.piranha.http</groupId>
-                    <artifactId>piranha-http-undertow</artifactId>
-                    <version>${project.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 </project>

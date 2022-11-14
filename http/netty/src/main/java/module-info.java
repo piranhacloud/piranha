@@ -26,14 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.netty.NettyHttpServer;
-
 /**
  * The HTTP Netty integration module.
  *
  * <p>
- * This module delivers the Netty implementation of the HTTP engine API.
+ * This module delivers the Netty implementation of the HTTP engine.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -42,7 +39,6 @@ module cloud.piranha.http.netty {
     
     exports cloud.piranha.http.netty;
     opens cloud.piranha.http.netty;
-    provides HttpServer with NettyHttpServer;
     requires transitive cloud.piranha.http.api;
     requires io.netty.buffer;
     requires io.netty.codec;

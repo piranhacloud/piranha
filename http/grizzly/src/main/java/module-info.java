@@ -26,14 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.grizzly.GrizzlyHttpServer;
-
 /**
  * The HTTP Grizzly integration module.
  *
  * <p>
- * This module delivers the Grizzly implementation of the HTTP engine API.
+ * This module delivers the Grizzly implementation of the HTTP engine.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -42,7 +39,6 @@ module cloud.piranha.http.grizzly {
 
     exports cloud.piranha.http.grizzly;
     opens cloud.piranha.http.grizzly;
-    provides HttpServer with GrizzlyHttpServer;
     requires transitive cloud.piranha.http.api;
     requires grizzly.framework;
     requires transitive grizzly.http;

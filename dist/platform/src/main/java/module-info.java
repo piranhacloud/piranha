@@ -26,7 +26,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.core.api.WebApplicationExtension;
 
 /**
@@ -42,9 +41,9 @@ module cloud.piranha.dist.platform {
     requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.platform;
     requires cloud.piranha.http.api;
+    requires cloud.piranha.http.impl;
     requires cloud.piranha.http.webapp;
     requires java.logging;
     requires java.naming;
-    uses HttpServer;
     uses WebApplicationExtension;
 }

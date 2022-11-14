@@ -30,7 +30,6 @@ package cloud.piranha.dist.isolated;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.ServiceLoader;
 import java.lang.System.Logger.Level;
 import java.lang.System.Logger;
 
@@ -42,6 +41,7 @@ import cloud.piranha.core.api.Piranha;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.shrinkwrap.builder.MicroWebApplication;
 import cloud.piranha.micro.shrinkwrap.loader.MicroConfiguration;
@@ -123,8 +123,7 @@ public class IsolatedPiranha implements Piranha, Runnable {
 
         webApplicationServer = new HttpWebApplicationServer();
 
-        // deprecated, replace by specific instance.
-        HttpServer httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
+        HttpServer httpServer = new DefaultHttpServer();
         httpServer.setServerPort(8080);
         httpServer.setHttpServerProcessor(webApplicationServer);
         httpServer.setSSL(ssl);
