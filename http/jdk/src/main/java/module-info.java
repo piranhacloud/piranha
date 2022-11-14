@@ -26,15 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.jdk.JdkHttpServer;
-
 /**
  * The HTTP JDK HttpServer integration module.
  *
  * <p>
- * This module delivers the JDK HTTP Server implementation of the HTTP engine
- * API.
+ *  This module delivers the JDK HTTP Server implementation of the HTTP engine.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -43,7 +39,6 @@ module cloud.piranha.http.jdk {
 
     exports cloud.piranha.http.jdk;
     opens cloud.piranha.http.jdk;
-    provides HttpServer with JdkHttpServer;
     requires transitive cloud.piranha.http.api;
     requires transitive jdk.httpserver;
 }

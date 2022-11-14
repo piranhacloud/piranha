@@ -26,14 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.impl.DefaultHttpServer;
-
 /**
  * The HTTP implementation module.
  *
  * <p>
- * This module delivers the default implementation of the HTTP engine API.
+ *  This module delivers the default implementation of the HTTP engine.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -42,6 +39,5 @@ module cloud.piranha.http.impl {
 
     exports cloud.piranha.http.impl;
     opens cloud.piranha.http.impl;
-    provides HttpServer with DefaultHttpServer;
     requires transitive cloud.piranha.http.api;
 }

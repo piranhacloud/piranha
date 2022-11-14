@@ -41,10 +41,16 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.http</groupId>
+            <artifactId>piranha-http-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-webapp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
-        </dependency>     
+        </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-annotationscan</artifactId>

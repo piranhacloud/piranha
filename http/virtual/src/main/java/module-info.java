@@ -25,14 +25,22 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.virtual.VirtualHttpServer;
 
+/**
+ * The HTTP Virtual Threads integration module.
+ *
+ * <p>
+ * This module delivers the Virtual Threads implementation of the HTTP engine.
+ * </p>
+ *
+ * @author Thiago
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.http.virtual {
+
     exports cloud.piranha.http.virtual;
+    opens cloud.piranha.http.virtual;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.impl;
     requires jdk.incubator.concurrent;
-    provides HttpServer with VirtualHttpServer;
 }
-

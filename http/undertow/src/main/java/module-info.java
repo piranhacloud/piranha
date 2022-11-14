@@ -26,14 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.undertow.UndertowHttpServer;
-
 /**
  * The HTTP Undertow integration module.
  *
  * <p>
- * This module delivers the Undertow implementation of the HTTP engine API.
+ * This module delivers the Undertow implementation of the HTTP engine.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -42,7 +39,6 @@ module cloud.piranha.http.undertow {
 
     exports cloud.piranha.http.undertow;
     opens cloud.piranha.http.undertow;
-    provides HttpServer with UndertowHttpServer;
     requires cloud.piranha.http.api;
     requires jdk.unsupported;
     requires undertow.core;

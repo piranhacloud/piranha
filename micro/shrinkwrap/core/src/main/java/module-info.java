@@ -54,6 +54,7 @@ module cloud.piranha.micro.shrinkwrap.core {
     requires cloud.piranha.extension.security.jakarta;
     requires cloud.piranha.extension.weld;
     requires cloud.piranha.http.api;
+    requires cloud.piranha.http.impl;
     requires cloud.piranha.http.webapp;
     requires cloud.piranha.resource.shrinkwrap;
     requires jakarta.annotation;

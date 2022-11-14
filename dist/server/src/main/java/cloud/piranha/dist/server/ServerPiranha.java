@@ -38,6 +38,7 @@ import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.ServletException;
@@ -545,22 +546,17 @@ public class ServerPiranha implements Piranha, Runnable {
      */
     public void startHttpServer() {
         if (httpPort > 0) {
-            if (httpServerClass != null) {
-                try {
-                    httpServer = (HttpServer) Class.forName(httpServerClass)
-                            .getDeclaredConstructor().newInstance();
-                } catch (ClassNotFoundException | IllegalAccessException
-                        | IllegalArgumentException | InstantiationException
-                        | NoSuchMethodException | SecurityException
-                        | InvocationTargetException t) {
-                    LOGGER.log(ERROR, "Unable to construct HTTP server", t);
-                }
-            } else {
-                //
-                // this mechanism is deprecated and will be removed in the next release.
-                //
-                httpServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
-                LOGGER.log(WARNING, "HttpServer service loading is deprecated, use --http-server-class instead");
+            if (httpServerClass == null) {
+                httpServerClass = DefaultHttpServer.class.getName();
+            }
+            try {
+                httpServer = (HttpServer) Class.forName(httpServerClass)
+                        .getDeclaredConstructor().newInstance();
+            } catch (ClassNotFoundException | IllegalAccessException
+                    | IllegalArgumentException | InstantiationException
+                    | NoSuchMethodException | SecurityException
+                    | InvocationTargetException t) {
+                LOGGER.log(ERROR, "Unable to construct HTTP server", t);
             }
             if (httpServer != null) {
                 httpServer.setServerPort(httpPort);
@@ -575,22 +571,17 @@ public class ServerPiranha implements Piranha, Runnable {
      */
     private void startHttpsServer() {
         if (httpsPort > 0) {
-            if (httpsServerClass != null) {
-                try {
-                    httpsServer = (HttpServer) Class.forName(httpsServerClass)
-                            .getDeclaredConstructor().newInstance();
-                } catch (ClassNotFoundException | IllegalAccessException
-                        | IllegalArgumentException | InstantiationException
-                        | NoSuchMethodException | SecurityException
-                        | InvocationTargetException t) {
-                    LOGGER.log(ERROR, "Unable to construct HTTP server", t);
-                }
-            } else {
-                //
-                // this mechanism is deprecated and will be removed in the next release.
-                //
-                httpsServer = ServiceLoader.load(HttpServer.class).findFirst().orElseThrow();
-                LOGGER.log(WARNING, "HttpServer service loading is deprecated, use --https-server-class instead");
+            if (httpsServerClass == null) {
+                httpsServerClass = DefaultHttpServer.class.getName();
+            }
+            try {
+                httpsServer = (HttpServer) Class.forName(httpsServerClass)
+                        .getDeclaredConstructor().newInstance();
+            } catch (ClassNotFoundException | IllegalAccessException
+                    | IllegalArgumentException | InstantiationException
+                    | NoSuchMethodException | SecurityException
+                    | InvocationTargetException t) {
+                LOGGER.log(ERROR, "Unable to construct HTTPS server", t);
             }
             if (httpsServer != null) {
                 httpsServer.setHttpServerProcessor(webApplicationServer);
