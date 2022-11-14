@@ -1,7 +1,0 @@
-FROM eclipse-temurin:17
-RUN adduser piranha
-ADD target/piranha-micro.jar /home/piranha
-WORKDIR /home/piranha
-RUN chown piranha:piranha piranha-micro.jar
-USER piranha
-CMD ["java", "-jar", "piranha-micro.jar"]

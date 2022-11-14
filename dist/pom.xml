@@ -18,6 +18,7 @@
     <modules>
         <module>coreprofile</module>
         <module>isolated</module>
+        <module>micro</module>
         <module>microprofile</module>
         <module>platform</module>
         <module>server</module>
