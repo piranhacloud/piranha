@@ -16,7 +16,6 @@
     <name>Piranha - Micro - Project</name>
 
     <modules>
-        <module>dist</module>
         <module>shrinkwrap</module>
     </modules>
 
