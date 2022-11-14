@@ -31,10 +31,13 @@
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
         <jakarta.servlet.jsp-api.version>3.1.0</jakarta.servlet.jsp-api.version>
         <jakarta.servlet.jsp.jstl-api.version>3.0.0</jakarta.servlet.jsp.jstl-api.version>
+        <jakarta.transaction-api.version>2.0.1</jakarta.transaction-api.version>
         <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
         <jakarta.websocket-api.version>2.1.0</jakarta.websocket-api.version>
+        <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
         <jakarta.xml.bind-api.version>4.0.0</jakarta.xml.bind-api.version>
-        <microprofile-jwt-auth-api.version>2.1-RC2</microprofile-jwt-auth-api.version>
+        <microprofile-config-api.version>3.0.2</microprofile-config-api.version>
+        <microprofile-jwt-auth-api.version>2.1-RC6</microprofile-jwt-auth-api.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -68,53 +71,18 @@
                 <version>${jakarta.authorization-api.version}</version>
             </dependency>
             
-            <!-- Jakarta Enterprise Beans -->
+            <!-- Jakarta Bean Validation -->
             <dependency>
-                <groupId>jakarta.ejb</groupId>
-                <artifactId>jakarta.ejb-api</artifactId>
-                <version>${jakarta.ejb-api.version}</version>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${jakarta.validation-api.version}</version>
             </dependency>
             
-            <!-- Jakarta Expression Language -->
-            <dependency>
-                <groupId>jakarta.el</groupId>
-                <artifactId>jakarta.el-api</artifactId>
-                <version>${jakarta.el-api.version}</version>
-            </dependency>            
-            
-            <!-- Jakarta Contexts Dependency Injection -->
+            <!-- Jakarta Contexts and Dependency Injection -->
             <dependency>
                 <groupId>jakarta.enterprise</groupId>
                 <artifactId>jakarta.enterprise.cdi-api</artifactId>
                 <version>${jakarta.enterprise.cdi-api.version}</version>
-            </dependency>
-            
-            <!-- Jakarta Faces -->
-            <dependency>
-                <groupId>jakarta.faces</groupId>
-                <artifactId>jakarta.faces-api</artifactId>
-                <version>${jakarta.faces-api.version}</version>
-            </dependency>
-
-            <!-- Jakarta JSON Processing -->
-            <dependency>
-                <groupId>jakarta.json</groupId>
-                <artifactId>jakarta.json-api</artifactId>
-                <version>${jakarta.json-api.version}</version>
-            </dependency>
-
-            <!-- Jakarta JSON Binding -->
-            <dependency>
-                <groupId>jakarta.json.bind</groupId>
-                <artifactId>jakarta.json.bind-api</artifactId>
-                <version>${jakarta.json.bind-api.version}</version>
-            </dependency>
-            
-            <!-- Jakarta Persistence -->
-            <dependency>
-                <groupId>jakarta.persistence</groupId>
-                <artifactId>jakarta.persistence-api</artifactId>
-                <version>${jakarta.persistence-api.version}</version>
             </dependency>
 
             <!-- Jakarta EE CoreProfile -->
@@ -130,7 +98,56 @@
                 <artifactId>jakarta.jakartaee-web-api</artifactId>
                 <version>${jakarta.jakartaee-web-api.version}</version>
             </dependency>
+
+            <!-- Jakarta Enterprise Beans -->
+            <dependency>
+                <groupId>jakarta.ejb</groupId>
+                <artifactId>jakarta.ejb-api</artifactId>
+                <version>${jakarta.ejb-api.version}</version>
+            </dependency>
             
+            <!-- Jakarta Expression Language -->
+            <dependency>
+                <groupId>jakarta.el</groupId>
+                <artifactId>jakarta.el-api</artifactId>
+                <version>${jakarta.el-api.version}</version>
+            </dependency>            
+
+            <!-- Jakarta Faces -->
+            <dependency>
+                <groupId>jakarta.faces</groupId>
+                <artifactId>jakarta.faces-api</artifactId>
+                <version>${jakarta.faces-api.version}</version>
+            </dependency>
+
+            <!-- Jakarta JSON Binding -->
+            <dependency>
+                <groupId>jakarta.json.bind</groupId>
+                <artifactId>jakarta.json.bind-api</artifactId>
+                <version>${jakarta.json.bind-api.version}</version>
+            </dependency>
+            
+            <!-- Jakarta JSON Processing -->
+            <dependency>
+                <groupId>jakarta.json</groupId>
+                <artifactId>jakarta.json-api</artifactId>
+                <version>${jakarta.json-api.version}</version>
+            </dependency>
+
+            <!-- Jakarta Persistence -->
+            <dependency>
+                <groupId>jakarta.persistence</groupId>
+                <artifactId>jakarta.persistence-api</artifactId>
+                <version>${jakarta.persistence-api.version}</version>
+            </dependency>
+            
+            <!-- Jakarta REST -->
+            <dependency>
+                <groupId>jakarta.ws.rs</groupId>
+                <artifactId>jakarta.ws.rs-api</artifactId>
+                <version>${jakarta.ws.rs-api.version}</version>
+            </dependency>
+
             <!-- Jakarta Security -->
             <dependency>
                 <groupId>jakarta.security.enterprise</groupId>
@@ -138,18 +155,18 @@
                 <version>${jakarta.security.enterprise-api.version}</version>
             </dependency>
 
-            <!-- Jakarta Servlet -->
-            <dependency>
-                <groupId>jakarta.servlet</groupId>
-                <artifactId>jakarta.servlet-api</artifactId>
-                <version>${jakarta.servlet-api.version}</version>
-            </dependency>
-
             <!-- Jakarta Server Pages -->
             <dependency>
                 <groupId>jakarta.servlet.jsp</groupId>
                 <artifactId>jakarta.servlet.jsp-api</artifactId>
                 <version>${jakarta.servlet.jsp-api.version}</version>
+            </dependency>
+
+            <!-- Jakarta Servlet -->
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${jakarta.servlet-api.version}</version>
             </dependency>
             
             <!-- Jakarta Standard Tag Library -->            
@@ -163,14 +180,7 @@
             <dependency>
                 <groupId>jakarta.transaction</groupId>
                 <artifactId>jakarta.transaction-api</artifactId>
-                <version>2.0.1</version>
-            </dependency>
-
-            <!-- Jakarta Bean Validation -->
-            <dependency>
-                <groupId>jakarta.validation</groupId>
-                <artifactId>jakarta.validation-api</artifactId>
-                <version>${jakarta.validation-api.version}</version>
+                <version>${jakarta.transaction-api.version}</version>
             </dependency>
             
             <!-- Jakarta WebSocket -->
@@ -185,13 +195,6 @@
                 <version>${jakarta.websocket-api.version}</version>
             </dependency>
             
-            <!-- Jakarta REST -->
-            <dependency>
-                <groupId>jakarta.ws.rs</groupId>
-                <artifactId>jakarta.ws.rs-api</artifactId>
-                <version>3.1.0</version>
-            </dependency>
-
             <!-- Jakarta XML Binding -->
             <dependency>
                 <groupId>jakarta.xml.bind</groupId>
@@ -203,7 +206,7 @@
             <dependency>
                 <groupId>org.eclipse.microprofile.config</groupId>
                 <artifactId>microprofile-config-api</artifactId>
-                <version>3.0.1</version>
+                <version>${microprofile-config-api.version}</version>
             </dependency>
             
             <!-- MicroProfile JWT -->
@@ -212,7 +215,6 @@
                 <artifactId>microprofile-jwt-auth-api</artifactId>
                 <version>${microprofile-jwt-auth-api.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 </project>
