@@ -288,12 +288,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>cloud.piranha</groupId>
-            <artifactId>piranha-micro</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <!-- Jakarta Annotation -->
         <dependency>
             <groupId>jakarta.annotation</groupId>
