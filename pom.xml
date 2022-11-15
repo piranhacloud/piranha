@@ -910,6 +910,15 @@
                             <goal>jar</goal>
                         </goals>
                         <inherited>true</inherited>
+                        <configuration>
+                            <tags>
+                                <tag>
+                                    <name>assertion</name>
+                                    <placement>a</placement>
+                                    <head>Assertion: </head>
+                                </tag>
+                            </tags>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>attach-aggregate-javadocs</id>
@@ -925,6 +934,13 @@
                              
                             -->
                             <excludePackageNames>org.apache.*</excludePackageNames>
+                            <tags>
+                                <tag>
+                                    <name>assertion</name>
+                                    <placement>a</placement>
+                                    <head>Assertion: </head>
+                                </tag>
+                            </tags>
                         </configuration>
                         <inherited>false</inherited>
                     </execution>
