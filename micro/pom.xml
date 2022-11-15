@@ -16,6 +16,9 @@
     <name>Piranha - Micro - Project</name>
 
     <modules>
+        <module>builder</module>
+        <module>core</module>
+        <module>loader</module>
         <module>shrinkwrap</module>
     </modules>
 
