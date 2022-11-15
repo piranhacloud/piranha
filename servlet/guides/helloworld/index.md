@@ -29,28 +29,27 @@ Create an empty directory to store your Maven project. Inside of that directory 
     <packaging>war</packaging>
     <name>HelloWorld webapplication</name>
     <properties>
-        <junit.version>5.9.0</junit.version>
         <piranha.distribution>servlet</piranha.distribution>
-        <piranha.version>22.11.0-SNAPSHOT</piranha.version>
+        <piranha.version>22.11.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
+            <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
+            <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>${junit.version}</version>
+            <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
