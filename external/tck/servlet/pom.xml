@@ -266,8 +266,8 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>cloud.piranha</groupId>
-                                            <artifactId>piranha-server</artifactId>
+                                            <groupId>cloud.piranha.dist</groupId>
+                                            <artifactId>piranha-dist-server</artifactId>
                                             <version>${project.version}</version>
                                             <type>zip</type>
                                             <outputDirectory>${project.build.directory}</outputDirectory>
@@ -468,8 +468,8 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>cloud.piranha.server</groupId>
-                                            <artifactId>piranha-server-isolated</artifactId>
+                                            <groupId>cloud.piranha.dist</groupId>
+                                            <artifactId>piranha-dist-isolated</artifactId>
                                             <version>${project.version}</version>
                                             <type>zip</type>
                                             <outputDirectory>${project.build.directory}</outputDirectory>
@@ -652,8 +652,8 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>cloud.piranha.server</groupId>
-                                            <artifactId>piranha-server</artifactId>
+                                            <groupId>cloud.piranha.dist</groupId>
+                                            <artifactId>piranha-dist-server</artifactId>
                                             <version>${project.version}</version>
                                             <type>zip</type>
                                             <outputDirectory>${project.build.directory}</outputDirectory>
