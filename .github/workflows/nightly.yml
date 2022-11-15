@@ -59,7 +59,7 @@ jobs:
         docker manifest push piranhacloud/coreprofile:snapshot
     - name: Build Piranha Micro image
       run: |
-        cd micro/dist
+        cd dist/micro
         docker buildx build --push --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/micro:amd64-snapshot .
         docker buildx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/micro:arm64v8-snapshot .
         docker pull piranhacloud/micro:amd64-snapshot
