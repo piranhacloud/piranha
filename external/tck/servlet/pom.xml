@@ -468,7 +468,7 @@
                                 <configuration>
                                     <artifactItems>
                                         <artifactItem>
-                                            <groupId>cloud.piranha.dist.server</groupId>
+                                            <groupId>cloud.piranha.dist</groupId>
                                             <artifactId>piranha-dist-isolated</artifactId>
                                             <version>${project.version}</version>
                                             <type>zip</type>
