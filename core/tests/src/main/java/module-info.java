@@ -27,12 +27,8 @@
  */
 
 /**
- * The Core tests module.
- *
- * <p>
- * This module delivers the test framework that can be used by any of the 
- * web application implementations for testing the implementation.
- * </p>
+ * This module delivers the abstract unit tests that can be used for testing a
+ * Piranha implementation.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
