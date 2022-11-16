@@ -27,15 +27,12 @@
  */
 
 /**
- * The Piranha Core API module.
- * 
- * <p>
- *  This module defines the core Piranha APIs.
- * </p>
+ * This module defines the core Piranha APIs.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.core.api {
+    
     exports cloud.piranha.core.api;
     opens cloud.piranha.core.api;
     requires transitive cloud.piranha.resource.api;

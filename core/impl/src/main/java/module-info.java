@@ -27,15 +27,12 @@
  */
 
 /**
- * The Piranha Core implementation module.
- * 
- * <p>
- *  This module delivers the default implementations for Piranha APIs.
- * </p>
+ * This module delivers the default implementations for the Piranha APIs.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.core.impl {
+
     exports cloud.piranha.core.impl;
     opens cloud.piranha.core.impl;
     requires transitive cloud.piranha.core.api;

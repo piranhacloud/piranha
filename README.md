@@ -28,7 +28,7 @@ java -jar piranha-dist-XXX.jar --war-file your-webapplication.war
 ## Getting Started
 
 To get started with Piranha please visit our 
-[Getting Started](https://javadoc.io/doc/cloud.piranha/project/latest/resources/getting-started.html) guide.
+[Getting Started](https://piranha.cloud/getting-started/) guide.
 
 ## How do I contribute?
 
