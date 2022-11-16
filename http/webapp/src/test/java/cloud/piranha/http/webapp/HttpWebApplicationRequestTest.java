@@ -83,7 +83,28 @@ class HttpWebApplicationRequestTest {
         httpServer = new DefaultHttpServer(-2, server, false);
         httpServer.start();
     }
-        
+
+    /**
+     * Test getCharacterEncoding method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testCharacterEncoding() throws Exception {
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest
+                    .newBuilder(new URI("http://localhost:" + httpServer.getServerPort() + "/Snoop?getContentType"))
+                    .header("Content-Type", "text/html; charset=ISO-8859-1")
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            assertTrue(response.body().contains("ISO-8859-1"));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+    }
+
     /**
      * Test getContentType method.
      *

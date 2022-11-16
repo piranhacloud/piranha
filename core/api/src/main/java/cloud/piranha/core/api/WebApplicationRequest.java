@@ -71,6 +71,13 @@ public interface WebApplicationRequest extends HttpServletRequest {
     }
 
     /**
+     * Set the async supported flag.
+     * 
+     * @param asyncSupported the async supported flag.
+     */
+    void setAsyncSupported(boolean asyncSupported);
+
+    /**
      * Set the auth type.
      *
      * @param authType the auth type.

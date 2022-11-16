@@ -61,7 +61,7 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     /**
      * Stores the async manager.
      */
-    protected AsyncManager asyncManager;
+    protected AsyncManager asyncManager = new DefaultAsyncManager();
     
     /**
      * Stores the dispatcher manager.

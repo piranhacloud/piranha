@@ -98,22 +98,6 @@ class DefaultWebApplicationRequestTest {
     }
 
     /**
-     * Test getAsyncContext method.
-     */
-    @Test
-    void testGetAsyncContext() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        request.setAsyncSupported(true);
-        request.startAsync();
-        assertNotNull(request.getAsyncContext());
-    }
-
-    /**
      * Test getContentLength method.
      */
     @Test
@@ -354,31 +338,6 @@ class DefaultWebApplicationRequestTest {
         assertEquals(80, request.getServerPort());
         request.setServerPort(8080);
         assertEquals(8080, request.getServerPort());
-    }
-
-    /**
-     * Test startAsync method.
-     */
-    @Test
-    void testStartAsync() {
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setAttribute("piranha.response", response);
-        request.setAsyncSupported(false);
-        assertNotNull(assertThrows(IllegalStateException.class,
-                () -> request.startAsync(request, response)));
-    }
-
-    /**
-     * Test startAsync method.
-     */
-    @Test
-    void testStartAsync2() {
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setAttribute("piranha.response", new DefaultWebApplicationResponse());
-        request.setAsyncSupported(false);
-        assertNotNull(assertThrows(IllegalStateException.class,
-                () -> request.startAsync()));
     }
 
     /**

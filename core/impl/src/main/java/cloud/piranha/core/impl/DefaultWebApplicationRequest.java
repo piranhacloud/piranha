@@ -1041,11 +1041,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         this.asyncStarted = asyncStarted;
     }
 
-    /**
-     * Set the async supported flag.
-     *
-     * @param asyncSupported the async supported flag.
-     */
+    @Override
     public void setAsyncSupported(boolean asyncSupported) {
         this.asyncSupported = asyncSupported;
     }

@@ -370,7 +370,7 @@ public abstract class WebApplicationResponseTest {
     @Test
     void testGetResponseCloser() {
         WebApplicationResponse response = createWebApplicationResponse();
-        assertNull(response.getResponseCloser());
+        assertNotNull(response.getResponseCloser());
     }
 
     /**

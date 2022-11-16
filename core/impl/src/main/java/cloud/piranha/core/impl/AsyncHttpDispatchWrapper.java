@@ -355,4 +355,8 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     public MultipartConfigElement getMultipartConfig() {
         return null;
     }
+
+    @Override
+    public void setAsyncSupported(boolean asyncSupported) {
+    }
 }

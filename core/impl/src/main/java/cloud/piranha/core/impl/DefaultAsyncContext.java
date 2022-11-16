@@ -146,37 +146,16 @@ public class DefaultAsyncContext implements AsyncContext {
         scheduledThreadPoolExecutor.schedule(this::onTimeOut, timeout, MILLISECONDS);
     }
 
-    /**
-     * Add the listener.
-     *
-     * @param listener the listener.
-     * @see AsyncContext#addListener(jakarta.servlet.AsyncListener)
-     */
     @Override
     public void addListener(AsyncListener listener) {
         this.listeners.add(listener);
     }
 
-    /**
-     * Add the listener.
-     *
-     * @param listener the listener.
-     * @param request the servlet asyncStartRequest.
-     * @param response the servlet asyncStartResponse.
-     */
     @Override
     public void addListener(AsyncListener listener, ServletRequest request, ServletResponse response) {
         this.listeners.add(listener);
     }
 
-    /**
-     * Create the listener.
-     *
-     * @param <T> the class.
-     * @param type the type.
-     * @return the listener.
-     * @throws ServletException when a Servlet error occurs.
-     */
     @Override
     public <T extends AsyncListener> T createListener(Class<T> type) throws ServletException {
         try {
@@ -228,9 +207,6 @@ public class DefaultAsyncContext implements AsyncContext {
                 .dispatch();
     }
 
-    /**
-     * Complete the async context.
-     */
     @Override
     public void complete() {
 
@@ -288,48 +264,26 @@ public class DefaultAsyncContext implements AsyncContext {
         originalResponse.closeAsyncResponse();
     }
 
-    /**
-     * {@return the asyncStartRequest}
-     * @see AsyncContext#getRequest()
-     */
     @Override
     public ServletRequest getRequest() {
         return asyncStartRequest;
     }
 
-    /**
-     * {@return the asyncStartResponse}
-     * @see AsyncContext#getResponse()
-     */
     @Override
     public ServletResponse getResponse() {
         return asyncStartResponse;
     }
 
-    /**
-     * {@return the timeout}
-     * @see AsyncContext#getTimeout()
-     */
     @Override
     public long getTimeout() {
         return timeout;
     }
 
-    /**
-     * Do we have the original asyncStartRequest and asyncStartResponse?
-     *
-     * @return true if we do, false otherwise.
-     */
     @Override
     public boolean hasOriginalRequestAndResponse() {
         return originalRequest == asyncStartRequest && originalResponse == asyncStartResponse;
     }
 
-    /**
-     * Set the timeout.
-     *
-     * @param timeout the timeout.
-     */
     @Override
     public void setTimeout(long timeout) {
         this.timeout = timeout;

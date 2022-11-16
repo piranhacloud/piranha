@@ -29,9 +29,17 @@
 /**
  * The async support module.
  * 
+ * <p>
+ *  This module is deprecated as its functionality has been merged into the
+ *  cloud.piranha.core.impl module.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 module cloud.piranha.extension.async {
+    
     exports cloud.piranha.extension.async;
     opens cloud.piranha.extension.async;
     requires cloud.piranha.core.api;
