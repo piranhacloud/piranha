@@ -191,6 +191,11 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
         gotWriter = false;
         headerManager = new DefaultHttpHeaderManager();
         locale = Locale.getDefault();
+        responseCloser = new Runnable() {
+            @Override
+            public void run() {
+            }
+        };
         status = 200;
         statusMessage = null;
         webApplication = null;

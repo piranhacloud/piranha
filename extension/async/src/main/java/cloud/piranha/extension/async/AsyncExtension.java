@@ -37,7 +37,9 @@ import static java.lang.System.Logger.Level.DEBUG;
  * The extension that enables annotation scanning.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class AsyncExtension implements WebApplicationExtension {
 
     /**

@@ -165,6 +165,22 @@ public abstract class WebApplicationRequestTest {
     }
 
     /**
+     * Test getAsyncContext method.
+     */
+    @Test
+    void testGetAsyncContext2() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        request.setAsyncSupported(true);
+        request.startAsync();
+        assertNotNull(request.getAsyncContext());
+    }
+
+    /**
      * Test getAttribute method.
      */
     @Test
@@ -1131,6 +1147,37 @@ public abstract class WebApplicationRequestTest {
         assertThrows(IllegalStateException.class, () -> {
             request.startAsync(request, response);
         });
+    }
+
+    /**
+     * Test startAsync method.
+     */
+    @Test
+    void testStartAsync3() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        request.setAsyncSupported(true);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        assertNotNull(request.startAsync());
+    }
+
+    /**
+     * Test startAsync method.
+     */
+    @Test
+    void testStartAsync4() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setAsyncSupported(false);
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        assertNotNull(assertThrows(IllegalStateException.class,
+                () -> request.startAsync(request, response)));
     }
 
     /**

@@ -27,17 +27,12 @@
  */
 package cloud.piranha.http.webapp;
 
+import cloud.piranha.core.impl.CookieParser;
 import cloud.piranha.core.impl.DefaultWebApplicationInputStream;
 import cloud.piranha.http.api.HttpServerRequest;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
-
-import static java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME;
-
-import java.time.Instant;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * The HttpServerRequest variant of WebApplicationRequest.
@@ -58,105 +53,78 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
      */
     public HttpWebApplicationRequest(HttpServerRequest wrapped) {
         this.wrapped = wrapped;
-        if (wrapped.getRequestTarget() != null) {
-            if (!wrapped.getRequestTarget().contains("?")) {
-                setServletPath(wrapped.getRequestTarget());
-            } else {
-                setServletPath(wrapped.getRequestTarget().substring(0, 
-                        wrapped.getRequestTarget().indexOf("?")));
-                setQueryString(wrapped.getRequestTarget().substring(
-                        wrapped.getRequestTarget().indexOf("?") + 1));
-            }
-        }
-        DefaultWebApplicationInputStream webApplicationRequestInputStream = new DefaultWebApplicationInputStream();
-        webApplicationRequestInputStream.setWebApplicationRequest(this);
-        webApplicationRequestInputStream.setInputStream(wrapped.getInputStream());
-        setWebApplicationInputStream(webApplicationRequestInputStream);
-        if (wrapped.getHeader("Content-Length") != null) {
-            setContentLength(Integer.valueOf(wrapped.getHeader("Content-Length")));
-        }
+        populateRequest(wrapped);
     }
 
-    @Override
-    public String getContentType() {
-        if (contentType == null) {
-            return wrapped.getHeader("Content-Type");
+    /**
+     * Populate the request.
+     * 
+     * @param serverRequest the HTTP server request.
+     */
+    private void populateRequest(HttpServerRequest serverRequest) {
+        
+        if (serverRequest.getRequestTarget() != null && serverRequest.getRequestTarget().contains("?")) {
+            String requestTarget = serverRequest.getRequestTarget();
+            contextPath = requestTarget.substring(0, requestTarget.indexOf("?"));
+            queryString = requestTarget.substring(requestTarget.indexOf("?") + 1);
         } else {
-            return contentType;
+            contextPath = serverRequest.getRequestTarget();
         }
-    }
+        
+        localAddress = serverRequest.getLocalAddress();
+        localName = serverRequest.getLocalHostname();
+        localPort = serverRequest.getLocalPort();
+        method = serverRequest.getMethod();
+        protocol = serverRequest.getProtocol();
+        remoteAddr = serverRequest.getRemoteAddress();
+        remoteHost = serverRequest.getRemoteHostname();
+        remotePort = serverRequest.getRemotePort();
+        serverName = serverRequest.getLocalHostname();
+        serverPort = serverRequest.getLocalPort();
+        webApplicationInputStream = new DefaultWebApplicationInputStream();
+        webApplicationInputStream.setWebApplicationRequest(this);
+        webApplicationInputStream.setInputStream(wrapped.getInputStream());
 
-    @Override
-    public long getDateHeader(String name) {
-        long result = -1;
-        if (wrapped.getHeader(name) != null) {
-            try {
-                String value = wrapped.getHeader(name);
-                result = Instant.from(RFC_1123_DATE_TIME.parse(value)).toEpochMilli();
-            } catch (DateTimeParseException exception) {
-                throw new IllegalArgumentException(
-                        "Cannot convert header to a date", exception);
+        Iterator<String> headerNames = serverRequest.getHeaderNames();
+        while (headerNames.hasNext()) {
+            String name = headerNames.next();
+            String value = serverRequest.getHeader(name);
+            serverRequest.getHeaders(name).forEachRemaining(x -> addHeader(name, x));
+            
+            if (name.equalsIgnoreCase("Content-Type")) {
+                setContentType(value);
+            }
+            
+            if (name.equalsIgnoreCase("Content-Length")) {
+                setContentLength(Integer.parseInt(value));
+            }
+            
+            if (name.equalsIgnoreCase("COOKIE")) {
+                cookies = CookieParser.parse(value);
+                Stream.of(cookies)
+                    .filter(x -> "JSESSIONID".equals(x.getName()))
+                    .findAny()
+                    .ifPresent(cookie -> {
+                        setRequestedSessionIdFromCookie(true);
+                        setRequestedSessionId(cookie.getValue());
+                    });
             }
         }
-        return result;
-    }
 
-    @Override
-    public String getHeader(String name) {
-        return wrapped.getHeader(name);
-    }
-
-    @Override
-    public Enumeration<String> getHeaderNames() {
-        ArrayList<String> headerNames = new ArrayList<>();
-        wrapped.getHeaderNames().forEachRemaining(headerNames::add);
-        return Collections.enumeration(headerNames);
-    }
-
-    @Override
-    public Enumeration<String> getHeaders(String name) {
-        ArrayList<String> headers = new ArrayList<>();
-        wrapped.getHeaders(name).forEachRemaining(headers::add);
-        return Collections.enumeration(headers);
-    }
-
-    @Override
-    public int getIntHeader(String name) {
-        int result = -1;
-        if (wrapped.getHeader(name) != null) {
-            try {
-                result = Integer.parseInt(wrapped.getHeader(name));
-            } catch (NumberFormatException exception) {
-                throw new NumberFormatException(
-                        "Cannot convert header to an int");
+        if (contextPath != null) {
+            String jsessionid = ";jsessionid=";
+            int indexJsessionid = contextPath.indexOf(jsessionid);
+            if (indexJsessionid > -1) {
+                if (!isRequestedSessionIdFromCookie()) {
+                    setRequestedSessionIdFromURL(true);
+                    setRequestedSessionId(contextPath.substring(indexJsessionid + jsessionid.length()));
+                }
+                contextPath = contextPath.substring(0, indexJsessionid);
             }
         }
-        return result;
-    }
-
-    @Override
-    public String getLocalAddr() {
-        return wrapped.getLocalAddress();
-    }
-
-    @Override
-    public String getMethod() {
-        return wrapped.getMethod();
-    }
-
-    @Override
-    public String getQueryString() {
-        if (queryString == null) {
-            String requestTarget = wrapped.getRequestTarget();
-            if (requestTarget.contains("?")) {
-                queryString = requestTarget.substring(requestTarget.indexOf("?") + 1);
-            }
+        
+        if (serverRequest.isSecure()) {
+            scheme = "https";
         }
-        return queryString;
-    }
-
-    @Override
-    public boolean isSecure() {
-        return wrapped.isSecure();
     }
 }
