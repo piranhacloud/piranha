@@ -170,6 +170,7 @@ jobs:
       run: |
         git clone https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_PASSWORD }}@github.com/piranhacloud/piranha piranha
         cd piranha
+        git checkout $GITHUB_REF_NAME
         mvn -B -DskipTests -DskipITs -ntp install
         cd maven/plugins/piranha-maven-plugin
         mvn -B -DskipTests -DskipITs -ntp site
