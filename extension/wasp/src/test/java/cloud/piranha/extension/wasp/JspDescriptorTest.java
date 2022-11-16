@@ -27,42 +27,33 @@
  */
 package cloud.piranha.extension.wasp;
 
-import jakarta.servlet.ServletRegistration;
-import jakarta.servlet.descriptor.JspConfigDescriptor;
-
-import cloud.piranha.core.api.JspManager;
 import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.embedded.EmbeddedPiranha;
+import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 
 /**
- * The WaSP manager delivered by the Jasper integration.
+ * JUnit tests verifying JspConfigDescriptor functionality.
  *
- * @assertion Servlet:JAVADOC:690
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WaspJspManager implements JspManager {
+class JspDescriptorTest {
 
     /**
-     * Stores the JSP config descriptor.
+     * Test getJspDescriptor method.
+     *
+     * @assertion Servlet:JAVADOC:690
+     * @throws Exception when a serious error occurs.
      */
-    protected JspConfigDescriptor jspConfigDescriptor;
-
-    @Override
-    public ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile) {
-        ServletRegistration.Dynamic registration = webApplication.addServlet(servletName, new WaspServlet(jspFile));
-        registration.addMapping(jspFile);
-        registration.setInitParameter("classpath", System.getProperty("java.class.path"));
-        registration.setInitParameter("compilerSourceVM", "1.8");
-        registration.setInitParameter("compilerTargetVM", "1.8");
-        return registration;
-    }
-
-    @Override
-    public JspConfigDescriptor getJspConfigDescriptor() {
-        return jspConfigDescriptor;
-    }
-
-    @Override
-    public void setJspConfigDescriptor(JspConfigDescriptor jspConfigDescriptor) {
-        this.jspConfigDescriptor = jspConfigDescriptor;
+    @Test
+    void testGetJspConfigDescriptor() throws Exception {
+        WebApplication webApplication = new DefaultWebApplication();
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .webApplication(webApplication)
+                .initializer(WaspInitializer.class.getName())
+                .buildAndStart();
+        assertNull(webApplication.getJspConfigDescriptor());
     }
 }

@@ -35,6 +35,7 @@ import jakarta.servlet.descriptor.JspConfigDescriptor;
 /**
  * The default JspManager.
  *
+ * @assertion Servlet:JAVADOC:690
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultJspManager implements JspManager {

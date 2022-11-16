@@ -503,11 +503,11 @@ public abstract class WebApplicationTest {
         webApplication.addServletMapping("TestAddServlet2Servlet", "/testAddServlet2");
         webApplication.initialize();
         webApplication.start();
-        
+
         WebApplicationRequest request = createWebApplicationRequest();
         request.setServletPath("/testAddServlet2");
         request.setWebApplication(webApplication);
-        
+
         WebApplicationResponse response = createWebApplicationResponse();
         response.setWebApplication(webApplication);
 
@@ -554,17 +554,17 @@ public abstract class WebApplicationTest {
         }));
         webApplication.addServletMapping("TestAddServletMappingServlet",
                 "/testAddServletMappingServlet");
-        
+
         WebApplicationRequest request = createWebApplicationRequest();
         request.setServletPath("/testAddServletMappingServlet");
         request.setWebApplication(webApplication);
-        
+
         WebApplicationResponse response = createWebApplicationResponse();
         response.setWebApplication(webApplication);
-        
+
         webApplication.initialize();
         webApplication.start();
-        
+
         webApplication.service(request, response);
         assertEquals(200, response.getStatus());
     }
@@ -750,7 +750,7 @@ public abstract class WebApplicationTest {
         webApplication.setSessionTrackingModes(trackingModes);
         assertTrue(webApplication.getEffectiveSessionTrackingModes().contains(URL));
     }
-    
+
     /**
      * Test getFilterRegistration method.
      */
@@ -820,6 +820,8 @@ public abstract class WebApplicationTest {
 
     /**
      * Test getJspConfigDescriptor method.
+     *
+     * @assertion Servlet:JAVADOC:690
      */
     @Test
     void testGetJspConfigDescriptor() {
@@ -884,7 +886,7 @@ public abstract class WebApplicationTest {
         webApplication.initialize();
         assertNotNull(webApplication.getNamedDispatcher("TestGetNamedDispatcherServlet"));
     }
-    
+
     /**
      * Test getNamedDispatcher method.
      */
@@ -894,7 +896,7 @@ public abstract class WebApplicationTest {
         webApplication.initialize();
         assertNull(webApplication.getNamedDispatcher("TestGetNamedDispatcher2Servlet"));
     }
-    
+
     /**
      * Test getRealPath method.
      */
@@ -1365,6 +1367,7 @@ public abstract class WebApplicationTest {
         assertNotNull(assertThrows(IllegalStateException.class,
                 () -> webApplication.setSessionTrackingModes(trackingModes)));
     }
+
     /**
      * Test setInitParameter method.
      */
