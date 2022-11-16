@@ -228,8 +228,8 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>cloud.piranha</groupId>
-                                    <artifactId>piranha-server</artifactId>
+                                    <groupId>cloud.piranha.dist</groupId>
+                                    <artifactId>piranha-dist-server</artifactId>
                                     <version>${project.version}</version>
                                     <type>zip</type>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
