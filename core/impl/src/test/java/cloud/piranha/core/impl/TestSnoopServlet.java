@@ -86,7 +86,6 @@ public class TestSnoopServlet extends HttpServlet {
         out.println("<tr><td>Method:</td><td>" + request.getMethod() + "</td></tr>");
         out.println("<tr><td>Parameter Map:</td><td>" + request.getParameterMap() + "</td></tr>");
         out.println("<tr><td>Parameter Names:</td><td>" + request.getParameterNames() + "</td></tr>");
-        out.println("<tr><td>Parts:</td><td>" + request.getParts() + "</td></tr>");
         out.println("<tr><td>Path Info:</td><td>" + request.getPathInfo() + "</td></tr>");
         out.println("<tr><td>Path Translated:</td><td>" + request.getPathTranslated() + "</td></tr>");
         out.println("<tr><td>Protocol:</td><td>" + request.getProtocol() + "</td></tr>");

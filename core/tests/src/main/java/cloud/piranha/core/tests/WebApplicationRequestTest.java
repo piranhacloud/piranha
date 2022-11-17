@@ -478,7 +478,9 @@ public abstract class WebApplicationRequestTest {
         WebApplication webApplication = createWebApplication();
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
-        assertNull(request.getPart("notfound"));
+        assertThrows(ServletException.class, () -> {
+            request.getPart("notfound");
+        });
     }
 
     /**
@@ -491,7 +493,9 @@ public abstract class WebApplicationRequestTest {
         WebApplication webApplication = createWebApplication();
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
-        assertNotNull(request.getParts());
+        assertThrows(ServletException.class, () -> {
+            request.getParts();
+        });
     }
 
     /**
@@ -754,16 +758,16 @@ public abstract class WebApplicationRequestTest {
         dynamic.addMapping("/session");
         webApplication.initialize();
         webApplication.start();
-        
+
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
         request.setServletPath("/session");
-        
+
         WebApplicationResponse response = createWebApplicationResponse();
         response.setWebApplication(webApplication);
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
-        
+
         webApplication.service(request, response);
         assertNotNull(byteOutput.toByteArray().length > 0);
     }

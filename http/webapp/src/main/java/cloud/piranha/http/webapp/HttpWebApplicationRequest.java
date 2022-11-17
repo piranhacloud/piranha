@@ -90,15 +90,12 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
             String name = headerNames.next();
             String value = serverRequest.getHeader(name);
             serverRequest.getHeaders(name).forEachRemaining(x -> addHeader(name, x));
-            
             if (name.equalsIgnoreCase("Content-Type")) {
                 setContentType(value);
             }
-            
             if (name.equalsIgnoreCase("Content-Length")) {
                 setContentLength(Integer.parseInt(value));
             }
-            
             if (name.equalsIgnoreCase("COOKIE")) {
                 cookies = CookieParser.parse(value);
                 Stream.of(cookies)
