@@ -51,6 +51,7 @@ import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.TRACE;
@@ -320,13 +321,18 @@ public class InternalWebXmlProcessor {
      */
     private void processJspConfig(WebApplication webApplication, WebXml webXml) {
         List<WebXmlJspConfigTaglib> taglibs = webXml.getJspConfig().getTaglibs();
-        DefaultJspConfigDescriptor descriptor = new DefaultJspConfigDescriptor();
-        webApplication.setJspConfigDescriptor(descriptor);
-        for(WebXmlJspConfigTaglib taglib : taglibs) {
-            DefaultTaglibDescriptor taglibDescriptor = new DefaultTaglibDescriptor();
-            taglibDescriptor.setTaglibLocation(taglib.getLocation());
-            taglibDescriptor.setTaglibURI(taglib.getUri());
-            descriptor.getTaglibs().add(taglibDescriptor);
+        if (!taglibs.isEmpty()) {
+            JspConfigDescriptor descriptor = webApplication.getJspConfigDescriptor();
+            if (descriptor == null) {
+                descriptor = new DefaultJspConfigDescriptor();
+                webApplication.setJspConfigDescriptor(descriptor);
+            }
+            for (WebXmlJspConfigTaglib taglib : taglibs) {
+                DefaultTaglibDescriptor taglibDescriptor = new DefaultTaglibDescriptor();
+                taglibDescriptor.setTaglibLocation(taglib.getLocation());
+                taglibDescriptor.setTaglibURI(taglib.getUri());
+                descriptor.getTaglibs().add(taglibDescriptor);
+            }
         }
     }
 
