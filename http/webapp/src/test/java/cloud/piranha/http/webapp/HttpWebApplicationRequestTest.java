@@ -162,6 +162,7 @@ class HttpWebApplicationRequestTest {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest
                     .newBuilder(new URI("http://localhost:" + httpServer.getServerPort() + "/Snoop?getContentLength"))
+                    .POST(HttpRequest.BodyPublishers.ofString(""))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
