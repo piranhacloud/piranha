@@ -683,7 +683,9 @@ class HttpWebApplicationRequestTest {
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
-            assertEquals("http://localhost:" + httpServer.getServerPort() + "/Snoop", response.body().trim());
+            assertTrue(response.body().contains("http://"));
+            assertTrue(response.body().contains(Integer.toString(httpServer.getServerPort())));
+            assertTrue(response.body().contains("/Snoop"));
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
