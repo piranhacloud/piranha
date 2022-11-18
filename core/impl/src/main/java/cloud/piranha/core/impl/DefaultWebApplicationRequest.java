@@ -1476,7 +1476,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
      * @throws ServletException the exception thrown when it is not.
      */
     protected void verifyMultipartFormData() throws ServletException {
-        if (contentType != null && !contentType.startsWith(MULTIPART_FORM_DATA)) {
+        if (contentType == null || !contentType.startsWith(MULTIPART_FORM_DATA)) {
             throw new ServletException("Request not of type multipart/form-data");
         }
     }
