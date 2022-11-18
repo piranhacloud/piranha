@@ -14,7 +14,7 @@ If you are looking for a traditional Servlet container, similar to Tomcat and Je
 
 * [Piranha Core Profile](../core-profile/index.md)
 * [Piranha Servlet](../servlet/index.md)
-* Piranha Server
+* [Piranha Server](../server/index.md)
 
 ## Maven Plugin documentation
 
