@@ -28,7 +28,7 @@ create the ```pom.xml``` file with the content as below.
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.guides.servlet</groupId>
-    <artifactId>primefaces</artifactId>
+    <artifactId>faces</artifactId>
     <version>1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Jakarta Faces application</name>
@@ -42,7 +42,7 @@ create the ```pom.xml``` file with the content as below.
             <plugin>
                 <groupId>cloud.piranha.maven.plugins</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
-                <version>22.11.0-SNAPSHOT</version>
+                <version>22.11.0</version>
                 <executions>
                     <execution>
                         <id>pre-integration-test</id>
@@ -110,34 +110,28 @@ create the ```pom.xml``` file with the content as below.
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-weld</artifactId>
-            <version>22.11.0-SNAPSHOT</version>
+            <version>22.11.0</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.9.0</version>
+            <version>5.9.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.9.0</version>
+            <version>5.9.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.9.0</version>
+            <version>5.9.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>jakarta-staging</id>
-            <url>https://jakarta.oss.sonatype.org/content/repositories/staging/</url>
-        </repository>
-    </repositories>
 </project>
 ```
 
