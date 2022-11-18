@@ -52,7 +52,7 @@ class MicroPiranhaIT {
         ProcessBuilder builder = new ProcessBuilder();
         builder.command("java", "-jar", "target/piranha-dist-micro.jar");
         Process process = builder.start();
-        Thread.sleep(30000);
+        Thread.sleep(60000);
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8080/")).build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
