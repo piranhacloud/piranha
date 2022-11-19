@@ -1193,7 +1193,9 @@ public class DefaultWebApplication implements WebApplication {
         }
 
         getManager().getServletRequestManager().requestDestroyed(request);
-        unlinkRequestAndResponse(request, response);
+        if (!webAppRequest.isAsyncStarted() && !webAppRequest.isUpgraded()) {
+            unlinkRequestAndResponse(request, response);
+        }
 
         if (webAppRequest.isUpgraded()) {
             WebConnection connection = new DefaultWebConnection(webAppRequest, webAppResponse);

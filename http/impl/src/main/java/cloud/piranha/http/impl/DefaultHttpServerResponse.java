@@ -90,9 +90,10 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
         if (values == null) {
             synchronized (this) {
                 values = new ArrayList<>();
+                headers.put(name, values);
             }
         }
-        values.add(value);
+        values.add(value != null ? value : "");
     }
 
     @Override
@@ -122,7 +123,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     @Override
     public void setHeader(String name, String value) {
         ArrayList<String> values = new ArrayList<>();
-        values.add(value);
+        values.add(value != null ? value : "");
         headers.put(name, values);
     }
 
@@ -163,7 +164,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
     @Override
     public void writeStatusLine() throws IOException {
         OutputStream output = getOutputStream();
-        output.write("HTTP/1.0".getBytes());
+        output.write("HTTP/1.1".getBytes());
         output.write(" ".getBytes());
         output.write(Integer.toString(status).getBytes());
         output.write("\n".getBytes());

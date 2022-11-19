@@ -80,12 +80,13 @@ public abstract class ReadListenerTest {
         response.setWebApplication(webApplication);
         webApplication.linkRequestAndResponse(request, response);
         request.startAsync();
-        ServletInputStream inputStream = request.getInputStream();
-        request.getWebApplicationInputStream().setInputStream(new ByteArrayInputStream("read this".getBytes()));
-        inputStream.setReadListener(new TestOnAllDataReadReadListener(webApplication));
-        int character = inputStream.read();
-        while(character != -1) {
-            character = inputStream.read();
+        try (ServletInputStream inputStream = request.getInputStream()) {
+            request.getWebApplicationInputStream().setInputStream(new ByteArrayInputStream("read this".getBytes()));
+            inputStream.setReadListener(new TestOnAllDataReadReadListener(webApplication));
+            int character = inputStream.read();
+            while(character != -1) {
+                character = inputStream.read();
+            }
         }
         Thread.sleep(2000);
         assertNotNull(webApplication.getAttribute("onAllDataRead"));
@@ -136,7 +137,6 @@ public abstract class ReadListenerTest {
 
         @Override
         public void onDataAvailable() throws IOException {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
         }
 
         @Override

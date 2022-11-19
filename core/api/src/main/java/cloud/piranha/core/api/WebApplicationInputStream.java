@@ -32,6 +32,8 @@ import jakarta.servlet.ServletInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * The web application input stream.
@@ -61,6 +63,11 @@ public abstract class WebApplicationInputStream extends ServletInputStream imple
     protected ReadListener readListener;
 
     /**
+     * Stores the read listener lock.
+     */
+    protected Lock readListenerLock = new ReentrantLock();
+
+    /**
      * Stores the web application request.
      */
     protected WebApplicationRequest webApplicationRequest;
@@ -70,6 +77,12 @@ public abstract class WebApplicationInputStream extends ServletInputStream imple
      */
     public WebApplicationInputStream() {
         inputStream = new ByteArrayInputStream(new byte[0]);
+    }
+
+    @Override
+    public void close() throws IOException {
+        super.close();
+        finished = true;
     }
 
     /**
@@ -90,22 +103,32 @@ public abstract class WebApplicationInputStream extends ServletInputStream imple
     public boolean isReady() {
         boolean ready;
         try {
-            ready = !(inputStream.available() > 0);
+            readListenerLock.lock();
+            ready = inputStream.available() > 0;
         } catch (IOException ioe) {
-            ready = true;
+            ready = false;
+        } finally {
+            readListenerLock.unlock();
         }
         return ready;
     }
 
     @Override
     public int read() throws IOException {
-        if (finished || webApplicationRequest.getContentLength() == 0) {
-            return -1;
-        }
-        int read = inputStream.read();
-        index++;
-        if (index == webApplicationRequest.getContentLength() || read == -1) {
-            finished = true;
+        int read = -1;
+        if (readListener == null) {
+            if (finished || webApplicationRequest.getContentLength() == 0) {
+                return -1;
+            }
+            read = inputStream.read();
+            index++;
+            if (index == webApplicationRequest.getContentLength() || read == -1) {
+                finished = true;
+            }
+        } else {
+            if (inputStream.available() > 0) {
+                read = inputStream.read();
+            }
         }
         return read;
     }
@@ -114,8 +137,13 @@ public abstract class WebApplicationInputStream extends ServletInputStream imple
     public void run() {
         while (true) {
             try {
-                if (!isReady()) {
-                    readListener.onDataAvailable();
+                if (isReady()) {
+                    try {
+                        readListenerLock.lock();
+                        readListener.onDataAvailable();
+                    } finally {
+                        readListenerLock.unlock();
+                    }
                 }
                 if (!finished) {
                     try {
@@ -124,8 +152,13 @@ public abstract class WebApplicationInputStream extends ServletInputStream imple
                     }
                 }
                 if (finished) {
-                    readListener.onAllDataRead();
-                    break;
+                    try {
+                        readListenerLock.lock();
+                        readListener.onAllDataRead();
+                        break;
+                    } finally {
+                        readListenerLock.unlock();
+                    }
                 }
             } catch (IOException ioe) {
                 readListener.onError(ioe);
