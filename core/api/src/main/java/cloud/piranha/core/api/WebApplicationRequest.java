@@ -46,7 +46,7 @@ public interface WebApplicationRequest extends HttpServletRequest {
     default MultipartConfigElement getMultipartConfig() {
         return null;
     }
-
+    
     /**
      * {@return the upgrade handler}
      */

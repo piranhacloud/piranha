@@ -994,6 +994,11 @@ public abstract class WebApplicationResponseTest {
             }
 
             @Override
+            public WriteListener getWriteListener() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
             public void resetBuffer() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }

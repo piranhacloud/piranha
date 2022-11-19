@@ -171,6 +171,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
                 || annotation instanceof WebFilter
                 || annotation instanceof ServletSecurity
                 || annotation instanceof MultipartConfig
-                || (annotation != null && annotation.toString().contains("jakarta.ws.rs."));
+                || (annotation != null && annotation.toString().contains("jakarta.ws.rs.")
+                || (annotation != null && annotation.toString().contains("jakarta.websocket.")));
     }
 }

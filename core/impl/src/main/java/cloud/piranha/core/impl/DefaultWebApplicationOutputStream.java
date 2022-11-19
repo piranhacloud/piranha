@@ -31,6 +31,7 @@ import cloud.piranha.core.api.WebApplicationOutputStream;
 import cloud.piranha.core.api.WebApplicationResponse;
 import jakarta.servlet.WriteListener;
 import jakarta.servlet.http.Cookie;
+import static jakarta.servlet.http.HttpServletResponse.SC_SWITCHING_PROTOCOLS;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -44,12 +45,17 @@ import java.util.Iterator;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationOutputStream extends WebApplicationOutputStream {
+public class DefaultWebApplicationOutputStream extends WebApplicationOutputStream implements Runnable {
 
     /**
      * Stores the buffer.
      */
     protected byte[] buffer;
+    
+    /**
+     * Stores the closed flag.
+     */
+    protected boolean closed;
 
     /**
      * Stores the index.
@@ -67,6 +73,11 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
     protected OutputStream outputStream;
 
     /**
+     * Stores the write listener.
+     */
+    protected WriteListener writeListener;
+
+    /**
      * Constructor.
      */
     public DefaultWebApplicationOutputStream() {
@@ -80,6 +91,7 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
             response.flushBuffer();
             outputStream.flush();
         }
+        closed = true;
     }
 
     @Override
@@ -142,18 +154,44 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
     }
 
     @Override
+    public WriteListener getWriteListener() {
+        return writeListener;
+    }
+
+    @Override
     public WebApplicationResponse getResponse() {
         return response;
     }
 
     @Override
     public boolean isReady() {
-        return true;
+        return closed;
     }
 
     @Override
     public void resetBuffer() {
         this.buffer = new byte[buffer.length];
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                if (!isReady()) {
+                    writeListener.onWritePossible();
+                }
+                if (closed) {
+                    break;
+                }
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ie) {
+                }
+            } catch (IOException ioe) {
+                writeListener.onError(ioe);
+                break;
+            }
+        }
     }
 
     @Override
@@ -172,7 +210,20 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
     }
 
     @Override
-    public void setWriteListener(WriteListener listener) {
+    public void setWriteListener(WriteListener writeListener) {
+        if (writeListener == null) {
+            throw new NullPointerException("Write listener cannot be null");
+        }
+        if (this.writeListener != null) {
+            throw new IllegalStateException("Write listener can only be set once");
+        }
+        if (!response.getWebApplication().getRequest(response).isAsyncStarted()
+                && response.getStatus() != SC_SWITCHING_PROTOCOLS) {
+            throw new IllegalStateException("Write listener cannot be set as the request is not upgraded nor async is started");
+        }
+        this.writeListener = writeListener;
+        Thread thread = new Thread(this);
+        thread.start();
     }
 
     @Override

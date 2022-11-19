@@ -38,13 +38,13 @@ import java.io.InputStream;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class WebApplicationInputStream extends ServletInputStream {
+public abstract class WebApplicationInputStream extends ServletInputStream implements Runnable {
 
     /**
      * Stores the finished flag.
      */
     protected boolean finished;
-    
+
     /**
      * Stores the read index.
      */
@@ -54,27 +54,31 @@ public abstract class WebApplicationInputStream extends ServletInputStream {
      * Stores the input stream.
      */
     protected InputStream inputStream;
-    
-    /**
-     * Stores the ready flag.
-     */
-    protected boolean ready;
-    
+
     /**
      * Stores the read listener.
      */
     protected ReadListener readListener;
-    
+
     /**
      * Stores the web application request.
      */
     protected WebApplicationRequest webApplicationRequest;
-    
+
     /**
      * Constructor.
      */
     public WebApplicationInputStream() {
         inputStream = new ByteArrayInputStream(new byte[0]);
+    }
+
+    /**
+     * Get the read listener.
+     *
+     * @return the read listener, or null if not set.
+     */
+    public ReadListener getReadListener() {
+        return readListener;
     }
 
     @Override
@@ -84,9 +88,15 @@ public abstract class WebApplicationInputStream extends ServletInputStream {
 
     @Override
     public boolean isReady() {
+        boolean ready;
+        try {
+            ready = !(inputStream.available() > 0);
+        } catch (IOException ioe) {
+            ready = true;
+        }
         return ready;
     }
-    
+
     @Override
     public int read() throws IOException {
         if (finished || webApplicationRequest.getContentLength() == 0) {
@@ -99,16 +109,40 @@ public abstract class WebApplicationInputStream extends ServletInputStream {
         }
         return read;
     }
-    
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                if (!isReady()) {
+                    readListener.onDataAvailable();
+                }
+                if (!finished) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ie) {
+                    }
+                }
+                if (finished) {
+                    readListener.onAllDataRead();
+                    break;
+                }
+            } catch (IOException ioe) {
+                readListener.onError(ioe);
+                break;
+            }
+        }
+    }
+
     /**
      * Set the input stream.
-     * 
+     *
      * @param inputStream the input stream.
      */
     public void setInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
     }
-    
+
     @Override
     public void setReadListener(ReadListener readListener) {
         if (readListener == null) {
@@ -121,11 +155,13 @@ public abstract class WebApplicationInputStream extends ServletInputStream {
             throw new IllegalStateException("Read listener cannot be set as the request is not upgraded nor the async is started");
         }
         this.readListener = readListener;
+        Thread thread = new Thread(this);
+        thread.start();
     }
 
     /**
      * Set the web application request.
-     * 
+     *
      * @param webApplicationRequest the web application request.
      */
     public void setWebApplicationRequest(WebApplicationRequest webApplicationRequest) {

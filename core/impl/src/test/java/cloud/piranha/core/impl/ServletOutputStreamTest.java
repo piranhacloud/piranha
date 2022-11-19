@@ -25,78 +25,31 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.core.impl;
 
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.WriteListener;
-import java.io.IOException;
-import java.io.OutputStream;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
 
 /**
- * The WebApplicationOutputStream API.
+ * The JUnit tests for the ServletOutputStream API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class WebApplicationOutputStream extends ServletOutputStream {
+public class ServletOutputStreamTest extends cloud.piranha.core.tests.ServletOutputStreamTest {
 
-    /**
-     * Flush the buffer.
-     * 
-     * @throws IOException when an I/O error occurs.
-     */
-    public abstract void flushBuffer() throws IOException;
+    @Override
+    public WebApplication createWebApplication() {
+        return new DefaultWebApplication();
+    }
 
-    /**
-     * Get the buffer size.
-     *
-     * @return the buffer size.
-     */
-    public abstract int getBufferSize();
+    @Override
+    public WebApplicationRequest createWebApplicationRequest() {
+        return new DefaultWebApplicationRequest();
+    }
 
-    /**
-     * Get the output stream.
-     *
-     * @return the output stream.
-     */
-    public abstract OutputStream getOutputStream();
-    
-    /**
-     * Get the web application response.
-     * 
-     * @return the web application response.
-     */
-    public abstract WebApplicationResponse getResponse();
-    
-    /**
-     * Get the write listener.
-     * 
-     * @return the write listener.
-     */
-    public abstract WriteListener getWriteListener();
-
-    /**
-     * Reset the buffer.
-     */
-    public abstract void resetBuffer();
-
-    /**
-     * Set the buffer size.
-     * 
-     * @param bufferSize the buffer size.
-     */
-    public abstract void setBufferSize(int bufferSize);
-    
-    /**
-     * Set the output stream.
-     *
-     * @param outputStream the output stream.
-     */
-    public abstract void setOutputStream(OutputStream outputStream);
-
-    /**
-     * Set the web application response.
-     * 
-     * @param response the web application response.
-     */
-    public abstract void setResponse(WebApplicationResponse response);
+    @Override
+    public WebApplicationResponse createWebApplicationResponse() {
+        return new DefaultWebApplicationResponse();
+    }
 }
