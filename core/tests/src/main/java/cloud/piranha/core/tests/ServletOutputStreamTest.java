@@ -25,78 +25,71 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.core.tests;
 
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.WriteListener;
 import java.io.IOException;
-import java.io.OutputStream;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * The WebApplicationOutputStream API.
- *
+ * The JUnit tests for the ServletOutputStream API.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class WebApplicationOutputStream extends ServletOutputStream {
-
-    /**
-     * Flush the buffer.
-     * 
-     * @throws IOException when an I/O error occurs.
-     */
-    public abstract void flushBuffer() throws IOException;
-
-    /**
-     * Get the buffer size.
-     *
-     * @return the buffer size.
-     */
-    public abstract int getBufferSize();
-
-    /**
-     * Get the output stream.
-     *
-     * @return the output stream.
-     */
-    public abstract OutputStream getOutputStream();
+public abstract class ServletOutputStreamTest {
     
     /**
-     * Get the web application response.
+     * Create a web application.
+     * 
+     * @return the web application.
+     */
+    public abstract WebApplication createWebApplication();
+    
+    /**
+     * Create a web application request.
+     * 
+     * @return the web application request.
+     */
+    public abstract WebApplicationRequest createWebApplicationRequest();
+    
+    /**
+     * Create a web application response.
      * 
      * @return the web application response.
      */
-    public abstract WebApplicationResponse getResponse();
+    public abstract WebApplicationResponse createWebApplicationResponse();
     
     /**
-     * Get the write listener.
+     * Test isReady method.
      * 
-     * @return the write listener.
+     * @throws Exception when a serious error occurs.
      */
-    public abstract WriteListener getWriteListener();
-
-    /**
-     * Reset the buffer.
-     */
-    public abstract void resetBuffer();
-
-    /**
-     * Set the buffer size.
-     * 
-     * @param bufferSize the buffer size.
-     */
-    public abstract void setBufferSize(int bufferSize);
+    void testIsReady() throws Exception {
+        WebApplicationResponse response = createWebApplicationResponse();
+        ServletOutputStream outputStream = response.getOutputStream();
+        assertFalse(outputStream.isReady());
+    }
     
     /**
-     * Set the output stream.
-     *
-     * @param outputStream the output stream.
+     * Test setWriteListener method.
      */
-    public abstract void setOutputStream(OutputStream outputStream);
+    void testWriteListener() throws Exception {
+        WebApplicationResponse response = createWebApplicationResponse();
+        ServletOutputStream outputStream = response.getOutputStream();
+        outputStream.setWriteListener(new WriteListener() {
+            @Override
+            public void onError(Throwable t) {
+            }
 
-    /**
-     * Set the web application response.
-     * 
-     * @param response the web application response.
-     */
-    public abstract void setResponse(WebApplicationResponse response);
+            @Override
+            public void onWritePossible() throws IOException {
+            }
+        });
+        assertNotNull(response.getWebApplicationOutputStream().getWriteListener());
+    }
 }

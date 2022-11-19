@@ -38,6 +38,7 @@ import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.core.api.WebApplicationServer;
 import cloud.piranha.core.api.WebApplicationServerRequestMapper;
+import static cloud.piranha.http.api.HttpServerProcessorEndState.UPGRADED;
 import jakarta.servlet.ServletException;
 import java.io.IOException;
 import java.lang.System.Logger;
@@ -127,6 +128,9 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             service(serverRequest, serverResponse);
             if (serverRequest.isAsyncStarted()) {
                 state = ASYNCED;
+            }
+            if (serverRequest.isUpgraded()) {
+                state = UPGRADED;
             }
         } catch (Throwable t) {
             LOGGER.log(ERROR, "An error occurred while processing the request", t);
