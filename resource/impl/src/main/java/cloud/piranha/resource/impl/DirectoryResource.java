@@ -92,7 +92,7 @@ public class DirectoryResource implements Resource {
                     .filter(Predicate.not(Files::isDirectory))
                     .map(rootPath::relativize)
                     .map(root::resolve)
-                    .map((p) -> p.toString().replace("\\", "/"));
+                    .map(p -> p.toString().replace("\\", "/"));
         } catch (IOException e) {
             return Stream.empty();
         }

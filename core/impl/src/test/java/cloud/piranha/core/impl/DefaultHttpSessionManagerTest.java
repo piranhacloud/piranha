@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultHttpSessionManagerTest {
+class DefaultHttpSessionManagerTest {
 
     /**
      * Test createSession method.

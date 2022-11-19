@@ -550,11 +550,7 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
         }
     }
 
-    /**
-     * Set the committed.
-     *
-     * @param committed the committed flag.
-     */
+    @Override
     public void setCommitted(boolean committed) {
         this.committed = committed;
     }
