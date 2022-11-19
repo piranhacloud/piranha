@@ -45,14 +45,14 @@ public class DefaultInitialContextFactory implements InitialContextFactory {
     /**
      * Stores the initial context.
      */
-    private static Context INITIAL_CONTEXT = new DefaultInitialContext();
+    private static Context theOneAndOnlyInstance = new DefaultInitialContext();
 
     /**
      * Sets the static (initial) context
      * @param context the (initial) context
      */
     public static void setInitialContext(Context context) {
-        INITIAL_CONTEXT = context;
+        theOneAndOnlyInstance = context;
     }
 
     /**
@@ -64,9 +64,6 @@ public class DefaultInitialContextFactory implements InitialContextFactory {
      */
     @Override
     public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
-        return INITIAL_CONTEXT;
+        return theOneAndOnlyInstance;
     }
-
-
-
 }

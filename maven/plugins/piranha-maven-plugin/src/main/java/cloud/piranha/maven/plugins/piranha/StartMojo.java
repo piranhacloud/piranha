@@ -126,6 +126,8 @@ public class StartMojo extends BaseMojo {
                 startJarPiranha();
             case "zip" ->
                 startZipPiranha();
+            default -> 
+                throw new IOException("Unable to determine distribution");
         }
         File pidFile = new File(runtimeDirectory + "/tmp/piranha.pid");
         int count = 0;

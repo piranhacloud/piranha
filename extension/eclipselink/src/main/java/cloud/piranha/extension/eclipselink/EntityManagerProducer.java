@@ -73,8 +73,7 @@ public class EntityManagerProducer {
     private Map<Object, Object> propertiesToMap(PersistenceProperty[] properties) {
         return Arrays.stream(properties)
                      .collect(toMap(
-                        persistenceProperty -> persistenceProperty.name(),
-                        persistenceProperty -> persistenceProperty.value()));
+                        PersistenceProperty::name,
+                        PersistenceProperty::value));
     }
-
 }

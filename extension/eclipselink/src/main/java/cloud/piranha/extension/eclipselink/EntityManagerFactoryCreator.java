@@ -97,7 +97,7 @@ public class EntityManagerFactoryCreator {
      * @return <code>EntityManagerFactory</code> corresponding to the unit name
      */
     public EntityManagerFactory get(String unitName) {
-        return entityManagerFactories.computeIfAbsent(unitName, e -> create(e));
+        return entityManagerFactories.computeIfAbsent(unitName, this::create);
     }
 
     private EntityManagerFactory create(String unitName) {
