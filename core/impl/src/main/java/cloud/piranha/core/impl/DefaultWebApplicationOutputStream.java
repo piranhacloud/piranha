@@ -39,6 +39,8 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * The default WebApplicationOutputStream.
@@ -51,7 +53,7 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
      * Stores the buffer.
      */
     protected byte[] buffer;
-    
+
     /**
      * Stores the closed flag.
      */
@@ -76,6 +78,11 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
      * Stores the write listener.
      */
     protected WriteListener writeListener;
+    
+    /**
+     * Stores the write listener lock.
+     */
+    protected Lock writeListenerLock = new ReentrantLock();
 
     /**
      * Constructor.
@@ -165,7 +172,12 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
 
     @Override
     public boolean isReady() {
-        return closed;
+        try {
+            writeListenerLock.lock();
+            return !closed;
+        } finally {
+            writeListenerLock.unlock();
+        }
     }
 
     @Override
@@ -177,8 +189,13 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
     public void run() {
         while (true) {
             try {
-                if (!isReady()) {
-                    writeListener.onWritePossible();
+                if (isReady()) {
+                    try {
+                        writeListenerLock.lock();
+                        writeListener.onWritePossible();
+                    } finally {
+                        writeListenerLock.unlock();
+                    }
                 }
                 if (closed) {
                     break;
@@ -228,37 +245,44 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
 
     @Override
     public void write(int integer) throws IOException {
-        /*
-         * If the response is in buffer resetting mode, we are going to ignore
-         * any writes to the underlying output stream until the response is no
-         * longer in buffer resetting mode.
-         */
-        if (response.isBufferResetting()) {
-            return;
-        }
-
-        /*
-         * Servlet:SPEC:192.2
-         *
-         * If the integer we are looking at will cause the buffer to overflow,
-         * write out the buffer and then write the integer directly to the 
-         * underlying output stream.
-         */
-        if (index == buffer.length - 1) {
-            flushBuffer();
-            outputStream.write(integer);
-        } else if (index == buffer.length) {
+        if (writeListener == null) {
             /*
-             * Write the integer directly to the underlying output stream as the
-             * buffer was previously flushed.
+             * If the response is in buffer resetting mode, we are going to
+             * ignore any writes to the underlying output stream until the
+             * response is no longer in buffer resetting mode.
              */
-            outputStream.write(integer);
+            if (response.isBufferResetting()) {
+                return;
+            }
+
+            /*
+             * Servlet:SPEC:192.2
+             *
+             * If the integer we are looking at will cause the buffer to
+             * overflow, write out the buffer and then write the integer
+             * directly to the underlying output stream.
+             */
+            if (index == buffer.length - 1) {
+                flushBuffer();
+                outputStream.write(integer);
+            } else if (index == buffer.length) {
+                /*
+                 * Write the integer directly to the underlying output stream as
+                 * the buffer was previously flushed.
+                 */
+                outputStream.write(integer);
+            } else {
+                /*
+                 * Add the integer to the buffer.
+                 */
+                this.buffer[index] = (byte) integer;
+                this.index++;
+            }
         } else {
             /*
-             * Add the integer to the buffer.
+             * WriteListener is set so write directly to output stream.
              */
-            this.buffer[index] = (byte) integer;
-            this.index++;
+            outputStream.write(integer);
         }
     }
 
@@ -364,7 +388,7 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
      *
      * @throws IOException when an I/O error occurs.
      */
-    private void writeHeaders() throws IOException {
+    public void writeHeaders() throws IOException {
         writeContentType();
         writeContentLanguage();
         writeCookies();
@@ -379,7 +403,7 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
      *
      * @throws IOException when an I/O error occurs.
      */
-    private void writeStatusLine() throws IOException {
+    public void writeStatusLine() throws IOException {
         outputStream.write("HTTP/1.1".getBytes());
         outputStream.write(" ".getBytes());
         outputStream.write(Integer.toString(response.getStatus()).getBytes());

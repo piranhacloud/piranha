@@ -56,7 +56,7 @@ public class HttpWebApplicationResponse extends DefaultWebApplicationResponse {
      */
     public HttpWebApplicationResponse(HttpServerResponse wrapped) {
         this.wrapped = wrapped;
-        getWebApplicationOutputStream().setOutputStream(wrapped.getOutputStream());
+        setWebApplicationOutputStream(new HttpWebApplicationOutputStream(this, wrapped));
         setResponseCloser(() -> {
             try {
                 wrapped.closeResponse();
@@ -64,35 +64,5 @@ public class HttpWebApplicationResponse extends DefaultWebApplicationResponse {
                 LOGGER.log(WARNING, () -> "IOException when flushing the underlying async output stream", ioe);
             }
         });
-    }
-
-    @Override
-    public void addDateHeader(String name, long date) {
-        wrapped.addHeader(name, Long.toString(date));
-    }
-
-    @Override
-    public void addHeader(String name, String value) {
-        wrapped.addHeader(name, value);
-    }
-
-    @Override
-    public void addIntHeader(String name, int value) {
-        wrapped.addHeader(name, Integer.toString(value));
-    }
-
-    @Override
-    public void setDateHeader(String name, long date) {
-        wrapped.setHeader(name, Long.toString(date));
-    }
-
-    @Override
-    public void setHeader(String name, String value) {
-        wrapped.setHeader(name, value);
-    }
-
-    @Override
-    public void setIntHeader(String name, int value) {
-        wrapped.setHeader(name, Integer.toString(value));
     }
 }
