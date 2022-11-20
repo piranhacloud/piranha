@@ -187,7 +187,7 @@ To build and test the application execute the following command:
 
 To deploy your application you will need 2 pieces. 
 
-1. The Piranha Servlet Profile runtime JAR.
+1. The Piranha Servlet runtime JAR.
 2. The WAR file you just produced. 
 
 For the WAR file see the `target` directory. For the Piranha Servlet
