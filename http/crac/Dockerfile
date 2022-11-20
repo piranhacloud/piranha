@@ -18,4 +18,10 @@ RUN chown piranha:piranha piranha-dist-servlet.jar
 ADD openjdk-17-crac+3_linux-x64.tar.gz /opt
 ENV PATH=$PATH:/opt/openjdk-17-crac+3_linux-x64/bin
 USER piranha
+#
+# 1. java -jar -XX:CRaCCheckpointTo=cr piranha-dist-servlet.jar --enable-crac --write-pid
+# 2. jcmd piranha-dist-servlet.jar JDK.checkpoint
+# 3. files should be in the cr directory
+# 4. java -XX:CRaCRestoreFrom=cr
+#
 CMD ["java", "-jar", "piranha-dist-servlet.jar"]
