@@ -81,6 +81,9 @@ public class ServletPiranhaMain {
                 if (arguments[i].equals("--context-path")) {
                     builder = builder.contextPath(arguments[i + 1]);
                 }
+                if (arguments[i].equals("--enable-crac")) {
+                    builder = builder.crac(true);
+                }
                 if (arguments[i].equals("--http-port")) {
                     int arg = Integer.parseInt(arguments[i + 1]);
                     builder = builder.httpPort(arg);
