@@ -149,6 +149,7 @@ public abstract class WebApplicationInputStream extends ServletInputStream imple
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
                     }
                 }
                 if (finished) {

@@ -203,6 +203,7 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();;
                 }
             } catch (IOException ioe) {
                 writeListener.onError(ioe);
@@ -309,7 +310,11 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
         if (response.getContentType() != null) {
             outputStream.write("Content-Type: ".getBytes());
             outputStream.write(response.getContentType().getBytes());
-            if (response.getCharacterEncoding() != null) {
+            /*
+             * Add the character encoding if it is not already there.
+             */
+            if (response.getCharacterEncoding() != null &&
+                    !response.getContentType().contains("charset")) {
                 outputStream.write(";charset=".getBytes());
                 outputStream.write(response.getCharacterEncoding().getBytes());
             }
