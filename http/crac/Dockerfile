@@ -1,27 +1,25 @@
-#
-# If you are NOT running on Linux make sure you pass --platform linux/amd64
-# when you are building your container image.
-#
 FROM ubuntu
-RUN useradd -m piranha
+
 #
 # Put the piranha-servlet.jar in the directory where this Dockerfile resides.
 #
-ADD piranha-dist-servlet.jar /home/piranha
-WORKDIR /home/piranha
-RUN chown piranha:piranha piranha-dist-servlet.jar
+ADD piranha-dist-servlet.jar /root
+
 #
 # Download JDK from https://github.com/CRaC/openjdk-builds/releases and put it
-# in the directory where this Dockerfile resides.
-# before creating container image.
+# in the directory where this Dockerfile resides. Adjust the filenames below if
+# you are using a newer release.
 #
 ADD openjdk-17-crac+3_linux-x64.tar.gz /opt
+ENV JAVA_HOME=/opt/openjdk-17-crac+3_linux-x64
 ENV PATH=$PATH:/opt/openjdk-17-crac+3_linux-x64/bin
-USER piranha
+
 #
-# 1. java -jar -XX:CRaCCheckpointTo=cr piranha-dist-servlet.jar --enable-crac --write-pid
-# 2. jcmd piranha-dist-servlet.jar JDK.checkpoint
-# 3. files should be in the cr directory
-# 4. java -XX:CRaCRestoreFrom=cr
+# Add checkpoint directory.
 #
-CMD ["java", "-jar", "piranha-dist-servlet.jar"]
+ADD cr cr
+
+#
+# Restore java process from checkpoint.
+#
+CMD ["java", "-XX:CRaCRestoreFrom=cr"]
