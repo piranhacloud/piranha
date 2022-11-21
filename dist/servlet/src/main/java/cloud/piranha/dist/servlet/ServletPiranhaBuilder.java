@@ -50,6 +50,11 @@ public class ServletPiranhaBuilder {
      * Stores the context path.
      */
     private String contextPath = null;
+    
+    /**
+     * Stores the CRaC enabled flag.
+     */
+    private boolean crac = false;
 
     /**
      * Stores the extension class.
@@ -129,6 +134,7 @@ public class ServletPiranhaBuilder {
         if (extensionClass != null) {
             piranha.setExtensionClass(extensionClass);
         }
+        piranha.setCracEnabled(crac);
         if (contextPath != null) {
             piranha.setContextPath(contextPath);
         }
@@ -162,6 +168,17 @@ public class ServletPiranhaBuilder {
      */
     public ServletPiranhaBuilder contextPath(String contextPath) {
         this.contextPath = contextPath;
+        return this;
+    }
+    
+    /**
+     * Set the CRaC enabled flag.
+     * 
+     * @param crac the CRaC enabled flag.
+     * @return the builder.
+     */
+    public ServletPiranhaBuilder crac(boolean crac) {
+        this.crac = crac;
         return this;
     }
 

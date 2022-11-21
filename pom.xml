@@ -170,6 +170,13 @@
                 <artifactId>maven-plugin-tools-annotations</artifactId>
                 <version>${maven-plugin-tools-annotations.version}</version>
             </dependency>
+            
+            <!-- CRaC -->
+            <dependency>
+                <groupId>io.github.crac</groupId>
+                <artifactId>org-crac</artifactId>
+                <version>0.1.3</version>
+            </dependency>
 
             <!-- Eclipse EclipseLink -->
             <dependency>

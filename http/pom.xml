@@ -17,6 +17,7 @@
 
     <modules>
         <module>api</module>
+        <module>crac</module>
         <module>grizzly</module>
         <module>impl</module>
         <module>jdk</module>

@@ -84,6 +84,11 @@ public class ServletPiranha implements Piranha, Runnable {
      * Stores the context path.
      */
     private String contextPath = null;
+    
+    /**
+     * Stores the CRaC enabled flag.
+     */
+    private boolean cracEnabled = false;
 
     /**
      * Stores the exit on stop flag.
@@ -215,6 +220,22 @@ public class ServletPiranha implements Piranha, Runnable {
                     | InvocationTargetException t) {
                 LOGGER.log(ERROR, "Unable to construct HTTP server", t);
             }
+            
+            if (cracEnabled) {
+                try {
+                    HttpServer cracHttpServer = (HttpServer) Class
+                            .forName("cloud.piranha.http.crac.CracHttpServer")
+                            .getDeclaredConstructor(HttpServer.class)
+                            .newInstance(httpServer);
+                    httpServer = cracHttpServer;
+                } catch (ClassNotFoundException | IllegalAccessException
+                        | IllegalArgumentException | InstantiationException
+                        | NoSuchMethodException | SecurityException
+                        | InvocationTargetException t) {
+                    LOGGER.log(ERROR, "Unable to construct HTTP server", t);
+                }
+            }
+
             if (httpServer != null) {
                 httpServer.setServerPort(httpPort);
                 httpServer.setHttpServerProcessor(webApplicationServer);
@@ -236,6 +257,22 @@ public class ServletPiranha implements Piranha, Runnable {
                     | InvocationTargetException t) {
                 LOGGER.log(ERROR, "Unable to construct HTTPS server", t);
             }
+            
+            if (cracEnabled) {
+                try {
+                    HttpServer cracHttpsServer = (HttpServer) Class
+                            .forName("cloud.piranha.http.crac.CracHttpServer")
+                            .getDeclaredConstructor(HttpServer.class)
+                            .newInstance(httpsServer);
+                    httpsServer = cracHttpsServer;
+                } catch (ClassNotFoundException | IllegalAccessException
+                        | IllegalArgumentException | InstantiationException
+                        | NoSuchMethodException | SecurityException
+                        | InvocationTargetException t) {
+                    LOGGER.log(ERROR, "Unable to construct HTTP server", t);
+                }
+            }
+
             if (httpsServer != null) {
                 httpsServer.setHttpServerProcessor(webApplicationServer);
                 httpsServer.setServerPort(httpsPort);
@@ -369,6 +406,15 @@ public class ServletPiranha implements Piranha, Runnable {
     }
 
     /**
+     * Set the CRaC enabled flag.
+     * 
+     * @param cracEnabled the CRaC enabled flag.
+     */
+    public void setCracEnabled(boolean cracEnabled) {
+        this.cracEnabled = cracEnabled;
+    }
+    
+    /**
      * Set the default extension class.
      *
      * @param extensionClass the default extension class.
@@ -468,7 +514,7 @@ public class ServletPiranha implements Piranha, Runnable {
      *
      * @param sslKeystorePassword
      */
-    void setSslKeystorePassword(String sslKeystorePassword) {
+    public void setSslKeystorePassword(String sslKeystorePassword) {
         if (sslKeystorePassword != null) {
             System.setProperty("javax.net.ssl.keyStorePassword", sslKeystorePassword);
         }

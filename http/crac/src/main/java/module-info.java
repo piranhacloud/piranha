@@ -27,20 +27,14 @@
  */
 
 /**
- * The Piranha Servlet distribution module.
- * 
+ * This module delivers the CRaC integration for the HTTP engine.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.dist.servlet {
-    
-    exports cloud.piranha.dist.servlet;
-    opens cloud.piranha.dist.servlet;
-    requires transitive cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.servlet;
-    requires cloud.piranha.http.impl;
-    requires cloud.piranha.http.crac;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
-    uses cloud.piranha.http.api.HttpServer;
+module cloud.piranha.http.crac {
+
+    exports cloud.piranha.http.crac;
+    opens cloud.piranha.http.crac;
+    requires cloud.piranha.http.api;
+    requires org.crac;
 }
