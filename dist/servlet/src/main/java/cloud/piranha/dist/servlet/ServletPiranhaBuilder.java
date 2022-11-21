@@ -175,6 +175,7 @@ public class ServletPiranhaBuilder {
      * Set the CRaC enabled flag.
      * 
      * @param crac the CRaC enabled flag.
+     * @return the builder.
      */
     public ServletPiranhaBuilder crac(boolean crac) {
         this.crac = crac;

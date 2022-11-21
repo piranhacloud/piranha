@@ -48,6 +48,11 @@ public class CracHttpServer implements HttpServer, Resource {
      * Stores the delegate.
      */
     private HttpServer delegate;
+    
+    /**
+     * Stores the checkpoint flag.
+     */
+    private boolean checkpointing;
 
     /**
      * Constructor.
@@ -62,10 +67,12 @@ public class CracHttpServer implements HttpServer, Resource {
     @Override
     public void afterRestore(Context<? extends Resource> context) throws Exception {
         delegate.start();
+        checkpointing = false;
     }
 
     @Override
     public void beforeCheckpoint(Context<? extends Resource> context) throws Exception {
+        checkpointing = true;
         LOGGER.log(Logger.Level.INFO, "Stopping HTTP server");
         delegate.stop();
         LOGGER.log(Logger.Level.INFO, "Stopped HTTP server");
@@ -95,7 +102,11 @@ public class CracHttpServer implements HttpServer, Resource {
 
     @Override
     public boolean isRunning() {
-        return delegate.isRunning();
+        boolean running = true;
+        if (!checkpointing) {
+            running = delegate.isRunning();
+        }
+        return running;
     }
 
     @Override
