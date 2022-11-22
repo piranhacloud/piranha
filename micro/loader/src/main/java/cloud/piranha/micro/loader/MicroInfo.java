@@ -28,8 +28,9 @@
 package cloud.piranha.micro.loader;
 
 /**
- * 
- * @author arjan
+ * The Piranha Micro information.
+ *
+ * @author Arjan Tijms
  */
 public class MicroInfo {
 
@@ -39,12 +40,11 @@ public class MicroInfo {
     private static final String PLATFORM = "micro";
 
     /**
+     * Get the platform.
      * 
      * @return the platform, set info based on properties later
      */
     public String getPlatform() {
         return PLATFORM;
     }
-    
-
 }

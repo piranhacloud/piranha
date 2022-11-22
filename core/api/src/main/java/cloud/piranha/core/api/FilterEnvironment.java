@@ -33,9 +33,10 @@ import jakarta.servlet.FilterRegistration.Dynamic;
 import jakarta.servlet.ServletException;
 
 /**
- *
+ * The environment of a Filter.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  * @author Arjan Tijms
- *
  */
 public interface FilterEnvironment extends Dynamic, FilterConfig {
 

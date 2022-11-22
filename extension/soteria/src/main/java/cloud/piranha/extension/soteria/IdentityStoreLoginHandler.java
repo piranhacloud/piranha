@@ -40,6 +40,8 @@ import cloud.piranha.core.api.AuthenticatedIdentity;
 import cloud.piranha.core.api.SecurityManager.UsernamePasswordLoginHandler;
 
 /**
+ * The IdentityStore username/password login handler.
+ * 
  * @author Arjan Tijms
  */
 public class IdentityStoreLoginHandler implements UsernamePasswordLoginHandler {

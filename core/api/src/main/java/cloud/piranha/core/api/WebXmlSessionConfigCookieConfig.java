@@ -30,6 +30,7 @@ package cloud.piranha.core.api;
 /**
  * A session-config cookie-config inside of web.xml/web-fragment.xml.
  *
+ * @param name the name.
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public record WebXmlSessionConfigCookieConfig(String name) {
