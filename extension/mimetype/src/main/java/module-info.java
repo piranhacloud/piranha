@@ -27,11 +27,12 @@
  */
 
 /**
- * The mime-type handling module.
+ * This module delivers the mime-type extension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.mimetype {
+    
     exports cloud.piranha.extension.mimetype;
     opens cloud.piranha.extension.mimetype;
     requires cloud.piranha.core.api;

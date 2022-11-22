@@ -32,15 +32,17 @@ import org.jboss.weld.bootstrap.api.Service;
 import org.jboss.weld.environment.servlet.Container;
 
 /**
- * The Weld integration module.
+ * This module delivers the Weld integration extension.
  * 
  * <p>
- *  This module delivers Weld integration for web applications.
+ *  This extension integrates Weld into Piranha. See
+ *  https://github.com/weld/core for more information about its project.
  * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.weld {
+
     exports cloud.piranha.extension.weld;
     opens cloud.piranha.extension.weld;
     provides Container with WeldContainer;
@@ -53,6 +55,6 @@ module cloud.piranha.extension.weld {
     requires java.naming;
     requires weld.api;
     requires weld.core.impl;
-    requires transitive weld.spi;
     requires weld.servlet.core;
+    requires transitive weld.spi;
 }

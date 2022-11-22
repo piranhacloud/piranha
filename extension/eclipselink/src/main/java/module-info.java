@@ -1,6 +1,3 @@
-import cloud.piranha.extension.eclipselink.EclipseLinkCdiExtension;
-import jakarta.enterprise.inject.spi.Extension;
-
 /*
  * Copyright (c) 2002-2022 Manorrock.com. All Rights Reserved.
  *
@@ -29,30 +26,31 @@ import jakarta.enterprise.inject.spi.Extension;
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+import cloud.piranha.extension.eclipselink.EclipseLinkCdiExtension;
+import jakarta.enterprise.inject.spi.Extension;
+
 /**
- * The OmniFish EclipseLink integration module.
+ * This module delivers the EclipseLink integration extension.
  *
  * <p>
- *  This module integrates EclipseLink into Piranha. See
+ *  This extension integrates EclipseLink into Piranha. See
  *  https://github.com/eclipse-ee4j/eclipselink for more information about its
  *  project.
- *
+ * </p>
+ * 
  * @author Arjan Tijms
  */
 module cloud.piranha.extension.eclipselink {
-    provides Extension with EclipseLinkCdiExtension;
-
+   
     exports cloud.piranha.extension.eclipselink;
     opens cloud.piranha.extension.eclipselink;
-
+    provides Extension with EclipseLinkCdiExtension;
     requires transitive cloud.piranha.core.api;
-    requires transitive jakarta.servlet;
-
     requires cloud.piranha.core.impl;
-    requires java.naming;
-
+    requires cloud.piranha.extension.datasource;
     requires eclipselink;
     requires jakarta.cdi;
+    requires transitive jakarta.servlet;
     requires jakarta.transaction;
-    requires cloud.piranha.extension.datasource;
+    requires java.naming;
 }

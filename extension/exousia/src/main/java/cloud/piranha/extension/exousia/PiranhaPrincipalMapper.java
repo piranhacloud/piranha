@@ -39,6 +39,8 @@ import org.glassfish.exousia.spi.PrincipalMapper;
 import cloud.piranha.core.api.AuthenticatedIdentity;
 
 /**
+ * The Piranha PrincipalMapper.
+ * 
  * @author Arjan Tijms
  */
 public class PiranhaPrincipalMapper implements PrincipalMapper {

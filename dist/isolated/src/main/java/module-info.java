@@ -30,7 +30,7 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.core.api.WebApplicationExtension;
 
 /**
- * The Isolated Piranha module.
+ * This module delivers the Piranha Isolated distribution.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

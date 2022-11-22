@@ -30,7 +30,7 @@ import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.core.api.WebApplicationExtension;
 
 /**
- * The Piranha Server Distribution module.
+ * This module delivers the Piranha Server distribution.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

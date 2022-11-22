@@ -27,11 +27,11 @@
  */
 
 /**
- * The Platform extension module.
+ * This module delivers the meta extension for the Jakarta EE platform.
  *
  * <p>
- *  This module of modules that delivers the extensions for the Jakarta EE 
- *  Platform, as in:
+ *  The following extensions and/or dependencies are delivered as part of this
+ *  meta extension:
  * </p>
  * <ul>
  *  <li>Annotation Scanning</li>

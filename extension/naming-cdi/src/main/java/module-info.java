@@ -27,12 +27,10 @@
  */
 
 /**
- * The Naming integration module with CDI.
- *
- * <p>
- * This module integrates Naming (JNDI) into Piranha.
+ *  This module delivers the CDI variant JNDI integration extension.
  *
  * @author Arjan Tijms
+ * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.naming.cdi {
     
@@ -41,7 +39,7 @@ module cloud.piranha.extension.naming.cdi {
     requires cloud.piranha.core.api;
     requires transitive cloud.piranha.naming.impl;
     requires transitive cloud.piranha.naming.thread;
-    requires transitive java.naming;
     requires jakarta.annotation;
     requires jakarta.cdi;
+    requires transitive java.naming;
 }

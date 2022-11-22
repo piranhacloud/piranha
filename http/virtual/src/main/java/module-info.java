@@ -27,11 +27,7 @@
  */
 
 /**
- * The HTTP Virtual Threads integration module.
- *
- * <p>
  * This module delivers the Virtual Threads implementation of the HTTP engine.
- * </p>
  *
  * @author Thiago
  * @author Manfred Riem (mriem@manorrock.com)

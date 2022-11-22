@@ -12,7 +12,7 @@
     <artifactId>piranha-extension-transact</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Extension - Transact</name>
+    <name>Piranha - Extension - OmniFish Transact</name>
 
     <dependencies>
         <!-- compile -->

@@ -27,11 +27,12 @@
  */
 
 /**
- * The &lt;welcome-file&gt; handling module.
+ * This module delivers the welcome-file extension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.welcomefile {
+
     exports cloud.piranha.extension.welcomefile;
     opens cloud.piranha.extension.welcomefile;
     requires transitive cloud.piranha.core.api;

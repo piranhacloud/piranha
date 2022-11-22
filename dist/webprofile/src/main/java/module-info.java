@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha WebProfile distribution module.
+ * This module delivers the Piranha WebProfile distribution.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

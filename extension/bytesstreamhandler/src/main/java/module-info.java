@@ -27,11 +27,12 @@
  */
 
 /**
- * The bytes streamhandler module.
+ * This module delivers the bytes:// stream handler extension.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.bytesstreamhandler {
+
     exports cloud.piranha.extension.bytesstreamhandler;
     opens cloud.piranha.extension.bytesstreamhandler;
     requires cloud.piranha.core.api;

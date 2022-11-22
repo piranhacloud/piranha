@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Core Profile Distribution module.
+ * This module delivers the Piranha Core Profile distribution.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

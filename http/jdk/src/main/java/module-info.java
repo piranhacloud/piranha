@@ -27,11 +27,7 @@
  */
 
 /**
- * The HTTP JDK HttpServer integration module.
- *
- * <p>
- *  This module delivers the JDK HTTP Server implementation of the HTTP engine.
- * </p>
+ * This module delivers the JDK HttpServer implementation of the HTTP engine.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

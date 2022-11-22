@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha MicroProfile distribution module.
+ * This module delivers the Piranha MicroProfile distribution.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

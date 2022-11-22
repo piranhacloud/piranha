@@ -27,11 +27,12 @@
  */
 
 /**
- * The logging module.
+ * This module delivers the logging support extension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.logging {
+    
     exports cloud.piranha.extension.logging;
     opens cloud.piranha.extension.logging;
     requires cloud.piranha.core.api;

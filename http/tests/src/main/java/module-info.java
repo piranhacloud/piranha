@@ -27,12 +27,8 @@
  */
 
 /**
- * The HTTP tests module.
- *
- * <p>
- * This module delivers the test framework that can be used by any of the HTTP
+ * This module delivers the test framework that can be used by any HTTP
  * implementations for testing the implementation.
- * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -41,9 +37,9 @@ module cloud.piranha.http.tests {
     exports cloud.piranha.http.tests;
     opens cloud.piranha.http.tests;
     requires transitive cloud.piranha.http.api;
-    requires java.net.http;
-    requires static org.junit.jupiter.api;
-    requires static org.apiguardian.api;
     requires free.port.finder;
+    requires java.net.http;
+    requires static org.apiguardian.api;
+    requires static org.junit.jupiter.api;
     requires org.junitpioneer;
 }

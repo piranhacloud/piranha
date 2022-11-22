@@ -27,10 +27,11 @@
  */
 
 /**
- * The HTTP Netty integration module.
+ * This module delivers the Netty implementation of the HTTP engine.
  *
  * <p>
- * This module delivers the Netty implementation of the HTTP engine.
+ *  This module integrates Netty into Piranha. See
+ *  https://github.com/netty/netty for more information about its  project.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)

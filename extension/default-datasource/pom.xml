@@ -20,21 +20,16 @@
             <artifactId>piranha-core-api</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
-        
-        
-        <!-- Provided -->
-        
+        <!-- provided -->
         <dependency>
             <groupId>jakarta.transaction</groupId>
             <artifactId>jakarta.transaction-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>

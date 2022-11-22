@@ -32,7 +32,8 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- *
+ * The Micro deploy outcome.
+ * 
  * @author Arjan Tijms
  */
 public class MicroDeployOutcome {

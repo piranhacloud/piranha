@@ -27,11 +27,12 @@
  */
 
 /**
- * The annotation scan functionality module.
+ * This module delivers the annotation scan extension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.annotationscan {
+
     exports cloud.piranha.extension.annotationscan;
     opens cloud.piranha.extension.annotationscan;
     

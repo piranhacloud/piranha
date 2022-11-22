@@ -31,9 +31,9 @@ import jakarta.servlet.http.HttpServletMapping;
 import jakarta.servlet.http.MappingMatch;
 
 /**
+ * The default HttpServletMapping.
  * 
  * @author Arjan Tijms
- *
  */
 public class DefaultHttpServletMapping implements HttpServletMapping {
     

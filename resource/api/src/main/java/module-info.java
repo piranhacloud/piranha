@@ -27,15 +27,12 @@
  */
 
 /**
- * The Resource API module.
- * 
- * <p>
- *  This module delivers the API that deals with resource handling.
- * </p>
+ * This module delivers the Resource API.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.resource.api {
+
     exports cloud.piranha.resource.api;
     opens cloud.piranha.resource.api;
 }

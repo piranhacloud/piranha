@@ -27,11 +27,12 @@
  */
 
 /**
- * The locale encoding handling module.
+ * This module delivers the locale-encoding-mapping extension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.localeencoding {
+
     exports cloud.piranha.extension.localeencoding;
     opens cloud.piranha.extension.localeencoding;
     requires cloud.piranha.core.api;

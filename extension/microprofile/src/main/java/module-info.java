@@ -27,10 +27,11 @@
  */
 
 /**
- * The MicroProfile extension module.
+ * This module delivers the meta extension for MicroProfile.
  *
  * <p>
- *  This module of modules that delivers the extensions for MicroProfile, as in:
+ *  The following extensions and/or dependencies are delivered as part of this
+ *  meta extension:
  * </p>
  * <ul>
  *  <li>Annotation Scanning</li>

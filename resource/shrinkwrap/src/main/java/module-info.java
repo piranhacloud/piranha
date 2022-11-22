@@ -27,11 +27,7 @@
  */
 
 /**
- * The Resource Shrinkwrap module.
- * 
- * <p>
- *  This module delivers the Shrinkwrap implementation of the Resource API.
- * </p>
+ * This module delivers the Shrinkwrap implementation of the Resource API.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

@@ -27,11 +27,7 @@
  */
 
 /**
- *  The Naming integration module.
- *
- * <p>
- *  This module integrates Naming (JNDI) into Piranha.
- * </p>
+ *  This module delivers the JNDI integration extension.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -42,6 +38,6 @@ module cloud.piranha.extension.naming {
     requires cloud.piranha.core.api;
     requires transitive cloud.piranha.naming.impl;
     requires transitive cloud.piranha.naming.thread;
-    requires transitive java.naming;
     requires jakarta.annotation;
+    requires transitive java.naming;
 }

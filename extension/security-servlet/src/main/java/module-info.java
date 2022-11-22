@@ -27,23 +27,20 @@
  */
 
 /**
- * The Servlet Security module.
- * 
- * <p>
- *  This module delivers Servlet Security integration into Piranha.
- * </p>
+ * This module delivers the Servlet Security integration extension.
  * 
  * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.security.servlet {
+
     exports cloud.piranha.extension.security.servlet;
     opens cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.eleos;
-    requires cloud.piranha.extension.exousia;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires org.omnifaces.eleos;
-    requires org.glassfish.exousia;
+    requires cloud.piranha.extension.eleos;
+    requires cloud.piranha.extension.exousia;
     requires java.naming;
+    requires org.glassfish.exousia;
+    requires org.omnifaces.eleos;
 }

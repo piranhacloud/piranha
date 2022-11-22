@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Micro builder module.
+ * This module delivers the builder for Piranha Micro.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

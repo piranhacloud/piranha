@@ -27,12 +27,7 @@
  */
 
 /**
- * The Piranha - Naming - Impl module.
- * 
- * <p>
- *  This module delivers the core implementation needed for JNDI integration
- *  in web applications.
- * </p>
+ * This module delivers the default JNDI integration for Piranha.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
