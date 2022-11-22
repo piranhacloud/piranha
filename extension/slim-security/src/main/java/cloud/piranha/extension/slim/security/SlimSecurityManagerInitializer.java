@@ -39,7 +39,9 @@ import java.util.Set;
  * The ServletContainerInitializer that sets the SlimSecurityManager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class SlimSecurityManagerInitializer implements ServletContainerInitializer {
 
     /**

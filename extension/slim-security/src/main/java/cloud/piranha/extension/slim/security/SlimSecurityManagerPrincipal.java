@@ -33,7 +33,9 @@ import java.security.Principal;
  * The Principal used by the SlimSecurityManager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class SlimSecurityManagerPrincipal implements Principal {
 
     /**
