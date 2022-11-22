@@ -27,23 +27,24 @@
  */
 
 /**
- * The web.xml processing module.
+ * This module delivers the web.xml processing extension.
  * 
  * <p>
- *  Note that this module allows you to inspect the effective WebXml to make
+ *  Note that this extension allows you to inspect the effective WebXml to make
  *  sure it was processed correctly. It is however NOT RECOMMENDED that other 
- *  extensions / initializers directly use the WebXmlManager API to configure
+ *  extensions or initializers directly use the WebXmlManager API to configure
  *  themselves, but instead use other manager APIs or the WebApplication API.
  * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.webxml {
+
     exports cloud.piranha.extension.webxml;
     opens cloud.piranha.extension.webxml;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires java.xml;
     requires static java.naming;
     requires static java.sql;
+    requires java.xml;
 }

@@ -30,8 +30,20 @@ import cloud.piranha.extension.hazelcast.HazelcastInitializer;
 
 import jakarta.servlet.ServletContainerInitializer;
 
+/**
+ * This module delivers the Hazelcast HttpSession integration extension.
+ *
+ * <p>
+ *  This extension integrates Hazelcast as a HttpSessionManager into Piranha.
+ *  See https://github.com/hazelcast/hazelcast for more information about
+ *  its project.
+ * </p>
+ * 
+ * @author Arjan Tijms
+ */
 module cloud.piranha.extension.hazelcast {
     
+    exports cloud.piranha.extension.hazelcast;
     opens cloud.piranha.extension.hazelcast;
     provides ServletContainerInitializer with HazelcastInitializer;
     requires cloud.piranha.core.api;

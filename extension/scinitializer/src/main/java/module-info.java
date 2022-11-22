@@ -27,11 +27,12 @@
  */
 
 /**
- * The ServletContainerInitializer module.
+ * This module delivers the ServletContainerInitializer extension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.scinitializer {
+
     exports cloud.piranha.extension.scinitializer;
     opens cloud.piranha.extension.scinitializer;
     requires cloud.piranha.core.api;

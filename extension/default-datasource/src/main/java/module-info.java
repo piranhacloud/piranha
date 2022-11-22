@@ -27,15 +27,18 @@
  */
 
 /**
- * The default data source module.
+ * This module delivers the default DataSource extension
  *
  * <p>
- * This adds a data source under the <code>java:comp/DefaultDataSource</code> JNDI name
- * as specified by Jakarta EE.
- *
+ *  This extension adds a default DataSource under the 
+ *  <code>java:comp/DefaultDataSource</code> JNDI name as specified by Jakarta
+ *  EE.
+ * </p>
+ * 
  * @author Arjan Tijms
  */
 module cloud.piranha.extension.datasource {
+    
     exports cloud.piranha.extension.datasource;
     opens cloud.piranha.extension.datasource;
     requires cloud.piranha.core.api;

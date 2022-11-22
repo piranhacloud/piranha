@@ -27,10 +27,12 @@
  */
 
 /**
- * The HTTP Undertow integration module.
+ * This module delivers the Undertow implementation of the HTTP engine.
  *
  * <p>
- * This module delivers the Undertow implementation of the HTTP engine.
+ *  This module integrates WildFly Undertow into Piranha. See
+ *  https://github.com/undertow-io/undertow for more information about its
+ *  project.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)

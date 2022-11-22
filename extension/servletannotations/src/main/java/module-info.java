@@ -27,11 +27,12 @@
  */
 
 /**
- * The Servlet annotations module.
+ * This module delivers the Servlet annotations integration extension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.servletannotations {
+
     exports cloud.piranha.extension.servletannotations;
     opens cloud.piranha.extension.servletannotations;
     requires cloud.piranha.core.api;

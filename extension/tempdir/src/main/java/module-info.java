@@ -27,11 +27,12 @@
  */
 
 /**
- * The temporary directory functionality module.
+ * This module delivers the TEMPDIR extension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.tempdir {
+    
     exports cloud.piranha.extension.tempdir;
     opens cloud.piranha.extension.tempdir;
     requires cloud.piranha.core.api;

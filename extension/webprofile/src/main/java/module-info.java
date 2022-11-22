@@ -27,11 +27,11 @@
  */
 
 /**
- * The Web Profile extension module.
+ * This module delivers the meta extension for Jakarta Web Profile.
  *
  * <p>
- *  This module of modules delivers the extensions for Piranha Micro and Piranha
- *  Server. It consists of the following extensions:
+ *  The following extensions and/or dependencies are delivered as part of this
+ *  meta extension:
  * </p>
  * <ul>
  *  <li>Annotation Scanning</li>
@@ -47,7 +47,7 @@
  *  <li>Servlet Security</li>
  *  <li>Servlet Annotations</li>
  *  <li>TEMPDIR</li>
- *  <li>OmniFish Transaction</li>
+ *  <li>OmniFish Transact</li>
  *  <li>WaSP (Pages)</li>
  *  <li>web.xml</li>
  *  <li>Welcome File</li>
@@ -63,10 +63,10 @@ module cloud.piranha.extension.webprofile {
     requires cloud.piranha.extension.async;
     requires cloud.piranha.extension.datasource;
     requires cloud.piranha.extension.eclipselink;
-    requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.localeencoding;
     requires cloud.piranha.extension.logging;
     requires cloud.piranha.extension.mimetype;
+    requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.security.servlet;

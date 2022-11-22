@@ -27,11 +27,12 @@
  */
 
 /**
- * The Java Policy handling module.
+ * This module delivers the Java Policy integration extension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.policy {
+
     exports cloud.piranha.extension.policy;
     opens cloud.piranha.extension.policy;
     requires cloud.piranha.core.api;

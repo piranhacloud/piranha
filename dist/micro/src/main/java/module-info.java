@@ -27,12 +27,7 @@
  */
 
 /**
- * The Piranha Micro distribution module.
- * 
- * <p>
- *  This module delivers the main entry point for the Piranha Micro 
- *  distribution.
- * </p>
+ * This module delivers the Piranha Micro distribution.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

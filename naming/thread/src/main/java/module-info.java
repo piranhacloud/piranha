@@ -27,12 +27,7 @@
  */
 
 /**
- * The Piranha - Naming - Thread module.
- * 
- * <p>
- *  This module delivers the thread implementation needed for JNDI integration
- *  in web applications.
- * </p>
+ * This module delivers the Thread-based JNDI integration for Piranha.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

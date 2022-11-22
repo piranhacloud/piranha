@@ -27,10 +27,10 @@
  */
 
 /**
- * The Eclipse WaSP integration module.
+ * This module delivers the Eclipse WaSP integration extension.
  *
  * <p>
- *  This module integrates Eclipse WaSP into Piranha. See 
+ *  This extension integrates Eclipse WaSP into Piranha. See 
  *  https://github.com/eclipse-ee4j/wasp for more information about its
  *  project.
  * </p>
@@ -38,6 +38,7 @@
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.wasp {
+    
     exports cloud.piranha.extension.wasp;
     opens cloud.piranha.extension.wasp;
     requires cloud.piranha.core.impl;

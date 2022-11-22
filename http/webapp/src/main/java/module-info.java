@@ -27,12 +27,8 @@
  */
 
 /**
- * The HTTP WebApplication integration module.
- * 
- * <p>
- *  This module delivers the integration of the WebApplication API with Piranha
- *  HTTP.
- * </p>
+ * This module delivers the bridge between the HttpServer API and the 
+ * WebApplication API.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -40,7 +36,7 @@ module cloud.piranha.http.webapp {
     
     exports cloud.piranha.http.webapp;
     opens cloud.piranha.http.webapp;
-    requires transitive cloud.piranha.http.api;
     requires transitive cloud.piranha.core.api;
     requires transitive cloud.piranha.core.impl;
+    requires transitive cloud.piranha.http.api;
 }

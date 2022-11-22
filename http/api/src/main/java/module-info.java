@@ -27,7 +27,7 @@
  */
 
 /**
- * The HTTP API module.
+ * This module delivers the Piranha HTTP API.
  * 
  * <p>
  *  This module delivers the API that each HTTP engine implementation needs to
@@ -39,6 +39,5 @@
 module cloud.piranha.http.api {
     
     exports cloud.piranha.http.api;
-    
     opens cloud.piranha.http.api;
 }

@@ -27,11 +27,7 @@
  */
 
 /**
- * The HTTP implementation module.
- *
- * <p>
- *  This module delivers the default implementation of the HTTP engine.
- * </p>
+ * This module delivers the default implementation of the HTTP engine.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

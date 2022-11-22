@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Maven plugin module.
+ * This module delivers the Piranha Maven plugin.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

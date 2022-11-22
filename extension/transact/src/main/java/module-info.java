@@ -27,10 +27,10 @@
  */
 
 /**
- * The OmniFish Transact integration module.
+ * This module delivers the OmniFish Transact integration extension.
  *
  * <p>
- *  This module integrates Transact into Piranha. See
+ *  This extension integrates Transact into Piranha. See
  *  https://github.com/OmniFish-EE/omni-transact for more information about its
  *  project.
  * </p>
@@ -38,15 +38,13 @@
  * @author Arjan Tijms
  */
 module cloud.piranha.extension.transact {
+
     exports cloud.piranha.extension.transact;
     opens cloud.piranha.extension.transact;
-
     requires transitive cloud.piranha.core.api;
-    requires transitive jakarta.servlet;
-
     requires cloud.piranha.core.impl;
-    requires java.naming;
-
-    requires ee.omnifish.transact.cdi.beans;
     requires ee.omnifish.transact.api;
+    requires ee.omnifish.transact.cdi.beans;
+    requires transitive jakarta.servlet;
+    requires java.naming;
 }

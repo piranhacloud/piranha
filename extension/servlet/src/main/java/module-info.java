@@ -27,11 +27,11 @@
  */
 
 /**
- * The Servlet extension module.
+ * This module delivers the meta extension for a Servlet container.
  *
  * <p>
- *  This module of modules delivers the extensions for a Servlet Container 
- *  alike runtime.
+ *  The following extensions and/or dependencies are delivered as part of this
+ *  meta extension:
  * </p>
  * <ul>
  *  <li>Annotation Scanning</li>

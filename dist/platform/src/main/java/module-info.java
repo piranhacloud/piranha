@@ -29,7 +29,7 @@
 import cloud.piranha.core.api.WebApplicationExtension;
 
 /**
- * The Piranha Platform Distribution module.
+ * This module delivers the Piranha Platform distribution.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */

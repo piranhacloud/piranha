@@ -27,10 +27,12 @@
  */
 
 /**
- * The HTTP Grizzly integration module.
+ * This module delivers the Grizzly implementation of the HTTP engine.
  *
  * <p>
- * This module delivers the Grizzly implementation of the HTTP engine.
+ *  This module integrates Eclipse Grizzly into Piranha. See
+ *  https://github.com/eclipse-ee4j/grizzly for more information about its
+ *  project.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)

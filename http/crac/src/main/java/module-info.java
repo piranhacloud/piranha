@@ -29,6 +29,12 @@
 /**
  * This module delivers the CRaC integration for the HTTP engine.
  *
+ * <p>
+ *  This module integrates Project CRaC into Piranha. See
+ *  https://wiki.openjdk.org/display/crac/Main for more information about its
+ *  project.
+ * </p>
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.http.crac {

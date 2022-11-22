@@ -33,7 +33,7 @@ import jakarta.enterprise.inject.spi.Extension;
 import org.jboss.weld.environment.deployment.discovery.BeanArchiveHandler;
 
 /**
- * The Piranha Micro core module.
+ * This module delivers the core of Piranha Micro.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

@@ -27,17 +27,17 @@
  */
 
 /**
- * The Apache Commons FileUpload integration module.
+ * This module delivers the file upload extension using Apache Commons FileUpload.
  *
  * <p>
- *  This module integrates Apache Commons FileUpload into Piranha. See 
- *  https://github.com/apache/commons-fileupload for more information about its
- *  project.
+ *  See https://github.com/apache/commons-fileupload for more information about
+ *  its project.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.apache.fileupload {
+
     exports cloud.piranha.extension.apache.fileupload;
     opens cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.core.api;

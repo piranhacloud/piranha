@@ -27,7 +27,7 @@
  */
 
 /**
- * The Piranha Servlet distribution module.
+ * This module delivers the Piranha Servlet distribution.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

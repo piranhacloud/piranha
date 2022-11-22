@@ -29,6 +29,11 @@
 import cloud.piranha.arquillian.jarcontainer.PiranhaJarContainerExtension;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 
+/**
+ * This module delivers the JAR based distribution support for Arquillian.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.arquillian.jarcontainer {
 
     exports cloud.piranha.arquillian.jarcontainer;

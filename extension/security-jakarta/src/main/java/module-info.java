@@ -27,25 +27,22 @@
  */
 
 /**
- * The Jakarta Security module.
- * 
- * <p>
- *  This module delivers Jakarta Security integration into Piranha.
- * </p>
+ * This module delivers the Jakarta Security integration extension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.security.jakarta {
+
     exports cloud.piranha.extension.security.jakarta;
     opens cloud.piranha.extension.security.jakarta;
-    requires cloud.piranha.extension.eleos;
-    requires cloud.piranha.extension.exousia;
-    requires cloud.piranha.extension.soteria;
-    requires cloud.piranha.extension.weld;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires org.omnifaces.eleos;
-    requires org.glassfish.exousia;
-    requires java.naming;
+    requires cloud.piranha.extension.eleos;
+    requires cloud.piranha.extension.exousia;
     requires cloud.piranha.extension.security.servlet;
+    requires cloud.piranha.extension.soteria;
+    requires cloud.piranha.extension.weld;
+    requires java.naming;
+    requires org.glassfish.exousia;
+    requires org.omnifaces.eleos;
 }
