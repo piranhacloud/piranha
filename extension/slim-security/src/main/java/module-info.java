@@ -34,7 +34,9 @@
  * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 module cloud.piranha.extension.slim.security {
     exports cloud.piranha.extension.slim.security;
     opens cloud.piranha.extension.slim.security;

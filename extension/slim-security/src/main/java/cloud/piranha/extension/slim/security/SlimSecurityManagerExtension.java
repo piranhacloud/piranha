@@ -37,7 +37,9 @@ import static java.lang.System.Logger.Level.WARNING;
  * The SlimSecurityManager extension.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class SlimSecurityManagerExtension implements WebApplicationExtension {
 
     /**
