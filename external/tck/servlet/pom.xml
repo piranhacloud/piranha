@@ -63,7 +63,7 @@
                                         <echo>Executing UNIX profile</echo>
                                         
                                         <!-- Download, unzip and rename TCK -->
-                                        <get src="https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee10/staged/eftl/jakarta-servlet-tck-6.0.0.zip"
+                                        <get src="https://download.eclipse.org/jakartaee/servlet/6.0/jakarta-servlet-tck-6.0.1.zip"
                                              dest="${project.build.directory}/tck.zip" skipexisting="true"/>
                                         <unzip src="${project.build.directory}/tck.zip"
                                                dest="${project.build.directory}"/>
