@@ -12,4 +12,8 @@ The following components are available in the Piranha Server distribution:
 * Jakarta Servlet 6.0
 * Jakarta WebSocket 2.1
 
+## Documentation
+
+1. [Developer Guides](guides/)
+
 [Up](../)
