@@ -30,14 +30,13 @@ package cloud.piranha.http.webapp;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
+import static jakarta.servlet.DispatcherType.values;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRegistration.Dynamic;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.CookieManager;
-import java.net.HttpCookie;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -46,8 +45,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * The JUnit tests for HttpWebApplicationRequest.
@@ -86,9 +84,17 @@ class HttpWebApplicationResponseTest {
         Dynamic registration = application.addServlet("ResponseServlet", new HttpServlet() {
             @Override
             protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                if (request.getQueryString().equals("setCharacterEncoding")) {
+                if (request.getQueryString().equals("addIntHeader")) { 
+                    addIntHeader(request, response);
+                } else if (request.getQueryString().equals("setCharacterEncoding")) {
                     setCharacterEncoding(request, response);
                 }
+            }
+
+            private void addIntHeader(HttpServletRequest request, HttpServletResponse response) throws IOException {
+                response.addIntHeader("name", 1234);
+                response.addIntHeader("name", 2345);
+                response.flushBuffer();
             }
 
             private void setCharacterEncoding(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -104,6 +110,26 @@ class HttpWebApplicationResponseTest {
         server.start();
         httpServer = new DefaultHttpServer(-2, server, false);
         httpServer.start();
+    }
+
+    /**
+     * Test setAddIntHeader method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testAddIntHeader() throws Exception {
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest
+                    .newBuilder(new URI("http://localhost:" + httpServer.getServerPort() + "/response?addIntHeader"))
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            assertEquals("1234,2345", response.headers().firstValue("name").get());
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
     }
 
     /**

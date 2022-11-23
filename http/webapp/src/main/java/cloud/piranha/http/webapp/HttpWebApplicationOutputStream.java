@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 
 /**
  * The HttpWebApplication variant of WebApplicationOutputStream.
@@ -148,7 +149,10 @@ public class HttpWebApplicationOutputStream extends DefaultWebApplicationOutputS
          * Add remaining headers.
          */
         response.getHeaderNames().forEach(
-                name -> httpServerResponse.addHeader(name, response.getHeader(name)));
+                name -> {
+                    Collection<String> values = response.getHeaders(name);
+                    values.forEach(value -> httpServerResponse.addHeader(name, value));
+                });
 
         /**
          * Write the headers to the HttpServerResponse.

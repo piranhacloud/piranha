@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
 import java.util.Locale;
 import static java.util.Locale.GERMAN;
 import static java.util.Locale.ITALIAN;
@@ -143,6 +144,26 @@ public abstract class WebApplicationResponseTest {
         webApplication.linkRequestAndResponse(request, response);
         response.addIntHeader("name", 1234);
         assertEquals("1234", response.getHeader("name"));
+    }
+
+    /**
+     * Test addIntHeader method.
+     */
+    @Test
+    void testAddIntHeader2() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        response.addIntHeader("name", 1234);
+        assertEquals("1234", response.getHeader("name"));
+        response.addIntHeader("name", 2345);
+        Collection<String> values = response.getHeaders("name");
+        assertFalse(values.isEmpty());
+        assertTrue(values.contains("1234"));
+        assertTrue(values.contains("2345"));
     }
 
     /**
