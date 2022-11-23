@@ -29,14 +29,18 @@ package cloud.piranha.extension.localeencoding;
 
 import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedResponse;
 import cloud.piranha.extension.webxml.WebXmlExtension;
+import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import static java.util.Locale.ITALY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -274,5 +278,41 @@ class StandardLocaleEncodingExtensionTest {
         response.setLocale(new Locale("ja"));
         response.setContentType("text/html");
         assertEquals("text/html;charset=Shift_Jis", response.getContentType());
+    }
+
+    /**
+     * Test setCharacterEncoding method.
+     */
+    @Test
+    void testSetCharacterEncoding() {
+        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+                .extension(LocaleEncodingExtension.class)
+                .build()
+                .start();
+        WebApplication webApplication = piranha.getWebApplication();
+        webApplication.getManager().getLocaleEncodingManager()
+                .addCharacterEncoding(new Locale("ja").toString(), "Shift_Jis");
+
+        EmbeddedRequest request = new EmbeddedRequest();
+        request.setWebApplication(webApplication);
+        
+        EmbeddedResponse response = new EmbeddedResponse();
+        response.setWebApplication(webApplication);
+        
+        webApplication.linkRequestAndResponse(request, response);
+        String defaultCharacterEncoding = response.getCharacterEncoding();
+        response.setCharacterEncoding("UTF-8");
+        assertEquals("UTF-8", response.getCharacterEncoding());
+        response.setCharacterEncoding(null);
+        assertEquals(defaultCharacterEncoding, response.getCharacterEncoding());
+        response.reset();
+        response.setLocale(new Locale("ja"));
+        assertEquals("Shift_Jis", response.getCharacterEncoding());
+        response.setCharacterEncoding(null);
+        assertEquals(defaultCharacterEncoding, response.getCharacterEncoding());
+        response.reset();
+        response.setCharacterEncoding("does-not-exist");
+        assertEquals("does-not-exist", response.getCharacterEncoding());
+        assertThrows(UnsupportedEncodingException.class, () -> {response.getWriter(); });
     }
 }
