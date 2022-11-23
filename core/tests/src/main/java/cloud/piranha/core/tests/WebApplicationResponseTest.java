@@ -744,6 +744,37 @@ public abstract class WebApplicationResponseTest {
     }
 
     /**
+     * Test setCharacterEncoding method.
+     */
+    @Test
+    void testSetCharacterEncoding5() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        String defaultCharacterEncoding = response.getCharacterEncoding();
+        response.setCharacterEncoding("UTF-8");
+        assertEquals("UTF-8", response.getCharacterEncoding());
+        response.setCharacterEncoding(null);
+        assertEquals(defaultCharacterEncoding, response.getCharacterEncoding());
+        response.reset();
+        response.setContentType("text/plain; charset=UTF-8");
+        assertEquals("UTF-8", response.getCharacterEncoding());
+        response.setCharacterEncoding(null);
+        assertEquals(defaultCharacterEncoding, response.getCharacterEncoding());
+        response.reset();
+        response.setCharacterEncoding("does-not-exist");
+        assertEquals("does-not-exist", response.getCharacterEncoding());
+        assertThrows(UnsupportedEncodingException.class, () -> {response.getWriter(); });
+        response.reset();
+        response.setContentType("text/html");
+        response.setCharacterEncoding("ISO-8859-7");
+        assertEquals("text/html;charset=ISO-8859-7", response.getContentType());
+    }
+
+    /**
      * Test setContentLength method.
      */
     @Test
@@ -960,19 +991,19 @@ public abstract class WebApplicationResponseTest {
         WebApplicationResponse response = createWebApplicationResponse();
         response.setWebApplication(webApplication);
         assertThrows(IllegalStateException.class, () -> {
-            response.setTrailerFields(() -> { 
+            response.setTrailerFields(() -> {
                 return null;
             });
         });
     }
-    
+
     /**
      * Test setWebApplicationOutputStream method.
      */
     @Test
     void testSetWebAplicationOutputStream() {
         WebApplicationResponse response = createWebApplicationResponse();
-        response.setWebApplicationOutputStream(new WebApplicationOutputStream(){
+        response.setWebApplicationOutputStream(new WebApplicationOutputStream() {
             @Override
             public void flushBuffer() throws IOException {
                 throw new UnsupportedOperationException("Not supported yet.");
@@ -1035,17 +1066,17 @@ public abstract class WebApplicationResponseTest {
         });
         assertNotNull(response.getWebApplicationOutputStream());
     }
-    
+
     /**
      * Test setWebApplication method.
      */
     @Test
-    void testGetWebApplication()  {
+    void testGetWebApplication() {
         WebApplication webApplication = createWebApplication();
         WebApplicationResponse response = createWebApplicationResponse();
         response.setWebApplication(webApplication);
     }
-    
+
     /**
      * Test servlet that is used by testSendRedirect.
      */
