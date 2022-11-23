@@ -49,6 +49,7 @@
         <module>dist</module>
         <module>embedded</module>
         <module>extension</module>
+        <module>feature</module>
         <module>http</module>
         <module>maven</module>
         <module>micro</module>
