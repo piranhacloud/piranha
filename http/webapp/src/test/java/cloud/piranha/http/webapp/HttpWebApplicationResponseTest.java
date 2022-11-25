@@ -30,7 +30,6 @@ package cloud.piranha.http.webapp;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
-import static jakarta.servlet.DispatcherType.values;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRegistration.Dynamic;
 import jakarta.servlet.http.HttpServlet;
@@ -45,7 +44,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * The JUnit tests for HttpWebApplicationRequest.
@@ -126,7 +124,7 @@ class HttpWebApplicationResponseTest {
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
-            assertEquals("1234,2345", response.headers().firstValue("name").get());
+            assertEquals("1234, 2345", response.headers().firstValue("name").get());
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
