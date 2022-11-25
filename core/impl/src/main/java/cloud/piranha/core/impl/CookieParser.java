@@ -94,8 +94,10 @@ public class CookieParser {
 
                 if ("$Domain".equals(name)) {
                     currentCookie.setDomain(value);
+                    cookieList.add(new Cookie(name, value));
                 } else if ("$Path".equals(name)) {
                     currentCookie.setPath(value);
+                    cookieList.add(new Cookie(name, value));
                 }
 
             } else {
