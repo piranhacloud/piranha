@@ -146,7 +146,7 @@ public class DefaultHttpServerResponse implements HttpServerResponse {
         while (values.hasNext()) {
             output.write(values.next().getBytes());
             if (values.hasNext()) {
-                output.write(",".getBytes());
+                output.write(", ".getBytes());
             }
         }
         output.write("\n".getBytes());

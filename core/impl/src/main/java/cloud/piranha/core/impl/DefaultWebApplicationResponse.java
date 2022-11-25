@@ -456,7 +456,6 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
         statusMessage = null;
         writer = null;
         resetBuffer();
-        setErrorMessageAttribute();
     }
 
     @Override

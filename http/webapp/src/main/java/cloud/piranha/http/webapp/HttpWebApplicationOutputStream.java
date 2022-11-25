@@ -103,7 +103,7 @@ public class HttpWebApplicationOutputStream extends DefaultWebApplicationOutputS
          * Add Content-Type.
          */
         if (response.getContentType() != null) {
-        StringBuilder contentType = new StringBuilder();
+            StringBuilder contentType = new StringBuilder();
             contentType.append(response.getContentType());
             httpServerResponse.addHeader("Content-Type", contentType.toString());
         }
