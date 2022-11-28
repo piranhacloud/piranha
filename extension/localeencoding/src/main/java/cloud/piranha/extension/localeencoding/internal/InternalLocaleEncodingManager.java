@@ -35,7 +35,9 @@ import java.util.Map;
  * The default LocaleEncodingManager.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class InternalLocaleEncodingManager implements LocaleEncodingManager {
 
     /**

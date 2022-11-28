@@ -47,7 +47,7 @@ public class DefaultLocaleEncodingManager implements LocaleEncodingManager {
      * Constructor.
      */
     public DefaultLocaleEncodingManager() {
-        localeMappings = new HashMap<>();
+        localeMappings = new HashMap<>(1);
     }
 
     @Override
