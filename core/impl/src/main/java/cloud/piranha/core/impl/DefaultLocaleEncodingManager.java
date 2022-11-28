@@ -28,6 +28,8 @@
 package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.LocaleEncodingManager;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The default LocaleEncodingManager.
@@ -36,12 +38,25 @@ import cloud.piranha.core.api.LocaleEncodingManager;
  */
 public class DefaultLocaleEncodingManager implements LocaleEncodingManager {
 
+    /**
+     * Stores the locale mappings.
+     */
+    private final Map<String, String> localeMappings;
+
+    /**
+     * Constructor.
+     */
+    public DefaultLocaleEncodingManager() {
+        localeMappings = new HashMap<>();
+    }
+
     @Override
     public void addCharacterEncoding(String locale, String encoding) {
+        localeMappings.put(locale, encoding);
     }
 
     @Override
     public String getCharacterEncoding(String locale) {
-        return null;
+        return localeMappings.get(locale);
     }
 }
