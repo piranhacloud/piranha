@@ -40,6 +40,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Locale;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -78,20 +79,29 @@ class HttpWebApplicationResponseTest {
     void beforeEach() {
         server = new HttpWebApplicationServer();
         DefaultWebApplication application = new DefaultWebApplication();
+        application.getManager().getLocaleEncodingManager().addCharacterEncoding("ja", "Shift_Jis");
         application.setContextPath("");
         Dynamic registration = application.addServlet("ResponseServlet", new HttpServlet() {
             @Override
             protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                if (request.getQueryString().equals("addIntHeader")) { 
-                    addIntHeader(request, response);
-                } else if (request.getQueryString().equals("setCharacterEncoding")) {
-                    setCharacterEncoding(request, response);
+                switch (request.getQueryString()) {
+                    case "addIntHeader" -> addIntHeader(request, response);
+                    case "setCharacterEncoding" -> setCharacterEncoding(request, response);
+                    case "setLocale" -> setLocale(request, response);
+                    default -> {
+                    }
                 }
             }
 
             private void addIntHeader(HttpServletRequest request, HttpServletResponse response) throws IOException {
                 response.addIntHeader("name", 1234);
                 response.addIntHeader("name", 2345);
+                response.flushBuffer();
+            }
+            
+            private void setLocale(HttpServletRequest request, HttpServletResponse response) throws IOException {
+                response.setContentType("text/html");
+                response.setLocale(new Locale("ja"));
                 response.flushBuffer();
             }
 
@@ -125,6 +135,26 @@ class HttpWebApplicationResponseTest {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(200, response.statusCode());
             assertEquals("1234, 2345", response.headers().firstValue("name").get());
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+    }
+
+    /**
+     * Test setLocale method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testSetLocale() throws Exception {
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest
+                    .newBuilder(new URI("http://localhost:" + httpServer.getServerPort() + "/response?setLocale"))
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+            assertEquals("text/html;charset=Shift_Jis", response.headers().firstValue("Content-Type").get());
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
