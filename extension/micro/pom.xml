@@ -295,8 +295,18 @@
             <artifactId>microprofile-config-api</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
-        <!-- MicroProfile Config implementation -->
+
+        <!-- runtime -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.faces</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-container-servlet</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>omni-mp-config</artifactId>
