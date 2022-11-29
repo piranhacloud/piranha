@@ -36,7 +36,9 @@ import static java.lang.System.Logger.Level.TRACE;
  * The WebApplicationExtension that sets up the StandardLocaleEncodingManager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 public class LocaleEncodingExtension implements WebApplicationExtension {
 
     /**

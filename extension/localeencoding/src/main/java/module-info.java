@@ -30,7 +30,9 @@
  * This module delivers the locale-encoding-mapping extension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "22.12.0", forRemoval = true)
 module cloud.piranha.extension.localeencoding {
 
     exports cloud.piranha.extension.localeencoding;
