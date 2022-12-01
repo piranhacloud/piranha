@@ -163,7 +163,7 @@ public abstract class AsyncContextTest {
                     context.createListener(TestCreateListener2Listener.class);
                 });
     }
-    
+
     /**
      * Test dispatch method.
      */
@@ -189,8 +189,8 @@ public abstract class AsyncContextTest {
         WebApplicationResponse response = createWebApplicationResponse();
         response.setWebApplication(webApplication);
         webApplication.linkRequestAndResponse(request, response);
-        assertThrows(IllegalStateException.class, 
-                () -> {webApplication.service(request, response);});
+        assertThrows(IllegalStateException.class,
+                () -> webApplication.service(request, response));
     }
 
     /**
