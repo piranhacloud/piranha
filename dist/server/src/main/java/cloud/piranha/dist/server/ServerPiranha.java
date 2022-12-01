@@ -31,7 +31,6 @@ import cloud.piranha.core.api.Piranha;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
-import cloud.piranha.core.api.WebApplicationServerRequestMapper;
 import cloud.piranha.core.impl.DefaultModuleFinder;
 import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
 import cloud.piranha.core.impl.DefaultWebApplication;
@@ -226,8 +225,6 @@ public class ServerPiranha implements Piranha, Runnable {
 
         webApplicationServer.start();
 
-        WebApplicationServerRequestMapper requestMapper = webApplicationServer.getRequestMapper();
-
         File[] webapps = webAppsDir.listFiles();
         if (webapps != null) {
             for (File webapp : webapps) {
@@ -236,8 +233,7 @@ public class ServerPiranha implements Piranha, Runnable {
                     File webAppDirectory = new File(webAppsDir, contextPath);
                     extractWarFile(webapp, webAppDirectory);
 
-                    DefaultWebApplication webApplication = new ServerWebApplication(requestMapper);
-
+                    DefaultWebApplication webApplication = new DefaultWebApplication();
                     webApplication.addResource(new DirectoryResource(webAppDirectory));
 
                     DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDirectory);

@@ -50,7 +50,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @ExtendWith(ArquillianExtension.class)
-public class HelloArquillianIT {
+class HelloArquillianIT {
 
     @ArquillianResource
     private URL baseUrl;
