@@ -24,6 +24,7 @@
         <module>jersey</module>
         <module>soteria-basic</module>
         <module>soteria-form</module>
+        <module>springboot</module>
         <module>web-fragment-in-jar</module>
         <module>web-fragment-in-jar-test</module>
         <module>web-fragment-in-jar-webapp</module>
