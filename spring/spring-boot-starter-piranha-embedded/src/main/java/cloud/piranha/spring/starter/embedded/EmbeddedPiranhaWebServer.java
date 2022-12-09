@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.spring.boot.starter;
+package cloud.piranha.spring.starter.embedded;
 
 import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.http.api.HttpServer;
@@ -43,24 +43,42 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class EmbeddedPiranhaWebServer implements WebServer {
+    
+    /**
+     * Stores the context path.
+     */
+    private String contextPath = "";
 
     /**
      * Stores the HttpServer instance.
      */
-    private final HttpServer httpServer;
+    private HttpServer httpServer;
 
     /**
-     * Constructor.
-     *
-     * @param initializers the initializers.
+     * Stores the initializers.
      */
-    public EmbeddedPiranhaWebServer(ServletContextInitializer[] initializers) {
+    private ServletContextInitializer[] initializers;
+    
+    /**
+     * Stores the port.
+     */
+    private int port = 8080;
+    
+    @Override
+    public int getPort() {
+        return port;
+    }
+
+    /**
+     * Initialize.
+     */
+    public void init() {
         EmbeddedPiranha piranha = new EmbeddedPiranha();
         if (initializers != null) {
             for (int i = 0; i < initializers.length; i++) {
                 try {
                     initializers[i].onStartup((ServletContext) piranha.getWebApplication());
-                } catch(ServletException se) {
+                } catch (ServletException se) {
                     throw new RuntimeException(se);
                 }
             }
@@ -69,9 +87,37 @@ public class EmbeddedPiranhaWebServer implements WebServer {
         piranha.start();
         HttpWebApplicationServer server = new HttpWebApplicationServer();
         server.start();
+        piranha.getWebApplication().setContextPath(contextPath);
         server.addWebApplication(piranha.getWebApplication());
-        httpServer = new DefaultHttpServer(8080);
+        httpServer = new DefaultHttpServer(port);
         httpServer.setHttpServerProcessor(server);
+    }
+
+    /**
+     * Set the context path.
+     * 
+     * @param contextPath the context path.
+     */
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
+    }
+
+    /**
+     * Set the initializers.
+     * 
+     * @param initializers the initializers.
+     */
+    public void setInitializers(ServletContextInitializer[] initializers) {
+        this.initializers = initializers;
+    }
+
+    /**
+     * Set the port.
+     * 
+     * @param port the server port.
+     */
+    public void setPort(int port) {
+        this.port = port;
     }
 
     @Override
@@ -82,10 +128,5 @@ public class EmbeddedPiranhaWebServer implements WebServer {
     @Override
     public void stop() throws WebServerException {
         httpServer.stop();
-    }
-
-    @Override
-    public int getPort() {
-        return 8080;
     }
 }

@@ -31,10 +31,10 @@
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.spring.boot.starter {
+module cloud.piranha.spring.starter.embedded {
     
-    exports cloud.piranha.spring.boot.starter;
-    opens cloud.piranha.spring.boot.starter;
+    exports cloud.piranha.spring.starter.embedded;
+    opens cloud.piranha.spring.starter.embedded;
     requires cloud.piranha.embedded;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.impl;
