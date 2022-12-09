@@ -7,11 +7,11 @@
         <artifactId>project</artifactId>
         <version>22.12.0-SNAPSHOT</version>
     </parent>
-    <artifactId>spring-boot-starter-piranha</artifactId>
+    <artifactId>spring-boot-starter-piranha-embedded</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Spring - Spring Boot Starter</name>
+    <name>Piranha - Spring - Piranha Embedded Starter</name>
     <description>
-        This module delivers the Spring Boot starter for Piranha.
+        This module delivers the Spring Boot starter for Piranha Embedded.
     </description>
     <dependencies>
         <dependency>

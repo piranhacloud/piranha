@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.spring.boot.starter;
+package cloud.piranha.spring.starter.embedded;
 
 import org.springframework.boot.web.server.WebServer;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
@@ -38,8 +38,41 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
  */
 public class EmbeddedPiranhaServletWebServerFactory implements ServletWebServerFactory {
 
+    /**
+     * Stores the context path.
+     */
+    private String contextPath = "";
+    
+    /**
+     * Stores the port.
+     */
+    private int port = 8080;
+    
     @Override
     public WebServer getWebServer(ServletContextInitializer... initializers) {
-        return new EmbeddedPiranhaWebServer(initializers);
+        EmbeddedPiranhaWebServer webServer = new EmbeddedPiranhaWebServer();
+        webServer.setContextPath(contextPath);
+        webServer.setPort(port);
+        webServer.setInitializers(initializers);
+        webServer.init();
+        return webServer;
+    }
+    
+    /**
+     * Set the context path.
+     * 
+     * @param contextPath the context path.
+     */
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
+    }
+
+    /**
+     * Set the port.
+     * 
+     * @param port the port.
+     */
+    public void setPort(int port) {
+        this.port = port;
     }
 }

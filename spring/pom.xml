@@ -16,7 +16,7 @@
     <name>Piranha - Spring - Project</name>
 
     <modules>
-        <module>spring-boot-starter-piranha</module>
+        <module>spring-boot-starter-piranha-embedded</module>
     </modules>
     <dependencyManagement>
         <dependencies>
