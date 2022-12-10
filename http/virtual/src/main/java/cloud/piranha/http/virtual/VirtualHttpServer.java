@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import jdk.incubator.concurrent.StructuredTaskScope;
@@ -59,7 +60,7 @@ public class VirtualHttpServer implements HttpServer {
     /**
      * Stores the executor service.
      */
-    private final ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     /**
      * Stores the running flag
@@ -78,6 +79,12 @@ public class VirtualHttpServer implements HttpServer {
      * Stores the SSL flag
      */
     private boolean ssl;
+
+    /**
+     * Stores the barrier to signal when the thread
+     * receiving requests started
+     */
+    private final CountDownLatch barrier = new CountDownLatch(1);
 
     /**
      * Constructor
@@ -114,14 +121,20 @@ public class VirtualHttpServer implements HttpServer {
         isRunning = true;
         executorService.execute(() -> {
             try {
-                serve(getServerSocket());
+                ServerSocket serverSocket = getServerSocket();
+                barrier.countDown();
+                serve(serverSocket);
             } catch (Exception e) {
                 isRunning = false;
                 LOGGER.log(WARNING, e);
                 throw new RuntimeException(e);
             }
         });
-
+        try {
+            barrier.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -169,10 +182,10 @@ public class VirtualHttpServer implements HttpServer {
      * @throws InterruptedException if an error occurs
      */
     private void serve(ServerSocket serverSocket) throws IOException, InterruptedException {
-        try (var scope = new StructuredTaskScope<Void>()) {
+        try (StructuredTaskScope<Void> scope = new StructuredTaskScope<>()) {
             try {
                 while (isRunning()) {
-                    var socket = serverSocket.accept();
+                    Socket socket = serverSocket.accept();
                     scope.fork(() -> handle(socket));
                 }
             } finally {
