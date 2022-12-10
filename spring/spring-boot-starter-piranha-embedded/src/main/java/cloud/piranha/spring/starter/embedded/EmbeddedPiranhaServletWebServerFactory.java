@@ -27,6 +27,7 @@
  */
 package cloud.piranha.spring.starter.embedded;
 
+import cloud.piranha.http.api.HttpServer;
 import org.springframework.boot.web.server.WebServer;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
@@ -47,13 +48,19 @@ public class EmbeddedPiranhaServletWebServerFactory implements ServletWebServerF
      * Stores the port.
      */
     private int port = 8080;
-    
+
+    /**
+     * Stores the HTTP server implementation
+     */
+    private HttpServer httpServer;
+
     @Override
     public WebServer getWebServer(ServletContextInitializer... initializers) {
         EmbeddedPiranhaWebServer webServer = new EmbeddedPiranhaWebServer();
         webServer.setContextPath(contextPath);
         webServer.setPort(port);
         webServer.setInitializers(initializers);
+        webServer.setHttpServer(httpServer);
         webServer.init();
         return webServer;
     }
@@ -75,4 +82,14 @@ public class EmbeddedPiranhaServletWebServerFactory implements ServletWebServerF
     public void setPort(int port) {
         this.port = port;
     }
+
+    /**
+     * Set the HTTP server implementation
+     * @param httpServer the HTTP server implementation
+     */
+    public void setHttpServer(HttpServer httpServer) {
+        this.httpServer = httpServer;
+    }
+
+
 }
