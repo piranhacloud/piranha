@@ -31,7 +31,6 @@ import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import org.springframework.boot.web.server.WebServer;
 import org.springframework.boot.web.server.WebServerException;
@@ -75,9 +74,9 @@ public class EmbeddedPiranhaWebServer implements WebServer {
     public void init() {
         EmbeddedPiranha piranha = new EmbeddedPiranha();
         if (initializers != null) {
-            for (int i = 0; i < initializers.length; i++) {
+            for (ServletContextInitializer initializer : initializers) {
                 try {
-                    initializers[i].onStartup((ServletContext) piranha.getWebApplication());
+                    initializer.onStartup(piranha.getWebApplication());
                 } catch (ServletException se) {
                     throw new RuntimeException(se);
                 }
@@ -89,7 +88,8 @@ public class EmbeddedPiranhaWebServer implements WebServer {
         server.start();
         piranha.getWebApplication().setContextPath(contextPath);
         server.addWebApplication(piranha.getWebApplication());
-        httpServer = new DefaultHttpServer(port);
+        if (httpServer == null)
+            httpServer = new DefaultHttpServer(port);
         httpServer.setHttpServerProcessor(server);
     }
 
@@ -118,6 +118,15 @@ public class EmbeddedPiranhaWebServer implements WebServer {
      */
     public void setPort(int port) {
         this.port = port;
+    }
+
+    /**
+     * Set the HTTP server implementation.
+     *
+     * @param httpServer the HTTP server implementation.
+     */
+    public void setHttpServer(HttpServer httpServer) {
+        this.httpServer = httpServer;
     }
 
     @Override
