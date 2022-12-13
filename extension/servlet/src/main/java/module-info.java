@@ -36,7 +36,6 @@
  * <ul>
  *  <li>Annotation Scanning</li>
  *  <li>Apache Commons File Upload (Multipart)</li>
- *  <li>Async</li>
  *  <li>Locale Encoding</li>
  *  <li>Logging</li>
  *  <li>Mime-type</li>
@@ -58,7 +57,6 @@ module cloud.piranha.extension.servlet {
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.async;
     requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.localeencoding;
     requires cloud.piranha.extension.logging;

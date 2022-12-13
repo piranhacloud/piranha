@@ -31,7 +31,6 @@ import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
-import cloud.piranha.extension.async.AsyncExtension;
 import cloud.piranha.extension.datasource.DefaultDatasourceExtension;
 import cloud.piranha.extension.eclipselink.EclipseLinkExtension;
 import cloud.piranha.extension.localeencoding.LocaleEncodingExtension;
@@ -60,7 +59,6 @@ public class WebProfileExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
-        context.add(AsyncExtension.class);                          // Async
         context.add(LocaleEncodingExtension.class);                 // locale-encoding
         context.add(LoggingExtension.class);                        // ServletContext.log
         context.add(MimeTypeExtension.class);                       // mime-type
