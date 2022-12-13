@@ -5,7 +5,7 @@
     <parent>
         <groupId>cloud.piranha.spring</groupId>
         <artifactId>project</artifactId>
-        <version>22.12.0-SNAPSHOT</version>
+        <version>22.12.0</version>
     </parent>
     <artifactId>spring-boot-starter-piranha-embedded</artifactId>
     <packaging>jar</packaging>
