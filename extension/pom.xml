@@ -18,7 +18,6 @@
     <modules>
         <module>apache-fileupload</module>
         <module>annotationscan</module>
-        <module>async</module>
         <module>bytesstreamhandler</module>
         <module>coreprofile</module>
         <module>default-datasource</module>

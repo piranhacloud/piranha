@@ -33,7 +33,6 @@ import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
-import cloud.piranha.extension.async.AsyncExtension;
 import cloud.piranha.extension.datasource.DefaultDatasourceExtension;
 import cloud.piranha.extension.eclipselink.EclipseLinkExtension;
 import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
@@ -62,7 +61,6 @@ public class MicroExtension implements WebApplicationExtension {
     @Override
     public void extend(WebApplicationExtensionContext context) {
         // Servlet
-        context.add(AsyncExtension.class);                      // Async
         context.add(LocaleEncodingExtension.class);             // locale-encoding
         context.add(MimeTypeExtension.class);                   // mimetype
         context.add(PolicyExtension.class);                     // Policy
