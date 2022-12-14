@@ -29,7 +29,7 @@ create the ```pom.xml``` file with the content as below.
     <name>WebSocket Chat application</name>
     <properties>
         <piranha.distribution>servlet</piranha.distribution>
-        <piranha.version>22.12.0-SNAPSHOT</piranha.version>
+        <piranha.version>22.12.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
