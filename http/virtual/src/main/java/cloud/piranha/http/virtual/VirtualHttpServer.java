@@ -81,12 +81,6 @@ public class VirtualHttpServer implements HttpServer {
     private boolean ssl;
 
     /**
-     * Stores the barrier to signal when the thread
-     * receiving requests started
-     */
-    private final CountDownLatch barrier = new CountDownLatch(1);
-
-    /**
      * Constructor
      */
     public VirtualHttpServer() {
@@ -119,6 +113,7 @@ public class VirtualHttpServer implements HttpServer {
     @Override
     public void start() {
         isRunning = true;
+        CountDownLatch barrier = new CountDownLatch(1);
         executorService.execute(() -> {
             try {
                 ServerSocket serverSocket = getServerSocket();
