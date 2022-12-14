@@ -42,6 +42,7 @@ import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedResponse;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
+
 /**
  * The JUnit tests for the NamingExtension class.
  *
@@ -56,7 +57,7 @@ class NamingExtensionTest {
      */
     @Test
     void testConfigure() throws Exception {
-        System.setProperty(INITIAL_CONTEXT_FACTORY, DefaultInitialContextFactory.class.getName());
+        System.setProperty(INITIAL_CONTEXT_FACTORY, NamingInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .extension(NamingExtension.class)
                 .listener(TestServletRequestListener.class.getName())
@@ -85,7 +86,7 @@ class NamingExtensionTest {
                 .build()
                 .start();
         assertEquals(System.getProperty(INITIAL_CONTEXT_FACTORY),
-                DefaultInitialContextFactory.class.getName());
+                NamingInitialContextFactory.class.getName());
     }
 
     /**
