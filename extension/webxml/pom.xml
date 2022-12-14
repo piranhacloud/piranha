@@ -53,7 +53,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-slim-security</artifactId>
+            <artifactId>piranha-extension-security-servlet</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
