@@ -28,7 +28,7 @@
 package cloud.piranha.extension.webxml;
 
 import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.extension.slim.security.SlimSecurityManagerInitializer;
+import cloud.piranha.extension.security.servlet.ServletSecurityManagerInitializer;
 import cloud.piranha.resource.impl.DirectoryResource;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -50,7 +50,7 @@ class DenyUncoveredMethodsTest {
     void testGetDenyUncoveredMethods() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addResource(new DirectoryResource(new File("src/test/webxml/denyUncoveredMethods")));
-        webApplication.addInitializer(new SlimSecurityManagerInitializer());
+        webApplication.addInitializer(new ServletSecurityManagerInitializer());
         webApplication.addInitializer(new WebXmlInitializer());
         webApplication.initialize();
         assertTrue(webApplication.getManager().getSecurityManager().getDenyUncoveredHttpMethods());
