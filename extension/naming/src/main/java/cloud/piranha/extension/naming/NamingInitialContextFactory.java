@@ -27,20 +27,18 @@
  */
 package cloud.piranha.extension.naming;
 
+import cloud.piranha.naming.impl.DefaultInitialContext;
 import java.util.Hashtable;
-
 import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.spi.InitialContextFactory;
 
-import cloud.piranha.naming.impl.DefaultInitialContext;
-
 /**
- * The default InitialContextFactory.
+ * The Naming InitialContextFactory.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultInitialContextFactory implements InitialContextFactory {
+public class NamingInitialContextFactory implements InitialContextFactory {
 
     /**
      * Stores the initial context.
@@ -48,8 +46,9 @@ public class DefaultInitialContextFactory implements InitialContextFactory {
     private static Context theOneAndOnlyInstance = new DefaultInitialContext();
 
     /**
-     * Sets the static (initial) context
-     * @param context the (initial) context
+     * Sets the initial context
+     * 
+     * @param context the initial context
      */
     public static void setInitialContext(Context context) {
         theOneAndOnlyInstance = context;

@@ -27,11 +27,12 @@
  */
 package cloud.piranha.extension.naming;
 
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import cloud.piranha.naming.impl.DefaultInitialContext;
+import jakarta.annotation.Resource;
 import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
-import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -39,17 +40,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
 import java.util.Optional;
-
 import javax.naming.CompositeName;
 import javax.naming.Context;
+import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import javax.naming.NamingException;
 import javax.naming.Reference;
 import javax.naming.spi.NamingManager;
-
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.naming.impl.DefaultInitialContext;
-import jakarta.annotation.Resource;
 
 /**
  * The WebApplicationExtension that is responsible for setting up the proper
@@ -73,13 +69,13 @@ public class NamingExtension implements WebApplicationExtension {
      */
     @Override
     public void configure(WebApplication webApplication) {
-        LOGGER.log(DEBUG, "Configuring JNDI support");
+        LOGGER.log(DEBUG, "Configuring NamingExtension");
         if (System.getProperty(INITIAL_CONTEXT_FACTORY) == null) {
-            LOGGER.log(INFO, INITIAL_CONTEXT_FACTORY + " was not set, setting it");
-            System.setProperty(INITIAL_CONTEXT_FACTORY, DefaultInitialContextFactory.class.getName());
+            LOGGER.log(DEBUG, "Setting " + INITIAL_CONTEXT_FACTORY + " to " + NamingInitialContextFactory.class.getName());
+            System.setProperty(INITIAL_CONTEXT_FACTORY, NamingInitialContextFactory.class.getName());
         }
-        if (!System.getProperty(INITIAL_CONTEXT_FACTORY).equals(DefaultInitialContextFactory.class.getName())) {
-            LOGGER.log(WARNING, INITIAL_CONTEXT_FACTORY + " is not set to " + DefaultInitialContextFactory.class.getName());
+        if (!System.getProperty(INITIAL_CONTEXT_FACTORY).equals(NamingInitialContextFactory.class.getName())) {
+            LOGGER.log(WARNING, INITIAL_CONTEXT_FACTORY + " is not set to " + NamingInitialContextFactory.class.getName());
         }
 
         Context context = new DefaultInitialContext();
@@ -174,7 +170,7 @@ public class NamingExtension implements WebApplicationExtension {
                 }
             });
 
-        DefaultInitialContextFactory.setInitialContext(proxyContext);
+        NamingInitialContextFactory.setInitialContext(proxyContext);
         webApplication.setAttribute(Context.class.getName(), proxyContext);
     }
 }
