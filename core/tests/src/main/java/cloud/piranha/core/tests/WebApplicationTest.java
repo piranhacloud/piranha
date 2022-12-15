@@ -266,7 +266,7 @@ public abstract class WebApplicationTest {
      * Test addFilter method.
      */
     @Test
-    void testAddFilter9() throws Exception {
+    void testAddFilter9() {
         WebApplication webApplication = createWebApplication();
         webApplication.initialize();
         assertThrows(IllegalArgumentException.class, ()

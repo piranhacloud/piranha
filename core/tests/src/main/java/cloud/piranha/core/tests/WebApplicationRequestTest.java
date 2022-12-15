@@ -184,7 +184,7 @@ public abstract class WebApplicationRequestTest {
      * Test getAttribute method.
      */
     @Test
-    void testGetAttribute() throws Exception {
+    void testGetAttribute() {
         WebApplication webApplication = createWebApplication();
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
@@ -196,7 +196,7 @@ public abstract class WebApplicationRequestTest {
      * Test getAttributeNames method.
      */
     @Test
-    void testGetAttributeNames() throws Exception {
+    void testGetAttributeNames() {
         WebApplication webApplication = createWebApplication();
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
@@ -243,10 +243,9 @@ public abstract class WebApplicationRequestTest {
     /**
      * Test getContentLengthLong method.
      *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetContentLengthLong() throws Exception {
+    void testGetContentLengthLong() {
         WebApplicationRequest request = createWebApplicationRequest();
         assertEquals(-1L, request.getContentLengthLong());
     }
@@ -282,7 +281,7 @@ public abstract class WebApplicationRequestTest {
      * Test getDateHeader method.
      */
     @Test
-    void testGetDateHeader() throws Exception {
+    void testGetDateHeader() {
         WebApplicationRequest request = createWebApplicationRequest();
         assertEquals(-1L, request.getDateHeader("notfound"));
     }
@@ -290,10 +289,9 @@ public abstract class WebApplicationRequestTest {
     /**
      * Test getDispatcherType.
      *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetDispatcherType() throws Exception {
+    void testGetDispatcherType() {
         WebApplicationRequest request = createWebApplicationRequest();
         assertEquals(REQUEST, request.getDispatcherType());
     }
@@ -361,10 +359,9 @@ public abstract class WebApplicationRequestTest {
     /**
      * Test getIntHeader method.
      *
-     * @throws Exception when a serious error ocucrs.
      */
     @Test
-    void testGetIntHeader() throws Exception {
+    void testGetIntHeader() {
         WebApplicationRequest request = createWebApplicationRequest();
         assertEquals(-1, request.getIntHeader("notfound"));
     }
@@ -471,10 +468,9 @@ public abstract class WebApplicationRequestTest {
     /**
      * Test getPart method.
      *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetPart() throws Exception {
+    void testGetPart() {
         WebApplication webApplication = createWebApplication();
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
@@ -486,10 +482,9 @@ public abstract class WebApplicationRequestTest {
     /**
      * Test getParts method.
      *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetParts() throws Exception {
+    void testGetParts() {
         WebApplication webApplication = createWebApplication();
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
@@ -593,10 +588,9 @@ public abstract class WebApplicationRequestTest {
     /**
      * Test getRequestDispatcher method.
      *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testGetRequestDispatcher() throws Exception {
+    void testGetRequestDispatcher() {
         WebApplication webApplication = createWebApplication();
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
@@ -661,7 +655,7 @@ public abstract class WebApplicationRequestTest {
      * Test getServerPort method.
      */
     @Test
-    void testGetServerPort() throws Exception {
+    void testGetServerPort() {
         WebApplicationRequest request = createWebApplicationRequest();
         assertEquals(80, request.getServerPort());
     }
@@ -737,7 +731,7 @@ public abstract class WebApplicationRequestTest {
         ServletRegistration.Dynamic dynamic = webApplication.addServlet("session",
                 new HttpServlet() {
             @Override
-            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
                 response.setContentType("text/plain");
                 try ( PrintWriter out = response.getWriter()) {
                     if (request.isRequestedSessionIdValid()) {
@@ -833,7 +827,7 @@ public abstract class WebApplicationRequestTest {
      * Test getUpgradeHandler method.
      */
     @Test
-    void testGetUpgradeHandler() throws Exception {
+    void testGetUpgradeHandler() {
         WebApplicationRequest request = createWebApplicationRequest();
         assertNull(request.getUpgradeHandler());
     }
@@ -842,7 +836,7 @@ public abstract class WebApplicationRequestTest {
      * Test getUserPrincipal method.
      */
     @Test
-    void testGetUserPrincipal() throws Exception {
+    void testGetUserPrincipal() {
         WebApplicationRequest request = createWebApplicationRequest();
         assertNull(request.getUserPrincipal());
     }
@@ -939,7 +933,7 @@ public abstract class WebApplicationRequestTest {
      * Test isUserInRole method.
      */
     @Test
-    void testIsUserInRole() throws Exception {
+    void testIsUserInRole() {
         WebApplication webApplication = createWebApplication();
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
@@ -1056,10 +1050,9 @@ public abstract class WebApplicationRequestTest {
     /**
      * Test setCharacterEncoding method.
      *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetCharacterEncoding3() throws Exception {
+    void testSetCharacterEncoding3() {
         WebApplicationRequest request = createWebApplicationRequest();
         assertNotNull(assertThrows(UnsupportedEncodingException.class,
                 () -> request.setCharacterEncoding("doesnotexist")));
@@ -1068,10 +1061,9 @@ public abstract class WebApplicationRequestTest {
     /**
      * Test setCharacterEncoding method.
      *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSetCharacterEncoding4() throws Exception {
+    void testSetCharacterEncoding4() {
         WebApplicationRequest request = createWebApplicationRequest();
         assertNotNull(assertThrows(UnsupportedEncodingException.class,
                 () -> request.setCharacterEncoding(null)));
@@ -1198,10 +1190,9 @@ public abstract class WebApplicationRequestTest {
     /**
      * Test upgrade method.
      *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testUpgrade2() throws Exception {
+    void testUpgrade2() {
         WebApplicationRequest request = createWebApplicationRequest();
         assertNotNull(assertThrows(ServletException.class,
                 () -> request.upgrade(TestUpgrade2HttpUpgradeHandler.class)));

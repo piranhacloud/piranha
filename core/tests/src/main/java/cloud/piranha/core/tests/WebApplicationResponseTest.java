@@ -466,10 +466,9 @@ public abstract class WebApplicationResponseTest {
     /**
      * Test reset method.
      *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testReset() throws Exception {
+    void testReset() {
         WebApplicationResponse response = createWebApplicationResponse();
         response.reset();
         assertEquals(200, response.getStatus());
@@ -478,10 +477,9 @@ public abstract class WebApplicationResponseTest {
     /**
      * Test reset method.
      *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testReset2() throws Exception {
+    void testReset2() {
         WebApplication webApplication = createWebApplication();
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
@@ -560,10 +558,9 @@ public abstract class WebApplicationResponseTest {
     /**
      * Test sendRedirect method.
      *
-     * @throws Exception when a serious error occurs.
      */
     @Test
-    void testSendRedirect() throws Exception {
+    void testSendRedirect() {
         WebApplication webApplication = createWebApplication();
         webApplication.addServlet("Servlet", TestSendRedirectServlet.class);
         webApplication.addServletMapping("Servlet", "/servlet");
@@ -908,7 +905,7 @@ public abstract class WebApplicationResponseTest {
      * Test setHeader method.
      */
     @Test
-    void testSetHeader() throws Exception {
+    void testSetHeader() {
         WebApplication webApplication = createWebApplication();
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
@@ -925,7 +922,7 @@ public abstract class WebApplicationResponseTest {
      * Test setHeader method.
      */
     @Test
-    void testSetHeader2() throws Exception {
+    void testSetHeader2() {
         WebApplication webApplication = createWebApplication();
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
@@ -941,7 +938,7 @@ public abstract class WebApplicationResponseTest {
      * Test setHeader method.
      */
     @Test
-    void testSetHeader3() throws Exception {
+    void testSetHeader3() {
         WebApplication webApplication = createWebApplication();
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
@@ -956,7 +953,7 @@ public abstract class WebApplicationResponseTest {
      * Test setIntHeader method.
      */
     @Test
-    void testSetIntHeader() throws Exception {
+    void testSetIntHeader() {
         WebApplication webApplication = createWebApplication();
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
@@ -1026,7 +1023,7 @@ public abstract class WebApplicationResponseTest {
         WebApplicationResponse response = createWebApplicationResponse();
         response.setWebApplicationOutputStream(new WebApplicationOutputStream() {
             @Override
-            public void flushBuffer() throws IOException {
+            public void flushBuffer() {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
@@ -1081,7 +1078,7 @@ public abstract class WebApplicationResponseTest {
             }
 
             @Override
-            public void write(int b) throws IOException {
+            public void write(int b) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         });

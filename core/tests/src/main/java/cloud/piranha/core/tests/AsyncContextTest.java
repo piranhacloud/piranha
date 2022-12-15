@@ -168,7 +168,7 @@ public abstract class AsyncContextTest {
      * Test dispatch method.
      */
     @Test
-    void testDispatch() throws Exception {
+    void testDispatch() {
         WebApplication webApplication = createWebApplication();
         Dynamic registration = webApplication.addServlet("TestDispatchServlet", new HttpServlet() {
             @Override
