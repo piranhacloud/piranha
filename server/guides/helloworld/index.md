@@ -30,26 +30,26 @@ Create an empty directory to store your Maven project. Inside of that directory 
     <name>HelloWorld webapplication</name>
     <properties>
         <piranha.distribution>server</piranha.distribution>
-        <piranha.version>22.11.0</piranha.version>
+        <piranha.version>22.12.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.9.0</version>
+            <version>5.9.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.9.0</version>
+            <version>5.9.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.9.0</version>
+            <version>5.9.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -111,12 +111,6 @@ Create an empty directory to store your Maven project. Inside of that directory 
             </plugin>
         </plugins>
     </build>
-    <repositories>
-        <repository>
-            <id>jakarta-staging</id>
-            <url>https://jakarta.oss.sonatype.org/content/repositories/staging/</url>
-        </repository>
-    </repositories>
 </project>
 ```
 
@@ -206,9 +200,5 @@ From the `bin` directory of Piranha Server start the server using the command li
 ## Conclusion
 
 As you can see getting started with Piranha Server is straightforward!
-
-## References
-
-1. [ZIP file containing sources](helloworld.zip)
 
 [Up](../)
