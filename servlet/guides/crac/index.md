@@ -2,7 +2,8 @@
 
 If you are looking to get CRaC-ing with Piranha Servlet you can follow along!
 
-_Make sure you are using a CRaC enabled JDK available from https://github.com/CRaC/openjdk-builds/releases_
+_Make sure you are using a CRaC enabled JDK available from 
+https://github.com/CRaC/openjdk-builds/releases_
 
 In 10 steps you will learn how to deploy CRaC with Piranha Servlet. They are:
 
@@ -37,6 +38,7 @@ create the ```pom.xml``` file with the content as below.
     <name>CRaC web application</name>
     <properties>
         <piranha.distribution>servlet</piranha.distribution>
+        <piranha.version>22.12.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
@@ -45,7 +47,7 @@ create the ```pom.xml``` file with the content as below.
             <plugin>
                 <groupId>cloud.piranha.maven.plugins</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
-                <version>22.12.0-SNAPSHOT</version>
+                <version>${piranha.version}</version>
                 <executions>
                     <execution>
                         <id>pre-integration-test</id>
@@ -113,7 +115,7 @@ create the ```pom.xml``` file with the content as below.
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-weld</artifactId>
-            <version>22.11.0</version>
+            <version>${piranha.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -295,7 +297,8 @@ deploy your application:
 
 ## Create the checkpoint
 
-You have your application currently running so now it is time to create a checkpoint.
+You have your application currently running so now it is time to create a
+checkpoint.
 
 To ask the JVM to create a checkpoint use the command line below:
 
@@ -307,7 +310,8 @@ The application will exit and the chechkpoint files are in the `cr` directory.
 
 ## Restart the application
 
-To restart the application for the checkpoint you can use the following command line:
+To restart the application for the checkpoint you can use the following command
+line:
 
 ```bash
   java -XX:CRaCRestoreFrom=cr
@@ -315,10 +319,11 @@ To restart the application for the checkpoint you can use the following command 
 
 ## Conclusion
 
-As you can see using CRaC with Piranha Servlet is matter of the right JDK and the right command line switch.
+As you can see using CRaC with Piranha Servlet is matter of the right JDK and 
+the right command line switch.
 
 ## References
 
-1. [ZIP file containing sources](crac.zip)
+1. [CRaC Project](https://wiki.openjdk.org/display/crac/Main)
 
 [Up](../)
