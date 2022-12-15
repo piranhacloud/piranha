@@ -382,7 +382,7 @@ public abstract class WebApplicationResponseTest {
         webApplication.linkRequestAndResponse(request, response);
         response.getWriter();
         assertNotNull(assertThrows(IllegalStateException.class,
-                () -> response.getOutputStream()));
+                response::getOutputStream));
     }
 
     /**
@@ -447,7 +447,7 @@ public abstract class WebApplicationResponseTest {
         WebApplicationResponse response = createWebApplicationResponse();
         response.getOutputStream();
         assertNotNull(assertThrows(IllegalStateException.class,
-                () -> response.getWriter()));
+                response::getWriter));
     }
 
     /**
@@ -737,9 +737,7 @@ public abstract class WebApplicationResponseTest {
         webApplication.linkRequestAndResponse(request, response);
         response.setCharacterEncoding("does-not-exist");
         assertTrue("does-not-exist".equalsIgnoreCase(response.getCharacterEncoding()));
-        assertThrows(UnsupportedEncodingException.class, () -> {
-            response.getWriter();
-        });
+        assertThrows(UnsupportedEncodingException.class, response::getWriter);
     }
 
     /**
@@ -785,7 +783,7 @@ public abstract class WebApplicationResponseTest {
         response.reset();
         response.setCharacterEncoding("does-not-exist");
         assertEquals("does-not-exist", response.getCharacterEncoding());
-        assertThrows(UnsupportedEncodingException.class, () -> {response.getWriter(); });
+        assertThrows(UnsupportedEncodingException.class, response::getWriter);
         response.reset();
         response.setContentType("text/html");
         response.setCharacterEncoding("ISO-8859-7");

@@ -133,7 +133,7 @@ public abstract class WebApplicationRequestTest {
         response.setWebApplication(webApplication);
         webApplication.linkRequestAndResponse(request, response);
         assertNotNull(assertThrows(IllegalStateException.class,
-                () -> request.changeSessionId()));
+                request::changeSessionId));
     }
 
     /**
@@ -161,7 +161,7 @@ public abstract class WebApplicationRequestTest {
     void testGetAsyncContext() {
         WebApplicationRequest request = createWebApplicationRequest();
         assertNotNull(assertThrows(IllegalStateException.class,
-                () -> request.getAsyncContext()));
+                request::getAsyncContext));
     }
 
     /**
@@ -353,7 +353,7 @@ public abstract class WebApplicationRequestTest {
         WebApplicationRequest request = createWebApplicationRequest();
         assertNotNull(request.getInputStream());
         assertNotNull(assertThrows(IllegalStateException.class,
-                () -> request.getReader()));
+                request::getReader));
     }
 
     /**
@@ -488,9 +488,7 @@ public abstract class WebApplicationRequestTest {
         WebApplication webApplication = createWebApplication();
         WebApplicationRequest request = createWebApplicationRequest();
         request.setWebApplication(webApplication);
-        assertThrows(ServletException.class, () -> {
-            request.getParts();
-        });
+        assertThrows(ServletException.class, request::getParts);
     }
 
     /**
@@ -1128,9 +1126,7 @@ public abstract class WebApplicationRequestTest {
     @Test
     void testStartAsync() {
         WebApplicationRequest request = createWebApplicationRequest();
-        assertThrows(IllegalStateException.class, () -> {
-            request.startAsync();
-        });
+        assertThrows(IllegalStateException.class, request::startAsync);
     }
 
     /**
