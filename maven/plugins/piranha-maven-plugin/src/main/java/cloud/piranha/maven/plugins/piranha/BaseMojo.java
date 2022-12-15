@@ -215,10 +215,8 @@ public abstract class BaseMojo extends AbstractMojo {
         );
 
         File file = new File(localRepositoryDirectory, artifactPath);
-        if (!file.exists()) {
-            if (!file.getParentFile().mkdirs()) {
-                System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
-            }
+        if (!file.exists() && !file.getParentFile().mkdirs()) {
+            System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
         }
 
         try ( InputStream inputStream = downloadUrl.openStream()) {
@@ -239,27 +237,21 @@ public abstract class BaseMojo extends AbstractMojo {
         if (piranhaType.equals("zip")) {
             try (ZipFile zipFile = new ZipFile(piranhaFile)) {
                 File targetDir = new File(runtimeDirectory).getParentFile();
-                if (!targetDir.exists()) {
-                    if (!targetDir.mkdirs()) {
-                        System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
-                    }
+                if (!targetDir.exists() && !targetDir.mkdirs()) {
+                    System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
                 }
                 zipFile.entries().asIterator().forEachRemaining(zipEntry -> {
                     if (zipEntry.isDirectory()) {
                         File directory = new File(targetDir, zipEntry.getName());
-                        if (!directory.exists()) {
-                            if (!directory.mkdirs()) {
-                                System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
-                            }
+                        if (!directory.exists() && !directory.mkdirs()) {
+                            System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
                         }
                     } else {
                         try {
                             File file = new File(targetDir, zipEntry.getName());
                             Files.copy(zipFile.getInputStream(zipEntry), file.toPath(), REPLACE_EXISTING);
-                            if (zipEntry.getName().toLowerCase().endsWith(".sh")) {
-                                if (!file.setExecutable(true)) {
-                                    System.err.println("Unable to set " + zipEntry.getName() + " to executable");
-                                }
+                            if (zipEntry.getName().toLowerCase().endsWith(".sh") && !file.setExecutable(true)) {
+                                System.err.println("Unable to set " + zipEntry.getName() + " to executable");
                             }
                         } catch (IOException ioe) {
                             ioe.printStackTrace(System.err);

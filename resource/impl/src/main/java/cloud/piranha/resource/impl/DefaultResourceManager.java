@@ -81,10 +81,8 @@ public class DefaultResourceManager implements ResourceManager {
                 break;
             }
         }
-        if (alsoTryLoadFromClass && result == null) {
-            if (location != null) {
-                result = getClass().getResource(location);
-            }
+        if (alsoTryLoadFromClass && result == null && location != null) {
+            result = getClass().getResource(location);
         }
         return result;
     }

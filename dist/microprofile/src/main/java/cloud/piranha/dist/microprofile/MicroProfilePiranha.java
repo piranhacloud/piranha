@@ -309,10 +309,8 @@ public class MicroProfilePiranha implements Piranha, Runnable {
 
         if (pid != null) {
             File pidFile = new File("tmp", "piranha.pid");
-            if (!pidFile.getParentFile().exists()) {
-                if (!pidFile.getParentFile().mkdirs()) {
-                    LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
-                }
+            if (!pidFile.getParentFile().exists() && !pidFile.getParentFile().mkdirs()) {
+                LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
             }
             try ( PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
                 writer.println(pid);

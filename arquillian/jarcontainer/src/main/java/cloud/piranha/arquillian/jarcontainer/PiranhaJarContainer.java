@@ -218,10 +218,8 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
         );
 
         File zipFile = new File(localRepositoryDir, artifactPath);
-        if (!zipFile.exists()) {
-            if (!zipFile.getParentFile().mkdirs()) {
-                LOGGER.log(Level.WARNING, UNABLE_TO_CREATE_DIRECTORIES);
-            }
+        if (!zipFile.exists() && !zipFile.getParentFile().mkdirs()) {
+            LOGGER.log(Level.WARNING, UNABLE_TO_CREATE_DIRECTORIES);
         }
 
         try ( InputStream inputStream = downloadUrl.openStream()) {
@@ -239,7 +237,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
      * Create artifact path.
      *
      * @param groupId the groupId.
-     * @param artificatId the artifactId.
+     * @param artifactId the artifactId.
      * @param version the version
      * @param type the type.
      */
@@ -336,10 +334,8 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
      * @param zipFile the zip file.
      */
     private void copyPiranhaCoreProfileJarFile(File runtimeDirectory, File zipFile) throws IOException {
-        if (!runtimeDirectory.exists()) {
-            if (!runtimeDirectory.mkdirs()) {
-                System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
-            }
+        if (!runtimeDirectory.exists() && !runtimeDirectory.mkdirs()) {
+            System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
         }
         Files.copy(zipFile.toPath(),
                 Path.of(runtimeDirectory + "/piranha-dist-coreprofile.jar"),
