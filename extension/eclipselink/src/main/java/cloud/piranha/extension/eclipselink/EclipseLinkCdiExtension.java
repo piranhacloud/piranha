@@ -65,11 +65,11 @@ public class EclipseLinkCdiExtension implements Extension {
      */
     public <T> void processAnnotatedType(@Observes ProcessAnnotatedType<T> pat) {
         pat.configureAnnotatedType()
-           .filterFields(e -> shouldInjectionAnnotationBeAdded(e))
+           .filterFields(EclipseLinkCdiExtension::shouldInjectionAnnotationBeAdded)
            .forEach(e -> e.add(InjectLiteral.INSTANCE));
 
         pat.configureAnnotatedType()
-            .filterMethods(m -> shouldInjectionAnnotationBeAdded(m))
+            .filterMethods(EclipseLinkCdiExtension::shouldInjectionAnnotationBeAdded)
             .forEach(m -> m.add(InjectLiteral.INSTANCE));
     }
 
