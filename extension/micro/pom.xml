@@ -199,6 +199,20 @@
             <scope>runtime</scope>
         </dependency>
         
+        <!-- Jakarta Faces implementation -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.faces</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- Jakarta WebSocket implementation -->
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-container-servlet</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
         <!-- Jakarta Expression Language implementation -->
         <dependency>
             <groupId>org.glassfish.expressly</groupId>
@@ -254,16 +268,15 @@
             <scope>runtime</scope>
         </dependency>
         
+        <!-- Jakarta Enterprise Beans (Lite) implementation -->
         <dependency>
             <groupId>ee.omnifish</groupId>
             <artifactId>omnibeans</artifactId>
         </dependency>
-        
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>omniservices</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>omniutils</artifactId>
@@ -290,17 +303,7 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- runtime -->
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.faces</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.tyrus</groupId>
-            <artifactId>tyrus-container-servlet</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+        <!-- MicroProfile Config implementation -->
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>omni-mp-config</artifactId>
