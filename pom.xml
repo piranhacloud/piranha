@@ -24,7 +24,7 @@
             <url>https://raw.githubusercontent.com/piranhacloud/piranha/master/LICENSE</url>
         </license>
     </licenses>
-    
+
     <developers>
         <developer>
             <id>mriem</id>
@@ -64,7 +64,6 @@
         <developerConnection>scm:git:git@github.com:piranhacloud/piranha.git</developerConnection>
         <url>https://github.com/piranhacloud/piranha</url>
     </scm>
-
     <distributionManagement>    
         <snapshotRepository>
             <id>ossrh</id>

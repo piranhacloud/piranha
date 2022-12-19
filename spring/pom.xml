@@ -18,6 +18,7 @@
     <modules>
         <module>spring-boot-starter-piranha-embedded</module>
     </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>

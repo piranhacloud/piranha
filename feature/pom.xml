@@ -18,6 +18,7 @@
     <modules>
         <module>api</module>
     </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
