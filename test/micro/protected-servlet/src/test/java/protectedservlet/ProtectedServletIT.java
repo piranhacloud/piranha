@@ -41,9 +41,7 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
 
 import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
@@ -53,8 +51,6 @@ import com.gargoylesoftware.htmlunit.WebClient;
 
 
 @RunWith(Arquillian.class)
-@Disabled("Until fallout from some refactoring addressed")
-@Ignore
 public class ProtectedServletIT {
 
     @ArquillianResource
