@@ -37,7 +37,6 @@
  *  <li>Annotation Scanning</li>
  *  <li>Apache Commons File Upload (Multipart)</li>
  *  <li>Default DataSource</li>
- *  <li>Locale Encoding</li>
  *  <li>Logging</li>
  *  <li>Mime-type</li>
  *  <li>Naming (JNDI)</li>
@@ -61,7 +60,6 @@ module cloud.piranha.extension.webprofile {
     requires cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.extension.datasource;
     requires cloud.piranha.extension.eclipselink;
-    requires cloud.piranha.extension.localeencoding;
     requires cloud.piranha.extension.logging;
     requires cloud.piranha.extension.mimetype;
     requires cloud.piranha.extension.naming;
