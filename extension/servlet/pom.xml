@@ -40,12 +40,6 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-localeencoding</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-logging</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
