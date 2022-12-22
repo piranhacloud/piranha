@@ -14,7 +14,7 @@
     <name>Piranha - BOM</name>
 
     <properties>
-        <jakarta.activation-api.version>2.1.0</jakarta.activation-api.version>
+        <jakarta.activation-api.version>2.1.1</jakarta.activation-api.version>
         <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
         <jakarta.authentication-api.version>3.0.0</jakarta.authentication-api.version>
         <jakarta.authorization-api.version>2.1.0</jakarta.authorization-api.version>
@@ -37,7 +37,7 @@
         <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
         <jakarta.xml.bind-api.version>4.0.0</jakarta.xml.bind-api.version>
         <microprofile-config-api.version>3.0.2</microprofile-config-api.version>
-        <microprofile-jwt-auth-api.version>2.1-RC6</microprofile-jwt-auth-api.version>
+        <microprofile-jwt-auth-api.version>2.1</microprofile-jwt-auth-api.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
