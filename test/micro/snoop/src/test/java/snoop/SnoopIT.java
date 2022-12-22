@@ -89,7 +89,7 @@ public class SnoopIT {
                 .directory(new File("target"))
                 .command("java",
                         "-jar",
-                        "piranha-micro-shrinkwrap.jar",
+                        "piranha-dist-micro.jar",
                         "--port",
                         String.valueOf(port),
                         "--war",

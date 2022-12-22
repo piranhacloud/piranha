@@ -223,26 +223,26 @@
         </dependency>
 
         <dependency>
-            <groupId>cloud.piranha.micro.shrinkwrap</groupId>
-            <artifactId>piranha-micro-shrinkwrap</artifactId>
+            <groupId>cloud.piranha.dist</groupId>
+            <artifactId>piranha-dist-micro</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>cloud.piranha.micro.shrinkwrap</groupId>
-            <artifactId>piranha-micro-shrinkwrap-builder</artifactId>
+            <groupId>cloud.piranha.micro</groupId>
+            <artifactId>piranha-micro-builder</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>cloud.piranha.micro.shrinkwrap</groupId>
-            <artifactId>piranha-micro-shrinkwrap-core</artifactId>
+            <groupId>cloud.piranha.micro</groupId>
+            <artifactId>piranha-micro-core</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>cloud.piranha.micro.shrinkwrap</groupId>
-            <artifactId>piranha-micro-shrinkwrap-loader</artifactId>
+            <groupId>cloud.piranha.micro</groupId>
+            <artifactId>piranha-micro-loader</artifactId>
             <version>${project.version}</version>
         </dependency>
 

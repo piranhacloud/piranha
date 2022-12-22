@@ -21,8 +21,8 @@
             <artifactId>jandex</artifactId>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.micro.shrinkwrap</groupId>
-            <artifactId>piranha-micro-shrinkwrap-loader</artifactId>
+            <groupId>cloud.piranha.micro</groupId>
+            <artifactId>piranha-micro-loader</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

@@ -23,8 +23,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha.micro.shrinkwrap</groupId>
-            <artifactId>piranha-micro-shrinkwrap</artifactId>
+            <groupId>cloud.piranha.dist</groupId>
+            <artifactId>piranha-dist-micro</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
