@@ -43,9 +43,9 @@ import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
-import cloud.piranha.micro.shrinkwrap.builder.MicroWebApplication;
-import cloud.piranha.micro.shrinkwrap.loader.MicroConfiguration;
-import cloud.piranha.micro.shrinkwrap.loader.MicroOuterDeployer;
+import cloud.piranha.micro.builder.MicroWebApplication;
+import cloud.piranha.micro.loader.MicroConfiguration;
+import cloud.piranha.micro.loader.MicroOuterDeployer;
 import jakarta.servlet.ServletException;
 
 import static java.lang.System.Logger.Level.INFO;

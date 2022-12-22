@@ -19,7 +19,6 @@
         <module>builder</module>
         <module>core</module>
         <module>loader</module>
-        <module>shrinkwrap</module>
     </modules>
 
     <dependencyManagement>

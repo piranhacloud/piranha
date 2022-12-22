@@ -64,7 +64,7 @@
                         <phase>post-integration-test</phase>
                         <configuration>
                             <target>
-                                <delete file="${project.build.directory}/piranha-micro-shrinkwrap.jar"/>
+                                <delete file="${project.build.directory}/piranha-dist-micro.jar"/>
                             </target>
                         </configuration>
                         <goals>
@@ -86,12 +86,12 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>cloud.piranha.micro.shrinkwrap</groupId>
-                                    <artifactId>piranha-micro-shrinkwrap</artifactId>
+                                    <groupId>cloud.piranha.dist</groupId>
+                                    <artifactId>piranha-dist-micro</artifactId>
                                     <version>${project.version}</version>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}</outputDirectory>
-                                    <destFileName>piranha-micro-shrinkwrap.jar</destFileName>
+                                    <destFileName>piranha-dist-micro.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
