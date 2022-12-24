@@ -16,8 +16,8 @@
     <name>Piranha - Extension - Project</name>
 
     <modules>
-        <module>apache-fileupload</module>
         <module>annotationscan</module>
+        <module>apache-fileupload</module>
         <module>bytesstreamhandler</module>
         <module>coreprofile</module>
         <module>default-datasource</module>
@@ -31,6 +31,7 @@
         <module>mimetype</module>
         <module>naming</module>
         <module>naming-cdi</module>
+        <module>platform</module>
         <module>policy</module>
         <module>scinitializer</module>
         <module>security-servlet</module>
@@ -45,7 +46,6 @@
         <module>webxml</module>
         <module>welcomefile</module>
         <module>weld</module>
-        <module>platform</module>
     </modules>
 
     <dependencyManagement>

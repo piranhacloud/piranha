@@ -52,7 +52,7 @@
                                 <artifactItem>
                                     <groupId>commons-fileupload</groupId>
                                     <artifactId>commons-fileupload</artifactId>
-                                    <version>1.4</version>
+                                    <version>${commons-fileupload.version}</version>
                                     <classifier>sources</classifier>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}/fileupload-source</outputDirectory>
@@ -60,7 +60,7 @@
                                 <artifactItem>
                                     <groupId>commons-io</groupId>
                                     <artifactId>commons-io</artifactId>
-                                    <version>2.11.0</version>
+                                    <version>${commons-io.version}</version>
                                     <classifier>sources</classifier>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}/fileupload-source</outputDirectory>
