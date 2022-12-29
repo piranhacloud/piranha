@@ -4,15 +4,25 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.0</version>
-        <relativePath/>
+        <groupId>cloud.piranha.test.embedded</groupId>
+        <artifactId>project</artifactId>
+        <version>23.1.0-SNAPSHOT</version>
     </parent>
     <groupId>cloud.piranha.test.embedded</groupId>
     <artifactId>piranha-test-embedded-springboot-virtualthreads</artifactId>
     <version>23.1.0-SNAPSHOT</version>
     <name>Piranha - Test - Embedded - Spring Boot Virtual Threads</name>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

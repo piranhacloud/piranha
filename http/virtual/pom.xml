@@ -49,7 +49,6 @@
             <plugin>
                 <groupId>io.github.wiverson</groupId>
                 <artifactId>jtoolprovider-plugin</artifactId>
-                <version>1.0.34</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
