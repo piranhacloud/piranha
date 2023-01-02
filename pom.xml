@@ -686,9 +686,9 @@
                 </plugin>
                 <!-- 
 
-                 Kept at 3.0.0-M4 because 3.0.0-M[5-7] do not work.
+                  Kept at 3.0.0-M4 because 3.0.0-M[5-7] do not work.
 
-                -->
+                  -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
@@ -734,10 +734,15 @@
                     <artifactId>maven-shade-plugin</artifactId>
                     <version>3.4.1</version>
                 </plugin>
+                <!-- 
+
+                  Kept at 4.0.0-M3 because 4.0.0-M4 does not work.
+
+                  -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>4.0.0-M4</version>
+                    <version>4.0.0-M3</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -746,9 +751,9 @@
                 </plugin>
                 <!--
 
-                 Kept at 3.0.0-M6 because 3.0.0-M7 does not work.
+                  Kept at 3.0.0-M6 because 3.0.0-M7 does not work.
 
-                -->
+                  -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
