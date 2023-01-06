@@ -27,25 +27,7 @@
  */
 package cloud.piranha.extension.webxml.internal;
 
-import cloud.piranha.core.api.WebXml;
-import cloud.piranha.core.api.WebXmlSecurityConstraint;
-import cloud.piranha.core.api.WebXmlFilterMapping;
-import cloud.piranha.core.api.WebXmlListener;
-import cloud.piranha.core.api.WebXmlErrorPage;
-import cloud.piranha.core.api.WebXmlLoginConfig;
-import cloud.piranha.core.api.WebXmlSessionConfig;
-import cloud.piranha.core.api.WebXmlContextParam;
-import cloud.piranha.core.api.WebXmlMimeMapping;
-import cloud.piranha.core.api.WebXmlFilter;
-import cloud.piranha.core.api.WebXmlFilterInitParam;
-import cloud.piranha.core.api.WebXmlServlet;
-import cloud.piranha.core.api.WebXmlServletMultipartConfig;
-import cloud.piranha.core.api.WebXmlServletSecurityRoleRef;
-import cloud.piranha.core.api.WebXmlServletInitParam;
-import cloud.piranha.core.api.WebXmlServletMapping;
 import static cloud.piranha.core.api.WebXml.OTHERS_TAG;
-import cloud.piranha.core.api.WebXmlDataSource;
-import cloud.piranha.core.api.WebXmlJspConfigTaglib;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.WARNING;
 import static java.util.regex.Pattern.quote;
@@ -53,12 +35,12 @@ import static javax.xml.xpath.XPathConstants.NODE;
 import static javax.xml.xpath.XPathConstants.NODESET;
 
 import java.io.InputStream;
+import java.lang.System.Logger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.lang.System.Logger;
 import java.util.stream.StreamSupport;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -72,6 +54,25 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import cloud.piranha.core.api.WebXml;
+import cloud.piranha.core.api.WebXmlContextParam;
+import cloud.piranha.core.api.WebXmlDataSource;
+import cloud.piranha.core.api.WebXmlErrorPage;
+import cloud.piranha.core.api.WebXmlFilter;
+import cloud.piranha.core.api.WebXmlFilterInitParam;
+import cloud.piranha.core.api.WebXmlFilterMapping;
+import cloud.piranha.core.api.WebXmlJspConfigTaglib;
+import cloud.piranha.core.api.WebXmlListener;
+import cloud.piranha.core.api.WebXmlLoginConfig;
+import cloud.piranha.core.api.WebXmlMimeMapping;
+import cloud.piranha.core.api.WebXmlSecurityConstraint;
+import cloud.piranha.core.api.WebXmlServlet;
+import cloud.piranha.core.api.WebXmlServletInitParam;
+import cloud.piranha.core.api.WebXmlServletMapping;
+import cloud.piranha.core.api.WebXmlServletMultipartConfig;
+import cloud.piranha.core.api.WebXmlServletSecurityRoleRef;
+import cloud.piranha.core.api.WebXmlSessionConfig;
 
 /**
  * The web.xml / web-fragment.xml parser.
@@ -206,8 +207,8 @@ public class InternalWebXmlParser {
         if (nodeList != null) {
             List<WebXmlContextParam> contextParams = webXml.getContextParams();
             for (int i = 0; i < nodeList.getLength(); i++) {
-                String name = parseString(xPath, "//param-name/text()", nodeList.item(i));
-                String value = parseString(xPath, "//param-value/text()", nodeList.item(i));
+                String name = parseString(xPath, "param-name/text()", nodeList.item(i));
+                String value = parseString(xPath, "param-value/text()", nodeList.item(i));
                 contextParams.add(new WebXmlContextParam(name, value));
             }
         }
@@ -231,6 +232,14 @@ public class InternalWebXmlParser {
             dataSource.setPassword(parseString(xPath, "password/text()", dataSourceNode));
             dataSource.setUrl(parseString(xPath, "url/text()", dataSourceNode));
             dataSource.setUser(parseString(xPath, "user/text()", dataSourceNode));
+
+            for (Node propertyNode : parseNodes(xPath, "property", dataSourceNode)) {
+                dataSource.getProperties()
+                          .put(
+                              parseString(xPath, "name/text()", propertyNode),
+                              parseString(xPath, "value/text()", propertyNode));
+            }
+
             dataSources.add(dataSource);
         }
     }
