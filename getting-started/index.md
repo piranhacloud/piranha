@@ -8,7 +8,9 @@ If you want to embed Piranha into your application you can pick Piranha Embedded
 
 If you are looking for a lean REST runtime then you should pick Piranha Core Profile. 
 
-If you are looking for a traditional Servlet container, similar to Tomcat and Jetty, then Piranha Server or Piranha Servlet are your best bet. For hosting multiple web applications on the same distribution use Piranha Server. For hosting just a single web application pick Piranha Servlet. 
+If you are looking for a traditional Servlet container, similar to Tomcat and Jetty, then Piranha Server or Piranha Servlet are your best bet. For hosting multiple web applications on the same distribution use Piranha Server. For hosting just a single web application pick Piranha Servlet.
+
+If you are wondering what Jakarta EE or Micro Profile specification each of the distribution supports see our [Jakarta EE / Micro Profile matrix](matrix.md)
 
 ## Distribution specific documentation
 
