@@ -6,3 +6,4 @@ nb-configuration.xml
 nbproject/
 target/
 dist/
+arquillian/server/.flattened-pom.xml
