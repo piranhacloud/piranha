@@ -27,6 +27,9 @@
  */
 package cloud.piranha.core.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A data-source inside of web.xml.
  *
@@ -59,6 +62,12 @@ public class WebXmlDataSource {
      */
     private String user;
 
+
+    /**
+     * Stores the properties.
+     */
+    private Map<String, Object> properties = new HashMap<>();
+
     /**
      * Get the class name.
      *
@@ -76,10 +85,10 @@ public class WebXmlDataSource {
     public String getName() {
         return name;
     }
-    
+
     /**
      * Get the password.
-     * 
+     *
      * @return the password.
      */
     public String getPassword() {
@@ -102,6 +111,15 @@ public class WebXmlDataSource {
      */
     public String getUser() {
         return user;
+    }
+
+    /**
+     * Set the user.
+     *
+     * @param user the user.
+     */
+    public void setUser(String user) {
+        this.user = user;
     }
 
     /**
@@ -141,11 +159,20 @@ public class WebXmlDataSource {
     }
 
     /**
-     * Set the user.
+     * Get the properties
      *
-     * @param user the user.
+     * @return the properties
      */
-    public void setUser(String user) {
-        this.user = user;
+    public Map<String, Object> getProperties() {
+        return properties;
+    }
+
+    /**
+     * Set the properties
+     *
+     * @param properties the properties
+     */
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = properties;
     }
 }
