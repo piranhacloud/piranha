@@ -27,25 +27,27 @@
  */
 package cloud.piranha.core.impl;
 
+import static jakarta.servlet.DispatcherType.REQUEST;
+import static jakarta.servlet.http.MappingMatch.DEFAULT;
+import static jakarta.servlet.http.MappingMatch.EXACT;
+import static jakarta.servlet.http.MappingMatch.EXTENSION;
+import static jakarta.servlet.http.MappingMatch.PATH;
+import static java.util.Collections.reverse;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import cloud.piranha.core.api.FilterEnvironment;
 import cloud.piranha.core.api.FilterPriority;
 import cloud.piranha.core.api.ServletEnvironment;
 import cloud.piranha.core.api.WebApplicationRequestMapping;
 import jakarta.servlet.DispatcherType;
-import static jakarta.servlet.DispatcherType.REQUEST;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
-import static jakarta.servlet.http.MappingMatch.DEFAULT;
-import static jakarta.servlet.http.MappingMatch.EXACT;
-import static jakarta.servlet.http.MappingMatch.EXTENSION;
-import static jakarta.servlet.http.MappingMatch.PATH;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import static java.util.Collections.reverse;
-import java.util.List;
 
 /**
  * The invocation finder tries to find a servlet invocation matching a request
@@ -141,7 +143,15 @@ public class DefaultInvocationFinder {
             return servletInvocation;
         }
 
-        List<FilterEnvironment> filterEnvironments = findFilterEnvironments(dispatcherType, servletPath, pathInfo, servletInvocation == null ? null : servletInvocation.getServletName());
+        List<FilterEnvironment> filterEnvironments =
+            findFilterEnvironments(
+                dispatcherType,
+                // Look at the servletInvocation if there is one, as a welcome file can be set
+                // that differs from the request path
+                servletInvocation == null ? servletPath : servletInvocation.getServletPath(),
+                servletInvocation == null ? pathInfo : servletInvocation.getPathInfo(),
+                servletInvocation == null ? null : servletInvocation.getServletName());
+
         if (filterEnvironments != null) {
             if (servletInvocation == null) {
                 servletInvocation = new DefaultServletInvocation();
@@ -234,11 +244,11 @@ public class DefaultInvocationFinder {
             for (String welcomeFile : webApplication.getManager().getWelcomeFileManager().getWelcomeFileList()) {
 
                 DefaultServletInvocation servletInvocation = null;
-                
+
                 if (isJsp(welcomeFile)) {
                     // .jsp files are special in the system, as they are mapped to a servlet, but also
                     // have to be present at exactly that path as static resource. Additionally we have
-                    // the required index.jsp welcome file, that may not actually be there. 
+                    // the required index.jsp welcome file, that may not actually be there.
                     // So, .jsp files are treated as a servlet invocation but only if the static resource exists
                     if (isStaticResource(servletPath, pathInfo + welcomeFile)) {
                         servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo + welcomeFile);
@@ -255,7 +265,7 @@ public class DefaultInvocationFinder {
                     servletInvocation.setOriginalServletPath(servletPath);
                     return servletInvocation;
                 }
-                
+
             }
 
             // No static file, JSP or servlet
