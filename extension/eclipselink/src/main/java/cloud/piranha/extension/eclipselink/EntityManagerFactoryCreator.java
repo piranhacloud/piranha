@@ -39,7 +39,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.sql.CommonDataSource;
 import javax.sql.DataSource;
+import javax.sql.XADataSource;
 
 import org.eclipse.persistence.internal.jpa.deployment.JPAInitializer;
 import org.eclipse.persistence.internal.jpa.deployment.PersistenceUnitProcessor;
@@ -49,6 +51,7 @@ import org.eclipse.persistence.jpa.PersistenceProvider;
 
 import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.extension.datasource.TxJoiningDataSource;
+import cloud.piranha.extension.datasource.XADataSourceWrapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.Converter;
 import jakarta.persistence.Embeddable;
@@ -127,7 +130,7 @@ public class EntityManagerFactoryCreator {
                     try {
                         String name = (String) method.invoke(persistenceUnitInfo.getJtaDataSource());
 
-                        persistenceUnitInfo.setJtaDataSource(InitialContext.doLookup(name));
+                        persistenceUnitInfo.setJtaDataSource(lookupAsDataSource(name));
                         break;
 
                     } catch (ReflectiveOperationException | IllegalArgumentException | NamingException e1) {
@@ -161,6 +164,7 @@ public class EntityManagerFactoryCreator {
         // Use GlassFish JNDI names for getting the transaction manager. Eventually this should
         // be standardised.
         properties.put("eclipselink.target-server", "Glassfish");
+        properties.put("eclipselink.connection-pool.force-internal-pool", "true");
 
         EntityManagerFactory entityManagerFactory = provider.createContainerEntityManagerFactory(persistenceUnitInfo, properties);
 
@@ -200,6 +204,20 @@ public class EntityManagerFactoryCreator {
         }
 
         return persistenceUnitNames;
+    }
+
+    private DataSource lookupAsDataSource(String name) throws NamingException {
+        CommonDataSource commonDataSource = InitialContext.doLookup(name);
+
+        if (commonDataSource instanceof DataSource dataSource) {
+            return dataSource;
+        }
+
+        if (commonDataSource instanceof XADataSource xaDataSource) {
+            return new XADataSourceWrapper(xaDataSource);
+        }
+
+        throw new IllegalStateException("Type " + commonDataSource.getClass() + " not supported as data source");
     }
 
     private DataSource getDefaultDataSource() {
