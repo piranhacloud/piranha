@@ -27,6 +27,24 @@
  */
 package cloud.piranha.extension.webxml.internal;
 
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
+import static java.lang.System.Logger.Level.WARNING;
+import static java.util.stream.Collectors.toSet;
+
+import java.lang.System.Logger;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.CommonDataSource;
+
 import cloud.piranha.core.api.ErrorPageManager;
 import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.MimeTypeManager;
@@ -52,21 +70,6 @@ import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.descriptor.JspConfigDescriptor;
-import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.TRACE;
-import static java.lang.System.Logger.Level.WARNING;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.EnumSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import static java.util.stream.Collectors.toSet;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 
 /**
  * The web.xml / web-fragment.xml processor.
@@ -141,24 +144,63 @@ public class InternalWebXmlProcessor {
     private void processDataSources(WebApplication webApplication, WebXml webXml) {
         for (WebXmlDataSource dataSourceXml : webXml.getDataSources()) {
             try {
-                Class clazz = Class.forName(dataSourceXml.getClassName());
-                DataSource dataSource = (DataSource) clazz.getDeclaredConstructor().newInstance();
-                Method method = dataSource.getClass().getMethod("setUrl", String.class);
-                method.invoke(dataSource, dataSourceXml.getUrl());
+                CommonDataSource dataSource = (CommonDataSource)
+                    Class.forName(dataSourceXml.getClassName())
+                         .getDeclaredConstructor()
+                         .newInstance();
+
+                if (dataSourceXml.getUrl() != null) {
+                    dataSource.getClass()
+                              .getMethod("setUrl", String.class)
+                              .invoke(dataSource, dataSourceXml.getUrl());
+                }
+
                 if (dataSourceXml.getPassword() != null) {
-                    method = dataSource.getClass().getMethod("setPassword", String.class);
-                    method.invoke(dataSource, dataSourceXml.getPassword());
+                    dataSource.getClass()
+                              .getMethod("setPassword", String.class)
+                              .invoke(dataSource, dataSourceXml.getPassword());
                 }
                 if (dataSourceXml.getUser() != null) {
-                    method = dataSource.getClass().getMethod("setUser", String.class);
-                    method.invoke(dataSource, dataSourceXml.getUser());
+                    dataSource.getClass()
+                              .getMethod("setUser", String.class)
+                              .invoke(dataSource, dataSourceXml.getUser());
                 }
+
+                if (!dataSourceXml.getProperties().isEmpty()) {
+                    Method[] dataSourceMethods = dataSource.getClass().getMethods();
+                    properties: for (var property : dataSourceXml.getProperties().entrySet()) {
+                        for (Method dataSourceMethod : dataSourceMethods) {
+                            if (isStringSetter(dataSourceMethod)) {
+                                String methodName = "set" + capitalize(property.getKey());
+
+                                if (dataSourceMethod.getName().equals(methodName)) {
+                                    dataSourceMethod.invoke(dataSource, property.getValue());
+                                    break properties;
+                                }
+                            }
+                        }
+                    }
+                }
+
+
                 InitialContext initialContext = new InitialContext();
                 initialContext.bind(dataSourceXml.getName(), dataSource);
             } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException | NamingException e) {
                 LOGGER.log(WARNING, "Unable to create DataSource", e);
             }
         }
+    }
+
+    private boolean isStringSetter(Method method) {
+        return method.getParameterCount() == 1 && method.getParameters()[0].getType().equals(String.class);
+    }
+
+    private String capitalize(String string) {
+        if (string == null || string.isEmpty()) {
+            return string;
+        }
+
+        return string.substring(0, 1).toUpperCase() + string.substring(1);
     }
 
     /**
