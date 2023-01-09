@@ -147,6 +147,16 @@ public class NamingExtension implements WebApplicationExtension {
                                                 }
                                             }
                                         }
+                                    } else if (jndiName.startsWith("ejblocal:")) {
+                                        String typeName = jndiName.substring("ejblocal:".length());
+
+                                        return CDI.current()
+                                                  .select(
+                                                      Class.forName(
+                                                          typeName,
+                                                          false,
+                                                          Thread.currentThread().getContextClassLoader()) )
+                                                  .get();
                                     }
                                 }
                             } catch (Throwable t) {
