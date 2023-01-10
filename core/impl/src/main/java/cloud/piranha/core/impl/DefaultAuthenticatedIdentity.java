@@ -27,12 +27,15 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.AuthenticatedIdentity;
-import java.security.Principal;
 import static java.util.Collections.unmodifiableSet;
+
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.security.auth.Subject;
+
+import cloud.piranha.core.api.AuthenticatedIdentity;
 
 /**
  * Default implementation of AuthenticatedIdentity.
@@ -54,7 +57,7 @@ public class DefaultAuthenticatedIdentity implements AuthenticatedIdentity {
      * Stores the current identity.
      */
     private static InheritableThreadLocal<AuthenticatedIdentity> currentIdentity = new InheritableThreadLocal<>();
-    
+
     /**
      * Stores the current subject.
      */
@@ -64,7 +67,7 @@ public class DefaultAuthenticatedIdentity implements AuthenticatedIdentity {
      * Stores the caller principal.
      */
     private Principal callerPrincipal;
-    
+
     /**
      * Stores the groups.
      */
@@ -72,7 +75,7 @@ public class DefaultAuthenticatedIdentity implements AuthenticatedIdentity {
 
     /**
      * Constructor.
-     * 
+     *
      * @param callerPrincipal the caller principal.
      * @param groups the groups.
      */
@@ -83,7 +86,7 @@ public class DefaultAuthenticatedIdentity implements AuthenticatedIdentity {
 
     /**
      * Set the current identity.
-     * 
+     *
      * @param callerPrincipal the caller principal.
      * @param groups the groups.
      */
@@ -93,12 +96,15 @@ public class DefaultAuthenticatedIdentity implements AuthenticatedIdentity {
 
     /**
      * Set the current identity.
-     * 
+     *
      * @param identity the identity.
      */
     public static void setCurrentIdentity(AuthenticatedIdentity identity) {
         Subject subject = new Subject();
         subject.getPrincipals().add(identity);
+        if (identity.getCallerPrincipal() != null) {
+            subject.getPrincipals().add(identity.getCallerPrincipal());
+        }
 
         currentIdentity.set(identity);
         currentSubject.set(subject);
