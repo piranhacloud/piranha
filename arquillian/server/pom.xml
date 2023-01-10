@@ -28,6 +28,16 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.resource</groupId>
+            <artifactId>piranha-resource-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.resource</groupId>
+            <artifactId>piranha-resource-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-shrinkwrap</artifactId>
             <version>${project.version}</version>
         </dependency>
