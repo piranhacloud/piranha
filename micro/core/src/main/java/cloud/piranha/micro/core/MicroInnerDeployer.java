@@ -140,6 +140,27 @@ public class MicroInnerDeployer {
         "jakarta.ws.rs.ext.Provider",
         "jakarta.ws.rs.ApplicationPath",
 
+        // Faces
+        "jakarta.faces.lifecycle.ClientWindowScoped",
+        "jakarta.faces.component.behavior.FacesBehavior",
+        "jakarta.faces.render.FacesBehaviorRenderer",
+        "jakarta.faces.component.FacesComponent",
+        "jakarta.faces.annotation.FacesConfig",
+        "jakarta.faces.convert.FacesConverter",
+        "jakarta.faces.model.FacesDataModel",
+        "jakarta.faces.render.FacesRenderer",
+        "jakarta.faces.validator.FacesValidator",
+        "jakarta.faces.flow.builder.FlowBuilderParameter",
+        "jakarta.faces.flow.builder.FlowDefinition",
+        "jakarta.faces.flow.FlowScoped",
+        "jakarta.faces.event.ListenerFor",
+        "jakarta.faces.event.ListenersFor",
+        "jakarta.faces.event.NamedEvent",
+        "jakarta.faces.push.Push",
+        "jakarta.faces.application.ResourceDependencies",
+        "jakarta.faces.application.ResourceDependency",
+        "jakarta.faces.view.ViewScoped",
+
         // Persistence
         "jakarta.persistence.Entity",
         "jakarta.persistence.Embeddable",
@@ -163,7 +184,16 @@ public class MicroInnerDeployer {
      */
     String[] instances = new String[]{
         // REST
-        "jakarta.ws.rs.core.Application",};
+        "jakarta.ws.rs.core.Application",
+
+        // Faces
+        "jakarta.faces.convert.Converter",
+        "jakarta.faces.model.DataModel",
+        "jakarta.faces.event.PhaseListener",
+        "jakarta.faces.render.Renderer",
+        "jakarta.faces.component.UIComponent",
+        "jakarta.faces.validator.Validator",
+    };
 
     /**
      * Stores the HTTP server.
@@ -377,19 +407,19 @@ public class MicroInnerDeployer {
         try {
             if (target.kind() == CLASS) {
                 return Class.forName(
-                        target.asClass().toString(), true,
+                        target.asClass().toString(), false,
                         Thread.currentThread().getContextClassLoader());
             }
 
             if (target.kind() == FIELD) {
                 return Class.forName(
-                        target.asField().declaringClass().toString(), true,
+                        target.asField().declaringClass().toString(), false,
                         Thread.currentThread().getContextClassLoader());
             }
 
             if (target.kind() == METHOD) {
                 return Class.forName(
-                        target.asMethod().declaringClass().toString(), true,
+                        target.asMethod().declaringClass().toString(), false,
                         Thread.currentThread().getContextClassLoader());
             }
 
