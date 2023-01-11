@@ -109,7 +109,7 @@
         <maven-settings.version>4.0.0-alpha-2</maven-settings.version>
         <microprofile-jwt-auth.version>2.0.1</microprofile-jwt-auth.version>
         <netty.version>4.1.86.Final</netty.version>
-        <omnibeans.version>0.2-SNAPSHOT</omnibeans.version>
+        <omnibeans.version>0.1</omnibeans.version>
         <omniservices.version>0.3</omniservices.version>
         <omniutils.version>0.13</omniutils.version>
         <omni-mp-config.version>3.0.0</omni-mp-config.version>
