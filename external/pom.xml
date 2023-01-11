@@ -18,6 +18,7 @@
     <modules>
         <module>ejblite</module>
         <module>jakartaee-samples</module>
+        <module>kickoff</module>
         <module>quicklook</module>
         <module>tck</module>
     </modules>
