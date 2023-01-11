@@ -73,6 +73,8 @@
 
     <properties>
         <!-- dependencies -->
+        <angus.mail.version>1.1.0</angus.mail.version>
+        <angus.activation.version>1.1.0</angus.activation.version>
         <arquillian.version>1.7.0.Alpha13</arquillian.version>
         <bcel.version>6.7.0</bcel.version>
         <checkstyle.version>10.5.0</checkstyle.version>
@@ -181,6 +183,18 @@
                 <groupId>io.github.crac</groupId>
                 <artifactId>org-crac</artifactId>
                 <version>${crac.version}</version>
+            </dependency>
+            
+            <!-- Jakarta Angus (Jakarta Mail) -->
+            <dependency>
+                <groupId>org.eclipse.angus</groupId>
+                <artifactId>angus-mail</artifactId>
+                <version>${angus.mail.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.angus</groupId>
+                <artifactId>angus-activation</artifactId>
+                <version>${angus.activation.version}</version>
             </dependency>
 
             <!-- Eclipse EclipseLink -->
@@ -385,6 +399,11 @@
             </dependency>
             
             <!-- JBoss Hibernate Validator -->
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator-cdi</artifactId>
