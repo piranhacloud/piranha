@@ -76,7 +76,7 @@ jobs:
         INDEX=${TAG%v*}
         VERSION=${TAG:${#INDEX}}
         docker buildx build --push --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/microprofile:amd64-$VERSION .
-        docker builfx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/microprofile:arm64v8-$VERSION .
+        docker buildx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/microprofile:arm64v8-$VERSION .
         docker pull piranhacloud/microprofile:amd64-$VERSION
         docker pull piranhacloud/microprofile:arm64v8-$VERSION
         export DOCKER_CLI_EXPERIMENTAL=enabled
