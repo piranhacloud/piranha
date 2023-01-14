@@ -74,11 +74,10 @@
     <properties>
         <!-- dependencies -->
         <angus.mail.version>1.1.0</angus.mail.version>
-        <angus.activation.version>1.1.0</angus.activation.version>
+        <angus.activation.version>2.0.0</angus.activation.version>
         <arquillian.version>1.7.0.Alpha13</arquillian.version>
         <bcel.version>6.7.0</bcel.version>
-        <checkstyle.version>10.5.0</checkstyle.version>
-        <commons-compress.version>1.22</commons-compress.version>
+        <checkstyle.version>10.6.0</checkstyle.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-io.version>2.11.0</commons-io.version>
         <crac.version>0.1.3</crac.version>
@@ -90,23 +89,21 @@
         <grizzly.version>4.0.0</grizzly.version>
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
         <hazelcast.version>5.2.1</hazelcast.version>
-        <htmlunit.version>2.67.0</htmlunit.version>
+        <htmlunit.version>2.69.0</htmlunit.version>
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
         <jakarta.faces.version>4.0.0</jakarta.faces.version>
         <jandex.version>3.0.5</jandex.version>
         <jaxb.version>4.0.1</jaxb.version>
-        <jboss-classfilewriter.version>1.2.5.Final</jboss-classfilewriter.version>
+        <jboss-classfilewriter.version>1.3.0.Final</jboss-classfilewriter.version>
         <jersey.version>3.1.0</jersey.version>
-        <jsoup.version>1.15.3</jsoup.version>
         <jstl.version>3.0.1</jstl.version>
-        <junit.version>5.9.1</junit.version>
-        <junit-pioneer.version>1.9.1</junit-pioneer.version>
-        <junit-platform-launcher.version>1.9.1</junit-platform-launcher.version>
+        <junit.version>5.9.2</junit.version>
+        <junit-pioneer.version>2.0.0-RC1</junit-pioneer.version>
+        <junit-platform-launcher.version>1.9.2</junit-platform-launcher.version>
         <h2.version>2.1.214</h2.version>
         <maven-plugin-annotations.version>3.7.0</maven-plugin-annotations.version>
-        <maven-plugin-api.version>4.0.0-alpha-2</maven-plugin-api.version>
+        <maven-plugin-api.version>4.0.0-alpha-3</maven-plugin-api.version>
         <maven-plugin-tools-annotations.version>3.7.0</maven-plugin-tools-annotations.version>
-        <maven-settings.version>4.0.0-alpha-2</maven-settings.version>
         <microprofile-jwt-auth.version>2.0.1</microprofile-jwt-auth.version>
         <netty.version>4.1.86.Final</netty.version>
         <omnibeans.version>0.2</omnibeans.version>
@@ -118,10 +115,10 @@
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.1.4</shrinkwrap-resolver.version>
         <soteria.version>3.0.1</soteria.version>
-        <spring-boot.version>3.0.0</spring-boot.version>
+        <spring-boot.version>3.0.1</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.1.2</tyrus.version>
-        <undertow.version>2.3.2.Final</undertow.version>
+        <undertow.version>2.3.3.Final</undertow.version>
         <wasp.version>3.1.0</wasp.version>
         <weld.version>5.1.0.Final</weld.version>
         <yasson.version>3.0.2</yasson.version>
@@ -132,35 +129,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Apache Commons Compress -->
-            <!--
-
-              Added as a dependency to force the version of commons-compress
-              because it is pulled in as a transitive dependency but the version
-              that gets pulled in has 5 vulnerabilities (CVE-2021-35517, 
-              CVE-2021-35516, CVE-2021-35515, CVE-2018-11771, CVE-2021-36090).
-
-            -->
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-compress</artifactId>
-                <version>${commons-compress.version}</version>
-            </dependency>
-            
-            <!-- Apache Commons IO -->
-            <!--
-
-              Added as a dependency to force the version of commons-io because
-              it is pulled in as a transitive dependency but the version that 
-              gets pulled in has a vulnerability (CVE-2021-29425).
-
-            -->
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
-            </dependency>
-            
             <!-- Apache Maven -->
             <dependency>
                 <groupId>org.apache.maven</groupId>
@@ -467,22 +435,7 @@
                 <artifactId>weld-servlet-core</artifactId>
                 <version>${weld.version}</version>
             </dependency>
-            
-            <!-- JSoup -->
-            <!--
-
-              Added as a dependency to force the version of jsoup because
-              it is pulled in as a transitive dependency but the version that 
-              gets pulled in has 3 vulnerabilities (CVE-2015-6748, 
-              CVE-2022-36033 and CVE-2021-37714).
-
-            -->
-            <dependency>
-                <groupId>org.jsoup</groupId>
-                <artifactId>jsoup</artifactId>
-                <version>${jsoup.version}</version>
-            </dependency>
-                        
+                                    
             <!-- JUnit -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
@@ -527,20 +480,6 @@
                 <version>${hazelcast.version}</version>
             </dependency>
             
-            <!-- Maven Settings -->
-            <!--
-
-                Added as a dependency to force the version of maven-settings
-                because it is pulled in as a transitive dependency but the 
-                version that gets pulled in has a vulnerability (CVE-2021-26291)
-
-            -->
-            <dependency>
-                <groupId>org.apache.maven</groupId>
-                <artifactId>maven-settings</artifactId>
-                <version>${maven-settings.version}</version>
-            </dependency>
-
             <!-- Netty -->
             <dependency>
                 <groupId>io.netty</groupId>
@@ -630,18 +569,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <!-- 
-
-    Remove once Jakarta EE 10 goes final.
-      
-    -->
-    <repositories>
-        <repository>
-            <id>jakarta-staging</id>
-            <url>https://jakarta.oss.sonatype.org/content/repositories/staging/</url>
-        </repository>
-    </repositories>
 
     <build>
         <pluginManagement>
