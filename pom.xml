@@ -73,8 +73,8 @@
 
     <properties>
         <!-- dependencies -->
-        <angus.mail.version>1.1.0</angus.mail.version>
         <angus.activation.version>2.0.0</angus.activation.version>
+        <angus.mail.version>1.1.0</angus.mail.version>
         <arquillian.version>1.7.0.Alpha13</arquillian.version>
         <bcel.version>6.7.0</bcel.version>
         <checkstyle.version>10.6.0</checkstyle.version>
@@ -94,7 +94,8 @@
         <jakarta.faces.version>4.0.0</jakarta.faces.version>
         <jandex.version>3.0.5</jandex.version>
         <jaxb.version>4.0.1</jaxb.version>
-        <jboss-classfilewriter.version>1.3.0.Final</jboss-classfilewriter.version>
+        <!-- Kept at 1.2.5.Final because 1.3.0.Final does not work -->
+        <jboss-classfilewriter.version>1.2.5.Final</jboss-classfilewriter.version>
         <jersey.version>3.1.0</jersey.version>
         <jstl.version>3.0.1</jstl.version>
         <junit.version>5.9.2</junit.version>
