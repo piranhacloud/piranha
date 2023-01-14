@@ -129,6 +129,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Apache Commons IO -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+            
             <!-- Apache Maven -->
             <dependency>
                 <groupId>org.apache.maven</groupId>
