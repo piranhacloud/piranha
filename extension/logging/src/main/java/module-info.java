@@ -29,8 +29,15 @@
 /**
  * This module delivers the logging support extension.
  * 
+ * <p>
+ *  This module has been deprecated and its functionality will be part of 
+ *  Piranha Core.
+ * </p>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "23.2.0", forRemoval = true)
 module cloud.piranha.extension.logging {
     
     exports cloud.piranha.extension.logging;

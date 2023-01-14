@@ -36,7 +36,9 @@ import static java.lang.System.Logger.Level.DEBUG;
  * The WebApplicationExtension that sets the StamdardLoggingManager.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "23.2.0", forRemoval = true)
 public class LoggingExtension implements WebApplicationExtension {
 
     /**
