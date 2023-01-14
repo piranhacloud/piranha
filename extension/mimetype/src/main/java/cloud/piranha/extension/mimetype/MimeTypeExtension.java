@@ -36,7 +36,9 @@ import static java.lang.System.Logger.Level.TRACE;
  * The WebApplicationExtension that sets the InternalMimeTypeManager.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "23.2.0", forRemoval = true)
 public class MimeTypeExtension implements WebApplicationExtension {
 
     /**

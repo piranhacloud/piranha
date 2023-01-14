@@ -35,7 +35,9 @@ import cloud.piranha.core.api.MimeTypeManager;
  * The InternalMimeTypeManager that delivers mime-type handling.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "23.2.0", forRemoval = true)
 public class InternalMimeTypeManager implements MimeTypeManager {
 
     /**
