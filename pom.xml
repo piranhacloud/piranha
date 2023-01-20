@@ -56,7 +56,6 @@
         <module>naming</module>
         <module>resource</module>
         <module>spring</module>
-        <module>debug</module>
     </modules>
 
     <scm>

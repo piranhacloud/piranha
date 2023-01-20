@@ -18,6 +18,7 @@
         <module>embedded</module>
         <module>common</module>
         <module>coreprofile</module>
+        <module>debug</module>
         <module>jpms</module>
         <module>micro</module>
         <module>server</module>
