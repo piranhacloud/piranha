@@ -44,11 +44,11 @@ jobs:
     - name: Build Piranha Core Profile image
       run: |
         cd dist/coreprofile
+        export DOCKER_CLI_EXPERIMENTAL=enabled
         docker buildx build --push --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/coreprofile:amd64-latest .
         docker buildx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/coreprofile:arm64v8-latest .
-        docker pull --platform linux/amd64 piranhacloud/coreprofile:amd64-latest
-        docker pull --platform linux/arm64 piranhacloud/coreprofile:arm64v8-latest
-        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker pull piranhacloud/coreprofile:amd64-latest
+        docker pull piranhacloud/coreprofile:arm64v8-latest
         docker manifest create piranhacloud/coreprofile:latest \
           piranhacloud/coreprofile:amd64-latest \
           piranhacloud/coreprofile:arm64v8-latest
@@ -60,11 +60,11 @@ jobs:
     - name: Build Piranha Micro image
       run: |
         cd dist/micro
+        export DOCKER_CLI_EXPERIMENTAL=enabled
         docker buildx build --push --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/micro:amd64-latest .
         docker buildx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/micro:arm64v8-latest .
-        docker pull --platform linux/amd64 piranhacloud/micro:amd64-latest
-        docker pull --platform linux/arm64 piranhacloud/micro:arm64v8-latest
-        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker pull piranhacloud/micro:amd64-latest
+        docker pull piranhacloud/micro:arm64v8-latest
         docker manifest create piranhacloud/micro:latest \
           piranhacloud/micro:amd64-latest \
           piranhacloud/micro:arm64v8-latest
@@ -76,11 +76,11 @@ jobs:
     - name: Build Piranha Micro Profile image
       run: |
         cd dist/microprofile
+        export DOCKER_CLI_EXPERIMENTAL=enabled
         docker buildx build --push --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/microprofile:amd64-latest .
         docker buildx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/microprofile:arm64v8-latest .
-        docker pull --platform linux/amd64 piranhacloud/microprofile:amd64-latest
-        docker pull --platform linux/arm64 piranhacloud/microprofile:arm64v8-latest
-        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker pull piranhacloud/microprofile:amd64-latest
+        docker pull piranhacloud/microprofile:arm64v8-latest
         docker manifest create piranhacloud/microprofile:latest \
           piranhacloud/microprofile:amd64-latest \
           piranhacloud/microprofile:arm64v8-latest
@@ -92,11 +92,11 @@ jobs:
     - name: Build Piranha Server image
       run: |
         cd dist/server
+        export DOCKER_CLI_EXPERIMENTAL=enabled
         docker buildx build --push --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/server:amd64-latest .
         docker buildx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/server:arm64v8-latest .
-        docker pull --platform linux/amd64 piranhacloud/server:amd64-latest
-        docker pull --platform linux/arm64 piranhacloud/server:arm64v8-latest
-        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker pull piranhacloud/server:amd64-latest
+        docker pull piranhacloud/server:arm64v8-latest
         docker manifest create piranhacloud/server:latest \
           piranhacloud/server:amd64-latest \
           piranhacloud/server:arm64v8-latest
@@ -108,11 +108,11 @@ jobs:
     - name: Build Piranha Servlet image
       run: |
         cd dist/servlet
+        export DOCKER_CLI_EXPERIMENTAL=enabled
         docker buildx build --push --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/servlet:amd64-latest .
         docker buildx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/servlet:arm64v8-latest .
-        docker pull --platform linux/amd64 piranhacloud/servlet:amd64-latest
-        docker pull --platform linux/arm64 piranhacloud/servlet:arm64v8-latest
-        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker pull piranhacloud/servlet:amd64-latest
+        docker pull piranhacloud/servlet:arm64v8-latest
         docker manifest create piranhacloud/servlet:latest \
           piranhacloud/servlet:amd64-latest \
           piranhacloud/servlet:arm64v8-latest
@@ -124,11 +124,11 @@ jobs:
     - name: Build Piranha Web Profile image
       run: |
         cd dist/webprofile
+        export DOCKER_CLI_EXPERIMENTAL=enabled
         docker buildx build --push --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/webprofile:amd64-latest .
         docker buildx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/webprofile:arm64v8-latest .
-        docker pull --platform linux/amd64 piranhacloud/webprofile:amd64-latest
-        docker pull --platform linux/arm64 piranhacloud/webprofile:arm64v8-latest
-        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker pull piranhacloud/webprofile:amd64-latest
+        docker pull piranhacloud/webprofile:arm64v8-latest
         docker manifest create piranhacloud/webprofile:latest \
           piranhacloud/webprofile:amd64-latest \
           piranhacloud/webprofile:arm64v8-latest
