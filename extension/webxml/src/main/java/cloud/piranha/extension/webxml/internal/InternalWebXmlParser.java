@@ -90,6 +90,11 @@ public class InternalWebXmlParser {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(InternalWebXmlParser.class.getName());
+    
+    /**
+     * Stores the 'param-name/text()' selector.
+     */
+    private static final String PARAM_NAME_TEXT_SELECTOR = "param-name/text()";
 
     /**
      * Stores the 'servlet-name/text()' selector.
@@ -207,7 +212,7 @@ public class InternalWebXmlParser {
         if (nodeList != null) {
             List<WebXmlContextParam> contextParams = webXml.getContextParams();
             for (int i = 0; i < nodeList.getLength(); i++) {
-                String name = parseString(xPath, "param-name/text()", nodeList.item(i));
+                String name = parseString(xPath, PARAM_NAME_TEXT_SELECTOR, nodeList.item(i));
                 String value = parseString(xPath, "param-value/text()", nodeList.item(i));
                 contextParams.add(new WebXmlContextParam(name, value));
             }
@@ -395,7 +400,7 @@ public class InternalWebXmlParser {
                 filters.add(filter);
                 NodeList paramNodeList = (NodeList) xPath.evaluate("init-param", nodeList.item(i), NODESET);
                 for (int j = 0; j < paramNodeList.getLength(); j++) {
-                    String name = parseString(xPath, "param-name/text()", paramNodeList.item(j));
+                    String name = parseString(xPath, PARAM_NAME_TEXT_SELECTOR, paramNodeList.item(j));
                     String value = parseString(xPath, "param-value/text()", paramNodeList.item(j));
                     filter.addInitParam(new WebXmlFilterInitParam(name, value));
                 }
@@ -760,7 +765,7 @@ public class InternalWebXmlParser {
                 servlet.setAsyncSupported(asyncSupported);
             }
             for (Node initParamNode : parseNodes(xPath, "init-param", servletNode)) {
-                String name = parseString(xPath, "param-name/text()", initParamNode);
+                String name = parseString(xPath, PARAM_NAME_TEXT_SELECTOR, initParamNode);
                 String value = parseString(xPath, "param-value/text()", initParamNode);
                 servlet.getInitParams().add(new WebXmlServletInitParam(name, value));
             }
