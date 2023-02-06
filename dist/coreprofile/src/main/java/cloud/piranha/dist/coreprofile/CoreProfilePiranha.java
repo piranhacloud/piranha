@@ -36,16 +36,14 @@ import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
+import static cloud.piranha.core.impl.WarFileExtractor.extractWarFile;
 import cloud.piranha.extension.coreprofile.CoreProfileExtension;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.ServletException;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -60,8 +58,6 @@ import java.lang.module.ModuleReference;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ServiceLoader;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 /**
  * The Piranha Core Profile runtime.
@@ -144,52 +140,6 @@ public class CoreProfilePiranha implements Piranha, Runnable {
      * Stores the PID.
      */
     private Long pid;
-
-    /**
-     * Extract the zip input stream.
-     *
-     * @param zipInput the zip input stream.
-     * @param filePath the file path.
-     * @throws IOException when an I/O error occurs.
-     */
-    private void extractZipInputStream(ZipInputStream zipInput, String filePath) throws IOException {
-        try ( BufferedOutputStream bufferOutput = new BufferedOutputStream(new FileOutputStream(filePath))) {
-            byte[] bytesIn = new byte[8192];
-            int read;
-            while ((read = zipInput.read(bytesIn)) != -1) {
-                bufferOutput.write(bytesIn, 0, read);
-            }
-        }
-    }
-
-    /**
-     * Extract the WAR file.
-     *
-     * @param warFile the WAR file.
-     * @param webApplicationDirectory the web application directory.
-     */
-    private void extractWarFile(File warFile, File webApplicationDirectory) {
-        if (!webApplicationDirectory.exists()) {
-            webApplicationDirectory.mkdirs();
-        }
-        try ( ZipInputStream zipInput = new ZipInputStream(new FileInputStream(warFile))) {
-            ZipEntry entry = zipInput.getNextEntry();
-            while (entry != null) {
-                String filePath = webApplicationDirectory + File.separator + entry.getName();
-                if (!entry.isDirectory()) {
-                    File file = new File(filePath);
-                    if (!file.getParentFile().exists()) {
-                        file.getParentFile().mkdirs();
-                    }
-                    extractZipInputStream(zipInput, filePath);
-                }
-                zipInput.closeEntry();
-                entry = zipInput.getNextEntry();
-            }
-        } catch (IOException ioe) {
-            LOGGER.log(WARNING, "I/O error occurred while extracting WAR file", ioe);
-        }
-    }
 
     /**
      * Run method.
