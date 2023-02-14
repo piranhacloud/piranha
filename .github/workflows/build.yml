@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         java: [ '17', '19' ]
-        os: [ubuntu-latest, windows-2019]
+        os: [ubuntu-latest, windows]
     steps:
     - name: Checkout Sources
       uses: actions/checkout@v3
