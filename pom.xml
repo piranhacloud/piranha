@@ -935,30 +935,32 @@
                             </tags>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>attach-aggregate-javadocs</id>
-                        <goals>
-                            <goal>aggregate-jar</goal>
-                        </goals>
-                        <configuration>
-                            <docfilessubdirs>true</docfilessubdirs>
-                            <!-- 
-                             
-                              Once a Jakarta namespaced Apache Commons 
-                              FileUpload can be used this should be removed.
-                             
-                            -->
-                            <excludePackageNames>org.apache.*</excludePackageNames>
-                            <tags>
-                                <tag>
-                                    <name>assertion</name>
-                                    <placement>a</placement>
-                                    <head>Assertion: </head>
-                                </tag>
-                            </tags>
-                        </configuration>
-                        <inherited>false</inherited>
-                    </execution>
+                    <!--
+            <execution>
+                <id>attach-aggregate-javadocs</id>
+                <goals>
+                    <goal>aggregate-jar</goal>
+                </goals>
+                <configuration>
+                    <docfilessubdirs>true</docfilessubdirs>
+                    <!- - 
+                     
+                      Once a Jakarta namespaced Apache Commons 
+                      FileUpload can be used this should be removed.
+                     
+                    - ->
+                    <excludePackageNames>org.apache.*</excludePackageNames>
+                    <tags>
+                        <tag>
+                            <name>assertion</name>
+                            <placement>a</placement>
+                            <head>Assertion: </head>
+                        </tag>
+                    </tags>
+                </configuration>
+                <inherited>false</inherited>
+            </execution>
+                    -->
                 </executions>
                 <configuration>
                     <additionalOptions>-html5</additionalOptions>
@@ -1042,10 +1044,10 @@
 
     <profiles>
         <!--
-    
-            This profile is used for checking vulnerabilities in our dependencies.
-    
-            -->
+
+        This profile is used for checking vulnerabilities in our dependencies.
+
+        -->
         <profile>
             <id>dependency-check</id>
             <build>
@@ -1069,9 +1071,9 @@
         </profile>
         <!-- 
 
-            This profile is used when releasing to Maven central.
+        This profile is used when releasing to Maven central.
 
-            -->
+        -->
         <profile>
             <id>release</id>
             <build>
@@ -1100,9 +1102,9 @@
         </profile>
         <!-- 
 
-            This profile is for Eclipse m2e users.
-        
-            -->
+        This profile is for Eclipse m2e users.
+    
+        -->
         <profile>
             <id>eclipse</id>
             <activation>
@@ -1194,10 +1196,10 @@
             </build>
         </profile>
         <!--
-    
-            This profile is used to run external tests (e.g. TCK tests).
-                
-            -->
+
+        This profile is used to run external tests (e.g. TCK tests).
+            
+        -->
         <profile>
             <id>external</id>
             <modules>
@@ -1205,10 +1207,10 @@
             </modules>
         </profile>
         <!--
-    
-            This profile is used for running our 
-                
-            -->
+
+        This profile is used for running our 
+            
+        -->
         <profile>
             <id>test</id>
             <activation>
