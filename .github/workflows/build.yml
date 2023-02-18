@@ -59,6 +59,27 @@ jobs:
       run: mvn --no-transfer-progress -B -DskipTests=true -DskipITs=true install
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
+  sonarcloud:
+    if: github.repository == 'piranhacloud/piranha'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 10
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: 17
+    - name: Analyze with SonarCloud
+      run: |
+        mvn -B -ntp install verify site \
+        sonar:sonar -Dsonar.projectKey=piranhacloud_piranha \
+        -Dsonar.organization=piranhacloud -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=${{ secrets.SONAR_LOGIN }}
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}              
   sonatype:
     if: github.repository == 'piranhacloud/piranha' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
