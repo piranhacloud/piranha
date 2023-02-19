@@ -20,8 +20,9 @@ jobs:
     - name: Checkout Sources
       uses: actions/checkout@v3
     - name: Setup Java
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
+        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Build with Maven
@@ -51,8 +52,9 @@ jobs:
       with:
         languages: ${{ matrix.language }}
     - name: Setup Java
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
+        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Build with Maven
@@ -68,8 +70,9 @@ jobs:
       with:
         fetch-depth: 10
     - name: Set up Java
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
+        cache: 'maven'
         distribution: 'temurin'
         java-version: 17
     - name: Analyze with SonarCloud
@@ -87,8 +90,9 @@ jobs:
     - name: Checkout sources
       uses: actions/checkout@v3
     - name: Set up Java
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
+        cache: 'maven'
         distribution: 'temurin'
         java-version: 17
         server-id: ossrh
