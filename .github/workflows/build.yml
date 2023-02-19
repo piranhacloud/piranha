@@ -76,10 +76,10 @@ jobs:
       run: |
         mvn -B -ntp install verify site \
         sonar:sonar -Dsonar.projectKey=piranhacloud_piranha \
-        -Dsonar.organization=piranhacloud -Dsonar.host.url=https://sonarcloud.io \
-        -Dsonar.login=${{ secrets.SONAR_LOGIN }}
+        -Dsonar.organization=piranhacloud -Dsonar.host.url=https://sonarcloud.io
       env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}              
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   sonatype:
     if: github.repository == 'piranhacloud/piranha' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
