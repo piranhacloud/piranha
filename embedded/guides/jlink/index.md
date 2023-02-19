@@ -2,11 +2,12 @@
 
 Can you create a JLink application with Piranha Embedded?
 
-In 4 steps you will learn how to so. They are:
+In 6 steps you will learn how to so. They are:
 
 1. Create the Maven POM file
 1. Add the application class
 1. Add the servlet class
+1. Add the module-info
 1. Build the application
 1. Run the application
 
@@ -212,6 +213,22 @@ public class HelloWorldServlet extends HttpServlet {
             writer.flush();
         }
     }
+}
+```
+
+## Add the module info
+
+Now add the module-info.java to the `src/main/java` directory.
+
+```
+module helloworld {
+
+    exports helloworld;
+    requires cloud.piranha.embedded;
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.http.impl;
+    requires cloud.piranha.http.webapp;
+    requires jakarta.servlet;
 }
 ```
 
