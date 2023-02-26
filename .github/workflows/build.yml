@@ -108,10 +108,11 @@ jobs:
       run: |
         cd dist/micro
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker buildx build --push --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/micro:amd64-latest .
-        docker buildx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/micro:arm64v8-latest .
-        docker pull piranhacloud/micro:amd64-latest
-        docker pull piranhacloud/micro:arm64v8-latest
+        docker buildx build --load --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/micro:amd64-latest .
+        docker push piranhacloud/micro:amd64-latest
+        docker buildx build --load --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/micro:arm64v8-latest .
+        docker push piranhacloud/micro:arm64v8-latest
+        docker manifest rm piranhacloud/micro:latest || true
         docker manifest create piranhacloud/micro:latest \
           piranhacloud/micro:amd64-latest \
           piranhacloud/micro:arm64v8-latest
