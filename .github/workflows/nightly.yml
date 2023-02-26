@@ -51,6 +51,7 @@ jobs:
         docker push piranhacloud/coreprofile:amd64-latest
         docker buildx build --load --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/coreprofile:arm64v8-latest .
         docker push piranhacloud/coreprofile:arm64v8-latest
+        docker manifest rm piranhacloud/coreprofile:latest || true
         docker manifest create piranhacloud/coreprofile:latest \
           piranhacloud/coreprofile:amd64-latest \
           piranhacloud/coreprofile:arm64v8-latest
