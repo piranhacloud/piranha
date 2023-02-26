@@ -125,10 +125,11 @@ jobs:
       run: |
         cd dist/microprofile
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker buildx build --push --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/microprofile:amd64-latest .
-        docker buildx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/microprofile:arm64v8-latest .
-        docker pull piranhacloud/microprofile:amd64-latest
-        docker pull piranhacloud/microprofile:arm64v8-latest
+        docker buildx build --load --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/microprofile:amd64-latest .
+        docker push piranhacloud/microprofile:amd64-latest
+        docker buildx build --load --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/microprofile:arm64v8-latest .
+        docker push piranhacloud/microprofile:arm64v8-latest
+        docker manifest rm piranhacloud/microprofile:latest || true
         docker manifest create piranhacloud/microprofile:latest \
           piranhacloud/microprofile:amd64-latest \
           piranhacloud/microprofile:arm64v8-latest
@@ -141,10 +142,11 @@ jobs:
       run: |
         cd dist/server
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker buildx build --push --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/server:amd64-latest .
-        docker buildx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/server:arm64v8-latest .
-        docker pull piranhacloud/server:amd64-latest
-        docker pull piranhacloud/server:arm64v8-latest
+        docker buildx build --load --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/server:amd64-latest .
+        docker push piranhacloud/server:amd64-latest
+        docker buildx build --load --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/server:arm64v8-latest .
+        docker push piranhacloud/server:arm64v8-latest
+        docker manifest rm piranhacloud/server:latest || true
         docker manifest create piranhacloud/server:latest \
           piranhacloud/server:amd64-latest \
           piranhacloud/server:arm64v8-latest
@@ -157,10 +159,11 @@ jobs:
       run: |
         cd dist/servlet
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker buildx build --push --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/servlet:amd64-latest .
-        docker buildx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/servlet:arm64v8-latest .
-        docker pull piranhacloud/servlet:amd64-latest
-        docker pull piranhacloud/servlet:arm64v8-latest
+        docker buildx build --load --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/servlet:amd64-latest .
+        docker push piranhacloud/servlet:amd64-latest
+        docker buildx build --load --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/servlet:arm64v8-latest .
+        docker push piranhacloud/servlet:arm64v8-latest
+        docker manifest rm piranhacloud/servlet:latest || true
         docker manifest create piranhacloud/servlet:latest \
           piranhacloud/servlet:amd64-latest \
           piranhacloud/servlet:arm64v8-latest
@@ -173,10 +176,11 @@ jobs:
       run: |
         cd dist/webprofile
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker buildx build --push --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/webprofile:amd64-latest .
-        docker buildx build --push --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/webprofile:arm64v8-latest .
-        docker pull piranhacloud/webprofile:amd64-latest
-        docker pull piranhacloud/webprofile:arm64v8-latest
+        docker buildx build --load --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/webprofile:amd64-latest .
+        docker push piranhacloud/webprofile:amd64-latest
+        docker buildx build --load --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/webprofile:arm64v8-latest .
+        docker push piranhacloud/webprofile:arm64v8-latest
+        docker manifest rm piranhacloud/webprofile:latest || true
         docker manifest create piranhacloud/webprofile:latest \
           piranhacloud/webprofile:amd64-latest \
           piranhacloud/webprofile:arm64v8-latest
