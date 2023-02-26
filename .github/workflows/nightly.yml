@@ -34,7 +34,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B -DskipTests=true -DskipITs=true -ntp -P '!test' verify
     - name: Login to Docker Hub
-      uses: azure/docker-login@v1
+      uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
@@ -42,6 +42,8 @@ jobs:
       uses: docker/setup-qemu-action@v2
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
+      with:
+        version: v0.10.0
     - run: docker buildx inspect
     - name: Build Piranha Core Profile image
       run: |
