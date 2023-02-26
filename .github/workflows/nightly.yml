@@ -47,9 +47,9 @@ jobs:
       run: |
         cd dist/coreprofile
         export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker buildx build --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/coreprofile:amd64-latest .
+        docker build --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/coreprofile:amd64-latest .
         docker push piranhacloud/coreprofile:amd64-latest
-        docker buildx build --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/coreprofile:arm64v8-latest .
+        docker build --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/coreprofile:arm64v8-latest .
         docker push piranhacloud/coreprofile:arm64v8-latest
         docker manifest create piranhacloud/coreprofile:latest \
           piranhacloud/coreprofile:amd64-latest \
