@@ -66,7 +66,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
-      uses: actions/checkout@v3    - name: Set up Java
+      uses: actions/checkout@v3
+    - name: Set up Java
       uses: actions/setup-java@v3
       with:
         cache: 'maven'
