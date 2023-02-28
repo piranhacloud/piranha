@@ -926,43 +926,8 @@
                         </goals>
                         <inherited>true</inherited>
                         <configuration>
-                            <tags>
-                                <tag>
-                                    <name>assertion</name>
-                                    <placement>a</placement>
-                                    <head>Assertion: </head>
-                                </tag>
-                            </tags>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>default</id>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                        <inherited>false</inherited>
-                    </execution>
-                    <!--
-          
-                      Maven 3.9.0 is unable to have this run using 
-                      <goal>aggregate-jar</goal> as part of a regular
-                      install cycle so the <goal> section is removed
-                      and it is now build using a direct invocation.
-                      
-                      javadoc:aggregate-jar@aggregate
-      
-                    -->
-                    <execution>
-                        <id>aggregate</id>
-                        <configuration>
+                            <additionalOptions>-html5</additionalOptions>
                             <docfilessubdirs>true</docfilessubdirs>
-                            <!-- 
-                           
-                            Once a Jakarta namespaced Apache Commons 
-                            FileUpload can be used this should be removed.
-                           
-                            -->
-                            <excludePackageNames>org.apache.*</excludePackageNames>
                             <tags>
                                 <tag>
                                     <name>assertion</name>
@@ -971,12 +936,8 @@
                                 </tag>
                             </tags>
                         </configuration>
-                        <inherited>false</inherited>
                     </execution>
                 </executions>
-                <configuration>
-                    <additionalOptions>-html5</additionalOptions>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
