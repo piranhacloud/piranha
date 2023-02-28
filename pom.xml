@@ -144,7 +144,7 @@
         <maven-install-plugin.version>3.1.0</maven-install-plugin.version>
         <maven-invoker-plugin.version>3.3.0</maven-invoker-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-        <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
+        <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
         <maven-plugin-plugin.version>3.7.0</maven-plugin-plugin.version>
         <maven-replacer-plugin.version>1.5.3</maven-replacer-plugin.version>
         <maven-resources-plugin.version>3.3.0</maven-resources-plugin.version>
@@ -926,6 +926,8 @@
                         </goals>
                         <inherited>true</inherited>
                         <configuration>
+                            <additionalOptions>-html5</additionalOptions>
+                            <docfilessubdirs>true</docfilessubdirs>
                             <tags>
                                 <tag>
                                     <name>assertion</name>
@@ -935,36 +937,7 @@
                             </tags>
                         </configuration>
                     </execution>
-                    <!--
-            <execution>
-                <id>attach-aggregate-javadocs</id>
-                <goals>
-                    <goal>aggregate-jar</goal>
-                </goals>
-                <configuration>
-                    <docfilessubdirs>true</docfilessubdirs>
-                    <!- - 
-                     
-                      Once a Jakarta namespaced Apache Commons 
-                      FileUpload can be used this should be removed.
-                     
-                    - ->
-                    <excludePackageNames>org.apache.*</excludePackageNames>
-                    <tags>
-                        <tag>
-                            <name>assertion</name>
-                            <placement>a</placement>
-                            <head>Assertion: </head>
-                        </tag>
-                    </tags>
-                </configuration>
-                <inherited>false</inherited>
-            </execution>
-                    -->
                 </executions>
-                <configuration>
-                    <additionalOptions>-html5</additionalOptions>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
