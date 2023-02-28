@@ -935,21 +935,25 @@
                             </tags>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>default</id>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                        <inherited>false</inherited>
+                    </execution>
                     <!--
           
                       Maven 3.9.0 is unable to have this run using 
                       <goal>aggregate-jar</goal> as part of a regular
-                      clean install cycle so the <goal> section is removed
-                      and invocation now is at end using 
-                      javadoc:aggregate-jar@attach-aggregate-javadocs
+                      install cycle so the <goal> section is removed
+                      and it is now build using a direct invocation.
+                      
+                      javadoc:aggregate-jar@aggregate
       
                     -->
                     <execution>
-                        <id>attach-aggregate-javadocs</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>aggregate-jar</goal>
-                        </goals>
+                        <id>aggregate</id>
                         <configuration>
                             <docfilessubdirs>true</docfilessubdirs>
                             <!-- 
