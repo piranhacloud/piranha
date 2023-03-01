@@ -14,3 +14,4 @@ target/
 *.original~
 dist/server/tmp/
 dist/platform/tmp/
+.flattened-pom.xml
