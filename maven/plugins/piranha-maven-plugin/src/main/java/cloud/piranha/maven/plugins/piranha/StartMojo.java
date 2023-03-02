@@ -46,14 +46,16 @@ public class StartMojo extends BaseMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
-        try {
-            determineVersionToUse();
-            downloadDistribution();
-            extractDistribution();
-            copyWarFile();
-            startPiranha();
-        } catch (IOException ioe) {
-            throw new MojoExecutionException(ioe);
+        if (!skip) {
+            try {
+                determineVersionToUse();
+                downloadDistribution();
+                extractDistribution();
+                copyWarFile();
+                startPiranha();
+            } catch (IOException ioe) {
+                throw new MojoExecutionException(ioe);
+            }
         }
     }
 
@@ -126,7 +128,7 @@ public class StartMojo extends BaseMojo {
                 startJarPiranha();
             case "zip" ->
                 startZipPiranha();
-            default -> 
+            default ->
                 throw new IOException("Unable to determine distribution");
         }
         File pidFile = new File(runtimeDirectory + "/tmp/piranha.pid");
