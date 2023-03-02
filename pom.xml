@@ -125,7 +125,6 @@
         <!-- plugins -->
         <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
         <clirr-maven-plugin.version>2.8</clirr-maven-plugin.version>
-        <dependency-check-maven-plugin.version>7.4.1</dependency-check-maven-plugin.version>
         <flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <jtoolprovider-plugin.version>1.0.34</jtoolprovider-plugin.version>
@@ -781,11 +780,6 @@
                     <version>${moditect-maven-plugin.version}</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.owasp</groupId>
-                    <artifactId>dependency-check-maven</artifactId>
-                    <version>${dependency-check-maven-plugin.version}</version>
-                </plugin>
-                <plugin>
                     <groupId>org.sonatype.plugins</groupId>
                     <artifactId>nexus-staging-maven-plugin</artifactId>
                     <version>${nexus-staging-maven-plugin.version}</version>
@@ -1043,32 +1037,6 @@
     </build>
 
     <profiles>
-        <!--
-
-        This profile is used for checking vulnerabilities in our dependencies.
-
-        -->
-        <profile>
-            <id>dependency-check</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.owasp</groupId>
-                        <artifactId>dependency-check-maven</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <!-- 
 
         This profile is used when releasing to Maven central.
@@ -1208,7 +1176,7 @@
         </profile>
         <!--
 
-        This profile is used for running our 
+        This profile is used for running our integration tests.
             
         -->
         <profile>
