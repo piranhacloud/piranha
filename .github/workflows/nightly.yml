@@ -4,21 +4,6 @@ on:
   - cron: "0 0 * * *"
   workflow_dispatch:
 jobs:
-  dependency-check:
-    if: github.repository == 'piranhacloud/piranha'
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout sources
-      uses: actions/checkout@v3
-    - name: Set up Java
-      uses: actions/setup-java@v3
-      with:
-        cache: 'maven'
-        distribution: 'temurin'
-        java-version: 17
-    - name: Analyze with Dependency Check
-      run: |
-        mvn -B -ntp -P dependency-check dependency-check:aggregate || true
   early-access:
     if: github.repository == 'piranhacloud/piranha'
     runs-on: ${{ matrix.os }}
