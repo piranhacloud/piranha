@@ -101,6 +101,12 @@ public abstract class BaseMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${project.build.directory}/piranha", property = "piranha.runtimeDirectory", required = true)
     protected String runtimeDirectory;
+    
+    /**
+     * Stores the skip property.
+     */
+    @Parameter(defaultValue= "false", property="piranha.skip")
+    protected boolean skip;
 
     /**
      * Stores the version of the Piranha runtime to use.

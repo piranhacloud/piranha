@@ -46,17 +46,18 @@ public class RunMojo extends BaseMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
-        try {
-            determineVersionToUse();
-            downloadDistribution();
-            extractDistribution();
-            copyWarFile();
-            startPiranhaAndWait();
-        } catch (IOException ioe) {
-            throw new MojoExecutionException(ioe);
+        if (!skip) {
+            try {
+                determineVersionToUse();
+                downloadDistribution();
+                extractDistribution();
+                copyWarFile();
+                startPiranhaAndWait();
+            } catch (IOException ioe) {
+                throw new MojoExecutionException(ioe);
+            }
         }
     }
-
 
     /**
      * Start Piranha using a JAR distribution.
