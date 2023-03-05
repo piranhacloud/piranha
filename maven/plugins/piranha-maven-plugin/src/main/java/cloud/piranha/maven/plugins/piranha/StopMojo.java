@@ -51,24 +51,32 @@ public class StopMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${project.build.directory}/piranha", required = true)
     private String runtimeDirectory;
-    
+
+    /**
+     * Stores the skip property.
+     */
+    @Parameter(defaultValue= "false", property="piranha.skip")
+    private boolean skip;
+
     @Override
     public void execute() throws MojoExecutionException {
-        try {
-            if (!Files.deleteIfExists(new File(
-                    runtimeDirectory, "tmp/piranha.pid").toPath())) {
-                try {
-                    TimeUnit.SECONDS.sleep(5);
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
+        if (!skip) {
+            try {
+                if (!Files.deleteIfExists(new File(
+                        runtimeDirectory, "tmp/piranha.pid").toPath())) {
+                    try {
+                        TimeUnit.SECONDS.sleep(5);
+                    } catch (InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+                    if (Files.deleteIfExists(new File(
+                            runtimeDirectory, "tmp/piranha.pid").toPath())) {
+                        System.err.println("Unable to delete PID file");
+                    }
                 }
-                if (Files.deleteIfExists(new File(
-                    runtimeDirectory, "tmp/piranha.pid").toPath())) {
-                    System.err.println("Unable to delete PID file");
-                }
+            } catch (IOException ioe) {
+                throw new MojoExecutionException(ioe);
             }
-        } catch (IOException ioe) {
-            throw new MojoExecutionException(ioe);
         }
     }
 }
