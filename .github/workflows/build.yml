@@ -214,7 +214,7 @@ jobs:
       with:
         files: '**/target/surefire-reports/*.xml'
   sonarcloud:
-    if: github.repository == 'piranhacloud/piranha'
+    if: github.repository == 'piranhacloud/piranha' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
