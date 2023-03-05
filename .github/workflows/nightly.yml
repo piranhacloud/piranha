@@ -4,29 +4,6 @@ on:
   - cron: "0 0 * * *"
   workflow_dispatch:
 jobs:
-  early-access:
-    if: github.repository == 'piranhacloud/piranha'
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        java: [ 'EA' ]
-        os: [ubuntu-latest]
-    steps:
-    - name: Checkout Sources
-      uses: actions/checkout@v3
-    - name: Setup Java ${{ matrix.java }}
-      uses: oracle-actions/setup-java@v1
-      with:
-        website: jdk.java.net
-        release: ${{ matrix.java }}
-    - name: Build with Maven
-      run: mvn --no-transfer-progress -B install -Djacoco.skip=true
-    - name: Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v1
-      if: always()
-      with:
-        files: '**/target/surefire-reports/*.xml'
   stale:
     if: github.repository == 'piranhacloud/piranha'
     runs-on: ubuntu-latest
