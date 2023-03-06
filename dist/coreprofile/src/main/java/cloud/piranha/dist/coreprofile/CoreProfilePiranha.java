@@ -151,49 +151,6 @@ public class CoreProfilePiranha implements Piranha, Runnable {
 
         webApplicationServer = new HttpWebApplicationServer();
 
-        if (httpPort > 0) {
-            HttpServer httpServer = null;
-            if (httpServerClass == null) {
-                httpServerClass = DefaultHttpServer.class.getName();
-            }
-            try {
-                httpServer = (HttpServer) Class.forName(httpServerClass)
-                        .getDeclaredConstructor().newInstance();
-            } catch (ClassNotFoundException | IllegalAccessException
-                    | IllegalArgumentException | InstantiationException
-                    | NoSuchMethodException | SecurityException
-                    | InvocationTargetException t) {
-                LOGGER.log(ERROR, "Unable to construct HTTP server", t);
-            }
-            if (httpServer != null) {
-                httpServer.setServerPort(httpPort);
-                httpServer.setHttpServerProcessor(webApplicationServer);
-                httpServer.start();
-            }
-        }
-
-        if (httpsPort > 0) {
-            HttpServer httpsServer = null;
-            if (httpsServerClass == null) {
-                httpsServerClass = DefaultHttpServer.class.getName();
-            }
-            try {
-                httpsServer = (HttpServer) Class.forName(httpsServerClass)
-                        .getDeclaredConstructor().newInstance();
-            } catch (ClassNotFoundException | IllegalAccessException
-                    | IllegalArgumentException | InstantiationException
-                    | NoSuchMethodException | SecurityException
-                    | InvocationTargetException t) {
-                LOGGER.log(ERROR, "Unable to construct HTTPS server", t);
-            }
-            if (httpsServer != null) {
-                httpsServer.setHttpServerProcessor(webApplicationServer);
-                httpsServer.setServerPort(httpsPort);
-                httpsServer.setSSL(true);
-                httpsServer.start();
-            }
-        }
-
         if (warFile != null && warFile.getName().toLowerCase().endsWith(".war")) {
             if (contextPath == null) {
                 contextPath = warFile.getName().substring(0, warFile.getName().length() - 4);
@@ -252,6 +209,49 @@ public class CoreProfilePiranha implements Piranha, Runnable {
         }
 
         webApplicationServer.start();
+
+        if (httpPort > 0) {
+            HttpServer httpServer = null;
+            if (httpServerClass == null) {
+                httpServerClass = DefaultHttpServer.class.getName();
+            }
+            try {
+                httpServer = (HttpServer) Class.forName(httpServerClass)
+                        .getDeclaredConstructor().newInstance();
+            } catch (ClassNotFoundException | IllegalAccessException
+                    | IllegalArgumentException | InstantiationException
+                    | NoSuchMethodException | SecurityException
+                    | InvocationTargetException t) {
+                LOGGER.log(ERROR, "Unable to construct HTTP server", t);
+            }
+            if (httpServer != null) {
+                httpServer.setServerPort(httpPort);
+                httpServer.setHttpServerProcessor(webApplicationServer);
+                httpServer.start();
+            }
+        }
+
+        if (httpsPort > 0) {
+            HttpServer httpsServer = null;
+            if (httpsServerClass == null) {
+                httpsServerClass = DefaultHttpServer.class.getName();
+            }
+            try {
+                httpsServer = (HttpServer) Class.forName(httpsServerClass)
+                        .getDeclaredConstructor().newInstance();
+            } catch (ClassNotFoundException | IllegalAccessException
+                    | IllegalArgumentException | InstantiationException
+                    | NoSuchMethodException | SecurityException
+                    | InvocationTargetException t) {
+                LOGGER.log(ERROR, "Unable to construct HTTPS server", t);
+            }
+            if (httpsServer != null) {
+                httpsServer.setHttpServerProcessor(webApplicationServer);
+                httpsServer.setServerPort(httpsPort);
+                httpsServer.setSSL(true);
+                httpsServer.start();
+            }
+        }
 
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
