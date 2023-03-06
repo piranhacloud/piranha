@@ -39,26 +39,21 @@ jobs:
       actions: read
       contents: read
       security-events: write
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'java' ]
-        java: [ '17' ]
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
-        languages: ${{ matrix.language }}
+        languages: 'java'
     - name: Setup Java
       uses: actions/setup-java@v3
       with:
         cache: 'maven'
         distribution: 'temurin'
-        java-version: ${{ matrix.java }}
+        java-version: '17'
     - name: Build with Maven
-      run: mvn --no-transfer-progress -B -DskipTests=true -DskipITs=true install
+      run: mvn -B -DskipTests=true -DskipITs=true --ntp install
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
   dockerhub:
