@@ -1,4 +1,4 @@
-name: nightly
+name: stale
 on:
   schedule:
   - cron: "0 0 * * *"
