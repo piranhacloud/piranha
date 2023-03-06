@@ -5,7 +5,7 @@
         <name>Piranha Maven Plugin</name>
     </bannerLeft>
     <body>
-        <footer><![CDATA[Copyright (c) 2002-2022 Manorrock.com. All rights reserved.]]></footer>
+        <footer><![CDATA[Copyright (c) 2002-2023 Manorrock.com. All rights reserved.]]></footer>
         <menu name="Overview">
             <item name="About" href="index.html"/>
             <item name="Plugin Documentation" href="plugin-info.html"/>
