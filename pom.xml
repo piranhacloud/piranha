@@ -114,7 +114,7 @@
         <shrinkwrap-impl-base.version>2.0.0-beta-1</shrinkwrap-impl-base.version>
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.1.4</shrinkwrap-resolver.version>
-        <soteria.version>3.0.1</soteria.version>
+        <soteria.version>3.0.2</soteria.version>
         <spring-boot.version>3.0.1</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.1.2</tyrus.version>
