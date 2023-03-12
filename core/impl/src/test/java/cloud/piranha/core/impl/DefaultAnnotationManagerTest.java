@@ -43,7 +43,7 @@ public class DefaultAnnotationManagerTest {
      * Test addAnnotation method.
      */
     @Test
-    public void testAddAnnotation() {
+    void testAddAnnotation() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         manager.addAnnotation(null);
     }
@@ -52,7 +52,7 @@ public class DefaultAnnotationManagerTest {
      * Test addInstance method.
      */
     @Test
-    public void testAddInstance() {
+    void testAddInstance() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         manager.addInstance(null, null);
     }
@@ -61,7 +61,7 @@ public class DefaultAnnotationManagerTest {
      * Test getAnnotations method.
      */
     @Test
-    public void testGetAnnotations() {
+    void testGetAnnotations() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         assertNotNull(manager.getAnnotations(Object.class));
     }
@@ -70,7 +70,7 @@ public class DefaultAnnotationManagerTest {
      * Test getAnnotations method.
      */
     @Test
-    public void testGetAnnotations2() {
+    void testGetAnnotations2() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         assertNotNull(manager.getAnnotations(new Class[0]));
     }
@@ -79,7 +79,7 @@ public class DefaultAnnotationManagerTest {
      * Test getInstances method.
      */
     @Test
-    public void testGetInstances() {
+    void testGetInstances() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         assertNotNull(manager.getInstances(Object.class));
     }
@@ -88,7 +88,7 @@ public class DefaultAnnotationManagerTest {
      * Test getInstances method.
      */
     @Test
-    public void testGetInstances2() {
+    void testGetInstances2() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         assertNotNull(manager.getInstances(new Class[0]));
     }
@@ -97,7 +97,7 @@ public class DefaultAnnotationManagerTest {
      * Test getAnnotationsByTarget method.
      */
     @Test
-    public void testGetAnnotationsByTarget() {
+    void testGetAnnotationsByTarget() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         assertNotNull(manager.getAnnotationsByTarget(null, null));
     }
@@ -106,7 +106,7 @@ public class DefaultAnnotationManagerTest {
      * Test addAnnotatedClass method.
      */
     @Test
-    public void testAddAnnotatedClass() {
+    void testAddAnnotatedClass() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         manager.addAnnotatedClass(null, null);
     }
@@ -115,7 +115,7 @@ public class DefaultAnnotationManagerTest {
      * Test addAnnotatedClass method.
      */
     @Test
-    public void testAddAnnotatedClass2() {
+    void testAddAnnotatedClass2() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         Annotation annotation = new Annotation() {
             @Override
@@ -132,7 +132,7 @@ public class DefaultAnnotationManagerTest {
      * Test getAnnotatedClass method.
      */
     @Test
-    public void testGetAnnotatedClass() {
+    void testGetAnnotatedClass() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         assertNotNull(manager.getAnnotatedClass(null));
     }
