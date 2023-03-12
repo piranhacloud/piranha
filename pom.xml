@@ -76,7 +76,7 @@
         <angus.mail.version>2.0.1</angus.mail.version>
         <arquillian.version>1.7.0.Alpha13</arquillian.version>
         <bcel.version>6.7.0</bcel.version>
-        <checkstyle.version>10.6.0</checkstyle.version>
+        <checkstyle.version>10.8.1</checkstyle.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-io.version>2.11.0</commons-io.version>
         <crac.version>0.1.3</crac.version>
@@ -87,8 +87,8 @@
         <free-port-finder.version>1.1.1</free-port-finder.version>
         <grizzly.version>4.0.0</grizzly.version>
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
-        <hazelcast.version>5.2.1</hazelcast.version>
-        <htmlunit.version>2.69.0</htmlunit.version>
+        <hazelcast.version>5.2.2</hazelcast.version>
+        <htmlunit.version>2.70.0</htmlunit.version>
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
         <jakarta.faces.version>4.0.1</jakarta.faces.version>
         <jandex.version>3.0.5</jandex.version>
@@ -98,12 +98,12 @@
         <jersey.version>3.1.1</jersey.version>
         <jstl.version>3.0.1</jstl.version>
         <junit.version>5.9.2</junit.version>
-        <junit-pioneer.version>2.0.0-RC1</junit-pioneer.version>
+        <junit-pioneer.version>2.0.0</junit-pioneer.version>
         <junit-platform-launcher.version>1.9.2</junit-platform-launcher.version>
         <h2.version>2.1.214</h2.version>
-        <maven-plugin-annotations.version>3.7.0</maven-plugin-annotations.version>
-        <maven-plugin-api.version>4.0.0-alpha-3</maven-plugin-api.version>
-        <maven-plugin-tools-annotations.version>3.7.0</maven-plugin-tools-annotations.version>
+        <maven-plugin-annotations.version>3.8.1</maven-plugin-annotations.version>
+        <maven-plugin-api.version>4.0.0-alpha-4</maven-plugin-api.version>
+        <maven-plugin-tools-annotations.version>3.8.1</maven-plugin-tools-annotations.version>
         <microprofile-jwt-auth.version>2.0.1</microprofile-jwt-auth.version>
         <netty.version>4.1.86.Final</netty.version>
         <omnibeans.version>0.3</omnibeans.version>
@@ -115,10 +115,10 @@
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.1.4</shrinkwrap-resolver.version>
         <soteria.version>3.0.2</soteria.version>
-        <spring-boot.version>3.0.1</spring-boot.version>
+        <spring-boot.version>3.0.4</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.1.3</tyrus.version>
-        <undertow.version>2.3.3.Final</undertow.version>
+        <undertow.version>2.3.4.Final</undertow.version>
         <wasp.version>3.1.0</wasp.version>
         <weld.version>5.1.0.Final</weld.version>
         <yasson.version>3.0.2</yasson.version>
