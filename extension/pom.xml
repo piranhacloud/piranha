@@ -25,7 +25,6 @@
         <module>eleos</module>
         <module>exousia</module>
         <module>hazelcast</module>
-        <module>logging</module>
         <module>micro</module>
         <module>microprofile</module>
         <module>mimetype</module>
