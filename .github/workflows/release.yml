@@ -14,7 +14,7 @@ jobs:
       with:
         cache: 'maven'
         distribution: 'temurin'
-        java-version: 17
+        java-version: 19
         server-id: ossrh
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
@@ -170,12 +170,12 @@ jobs:
       with:
         ref: 'gh-pages'
         token: ${{ secrets.GIT_PASSWORD }}
-    - name: Set up Java 17
+    - name: Set up Java
       uses: actions/setup-java@v3
       with:
         cache: 'maven'
         distribution: 'temurin'
-        java-version: 17
+        java-version: 19
     - name: Build with Maven
       run: |
         git clone https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_PASSWORD }}@github.com/piranhacloud/piranha piranha
