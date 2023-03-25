@@ -32,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.System.Logger.Level;
+import static java.lang.System.Logger.Level.WARNING;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -59,6 +60,16 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
      * Stores the logger.
      */
     private static final System.Logger LOGGER = System.getLogger(PiranhaJarContainer.class.getName());
+
+    /**
+     * Stores the PID filename.
+     */
+    private static final String PID_FILENAME = "tmp/piranha.pid";
+
+    /**
+     * Stores the java.io.tmpdir constant.
+     */
+    private static final String TMP_DIR = "java.io.tmpdir";
 
     /**
      * Stores the 'Unable to create directories' message.
@@ -92,14 +103,20 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
 
     @Override
     public void stop() throws LifecycleException {
-        LOGGER.log(Level.INFO,"Stopping server");
+        LOGGER.log(Level.INFO, "Stopping server");
 
         /*
          * Delete the PID file.
          */
-        File runtimeDirectory = new File(System.getProperty("java.io.tmpdir"));
-        File pidFile = new File(runtimeDirectory, "tmp/piranha.pid");
-        pidFile.delete();
+        File runtimeDirectory = new File(System.getProperty(TMP_DIR));
+        File pidFile = new File(runtimeDirectory, PID_FILENAME);
+        if (pidFile.exists()) {
+            try {
+                Files.delete(pidFile.toPath());
+            } catch(IOException ioe) {
+                LOGGER.log(WARNING, "Unable to delete PID file", ioe);
+            }
+        }
     }
 
     @Override
@@ -117,7 +134,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
             /*
              * Export the Archive into a WAR file.
              */
-            File runtimeDirectory = new File(System.getProperty("java.io.tmpdir"));
+            File runtimeDirectory = new File(System.getProperty(TMP_DIR));
             File warFile = new File(runtimeDirectory, toWarFilename(archive));
             archive.as(ZipExporter.class).exportTo(warFile, true);
 
@@ -146,7 +163,8 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
     }
 
     @Override
-    public void deploy(Descriptor d) throws DeploymentException {
+    public void deploy(Descriptor descriptor) throws DeploymentException {
+        // not supporting deployment by descriptor.
     }
 
     @Override
@@ -156,10 +174,16 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
         /*
          * Delete the PID file.
          */
-        File runtimeDirectory = new File(System.getProperty("java.io.tmpdir"));
-        File pidFile = new File(runtimeDirectory, "tmp/piranha.pid");
-        pidFile.delete();
-
+        File runtimeDirectory = new File(System.getProperty(TMP_DIR));
+        File pidFile = new File(runtimeDirectory, PID_FILENAME);
+        if (pidFile.exists()) {
+            try {
+                Files.delete(pidFile.toPath());
+            } catch(IOException ioe) {
+                LOGGER.log(WARNING, "Error deleting PID file", ioe);
+            }
+        }
+        
         /*
          * Wait for 5 seconds.
          */
@@ -222,7 +246,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
             LOGGER.log(Level.WARNING, UNABLE_TO_CREATE_DIRECTORIES);
         }
 
-        try ( InputStream inputStream = downloadUrl.openStream()) {
+        try (InputStream inputStream = downloadUrl.openStream()) {
             Files.copy(inputStream,
                     zipFile.toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
@@ -307,7 +331,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
                         "--write-pid")
                 .start();
 
-        File pidFile = new File(runtimeDirectory, "tmp/piranha.pid");
+        File pidFile = new File(runtimeDirectory, PID_FILENAME);
         int count = 0;
         LOGGER.log(Level.INFO, "Waiting for Piranha to be ready ");
         while (!pidFile.exists()) {
