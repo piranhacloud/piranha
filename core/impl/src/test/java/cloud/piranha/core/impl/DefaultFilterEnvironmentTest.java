@@ -25,8 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.tests;
+package cloud.piranha.core.impl;
 
+import cloud.piranha.core.api.FilterEnvironment;
 import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -44,18 +45,39 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for FilterRegistration API.
+ * The JUnit tests for the DefaultFilterEnvironment class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class FilterRegistrationTest {
+class DefaultFilterEnvironmentTest {
 
     /**
-     * Create the web application,
+     * Create a filter that just calls the next in the chain.
+     * 
+     * @return the filter.
+     */
+    private Filter createNoopFilter() {
+        return new Filter() {
+            @Override
+            public void doFilter(
+                    ServletRequest request, 
+                    ServletResponse response, 
+                    FilterChain chain) 
+                    throws IOException, ServletException {
+                
+                chain.doFilter(request, response);
+            }
+        };
+    }
+    
+    /**
+     * Create the web application.
      * 
      * @return the web application.
      */
-    public abstract WebApplication createWebApplication();
+    private WebApplication createWebApplication() {
+        return new DefaultWebApplication();
+    }
     
     /**
      * Test getName method.
@@ -63,15 +85,12 @@ public abstract class FilterRegistrationTest {
     @Test
     void testGetName() {
         WebApplication webApplication = createWebApplication();
-        webApplication.addFilter("testGetNameFilter", new Filter() {
-            @Override
-            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-            }
-        });
+        webApplication.addFilter("testGetNameFilter", createNoopFilter());
         FilterRegistration registration = webApplication.getFilterRegistration("testGetNameFilter");
+        assertTrue(registration instanceof DefaultFilterEnvironment);
         assertEquals("testGetNameFilter", registration.getName());
     }
-
+    
     /**
      * Test getClassName method.
      */
@@ -80,125 +99,123 @@ public abstract class FilterRegistrationTest {
         WebApplication webApplication = createWebApplication();
         webApplication.addFilter("testGetClassNameFilter", TestGetClassNameFilter.class);
         FilterRegistration registration = webApplication.getFilterRegistration("testGetClassNameFilter");
+        assertTrue(registration instanceof DefaultFilterEnvironment);
         assertEquals(TestGetClassNameFilter.class.getName(),
                 registration.getClassName());
     }
-
+    
+    /**
+     * Test getInitParameterNames method.
+     */
+    @Test
+    void testGetInitParameterNames() {
+        WebApplication webApplication = createWebApplication();
+        webApplication.addFilter("testGetInitParametersFilter", createNoopFilter());
+        FilterRegistration registration = webApplication.getFilterRegistration("testGetInitParametersFilter");
+        registration.setInitParameter("key", "value");
+        assertTrue(registration instanceof DefaultFilterEnvironment);
+        FilterEnvironment environment = (FilterEnvironment) registration;
+        assertNotNull(environment.getInitParameterNames());
+        assertEquals("key", environment.getInitParameterNames().nextElement());
+    }
+    
     /**
      * Test getInitParameters method.
      */
     @Test
     void testGetInitParameters() {
         WebApplication webApplication = createWebApplication();
-        webApplication.addFilter("testGetInitParametersFilter", new Filter() {
-            @Override
-            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-            }
-        });
+        webApplication.addFilter("testGetInitParametersFilter", createNoopFilter());
         FilterRegistration registration = webApplication.getFilterRegistration("testGetInitParametersFilter");
+        assertTrue(registration instanceof DefaultFilterEnvironment);
         assertNotNull(registration.getInitParameters());
     }
-
+    
     /**
      * Test getUrlPatternMappings method.
      */
     @Test
     void testGetUrlPatternMappings() {
         WebApplication webApplication = createWebApplication();
-        webApplication.addFilter("testGetUrlPatternMappingsFilter", new Filter() {
-            @Override
-            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-            }
-        });
+        webApplication.addFilter("testGetUrlPatternMappingsFilter", createNoopFilter());
         FilterRegistration registration = webApplication.getFilterRegistration("testGetUrlPatternMappingsFilter");
+        assertTrue(registration instanceof DefaultFilterEnvironment);
         assertTrue(registration.getUrlPatternMappings().isEmpty());
     }
-
+    
     /**
      * Test setInitParameters method.
      */
     @Test
     void testSetInitParameters() {
         WebApplication webApplication = createWebApplication();
-        webApplication.addFilter("testSetInitParametersFilter", new Filter() {
-            @Override
-            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-            }
-        });
+        webApplication.addFilter("testSetInitParametersFilter", createNoopFilter());
         FilterRegistration registration = webApplication.getFilterRegistration("testSetInitParametersFilter");
         registration.setInitParameter("name", "value");
+        assertTrue(registration instanceof DefaultFilterEnvironment);
         assertTrue(registration.setInitParameters(new HashMap<>()).isEmpty());
     }
-
+    
     /**
      * Test setInitParameters method.
      */
     @Test
     void testSetInitParameters2() {
         WebApplication webApplication = createWebApplication();
-        webApplication.addFilter("testSetInitParameters2Filter", new Filter() {
-            @Override
-            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-            }
-        });
+        webApplication.addFilter("testSetInitParameters2Filter", createNoopFilter());
         FilterRegistration registration = webApplication.getFilterRegistration("testSetInitParameters2Filter");
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put(null, null);
+        assertTrue(registration instanceof DefaultFilterEnvironment);
         assertThrows(IllegalArgumentException.class, () -> registration.setInitParameters(parameters));
     }
-
+    
     /**
      * Test setInitParameters method.
      */
     @Test
     void testSetInitParameters3() {
         WebApplication webApplication = createWebApplication();
-        webApplication.addFilter("testSetInitParameters3Filter", new Filter() {
-            @Override
-            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-            }
-        });
+        webApplication.addFilter("testSetInitParameters3Filter", createNoopFilter());
         FilterRegistration registration = webApplication.getFilterRegistration("testSetInitParameters3Filter");
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("name", null);
+        assertTrue(registration instanceof DefaultFilterEnvironment);
         assertThrows(IllegalArgumentException.class, () -> registration.setInitParameters(parameters));
     }
-
+    
     /**
      * Test setInitParameters method.
      */
     @Test
     void testSetInitParameters4() {
         WebApplication webApplication = createWebApplication();
-        webApplication.addFilter("testSetInitParameters4Filter", new Filter() {
-            @Override
-            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-            }
-        });
+        webApplication.addFilter("testSetInitParameters4Filter", createNoopFilter());
         FilterRegistration registration = webApplication.getFilterRegistration("testSetInitParameters4Filter");
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("name", "value");
+        assertTrue(registration instanceof DefaultFilterEnvironment);
         assertTrue(registration.setInitParameters(parameters).isEmpty());
     }
-
+    
     /**
      * Test setInitParameters method.
      */
     @Test
     void testSetInitParameters5() {
         WebApplication webApplication = createWebApplication();
-        webApplication.addFilter("testSetInitParameters5Filter", new Filter() {
-            @Override
-            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-            }
-        });
+        webApplication.addFilter("testSetInitParameters5Filter", createNoopFilter());
         FilterRegistration registration = webApplication.getFilterRegistration("testSetInitParameters5Filter");
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("name", "value");
+        assertTrue(registration instanceof DefaultFilterEnvironment);
         assertTrue(registration.setInitParameters(parameters).isEmpty());
         assertFalse(registration.setInitParameters(parameters).isEmpty());
     }
-    
+
+    /**
+     * Test filter for getClassName method.
+     */
     public class TestGetClassNameFilter implements Filter {
 
         @Override
