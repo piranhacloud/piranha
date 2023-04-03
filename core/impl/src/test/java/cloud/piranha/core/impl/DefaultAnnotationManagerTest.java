@@ -30,6 +30,7 @@ package cloud.piranha.core.impl;
 import java.lang.annotation.Annotation;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -39,13 +40,50 @@ import org.junit.jupiter.api.Test;
  */
 class DefaultAnnotationManagerTest {
     
+
+    /**
+     * Test addAnnotatedClass method.
+     */
+    @Test
+    void testAddAnnotatedClass() {
+        try {
+            DefaultAnnotationManager manager = new DefaultAnnotationManager();
+            manager.addAnnotatedClass(null, null);
+            fail();
+        } catch(IllegalArgumentException iae) {            
+            // expecting this so swallowing it up
+        }
+    }
+
+    /**
+     * Test addAnnotatedClass method.
+     */
+    @Test
+    void testAddAnnotatedClass2() {
+        DefaultAnnotationManager manager = new DefaultAnnotationManager();
+        Annotation annotation = new Annotation() {
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        };
+        manager.addAnnotatedClass(annotation.getClass(), Object.class);
+        manager.addAnnotatedClass(annotation.getClass(), String.class);
+        assertEquals(2, manager.getAnnotatedClass(annotation.getClass()).size());
+    }
+
     /**
      * Test addAnnotation method.
      */
     @Test
     void testAddAnnotation() {
-        DefaultAnnotationManager manager = new DefaultAnnotationManager();
-        manager.addAnnotation(null);
+        try {
+            DefaultAnnotationManager manager = new DefaultAnnotationManager();
+            manager.addAnnotation(null);
+            fail();
+        } catch(IllegalArgumentException iae) {
+            // expecting this so swallowing it up
+        }
     }
 
     /**
@@ -53,8 +91,13 @@ class DefaultAnnotationManagerTest {
      */
     @Test
     void testAddInstance() {
-        DefaultAnnotationManager manager = new DefaultAnnotationManager();
-        manager.addInstance(null, null);
+        try {
+            DefaultAnnotationManager manager = new DefaultAnnotationManager();
+            manager.addInstance(null, null);
+            fail();
+        } catch(IllegalArgumentException iae) {
+            // expecting this so swallowing it up
+        }
     }
 
     /**
@@ -100,32 +143,6 @@ class DefaultAnnotationManagerTest {
     void testGetAnnotationsByTarget() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         assertNotNull(manager.getAnnotationsByTarget(null, null));
-    }
-
-    /**
-     * Test addAnnotatedClass method.
-     */
-    @Test
-    void testAddAnnotatedClass() {
-        DefaultAnnotationManager manager = new DefaultAnnotationManager();
-        manager.addAnnotatedClass(null, null);
-    }
-
-    /**
-     * Test addAnnotatedClass method.
-     */
-    @Test
-    void testAddAnnotatedClass2() {
-        DefaultAnnotationManager manager = new DefaultAnnotationManager();
-        Annotation annotation = new Annotation() {
-            @Override
-            public Class<? extends Annotation> annotationType() {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        };
-        manager.addAnnotatedClass(annotation.getClass(), Object.class);
-        manager.addAnnotatedClass(annotation.getClass(), String.class);
-        assertEquals(2, manager.getAnnotatedClass(annotation.getClass()).size());
     }
 
     /**
