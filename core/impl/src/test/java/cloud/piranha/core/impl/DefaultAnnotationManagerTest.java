@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultAnnotationManagerTest {
+class DefaultAnnotationManagerTest {
     
 
     /**
@@ -158,7 +158,7 @@ public class DefaultAnnotationManagerTest {
      * Test getAnnotatedClasses method.
      */
     @Test
-    public void testGetAnnotatedClasses() {
+    void testGetAnnotatedClasses() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         assertNotNull(manager.getAnnotatedClasses(null));
     }
@@ -167,7 +167,7 @@ public class DefaultAnnotationManagerTest {
      * Test getAnnotatedClasses method.
      */
     @Test
-    public void testGetAnnotatedClasses2() {
+    void testGetAnnotatedClasses2() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         Annotation annotation = new Annotation() {
             @Override
