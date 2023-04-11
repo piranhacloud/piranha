@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [ '17', '19' ]
+        java: [ '17', '20' ]
         os: [ubuntu-latest, windows-latest]
     steps:
     - name: Checkout Sources
@@ -240,7 +240,7 @@ jobs:
       with:
         cache: 'maven'
         distribution: 'temurin'
-        java-version: 17
+        java-version: 20
         server-id: ossrh
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD

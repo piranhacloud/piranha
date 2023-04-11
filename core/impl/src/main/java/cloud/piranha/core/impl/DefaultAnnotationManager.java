@@ -50,11 +50,32 @@ public class DefaultAnnotationManager implements AnnotationManager {
     private HashMap<Class<? extends Annotation>, Set<Class<?>>> annotatedClasses = new HashMap<>();
 
     @Override
+    public void addAnnotatedClass(Class<? extends Annotation> annotationClass, Class<?> clazz) {
+        if (annotationClass == null) {
+            throw new IllegalArgumentException("annotationClass cannot be null");
+        }
+        if (!annotatedClasses.containsKey(annotationClass)) {
+            HashSet<Class<?>> classes = new HashSet<>();
+            classes.add(clazz);
+            annotatedClasses.put(annotationClass, classes);
+        } else {
+            HashSet<Class<?>> classes = (HashSet) annotatedClasses.get(annotationClass);
+            classes.add(clazz);
+        }
+    }
+
+    @Override
     public void addAnnotation(AnnotationInfo<?> annotationInfo) {
+        if (annotationInfo == null) {
+            throw new IllegalArgumentException("annotationInfo cannot be null");
+        }
     }
 
     @Override
     public void addInstance(Class<?> instanceClass, Class<?> implementingClass) {
+        if (instanceClass == null) {
+            throw new IllegalArgumentException("instanceClass cannot be null");
+        }
     }
 
     @Override
@@ -80,18 +101,6 @@ public class DefaultAnnotationManager implements AnnotationManager {
     @Override
     public <T> List<AnnotationInfo<T>> getAnnotationsByTarget(Class<T> annotationClass, AnnotatedElement type) {
         return Collections.emptyList();
-    }
-
-    @Override
-    public void addAnnotatedClass(Class<? extends Annotation> annotationClass, Class<?> clazz) {
-        if (!annotatedClasses.containsKey(annotationClass)) {
-            HashSet<Class<?>> classes = new HashSet<>();
-            classes.add(clazz);
-            annotatedClasses.put(annotationClass, classes);
-        } else {
-            HashSet<Class<?>> classes = (HashSet) annotatedClasses.get(annotationClass);
-            classes.add(clazz);
-        }
     }
 
     @Override
