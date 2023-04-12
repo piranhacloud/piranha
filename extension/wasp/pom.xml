@@ -23,6 +23,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>jakarta.servlet.jsp</groupId>
+            <artifactId>jakarta.servlet.jsp-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.wasp</groupId>
             <artifactId>wasp</artifactId>
             <scope>compile</scope>
@@ -51,7 +56,6 @@
             <artifactId>jakarta.el-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
         <!-- test -->
         <dependency>
             <groupId>cloud.piranha</groupId>

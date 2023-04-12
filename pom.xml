@@ -76,7 +76,7 @@
         <angus.mail.version>2.0.1</angus.mail.version>
         <arquillian.version>1.7.0.Alpha13</arquillian.version>
         <bcel.version>6.7.0</bcel.version>
-        <checkstyle.version>10.8.1</checkstyle.version>
+        <checkstyle.version>10.9.3</checkstyle.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-io.version>2.11.0</commons-io.version>
         <crac.version>0.1.3</crac.version>
@@ -88,10 +88,10 @@
         <free-port-finder.version>1.1.1</free-port-finder.version>
         <grizzly.version>4.0.0</grizzly.version>
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
-        <hazelcast.version>5.2.2</hazelcast.version>
+        <hazelcast.version>5.3.0-BETA-2</hazelcast.version>
         <htmlunit.version>2.70.0</htmlunit.version>
         <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
-        <jakarta.faces.version>4.0.1</jakarta.faces.version>
+        <jakarta.faces.version>4.0.2</jakarta.faces.version>
         <jandex.version>3.0.5</jandex.version>
         <!-- Kept at 1.2.5.Final because 1.3.0.Final does not work with Arquillian -->
         <jboss-classfilewriter.version>1.2.5.Final</jboss-classfilewriter.version>
@@ -105,7 +105,7 @@
         <maven-plugin-api.version>4.0.0-alpha-4</maven-plugin-api.version>
         <maven-plugin-tools-annotations.version>3.8.1</maven-plugin-tools-annotations.version>
         <microprofile-jwt-auth.version>2.0.1</microprofile-jwt-auth.version>
-        <netty.version>4.1.86.Final</netty.version>
+        <netty.version>4.1.91.Final</netty.version>
         <omnibeans.version>0.3</omnibeans.version>
         <omniservices.version>0.4</omniservices.version>
         <omniutils.version>0.13</omniutils.version>
@@ -115,13 +115,13 @@
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.1.4</shrinkwrap-resolver.version>
         <soteria.version>3.0.2</soteria.version>
-        <spring-boot.version>3.0.4</spring-boot.version>
+        <spring-boot.version>3.0.5</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.1.3</tyrus.version>
-        <undertow.version>2.3.4.Final</undertow.version>
-        <wasp.version>3.1.0</wasp.version>
+        <undertow.version>2.3.5.Final</undertow.version>
+        <wasp.version>3.2.0</wasp.version>
         <weld.version>5.1.0.Final</weld.version>
-        <yasson.version>3.0.2</yasson.version>
+        <yasson.version>3.0.3</yasson.version>
         <!-- plugins -->
         <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
         <clirr-maven-plugin.version>2.8</clirr-maven-plugin.version>
