@@ -30,6 +30,7 @@ package cloud.piranha.core.impl;
 import java.lang.annotation.Annotation;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -37,15 +38,52 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultAnnotationManagerTest {
+class DefaultAnnotationManagerTest {
     
+
+    /**
+     * Test addAnnotatedClass method.
+     */
+    @Test
+    void testAddAnnotatedClass() {
+        try {
+            DefaultAnnotationManager manager = new DefaultAnnotationManager();
+            manager.addAnnotatedClass(null, null);
+            fail();
+        } catch(IllegalArgumentException iae) {            
+            // expecting this so swallowing it up
+        }
+    }
+
+    /**
+     * Test addAnnotatedClass method.
+     */
+    @Test
+    void testAddAnnotatedClass2() {
+        DefaultAnnotationManager manager = new DefaultAnnotationManager();
+        Annotation annotation = new Annotation() {
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        };
+        manager.addAnnotatedClass(annotation.getClass(), Object.class);
+        manager.addAnnotatedClass(annotation.getClass(), String.class);
+        assertEquals(2, manager.getAnnotatedClass(annotation.getClass()).size());
+    }
+
     /**
      * Test addAnnotation method.
      */
     @Test
     void testAddAnnotation() {
-        DefaultAnnotationManager manager = new DefaultAnnotationManager();
-        manager.addAnnotation(null);
+        try {
+            DefaultAnnotationManager manager = new DefaultAnnotationManager();
+            manager.addAnnotation(null);
+            fail();
+        } catch(IllegalArgumentException iae) {
+            // expecting this so swallowing it up
+        }
     }
 
     /**
@@ -53,8 +91,13 @@ public class DefaultAnnotationManagerTest {
      */
     @Test
     void testAddInstance() {
-        DefaultAnnotationManager manager = new DefaultAnnotationManager();
-        manager.addInstance(null, null);
+        try {
+            DefaultAnnotationManager manager = new DefaultAnnotationManager();
+            manager.addInstance(null, null);
+            fail();
+        } catch(IllegalArgumentException iae) {
+            // expecting this so swallowing it up
+        }
     }
 
     /**
@@ -103,32 +146,6 @@ public class DefaultAnnotationManagerTest {
     }
 
     /**
-     * Test addAnnotatedClass method.
-     */
-    @Test
-    void testAddAnnotatedClass() {
-        DefaultAnnotationManager manager = new DefaultAnnotationManager();
-        manager.addAnnotatedClass(null, null);
-    }
-
-    /**
-     * Test addAnnotatedClass method.
-     */
-    @Test
-    void testAddAnnotatedClass2() {
-        DefaultAnnotationManager manager = new DefaultAnnotationManager();
-        Annotation annotation = new Annotation() {
-            @Override
-            public Class<? extends Annotation> annotationType() {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        };
-        manager.addAnnotatedClass(annotation.getClass(), Object.class);
-        manager.addAnnotatedClass(annotation.getClass(), String.class);
-        assertEquals(2, manager.getAnnotatedClass(annotation.getClass()).size());
-    }
-
-    /**
      * Test getAnnotatedClass method.
      */
     @Test
@@ -141,7 +158,7 @@ public class DefaultAnnotationManagerTest {
      * Test getAnnotatedClasses method.
      */
     @Test
-    public void testGetAnnotatedClasses() {
+    void testGetAnnotatedClasses() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         assertNotNull(manager.getAnnotatedClasses(null));
     }
@@ -150,7 +167,7 @@ public class DefaultAnnotationManagerTest {
      * Test getAnnotatedClasses method.
      */
     @Test
-    public void testGetAnnotatedClasses2() {
+    void testGetAnnotatedClasses2() {
         DefaultAnnotationManager manager = new DefaultAnnotationManager();
         Annotation annotation = new Annotation() {
             @Override
