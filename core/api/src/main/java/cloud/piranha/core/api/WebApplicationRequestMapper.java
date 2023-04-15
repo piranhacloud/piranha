@@ -41,10 +41,20 @@ public interface WebApplicationRequestMapper {
 
     /**
      * Add a servlet mapping.
-     *
+     * 
+     * <p>
+     *  This method will throw an IllegalArgumentException if a URL pattern
+     *  is null or empty (Servlet:JAVADOC:696.3).
+     * </p>
+     * <p>
+     *  This method accommodates for a URL pattern that does not start with a
+     *  leading slash to support pre-Servlet 2.3 application to operate
+     *  properly.
+     * </p>
+     * 
      * @param servletName the servlet name.
      * @param urlPatterns the URL patterns to map (aka mappings).
-     * @return the URL patterns that were added.
+     * @return the URL patterns that were already added.
      */
     Set<String> addServletMapping(String servletName, String... urlPatterns);
     

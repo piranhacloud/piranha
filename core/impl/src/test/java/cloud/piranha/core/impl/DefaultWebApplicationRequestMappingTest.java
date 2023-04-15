@@ -25,47 +25,68 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.tests;
+package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.WebApplication;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * The JUnit tests for any WebApplicationManager implementation.
- *
- * <p>
- * Note all these tests only use the public APIs of WebApplicationManager.
- * </p>
- *
+ * The JUnit tests for the DefaultWebApplicationRequestMapping class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class WebApplicationManagerTest {
-
-    /**
-     * Create the web application.
-     *
-     * @return the web application.
-     */
-    protected abstract WebApplication createWebApplication();
-
-    /**
-     * Test getSessionManager method.
-     */
-    @Test
-    void testGetSessionManager() {
-        WebApplication webApplication = createWebApplication();
-        webApplication.getManager().setHttpSessionManager(null);
-        assertNull(webApplication.getManager().getHttpSessionManager());
-    }
+public class DefaultWebApplicationRequestMappingTest {
     
     /**
-     * Test getSessionManager method.
+     * Test getMatchValue method.
      */
     @Test
-    void testGetSessionManager2() {
-        WebApplication webApplication = createWebApplication();
-        assertNotNull(webApplication.getManager().getHttpSessionManager());
+    public void testGetMatchValue() {
+        DefaultWebApplicationRequestMapping mapping = new DefaultWebApplicationRequestMapping(null);
+        assertNull(mapping.getMatchValue());
+        mapping.setMatchValue("/match");
+        assertEquals("/match", mapping.getMatchValue());
+    }
+
+    /**
+     * Test getPattern method.
+     */
+    @Test
+    public void testGetPattern() {
+        DefaultWebApplicationRequestMapping mapping = new DefaultWebApplicationRequestMapping("/*");
+        assertEquals("/*", mapping.getPattern());
+    }
+
+    /**
+     * Test isExact method.
+     */
+    @Test
+    public void testIsExact() {
+        DefaultWebApplicationRequestMapping mapping = new DefaultWebApplicationRequestMapping("/exact");
+        assertFalse(mapping.isExact());
+        mapping.setExact(true);
+        assertTrue(mapping.isExact());
+    }
+
+    /**
+     * Test isExtension method.
+     */
+    @Test
+    public void testIsExtension() {
+        DefaultWebApplicationRequestMapping mapping = new DefaultWebApplicationRequestMapping("*.html");
+        assertFalse(mapping.isExtension());
+        mapping.setExtension(true);
+        assertTrue(mapping.isExtension());
+    }
+
+    /**
+     * Test setPattern method.
+     */
+    @Test
+    public void testSetPattern() {
+        DefaultWebApplicationRequestMapping mapping = new DefaultWebApplicationRequestMapping("/pattern1");
+        assertEquals("/pattern1", mapping.getPattern());
+        mapping.setPattern("/pattern2");
+        assertEquals("/pattern2", mapping.getPattern());
     }
 }
