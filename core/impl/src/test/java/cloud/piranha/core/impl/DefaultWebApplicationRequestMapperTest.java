@@ -31,19 +31,91 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.Collection;
 import java.util.Set;
-
 import org.junit.jupiter.api.Test;
 
 /**
- * The tests for the ServletRequestMapper class.
+ * The JUnit tests for the DefaultWebApplicationRequestMapper class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class DefaultWebApplicationRequestMapperTest {
+
+    /**
+     * Test addServletMaping method.
+     * 
+     * <p>
+     *  Validate passing null pattern throws an IllegalArgumentException.
+     * </p>
+     */
+    @Test
+    void testAddServletMapping2() {
+        DefaultWebApplicationRequestMapper mapper = new DefaultWebApplicationRequestMapper();
+        assertThrows(IllegalArgumentException.class, 
+                () -> {mapper.addServletMapping("kaboom", (String[]) null);});
+    }
+
+    /**
+     * Test addServletMapping method.
+     * 
+     * <p>
+     *  Validate that we return the Servlet name(s) that already has / have been 
+     *  mapped to the given URL pattern(s).
+     * </p>
+     */
+    @Test
+    void testAddServletMapping3() {
+        DefaultWebApplicationRequestMapper mapper = new DefaultWebApplicationRequestMapper();
+        mapper.addServletMapping("first", "/mapped");
+        Set<String> already = mapper.addServletMapping("second", "/mapped");
+        assertFalse(already.isEmpty());
+    }
+    
+    /**
+     * Test addServletMapping method.
+     * 
+     * <p>
+     *  Validate that we prepend a slash when it is missing.
+     * </p>
+     */
+    @Test
+    void testAddServletMapping4() {
+        DefaultWebApplicationRequestMapper mapper = new DefaultWebApplicationRequestMapper();
+        mapper.addServletMapping("prepend", "mapped");
+        assertEquals("/mapped", mapper.findServletMapping("/mapped").getPattern());
+    }
+    
+    /**
+     * Test addServletMapping method.
+     * 
+     * <p>
+     *  Validate we set the default servlet for a "/" URL pattern.
+     * </p>
+     */
+    @Test
+    void testAddServletMapping5() {
+        DefaultWebApplicationRequestMapper mapper = new DefaultWebApplicationRequestMapper();
+        mapper.addServletMapping("theDefaultServlet", "/");
+        assertEquals("theDefaultServlet", mapper.getDefaultServlet());
+    }
+
+    /**
+     * Test findServletMapping method.
+     * 
+     * <p>
+     *  Test finding an exact match.
+     * </p>
+     */
+    @Test
+    void testFindServletMapping() {
+        DefaultWebApplicationRequestMapper mapper = new DefaultWebApplicationRequestMapper();
+        mapper.addServletMapping("echo", "/echo");
+        DefaultWebApplicationRequestMapping mapping = mapper.findServletMapping("/echo");
+        assertTrue(mapping.isExact());
+    }
 
     /**
      * Test findExactServletMatch method.
@@ -51,7 +123,7 @@ class DefaultWebApplicationRequestMapperTest {
      * @throws Exception
      */
     @Test
-    void testFindExactServletMatch() throws Exception {
+    void testFindExactServletMatch2() throws Exception {
         DefaultWebApplicationRequestMapper webAppRequestMapper = new DefaultWebApplicationRequestMapper();
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.setWebApplicationRequestMapper(webAppRequestMapper);
@@ -62,13 +134,10 @@ class DefaultWebApplicationRequestMapperTest {
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setServletPath("/echo");
         request.setWebApplication(webApplication);
-        
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApplication);
         response.setBodyOnly(true);
-        
         webApplication.service(request, response);
-        
         assertEquals("ECHO", new String(response.getResponseBytes()));
     }
 

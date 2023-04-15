@@ -27,29 +27,47 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * The JUnit tests for the WebApplicationRequest API.
- *
+ * The JUnit tests for the DefaultWebConnection class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class WebApplicationRequestTest extends cloud.piranha.core.tests.WebApplicationRequestTest {
-
-    @Override
-    protected WebApplication createWebApplication() {
-        return new DefaultWebApplication();
+class DefaultWebConnectionTest {
+    
+    /**
+     * Test getInputStream method.
+     */
+    @Test
+    void testGetInputStream() throws Exception {
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        DefaultWebConnection connection = new DefaultWebConnection(request, null);
+        assertNotNull(connection.getInputStream());
     }
 
-    @Override
-    protected WebApplicationRequest createWebApplicationRequest() {
-        return new DefaultWebApplicationRequest();
+    /**
+     * Test getOutputStream method.
+     */
+    @Test
+    void testGetOutputStream() throws Exception {
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        DefaultWebConnection connection = new DefaultWebConnection(null, response);
+        assertNotNull(connection.getOutputStream());
     }
 
-    @Override
-    protected WebApplicationResponse createWebApplicationResponse() {
-        return new DefaultWebApplicationResponse();
+    /**
+     * Test close method.
+     */
+    @Test
+    public void testClose() throws Exception {
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        DefaultWebConnection connection = new DefaultWebConnection(request, response);
+        connection.close();
+        assertFalse(connection.getInputStream().isReady());
+        assertFalse(connection.getOutputStream().isReady());
     }
 }

@@ -77,36 +77,20 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
        return doAddFilterMappingBeforeExisting(isEmpty(dispatcherTypes)? EnumSet.of(REQUEST) : dispatcherTypes, filterName, urlPatterns);
     }
 
-    /**
-     * Add a servlet mapping.
-     * 
-     * <p>
-     *  This method will throw an IllegalArgumentException if a URL pattern
-     *  is null or empty (Servlet:JAVADOC:696.3).
-     * 
-     * <p>
-     *  This method accommodates for a URL pattern that does not start with a
-     *  leading slash to support pre-Servlet 2.3 application to operate
-     *  properly.
-     *
-     * @param servletName the servlet name.
-     * @param urlPatterns the URL patterns to map (aka mappings).
-     * @return the URL patterns that were already added.
-     */
     @Override
     public Set<String> addServletMapping(String servletName, String... urlPatterns) {
         if (isEmpty(urlPatterns)) {
-            throw new IllegalArgumentException("Mappings for " + servletName + " cannot be empty");
+            throw new IllegalArgumentException("URL patterns for " + servletName + " cannot be empty");
         }
 
         // Servlet:JAVADOC:696.1 - If any of the specified URL patterns are already mapped to a different Servlet, no updates will be performed.
-        Set<String> mappedToOtherServlet = stream(urlPatterns)
+        Set<String> mappedToOtherServlets = stream(urlPatterns)
             .filter(servletMappings::containsKey)
             .filter(urlPattern -> !servletMappings.get(urlPattern).equals(servletName))
             .collect(toSet());
 
-        if (!mappedToOtherServlet.isEmpty()) {
-            return mappedToOtherServlet;
+        if (!mappedToOtherServlets.isEmpty()) {
+            return mappedToOtherServlets;
         }
 
         for (String urlPattern : urlPatterns) {
