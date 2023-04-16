@@ -453,7 +453,7 @@ class DefaultWebApplicationResponseTest {
 
     /**
      * Test isBufferResetting method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -765,7 +765,7 @@ class DefaultWebApplicationResponseTest {
         response.flushBuffer();
         assertThrows(IllegalStateException.class, () -> response.setBufferSize(512));
     }
-    
+
     /**
      * Test setCharacterEncoding method.
      */
@@ -803,7 +803,7 @@ class DefaultWebApplicationResponseTest {
         assertTrue((defaultEncoding == null && response.getCharacterEncoding() == null)
                 || (defaultEncoding != null && defaultEncoding.equalsIgnoreCase(response.getCharacterEncoding())));
     }
-    
+
     /**
      * Test setCharacterEncoding method.
      */
@@ -819,7 +819,7 @@ class DefaultWebApplicationResponseTest {
         assertTrue("does-not-exist".equalsIgnoreCase(response.getCharacterEncoding()));
         assertThrows(UnsupportedEncodingException.class, response::getWriter);
     }
-    
+
     /**
      * Test setCharacterEncoding method.
      */
@@ -838,7 +838,7 @@ class DefaultWebApplicationResponseTest {
         assertTrue(contentType.toLowerCase().contains("charset"));
         assertTrue(contentType.toLowerCase().contains("iso-8859-7"));
     }
-    
+
     /**
      * Test setCharacterEncoding method.
      */
@@ -870,6 +870,21 @@ class DefaultWebApplicationResponseTest {
         assertEquals("text/html;charset=ISO-8859-7", response.getContentType());
     }
     
+    /**
+     * Test setCharacterEncoding method.
+     */
+    @Test
+    void testSetCharacterEncoding6() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        response.setLocale(new Locale("ja"));
+        assertEquals("shift_jis", response.getCharacterEncoding().toLowerCase());
+    }
+
     /**
      * Test setCommitted method.
      */
@@ -941,7 +956,7 @@ class DefaultWebApplicationResponseTest {
         assertEquals("text/html", response.getContentType());
         assertEquals("ISO-8859-1", response.getCharacterEncoding());
     }
-    
+
     /**
      * Test setContentType method.
      */
@@ -957,7 +972,7 @@ class DefaultWebApplicationResponseTest {
         assertEquals("text/html;charset=UTF-8", response.getContentType());
         assertEquals("UTF-8", response.getCharacterEncoding());
     }
-    
+
     /**
      * Test setDateHeader method.
      */
@@ -974,7 +989,7 @@ class DefaultWebApplicationResponseTest {
         response.setDateHeader("header", 2000);
         assertEquals("Thu, 1 Jan 1970 00:00:02 GMT", response.getHeader("header"));
     }
-    
+
     /**
      * Test setDateHeader method.
      */
@@ -1022,7 +1037,7 @@ class DefaultWebApplicationResponseTest {
         response.setHeader("header", "value2");
         assertEquals("value2", response.getHeader("header"));
     }
-    
+
     /**
      * Test setHeader method.
      */
@@ -1037,7 +1052,7 @@ class DefaultWebApplicationResponseTest {
         response.setHeader("header", "value1");
         assertEquals("value1", response.getHeader("header"));
     }
-    
+
     /**
      * Test setIntHeader method.
      */
@@ -1088,7 +1103,7 @@ class DefaultWebApplicationResponseTest {
         response.setStatus(500);
         assertEquals(500, response.getStatus());
     }
-    
+
     /**
      * Test setTrailerFields method.
      */
@@ -1103,7 +1118,7 @@ class DefaultWebApplicationResponseTest {
             });
         });
     }
-    
+
     /**
      * Test setWebApplication method.
      */
@@ -1114,7 +1129,7 @@ class DefaultWebApplicationResponseTest {
         response.setWebApplication(webApplication);
         assertEquals(webApplication, response.getWebApplication());
     }
-    
+
     /**
      * Test setWebApplicationOutputStream method.
      */
@@ -1192,6 +1207,8 @@ class DefaultWebApplicationResponseTest {
     void testVerifyNotCommitted() {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         response.setCommitted(true);
-        assertThrows(IllegalStateException.class, () -> {response.verifyNotCommitted("bogus");});
+        assertThrows(IllegalStateException.class, () -> {
+            response.verifyNotCommitted("bogus");
+        });
     }
 }
