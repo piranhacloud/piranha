@@ -35,7 +35,7 @@
         <profile>
             <id>jdk20</id>
             <activation>
-                <jdk>[20,)</jdk>
+                <jdk>20</jdk>
             </activation>
             <modules>
                 <module>springboot-virtualthreads</module>
