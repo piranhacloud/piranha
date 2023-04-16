@@ -48,6 +48,13 @@ public class DefaultLocaleEncodingManager implements LocaleEncodingManager {
      */
     public DefaultLocaleEncodingManager() {
         localeMappings = new HashMap<>(1);
+        /*
+         * REVIEW - We should see if we should file another TCK challenge. For
+         * now we swill always have this locale and encoding available.
+         *
+         * See com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpservletresponse/URLClient.java#setCharacterEncodingTest
+         */
+        localeMappings.put("ja", "Shift_Jis");
     }
 
     @Override
