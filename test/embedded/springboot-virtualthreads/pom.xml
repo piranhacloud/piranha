@@ -54,7 +54,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <release>19</release>
+                    <release>20</release>
                     <enablePreview>true</enablePreview>
                 </configuration>
             </plugin>
