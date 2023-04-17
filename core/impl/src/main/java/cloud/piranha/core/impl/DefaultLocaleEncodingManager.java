@@ -49,8 +49,10 @@ public class DefaultLocaleEncodingManager implements LocaleEncodingManager {
     public DefaultLocaleEncodingManager() {
         localeMappings = new HashMap<>(1);
         /*
-         * REVIEW - We should see if we should file another TCK challenge. For
-         * now we swill always have this locale and encoding available.
+         * REVIEW - We have added the "ja" locale as a default locale encoding
+         *          mapping for now as the TCK test seems the require it. Note
+         *          that we should evaluate if the TCK test should be 
+         *          challenged.
          *
          * See com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpservletresponse/URLClient.java#setCharacterEncodingTest
          */

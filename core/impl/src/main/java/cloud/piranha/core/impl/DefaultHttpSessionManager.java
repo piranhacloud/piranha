@@ -225,16 +225,13 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         if (session == null) {
             throw new IllegalStateException("No session active");
         }
-
         String oldSessionId = session.getId();
         sessions.remove(oldSessionId);
         String sessionId = UUID.randomUUID().toString();
         DefaultHttpSession newSession = (DefaultHttpSession) session;
         newSession.setId(sessionId);
         sessions.put(sessionId, session);
-
         idListeners.stream().forEach(idListener -> idListener.sessionIdChanged(new HttpSessionEvent(session), oldSessionId));
-
         return sessionId;
     }
 
@@ -242,22 +239,17 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     public synchronized HttpSession createSession(HttpServletRequest request) {
         String sessionId = UUID.randomUUID().toString();
         DefaultHttpSession session = new DefaultHttpSession(webApplication, sessionId, true);
-
-        // Note: session timeout is in minutes, inactive interval is seconds
         session.setMaxInactiveInterval(getSessionTimeout() * 60);
         session.setSessionManager(this);
         sessions.put(sessionId, session);
         sessionCounters.put(session.getId(), new AtomicInteger(1));
-
         HttpServletResponse response = (HttpServletResponse) webApplication.getResponse(request);
         Cookie cookie = new Cookie(name, sessionId);
-
         if (path != null) {
             cookie.setPath(path);
         } else {
             cookie.setPath("".equals(request.getContextPath()) ? "/" : request.getContextPath());
         }
-
         cookie.setComment(comment);
         if (domain != null) {
             cookie.setDomain(domain);
@@ -265,11 +257,8 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
         cookie.setHttpOnly(httpOnly);
         cookie.setMaxAge(maxAge);
         cookie.setSecure(secure);
-
         response.addCookie(cookie);
-
         sessionListeners.stream().forEach(sessionListener -> sessionListener.sessionCreated(new HttpSessionEvent(session)));
-
         return session;
     }
 

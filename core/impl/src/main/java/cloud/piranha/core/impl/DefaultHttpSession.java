@@ -46,12 +46,12 @@ public class DefaultHttpSession implements HttpSession {
     /**
      * Stores the attributes.
      */
-    private HashMap<String, Object> attributes = new HashMap<>();
+    private final HashMap<String, Object> attributes = new HashMap<>();
 
     /**
      * Stores the creation time.
      */
-    private long creationTime;
+    private final long creationTime;
 
     /**
      * Stores the session id.

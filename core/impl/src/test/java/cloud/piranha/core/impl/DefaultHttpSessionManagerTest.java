@@ -27,7 +27,15 @@
  */
 package cloud.piranha.core.impl;
 
+import jakarta.servlet.SessionTrackingMode;
+import static jakarta.servlet.SessionTrackingMode.COOKIE;
+import static jakarta.servlet.SessionTrackingMode.SSL;
+import static jakarta.servlet.SessionTrackingMode.URL;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSessionAttributeListener;
+import jakarta.servlet.http.HttpSessionBindingEvent;
+import jakarta.servlet.http.HttpSessionBindingListener;
+import java.util.EnumSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -54,6 +62,26 @@ class DefaultHttpSessionManagerTest {
     }
     
     /**
+     * Test destroySession method.
+     */
+    @Test
+    void testDestroySession() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSessionManager manager = new DefaultHttpSessionManager();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(manager);
+        session.setAttribute("name", "value");
+        manager.addListener(new HttpSessionAttributeListener() {
+            @Override
+            public void attributeRemoved(HttpSessionBindingEvent event) {
+                event.getSession().getServletContext().setAttribute("destroySession", true);
+            }
+        });
+        manager.destroySession(session);
+        assertTrue((boolean)webApplication.getAttribute("destroySession"));
+    }
+
+    /**
      * Test encodeRedirectUrl method.
      */
     @Test
@@ -61,7 +89,7 @@ class DefaultHttpSessionManagerTest {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
         assertEquals("test", sessionManager.encodeRedirectURL(null, "test"));
     }
-    
+
     /**
      * Test encodeURL method.
      */
@@ -94,17 +122,17 @@ class DefaultHttpSessionManagerTest {
         sessionManager.setDomain("domain");
         assertEquals("domain", sessionManager.getDomain());
     }
-    
+
     /**
      * Test getEffectivfeSessionTrackingModes method.
      */
     @Test
     void testGetEffectiveSessionTrackingModes() {
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
-        assertEquals(sessionManager.getDefaultSessionTrackingModes(), 
+        assertEquals(sessionManager.getDefaultSessionTrackingModes(),
                 sessionManager.getEffectiveSessionTrackingModes());
     }
-    
+
     /**
      * Test getMaxAge method.
      */
@@ -117,7 +145,7 @@ class DefaultHttpSessionManagerTest {
         sessionManager.setMaxAge(60);
         assertEquals(60, sessionManager.getMaxAge());
     }
-    
+
     /**
      * Test getName method.
      */
@@ -141,7 +169,7 @@ class DefaultHttpSessionManagerTest {
         sessionManager.setPath("/");
         assertEquals("/", sessionManager.getPath());
     }
-    
+
     /**
      * Test getSession method.
      */
@@ -202,7 +230,7 @@ class DefaultHttpSessionManagerTest {
         sessionManager.setHttpOnly(true);
         assertTrue(sessionManager.isHttpOnly());
     }
-    
+
     /**
      * Test isSecure method.
      */
@@ -215,4 +243,159 @@ class DefaultHttpSessionManagerTest {
         sessionManager.setSecure(true);
         assertTrue(sessionManager.isSecure());
     }
+    
+    /**
+     * Test setComment.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testSetComment() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSessionManager manager = (DefaultHttpSessionManager) 
+                webApplication.getManager().getHttpSessionManager();
+        manager.setComment("Comment");
+        assertNull(webApplication.getSessionCookieConfig().getComment());
+    }
+
+    /**
+     * Test setComment.
+     */
+    @Test
+    void testSetComment2() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.initialize();
+        webApplication.start();
+        assertNotNull(assertThrows(IllegalStateException.class, 
+                () -> webApplication.getManager().getHttpSessionManager()
+                        .getSessionCookieConfig().setComment("Comment")));
+        webApplication.stop();
+    }
+    /**
+     * Test setDomain.
+     * 
+     * <p>
+     *  Validate we are throwing an IllegalStateException once the 
+     *  ServletContext has been initialized.
+     * </p>
+     */
+    @Test
+    void testSetDomain() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.initialize();
+        webApplication.start();
+        assertNotNull(assertThrows(IllegalStateException.class, 
+                () -> webApplication.getManager().getHttpSessionManager()
+                        .getSessionCookieConfig().setDomain("Domain")));
+        webApplication.stop();
+    }
+
+    /**
+     * Test setHttpOnly.
+     * 
+     * <p>
+     *  Validate we are throwing an IllegalStateException once the 
+     *  ServletContext has been initialized.
+     * </p>
+     */
+    @Test
+    void testSetHttpOnly() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.initialize();
+        webApplication.start();
+        assertNotNull(assertThrows(IllegalStateException.class, 
+                () -> webApplication.getManager().getHttpSessionManager()
+                        .getSessionCookieConfig().setHttpOnly(true)));
+        webApplication.stop();
+    }
+
+    /**
+     * Test setMaxAge.
+     * 
+     * <p>
+     *  Validate we are throwing an IllegalStateException once the 
+     *  ServletContext has been initialized.
+     * </p>
+     */
+    @Test
+    void testSetMaxAge() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.initialize();
+        webApplication.start();
+        assertNotNull(assertThrows(IllegalStateException.class, 
+                () -> webApplication.getManager().getHttpSessionManager()
+                        .getSessionCookieConfig().setMaxAge(1234)));
+        webApplication.stop();
+    }
+
+    /**
+     * Test setName.
+     * 
+     * <p>
+     *  Validate we are throwing an IllegalStateException once the 
+     *  ServletContext has been initialized.
+     * </p>
+     */
+    @Test
+    void testSetName() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.initialize();
+        webApplication.start();
+        assertNotNull(assertThrows(IllegalStateException.class, 
+                () -> webApplication.getManager().getHttpSessionManager()
+                        .getSessionCookieConfig().setName("Name")));
+        webApplication.stop();
+    }
+
+    /**
+     * Test setPath.
+     * 
+     * <p>
+     *  Validate we are throwing an IllegalStateException once the 
+     *  ServletContext has been initialized.
+     * </p>
+     */
+    @Test
+    void testSetPath() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.initialize();
+        webApplication.start();
+        assertNotNull(assertThrows(IllegalStateException.class, 
+                () -> webApplication.getManager().getHttpSessionManager()
+                        .getSessionCookieConfig().setPath("/path")));
+        webApplication.stop();
+    }
+
+    /**
+     * Test setSecure.
+     * 
+     * <p>
+     *  Validate we are throwing an IllegalStateException once the 
+     *  ServletContext has been initialized.
+     * </p>
+     */
+    @Test
+    void testSetSecure() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.initialize();
+        webApplication.start();
+        assertNotNull(assertThrows(IllegalStateException.class, 
+                () -> webApplication.getManager().getHttpSessionManager()
+                        .getSessionCookieConfig().setSecure(true)));
+        webApplication.stop();
+    }
+
+    /**
+     * Test setSessionTrackingModes method.
+     */
+    @Test
+    void testSetSessionTrackingModes() {
+        DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
+        EnumSet<SessionTrackingMode> sslAndUrl = EnumSet.of(SSL, URL);
+        assertNotNull(assertThrows(IllegalArgumentException.class,
+                () -> sessionManager.setSessionTrackingModes(sslAndUrl)));
+        EnumSet<SessionTrackingMode> sslAndCookie = EnumSet.of(COOKIE, SSL);
+        assertNotNull(assertThrows(IllegalArgumentException.class,
+                () -> sessionManager.setSessionTrackingModes(sslAndCookie)));
+    }    
 }

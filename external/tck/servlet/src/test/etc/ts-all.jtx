@@ -111,7 +111,10 @@ com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatc
 com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest1
 com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest2
 com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest3
-com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest4
+
+# Excluding as per https://github.com/jakartaee/servlet/issues/489
+# com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest4
+
 com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest5
 com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchReturnTest
 com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchReturnTest1

@@ -27,14 +27,9 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.AsyncDispatcher;
-import cloud.piranha.core.api.AsyncManager;
-import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebXml;
 import cloud.piranha.core.api.WebXmlManager;
 import cloud.piranha.core.api.WelcomeFileManager;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

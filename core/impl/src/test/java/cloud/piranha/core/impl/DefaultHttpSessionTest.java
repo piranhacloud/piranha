@@ -30,47 +30,144 @@ package cloud.piranha.core.impl;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.SessionTrackingMode;
-import static jakarta.servlet.SessionTrackingMode.COOKIE;
-import static jakarta.servlet.SessionTrackingMode.SSL;
-import static jakarta.servlet.SessionTrackingMode.URL;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
+import jakarta.servlet.http.HttpSessionBindingEvent;
+import jakarta.servlet.http.HttpSessionBindingListener;
 import java.io.IOException;
-import java.util.EnumSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the HttpSession API.
+ * The JUnit tests for the DefaultHttpSession class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class DefaultHttpSessionTest {
 
     /**
+     * Test attributeAdded method.
+     *
+     * <p>
+     * Validate that an object implementing the HttpSessionBindingListener
+     * interface gets notified when the value gets bound into the session.
+     * </p>
+     */
+    @Test
+    void testAttributeAdded() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSessionManager manager = new DefaultHttpSessionManager();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(manager);
+        manager.attributeAdded(session, "name", new HttpSessionBindingListener() {
+            @Override
+            public void valueBound(HttpSessionBindingEvent event) {
+                event.getSession().getServletContext().setAttribute("testAttributeAdded", true);
+            }
+        });
+        assertTrue((boolean) webApplication.getAttribute("testAttributeAdded"));
+    }
+
+    /**
+     * Test attributeRemoved method.
+     *
+     * <p>
+     * Validate that an object implementing the HttpSessionBindingListener
+     * interface gets notified when the value gets unbound from the session.
+     * </p>
+     */
+    @Test
+    void testAttributeRemoved() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSessionManager manager = new DefaultHttpSessionManager();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(manager);
+        manager.attributeRemoved(session, "name", new HttpSessionBindingListener() {
+            @Override
+            public void valueUnbound(HttpSessionBindingEvent event) {
+                event.getSession().getServletContext().setAttribute("testAttributeRemoved", true);
+            }
+        });
+        assertTrue((boolean) webApplication.getAttribute("testAttributeRemoved"));
+    }
+
+    /**
+     * Test attributeReplaced method.
+     *
+     * <p>
+     * Validate that an object implementing the HttpSessionBindingListener
+     * interface gets notified when the old value gets unbound.
+     * </p>
+     * <p>
+     * Validate that an object implementing the HttpSessionBindingListener
+     * interface gets notified when the new value gets bound.
+     * </p>
+     */
+    @Test
+    void testAttributeReplaced() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSessionManager manager = new DefaultHttpSessionManager();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(manager);
+        Object value = new HttpSessionBindingListener() {
+            @Override
+            public void valueBound(HttpSessionBindingEvent event) {
+                event.getSession().getServletContext().setAttribute("testAttributeReplacedA", true);
+            }
+            @Override
+            public void valueUnbound(HttpSessionBindingEvent event) {
+                event.getSession().getServletContext().setAttribute("testAttributeReplacedB", true);
+            }
+        };
+        manager.attributeReplaced(session, "name", value, value);
+        assertTrue((boolean) webApplication.getAttribute("testAttributeReplacedA"));
+        assertTrue((boolean) webApplication.getAttribute("testAttributeReplacedB"));
+    }
+    
+    /**
+     * Test getAttribute method.
+     */
+    @Test
+    void testGetAttribute() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(webApplication.getManager().getHttpSessionManager());
+        session.setAttribute("TestGetAttribute", "TestGetAttribute");
+        assertEquals("TestGetAttribute", session.getAttribute("TestGetAttribute"));
+        session.removeAttribute("TestGetAttribute");
+        assertNull(session.getAttribute("TestGetAttribute"));
+    }
+
+    /**
+     * Test getAttributeNames method.
+     */
+    @Test
+    void testGetAttributeNames() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(webApplication.getManager().getHttpSessionManager());
+        assertFalse(session.getAttributeNames().hasMoreElements());
+    }
+
+    /**
      * Test getCookies method.
      */
-    /*
-
-      REVIEW FOR SERVLET 6
-
     @Test
     void testGetCookies() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
-        sessionManager.setWebApplication(webApp);
+        sessionManager.setWebApplication(webApplication);
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         TestWebApplicationResponse response = new TestWebApplicationResponse();
-        webApp.linkRequestAndResponse(request, response);
-
+        webApplication.linkRequestAndResponse(request, response);
         sessionManager.setComment("Comment");
         sessionManager.setDomain("domain");
         sessionManager.setHttpOnly(true);
@@ -78,15 +175,12 @@ class DefaultHttpSessionTest {
         sessionManager.setMaxAge(100);
         sessionManager.setPath("/context");
         sessionManager.setSecure(true);
-
         sessionManager.createSession(request);
-
         Cookie sessionCookie = response.getCookies()
                 .stream()
                 .filter(cookie -> "SessionCookie".equals(cookie.getName()))
                 .findFirst()
                 .orElse(null);
-
         assertNotNull(sessionCookie);
         assertEquals(sessionManager.getComment(), sessionCookie.getComment());
         assertEquals(sessionManager.getDomain(), sessionCookie.getDomain());
@@ -95,7 +189,79 @@ class DefaultHttpSessionTest {
         assertEquals(sessionManager.getPath(), sessionCookie.getPath());
         assertTrue(sessionCookie.getSecure());
     }
-    */
+
+    /**
+     * Test getCreationTime method.
+     */
+    @Test
+    void testGetCreationTime() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(webApplication.getManager().getHttpSessionManager());
+        assertTrue(session.getCreationTime() > 0);
+    }
+
+    /**
+     * Test getId method.
+     */
+    @Test
+    void testGetId() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(webApplication.getManager().getHttpSessionManager());
+        assertNotNull(session.getId());
+    }
+
+    /**
+     * Test getLastAccessedTime method.
+     */
+    @Test
+    void testGetLastAccessedTime() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(webApplication.getManager().getHttpSessionManager());
+        assertTrue(session.getLastAccessedTime() >= session.getCreationTime());
+    }
+
+    /**
+     * Test getMaxInactiveInterval method.
+     */
+    @Test
+    void testGetMaxInactiveInterval() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(webApplication.getManager().getHttpSessionManager());
+        session.setMaxInactiveInterval(1000);
+        assertEquals(1000, session.getMaxInactiveInterval());
+    }
+
+    /**
+     * Test getServletContext method.
+     */
+    @Test
+    void testGetServletContext() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(webApplication.getManager().getHttpSessionManager());
+        assertNotNull(session.getServletContext());
+        assertEquals(webApplication, session.getServletContext());
+    }
+
+    /**
+     * Test invalidate method.
+     */
+    @Test
+    void testInvalidate() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(webApplication.getManager().getHttpSessionManager());
+        session.invalidate();
+        try {
+            session.isNew();
+            fail();
+        } catch (IllegalStateException expected) {
+        }
+    }
 
     /**
      * Test invalidate method.
@@ -113,96 +279,69 @@ class DefaultHttpSessionTest {
     }
 
     /**
-     * Test setComment.
-     *
-     * @throws Exception when a serious error occurs.
+     * Test isNew method.
      */
     @Test
-    void testSetComment() throws Exception {
+    void testIsNew() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addServlet("TestSetCommentServlet", new TestSetCommentServlet());
-        webApplication.addServletMapping("TestSetCommnetrServlet", "/*");
-        webApplication.addListener(new TestSetCommentListener());
-        webApplication.initialize();
-        webApplication.start();
-
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
-        
-        try {
-            webApplication.service(request, response);
-        } catch (ServletException se) {
-            fail();
-        }
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(webApplication.getManager().getHttpSessionManager());
+        session.setNew(true);
+        assertTrue(session.isNew());
+        session.setNew(false);
+        assertFalse(session.isNew());
     }
 
     /**
-     * Test setComment.
+     * Test removeAttribute method.
      */
     @Test
-    void testSetComment2() throws Exception {
+    void testRemoveAttribute() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.initialize();
-        webApplication.start();
-        assertNotNull(assertThrows(IllegalStateException.class, 
-                () -> webApplication.getManager().getHttpSessionManager()
-                        .getSessionCookieConfig().setComment("MY COMMENT")));
-        webApplication.stop();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(webApplication.getManager().getHttpSessionManager());
+        session.setAttribute("TestRemoveAttribute", "TestRemoveAttribute");
+        assertEquals("TestRemoveAttribute", session.getAttribute("TestRemoveAttribute"));
+        session.removeAttribute("TestRemoveAttribute");
+        assertNull(session.getAttribute("TestRemoveAttribute"));
     }
 
     /**
-     * Test setRequestedSessionIdFromCookie method.
+     * Test setAttribute method.
      */
     @Test
-    void testSetRequestedSessionIdFromCookie() {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertFalse(request.isRequestedSessionIdFromCookie());
-        request.setRequestedSessionIdFromCookie(true);
-        assertTrue(request.isRequestedSessionIdFromCookie());
+    void testSetAttribute() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(webApplication.getManager().getHttpSessionManager());
+        session.setAttribute("TestSetAttribute", "TestSetAttribute");
+        assertEquals("TestSetAttribute", session.getAttribute("TestSetAttribute"));
     }
 
     /**
-     * Test setRequestedSessionIdFromURL method.
+     * Test setAttribute method.
      */
     @Test
-    void testSetRequestedSessionIdFromURL() {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertFalse(request.isRequestedSessionIdFromURL());
-        request.setRequestedSessionIdFromURL(true);
-        assertTrue(request.isRequestedSessionIdFromURL());
+    void testSetAttribute2() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(webApplication.getManager().getHttpSessionManager());
+        session.setAttribute("TestSetAttribute", "TestSetAttribute");
+        session.setAttribute("TestSetAttribute", null);
+        assertNull(session.getAttribute("TestSetAttribute"));
     }
 
     /**
-     * Test setSessionTimeout method.
+     * Test setMaxInactiveInterval method.
      */
     @Test
-    void testSetSessionTimeout() {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setSessionTimeout(50);
-        assertEquals(50, webApp.getSessionTimeout());
+    void testSetMaxInactiveInterval() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultHttpSession session = new DefaultHttpSession(webApplication);
+        session.setSessionManager(webApplication.getManager().getHttpSessionManager());
+        session.setMaxInactiveInterval(15);
+        assertEquals(15, session.getMaxInactiveInterval());
     }
-
-    /**
-     * Test setSessionTrackingModes method.
-     */
-    @Test
-    void testSetSessionTrackingModes() {
-        DefaultHttpSessionManager sessionManager = new DefaultHttpSessionManager();
-
-        EnumSet<SessionTrackingMode> sslAndUrl = EnumSet.of(SSL, URL);
-        assertNotNull(assertThrows(IllegalArgumentException.class,
-                () -> sessionManager.setSessionTrackingModes(sslAndUrl)));
-
-        EnumSet<SessionTrackingMode> sslAndCookie = EnumSet.of(COOKIE, SSL);
-        assertNotNull(assertThrows(IllegalArgumentException.class,
-                () -> sessionManager.setSessionTrackingModes(sslAndCookie)));
-    }
-
 
     /**
      * Test ServletContextListener that sets the comment of the session cookie
@@ -225,7 +364,6 @@ class DefaultHttpSessionTest {
         @Override
         protected void service(HttpServletRequest request,
                 HttpServletResponse response) throws ServletException, IOException {
-
             if (!request.getServletContext().getSessionCookieConfig()
                     .getComment().equals("MY COMMENT")) {
                 throw new ServletException("ServletContextListener did not work");
