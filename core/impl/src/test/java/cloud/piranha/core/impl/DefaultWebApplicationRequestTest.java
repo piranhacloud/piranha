@@ -982,12 +982,34 @@ class DefaultWebApplicationRequestTest {
     }
 
     /**
+     * Test isRequestedSessionIdFromCookie method.
+     */
+    @Test
+    void testSetRequestedSessionIdFromCookie() {
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        assertFalse(request.isRequestedSessionIdFromCookie());
+        request.setRequestedSessionIdFromCookie(true);
+        assertTrue(request.isRequestedSessionIdFromCookie());
+    }
+    
+    /**
      * Test isRequestedSessionIdFromURL method.
      */
     @Test
     void testIsRequestedSessionIdFromURL() {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         assertFalse(request.isRequestedSessionIdFromURL());
+    }
+
+    /**
+     * Test setRequestedSessionIdFromURL method.
+     */
+    @Test
+    void testIsRequestedSessionIdFromURL2() {
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        assertFalse(request.isRequestedSessionIdFromURL());
+        request.setRequestedSessionIdFromURL(true);
+        assertTrue(request.isRequestedSessionIdFromURL());
     }
 
     /**

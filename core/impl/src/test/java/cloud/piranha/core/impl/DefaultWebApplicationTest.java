@@ -45,6 +45,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.ServletRegistration.Dynamic;
 import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.SessionTrackingMode;
@@ -420,6 +421,108 @@ class DefaultWebApplicationTest {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         assertThrows(IllegalArgumentException.class, ()
                 -> webApplication.addListener(TestAddListener2Listener.class));
+    }
+
+    /**
+     * Test addListener method.
+     *
+     * <p>
+     * Add a ServletRequestListener and validate the requestDestroyed method is
+     * called when the request is processed.
+     * </p>
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testAddListener3() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addListener(new ServletRequestListener() {
+            @Override
+            public void requestDestroyed(ServletRequestEvent event) {
+                event.getServletContext().setAttribute("testAddListener3", true);
+            }
+        });
+        webApplication.initialize();
+        webApplication.start();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.service(request, response);
+        assertNotNull(webApplication.getAttribute("testAddListener3"));
+    }
+
+    /**
+     * Test addListener method.
+     *
+     * <p>
+     * Add a ServletRequestListener and validate the requestInitialized method
+     * is called when the request is processed.
+     * </p>
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testAddListener4() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addListener(new ServletRequestListener() {
+            @Override
+            public void requestInitialized(ServletRequestEvent event) {
+                event.getServletContext().setAttribute("testAddListener4", true);
+            }
+        });
+        webApplication.initialize();
+        webApplication.start();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.service(request, response);
+        assertNotNull(webApplication.getAttribute("testAddListener4"));
+    }
+
+    /**
+     * Test addListener method.
+     *
+     * <p>
+     * Add a ServletContextListener and validate the contextDestroyed method is
+     * called when the ServletContext gets destroyed.
+     * </p>
+     */
+    @Test
+    void testAddListener5() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addListener(new ServletContextListener() {
+            @Override
+            public void contextDestroyed(ServletContextEvent event) {
+                event.getServletContext().setAttribute("testAddListener5", true);
+            }
+        });
+        webApplication.initialize();
+        webApplication.destroy();
+        assertNotNull(webApplication.getAttribute("testAddListener5"));
+    }
+
+    /**
+     * Test addListener method.
+     *
+     * <p>
+     * Add a ServletContextListener and validate the contextInitialized method
+     * is called when the ServletContext gets initialized.
+     * </p>
+     */
+    @Test
+    void testAddListener6() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addListener(new ServletContextListener() {
+            @Override
+            public void contextInitialized(ServletContextEvent event) {
+                event.getServletContext().setAttribute("testAddListener6", true);
+            }
+        });
+        webApplication.initialize();
+        webApplication.destroy();
+        assertNotNull(webApplication.getAttribute("testAddListener6"));
     }
 
     /**
@@ -1001,19 +1104,6 @@ class DefaultWebApplicationTest {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.initialize();
         assertNull(webApplication.getNamedDispatcher("TestGetNamedDispatcher2Servlet"));
-    }
-
-    /**
-     * Test getObjectInstanceManager method.
-     *
-     * REVIEW LOCATION
-     */
-    @Test
-    void testGetObjectInstanceManager() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        assertNotNull(webApplication.getManager().getObjectInstanceManager());
-        webApplication.getManager().setObjectInstanceManager(null);
-        assertNull(webApplication.getManager().getObjectInstanceManager());
     }
 
     /**
@@ -1805,7 +1895,7 @@ class DefaultWebApplicationTest {
         webApplication.setSessionTimeout(10);
         assertEquals(10, webApplication.getSessionTimeout());
     }
-    
+
     /**
      * Test setSessionTimeout method
      */
