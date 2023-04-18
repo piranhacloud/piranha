@@ -111,6 +111,12 @@
                                             <replaceregexp file="${tck.home}/bin/ts.jtx"
                                                 match="${run.test}$" replace="#${run.test}" byline="true" />
                                         </sequential>
+                                        
+                                        <!-- exclude TCK test per https://github.com/jakartaee/servlet/issues/489 -->
+                                        <replaceregexp file="${tck.home}/bin/ts.jtx"
+                                                match="com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest4$" 
+                                                replace="#com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest4"
+                                                byline="true" />
 
                                         <!-- Setup ts.jte for signature tests -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
