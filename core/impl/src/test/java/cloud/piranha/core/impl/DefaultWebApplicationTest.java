@@ -1839,19 +1839,6 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test setLoggingManager method.
-     *
-     * REVIEW LOCATION
-     */
-    @Test
-    void testSetLoggingManager() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.getManager().setLoggingManager(null);
-        webApplication.log("KABOOM");
-        assertNull(webApplication.getManager().getLoggingManager());
-    }
-
-    /**
      * Test setRequestCharacterEncoding method.
      */
     @Test

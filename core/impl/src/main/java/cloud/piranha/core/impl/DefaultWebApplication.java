@@ -92,6 +92,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toSet;
 import java.util.stream.Stream;
 import cloud.piranha.core.api.WebApplicationManager;
+import static java.lang.System.Logger.Level.INFO;
 
 /**
  * The default WebApplication.
@@ -1149,16 +1150,12 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public void log(String message, Throwable throwable) {
-        if (manager.getLoggingManager() != null) {
-            manager.getLoggingManager().log(message, throwable);
-        }
+        LOGGER.log(INFO, message, throwable);
     }
 
     @Override
     public void log(String message) {
-        if (manager.getLoggingManager() != null) {
-            manager.getLoggingManager().log(message);
-        }
+        LOGGER.log(INFO, message);
     }
 
     @Override
