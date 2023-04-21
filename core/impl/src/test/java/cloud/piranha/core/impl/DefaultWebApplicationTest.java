@@ -1072,7 +1072,8 @@ class DefaultWebApplicationTest {
     @Test
     void testGetMimeType() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
-        assertNull(webApplication.getMimeType("index.html"));
+        assertNotNull(webApplication.getMimeType("index.html"));
+        assertEquals("text/html", webApplication.getMimeType("index.html"));
     }
 
     /**

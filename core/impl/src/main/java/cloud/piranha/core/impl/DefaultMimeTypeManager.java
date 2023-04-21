@@ -28,6 +28,8 @@
 package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.MimeTypeManager;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The default MimeTypeManager implementation.
@@ -36,12 +38,38 @@ import cloud.piranha.core.api.MimeTypeManager;
  */
 public class DefaultMimeTypeManager implements MimeTypeManager {
 
+    /**
+     * Stores the mime types.
+     */
+    private final Map<String, String> mimeTypes = new HashMap<>();
+
+    /**
+     * Constructor.
+     */
+    public DefaultMimeTypeManager() {
+        mimeTypes.put("css", "text/css");
+        mimeTypes.put("js", "text/javascript");
+        mimeTypes.put("ico", "image/x-icon");
+        mimeTypes.put("svg", "image/svg+xml");
+        mimeTypes.put("png", "image/png");
+        mimeTypes.put("ttf", "font/ttf");
+        mimeTypes.put("html", "text/html");
+        mimeTypes.put("htm", "text/html");
+        mimeTypes.put("text", "text/plain");
+        mimeTypes.put("txt", "text/plain");
+    }
+
     @Override
     public void addMimeType(String extension, String mimeType) {
+        mimeTypes.put(extension.toLowerCase(), mimeType);
     }
 
     @Override
     public String getMimeType(String filename) {
-        return null;
+        String mimeType = null;
+        if (filename.contains(".")) {
+            mimeType = mimeTypes.get(filename.substring(filename.lastIndexOf(".") + 1).toLowerCase());
+        }
+        return mimeType;
     }
 }
