@@ -31,7 +31,9 @@ package cloud.piranha.core.api;
  * The MimeTypeManager API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated 
  */
+@Deprecated(since = "23.5.0", forRemoval = true)
 public interface MimeTypeManager {
 
     /**
