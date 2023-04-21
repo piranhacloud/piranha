@@ -36,7 +36,6 @@ import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.datasource.DefaultDatasourceExtension;
 import cloud.piranha.extension.eclipselink.EclipseLinkExtension;
 import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
-import cloud.piranha.extension.mimetype.MimeTypeExtension;
 import cloud.piranha.extension.naming.cdi.NamingExtension;
 import cloud.piranha.extension.policy.PolicyExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
@@ -60,7 +59,6 @@ public class MicroExtension implements WebApplicationExtension {
     @Override
     public void extend(WebApplicationExtensionContext context) {
         // Servlet
-        context.add(MimeTypeExtension.class);                   // mimetype
         context.add(PolicyExtension.class);                     // Policy
         context.add(TempDirExtension.class);                    // TEMPDIR
         context.add(WelcomeFileExtension.class);                // welcome-file

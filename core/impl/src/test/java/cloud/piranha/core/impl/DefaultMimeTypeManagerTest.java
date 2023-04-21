@@ -25,10 +25,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.mimetype.internal;
+package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.MimeTypeManager;
-import cloud.piranha.core.impl.DefaultWebApplication;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +38,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class InternalMimeTypeManagerTest {
+class DefaultMimeTypeManagerTest {
 
     /**
      * Stores the mime type manager.
@@ -51,7 +50,7 @@ class InternalMimeTypeManagerTest {
      */
     @BeforeEach
     void before() {
-        manager = new InternalMimeTypeManager();
+        manager = new DefaultMimeTypeManager();
     }
 
     /**

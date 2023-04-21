@@ -41,12 +41,6 @@
         <!-- test -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-mimetype</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-naming</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>

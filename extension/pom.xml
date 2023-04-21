@@ -27,7 +27,6 @@
         <module>hazelcast</module>
         <module>micro</module>
         <module>microprofile</module>
-        <module>mimetype</module>
         <module>naming</module>
         <module>naming-cdi</module>
         <module>platform</module>
