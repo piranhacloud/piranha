@@ -39,7 +39,9 @@ import java.lang.reflect.InvocationTargetException;
  * The WebApplicationExtension that adds the StandardTempDirInitializer.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "23.5.0", forRemoval = true)
 public class TempDirExtension implements WebApplicationExtension {
 
     /**
