@@ -354,6 +354,39 @@ public class WebProfilePiranha implements Piranha, Runnable {
     }
 
     /**
+     * Set the HTTPS keystore file.
+     *
+     * <p>
+     * Convenience wrapper around the <code>javax.net.ssl.keyStore</code> system
+     * property. Note using this method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param httpsKeystoreFile the HTTPS keystore file.
+     */
+    public void setHttpsKeystoreFile(String httpsKeystoreFile) {
+        if (httpsKeystoreFile != null) {
+            System.setProperty("javax.net.ssl.keyStore", httpsKeystoreFile);
+        }
+    }
+
+    /**
+     * Set the HTTPS keystore password.
+     *
+     * <p>
+     * Convenience wrapper around the
+     * <code>javax.net.ssl.keyStorePassword</code> system property. Note using
+     * this method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param httpsKeystorePassword the HTTP keystore password.
+     */
+    public void setHttpsKeystorePassword(String httpsKeystorePassword) {
+        if (httpsKeystorePassword != null) {
+            System.setProperty("javax.net.ssl.keyStorePassword", httpsKeystorePassword);
+        }
+    }
+
+    /**
      * Set the HTTPS server port.
      *
      * @param httpsPort the HTTPS server port.
@@ -387,39 +420,6 @@ public class WebProfilePiranha implements Piranha, Runnable {
      */
     public void setPid(Long pid) {
         this.pid = pid;
-    }
-
-    /**
-     * Set the SSL keystore file.
-     *
-     * <p>
-     * Convenience wrapper around the <code>javax.net.ssl.keyStore</code> system
-     * property. Note using this method sets the property for the entire JVM.
-     * </p>
-     *
-     * @param sslKeystoreFile the SSL keystore file.
-     */
-    public void setSslKeystoreFile(String sslKeystoreFile) {
-        if (sslKeystoreFile != null) {
-            System.setProperty("javax.net.ssl.keyStore", sslKeystoreFile);
-        }
-    }
-
-    /**
-     * Set the SSL keystore password.
-     *
-     * <p>
-     * Convenience wrapper around the
-     * <code>javax.net.ssl.keyStorePassword</code> system property. Note using
-     * this method sets the property for the entire JVM.
-     * </p>
-     *
-     * @param sslKeystorePassword
-     */
-    void setSslKeystorePassword(String sslKeystorePassword) {
-        if (sslKeystorePassword != null) {
-            System.setProperty("javax.net.ssl.keyStorePassword", sslKeystorePassword);
-        }
     }
 
     /**

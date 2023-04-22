@@ -69,6 +69,16 @@ public class PlatformPiranhaBuilder {
     private String httpServerClass;
 
     /**
+     * Stores the HTTPS keystore file.
+     */
+    private String httpsKeystoreFile;
+
+    /**
+     * Stores the HTTPS keystore password.
+     */
+    private String httpsKeystorePassword;
+
+    /**
      * Stores the HTTPS port.
      */
     private int httpsPort = -1;
@@ -87,16 +97,6 @@ public class PlatformPiranhaBuilder {
      * Stores the JPMS flag.
      */
     private boolean jpms = false;
-
-    /**
-     * Stores the SSL keystore file.
-     */
-    private String sslKeystoreFile;
-
-    /**
-     * Stores the SSL keystore password.
-     */
-    private String sslKeystorePassword;
 
     /**
      * Stores the SSL truststore file.
@@ -136,11 +136,11 @@ public class PlatformPiranhaBuilder {
         piranha.setHttpsPort(httpsPort);
         piranha.setHttpsServerClass(httpsServerClass);
         piranha.setJpmsEnabled(jpms);
-        if (sslKeystoreFile != null) {
-            piranha.setSslKeystoreFile(sslKeystoreFile);
+        if (httpsKeystoreFile != null) {
+            piranha.setHttpsKeystoreFile(httpsKeystoreFile);
         }
-        if (sslKeystorePassword != null) {
-            piranha.setSslKeystorePassword(sslKeystorePassword);
+        if (httpsKeystorePassword != null) {
+            piranha.setHttpsKeystorePassword(httpsKeystorePassword);
         }
         if (sslTruststoreFile != null) {
             piranha.setSslKeystoreFile(sslTruststoreFile);
@@ -211,6 +211,28 @@ public class PlatformPiranhaBuilder {
         this.httpServerClass = httpServerClass;
         return this;
     }
+    
+    /**
+     * Set the HTTPS keystore file.
+     *
+     * @param httpsKeystoreFile the HTTPS keystore file.
+     * @return the builder.
+     */
+    public PlatformPiranhaBuilder httpsKeystoreFile(String httpsKeystoreFile) {
+        this.httpsKeystoreFile = httpsKeystoreFile;
+        return this;
+    }
+
+    /**
+     * Set the HTTPS keystore password.
+     *
+     * @param httpsKeystorePassword the HTTPS keystore password.
+     * @return the builder.
+     */
+    public PlatformPiranhaBuilder httpsKeystorePassword(String httpsKeystorePassword) {
+        this.httpsKeystorePassword = httpsKeystorePassword;
+        return this;
+    }
 
     /**
      * Set the HTTPS server port.
@@ -260,11 +282,11 @@ public class PlatformPiranhaBuilder {
                 Exit on stop            : %s
                 HTTP port               : %s
                 HTTP server class       : %s
+                HTTPS keystore file     : %s
+                HTTPS keystore password : ****
                 HTTPS port              : %s
                 HTTPS server class      : %s
                 JPMS enabled            : %s
-                SSL keystore file       : %s
-                SSL keystore password   : ****
                 SSL truststore file     : %s
                 SSL truststore password : ****
                 Web applications dir    : %s
@@ -274,10 +296,10 @@ public class PlatformPiranhaBuilder {
                 exitOnStop,
                 httpPort,
                 httpServerClass,
+                httpsKeystoreFile,
                 httpsPort,
                 httpsServerClass,
                 jpms,
-                sslKeystoreFile,
                 sslTruststoreFile,
                 webAppsDir
         ));
@@ -288,9 +310,11 @@ public class PlatformPiranhaBuilder {
      *
      * @param sslKeystoreFile the SSL keystore file.
      * @return the builder.
+     * @deprecated
      */
+    @Deprecated(since = "23.5.0", forRemoval = true)
     public PlatformPiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
-        this.sslKeystoreFile = sslKeystoreFile;
+        this.httpsKeystoreFile = sslKeystoreFile;
         return this;
     }
 
@@ -299,9 +323,11 @@ public class PlatformPiranhaBuilder {
      *
      * @param sslKeystorePassword the SSL keystore password.
      * @return the builder.
+     * @deprecated
      */
+    @Deprecated(since = "23.5.0", forRemoval = true)
     public PlatformPiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
-        this.sslKeystorePassword = sslKeystorePassword;
+        this.httpsKeystorePassword = sslKeystorePassword;
         return this;
     }
 

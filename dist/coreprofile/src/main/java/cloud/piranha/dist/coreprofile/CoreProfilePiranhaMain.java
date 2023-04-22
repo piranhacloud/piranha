@@ -89,6 +89,12 @@ public class CoreProfilePiranhaMain {
                 if (arguments[i].equals("--http-server-class")) {
                     builder = builder.httpServerClass(arguments[i + 1]);
                 }
+                if (arguments[i].equals("--https-keystore-file")) {
+                    builder = builder.httpsKeystoreFile(arguments[i + 1]);
+                }
+                if (arguments[i].equals("--https-keystore-password")) {
+                    builder = builder.httpsKeystorePassword(arguments[i + 1]);
+                }
                 if (arguments[i].equals("--https-port")) {
                     int arg = Integer.parseInt(arguments[i + 1]);
                     builder = builder.httpsPort(arg);
@@ -101,10 +107,12 @@ public class CoreProfilePiranhaMain {
                     builder = builder.jpms(true);
                 }
                 if (arguments[i].equals("--ssl-keystore-file")) {
-                    builder = builder.sslKeystoreFile(arguments[i + 1]);
+                    LOGGER.log(WARNING, "The --ssl-keystore-file has been replaced by --https-keystore-file [DEPRECATED]");
+                    builder = builder.httpsKeystoreFile(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--ssl-keystore-password")) {
-                    builder = builder.sslKeystorePassword(arguments[i + 1]);
+                    LOGGER.log(WARNING, "The --ssl-keystore-password has been replaced by --https-keystore-password [DEPRECATED]");
+                    builder = builder.httpsKeystorePassword(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--verbose")) {
                     builder = builder.verbose(true);
