@@ -40,7 +40,7 @@ import static java.lang.System.Logger.Level.WARNING;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class ServletPiranhaBuilder {
-    
+
     /**
      * Stores the logger.
      */
@@ -50,7 +50,7 @@ public class ServletPiranhaBuilder {
      * Stores the context path.
      */
     private String contextPath = null;
-    
+
     /**
      * Stores the CRaC enabled flag.
      */
@@ -77,6 +77,16 @@ public class ServletPiranhaBuilder {
     private String httpServerClass;
 
     /**
+     * Stores the HTTPS keystore file.
+     */
+    private String httpsKeystoreFile;
+
+    /**
+     * Stores the HTTPS keystore password.
+     */
+    private String httpsKeystorePassword;
+
+    /**
      * Stores the HTTPS port.
      */
     private int httpsPort = -1;
@@ -90,16 +100,6 @@ public class ServletPiranhaBuilder {
      * Stores the JPMS flag.
      */
     private boolean jpms = false;
-
-    /**
-     * Stores the SSL keystore file.
-     */
-    private String sslKeystoreFile;
-
-    /**
-     * Stores the SSL keystore password.
-     */
-    private String sslKeystorePassword;
 
     /**
      * Stores the verbose flag.
@@ -144,11 +144,11 @@ public class ServletPiranhaBuilder {
         piranha.setHttpsPort(httpsPort);
         piranha.setHttpsServerClass(httpsServerClass);
         piranha.setJpmsEnabled(jpms);
-        if (sslKeystoreFile != null) {
-            piranha.setSslKeystoreFile(sslKeystoreFile);
+        if (httpsKeystoreFile != null) {
+            piranha.setHttpsKeystoreFile(httpsKeystoreFile);
         }
-        if (sslKeystorePassword != null) {
-            piranha.setSslKeystorePassword(sslKeystorePassword);
+        if (httpsKeystorePassword != null) {
+            piranha.setHttpsKeystorePassword(httpsKeystorePassword);
         }
         if (warFile != null) {
             piranha.setWarFile(warFile);
@@ -162,7 +162,7 @@ public class ServletPiranhaBuilder {
 
     /**
      * Set the context path.
-     * 
+     *
      * @param contextPath the context path.
      * @return the builder.
      */
@@ -170,10 +170,10 @@ public class ServletPiranhaBuilder {
         this.contextPath = contextPath;
         return this;
     }
-    
+
     /**
      * Set the CRaC enabled flag.
-     * 
+     *
      * @param crac the CRaC enabled flag.
      * @return the builder.
      */
@@ -214,7 +214,7 @@ public class ServletPiranhaBuilder {
     public ServletPiranhaBuilder extensionClass(String extensionClassName) {
         try {
             this.extensionClass = Class.forName(extensionClassName)
-                .asSubclass(WebApplicationExtension.class);
+                    .asSubclass(WebApplicationExtension.class);
         } catch (ClassNotFoundException cnfe) {
             LOGGER.log(WARNING, "Unable to load extension class", cnfe);
         }
@@ -234,7 +234,7 @@ public class ServletPiranhaBuilder {
 
     /**
      * Set the HTTP server class.
-     * 
+     *
      * @param httpServerClass the HTTP server class.
      * @return the builder.
      */
@@ -242,7 +242,29 @@ public class ServletPiranhaBuilder {
         this.httpServerClass = httpServerClass;
         return this;
     }
-    
+
+    /**
+     * Set the HTTPS keystore file.
+     *
+     * @param httpsKeystoreFile the HTTPS keystore file.
+     * @return the builder.
+     */
+    public ServletPiranhaBuilder httpsKeystoreFile(String httpsKeystoreFile) {
+        this.httpsKeystoreFile = httpsKeystoreFile;
+        return this;
+    }
+
+    /**
+     * Set the HTTPS keystore password.
+     *
+     * @param httpsKeystorePassword the HTTPS keystore password.
+     * @return the builder.
+     */
+    public ServletPiranhaBuilder httpsKeystorePassword(String httpsKeystorePassword) {
+        this.httpsKeystorePassword = httpsKeystorePassword;
+        return this;
+    }
+
     /**
      * Set the HTTPS server port.
      *
@@ -256,7 +278,7 @@ public class ServletPiranhaBuilder {
 
     /**
      * Set the HTTPS server class.
-     * 
+     *
      * @param httpsServerClass the HTTPS server class.
      * @return the builder.
      */
@@ -288,33 +310,32 @@ public class ServletPiranhaBuilder {
                 Arguments
                 =========
                 
-                Context path          : %s
-                Extension class       : %s
-                Exit on stop          : %s
-                HTTP port             : %s
-                HTTP server class     : %s
-                HTTPS port            : %s
-                HTTPS server class    : %s
-                JPMS enabled          : %s
-                PID                   : %s
-                SSL keystore file     : %s
-                SSK keystore password : ****
-                WAR filename          : %s
-                Web application dir   : %s
-                
+                Context path            : %s
+                Extension class         : %s
+                Exit on stop            : %s
+                HTTP port               : %s
+                HTTP server class       : %s
+                HTTPS keystore file     : %s
+                HTTPS keystore password : ****
+                HTTPS port              : %s
+                HTTPS server class      : %s
+                JPMS enabled            : %s
+                PID                     : %s
+                WAR filename            : %s
+                Web application dir     : %s                
                 """.formatted(
-                contextPath,
-                extensionClass != null ? extensionClass.getName() : ServletExtension.class.getName(),
-                exitOnStop,
-                httpPort,
-                httpServerClass,
-                httpsPort,
-                httpsServerClass,
-                jpms,
-                pid,
-                sslKeystoreFile,
-                warFile,
-                webAppDir));
+                        contextPath,
+                        extensionClass != null ? extensionClass.getName() : ServletExtension.class.getName(),
+                        exitOnStop,
+                        httpPort,
+                        httpServerClass,
+                        httpsKeystoreFile,
+                        httpsPort,
+                        httpsServerClass,
+                        jpms,
+                        pid,
+                        warFile,
+                        webAppDir));
     }
 
     /**
@@ -322,9 +343,11 @@ public class ServletPiranhaBuilder {
      *
      * @param sslKeystoreFile the SSL keystore file.
      * @return the builder.
+     * @deprecated
      */
+    @Deprecated(since = "23.5.0", forRemoval = true)
     public ServletPiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
-        this.sslKeystoreFile = sslKeystoreFile;
+        this.httpsKeystoreFile = sslKeystoreFile;
         return this;
     }
 
@@ -333,9 +356,11 @@ public class ServletPiranhaBuilder {
      *
      * @param sslKeystorePassword the SSL keystore password.
      * @return the builder.
+     * @deprecated
      */
+    @Deprecated(since = "23.5.0", forRemoval = true)
     public ServletPiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
-        this.sslKeystorePassword = sslKeystorePassword;
+        this.httpsKeystorePassword = sslKeystorePassword;
         return this;
     }
 

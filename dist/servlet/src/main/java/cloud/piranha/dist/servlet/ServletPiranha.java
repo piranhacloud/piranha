@@ -80,7 +80,7 @@ public class ServletPiranha implements Piranha, Runnable {
      * Stores the context path.
      */
     private String contextPath = null;
-    
+
     /**
      * Stores the CRaC enabled flag.
      */
@@ -170,7 +170,7 @@ public class ServletPiranha implements Piranha, Runnable {
                     | InvocationTargetException t) {
                 LOGGER.log(ERROR, "Unable to construct HTTP server", t);
             }
-            
+
             if (cracEnabled) {
                 try {
                     HttpServer cracHttpServer = (HttpServer) Class
@@ -207,7 +207,7 @@ public class ServletPiranha implements Piranha, Runnable {
                     | InvocationTargetException t) {
                 LOGGER.log(ERROR, "Unable to construct HTTPS server", t);
             }
-            
+
             if (cracEnabled) {
                 try {
                     HttpServer cracHttpsServer = (HttpServer) Class
@@ -299,7 +299,7 @@ public class ServletPiranha implements Piranha, Runnable {
             if (!pidFile.getParentFile().exists() && !pidFile.getParentFile().mkdirs()) {
                 LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
             }
-            try ( PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
+            try (PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
                 writer.println(pid);
                 writer.flush();
             } catch (IOException ioe) {
@@ -355,13 +355,13 @@ public class ServletPiranha implements Piranha, Runnable {
 
     /**
      * Set the CRaC enabled flag.
-     * 
+     *
      * @param cracEnabled the CRaC enabled flag.
      */
     public void setCracEnabled(boolean cracEnabled) {
         this.cracEnabled = cracEnabled;
     }
-    
+
     /**
      * Set the default extension class.
      *
@@ -400,6 +400,39 @@ public class ServletPiranha implements Piranha, Runnable {
     }
 
     /**
+     * Set the HTTPS keystore file.
+     *
+     * <p>
+     * Convenience wrapper around the <code>javax.net.ssl.keyStore</code> system
+     * property. Note using this method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param httpsKeystoreFile the HTTPS keystore file.
+     */
+    public void setHttpsKeystoreFile(String httpsKeystoreFile) {
+        if (httpsKeystoreFile != null) {
+            System.setProperty("javax.net.ssl.keyStore", httpsKeystoreFile);
+        }
+    }
+
+    /**
+     * Set the HTTPS keystore password.
+     *
+     * <p>
+     * Convenience wrapper around the
+     * <code>javax.net.ssl.keyStorePassword</code> system property. Note using
+     * this method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param httpsKeystorePassword the HTTP keystore password.
+     */
+    public void setHttpsKeystorePassword(String httpsKeystorePassword) {
+        if (httpsKeystorePassword != null) {
+            System.setProperty("javax.net.ssl.keyStorePassword", httpsKeystorePassword);
+        }
+    }
+
+    /**
      * Set the HTTPS server port.
      *
      * @param httpsPort the HTTPS server port.
@@ -433,39 +466,6 @@ public class ServletPiranha implements Piranha, Runnable {
      */
     public void setPid(Long pid) {
         this.pid = pid;
-    }
-
-    /**
-     * Set the SSL keystore file.
-     *
-     * <p>
-     * Convenience wrapper around the <code>javax.net.ssl.keyStore</code> system
-     * property. Note using this method sets the property for the entire JVM.
-     * </p>
-     *
-     * @param sslKeystoreFile the SSL keystore file.
-     */
-    public void setSslKeystoreFile(String sslKeystoreFile) {
-        if (sslKeystoreFile != null) {
-            System.setProperty("javax.net.ssl.keyStore", sslKeystoreFile);
-        }
-    }
-
-    /**
-     * Set the SSL keystore password.
-     *
-     * <p>
-     * Convenience wrapper around the
-     * <code>javax.net.ssl.keyStorePassword</code> system property. Note using
-     * this method sets the property for the entire JVM.
-     * </p>
-     *
-     * @param sslKeystorePassword
-     */
-    public void setSslKeystorePassword(String sslKeystorePassword) {
-        if (sslKeystorePassword != null) {
-            System.setProperty("javax.net.ssl.keyStorePassword", sslKeystorePassword);
-        }
     }
 
     /**
