@@ -354,6 +354,39 @@ public class CoreProfilePiranha implements Piranha, Runnable {
     }
 
     /**
+     * Set the HTTPS keystore file.
+     *
+     * <p>
+     * Convenience wrapper around the <code>javax.net.ssl.keyStore</code> system
+     * property. Note using this method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param httpsKeystoreFile the HTTPS keystore file.
+     */
+    public void setHttpsKeystoreFile(String httpsKeystoreFile) {
+        if (httpsKeystoreFile != null) {
+            System.setProperty("javax.net.ssl.keyStore", httpsKeystoreFile);
+        }
+    }
+
+    /**
+     * Set the HTTPS keystore password.
+     *
+     * <p>
+     * Convenience wrapper around the
+     * <code>javax.net.ssl.keyStorePassword</code> system property. Note using
+     * this method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param httpsKeystorePassword the HTTP keystore password.
+     */
+    public void setHttpsKeystorePassword(String httpsKeystorePassword) {
+        if (httpsKeystorePassword != null) {
+            System.setProperty("javax.net.ssl.keyStorePassword", httpsKeystorePassword);
+        }
+    }
+
+    /**
      * Set the HTTPS server port.
      *
      * @param httpsPort the HTTPS server port.
@@ -398,7 +431,9 @@ public class CoreProfilePiranha implements Piranha, Runnable {
      * </p>
      *
      * @param sslKeystoreFile the SSL keystore file.
+     * @deprecated
      */
+    @Deprecated(since = "23.5.0", forRemoval = true)
     public void setSslKeystoreFile(String sslKeystoreFile) {
         if (sslKeystoreFile != null) {
             System.setProperty("javax.net.ssl.keyStore", sslKeystoreFile);
@@ -414,8 +449,10 @@ public class CoreProfilePiranha implements Piranha, Runnable {
      * this method sets the property for the entire JVM.
      * </p>
      *
-     * @param sslKeystorePassword
+     * @param sslKeystorePassword the SSL keystore password.
+     * @deprecated
      */
+    @Deprecated(since = "23.5.0", forRemoval = true)
     void setSslKeystorePassword(String sslKeystorePassword) {
         if (sslKeystorePassword != null) {
             System.setProperty("javax.net.ssl.keyStorePassword", sslKeystorePassword);

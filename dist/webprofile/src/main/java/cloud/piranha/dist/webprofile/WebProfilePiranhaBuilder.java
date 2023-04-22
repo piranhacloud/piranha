@@ -39,7 +39,7 @@ import static java.lang.System.Logger.Level.WARNING;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class WebProfilePiranhaBuilder {
-    
+
     /**
      * Stores the logger.
      */
@@ -69,6 +69,16 @@ public class WebProfilePiranhaBuilder {
      * Stores the HTTP server class.
      */
     private String httpServerClass;
+
+    /**
+     * Stores the HTTPS keystore file.
+     */
+    private String httpsKeystoreFile;
+
+    /**
+     * Stores the HTTPS keystore password.
+     */
+    private String httpsKeystorePassword;
 
     /**
      * Stores the HTTPS port.
@@ -137,11 +147,11 @@ public class WebProfilePiranhaBuilder {
         piranha.setHttpsPort(httpsPort);
         piranha.setHttpsServerClass(httpsServerClass);
         piranha.setJpmsEnabled(jpms);
-        if (sslKeystoreFile != null) {
-            piranha.setSslKeystoreFile(sslKeystoreFile);
+        if (httpsKeystoreFile != null) {
+            piranha.setHttpsKeystoreFile(httpsKeystoreFile);
         }
-        if (sslKeystorePassword != null) {
-            piranha.setSslKeystorePassword(sslKeystorePassword);
+        if (httpsKeystorePassword != null) {
+            piranha.setHttpsKeystorePassword(httpsKeystorePassword);
         }
         if (warFile != null) {
             piranha.setWarFile(warFile);
@@ -155,7 +165,7 @@ public class WebProfilePiranhaBuilder {
 
     /**
      * Set the context path.
-     * 
+     *
      * @param contextPath the context path.
      * @return the builder.
      */
@@ -196,7 +206,7 @@ public class WebProfilePiranhaBuilder {
     public WebProfilePiranhaBuilder extensionClass(String extensionClassName) {
         try {
             this.extensionClass = Class.forName(extensionClassName)
-                .asSubclass(WebApplicationExtension.class);
+                    .asSubclass(WebApplicationExtension.class);
         } catch (ClassNotFoundException cnfe) {
             LOGGER.log(WARNING, "Unable to load extension class", cnfe);
         }
@@ -216,7 +226,7 @@ public class WebProfilePiranhaBuilder {
 
     /**
      * Set the HTTP server class.
-     * 
+     *
      * @param httpServerClass the HTTP server class.
      * @return the builder.
      */
@@ -224,7 +234,29 @@ public class WebProfilePiranhaBuilder {
         this.httpServerClass = httpServerClass;
         return this;
     }
-    
+
+    /**
+     * Set the HTTPS keystore file.
+     *
+     * @param httpsKeystoreFile the HTTPS keystore file.
+     * @return the builder.
+     */
+    public WebProfilePiranhaBuilder httpsKeystoreFile(String httpsKeystoreFile) {
+        this.httpsKeystoreFile = httpsKeystoreFile;
+        return this;
+    }
+
+    /**
+     * Set the HTTPS keystore password.
+     *
+     * @param httpsKeystorePassword the HTTPS keystore password.
+     * @return the builder.
+     */
+    public WebProfilePiranhaBuilder httpsKeystorePassword(String httpsKeystorePassword) {
+        this.httpsKeystorePassword = httpsKeystorePassword;
+        return this;
+    }
+
     /**
      * Set the HTTPS server port.
      *
@@ -238,7 +270,7 @@ public class WebProfilePiranhaBuilder {
 
     /**
      * Set the HTTPS server class.
-     * 
+     *
      * @param httpsServerClass the HTTPS server class.
      * @return the builder.
      */
@@ -270,33 +302,33 @@ public class WebProfilePiranhaBuilder {
                 Arguments
                 =========
                 
-                Context path          : %s
-                Extension class       : %s
-                Exit on stop          : %s
-                HTTP port             : %s
-                HTTP server class     : %s
-                HTTPS port            : %s
-                HTTPS server class    : %s
-                JPMS enabled          : %s
-                PID                   : %s
-                SSL keystore file     : %s
-                SSK keystore password : ****
-                WAR filename          : %s
-                Web application dir   : %s
+                Context path            : %s
+                Extension class         : %s
+                Exit on stop            : %s
+                HTTP port               : %s
+                HTTP server class       : %s
+                HTTPS keystore file     : %s
+                HTTPS keystore password : ****
+                HTTPS port              : %s
+                HTTPS server class      : %s
+                JPMS enabled            : %s
+                PID                     : %s
+                WAR filename            : %s
+                Web application dir     : %s
                 
                 """.formatted(
-                contextPath,
-                extensionClass != null ? extensionClass.getName() : WebProfileExtension.class.getName(),
-                exitOnStop,
-                httpPort,
-                httpServerClass,
-                httpsPort,
-                httpsServerClass,
-                jpms,
-                pid,
-                sslKeystoreFile,
-                warFile,
-                webAppDir));
+                        contextPath,
+                        extensionClass != null ? extensionClass.getName() : WebProfileExtension.class.getName(),
+                        exitOnStop,
+                        httpPort,
+                        httpServerClass,
+                        httpsKeystoreFile,
+                        httpsPort,
+                        httpsServerClass,
+                        jpms,
+                        pid,
+                        warFile,
+                        webAppDir));
     }
 
     /**
@@ -304,9 +336,11 @@ public class WebProfilePiranhaBuilder {
      *
      * @param sslKeystoreFile the SSL keystore file.
      * @return the builder.
+     * @deprecated
      */
+    @Deprecated(since = "23.5.0", forRemoval = true)
     public WebProfilePiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
-        this.sslKeystoreFile = sslKeystoreFile;
+        this.httpsKeystoreFile = sslKeystoreFile;
         return this;
     }
 
@@ -315,9 +349,11 @@ public class WebProfilePiranhaBuilder {
      *
      * @param sslKeystorePassword the SSL keystore password.
      * @return the builder.
+     * @deprecated
      */
+    @Deprecated(since = "23.5.0", forRemoval = true)
     public WebProfilePiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
-        this.sslKeystorePassword = sslKeystorePassword;
+        this.httpsKeystorePassword = sslKeystorePassword;
         return this;
     }
 

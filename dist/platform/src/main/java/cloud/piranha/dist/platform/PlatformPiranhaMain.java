@@ -31,6 +31,7 @@ import java.lang.System.Logger.Level;
 
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.extension.platform.PlatformExtension;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The Main for Piranha Platform.
@@ -92,6 +93,12 @@ public class PlatformPiranhaMain {
                 if (arguments[i].equals("--http-server-class")) {
                     builder = builder.httpServerClass(arguments[i + 1]);
                 }
+                if (arguments[i].equals("--https-keystore-file")) {
+                    builder = builder.httpsKeystoreFile(arguments[i + 1]);
+                }
+                if (arguments[i].equals("--https-keystore-password")) {
+                    builder = builder.httpsKeystorePassword(arguments[i + 1]);
+                }
                 if (arguments[i].equals("--https-port")) {
                     builder = builder.httpsPort(Integer.parseInt(arguments[i + 1]));
                 }
@@ -102,10 +109,12 @@ public class PlatformPiranhaMain {
                     builder = builder.jpms(true);
                 }
                 if (arguments[i].equals("--ssl-keystore-file")) {
-                    builder = builder.sslKeystoreFile(arguments[i + 1]);
+                    LOGGER.log(WARNING, "The --ssl-keystore-file has been replaced by --https-keystore-file [DEPRECATED]");
+                    builder = builder.httpsKeystoreFile(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--ssl-keystore-password")) {
-                    builder = builder.sslKeystorePassword(arguments[i + 1]);
+                    LOGGER.log(WARNING, "The --ssl-keystore-password has been replaced by --https-keystore-password [DEPRECATED]");
+                    builder = builder.httpsKeystorePassword(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--ssl-truststore-file")) {
                     builder = builder.sslTruststoreFile(arguments[i + 1]);

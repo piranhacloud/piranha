@@ -61,6 +61,16 @@ public class MicroProfilePiranhaBuilder {
     private boolean exitOnStop = false;
 
     /**
+     * Stores the HTTPS keystore file.
+     */
+    private String httpsKeystoreFile;
+
+    /**
+     * Stores the HTTPS keystore password.
+     */
+    private String httpsKeystorePassword;
+
+    /**
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
@@ -84,16 +94,6 @@ public class MicroProfilePiranhaBuilder {
      * Stores the JPMS flag.
      */
     private boolean jpms = false;
-
-    /**
-     * Stores the SSL keystore file.
-     */
-    private String sslKeystoreFile;
-
-    /**
-     * Stores the SSL keystore password.
-     */
-    private String sslKeystorePassword;
 
     /**
      * Stores the verbose flag.
@@ -137,11 +137,11 @@ public class MicroProfilePiranhaBuilder {
         piranha.setHttpsPort(httpsPort);
         piranha.setHttpsServerClass(httpsServerClass);
         piranha.setJpmsEnabled(jpms);
-        if (sslKeystoreFile != null) {
-            piranha.setSslKeystoreFile(sslKeystoreFile);
+        if (httpsKeystoreFile != null) {
+            piranha.setHttpsKeystoreFile(httpsKeystoreFile);
         }
-        if (sslKeystorePassword != null) {
-            piranha.setSslKeystorePassword(sslKeystorePassword);
+        if (httpsKeystorePassword != null) {
+            piranha.setHttpsKeystorePassword(httpsKeystorePassword);
         }
         if (warFile != null) {
             piranha.setWarFile(warFile);
@@ -226,6 +226,28 @@ public class MicroProfilePiranhaBuilder {
     }
     
     /**
+     * Set the HTTPS keystore file.
+     *
+     * @param httpsKeystoreFile the HTTPS keystore file.
+     * @return the builder.
+     */
+    public MicroProfilePiranhaBuilder httpsKeystoreFile(String httpsKeystoreFile) {
+        this.httpsKeystoreFile = httpsKeystoreFile;
+        return this;
+    }
+
+    /**
+     * Set the HTTPS keystore password.
+     *
+     * @param httpsKeystorePassword the HTTPS keystore password.
+     * @return the builder.
+     */
+    public MicroProfilePiranhaBuilder httpsKeystorePassword(String httpsKeystorePassword) {
+        this.httpsKeystorePassword = httpsKeystorePassword;
+        return this;
+    }
+
+    /**
      * Set the HTTPS server port.
      *
      * @param httpsPort the HTTPS server port.
@@ -270,19 +292,19 @@ public class MicroProfilePiranhaBuilder {
                 Arguments
                 =========
                 
-                Context path          : %s
-                Extension class       : %s
-                Exit on stop          : %s
-                HTTP port             : %s
-                HTTP server class     : %s
-                HTTPS port            : %s
-                HTTPS server class    : %s
-                JPMS enabled          : %s
-                PID                   : %s
-                SSL keystore file     : %s
-                SSK keystore password : ****
-                WAR filename          : %s
-                Web application dir   : %s
+                Context path            : %s
+                Extension class         : %s
+                Exit on stop            : %s
+                HTTP port               : %s
+                HTTP server class       : %s
+                HTTPS keystore file     : %s
+                HTTPS keystore password : ****
+                HTTPS port              : %s
+                HTTPS server class      : %s
+                JPMS enabled            : %s
+                PID                     : %s
+                WAR filename            : %s
+                Web application dir     : %s
                 
                 """.formatted(
                 contextPath,
@@ -290,11 +312,11 @@ public class MicroProfilePiranhaBuilder {
                 exitOnStop,
                 httpPort,
                 httpServerClass,
+                httpsKeystoreFile,
                 httpsPort,
                 httpsServerClass,
                 jpms,
                 pid,
-                sslKeystoreFile,
                 warFile,
                 webAppDir));
     }
@@ -304,9 +326,11 @@ public class MicroProfilePiranhaBuilder {
      *
      * @param sslKeystoreFile the SSL keystore file.
      * @return the builder.
+     * @deprecated
      */
+    @Deprecated(since = "23.5.0", forRemoval = true)
     public MicroProfilePiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
-        this.sslKeystoreFile = sslKeystoreFile;
+        this.httpsKeystoreFile = sslKeystoreFile;
         return this;
     }
 
@@ -315,9 +339,11 @@ public class MicroProfilePiranhaBuilder {
      *
      * @param sslKeystorePassword the SSL keystore password.
      * @return the builder.
+     * @deprecated
      */
+    @Deprecated(since = "23.5.0", forRemoval = true)
     public MicroProfilePiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
-        this.sslKeystorePassword = sslKeystorePassword;
+        this.httpsKeystorePassword = sslKeystorePassword;
         return this;
     }
 
