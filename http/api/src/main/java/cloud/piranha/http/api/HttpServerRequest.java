@@ -28,6 +28,8 @@
 package cloud.piranha.http.api;
 
 import java.io.InputStream;
+import java.security.Principal;
+import java.security.cert.X509Certificate;
 import java.util.Iterator;
 
 /**
@@ -115,6 +117,42 @@ public interface HttpServerRequest {
         return "HTTP/1.1";
     }
     
+    /**
+     * Get the SSL certificates.
+     * 
+     * @return the SSL certificates.
+     */
+    default X509Certificate[] getSslCertificates() {
+        return null;
+    }
+    
+    /**
+     * Get the SSL cipher suite.
+     * 
+     * @return the SSL cipher suite.
+     */
+    default String getSslCipherSuite() {
+        return null;
+    }
+    
+    /**
+     * Get the SSL key size.
+     * 
+     * @return the SSL key size.
+     */
+    default int getSslKeySize() {
+        return -1;
+    }
+    
+    /**
+     * Get the SSL principal.
+     * 
+     * @return the SSL principal.
+     */
+    default Principal getSslPrincipal() {
+        return null;
+    }
+
     /**
      * {@return if we are secure}
      */

@@ -122,6 +122,19 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
         
         if (serverRequest.isSecure()) {
             scheme = "https";
+            if (wrapped.getSslCipherSuite() != null) {
+                setAttribute("jakarta.servlet.request.cipher_suite", wrapped.getSslCipherSuite());
+            }
+            setAttribute("jakarta.servlet.request.key_size", wrapped.getSslKeySize());
+            if (wrapped.getSslCertificates() != null) {
+                setAttribute("jakarta.servlet.request.X509Certificate", wrapped.getSslCertificates());
+                if (wrapped.getSslPrincipal() != null) {
+                    /*
+                     * setUserPrincipal(wrapped.getSslPrincipal());
+                     * setAuthType(CLIENT_CERT_AUTH);
+                     */
+                }
+            }
         }
     }
 }
