@@ -30,7 +30,9 @@
  * This module delivers the TEMPDIR extension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "23.5.0", forRemoval = true)
 module cloud.piranha.extension.tempdir {
     
     exports cloud.piranha.extension.tempdir;

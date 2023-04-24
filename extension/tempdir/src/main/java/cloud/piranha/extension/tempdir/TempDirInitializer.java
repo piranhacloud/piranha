@@ -41,7 +41,9 @@ import java.util.Set;
  * file system and sets the context attribute to point to that directory.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "23.5.0", forRemoval = true)
 public class TempDirInitializer implements ServletContainerInitializer {
 
     /**
