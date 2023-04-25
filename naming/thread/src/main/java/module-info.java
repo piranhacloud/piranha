@@ -30,7 +30,9 @@
  * This module delivers the Thread-based JNDI integration for Piranha.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "23.5.0", forRemoval = true)
 module cloud.piranha.naming.thread {
     
     exports cloud.piranha.naming.thread;
