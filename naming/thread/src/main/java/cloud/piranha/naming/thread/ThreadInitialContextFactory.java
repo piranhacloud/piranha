@@ -37,7 +37,9 @@ import javax.naming.spi.InitialContextFactory;
  * The Thread InitialContextFactory.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "23.5.0", forRemoval = true)
 public class ThreadInitialContextFactory implements InitialContextFactory {
 
     /**

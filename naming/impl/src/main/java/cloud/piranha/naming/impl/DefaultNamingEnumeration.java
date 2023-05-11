@@ -38,7 +38,9 @@ import javax.naming.NamingException;
  * The default NamingEnumeration.
  *
  * @author Manfred Riem (mriem@manorrock.com)
+ * @deprecated
  */
+@Deprecated(since = "23.5.0", forRemoval = true)
 public class DefaultNamingEnumeration implements NamingEnumeration<NameClassPair> {
 
     /**
