@@ -37,123 +37,27 @@ jobs:
     - name: Build Piranha Core Profile image
       run: |
         cd dist/coreprofile
-        TAG=${GITHUB_REF}
-        INDEX=${TAG%v*}
-        VERSION=${TAG:${#INDEX}}
-        export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker buildx build --load --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/coreprofile:amd64-$VERSION .
-        docker push piranhacloud/coreprofile:amd64-$VERSION
-        docker buildx build --load --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/coreprofile:arm64v8-$VERSION .
-        docker push piranhacloud/coreprofile:arm64v8-$VERSION
-        docker manifest rm piranhacloud/coreprofile:$VERSION || true
-        docker manifest create piranhacloud/coreprofile:$VERSION \
-          piranhacloud/coreprofile:amd64-$VERSION \
-          piranhacloud/coreprofile:arm64v8-$VERSION
-        docker manifest annotate piranhacloud/coreprofile:$VERSION \
-          piranhacloud/coreprofile:amd64-$VERSION --os linux --arch amd64
-        docker manifest annotate piranhacloud/coreprofile:$VERSION \
-          piranhacloud/coreprofile:arm64v8-$VERSION --os linux --arch arm64 --variant v8
-        docker manifest push piranhacloud/coreprofile:$VERSION
+        mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Micro image
       run: |
         cd dist/micro
-        TAG=${GITHUB_REF}
-        INDEX=${TAG%v*}
-        VERSION=${TAG:${#INDEX}}
-        export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker buildx build --load --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/micro:amd64-$VERSION .
-        docker push piranhacloud/micro:amd64-$VERSION
-        docker buildx build --load --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/micro:arm64v8-$VERSION .
-        docker push piranhacloud/micro:arm64v8-$VERSION
-        docker manifest rm piranhacloud/micro:$VERSION || true
-        docker manifest create piranhacloud/micro:$VERSION \
-          piranhacloud/micro:amd64-$VERSION \
-          piranhacloud/micro:arm64v8-$VERSION
-        docker manifest annotate piranhacloud/micro:$VERSION \
-          piranhacloud/micro:amd64-$VERSION --os linux --arch amd64
-        docker manifest annotate piranhacloud/micro:$VERSION \
-          piranhacloud/micro:arm64v8-$VERSION --os linux --arch arm64 --variant v8
-        docker manifest push piranhacloud/micro:$VERSION
+        mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Micro Profile image
       run: |
         cd dist/microprofile
-        TAG=${GITHUB_REF}
-        INDEX=${TAG%v*}
-        VERSION=${TAG:${#INDEX}}
-        export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker buildx build --load --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/microprofile:amd64-$VERSION .
-        docker push piranhacloud/microprofile:amd64-$VERSION
-        docker buildx build --load --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/microprofile:arm64v8-$VERSION .
-        docker push piranhacloud/microprofile:arm64v8-$VERSION
-        docker manifest rm piranhacloud/microprofile:$VERSION || true
-        docker manifest create piranhacloud/microprofile:$VERSION \
-          piranhacloud/microprofile:amd64-$VERSION \
-          piranhacloud/microprofile:arm64v8-$VERSION
-        docker manifest annotate piranhacloud/microprofile:$VERSION \
-          piranhacloud/microprofile:amd64-$VERSION --os linux --arch amd64
-        docker manifest annotate piranhacloud/microprofile:$VERSION \
-          piranhacloud/microprofile:arm64v8-$VERSION --os linux --arch arm64 --variant v8
-        docker manifest push piranhacloud/microprofile:$VERSION
+        mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Server image
       run: |
         cd dist/server
-        TAG=${GITHUB_REF}
-        INDEX=${TAG%v*}
-        VERSION=${TAG:${#INDEX}}
-        export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker buildx build --load --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/server:amd64-$VERSION .
-        docker push piranhacloud/server:amd64-$VERSION
-        docker buildx build --load --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/server:arm64v8-$VERSION .
-        docker push piranhacloud/server:arm64v8-$VERSION
-        docker manifest rm piranhacloud/server:$VERSION || true
-        docker manifest create piranhacloud/server:$VERSION \
-          piranhacloud/server:amd64-$VERSION \
-          piranhacloud/server:arm64v8-$VERSION
-        docker manifest annotate piranhacloud/server:$VERSION \
-          piranhacloud/server:amd64-$VERSION --os linux --arch amd64
-        docker manifest annotate piranhacloud/server:$VERSION \
-          piranhacloud/server:arm64v8-$VERSION --os linux --arch arm64 --variant v8
-        docker manifest push piranhacloud/server:$VERSION
+        mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Servlet image
       run: |
         cd dist/servlet
-        TAG=${GITHUB_REF}
-        INDEX=${TAG%v*}
-        VERSION=${TAG:${#INDEX}}
-        export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker buildx build --load --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/servlet:amd64-$VERSION .
-        docker push piranhacloud/servlet:amd64-$VERSION
-        docker buildx build --load --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/servlet:arm64v8-$VERSION .
-        docker push piranhacloud/servlet:arm64v8-$VERSION
-        docker manifest rm piranhacloud/servlet:$VERSION || true
-        docker manifest create piranhacloud/servlet:$VERSION \
-          piranhacloud/servlet:amd64-$VERSION \
-          piranhacloud/servlet:arm64v8-$VERSION
-        docker manifest annotate piranhacloud/servlet:$VERSION \
-          piranhacloud/servlet:amd64-$VERSION --os linux --arch amd64
-        docker manifest annotate piranhacloud/servlet:$VERSION \
-          piranhacloud/servlet:arm64v8-$VERSION --os linux --arch arm64 --variant v8
-        docker manifest push piranhacloud/servlet:$VERSION
+        mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Web Profile image
       run: |
         cd dist/webprofile
-        TAG=${GITHUB_REF}
-        INDEX=${TAG%v*}
-        VERSION=${TAG:${#INDEX}}
-        export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker buildx build --load --platform linux/amd64 -f Dockerfile.amd64 -t piranhacloud/webprofile:amd64-$VERSION .
-        docker push piranhacloud/webprofile:amd64-$VERSION
-        docker buildx build --load --platform linux/arm64 -f Dockerfile.arm64v8 -t piranhacloud/webprofile:arm64v8-$VERSION .
-        docker push piranhacloud/webprofile:arm64v8-$VERSION
-        docker manifest rm piranhacloud/webprofile:$VERSION || true
-        docker manifest create piranhacloud/webprofile:$VERSION \
-          piranhacloud/webprofile:amd64-$VERSION \
-          piranhacloud/webprofile:arm64v8-$VERSION
-        docker manifest annotate piranhacloud/webprofile:$VERSION \
-          piranhacloud/webprofile:amd64-$VERSION --os linux --arch amd64
-        docker manifest annotate piranhacloud/webprofile:$VERSION \
-          piranhacloud/webprofile:arm64v8-$VERSION --os linux --arch arm64 --variant v8
-        docker manifest push piranhacloud/webprofile:$VERSION
+        mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build with Maven
       run: |
         export MAVEN_OPTS='--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.text=ALL-UNNAMED --add-opens=java.desktop/java.awt.font=ALL-UNNAMED'
