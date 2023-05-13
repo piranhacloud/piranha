@@ -36,32 +36,32 @@ jobs:
     - run: docker buildx inspect
     - name: Build Piranha Core Profile image
       run: |
-        mvn --also-make --projects dist/coreprofile install
+        mvn -Dmaven.javadoc.skip=true --also-make --projects dist/coreprofile install
         cd dist/coreprofile
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Micro image
       run: |
-        mvn --also-make --projects dist/micro install
+        mvn -Dmaven.javadoc.skip=true --also-make --projects dist/micro install
         cd dist/micro
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Micro Profile image
       run: |
-        mvn --also-make --projects dist/microprofile install
+        mvn -Dmaven.javadoc.skip=true --also-make --projects dist/microprofile install
         cd dist/microprofile
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Server image
       run: |
-        mvn --also-make --projects dist/server install
+        mvn -Dmaven.javadoc.skip=true --also-make --projects dist/server install
         cd dist/server
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Servlet image
       run: |
-        mvn --also-make --projects dist/servlet install
+        mvn -Dmaven.javadoc.skip=true --also-make --projects dist/servlet install
         cd dist/servlet
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Web Profile image
       run: |
-        mvn --also-make --projects dist/webprofile install
+        mvn -Dmaven.javadoc.skip=true --also-make --projects dist/webprofile install
         cd dist/webprofile
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build with Maven
