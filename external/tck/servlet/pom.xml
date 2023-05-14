@@ -114,6 +114,8 @@
                                         
                                         <!-- exclude TCK test per https://github.com/jakartaee/servlet/issues/489 -->
                                         <echo append="true" file="${tck.home}/bin/ts.jtx">com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest4</echo>
+                                        <!-- exclude TCK test per https://github.com/jakartaee/servlet/issues/490 -->
+                                        <echo append="true" file="${tck.home}/bin/ts.jtx">com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest5</echo>
 
                                         <!-- Setup ts.jte for signature tests -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
