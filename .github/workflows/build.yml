@@ -84,42 +84,42 @@ jobs:
     - run: docker buildx inspect
     - name: Build Piranha Core Profile image
       run: |
-        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
         cd dist/coreprofile
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Isolated image
       run: |
-        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
         cd dist/isolated
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Micro image
       run: |
-        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
         cd dist/micro
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha MicroProfile image
       run: |
-        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
         cd dist/microprofile
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Platform image
       run: |
-        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
         cd dist/platform
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Server image
       run: |
-        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
         cd dist/server
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Servlet image
       run: |
-        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
         cd dist/servlet
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Web Profile image
       run: |
-        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
         cd dist/webprofile
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
   early-access:
