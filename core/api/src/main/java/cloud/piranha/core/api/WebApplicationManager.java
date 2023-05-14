@@ -98,13 +98,6 @@ public interface WebApplicationManager {
     LoggingManager getLoggingManager();
     
     /**
-     * Get the mime-type manager.
-     * 
-     * @return the mime-type manager.
-     */
-    MimeTypeManager getMimeTypeManager();
-    
-    /**
      * Get the multi-part manager.
      * 
      * @return the multi-part manager.
@@ -201,13 +194,6 @@ public interface WebApplicationManager {
      * @param loggingManager the logging manager.
      */
     void setLoggingManager(LoggingManager loggingManager);
-    
-    /**
-     * Set the mime-type manager.
-     * 
-     * @param mimeTypeManager the mime-type manager.
-     */
-    void setMimeTypeManager(MimeTypeManager mimeTypeManager);
     
     /**
      * Set the multi-part manager.
