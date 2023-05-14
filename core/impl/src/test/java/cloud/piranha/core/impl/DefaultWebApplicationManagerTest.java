@@ -136,17 +136,6 @@ public class DefaultWebApplicationManagerTest {
     }
 
     /**
-     * Test getMimeTypeManager method.
-     */
-    @Test
-    void testGetMimeTypeManager() {
-        DefaultWebApplicationManager manager = new DefaultWebApplicationManager();
-        assertNotNull(manager.getMimeTypeManager());
-        manager.setMimeTypeManager(null);
-        assertNull(manager.getMimeTypeManager());
-    }
-
-    /**
      * Test getMultiPartManager method.
      */
     @Test
