@@ -36,32 +36,32 @@ jobs:
     - run: docker buildx inspect
     - name: Build Piranha Core Profile image
       run: |
-        mvn -Dmaven.javadoc.skip=true --also-make --projects dist/coreprofile install
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
         cd dist/coreprofile
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Micro image
       run: |
-        mvn -Dmaven.javadoc.skip=true --also-make --projects dist/micro install
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
         cd dist/micro
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Micro Profile image
       run: |
-        mvn -Dmaven.javadoc.skip=true --also-make --projects dist/microprofile install
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
         cd dist/microprofile
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Server image
       run: |
-        mvn -Dmaven.javadoc.skip=true --also-make --projects dist/server install
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
         cd dist/server
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Servlet image
       run: |
-        mvn -Dmaven.javadoc.skip=true --also-make --projects dist/servlet install
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
         cd dist/servlet
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Web Profile image
       run: |
-        mvn -Dmaven.javadoc.skip=true --also-make --projects dist/webprofile install
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
         cd dist/webprofile
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build with Maven
