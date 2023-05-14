@@ -41,15 +41,13 @@ import java.util.Set;
  * file system and sets the context attribute to point to that directory.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @deprecated
  */
-@Deprecated(since = "23.5.0", forRemoval = true)
-public class TempDirInitializer implements ServletContainerInitializer {
+public class TempDirServletContainerInitializer implements ServletContainerInitializer {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(TempDirInitializer.class.getName());
+    private static final Logger LOGGER = System.getLogger(TempDirServletContainerInitializer.class.getName());
 
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
