@@ -34,8 +34,6 @@ import cloud.piranha.core.api.ErrorPageManager;
 import cloud.piranha.core.api.HttpSessionManager;
 import cloud.piranha.core.api.JspManager;
 import cloud.piranha.core.api.LocaleEncodingManager;
-import cloud.piranha.core.api.LoggingManager;
-import cloud.piranha.core.api.MimeTypeManager;
 import cloud.piranha.core.api.MultiPartManager;
 import cloud.piranha.core.api.ObjectInstanceManager;
 import cloud.piranha.core.api.SecurityManager;
@@ -88,16 +86,6 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
      */
     protected LocaleEncodingManager localeEncodingManager = new DefaultLocaleEncodingManager();
     
-    /**
-     * Stores the logging manager.
-     */
-    protected LoggingManager loggingManager = new DefaultLoggingManager();
-    
-    /**
-     * Stores the mime-type manager.
-     */
-    protected MimeTypeManager mimeTypeManager = new DefaultMimeTypeManager();
-
     /**
      * Stores the multi-part manager.
      */
@@ -174,16 +162,6 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     }
 
     @Override
-    public LoggingManager getLoggingManager() {
-        return loggingManager;
-    }
-
-    @Override
-    public MimeTypeManager getMimeTypeManager() {
-        return mimeTypeManager;
-    }
-
-    @Override
     public MultiPartManager getMultiPartManager() {
         return multiPartManager;
     }
@@ -251,16 +229,6 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     @Override
     public void setLocaleEncodingManager(LocaleEncodingManager localeEncodingManager) {
         this.localeEncodingManager = localeEncodingManager;
-    }
-
-    @Override
-    public void setLoggingManager(LoggingManager loggingManager) {
-        this.loggingManager = loggingManager;
-    }
-
-    @Override
-    public void setMimeTypeManager(MimeTypeManager mimeTypeManager) {
-        this.mimeTypeManager = mimeTypeManager;
     }
 
     @Override

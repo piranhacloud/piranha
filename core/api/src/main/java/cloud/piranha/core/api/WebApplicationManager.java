@@ -89,21 +89,7 @@ public interface WebApplicationManager {
      * @return the locale encoding manager.
      */
     LocaleEncodingManager getLocaleEncodingManager();
-    
-    /**
-     * Get the logging manager.
-     * 
-     * @return the logging manager.
-     */
-    LoggingManager getLoggingManager();
-    
-    /**
-     * Get the mime-type manager.
-     * 
-     * @return the mime-type manager.
-     */
-    MimeTypeManager getMimeTypeManager();
-    
+        
     /**
      * Get the multi-part manager.
      * 
@@ -194,21 +180,7 @@ public interface WebApplicationManager {
      * @param localeEncodingManager the locale encoding manager.
      */
     void setLocaleEncodingManager(LocaleEncodingManager localeEncodingManager);
-    
-    /**
-     * Set the logging manager.
-     * 
-     * @param loggingManager the logging manager.
-     */
-    void setLoggingManager(LoggingManager loggingManager);
-    
-    /**
-     * Set the mime-type manager.
-     * 
-     * @param mimeTypeManager the mime-type manager.
-     */
-    void setMimeTypeManager(MimeTypeManager mimeTypeManager);
-    
+       
     /**
      * Set the multi-part manager.
      * 

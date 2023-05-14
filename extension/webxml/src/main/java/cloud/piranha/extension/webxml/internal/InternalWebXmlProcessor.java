@@ -47,7 +47,6 @@ import javax.sql.CommonDataSource;
 
 import cloud.piranha.core.api.ErrorPageManager;
 import cloud.piranha.core.api.LocaleEncodingManager;
-import cloud.piranha.core.api.MimeTypeManager;
 import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebXml;
@@ -144,31 +143,31 @@ public class InternalWebXmlProcessor {
     private void processDataSources(WebApplication webApplication, WebXml webXml) {
         for (WebXmlDataSource dataSourceXml : webXml.getDataSources()) {
             try {
-                CommonDataSource dataSource = (CommonDataSource)
-                    Class.forName(dataSourceXml.getClassName())
-                         .getDeclaredConstructor()
-                         .newInstance();
+                CommonDataSource dataSource = (CommonDataSource) Class.forName(dataSourceXml.getClassName())
+                        .getDeclaredConstructor()
+                        .newInstance();
 
                 if (dataSourceXml.getUrl() != null) {
                     dataSource.getClass()
-                              .getMethod("setUrl", String.class)
-                              .invoke(dataSource, dataSourceXml.getUrl());
+                            .getMethod("setUrl", String.class)
+                            .invoke(dataSource, dataSourceXml.getUrl());
                 }
 
                 if (dataSourceXml.getPassword() != null) {
                     dataSource.getClass()
-                              .getMethod("setPassword", String.class)
-                              .invoke(dataSource, dataSourceXml.getPassword());
+                            .getMethod("setPassword", String.class)
+                            .invoke(dataSource, dataSourceXml.getPassword());
                 }
                 if (dataSourceXml.getUser() != null) {
                     dataSource.getClass()
-                              .getMethod("setUser", String.class)
-                              .invoke(dataSource, dataSourceXml.getUser());
+                            .getMethod("setUser", String.class)
+                            .invoke(dataSource, dataSourceXml.getUser());
                 }
 
                 if (!dataSourceXml.getProperties().isEmpty()) {
                     Method[] dataSourceMethods = dataSource.getClass().getMethods();
-                    properties: for (var property : dataSourceXml.getProperties().entrySet()) {
+                    properties:
+                    for (var property : dataSourceXml.getProperties().entrySet()) {
                         for (Method dataSourceMethod : dataSourceMethods) {
                             if (isStringSetter(dataSourceMethod)) {
                                 String methodName = "set" + capitalize(property.getKey());
@@ -181,7 +180,6 @@ public class InternalWebXmlProcessor {
                         }
                     }
                 }
-
 
                 InitialContext initialContext = new InitialContext();
                 initialContext.bind(dataSourceXml.getName(), dataSource);
@@ -422,12 +420,9 @@ public class InternalWebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processMimeMappings(WebApplication webApplication, WebXml webXml) {
-        MimeTypeManager manager = webApplication.getManager().getMimeTypeManager();
-        if (manager != null) {
-            webXml.getMimeMappings().forEach(mapping
-                    -> manager.addMimeType(mapping.extension(), mapping.mimeType())
-            );
-        }
+        webXml.getMimeMappings().forEach(mapping
+                -> webApplication.addMimeType(mapping.extension(), mapping.mimeType())
+        );
     }
 
     /**
