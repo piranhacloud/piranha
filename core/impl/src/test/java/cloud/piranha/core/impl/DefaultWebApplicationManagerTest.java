@@ -125,17 +125,6 @@ public class DefaultWebApplicationManagerTest {
     }
 
     /**
-     * Test getLoggingManager method.
-     */
-    @Test
-    void testGetLoggingManager() {
-        DefaultWebApplicationManager manager = new DefaultWebApplicationManager();
-        assertNotNull(manager.getLoggingManager());
-        manager.setLoggingManager(null);
-        assertNull(manager.getLoggingManager());
-    }
-
-    /**
      * Test getMultiPartManager method.
      */
     @Test
