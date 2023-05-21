@@ -113,14 +113,38 @@
                                         </sequential>
                                         
                                         <!-- exclude TCK tests per https://github.com/jakartaee/servlet/issues/488 -->
-                                        <echo append="true" file="${tck.home}/bin/ts.jtx">com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpsessionx/URLClient.java#invalidateHttpSessionxTest</echo>
-                                        <echo append="true" file="${tck.home}/bin/ts.jtx">com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpsessionx/URLClient.java#expireHttpSessionxrfTest</echo>
-                                        <echo append="true" file="${tck.home}/bin/ts.jtx">com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpsessionx/URLClient.java#expireHttpSessionxri1Test</echo>
-                                        <echo append="true" file="${tck.home}/bin/ts.jtx">com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpsessionx/URLClient.java#expireHttpSessionxriTest</echo>
+<echo append="true" file="${tck.home}/bin/ts.jtx">
+
+com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpsessionx/URLClient.java#invalidateHttpSessionxTest
+com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpsessionx/URLClient.java#expireHttpSessionxrfTest
+com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpsessionx/URLClient.java#expireHttpSessionxri1Test
+com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpsessionx/URLClient.java#expireHttpSessionxriTest
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.dispatchReturnTest4
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.dispatchReturnTest5
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.negativeDispatchTest12
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.negativeDispatchTest13
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.negativeDispatchTest8
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.negativeDispatchTest9
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.startAsyncAgainTest12
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.startAsyncAgainTest13
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.startAsyncAgainTest14
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.startAsyncAgainTest15
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.startAsyncAgainTest16
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.startAsyncAgainTest17
+
+</echo>
                                         <!-- exclude TCK test per https://github.com/jakartaee/servlet/issues/489 -->
-                                        <echo append="true" file="${tck.home}/bin/ts.jtx">com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest4</echo>
+<echo append="true" file="${tck.home}/bin/ts.jtx">
+
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest4$
+
+</echo>
                                         <!-- exclude TCK test per https://github.com/jakartaee/servlet/issues/490 -->
-                                        <echo append="true" file="${tck.home}/bin/ts.jtx">com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest5</echo>
+<echo append="true" file="${tck.home}/bin/ts.jtx">
+
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest5
+
+</echo>
 
                                         <!-- Setup ts.jte for signature tests -->
                                         <replaceregexp file="${tck.home}/bin/ts.jte"
