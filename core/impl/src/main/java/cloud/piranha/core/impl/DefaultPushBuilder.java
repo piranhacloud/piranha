@@ -122,7 +122,6 @@ public class DefaultPushBuilder implements PushBuilder {
 
     @Override
     public void push() {
-        request.push(this);
         path = null;
     }
 

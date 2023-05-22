@@ -62,12 +62,6 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
         locale = new Locale("en", "US", "ISO-8859-1");
     }
 
-    /**
-     * Add the header.
-     *
-     * @param name the name.
-     * @param value the value.
-     */
     @Override
     public void addHeader(String name, String value) {
         if (headers.containsKey(name.toUpperCase(locale))) {
@@ -78,21 +72,11 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
         }
     }
 
-    /**
-     * Contains the given header.
-     *
-     * @param name the header name.
-     * @return true if there, false otherwise.
-     */
     @Override
     public boolean containsHeader(String name) {
         return headers.containsKey(name.toUpperCase(locale));
     }
 
-    /**
-     * {@return the date header}
-     * @param name the header name.
-     */
     @Override
     public long getDateHeader(String name) throws IllegalArgumentException {
         long result = -1;
@@ -110,12 +94,6 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
         return result;
     }
 
-    /**
-     * Get the header.
-     *
-     * @param name the header name.
-     * @return the header value.
-     */
     @Override
     public String getHeader(String name) {
         String result = null;
@@ -125,9 +103,6 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
         return result;
     }
 
-    /**
-     * {@return the header names}
-     */
     @Override
     public Enumeration<String> getHeaderNames() {
         List<String> names = new ArrayList<>();
@@ -137,12 +112,6 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
         return Collections.enumeration(names);
     }
 
-    /**
-     * Get the headers.
-     *
-     * @param name the header name.
-     * @return the header values.
-     */
     @Override
     public Enumeration<String> getHeaders(String name) {
         Enumeration<String> result = Collections.enumeration(Collections.emptyList());
@@ -152,10 +121,6 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
         return result;
     }
 
-    /**
-     * {@return the int header}
-     * @param name the header name.
-     */
     @Override
     public int getIntHeader(String name) throws NumberFormatException {
         int result = -1;
@@ -171,12 +136,11 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
         return result;
     }
 
-    /**
-     * Set the header.
-     *
-     * @param name the name.
-     * @param value the value (string).
-     */
+    @Override
+    public void removeHeader(String name) {
+        headers.remove(name.toUpperCase());
+    }
+
     @Override
     public void setHeader(String name, String value) {
         DefaultHttpHeader header = new DefaultHttpHeader(name, value);
