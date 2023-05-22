@@ -114,7 +114,7 @@
                                         
                                         <!-- exclude TCK tests per https://github.com/jakartaee/servlet/issues/488 -->
 <echo append="true" file="${tck.home}/bin/ts.jtx">
-
+# exclude TCK tests per https://github.com/jakartaee/servlet/issues/488
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpsessionx/URLClient.java#invalidateHttpSessionxTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpsessionx/URLClient.java#expireHttpSessionxrfTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpsessionx/URLClient.java#expireHttpSessionxri1Test
@@ -131,19 +131,19 @@ com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.startAs
 com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.startAsyncAgainTest15
 com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.startAsyncAgainTest16
 com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java.startAsyncAgainTest17
-
+# 
 </echo>
                                         <!-- exclude TCK test per https://github.com/jakartaee/servlet/issues/489 -->
 <echo append="true" file="${tck.home}/bin/ts.jtx">
-
-com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest4$
-
+# exclude TCK test per https://github.com/jakartaee/servlet/issues/489
+com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest4
+# 
 </echo>
                                         <!-- exclude TCK test per https://github.com/jakartaee/servlet/issues/490 -->
 <echo append="true" file="${tck.home}/bin/ts.jtx">
-
+# exclude TCK test per https://github.com/jakartaee/servlet/issues/490 
 com/sun/ts/tests/servlet/api/jakarta_servlet/dispatchtest/URLClient.java#dispatchAfterCommitTest5
-
+#
 </echo>
 
                                         <!-- Setup ts.jte for signature tests -->
