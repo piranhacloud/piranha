@@ -27,7 +27,6 @@
  */
 package cloud.piranha.extension.tempdir;
 
-import cloud.piranha.extension.tempdir.TempDirExtension;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import static jakarta.servlet.ServletContext.TEMPDIR;
 import java.io.File;
@@ -36,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the StandardTempDirExtension class.
+ * The JUnit tests for the TempDirExtension class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
