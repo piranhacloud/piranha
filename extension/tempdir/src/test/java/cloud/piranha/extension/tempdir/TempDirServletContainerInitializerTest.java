@@ -27,18 +27,17 @@
  */
 package cloud.piranha.extension.tempdir;
 
-import cloud.piranha.extension.tempdir.TempDirInitializer;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit test for the StandardTempDirInitializer class.
+ * The JUnit test for the TempDirServletContainerInitializer class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class TempDirInitializerTest {
+class TempDirServletContainerInitializerTest {
 
     /**
      * Test onStartup method.
@@ -49,7 +48,7 @@ class TempDirInitializerTest {
     void testOnStartup() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.setContextPath("my_servlet_context_name");
-        TempDirInitializer initializer = new TempDirInitializer();
+        TempDirServletContainerInitializer initializer = new TempDirServletContainerInitializer();
         initializer.onStartup(null, webApplication);
         File tempDir = new File("tmp/my_servlet_context_name");
         assertTrue(tempDir.exists());
@@ -66,7 +65,7 @@ class TempDirInitializerTest {
     void testOnStartup2() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.setContextPath("");
-        TempDirInitializer initializer = new TempDirInitializer();
+        TempDirServletContainerInitializer initializer = new TempDirServletContainerInitializer();
         initializer.onStartup(null, webApplication);
         File tempDir = new File("tmp/ROOT");
         assertTrue(tempDir.exists());
