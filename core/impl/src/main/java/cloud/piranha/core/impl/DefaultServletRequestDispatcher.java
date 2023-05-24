@@ -137,16 +137,16 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
      * Dispatches using the REQUEST dispatch type
      *
      * @param webappRequest the request.
-     * @param httpResponse the response.
+     * @param webappResponse the response.
      * @throws ServletException when a servlet error occurs.
      * @throws IOException when an I/O error occurs.
      */
-    public void request(DefaultWebApplicationRequest webappRequest, DefaultWebApplicationResponse httpResponse) throws ServletException, IOException {
+    public void request(DefaultWebApplicationRequest webappRequest, DefaultWebApplicationResponse webappResponse) throws ServletException, IOException {
         Throwable exception = null;
 
         if (servletInvocation == null || !servletInvocation.canInvoke() && !servletInvocation.isServletUnavailable()) {
             // If there's nothing to invoke at all, there was nothing found, so return a 404
-            httpResponse.sendError(404);
+            webappResponse.sendError(404);
         } else {
 
             // There's either a Servlet, Filter or both found matching the request.
@@ -160,7 +160,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 webappRequest.setPathInfo(servletInvocation.getPathInfo());
                 webappRequest.setHttpServletMapping(servletInvocation.getHttpServletMapping());
 
-                servletInvocation.getFilterChain().doFilter(webappRequest, httpResponse);
+                servletInvocation.getFilterChain().doFilter(webappRequest, webappResponse);
             } catch (Exception e) {
                 if (webappRequest.getAttribute("piranha.request.exception") != null) {
                     exception = (Exception) webappRequest.getAttribute("piranha.request.exception");
@@ -169,36 +169,51 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 }
             }
         }
+        
+        /*
+         * REFACTOR - We used a response header to signal that we are not 
+         * listening to add/setHeader. In the block below we remove the header
+         * and reset the buffer as we need the code below do its work. However
+         * we  really need to refactor this and move the code below to the 
+         * DefaultWebApplicationResponse, because it should be handled in the
+         * sendError call.
+         */
+        if (webappResponse.getHeader("sendErrorCalled") != null) {
+            webappResponse.headerManager.removeHeader("sendErrorCalled");
+            if (!webappResponse.isCommitted()) {
+                webappResponse.resetBuffer();
+            }
+        }
 
         if (exception != null) {
-            httpResponse.setStatus(exception instanceof UnavailableException ? SC_NOT_FOUND : SC_INTERNAL_SERVER_ERROR);
+            webappResponse.setStatus(exception instanceof UnavailableException ? SC_NOT_FOUND : SC_INTERNAL_SERVER_ERROR);
         }
 
         String errorPagePath = webApplication.getManager().getErrorPageManager() != null
-                ? webApplication.getManager().getErrorPageManager().getErrorPage(exception, httpResponse)
+                ? webApplication.getManager().getErrorPageManager().getErrorPage(exception, webappResponse)
                 : null;
 
         if (errorPagePath != null) {
             try {
-                webApplication.getRequestDispatcher(errorPagePath).error(servletInvocation == null ? null : servletInvocation.getServletName(), webappRequest, httpResponse, exception);
+                webApplication.getRequestDispatcher(errorPagePath).error(servletInvocation == null ? null : servletInvocation.getServletName(), webappRequest, webappResponse, exception);
             } catch (Exception e) {
                 rethrow(e);
             }
         } else if (exception != null) {
-            exception.printStackTrace(httpResponse.getWriter());
-            httpResponse.flushBuffer();
+            exception.printStackTrace(webappResponse.getWriter());
+            webappResponse.flushBuffer();
             rethrow(exception);
         } else if (webappRequest.getAttribute(ERROR_MESSAGE) != null) {
             // Specified by spec/javadoc: "The server defaults to creating the response to look like an HTML-formatted server error page containing the specified message,
             // setting the content type to "text/html"."
-            httpResponse.setContentType("text/html");
-            httpResponse.getWriter()
+            webappResponse.setContentType("text/html");
+            webappResponse.getWriter()
                     .write("<html><body>" + webappRequest.getAttribute(ERROR_MESSAGE) + "</body></html>");
 
         }
 
         if (!webappRequest.isAsyncStarted()) {
-            httpResponse.flushBuffer();
+            webappResponse.flushBuffer();
         }
     }
 
