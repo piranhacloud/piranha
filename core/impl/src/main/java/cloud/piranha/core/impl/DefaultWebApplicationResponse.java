@@ -65,7 +65,7 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
      * Defines the 'ISO-8859-1' constant.
      */
     private static final String ISO_8859_1 = "ISO-8859-1";
-    
+
     /**
      * Stores the body only flag.
      */
@@ -80,7 +80,7 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
      * Stores the character encoding.
      */
     protected String characterEncoding;
-    
+
     /**
      * Stores if the character encoding was set using setLocale.
      */
@@ -155,11 +155,11 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
      * Stores the status message.
      */
     protected String statusMessage;
-    
+
     /**
      * Stores the trailer fields supplier.
      */
-    protected Supplier<Map<String,String>> trailerFields;
+    protected Supplier<Map<String, String>> trailerFields;
 
     /**
      * Stores the web application.
@@ -220,6 +220,14 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
 
     @Override
     public void addHeader(String name, String value) {
+        /*
+         * REFACTOR - We need to incorporate the code in 
+         * DefaultServletRequestDispatcher here as the sendError call should 
+         * implement the functionality and NOT the dispatcher.
+         */
+        if (getHeader("sendErrorCalled") != null) {
+            return;
+        }
         if (isCommitted()) {
             return;
         }
@@ -264,7 +272,7 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
         }
         return result;
     }
-    
+
     @Override
     public void flushBuffer() throws IOException {
         /*
@@ -376,9 +384,9 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
     public String getStatusMessage() {
         return statusMessage;
     }
-    
+
     @Override
-    public Supplier<Map<String,String>> getTrailerFields() {
+    public Supplier<Map<String, String>> getTrailerFields() {
         return trailerFields;
     }
 
@@ -386,7 +394,7 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
     public WebApplication getWebApplication() {
         return webApplication;
     }
-    
+
     @Override
     public WebApplicationOutputStream getWebApplicationOutputStream() {
         return webApplicationOutputStream;
@@ -424,7 +432,7 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
     public boolean isCommitted() {
         return committed;
     }
-    
+
     /**
      * Is this an include dispatch.
      *
@@ -469,7 +477,7 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
                      * writer which will be discarded as the response is in 
                      * buffer resetting mode.
                      */
-                    writer.flush(); 
+                    writer.flush();
                 }
                 webApplicationOutputStream.resetBuffer();
             } finally {
@@ -484,7 +492,15 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
     public void sendError(int status) throws IOException {
         verifyNotCommitted("sendError");
         resetBuffer();
+        gotWriter = false;
+        gotOutput = false;
         setStatus(status);
+        /*
+         * REFACTOR - We need to incorporate the code in 
+         * DefaultServletRequestDispatcher here as the sendError call should 
+         * implement the functionality and NOT the dispatcher.
+         */
+        setHeader("sendErrorCalled", "true");
     }
 
     @Override
@@ -496,6 +512,12 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
         setStatus(status);
         this.statusMessage = statusMessage;
         setErrorMessageAttribute();
+        /*
+         * REFACTOR - We need to incorporate the code in 
+         * DefaultServletRequestDispatcher here as the sendError call should 
+         * implement the functionality and NOT the dispatcher.
+         */
+        setHeader("sendErrorCalled", "true");
     }
 
     @Override
@@ -620,6 +642,14 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
     @Override
     public void setHeader(String name, String value) {
         /*
+         * REFACTOR - We need to incorporate the code in 
+         * DefaultServletRequestDispatcher here as the sendError call should 
+         * implement the functionality and NOT the dispatcher.
+         */
+        if (getHeader("sendErrorCalled") != null) {
+            return;
+        }
+        /*
          * Servlet:SPEC:192.4
          */
         if (isInclude()) {
@@ -645,7 +675,7 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
                 LocaleEncodingManager localeEncodingManager = webApplication.getManager().getLocaleEncodingManager();
                 if (localeEncodingManager != null) {
                     String encoding = localeEncodingManager.getCharacterEncoding(locale.toString());
-                    if (encoding == null) { 
+                    if (encoding == null) {
                         encoding = localeEncodingManager.getCharacterEncoding(locale.getLanguage());
                     }
                     if (encoding != null && !characterEncodingSet) {
@@ -676,7 +706,7 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
     }
 
     @Override
-    public void setTrailerFields(Supplier<Map<String,String>> trailerFields) {
+    public void setTrailerFields(Supplier<Map<String, String>> trailerFields) {
         if (isCommitted()) {
             throw new IllegalStateException("Response is already committed");
         }
