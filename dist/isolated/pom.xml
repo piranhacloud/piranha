@@ -179,7 +179,7 @@
                             <images>
                                 <image>
                                     <alias>isolated</alias>
-                                    <name>piranhacloud/isolated:%l</name>
+                                    <name>ghcr.io/piranhacloud/isolated:%l</name>
                                     <build>
                                         <buildx>
                                             <platforms>

@@ -25,6 +25,7 @@ jobs:
     - name: Login to Docker Hub
       uses: azure/docker-login@v1
       with:
+        login-server: ghcr.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Set up QEMU
