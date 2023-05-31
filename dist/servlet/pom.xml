@@ -102,7 +102,7 @@
                             <images>
                                 <image>
                                     <alias>servlet</alias>
-                                    <name>piranhacloud/servlet:%l</name>
+                                    <name>ghcr.io/piranhacloud/servlet:%l</name>
                                     <build>
                                         <buildx>
                                             <platforms>

@@ -110,7 +110,7 @@
                             <images>
                                 <image>
                                     <alias>platform</alias>
-                                    <name>piranhacloud/platform:%l</name>
+                                    <name>ghcr.io/piranhacloud/platform:%l</name>
                                     <build>
                                         <buildx>
                                             <platforms>
