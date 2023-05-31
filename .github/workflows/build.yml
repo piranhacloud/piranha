@@ -70,10 +70,10 @@ jobs:
         java-version: 17
     - name: Build with Maven
       run: mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
-    - name: Login to Docker Hub
+    - name: Login to GHCR
       uses: docker/login-action@v2
       with:
-        login-server: ghcr.io
+        registry: ghcr.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Set up QEMU
