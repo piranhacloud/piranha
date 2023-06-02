@@ -126,7 +126,7 @@
                             <images>
                                 <image>
                                     <alias>webprofile</alias>
-                                    <name>piranhacloud/webprofile:%l</name>
+                                    <name>ghcr.io/piranhacloud/webprofile:%l</name>
                                     <build>
                                         <buildx>
                                             <platforms>
