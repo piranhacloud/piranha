@@ -99,9 +99,12 @@ public class MicroBootstrap implements Runnable {
 
         if (arguments.length > 0) {
             for (int i = 0; i < arguments.length; i++) {
+                if (arguments[i].equals("--http-port")) {
+                    port = Integer.parseInt(arguments[i + 1]);
+                }
                 if (arguments[i].equals("--war")) {
                     warFile = new File(arguments[i + 1]);
-                    LOGGER.log(WARNING, "The --war has been replaced by --war-file [DEPRECATED]");
+                    LOGGER.log(WARNING, "The --war command line argument has been replaced by --war-file [DEPRECATED]");
                 }
                 if (arguments[i].equals("--war-file")) {
                     warFile = new File(arguments[i + 1]);
@@ -112,6 +115,7 @@ public class MicroBootstrap implements Runnable {
 
                 if (arguments[i].equals("--port")) {
                     port = Integer.parseInt(arguments[i + 1]);
+                    LOGGER.log(WARNING, "The --port command line argument has been replaced by --http-port [DEPRECATED]");
                 }
 
                 if (arguments[i].equals("--http")) {
