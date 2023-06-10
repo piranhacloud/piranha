@@ -17,6 +17,7 @@
 
     <modules>
         <module>api</module>
+        <module>http</module>
     </modules>
 
     <dependencyManagement>

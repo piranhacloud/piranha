@@ -95,7 +95,7 @@
                             <images>
                                 <image>
                                     <alias>coreprofile</alias>
-                                    <name>piranhacloud/coreprofile:%l</name>
+                                    <name>ghcr.io/piranhacloud/coreprofile:%l</name>
                                     <build>
                                         <buildx>
                                             <platforms>
