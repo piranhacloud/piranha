@@ -87,6 +87,9 @@ public abstract class WriteListenerTest {
         assertNotNull(webApplication.getAttribute("onWritePossible"));
     }
 
+    /**
+     * A WriteListener for onWritePossible.
+     */
     public static class TestOnWritePossibleWriteListener implements WriteListener {
 
         /**
