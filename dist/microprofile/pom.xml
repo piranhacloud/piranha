@@ -127,7 +127,7 @@
                             <images>
                                 <image>
                                     <alias>microprofile</alias>
-                                    <name>piranhacloud/microprofile:%l</name>
+                                    <name>ghcr.io/piranhacloud/microprofile:%l</name>
                                     <build>
                                         <buildx>
                                             <platforms>

@@ -36,9 +36,7 @@ import javax.naming.NamingException;
  * The default NameParser.
  *
  * @author Manfred Riem (mriem@manorrock.com)
- * @deprecated
  */
-@Deprecated(since = "23.5.0", forRemoval = true)
 public class DefaultNameParser implements NameParser {
 
     /**

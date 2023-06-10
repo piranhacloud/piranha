@@ -35,6 +35,7 @@ import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The micro version of Piranha.
@@ -43,6 +44,11 @@ import cloud.piranha.micro.loader.MicroOuterDeployer;
  * @author Arjan Tijms
  */
 public class MicroBootstrap implements Runnable {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(MicroBootstrap.class.getName());
 
     /**
      * The HTTP port on which Piranha accepts requests
@@ -93,16 +99,23 @@ public class MicroBootstrap implements Runnable {
 
         if (arguments.length > 0) {
             for (int i = 0; i < arguments.length; i++) {
+                if (arguments[i].equals("--http-port")) {
+                    port = Integer.parseInt(arguments[i + 1]);
+                }
                 if (arguments[i].equals("--war")) {
                     warFile = new File(arguments[i + 1]);
+                    LOGGER.log(WARNING, "The --war command line argument has been replaced by --war-file [DEPRECATED]");
                 }
-                
+                if (arguments[i].equals("--war-file")) {
+                    warFile = new File(arguments[i + 1]);
+                }
                 if (arguments[i].equals("--webapp")) {
                     explodedDir = new File(arguments[i + 1]);
                 }
-                
+
                 if (arguments[i].equals("--port")) {
                     port = Integer.parseInt(arguments[i + 1]);
+                    LOGGER.log(WARNING, "The --port command line argument has been replaced by --http-port [DEPRECATED]");
                 }
 
                 if (arguments[i].equals("--http")) {

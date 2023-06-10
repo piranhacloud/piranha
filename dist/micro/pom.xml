@@ -221,7 +221,7 @@
                             <images>
                                 <image>
                                     <alias>micro</alias>
-                                    <name>piranhacloud/micro:%l</name>
+                                    <name>ghcr.io/piranhacloud/micro:%l</name>
                                     <build>
                                         <buildx>
                                             <platforms>
