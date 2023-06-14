@@ -16,7 +16,6 @@ releases see the [Patch releases](#patch-releases) section below
 
 ## On the 13th of the month
 
-1. Create DRAFT release notes
 1. Trigger release using release-X.Y.Z as branch to release from
 1. If release build fails
     1. Remove the vX.Y.Z tag
@@ -24,16 +23,16 @@ releases see the [Patch releases](#patch-releases) section below
     1. Apply whatever fixes are needed
     1. Commit and push them to release-X.Y.Z
     1. Retrigger the release
-1. Wait for release bits to show up on Maven central
-1. Open DRAFT release notes
-1. Set correct tag for DRAFT release notes
+1. Create release notes
+1. Set correct tag for release notes
 1. Make sure “Create a discussion for this release” is checked
 1. Make sure Category is set to General 
 1. Publish release notes
-1. On the piranha_cloud Twitter announce that Piranha X.Y.Z has been released and make sure to thank our contributors.
 1. Apply fixes from release-X.Y.Z branch to the current branch with a corresponding issue (if any).
 1. Delete the release-X.Y.Z branch
 1. Close the milestone on GitHub
+1. Wait for release bits to show up on Maven Central
+1. On the piranha_cloud Twitter announce that Piranha X.Y.Z has been released and make sure to thank our contributors.
 
 ## Patch releases
 
