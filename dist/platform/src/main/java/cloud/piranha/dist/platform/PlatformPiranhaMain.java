@@ -31,6 +31,7 @@ import java.lang.System.Logger.Level;
 
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.extension.platform.PlatformExtension;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The Main for Piranha Platform.
@@ -104,13 +105,21 @@ public class PlatformPiranhaMain {
                 if (arguments[i].equals("--https-server-class")) {
                     builder = builder.httpsServerClass(arguments[i + 1]);
                 }
+                if (arguments[i].equals("--https-truststore-file")) {
+                    builder = builder.httpsTruststoreFile(arguments[i + 1]);
+                }
+                if (arguments[i].equals("--https-truststore-password")) {
+                    builder = builder.httpsTruststorePassword(arguments[i + 1]);
+                }
                 if (arguments[i].equals("--jpms")) {
                     builder = builder.jpms(true);
                 }
                 if (arguments[i].equals("--ssl-truststore-file")) {
+                    LOGGER.log(WARNING, "The --ssl-truststore-file has been replaced by --https-truststore-file [DEPRECATED]");
                     builder = builder.sslTruststoreFile(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--ssl-truststore-password")) {
+                    LOGGER.log(WARNING, "The --ssl-truststore-password has been replaced by --https-truststore-password [DEPRECATED]");
                     builder = builder.sslTruststorePassword(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--verbose")) {
@@ -131,18 +140,18 @@ public class PlatformPiranhaMain {
         LOGGER.log(Level.INFO, "");
         LOGGER.log(Level.INFO,
                 """
-  --default-extension <className>    - Set the default extension
-  --help                             - Show this help
-  --http-port <integer>              - Set the HTTP port (use -1 to disable)
-  --http-server-class                - Set the HTTP server class
-  --https-keystore-file <file>       - Set the HTTPS keystore file 
-  --https-keystore-password <string> - Set the HTTPS keystore password
-  --https-port <integer>             - Set the HTTPS port (disabled by default)
-  --https-server-class               - Set the HTTPS server class
-  --jpms                             - Enable Java Platform Module System
-  --ssl-truststore-file <file>       - Set the SSL keystore file
-  --ssl-truststore-password <string> - Set the SSL keystore password
-  --webapps-dir <directory>          - Set the web applications directory
+ --default-extension <className>      - Set the default extension
+ --help                               - Show this help
+ --http-port <integer>                - Set the HTTP port (use -1 to disable)
+ --http-server-class                  - Set the HTTP server class
+ --https-keystore-file <file>         - Set the HTTPS keystore file 
+ --https-keystore-password <string>   - Set the HTTPS keystore password
+ --https-port <integer>               - Set the HTTPS port (disabled by default)
+ --https-server-class                 - Set the HTTPS server class
+ --https-truststore-file <file>       - Set the HTTPS truststore file
+ --https-truststore-password <string> - Set the HTTPS truststore password
+ --jpms                               - Enable Java Platform Module System
+ --webapps-dir <directory>            - Set the web applications directory
                 """);
     }
 }

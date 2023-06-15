@@ -89,6 +89,16 @@ public class PlatformPiranhaBuilder {
     private String httpsServerClass;
 
     /**
+     * Stores the HTTPS truststore file.
+     */
+    private String httpsTruststoreFile;
+
+    /**
+     * Stores the HTTPS truststore password.
+     */
+    private String httpsTruststorePassword;
+
+    /**
      * Stores the InitialContext factory.
      */
     private String initialContextFactory = "cloud.piranha.naming.thread.ThreadInitialContextFactory";
@@ -97,16 +107,6 @@ public class PlatformPiranhaBuilder {
      * Stores the JPMS flag.
      */
     private boolean jpms = false;
-
-    /**
-     * Stores the SSL truststore file.
-     */
-    private String sslTruststoreFile;
-
-    /**
-     * Stores the SSL truststore password.
-     */
-    private String sslTruststorePassword;
 
     /**
      * Stores the verbose flag.
@@ -142,11 +142,11 @@ public class PlatformPiranhaBuilder {
         if (httpsKeystorePassword != null) {
             piranha.setHttpsKeystorePassword(httpsKeystorePassword);
         }
-        if (sslTruststoreFile != null) {
-            piranha.setSslKeystoreFile(sslTruststoreFile);
+        if (httpsTruststoreFile != null) {
+            piranha.setHttpsTruststoreFile(httpsTruststoreFile);
         }
-        if (sslTruststorePassword != null) {
-            piranha.setSslKeystorePassword(sslTruststorePassword);
+        if (httpsTruststorePassword != null) {
+            piranha.setHttpsTruststorePassword(httpsTruststorePassword);
         }
         piranha.setWebAppsDir(new File(webAppsDir));
         return piranha;
@@ -257,6 +257,28 @@ public class PlatformPiranhaBuilder {
     }
 
     /**
+     * Set the HTTPS truststore file.
+     *
+     * @param httpsTruststoreFile the HTTPS truststore file.
+     * @return the builder.
+     */
+    public PlatformPiranhaBuilder httpsTruststoreFile(String httpsTruststoreFile) {
+        this.httpsTruststoreFile = httpsTruststoreFile;
+        return this;
+    }
+
+    /**
+     * Set the HTTPS truststore password.
+     *
+     * @param httpsTruststorePassword the HTTPS truststore password.
+     * @return the builder.
+     */
+    public PlatformPiranhaBuilder httpsTruststorePassword(String httpsTruststorePassword) {
+        this.httpsTruststorePassword = httpsTruststorePassword;
+        return this;
+    }
+
+    /**
      * Enable/disable JPMS.
      *
      * @param jpms the JPMS flag.
@@ -278,18 +300,18 @@ public class PlatformPiranhaBuilder {
                 Arguments
                 =========
                 
-                Default extension class : %s
-                Exit on stop            : %s
-                HTTP port               : %s
-                HTTP server class       : %s
-                HTTPS keystore file     : %s
-                HTTPS keystore password : ****
-                HTTPS port              : %s
-                HTTPS server class      : %s
-                JPMS enabled            : %s
-                SSL truststore file     : %s
-                SSL truststore password : ****
-                Web applications dir    : %s
+                Default extension class   : %s
+                Exit on stop              : %s
+                HTTP port                 : %s
+                HTTP server class         : %s
+                HTTPS keystore file       : %s
+                HTTPS keystore password   : ****
+                HTTPS port                : %s
+                HTTPS server class        : %s
+                HTTPS truststore file     : %s
+                HTTPS truststore password : ****
+                JPMS enabled              : %s
+                Web applications dir      : %s
                 
                 """.formatted(
                 defaultExtensionClass.getName(),
@@ -299,36 +321,10 @@ public class PlatformPiranhaBuilder {
                 httpsKeystoreFile,
                 httpsPort,
                 httpsServerClass,
+                httpsTruststoreFile,
                 jpms,
-                sslTruststoreFile,
                 webAppsDir
         ));
-    }
-
-    /**
-     * Set the SSL keystore file.
-     *
-     * @param sslKeystoreFile the SSL keystore file.
-     * @return the builder.
-     * @deprecated
-     */
-    @Deprecated(since = "23.5.0", forRemoval = true)
-    public PlatformPiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
-        this.httpsKeystoreFile = sslKeystoreFile;
-        return this;
-    }
-
-    /**
-     * Set the SSL keystore password.
-     *
-     * @param sslKeystorePassword the SSL keystore password.
-     * @return the builder.
-     * @deprecated
-     */
-    @Deprecated(since = "23.5.0", forRemoval = true)
-    public PlatformPiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
-        this.httpsKeystorePassword = sslKeystorePassword;
-        return this;
     }
 
     /**
@@ -336,9 +332,11 @@ public class PlatformPiranhaBuilder {
      *
      * @param sslTruststoreFile the SSL truststore file.
      * @return the builder.
+     * @deprecated
      */
+    @Deprecated(since = "23.7.0", forRemoval = true)
     public PlatformPiranhaBuilder sslTruststoreFile(String sslTruststoreFile) {
-        this.sslTruststoreFile = sslTruststoreFile;
+        this.httpsTruststoreFile = sslTruststoreFile;
         return this;
     }
 
@@ -347,9 +345,11 @@ public class PlatformPiranhaBuilder {
      *
      * @param sslTruststorePassword the SSL truststore password.
      * @return the builder.
+     * @deprecated
      */
+    @Deprecated(since = "23.7.0", forRemoval = true)
     public PlatformPiranhaBuilder sslTruststorePassword(String sslTruststorePassword) {
-        this.sslTruststorePassword = sslTruststorePassword;
+        this.httpsTruststorePassword = sslTruststorePassword;
         return this;
     }
 
