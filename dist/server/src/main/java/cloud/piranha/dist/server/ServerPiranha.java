@@ -407,6 +407,40 @@ public class ServerPiranha implements Piranha, Runnable {
     }
 
     /**
+     * Set the HTTPS truststore file.
+     *
+     * <p>
+     * Convenience wrapper around the <code>javax.net.ssl.trustStore</code>
+     * system property. Note using this method sets the property for the entire
+     * JVM.
+     * </p>
+     *
+     * @param httpsTruststoreFile the HTTPS truststore file.
+     */
+    public void setHttpsTruststoreFile(String httpsTruststoreFile) {
+        if (httpsTruststoreFile != null) {
+            System.setProperty("javax.net.ssl.trustStore", httpsTruststoreFile);
+        }
+    }
+
+    /**
+     * Set the SSL truststore password.
+     *
+     * <p>
+     * Convenience wrapper around the
+     * <code>javax.net.ssl.trustStorePassword</code> system property. Note using
+     * this method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param httpsTruststorePassword the HTTPS truststore password.
+     */
+    void setHttpsTruststorePassword(String httpsTruststorePassword) {
+        if (httpsTruststorePassword != null) {
+            System.setProperty("javax.net.ssl.trustStorePassword", httpsTruststorePassword);
+        }
+    }
+
+    /**
      * Enable/disable JPMS.
      *
      * @param jpmsEnabled the JPMS enabled flag.
@@ -425,7 +459,9 @@ public class ServerPiranha implements Piranha, Runnable {
      * </p>
      *
      * @param sslTruststoreFile the SSL truststore file.
+     * @deprecated 
      */
+    @Deprecated(since = "23.7.0", forRemoval = true)
     public void setSslTruststoreFile(String sslTruststoreFile) {
         if (sslTruststoreFile != null) {
             System.setProperty("javax.net.ssl.trustStore", sslTruststoreFile);
@@ -442,7 +478,9 @@ public class ServerPiranha implements Piranha, Runnable {
      * </p>
      *
      * @param sslTruststorePassword the SSL truststore password.
+     * @deprecated 
      */
+    @Deprecated(since = "23.7.0", forRemoval = true)
     void setSslTruststorePassword(String sslTruststorePassword) {
         if (sslTruststorePassword != null) {
             System.setProperty("javax.net.ssl.trustStorePassword", sslTruststorePassword);

@@ -36,7 +36,7 @@ import java.util.Objects;
  * This web application supports finding other contexts using
  * {@link ServletContext#getContext(String)}.
  */
-public class PlatofmrWebApplication extends DefaultWebApplication {
+public class PlatformWebApplication extends DefaultWebApplication {
 
     /**
      * Stores the request mapper.
@@ -48,7 +48,7 @@ public class PlatofmrWebApplication extends DefaultWebApplication {
      *
      * @param requestMapper the request mapper.
      */
-    public PlatofmrWebApplication(WebApplicationServerRequestMapper requestMapper) {
+    public PlatformWebApplication(WebApplicationServerRequestMapper requestMapper) {
         this.requestMapper = Objects.requireNonNull(requestMapper);
     }
 

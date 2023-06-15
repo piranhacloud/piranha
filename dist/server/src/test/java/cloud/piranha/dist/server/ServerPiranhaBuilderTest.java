@@ -96,8 +96,8 @@ class ServerPiranhaBuilderTest {
     void testHttpsPort2() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
                 .defaultExtensionClass(ServletExtension.class)
-                .sslKeystoreFile("src/main/zip/etc/keystore.jks")
-                .sslKeystorePassword("password")
+                .httpsKeystoreFile("src/main/zip/etc/keystore.jks")
+                .httpsKeystorePassword("password")
                 .httpPort(8228)
                 .httpsPort(8338)
                 .build();
