@@ -119,11 +119,7 @@ public class ArchiveURLStreamHandler extends URLStreamHandler {
              * {@return the node}
              */
             private Node getNode() {
-                return archive.get(
-                        ArchivePaths.create(
-                                requestedUrl
-                                        .getPath()
-                                        .replace(archive.getName(), "")));
+                return archive.get(ArchivePaths.create(requestedUrl.getPath()));
             }
         };
 

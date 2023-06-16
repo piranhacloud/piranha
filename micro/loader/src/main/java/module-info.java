@@ -39,6 +39,6 @@ module cloud.piranha.micro.loader {
     requires cloud.piranha.resource.shrinkwrap;
     requires static java.net.http;
     requires org.jboss.jandex;
+    requires dev.mccue.resolve;
     requires shrinkwrap.api;
-    requires shrinkwrap.resolver.api.maven;
 }

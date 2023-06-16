@@ -27,25 +27,20 @@
  */
 package cloud.piranha.micro.loader;
 
-import static java.util.Objects.requireNonNull;
-import static java.lang.System.Logger.Level.WARNING;
-import static org.jboss.shrinkwrap.resolver.api.maven.repository.MavenUpdatePolicy.UPDATE_POLICY_NEVER;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.module.Configuration;
-import java.lang.module.ModuleDescriptor;
-import java.lang.module.ModuleFinder;
-import java.lang.module.ModuleReference;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.lang.System.Logger;
-import java.util.stream.Stream;
-
+import cloud.piranha.core.impl.DefaultModuleFinder;
+import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
+import cloud.piranha.resource.api.Resource;
+import cloud.piranha.resource.impl.DefaultResourceManager;
+import cloud.piranha.resource.impl.DefaultResourceManagerClassLoader;
+import cloud.piranha.resource.impl.MultiReleaseResource;
+import cloud.piranha.resource.shrinkwrap.IsolatingResourceManagerClassLoader;
+import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
+import dev.mccue.resolve.Dependency;
+import dev.mccue.resolve.Fetch;
+import dev.mccue.resolve.Library;
+import dev.mccue.resolve.Resolution;
+import dev.mccue.resolve.Resolve;
+import dev.mccue.resolve.maven.MavenRepository;
 import org.jboss.jandex.Index;
 import org.jboss.jandex.IndexWriter;
 import org.jboss.jandex.Indexer;
@@ -57,19 +52,26 @@ import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.maven.ConfigurableMavenResolverSystem;
-import org.jboss.shrinkwrap.resolver.api.maven.Maven;
-import org.jboss.shrinkwrap.resolver.api.maven.repository.MavenRemoteRepositories;
-import org.jboss.shrinkwrap.resolver.api.maven.repository.MavenRemoteRepository;
 
-import cloud.piranha.core.impl.DefaultModuleFinder;
-import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
-import cloud.piranha.resource.api.Resource;
-import cloud.piranha.resource.impl.DefaultResourceManager;
-import cloud.piranha.resource.impl.DefaultResourceManagerClassLoader;
-import cloud.piranha.resource.impl.MultiReleaseResource;
-import cloud.piranha.resource.shrinkwrap.IsolatingResourceManagerClassLoader;
-import cloud.piranha.resource.shrinkwrap.ShrinkWrapResource;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.System.Logger;
+import java.lang.module.Configuration;
+import java.lang.module.ModuleDescriptor;
+import java.lang.module.ModuleFinder;
+import java.lang.module.ModuleReference;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
+import static java.lang.System.Logger.Level.WARNING;
+import static java.util.Objects.requireNonNull;
 
 /**
  * The micro outer deployer runs in the outer (or initial) class loader, and
@@ -143,18 +145,32 @@ public class MicroOuterDeployer {
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
         try {
 
-            // Resolve all the dependencies that make up a Piranha runtime configuration
-            ConfigurableMavenResolverSystem mavenResolver = Maven.configureResolver();
+            Stream<MavenRepository> repos = configuration.getRepositoriesList()
+                    .stream()
+                    .map(MavenRepository::remote);
 
-            configuration.getRepositoriesList().stream().forEach(repoUrl
-                    -> mavenResolver.withRemoteRepo(createRepo(repoUrl)));
+            List<MavenRepository> repository = Stream.concat(Stream.of(MavenRepository.local(Paths.get(System.getProperty("user.home"), ".m2", "repository"))), repos).toList();
 
-            JavaArchive[] piranhaArchives
-                    = mavenResolver
-                            .workOffline(configuration.isOffline())
-                            .resolve(configuration.getMergedDependencies())
-                            .withTransitivity()
-                            .as(JavaArchive.class);
+            List<Dependency> dependencies = configuration.getMergedDependencies()
+                    .stream()
+                    .map(coordinateString -> Dependency.maven(
+                            coordinateString, repository
+                    ))
+                    .toList();
+
+            Resolution resolution = new Resolve()
+                    .addDependencies(dependencies)
+                    .run();
+
+            resolution.printTree();
+
+            Fetch.Result fetchResult = resolution
+                    .fetch()
+                    .run();
+
+            Archive<?>[] piranhaArchives = fetchResult.libraries().entrySet().stream()
+                    .map(MicroOuterDeployer::toJavaArchive)
+                    .toArray(Archive[]::new);
 
             // Make all those dependencies available to the Piranha class loader
             ClassLoader piranhaClassLoader = getPiranhaClassLoader(piranhaArchives);
@@ -210,6 +226,15 @@ public class MicroOuterDeployer {
             throw new IllegalStateException("", e);
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
+        }
+    }
+
+    private static JavaArchive toJavaArchive(Map.Entry<Library, Path> library) {
+        try (InputStream inputStream = Files.newInputStream(library.getValue())){
+            String archiveName = library.getKey().artifact().value();
+            return ShrinkWrap.create(ZipImporter.class, archiveName).importFrom(inputStream).as(JavaArchive.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -418,15 +443,6 @@ public class MicroOuterDeployer {
         } catch (IOException ioe) {
             LOGGER.log(WARNING, "Unable to add to index", ioe);
         }
-    }
-
-    private MavenRemoteRepository createRepo(String repoUrl) {
-        MavenRemoteRepository repo = MavenRemoteRepositories.createRemoteRepository(
-                UUID.randomUUID().toString(), repoUrl, "default");
-
-        repo.setUpdatePolicy(UPDATE_POLICY_NEVER);
-
-        return repo;
     }
 
 }

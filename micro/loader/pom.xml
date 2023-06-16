@@ -29,6 +29,12 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>dev.mccue</groupId>
+            <artifactId>resolve</artifactId>
+            <version>0.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.resource</groupId>
             <artifactId>piranha-resource-shrinkwrap</artifactId>
             <version>${project.version}</version>
