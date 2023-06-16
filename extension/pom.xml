@@ -17,7 +17,6 @@
 
     <modules>
         <module>annotationscan</module>
-        <module>annotationscan-classfile</module>
         <module>apache-fileupload</module>
         <module>bytesstreamhandler</module>
         <module>coreprofile</module>
@@ -76,4 +75,16 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>jdk21</id>
+            <activation>
+                <jdk>21</jdk>
+            </activation>
+            <modules>
+                <module>annotationscan-classfile</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
