@@ -73,18 +73,6 @@ public class ClassfileAnnotationScanInitializer implements ServletContainerIniti
     private static final Logger LOGGER = System.getLogger(ClassfileAnnotationScanInitializer.class.getName());
 
     /**
-     * Stores the knows annotation packages
-     */
-    private static final List<String> KNOWN_ANNOTATION_PACKAGES = List.of(
-            "jakarta.servlet",
-            "jakarta.websocket",
-            "jakarta.ws.rs",
-            "jakarta.faces",
-            "jakarta.persistence",
-            "jakarta.annotation"
-    );
-
-    /**
      * On startup.
      *
      * @param classes        the classes.
@@ -115,6 +103,7 @@ public class ClassfileAnnotationScanInitializer implements ServletContainerIniti
                 .flatMap(this::getJakartaAnnotations)
                 .map(annotationInstance -> new InternalAnnotationScanAnnotationInfo<>(annotationInstance, annotationInstance.annotationType()))
                 .forEach(annotationManager::addAnnotation);
+
 
     }
 
@@ -151,8 +140,7 @@ public class ClassfileAnnotationScanInitializer implements ServletContainerIniti
     }
 
     private boolean isJakartaAnnotation(ClassDesc annotation) {
-        return KNOWN_ANNOTATION_PACKAGES.stream()
-                .anyMatch(thePackage -> annotation.packageName().startsWith(thePackage));
+        return annotation.packageName().startsWith("jakarta");
     }
 
     private byte[] readResource(String resourceName, ResourceManager resourceManager) {
