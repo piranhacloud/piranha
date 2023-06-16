@@ -29,7 +29,7 @@ package cloud.piranha.extension.coreprofile;
 
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
-import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
+import cloud.piranha.extension.annotationscan.classfile.AnnotationScanExtension;
 import cloud.piranha.extension.naming.NamingExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 

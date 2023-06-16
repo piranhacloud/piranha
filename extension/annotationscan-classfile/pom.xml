@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cloud.piranha.extension</groupId>
+        <artifactId>project</artifactId>
+        <version>23.7.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>piranha-extension-annotationscan-classfile</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Piranha - Extension - Annotation Scan Classfile</name>
+
+    <dependencies>
+        <!-- compile -->
+        <dependency>
+            <groupId>cloud.piranha.core</groupId>
+            <artifactId>piranha-core-impl</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.resource</groupId>
+            <artifactId>piranha-resource-api</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- test -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+<!--                    <argLine>@{argLine} &#45;&#45;add-opens cloud.piranha.extension.annotationscan/cloud.piranha.extension.annotationscan.internal=ALL-UNNAMED</argLine>-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.github.wiverson</groupId>
+                <artifactId>jtoolprovider-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>java-tool</goal>
+                        </goals>
+                        <configuration>
+                            <toolName>jar</toolName>
+                            <writeOutputToLog>true</writeOutputToLog>
+                            <writeErrorsToLog>true</writeErrorsToLog>
+                            <failOnError>true</failOnError>
+                            <args>
+                                <arg>--update</arg>
+                                <arg>--warn-if-resolved=incubating</arg>
+                                <arg>--do-not-resolve-by-default</arg>
+                                <arg>--file</arg>
+                                <arg>${project.build.directory}/${project.build.finalName}.jar</arg>
+                                <!-- It seems to be needed to include twice -->
+                                <arg>${project.build.directory}/${project.build.finalName}.jar</arg>
+                            </args>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

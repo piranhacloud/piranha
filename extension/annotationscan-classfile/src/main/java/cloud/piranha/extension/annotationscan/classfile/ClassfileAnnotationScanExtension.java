@@ -25,25 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.platform;
+package cloud.piranha.extension.annotationscan.classfile;
 
+import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationExtensionContext;
-import cloud.piranha.extension.annotationscan.classfile.AnnotationScanExtension;
-import cloud.piranha.extension.naming.NamingExtension;
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 
 /**
- * The extension that delivers the extensions for Jakarta EE platform.
+ * The extension that enables annotation scanning.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PlatformExtension implements WebApplicationExtension {
+public class ClassfileAnnotationScanExtension implements WebApplicationExtension {
 
+    /**
+     * Stores the property to enable this experimental extension
+     */
+    public static final String EXPERIMENTAL_PROPERTY = "cloud.piranha.extension.annotationscan.classfile.experimental";
+
+    /**
+     * Configure the web application.
+     *
+     * @param webApplication the web application.
+     */
     @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(NamingExtension.class);                         // Naming (JNDI)
-        context.add(AnnotationScanExtension.class);                 // Annotation scanning
-        context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
+    public void configure(WebApplication webApplication) {
+        webApplication.addInitializer(new ClassfileAnnotationScanInitializer());
     }
 }

@@ -29,7 +29,7 @@ package cloud.piranha.extension.webprofile;
 
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
-import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
+import cloud.piranha.extension.annotationscan.classfile.AnnotationScanExtension;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.datasource.DefaultDatasourceExtension;
 import cloud.piranha.extension.eclipselink.EclipseLinkExtension;

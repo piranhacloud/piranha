@@ -25,11 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.annotationscan.internal;
+package cloud.piranha.extension.annotationscan.classfile.internal;
 
-import cloud.piranha.extension.annotationscan.TestWithHandlesTypesInitializer;
+import cloud.piranha.extension.annotationscan.classfile.TestWithHandlesTypesInitializer;
 import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.extension.annotationscan.TestAnnotation;
+import cloud.piranha.extension.annotationscan.classfile.TestAnnotation;
 import java.util.Collections;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -59,10 +59,10 @@ class InternalAnnotationScanAnnotationManagerTest {
     @Test
     void testInitializerWithHandlesTypes2 () {
         DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.getManager().setAnnotationManager(new InternalAnnotationScanAnnotationManager());
+        InternalAnnotationScanAnnotationManager annotationManager = new InternalAnnotationScanAnnotationManager();
+        webApp.getManager().setAnnotationManager(annotationManager);
         webApp.addInitializer(TestWithHandlesTypesInitializer.class.getName());
-        InternalAnnotationScanAnnotationManager annotationManager = 
-                (InternalAnnotationScanAnnotationManager) webApp.getManager().getAnnotationManager();
+
         annotationManager.addInstance(Set.class, Collections.emptySet().getClass());
         annotationManager.addAnnotation(new InternalAnnotationScanAnnotationInfo<>(
                 ClassAnnotated.class.getAnnotation(TestAnnotation.class),

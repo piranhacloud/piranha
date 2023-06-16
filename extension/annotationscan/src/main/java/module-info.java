@@ -42,8 +42,7 @@ module cloud.piranha.extension.annotationscan {
     //
     exports cloud.piranha.extension.annotationscan.internal;
     opens cloud.piranha.extension.annotationscan.internal;
-    
+
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires static jdk.unsupported;
 }

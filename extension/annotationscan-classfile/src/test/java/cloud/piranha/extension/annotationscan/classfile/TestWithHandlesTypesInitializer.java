@@ -25,25 +25,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.platform;
+package cloud.piranha.extension.annotationscan.classfile;
 
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationExtensionContext;
-import cloud.piranha.extension.annotationscan.classfile.AnnotationScanExtension;
-import cloud.piranha.extension.naming.NamingExtension;
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.HandlesTypes;
+import java.util.Optional;
+import java.util.Set;
 
 /**
- * The extension that delivers the extensions for Jakarta EE platform.
+ * A test ServletContainerInitializer with HandlesTypes annotation.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PlatformExtension implements WebApplicationExtension {
+@HandlesTypes({Set.class, TestAnnotation.class})
+public class TestWithHandlesTypesInitializer implements ServletContainerInitializer {
+
+    /**
+     * Constructor.
+     */
+    public TestWithHandlesTypesInitializer() {
+    }
 
     @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(NamingExtension.class);                         // Naming (JNDI)
-        context.add(AnnotationScanExtension.class);                 // Annotation scanning
-        context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+        Optional<Class<?>> classInstance = classes.stream().filter(Set.class::isAssignableFrom).findFirst();
+        servletContext.setAttribute("object_class", classInstance.isPresent());
+        Optional<Class<?>> classWithAnnotation = classes.stream().filter(x -> x.getAnnotation(TestAnnotation.class) != null).findFirst();
+        servletContext.setAttribute("someannotation_class", classWithAnnotation.isPresent());
     }
 }

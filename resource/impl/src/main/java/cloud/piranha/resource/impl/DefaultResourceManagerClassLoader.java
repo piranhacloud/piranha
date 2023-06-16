@@ -97,8 +97,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
      * @param delegateClassLoader classloader which is consulted first
      */
     public DefaultResourceManagerClassLoader(ClassLoader delegateClassLoader) {
-        super(null);
-        this.delegateClassLoader = delegateClassLoader;
+        this(delegateClassLoader, null);
     }
 
     /**
@@ -107,7 +106,17 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
      * @param resourceManager the resource manager.
      */
     public DefaultResourceManagerClassLoader(ResourceManager resourceManager) {
+        this(null, resourceManager);
+    }
+
+    /**
+     * Yet another Constructor.
+     *
+     * @param resourceManager the resource manager.
+     */
+    public DefaultResourceManagerClassLoader(ClassLoader classLoader, ResourceManager resourceManager) {
         super(null); // Calls the super constructor
+        this.delegateClassLoader = classLoader;
         this.resourceManager = resourceManager; // Assigns the resource manager
     }
 

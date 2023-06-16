@@ -25,25 +25,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.platform;
-
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationExtensionContext;
-import cloud.piranha.extension.annotationscan.classfile.AnnotationScanExtension;
-import cloud.piranha.extension.naming.NamingExtension;
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 
 /**
- * The extension that delivers the extensions for Jakarta EE platform.
- *
+ * This module delivers the annotation scan extension using the Classfile API.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PlatformExtension implements WebApplicationExtension {
+module cloud.piranha.extension.annotationscan.classfile {
 
-    @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(NamingExtension.class);                         // Naming (JNDI)
-        context.add(AnnotationScanExtension.class);                 // Annotation scanning
-        context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
-    }
+    exports cloud.piranha.extension.annotationscan.classfile;
+    opens cloud.piranha.extension.annotationscan.classfile;
+
+    exports cloud.piranha.extension.annotationscan.classfile.internal to cloud.piranha.micro.core;
+    opens cloud.piranha.extension.annotationscan.classfile.internal to cloud.piranha.micro.core;
+    
+    requires cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
+    requires jdk.unsupported;
 }

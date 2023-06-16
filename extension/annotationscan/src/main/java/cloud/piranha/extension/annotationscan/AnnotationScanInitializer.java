@@ -29,7 +29,6 @@ package cloud.piranha.extension.annotationscan;
 
 import cloud.piranha.extension.annotationscan.internal.InternalAnnotationScanAnnotationManager;
 import cloud.piranha.extension.annotationscan.internal.InternalAnnotationScanAnnotationInfo;
-import cloud.piranha.resource.api.ResourceManager;
 import cloud.piranha.resource.api.ResourceManagerClassLoader;
 import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.core.api.WebApplication;
@@ -42,31 +41,11 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.annotation.WebInitParam;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.annotation.WebServlet;
-import sun.reflect.ReflectionFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UncheckedIOException;
 import java.lang.System.Logger;
-
 import static java.lang.System.Logger.Level.WARNING;
-
 import java.lang.annotation.Annotation;
-
 import static java.util.Arrays.stream;
-
-import java.lang.constant.ClassDesc;
-import java.lang.constant.DirectMethodHandleDesc;
-import java.lang.constant.MethodHandleDesc;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
@@ -86,7 +65,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
     /**
      * On startup.
      *
-     * @param classes        the classes.
+     * @param classes the classes.
      * @param servletContext the servlet context.
      * @throws ServletException when a servlet error occurs.
      */
@@ -127,22 +106,6 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
                 }
             }
         } else {
-
-            if (System.getProperty("cloud.piranha.extension.annotationscan.experimental.classfile") != null) {
-                ResourceManager resourceManager = resourceManagerClassLoader
-                        .getResourceManager();
-                resourceManager
-                        .getAllLocations()
-                        .filter(e -> e.endsWith(".class") && !e.endsWith("module-info.class") && !e.startsWith("/META-INF/versions"))
-                        .filter(resource -> classFileHasWebAnnotations(readResource(resource, resourceManager)))
-                        .map(e -> loadClass(classLoader, e))
-                        .forEach(targetClazz -> getWebAnnotations(targetClazz)
-                                .forEach(annotationInstance
-                                        -> annotationMgr.addAnnotation(new InternalAnnotationScanAnnotationInfo<>(annotationInstance, targetClazz))));
-                return;
-
-            }
-
             resourceManagerClassLoader
                     .getResourceManager()
                     .getAllLocations()
@@ -150,8 +113,8 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
                     .map(e -> loadClass(classLoader, e))
                     .filter(this::hasWebAnnotation)
                     .forEach(targetClazz -> getWebAnnotations(targetClazz)
-                            .forEach(annotationInstance
-                                    -> annotationMgr.addAnnotation(new InternalAnnotationScanAnnotationInfo<>(annotationInstance, targetClazz))));
+                    .forEach(annotationInstance
+                            -> annotationMgr.addAnnotation(new InternalAnnotationScanAnnotationInfo<>(annotationInstance, targetClazz))));
         }
     }
 
@@ -159,7 +122,7 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
      * Load the class using the given class loader.
      *
      * @param classLoader the class loader.
-     * @param className   the class name.
+     * @param className the class name.
      * @return the class.
      */
     public Class<?> loadClass(ClassLoader classLoader, String className) {
@@ -211,124 +174,4 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
                 || (annotation != null && annotation.toString().contains("jakarta.ws.rs.")
                 || (annotation != null && annotation.toString().contains("jakarta.websocket.")));
     }
-
-    private boolean isWebAnnotation(ClassDesc annotation) {
-
-        List<ClassDesc> webAnnotations = Stream.of(WebServlet.class.describeConstable(),
-                        WebListener.class.describeConstable(),
-                        WebFilter.class.describeConstable(),
-                        ServletSecurity.class.describeConstable(),
-                        MultipartConfig.class.describeConstable())
-                .<ClassDesc>mapMulti(Optional::ifPresent)
-                .toList();
-
-        if (webAnnotations.stream()
-                .anyMatch(annotation::equals)) {
-            return true;
-        }
-
-        List<String> packages = List.of("jakarta.ws.rs", "jakarta.websocket");
-        return packages.stream().anyMatch(thePackage -> annotation.packageName().equals(thePackage));
-    }
-
-    private byte[] readResource(String resourceName, ResourceManager resourceManager) {
-        try (InputStream resourceAsStream = resourceManager.getResourceAsStream(resourceName)) {
-            return resourceAsStream.readAllBytes();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
-    private boolean classFileHasWebAnnotations(byte[] classFileBytes) {
-
-        class Holder {
-            static final Class<?> CLASS_FILE_CLASS;
-            static final Class<?> CLASS_MODEL_CLASS;
-            static final Class<?> ATTRIBUTE_MAPPER_CLASS;
-            static final Class<?> ATTRIBUTES_CLASS;
-            static final Class<?> ANNOTATION_CLASS;
-            static final Class<?> CLASS_FILE_OPTIONS_ARRAY_CLASS;
-            static final Class<?> RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_CLASS;
-
-            static final MethodHandle PARSE;
-            static final MethodHandle FIND_ATTRIBUTE;
-            static final MethodHandle ANNOTATIONS;
-            static final MethodHandle CLASS_SYMBOL;
-            static final Object RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_MAPPER;
-
-            static {
-                try {
-                    final MethodHandles.Lookup trustedLookup = getLookup();
-
-                    CLASS_FILE_CLASS = trustedLookup.findClass("jdk.internal.classfile.Classfile");
-                    CLASS_MODEL_CLASS = trustedLookup.findClass("jdk.internal.classfile.ClassModel");
-                    ATTRIBUTE_MAPPER_CLASS = trustedLookup.findClass("jdk.internal.classfile.AttributeMapper");
-                    ATTRIBUTES_CLASS = trustedLookup.findClass("jdk.internal.classfile.Attributes");
-                    ANNOTATION_CLASS = trustedLookup.findClass("jdk.internal.classfile.Annotation");
-                    CLASS_FILE_OPTIONS_ARRAY_CLASS = trustedLookup.findClass("[Ljdk.internal.classfile.Classfile$Option;");
-                    RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_CLASS = trustedLookup.findClass("jdk.internal.classfile.attribute.RuntimeVisibleAnnotationsAttribute");
-                    RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_MAPPER = trustedLookup.findStaticGetter(Holder.ATTRIBUTES_CLASS, "RUNTIME_VISIBLE_ANNOTATIONS", Holder.ATTRIBUTE_MAPPER_CLASS).invoke();
-
-                    PARSE = trustedLookup.findStatic(Holder.CLASS_FILE_CLASS, "parse", MethodType.methodType(Holder.CLASS_MODEL_CLASS, byte[].class, Holder.CLASS_FILE_OPTIONS_ARRAY_CLASS));
-                    FIND_ATTRIBUTE = trustedLookup.findVirtual(CLASS_MODEL_CLASS, "findAttribute", MethodType.methodType(Optional.class, ATTRIBUTE_MAPPER_CLASS));
-                    ANNOTATIONS = trustedLookup.findVirtual(Holder.RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_CLASS, "annotations", MethodType.methodType(List.class));
-                    CLASS_SYMBOL = trustedLookup.findVirtual(ANNOTATION_CLASS, "classSymbol", MethodType.methodType(ClassDesc.class));
-                } catch (Throwable e) {
-                    throw new ExceptionInInitializerError(e);
-                }
-            }
-
-            private static MethodHandles.Lookup getLookup() {
-                try {
-                    ReflectionFactory reflectionFactory = ReflectionFactory.getReflectionFactory();
-                    Class<MethodHandles.Lookup> lookupClass = MethodHandles.Lookup.class;
-                    Constructor<MethodHandles.Lookup> constructor = lookupClass.getDeclaredConstructor(Class.class, Class.class, int.class);
-                    Constructor<?> lookupConstructor = reflectionFactory.newConstructorForSerialization(lookupClass, constructor);
-                    return (MethodHandles.Lookup) lookupConstructor.newInstance(Object.class, null, -1);
-                } catch (Throwable e) {
-                    throw new ExceptionInInitializerError(e);
-                }
-            }
-            private static <T, R> Function<T, R> unchecked(ThrowingFunction<T, R> f) {
-                return t -> {
-                    try {
-                        return f.apply(t);
-                    } catch (Throwable thr) {
-                        return ThrowingFunction.sneakyThrow(thr);
-                    }
-                };
-            }
-
-            private interface ThrowingFunction<T, R> {
-                R apply(T t) throws Throwable;
-
-                @SuppressWarnings("unchecked")
-                static <T extends Throwable, R> R sneakyThrow(Throwable t) throws T {
-                    throw (T) t;
-                }
-            }
-        }
-        /*
-         *   Without reflection the code would be similar to:
-         *   {@snippet lang="java"
-         *   ClassModel classModel = Classfile.parse(classFileBytes);
-         *   Optional<Attribute<?>> attribute = classModel.findAttribute(Attributes.RUNTIME_VISIBLE_ANNOTATIONS);
-         *   return optionalAttribute
-         *       .stream()
-         *       .flatMap(attribute -> attribute.annotations().stream())
-         *       .map(annotation -> annotation.classSymbol())
-         *       .anyMatch(this::isWebAnnotation)
-         *   }
-         */
-        Object classModel = Holder.unchecked(ignored -> Holder.PARSE.invoke(classFileBytes)).apply(null);
-
-        Optional<?> optionalAttribute = Holder.unchecked(ignored -> (Optional<?>) Holder.FIND_ATTRIBUTE.invoke(classModel, Holder.RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_MAPPER)).apply(null);
-        return optionalAttribute
-                .stream()
-                .flatMap(Holder.unchecked(attribute -> ((List<?>) Holder.ANNOTATIONS.invoke(attribute)).stream()))
-                .map(Holder.unchecked(annotation -> ((ClassDesc) Holder.CLASS_SYMBOL.invoke(annotation))))
-                .anyMatch(this::isWebAnnotation);
-
-    }
-
 }
