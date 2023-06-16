@@ -36,11 +36,6 @@ import cloud.piranha.resource.api.ResourceManagerClassLoader;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.ServletSecurity;
-import jakarta.servlet.annotation.WebFilter;
-import jakarta.servlet.annotation.WebListener;
-import jakarta.servlet.annotation.WebServlet;
 import sun.reflect.ReflectionFactory;
 
 import java.io.IOException;
@@ -78,22 +73,16 @@ public class ClassfileAnnotationScanInitializer implements ServletContainerIniti
     private static final Logger LOGGER = System.getLogger(ClassfileAnnotationScanInitializer.class.getName());
 
     /**
-     * Stores the knows annotation classes
-     */
-    private static final List<ClassDesc> KNOWN_ANNOTATION_CLASSES = List.of(desc(WebServlet.class),
-            desc(WebListener.class),
-            desc(WebFilter.class),
-            desc(ServletSecurity.class),
-            desc(MultipartConfig.class));
-
-    /**
      * Stores the knows annotation packages
      */
-    private static final List<String> KNOWN_ANNOTATION_PACKAGES = List.of("jakarta.ws.rs", "jakarta.websocket");
-
-    private static ClassDesc desc(Class<?> clazz) {
-        return clazz.describeConstable().orElseThrow();
-    }
+    private static final List<String> KNOWN_ANNOTATION_PACKAGES = List.of(
+            "jakarta.servlet",
+            "jakarta.websocket",
+            "jakarta.ws.rs",
+            "jakarta.faces",
+            "jakarta.persistence",
+            "jakarta.annotation"
+    );
 
     /**
      * On startup.
@@ -112,8 +101,6 @@ public class ClassfileAnnotationScanInitializer implements ServletContainerIniti
             webApp.getManager().setAnnotationManager(annotationManager);
         }
 
-        final AnnotationManager annotationMgr = annotationManager;
-
         ClassLoader classLoader = webApp.getClassLoader();
         if (!(classLoader instanceof ResourceManagerClassLoader resourceManagerClassLoader)) {
             LOGGER.log(WARNING, "ResourceManagerClassLoader not installed. This scanner does not work");
@@ -123,11 +110,11 @@ public class ClassfileAnnotationScanInitializer implements ServletContainerIniti
         resourceManager
                 .getAllLocations()
                 .filter(e -> e.endsWith(".class") && !e.endsWith("module-info.class") && !e.startsWith("/META-INF/versions"))
-                .filter(resource -> classFileHasWebAnnotations(readResource(resource, resourceManager)))
+                .filter(resource -> classFileHasJakartaAnnotations(readResource(resource, resourceManager)))
                 .map(e -> loadClass(classLoader, e))
-                .flatMap(this::getWebAnnotations)
+                .flatMap(this::getJakartaAnnotations)
                 .map(annotationInstance -> new InternalAnnotationScanAnnotationInfo<>(annotationInstance, annotationInstance.annotationType()))
-                .forEach(annotationMgr::addAnnotation);
+                .forEach(annotationManager::addAnnotation);
 
     }
 
@@ -154,22 +141,18 @@ public class ClassfileAnnotationScanInitializer implements ServletContainerIniti
      * @param clazz the class.
      * @return the stream of web annotations.
      */
-    private Stream<Annotation> getWebAnnotations(Class<?> clazz) {
+    private Stream<Annotation> getJakartaAnnotations(Class<?> clazz) {
         return stream(clazz.getAnnotations())
-                .filter(this::isWebAnnotation);
+                .filter(this::isJakartaAnnotation);
     }
 
-    private boolean isWebAnnotation(Annotation clazz) {
-        return isWebAnnotation(clazz.annotationType().describeConstable().orElse(ConstantDescs.CD_Object));
+    private boolean isJakartaAnnotation(Annotation clazz) {
+        return isJakartaAnnotation(clazz.annotationType().describeConstable().orElse(ConstantDescs.CD_Object));
     }
 
-    private boolean isWebAnnotation(ClassDesc annotation) {
-
-        if (KNOWN_ANNOTATION_CLASSES.stream().anyMatch(annotation::equals)) {
-            return true;
-        }
-
-        return KNOWN_ANNOTATION_PACKAGES.stream().anyMatch(thePackage -> annotation.packageName().equals(thePackage));
+    private boolean isJakartaAnnotation(ClassDesc annotation) {
+        return KNOWN_ANNOTATION_PACKAGES.stream()
+                .anyMatch(thePackage -> annotation.packageName().startsWith(thePackage));
     }
 
     private byte[] readResource(String resourceName, ResourceManager resourceManager) {
@@ -180,7 +163,7 @@ public class ClassfileAnnotationScanInitializer implements ServletContainerIniti
         }
     }
 
-    private boolean classFileHasWebAnnotations(byte[] classFileBytes) {
+    private boolean classFileHasJakartaAnnotations(byte[] classFileBytes) {
         /*
          *   Without reflection the code would be similar to:
          *   {@snippet lang="java"
@@ -204,7 +187,7 @@ public class ClassfileAnnotationScanInitializer implements ServletContainerIniti
             List<?> annotations = (List<?>) Holder.ANNOTATIONS.invokeExact(optionalAttribute.get());
             for (Object annotation : annotations) {
                 ClassDesc annotationDesc = (ClassDesc) Holder.CLASS_SYMBOL.invokeExact(annotation);
-                if (isWebAnnotation(annotationDesc)) {
+                if (isJakartaAnnotation(annotationDesc)) {
                     return true;
                 }
             }
@@ -215,42 +198,56 @@ public class ClassfileAnnotationScanInitializer implements ServletContainerIniti
     }
 }
 
-@SuppressWarnings("checkstyle:JavadocVariable")
 class Holder {
-    static final Class<?> CLASS_FILE_CLASS;
-    static final Class<?> CLASS_MODEL_CLASS;
-    static final Class<?> ATTRIBUTE_MAPPER_CLASS;
-    static final Class<?> ATTRIBUTES_CLASS;
-    static final Class<?> ANNOTATION_CLASS;
-    static final Class<?> CLASS_FILE_OPTIONS_ARRAY_CLASS;
-    static final Class<?> RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_CLASS;
-
+    /**
+     * Stores the handle to Classfile.parse(byte[])
+     */
     static final MethodHandle PARSE;
+    /**
+     * Stores the handle to ClassModel.findAttribute(AttributeMapper)
+     */
     static final MethodHandle FIND_ATTRIBUTE;
+    /**
+     * Stores the handle to RuntimeVisibleAnnotationsAttribute.annotations()
+     */
     static final MethodHandle ANNOTATIONS;
+    /**
+     * Stores the handle to Annotation.classSymbol()
+     */
     static final MethodHandle CLASS_SYMBOL;
+    /**
+     * Stores the RuntimeVisibleAnnotationsAttributeMapper
+     */
     static final Object RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_MAPPER;
+
+    /**
+     * Stores the value of trusted lookup
+     */
     private static final int TRUSTED = -1;
 
     static {
         try {
-            final MethodHandles.Lookup trustedLookup = getLookup();
+            MethodHandles.Lookup trustedLookup = getLookup();
 
-            CLASS_FILE_CLASS = trustedLookup.findClass("jdk.internal.classfile.Classfile");
-            CLASS_MODEL_CLASS = trustedLookup.findClass("jdk.internal.classfile.ClassModel");
-            ATTRIBUTE_MAPPER_CLASS = trustedLookup.findClass("jdk.internal.classfile.AttributeMapper");
-            ATTRIBUTES_CLASS = trustedLookup.findClass("jdk.internal.classfile.Attributes");
-            ANNOTATION_CLASS = trustedLookup.findClass("jdk.internal.classfile.Annotation");
-            CLASS_FILE_OPTIONS_ARRAY_CLASS = trustedLookup.findClass("[Ljdk.internal.classfile.Classfile$Option;");
-            RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_CLASS = trustedLookup.findClass("jdk.internal.classfile.attribute.RuntimeVisibleAnnotationsAttribute");
-            RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_MAPPER = trustedLookup.findStaticGetter(Holder.ATTRIBUTES_CLASS, "RUNTIME_VISIBLE_ANNOTATIONS", Holder.ATTRIBUTE_MAPPER_CLASS).invoke();
+            Class<?> classFileClass = trustedLookup.findClass("jdk.internal.classfile.Classfile");
+            Class<?> classModelClass = trustedLookup.findClass("jdk.internal.classfile.ClassModel");
+            Class<?> attributeMapperClass = trustedLookup.findClass("jdk.internal.classfile.AttributeMapper");
+            Class<?> attributesClass = trustedLookup.findClass("jdk.internal.classfile.Attributes");
+            Class<?> annotationClass = trustedLookup.findClass("jdk.internal.classfile.Annotation");
+            Class<?> classFileOptionsArrayClass = trustedLookup.findClass("[Ljdk.internal.classfile.Classfile$Option;");
+            Class<?> runtimeVisibleAnnotationsAttributeClass = trustedLookup.findClass("jdk.internal.classfile.attribute.RuntimeVisibleAnnotationsAttribute");
 
-            MethodHandle parse = trustedLookup.findStatic(Holder.CLASS_FILE_CLASS, "parse", methodType(Holder.CLASS_MODEL_CLASS, byte[].class, Holder.CLASS_FILE_OPTIONS_ARRAY_CLASS));
-            Object classFileOptionsEmptyArray = MethodHandles.arrayConstructor(Holder.CLASS_FILE_OPTIONS_ARRAY_CLASS).invoke(0);
-            PARSE = MethodHandles.insertArguments(parse, 1, classFileOptionsEmptyArray).asType(methodType(Object.class, byte[].class));
-            FIND_ATTRIBUTE = trustedLookup.findVirtual(CLASS_MODEL_CLASS, "findAttribute", methodType(Optional.class, ATTRIBUTE_MAPPER_CLASS)).asType(methodType(Optional.class, Object.class, Object.class));
-            ANNOTATIONS = trustedLookup.findVirtual(Holder.RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_CLASS, "annotations", methodType(List.class)).asType(methodType(List.class, Object.class));
-            CLASS_SYMBOL = trustedLookup.findVirtual(ANNOTATION_CLASS, "classSymbol", methodType(ClassDesc.class)).asType(methodType(ClassDesc.class, Object.class));
+            MethodHandle parse = trustedLookup.findStatic(classFileClass, "parse", methodType(classModelClass, byte[].class, classFileOptionsArrayClass));
+            Object classFileOptionsEmptyArray = MethodHandles.arrayConstructor(classFileOptionsArrayClass).invoke(0);
+            PARSE = MethodHandles.insertArguments(parse, 1, classFileOptionsEmptyArray)
+                    .asType(methodType(Object.class, byte[].class));
+            FIND_ATTRIBUTE = trustedLookup.findVirtual(classModelClass, "findAttribute", methodType(Optional.class, attributeMapperClass))
+                    .asType(methodType(Optional.class, Object.class, Object.class));
+            ANNOTATIONS = trustedLookup.findVirtual(runtimeVisibleAnnotationsAttributeClass, "annotations", methodType(List.class))
+                    .asType(methodType(List.class, Object.class));
+            CLASS_SYMBOL = trustedLookup.findVirtual(annotationClass, "classSymbol", methodType(ClassDesc.class))
+                    .asType(methodType(ClassDesc.class, Object.class));
+            RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_MAPPER = trustedLookup.findStaticGetter(attributesClass, "RUNTIME_VISIBLE_ANNOTATIONS", attributeMapperClass).invoke();
         } catch (Throwable e) {
             throw new ExceptionInInitializerError(e);
         }

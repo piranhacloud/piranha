@@ -50,33 +50,6 @@
 <!--                    <argLine>@{argLine} &#45;&#45;add-opens cloud.piranha.extension.annotationscan/cloud.piranha.extension.annotationscan.internal=ALL-UNNAMED</argLine>-->
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>io.github.wiverson</groupId>
-                <artifactId>jtoolprovider-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>java-tool</goal>
-                        </goals>
-                        <configuration>
-                            <toolName>jar</toolName>
-                            <writeOutputToLog>true</writeOutputToLog>
-                            <writeErrorsToLog>true</writeErrorsToLog>
-                            <failOnError>true</failOnError>
-                            <args>
-                                <arg>--update</arg>
-                                <arg>--warn-if-resolved=incubating</arg>
-                                <arg>--do-not-resolve-by-default</arg>
-                                <arg>--file</arg>
-                                <arg>${project.build.directory}/${project.build.finalName}.jar</arg>
-                                <!-- It seems to be needed to include twice -->
-                                <arg>${project.build.directory}/${project.build.finalName}.jar</arg>
-                            </args>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 </project>

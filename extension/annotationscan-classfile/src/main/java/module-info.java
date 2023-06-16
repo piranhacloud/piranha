@@ -36,8 +36,8 @@ module cloud.piranha.extension.annotationscan.classfile {
     exports cloud.piranha.extension.annotationscan.classfile;
     opens cloud.piranha.extension.annotationscan.classfile;
 
-    exports cloud.piranha.extension.annotationscan.classfile.internal to cloud.piranha.micro.core;
-    opens cloud.piranha.extension.annotationscan.classfile.internal to cloud.piranha.micro.core;
+    exports cloud.piranha.extension.annotationscan.classfile.internal;
+    opens cloud.piranha.extension.annotationscan.classfile.internal;
     
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
