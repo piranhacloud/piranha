@@ -49,6 +49,7 @@ module cloud.piranha.extension.coreprofile {
     opens cloud.piranha.extension.coreprofile;
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
+    requires cloud.piranha.extension.annotationscan.classfile;
     requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.scinitializer;
     requires jakarta.ws.rs;

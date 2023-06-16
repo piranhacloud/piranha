@@ -77,7 +77,7 @@ import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import cloud.piranha.extension.annotationscan.classfile.internal.InternalAnnotationScanAnnotationManager;
+import cloud.piranha.extension.annotationscan.internal.InternalAnnotationScanAnnotationManager;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;

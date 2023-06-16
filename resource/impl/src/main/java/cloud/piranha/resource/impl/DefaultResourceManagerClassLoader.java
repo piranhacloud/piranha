@@ -111,7 +111,7 @@ public class DefaultResourceManagerClassLoader extends ClassLoader implements Re
 
     /**
      * Yet another Constructor.
-     *
+     * @param classLoader the class loader.
      * @param resourceManager the resource manager.
      */
     public DefaultResourceManagerClassLoader(ClassLoader classLoader, ResourceManager resourceManager) {
