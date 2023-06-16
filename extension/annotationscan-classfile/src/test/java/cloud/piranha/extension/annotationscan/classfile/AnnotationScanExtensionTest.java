@@ -35,6 +35,8 @@ import cloud.piranha.resource.impl.DefaultResourceManagerClassLoader;
 import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.annotation.WebServlet;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnJre;
+import org.junit.jupiter.api.condition.JRE;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -67,6 +69,7 @@ class AnnotationScanExtensionTest {
      * Test configure method.
      */
     @Test
+    @EnabledOnJre(value = JRE.JAVA_21, disabledReason = "Only JDK 21 includes the Classfile API")
     void testConfigure2() {
         DefaultResourceManager resourceManager = new DefaultResourceManager();
         resourceManager.addResource(new DirectoryResource("target/test-classes"));
