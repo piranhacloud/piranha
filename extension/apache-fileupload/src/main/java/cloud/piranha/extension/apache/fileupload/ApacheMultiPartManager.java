@@ -120,6 +120,7 @@ public class ApacheMultiPartManager implements MultiPartManager {
      * Setup the ServletFileUpload.
      *
      * @param webApplication the web application.
+     * @param multipartConfig the multi-part config element.
      */
     private synchronized ServletFileUpload setupFileUpload(WebApplication webApplication, MultipartConfigElement multipartConfig) {
         ServletFileUpload upload = (ServletFileUpload) webApplication.getAttribute(ApacheMultiPartManager.class.getName());
