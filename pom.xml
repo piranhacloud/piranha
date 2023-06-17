@@ -812,7 +812,6 @@
                                 <module name="JavadocMethod">
                                     <!-- allowed until Checkstyle catches up with Java 16 style inline syntax -->
                                     <property name="allowMissingReturnTag" value="true"/>
-                                    <property name="accessModifiers" value="public"/>
                                 </module>
                                 <module name="JavadocVariable"/>
                                 <module name="OverloadMethodsDeclarationOrder"/>
