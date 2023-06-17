@@ -540,9 +540,9 @@
             <artifactId>hibernate-validator-cdi</artifactId>
         </dependency>
 
-        <!-- JBoss Jandex -->
+        <!-- SmallRye Jandex -->
         <dependency>
-            <groupId>org.jboss</groupId>
+            <groupId>io.smallrye</groupId>
             <artifactId>jandex</artifactId>
         </dependency>
 
