@@ -161,7 +161,7 @@ public class ClassfileAnnotationScanInitializer implements ServletContainerIniti
          *       .stream()
          *       .flatMap(attribute -> attribute.annotations().stream())
          *       .map(annotation -> annotation.classSymbol())
-         *       .anyMatch(this::isWebAnnotation)
+         *       .anyMatch(this::isJakartaAnnotation)
          *   }
          */
         try {
