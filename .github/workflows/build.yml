@@ -188,3 +188,30 @@ jobs:
       env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+  maven-plugin-documentation:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Sources
+      uses: actions/checkout@v3
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        cache: 'maven'
+        distribution: 'temurin'
+        java-version: 20
+    - name: Build with Maven
+      run: |
+        mvn -B -DskipTests -DskipITs -ntp install
+        cd maven/plugins/piranha-maven-plugin
+        mvn -B -DskipTests -DskipITs -ntp site
+        cd ../../..
+        git clone https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_PASSWORD }}@github.com/piranhacloud/piranha-website
+        rm -rf piranha-website/maven/piranha-maven-plugin || true
+        mkdir -p piranha-website/maven/piranha-maven-plugin || true
+        cp -R maven/plugins/piranha-maven-plugin/target/site/* piranha-website/maven/piranha-maven-plugin/
+        cd piranha-website
+        git config --global user.email "noreply@piranha.cloud"
+        git config --global user.name "Automated publish"
+        git add .
+        git commit -a -m "Publishing Maven plugin documentation"
+        git push
