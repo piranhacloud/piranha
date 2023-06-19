@@ -322,6 +322,9 @@ public class DefaultModuleFinder implements ModuleFinder {
 
     /**
      * Clean up candidate module name derived from a JAR file name.
+     * 
+     * @param mn the module name to cleanup.
+     * @return the cleaned module name.
      */
     private static String cleanModuleName(String mn) {
         // replace non-alphanumeric

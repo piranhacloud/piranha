@@ -68,9 +68,7 @@ public class MicroWebApplication extends DefaultWebApplication {
     private Consumer<Map<String, Object>> deployedApplication;
 
     /**
-     * {
-     *
-     * @return the deployed application}
+     * {@return the deployed application}
      */
     public Consumer<Map<String, Object>> getDeployedApplication() {
         return deployedApplication;
@@ -115,6 +113,7 @@ public class MicroWebApplication extends DefaultWebApplication {
     /**
      * Get a map of request.
      *
+     * @param request the web application request.
      * @return the map.
      */
     private Map<String, Object> requestToMap(WebApplicationRequest request) {
@@ -136,9 +135,10 @@ public class MicroWebApplication extends DefaultWebApplication {
     }
 
     /**
-     * {
-     *
-     * @return the unchecked input stream}
+     * Get the input stream unchecked.
+     * 
+     * @param request the web application request.
+     * @retunr the unchecked input stream.
      */
     private InputStream getInputStreamUnchecked(WebApplicationRequest request) {
         try {
@@ -151,6 +151,7 @@ public class MicroWebApplication extends DefaultWebApplication {
     /**
      * Get the headers as a map.
      *
+     * @param request the web application request.
      * @return the map.
      */
     private Map<String, List<String>> getHeadersAsMap(WebApplicationRequest request) {
@@ -167,6 +168,7 @@ public class MicroWebApplication extends DefaultWebApplication {
     /**
      * Get a map of underlying output stream and response closer.
      *
+     * @param response the web application response.
      * @return the map.
      */
     private Map<String, Object> responseToMap(WebApplicationResponse response) {
