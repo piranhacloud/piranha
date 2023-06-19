@@ -191,10 +191,14 @@ jobs:
   maven-plugin-documentation:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Sources
+    - name: Checkout Piranha
+      uses: actions/checkout@v3
+    - name: Checkout Piranha Website
       uses: actions/checkout@v3
       with:
-        token: ${{ secrets.GIT_PASSWORD }}
+        repository: piranha-cloud/piranha-website
+        token: ${{ secrets.GIT_PASSWORD }} 
+        path: piranha-website
     - name: Set up Java
       uses: actions/setup-java@v3
       with:
@@ -207,7 +211,6 @@ jobs:
         cd maven/plugins/piranha-maven-plugin
         mvn -B -DskipTests -DskipITs -ntp site
         cd ../../..
-        git clone https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_PASSWORD }}@github.com/piranhacloud/piranha-website
         rm -rf piranha-website/maven/piranha-maven-plugin || true
         mkdir -p piranha-website/maven/piranha-maven-plugin || true
         cp -R maven/plugins/piranha-maven-plugin/target/site/* piranha-website/maven/piranha-maven-plugin/
