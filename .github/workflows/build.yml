@@ -193,6 +193,8 @@ jobs:
     steps:
     - name: Checkout Sources
       uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GIT_PASSWORD }}
     - name: Set up Java
       uses: actions/setup-java@v3
       with:
