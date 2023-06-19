@@ -199,6 +199,7 @@ jobs:
         repository: piranha-cloud/piranha-website
         token: ${{ secrets.GIT_PASSWORD }}
         path: piranha-website
+        ref: 'gh-pages'
     - name: Set up Java
       uses: actions/setup-java@v3
       with:
