@@ -28,11 +28,95 @@
 package cloud.piranha.feature.http;
 
 import cloud.piranha.feature.api.Feature;
+import cloud.piranha.http.api.HttpServer;
+import cloud.piranha.http.impl.DefaultHttpServer;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.ERROR;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 /**
- * The HTTP feature.
+ * The HTTP feature that exposes an HTTP endpoint.
+ * 
+ * <br>
+ * <br>
+ * <table border="1">
+ *  <caption>The feature map</caption>
+ *  <tr>
+ *   <th>key</th>
+ *   <th>value</th>
+ *  </tr>
+ *  <tr>
+ *   <td>port</td>
+ *   <td>the HTTP port we are listening on</td>
+ *  </tr>
+ *  <tr>
+ *   <td>server</td>
+ *   <td>the HttpServer instance</td>
+ *  </tr>
+ *  <tr>
+ *   <td>serverClass</td>
+ *   <td>the class name of the HttpServer implementation</td>
+ *  </tr>
+ * </table>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HttpFeature implements Feature {
+    
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(HttpFeature.class.getName());
+
+    /**
+     * Stores the feature map.
+     */
+    private Map<String, Object> featureMap;
+
+    @Override
+    public void destroy() {
+        featureMap.remove("server");
+    }
+    
+    @Override
+    public Map<String, Object> getFeatureMap() {
+        return featureMap;
+    }
+
+    @Override
+    public void init() {
+        int port = (Integer) featureMap.getOrDefault("port", 8080);
+        if (port > 0) {
+            HttpServer server = null;
+            String serverClass = (String) featureMap.getOrDefault(
+                    "serverClass", DefaultHttpServer.class.getName());
+
+            try {
+                server = (HttpServer) Class.forName(serverClass)
+                        .getDeclaredConstructor().newInstance();
+            } catch (ClassNotFoundException | IllegalAccessException
+                    | IllegalArgumentException | InstantiationException
+                    | NoSuchMethodException | SecurityException
+                    | InvocationTargetException t) {
+                LOGGER.log(ERROR, "Unable to construct HTTP server", t);
+            }
+            if (server != null) {
+                server.setServerPort(port);
+                featureMap.put("server", server);
+            }
+        }
+    }
+    
+    @Override
+    public void start() {
+        HttpServer server = (HttpServer) featureMap.get("server");
+        server.start();
+    }
+    
+    @Override
+    public void stop() {
+        HttpServer server = (HttpServer) featureMap.get("server");
+        server.stop();
+    }
 }

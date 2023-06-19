@@ -27,10 +27,43 @@
  */
 package cloud.piranha.feature.api;
 
+import java.util.Map;
+
 /**
  * The Feature API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface Feature {
+    
+    /**
+     * Destroy the feature.
+     */
+    default void destroy() {
+    }
+    
+    /**
+     * Get the feature map.
+     * 
+     * @return the feature map.
+     */
+    Map<String, Object> getFeatureMap();
+    
+    /**
+     * Initialize the feature.
+     */
+    default void init() {
+    }
+    
+    /**
+     * Start the feature.
+     */
+    default void start() {
+    }
+    
+    /**
+     * Stop the feature.
+     */
+    default void stop() {
+    }
 }
