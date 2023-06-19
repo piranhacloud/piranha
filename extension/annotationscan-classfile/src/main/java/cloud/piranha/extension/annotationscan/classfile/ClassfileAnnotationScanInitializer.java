@@ -53,6 +53,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.WARNING;
 import static java.lang.invoke.MethodType.methodType;
 import static java.util.Arrays.stream;
@@ -219,35 +220,55 @@ class Holder {
      */
     private static final int TRUSTED = -1;
 
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(ClassfileAnnotationScanInitializer.class.getName());
+
+    private Holder() {
+    }
+
     static {
         try {
-            MethodHandles.Lookup trustedLookup = getLookup();
+            MethodHandles.Lookup lookup = getLookup();
 
-            Class<?> classFileClass = trustedLookup.findClass("jdk.internal.classfile.Classfile");
-            Class<?> classModelClass = trustedLookup.findClass("jdk.internal.classfile.ClassModel");
-            Class<?> attributeMapperClass = trustedLookup.findClass("jdk.internal.classfile.AttributeMapper");
-            Class<?> attributesClass = trustedLookup.findClass("jdk.internal.classfile.Attributes");
-            Class<?> annotationClass = trustedLookup.findClass("jdk.internal.classfile.Annotation");
-            Class<?> classFileOptionsArrayClass = trustedLookup.findClass("[Ljdk.internal.classfile.Classfile$Option;");
-            Class<?> runtimeVisibleAnnotationsAttributeClass = trustedLookup.findClass("jdk.internal.classfile.attribute.RuntimeVisibleAnnotationsAttribute");
+            Class<?> classFileClass = lookup.findClass("jdk.internal.classfile.Classfile");
+            Class<?> classModelClass = lookup.findClass("jdk.internal.classfile.ClassModel");
+            Class<?> attributeMapperClass = lookup.findClass("jdk.internal.classfile.AttributeMapper");
+            Class<?> attributesClass = lookup.findClass("jdk.internal.classfile.Attributes");
+            Class<?> annotationClass = lookup.findClass("jdk.internal.classfile.Annotation");
+            Class<?> classFileOptionsArrayClass = lookup.findClass("[Ljdk.internal.classfile.Classfile$Option;");
+            Class<?> runtimeVisibleAnnotationsAttributeClass = lookup.findClass("jdk.internal.classfile.attribute.RuntimeVisibleAnnotationsAttribute");
 
-            MethodHandle parse = trustedLookup.findStatic(classFileClass, "parse", methodType(classModelClass, byte[].class, classFileOptionsArrayClass));
+            MethodHandle parse = lookup.findStatic(classFileClass, "parse", methodType(classModelClass, byte[].class, classFileOptionsArrayClass));
             Object classFileOptionsEmptyArray = MethodHandles.arrayConstructor(classFileOptionsArrayClass).invoke(0);
             PARSE = MethodHandles.insertArguments(parse, 1, classFileOptionsEmptyArray)
                     .asType(methodType(Object.class, byte[].class));
-            FIND_ATTRIBUTE = trustedLookup.findVirtual(classModelClass, "findAttribute", methodType(Optional.class, attributeMapperClass))
+            FIND_ATTRIBUTE = lookup.findVirtual(classModelClass, "findAttribute", methodType(Optional.class, attributeMapperClass))
                     .asType(methodType(Optional.class, Object.class, Object.class));
-            ANNOTATIONS = trustedLookup.findVirtual(runtimeVisibleAnnotationsAttributeClass, "annotations", methodType(List.class))
+            ANNOTATIONS = lookup.findVirtual(runtimeVisibleAnnotationsAttributeClass, "annotations", methodType(List.class))
                     .asType(methodType(List.class, Object.class));
-            CLASS_SYMBOL = trustedLookup.findVirtual(annotationClass, "classSymbol", methodType(ClassDesc.class))
+            CLASS_SYMBOL = lookup.findVirtual(annotationClass, "classSymbol", methodType(ClassDesc.class))
                     .asType(methodType(ClassDesc.class, Object.class));
-            RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_MAPPER = trustedLookup.findStaticGetter(attributesClass, "RUNTIME_VISIBLE_ANNOTATIONS", attributeMapperClass).invoke();
+            RUNTIME_VISIBLE_ANNOTATIONS_ATTRIBUTE_MAPPER = lookup.findStaticGetter(attributesClass, "RUNTIME_VISIBLE_ANNOTATIONS", attributeMapperClass).invoke();
         } catch (Throwable e) {
             throw new ExceptionInInitializerError(e);
         }
     }
 
     private static MethodHandles.Lookup getLookup() {
+        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        try {
+            lookup.findClass("jdk.internal.classfile.Classfile");
+            lookup.findClass("jdk.internal.classfile.attribute.RuntimeVisibleAnnotationsAttribute");
+            return lookup;
+        } catch (ClassNotFoundException | IllegalAccessException e) {
+            Module module = lookup.lookupClass().getModule();
+            String moduleName = module.isNamed() ? module.getName() : "ALL-UNNAMED";
+            LOGGER.log(WARNING, "The classfile annotation scan extension requires the following flags to work: " +
+                    "--add-exports=java.base/jdk.internal.classfile={0} --add-exports=java.base/jdk.internal.classfile.attribute={0}. " +
+                    "Using non-standard APIs as fallback for now.", moduleName);
+        }
         try {
             ReflectionFactory reflectionFactory = ReflectionFactory.getReflectionFactory();
             Class<MethodHandles.Lookup> lookupClass = MethodHandles.Lookup.class;
@@ -255,6 +276,7 @@ class Holder {
             Constructor<?> lookupConstructor = reflectionFactory.newConstructorForSerialization(lookupClass, constructor);
             return (MethodHandles.Lookup) lookupConstructor.newInstance(Object.class, null, TRUSTED);
         } catch (Throwable e) {
+            LOGGER.log(ERROR, "Could not use the non-standard APIs, this extension will fail. Please add the flags to the command line.");
             throw new ExceptionInInitializerError(e);
         }
     }

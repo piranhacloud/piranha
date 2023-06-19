@@ -34,10 +34,16 @@
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>${argLine} --add-exports=java.base/jdk.internal.classfile=cloud.piranha.extension.annotationscan.classfile --add-exports=java.base/jdk.internal.classfile.attribute=cloud.piranha.extension.annotationscan.classfile</argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
