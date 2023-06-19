@@ -43,6 +43,12 @@ public class ClassfileAnnotationScanExtension implements WebApplicationExtension
     public static final String EXPERIMENTAL_PROPERTY = "cloud.piranha.extension.annotationscan.classfile.experimental";
 
     /**
+     * Default constructor
+     */
+    public ClassfileAnnotationScanExtension() {
+    }
+
+    /**
      * Configure the web application.
      *
      * @param webApplication the web application.

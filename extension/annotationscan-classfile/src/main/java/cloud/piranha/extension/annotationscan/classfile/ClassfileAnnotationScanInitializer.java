@@ -73,6 +73,12 @@ public class ClassfileAnnotationScanInitializer implements ServletContainerIniti
     private static final Logger LOGGER = System.getLogger(ClassfileAnnotationScanInitializer.class.getName());
 
     /**
+     * Default constructor
+     */
+    public ClassfileAnnotationScanInitializer() {
+    }
+
+    /**
      * On startup.
      *
      * @param classes        the classes.

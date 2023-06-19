@@ -59,6 +59,12 @@ public class InternalAnnotationScanAnnotationManager implements AnnotationManage
      */
     protected final Map<Class<?>, List<Class<?>>> instances = new ConcurrentHashMap<>();
 
+    /**
+     * Default constructor
+     */
+    public InternalAnnotationScanAnnotationManager() {
+    }
+
     @Override
     public void addAnnotation(AnnotationInfo<?> annotationInfo) {
         annotations.computeIfAbsent(
