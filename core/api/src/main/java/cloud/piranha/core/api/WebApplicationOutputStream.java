@@ -40,6 +40,12 @@ import java.io.OutputStream;
 public abstract class WebApplicationOutputStream extends ServletOutputStream {
 
     /**
+     * Default constructor.
+     */
+    protected WebApplicationOutputStream() {
+    }
+    
+    /**
      * Flush the buffer.
      * 
      * @throws IOException when an I/O error occurs.

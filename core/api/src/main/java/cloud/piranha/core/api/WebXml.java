@@ -269,6 +269,12 @@ public class WebXml implements Serializable {
     private final List<String> welcomeFiles = new ArrayList<>();
 
     /**
+     * Default constructor.
+     */
+    public WebXml() {
+    }
+        
+    /**
      * {@return the context params}
      */
     public List<WebXmlContextParam> getContextParams() {

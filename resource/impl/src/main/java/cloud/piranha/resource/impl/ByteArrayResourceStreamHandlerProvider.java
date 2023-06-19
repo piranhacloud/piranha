@@ -48,6 +48,12 @@ public class ByteArrayResourceStreamHandlerProvider extends URLStreamHandlerProv
      */
     private static InheritableThreadLocal<Function<String, InputStream>> localGetResourceAsStreamFunction = new InheritableThreadLocal<>();
 
+    /**
+     * Default constructor.
+     */
+    public ByteArrayResourceStreamHandlerProvider() {
+    }
+    
     @Override
     public URLStreamHandler createURLStreamHandler(String protocol) {
         if (!"bytes".equals(protocol)) {

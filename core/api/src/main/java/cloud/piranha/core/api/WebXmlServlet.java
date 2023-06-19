@@ -73,6 +73,12 @@ public class WebXmlServlet {
     private String servletName;
 
     /**
+     * Default constructor.
+     */
+    public WebXmlServlet() {
+    }
+    
+    /**
      * Add init param.
      *
      * @param initParam the init param.

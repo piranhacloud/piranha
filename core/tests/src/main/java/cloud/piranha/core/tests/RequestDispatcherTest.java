@@ -59,6 +59,12 @@ import org.junit.jupiter.api.Test;
 public abstract class RequestDispatcherTest {
 
     /**
+     * Default constructor.
+     */
+    public RequestDispatcherTest() {
+    }
+    
+    /**
      * Create the web application.
      *
      * @return the web application.

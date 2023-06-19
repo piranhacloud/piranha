@@ -153,6 +153,12 @@ public class WebXmlSecurityConstraint {
         private List<String> httpMethodOmissions = new ArrayList<>();
 
         /**
+         * Default constructor.
+         */
+        public WebResourceCollection() {
+        }
+        
+        /**
          * Get the URL patterns.
          *
          * @return the URL patterns.
