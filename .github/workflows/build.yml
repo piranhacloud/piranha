@@ -197,7 +197,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: piranha-cloud/piranha-website
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GIT_PASSWORD }}
         path: piranha-website
     - name: Set up Java
       uses: actions/setup-java@v3
