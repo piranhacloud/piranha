@@ -25,34 +25,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.platform;
-
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationExtensionContext;
-import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
-import cloud.piranha.extension.annotationscan.classfile.ClassfileAnnotationScanExtension;
-import cloud.piranha.extension.naming.NamingExtension;
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 
 /**
- * The extension that delivers the extensions for Jakarta EE platform.
- *
+ * This module delivers the annotation scan extension using the Classfile API.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PlatformExtension implements WebApplicationExtension {
+module cloud.piranha.extension.annotationscan.classfile {
 
-    @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(NamingExtension.class);                         // Naming (JNDI)
-        context.add(getAnnotationScanExtensionClass());                 // Annotation scanning
-        context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
-    }
+    exports cloud.piranha.extension.annotationscan.classfile;
+    opens cloud.piranha.extension.annotationscan.classfile;
 
-    private static Class<? extends WebApplicationExtension> getAnnotationScanExtensionClass() {
-        if (System.getProperty(ClassfileAnnotationScanExtension.EXPERIMENTAL_PROPERTY) != null) {
-            return ClassfileAnnotationScanExtension.class;   // Annotation scanning using the new Classfile API
-        }
-        return AnnotationScanExtension.class;  // Annotation scanning
-    }
-
+    exports cloud.piranha.extension.annotationscan.classfile.internal;
+    opens cloud.piranha.extension.annotationscan.classfile.internal;
+    
+    requires cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
+    requires jdk.unsupported;
 }

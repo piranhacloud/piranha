@@ -53,6 +53,7 @@ module cloud.piranha.extension.servlet {
     opens cloud.piranha.extension.servlet;
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
+    requires cloud.piranha.extension.annotationscan.classfile;
     requires cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.policy;

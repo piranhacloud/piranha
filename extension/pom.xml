@@ -17,6 +17,7 @@
 
     <modules>
         <module>annotationscan</module>
+        <module>annotationscan-classfile</module>
         <module>apache-fileupload</module>
         <module>bytesstreamhandler</module>
         <module>coreprofile</module>

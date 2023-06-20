@@ -30,6 +30,7 @@ package cloud.piranha.extension.webprofile;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
+import cloud.piranha.extension.annotationscan.classfile.ClassfileAnnotationScanExtension;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.datasource.DefaultDatasourceExtension;
 import cloud.piranha.extension.eclipselink.EclipseLinkExtension;
@@ -64,7 +65,7 @@ public class WebProfileExtension implements WebApplicationExtension {
         context.add(WaspJspManagerExtension.class);                 // addJspFile
         context.add(NamingExtension.class);                         // Naming (JNDI)
         context.add(WebXmlExtension.class);                         // web.xml
-        context.add(AnnotationScanExtension.class);                 // Annotation scanning
+        context.add(getAnnotationScanExtensionClass());                 // Annotation scanning
         context.add(ServletAnnotationsExtension.class);             // Servlet annotations
         context.add(WeldExtension.class);
         context.add(DefaultDatasourceExtension.class);              // Default data source
@@ -74,4 +75,12 @@ public class WebProfileExtension implements WebApplicationExtension {
         context.add(EclipseLinkExtension.class);                    // Jakarta Persistence
         context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
     }
+
+    private static Class<? extends WebApplicationExtension> getAnnotationScanExtensionClass() {
+        if (System.getProperty(ClassfileAnnotationScanExtension.EXPERIMENTAL_PROPERTY) != null) {
+            return ClassfileAnnotationScanExtension.class;   // Annotation scanning using the new Classfile API
+        }
+        return AnnotationScanExtension.class;  // Annotation scanning
+    }
+
 }

@@ -30,6 +30,7 @@ package cloud.piranha.extension.servlet;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
+import cloud.piranha.extension.annotationscan.classfile.ClassfileAnnotationScanExtension;
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.naming.NamingExtension;
 import cloud.piranha.extension.policy.PolicyExtension;
@@ -60,10 +61,17 @@ public class ServletExtension implements WebApplicationExtension {
         context.add(WaspJspManagerExtension.class);                 // addJspFile
         context.add(NamingExtension.class);                         // Naming (JNDI)
         context.add(WebXmlExtension.class);                         // web.xml
-        context.add(AnnotationScanExtension.class);                 // Annotation scanning
+        context.add(getAnnotationScanExtensionClass());             // Annotation scanning
         context.add(ServletAnnotationsExtension.class);             // Servlet annotations
         context.add(WaspExtension.class);                           // WaSP
         context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
         context.add(ServletSecurityExtension.class);                // Security implementation
+    }
+
+    private static Class<? extends WebApplicationExtension> getAnnotationScanExtensionClass() {
+        if (System.getProperty(ClassfileAnnotationScanExtension.EXPERIMENTAL_PROPERTY) != null) {
+            return ClassfileAnnotationScanExtension.class;   // Annotation scanning using the new Classfile API
+        }
+        return AnnotationScanExtension.class;  // Annotation scanning
     }
 }
