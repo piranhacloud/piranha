@@ -48,6 +48,12 @@ import org.junit.jupiter.api.Test;
 public abstract class HttpSessionIdListenerTest {
 
     /**
+     * Default constructor.
+     */
+    public HttpSessionIdListenerTest() {
+    }
+    
+    /**
      * Create the web application.
      *
      * @return the web application.

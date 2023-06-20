@@ -56,6 +56,12 @@ public class DefaultResourceManager implements ResourceManager {
     private boolean alsoTryLoadFromClass = true;
 
     /**
+     * Default constructor.
+     */
+    public DefaultResourceManager() {
+    }
+    
+    /**
      * Add resource.
      *
      * @param resource the resource.

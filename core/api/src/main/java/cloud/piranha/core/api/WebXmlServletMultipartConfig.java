@@ -58,6 +58,12 @@ public class WebXmlServletMultipartConfig {
     private int fileSizeThreshold = 0;
 
     /**
+     * Default constructor.
+     */
+    public WebXmlServletMultipartConfig() {
+    }
+    
+    /**
      * Get the location.
      *
      * @return the location.
