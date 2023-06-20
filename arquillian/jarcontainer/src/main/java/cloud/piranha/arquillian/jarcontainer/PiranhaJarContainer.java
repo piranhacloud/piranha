@@ -86,6 +86,12 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
      */
     private File localRepositoryDir = new File(System.getProperty("user.home"), ".m2/repository");
 
+    /**
+     * Default constructor.
+     */
+    public PiranhaJarContainer() {
+    }
+    
     @Override
     public Class<PiranhaJarContainerConfiguration> getConfigurationClass() {
         return PiranhaJarContainerConfiguration.class;

@@ -69,6 +69,12 @@ public class WebXmlDataSource {
     private Map<String, Object> properties = new HashMap<>();
 
     /**
+     * Default constructor.
+     */
+    public WebXmlDataSource() {
+    }
+    
+    /**
      * Get the class name.
      *
      * @return the class name.

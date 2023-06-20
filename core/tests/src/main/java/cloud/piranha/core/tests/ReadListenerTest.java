@@ -45,6 +45,12 @@ import org.junit.jupiter.api.Test;
 public abstract class ReadListenerTest {
 
     /**
+     * Default constructor.
+     */
+    public ReadListenerTest() {
+    }
+    
+    /**
      * Create a web application.
      *
      * @return the web application.

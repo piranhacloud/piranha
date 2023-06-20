@@ -37,6 +37,12 @@ import org.jboss.arquillian.core.spi.LoadableExtension;
  */
 public class PiranhaJarContainerExtension implements LoadableExtension {
 
+    /**
+     * Default constructor.
+     */
+    public PiranhaJarContainerExtension() {
+    }
+
     @Override
     public void register(ExtensionBuilder extensionBuilder) {
         extensionBuilder.service(DeployableContainer.class, PiranhaJarContainer.class);

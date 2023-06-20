@@ -53,6 +53,12 @@ import org.junit.jupiter.api.Test;
 public abstract class AsyncContextTest {
 
     /**
+     * Default constructor.
+     */
+    public AsyncContextTest() {
+    }
+    
+    /**
      * Create the web application,
      *
      * @return the web application.
@@ -281,6 +287,12 @@ public abstract class AsyncContextTest {
      */
     public static class TestCreateListenerListener implements AsyncListener {
 
+        /**
+         * Default constructor.
+         */
+        public TestCreateListenerListener() {
+        }
+        
         @Override
         public void onComplete(AsyncEvent event) throws IOException {
         }
