@@ -220,5 +220,5 @@ jobs:
         git config --global user.email "noreply@piranha.cloud"
         git config --global user.name "Automated publish"
         git add .
-        git commit -a -m "Publishing Maven plugin documentation"
+        git commit -a -m "Publishing Maven plugin documentation" || true
         git push
