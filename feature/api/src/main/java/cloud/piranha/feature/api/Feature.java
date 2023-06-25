@@ -27,8 +27,6 @@
  */
 package cloud.piranha.feature.api;
 
-import java.util.Map;
-
 /**
  * The Feature API.
  *
@@ -41,13 +39,6 @@ public interface Feature {
      */
     default void destroy() {
     }
-    
-    /**
-     * Get the feature map.
-     * 
-     * @return the feature map.
-     */
-    Map<String, Object> getFeatureMap();
     
     /**
      * Initialize the feature.

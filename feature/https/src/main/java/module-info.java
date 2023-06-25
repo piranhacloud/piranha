@@ -26,33 +26,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.core.api.WebApplicationExtension;
-
 /**
- * This module delivers the Piranha Isolated distribution.
- *
+ * This module delivers the HTTPS Feature.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.dist.isolated {
-    
-    opens cloud.piranha.dist.isolated;
-    exports cloud.piranha.dist.isolated;
-    requires transitive cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires cloud.piranha.embedded;
-    requires cloud.piranha.extension.servlet;
-    requires cloud.piranha.feature.http;
-    requires cloud.piranha.http.api;
+module cloud.piranha.feature.https {
+
+    exports cloud.piranha.feature.https;
+    opens cloud.piranha.feature.https;
+    requires cloud.piranha.feature.api;
     requires cloud.piranha.http.impl;
-    requires cloud.piranha.http.webapp;
-    requires cloud.piranha.micro.builder;
-    requires cloud.piranha.micro.loader;
-    requires cloud.piranha.resource.shrinkwrap;
-    requires org.jboss.jandex;
-    requires shrinkwrap.api;
-    requires shrinkwrap.resolver.api.maven;
-    requires java.logging;
-    uses HttpServer;
-    uses WebApplicationExtension;
+    uses cloud.piranha.http.api.HttpServer;
 }
