@@ -40,6 +40,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import cloud.piranha.core.api.Piranha;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
+import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
@@ -122,12 +123,6 @@ public class IsolatedPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, () -> "Starting Piranha");
 
         webApplicationServer = new HttpWebApplicationServer();
-
-        HttpServer httpServer = new DefaultHttpServer();
-        httpServer.setServerPort(8080);
-        httpServer.setHttpServerProcessor(webApplicationServer);
-        httpServer.setSSL(ssl);
-        httpServer.start();
         webApplicationServer.start();
 
         File[] webapps = new File("webapps").listFiles();
@@ -160,6 +155,26 @@ public class IsolatedPiranha implements Piranha, Runnable {
         File startedFile = createStartedFile();
 
         File pidFile = new File("tmp/piranha.pid");
+        HttpServer httpServer;
+        
+        if (ssl) {
+            httpServer = new DefaultHttpServer();
+            httpServer.setServerPort(8080);
+            httpServer.setHttpServerProcessor(webApplicationServer);
+            httpServer.setSSL(ssl);
+            httpServer.start();
+        } else {
+            /*
+             * Use HTTP feature.
+             */
+            HttpFeature httpFeature = new HttpFeature();
+            httpFeature.setPort(8080);
+            httpFeature.init();
+            httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);;
+            httpFeature.start();
+            httpServer = httpFeature.getHttpServer();
+        }
+
         while (httpServer.isRunning()) {
             try {
                 Thread.sleep(2000);
@@ -178,7 +193,7 @@ public class IsolatedPiranha implements Piranha, Runnable {
                 System.exit(0);
             }
         }
-
+        
         finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Stopped Piranha");
         LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);

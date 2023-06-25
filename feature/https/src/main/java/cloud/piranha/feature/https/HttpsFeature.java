@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.feature.http;
+package cloud.piranha.feature.https;
 
 import cloud.piranha.feature.api.Feature;
 import cloud.piranha.http.api.HttpServer;
@@ -35,64 +35,58 @@ import static java.lang.System.Logger.Level.ERROR;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * The HTTP feature that exposes an HTTP endpoint.
+ * The HTTPS feature that exposes an HTTPS endpoint.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpFeature implements Feature {
+public class HttpsFeature implements Feature {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(HttpFeature.class.getName());
+    private static final Logger LOGGER = System.getLogger(HttpsFeature.class.getName());
 
     /**
-     * Stores the HTTP server.
+     * Stores the HTTPS server.
      */
-    private HttpServer httpServer;
-    
+    private HttpServer httpsServer;
+
     /**
-     * Stores the HTTP server class.
+     * Stores the HTTPS server class.
      */
-    private String httpServerClass = DefaultHttpServer.class.getName();
-    
+    private String httpsServerClass = DefaultHttpServer.class.getName();
+
     /**
-     * Stores the port.
+     * Stores the HTTPS port.
      */
-    private int port = 8080;
-    
-    /**
-     * Constructor.
-     */
-    public HttpFeature() {
-    }
-    
+    private int port = 8043;
+
     @Override
     public void destroy() {
-        httpServer = null;
+        httpsServer = null;
     }
-    
+
     /**
-     * Get the HTTP server.
-     * 
-     * @return the HTTP server.
+     * Get the HTTPS server.
+     *
+     * @return the HTTPS server.
      */
-    public HttpServer getHttpServer() {
-        return httpServer;
+    public HttpServer getHttpsServer() {
+        return httpsServer;
     }
-    
+
     /**
-     * Get the HTTP server class.
-     * 
-     * @return the HTTP server class.
+     * Get the HTTPS server class.
+     *
+     * @return the HTTPS server class.
      */
-    public String getHttpServerClass() {
-        return httpServerClass;
+    public String getHttpsServerClass() {
+        return httpsServerClass;
     }
 
     /**
      * Get the port.
-     * 
+     *
      * @return the port.
      */
     public int getPort() {
@@ -103,7 +97,7 @@ public class HttpFeature implements Feature {
     public void init() {
         if (port > 0) {
             try {
-                httpServer = (HttpServer) Class.forName(httpServerClass)
+                httpsServer = (HttpServer) Class.forName(httpsServerClass)
                         .getDeclaredConstructor().newInstance();
             } catch (ClassNotFoundException | IllegalAccessException
                     | IllegalArgumentException | InstantiationException
@@ -111,33 +105,34 @@ public class HttpFeature implements Feature {
                     | InvocationTargetException t) {
                 LOGGER.log(ERROR, "Unable to construct HTTP server", t);
             }
-            if (httpServer != null) {
-                httpServer.setServerPort(port);
+            if (httpsServer != null) {
+                httpsServer.setServerPort(port);
+                httpsServer.setSSL(true);
             }
         }
     }
 
     /**
-     * Set the HTTP server.
-     * 
-     * @param httpServer the HTTP server.
+     * Set the HTTPS server.
+     *
+     * @param httpsServer the HTTPS server.
      */
-    public void setHttpServer(HttpServer httpServer) {
-        this.httpServer = httpServer;
+    public void setHttpsServer(HttpServer httpsServer) {
+        this.httpsServer = httpsServer;
     }
 
     /**
      * Set the HTTP server class.
-     * 
-     * @param httpServerClass the HTTP server class.
+     *
+     * @param httpsServerClass the HTTP server class.
      */
-    public void setHttpServerClass(String httpServerClass) {
-        this.httpServerClass = httpServerClass;
+    public void setHttpsServerClass(String httpsServerClass) {
+        this.httpsServerClass = httpsServerClass;
     }
 
     /**
      * Set the port.
-     * 
+     *
      * @param port the port.
      */
     public void setPort(int port) {
@@ -146,15 +141,15 @@ public class HttpFeature implements Feature {
 
     @Override
     public void start() {
-        if (httpServer != null) {
-            httpServer.start();
+        if (httpsServer != null) {
+            httpsServer.start();
         }
     }
 
     @Override
     public void stop() {
-        if (httpServer != null) {
-            httpServer.stop();
+        if (httpsServer != null) {
+            httpsServer.stop();
         }
     }
 }

@@ -38,8 +38,8 @@ import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import static cloud.piranha.core.impl.WarFileExtractor.extractWarFile;
 import cloud.piranha.extension.coreprofile.CoreProfileExtension;
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.impl.DefaultHttpServer;
+import cloud.piranha.feature.http.HttpFeature;
+import cloud.piranha.feature.https.HttpsFeature;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.ServletException;
@@ -55,7 +55,6 @@ import java.lang.module.Configuration;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleFinder;
 import java.lang.module.ModuleReference;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ServiceLoader;
 
@@ -87,24 +86,14 @@ public class CoreProfilePiranha implements Piranha, Runnable {
     private boolean exitOnStop = true;
 
     /**
-     * Stores the HTTP port.
+     * Stores the HTTP feature.
      */
-    private int httpPort = 8080;
-
+    private final HttpFeature httpFeature = new HttpFeature();
+    
     /**
-     * Stores the HTTP server class.
+     * Stores the HTTPS feature.
      */
-    private String httpServerClass;
-
-    /**
-     * Stores the HTTPS port.
-     */
-    private int httpsPort = 8043;
-
-    /**
-     * Stores the HTTPS server class.
-     */
-    private String httpsServerClass;
+    private final HttpsFeature httpsFeature = new HttpsFeature();
 
     /**
      * Stores the JMPS enabled flag.
@@ -210,49 +199,24 @@ public class CoreProfilePiranha implements Piranha, Runnable {
 
         webApplicationServer.start();
 
-        if (httpPort > 0) {
-            HttpServer httpServer = null;
-            if (httpServerClass == null) {
-                httpServerClass = DefaultHttpServer.class.getName();
-            }
-            try {
-                httpServer = (HttpServer) Class.forName(httpServerClass)
-                        .getDeclaredConstructor().newInstance();
-            } catch (ClassNotFoundException | IllegalAccessException
-                    | IllegalArgumentException | InstantiationException
-                    | NoSuchMethodException | SecurityException
-                    | InvocationTargetException t) {
-                LOGGER.log(ERROR, "Unable to construct HTTP server", t);
-            }
-            if (httpServer != null) {
-                httpServer.setServerPort(httpPort);
-                httpServer.setHttpServerProcessor(webApplicationServer);
-                httpServer.start();
-            }
+        /*
+         * Initialize and start HTTP endpoint (if applicable).
+         */
+        if (httpFeature.getPort() > 0) {
+            httpFeature.init();
+            httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
+            httpFeature.start();
         }
-
-        if (httpsPort > 0) {
-            HttpServer httpsServer = null;
-            if (httpsServerClass == null) {
-                httpsServerClass = DefaultHttpServer.class.getName();
-            }
-            try {
-                httpsServer = (HttpServer) Class.forName(httpsServerClass)
-                        .getDeclaredConstructor().newInstance();
-            } catch (ClassNotFoundException | IllegalAccessException
-                    | IllegalArgumentException | InstantiationException
-                    | NoSuchMethodException | SecurityException
-                    | InvocationTargetException t) {
-                LOGGER.log(ERROR, "Unable to construct HTTPS server", t);
-            }
-            if (httpsServer != null) {
-                httpsServer.setHttpServerProcessor(webApplicationServer);
-                httpsServer.setServerPort(httpsPort);
-                httpsServer.setSSL(true);
-                httpsServer.start();
-            }
+        
+        /**
+         * Initialize and start the HTTPS endpoint (if applicable).
+         */
+        if (httpsFeature.getPort() > 0) {
+            httpsFeature.init();
+            httpsFeature.getHttpsServer().setHttpServerProcessor(webApplicationServer);
+            httpsFeature.start();
         }
-
+        
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
@@ -341,7 +305,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
      * @param httpPort the HTTP server port.
      */
     public void setHttpPort(int httpPort) {
-        this.httpPort = httpPort;
+        httpFeature.setPort(httpPort);
     }
 
     /**
@@ -350,7 +314,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
      * @param httpServerClass the HTTP server class.
      */
     public void setHttpServerClass(String httpServerClass) {
-        this.httpServerClass = httpServerClass;
+        httpFeature.setHttpServerClass(httpServerClass);
     }
 
     /**
@@ -392,7 +356,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
      * @param httpsPort the HTTPS server port.
      */
     public void setHttpsPort(int httpsPort) {
-        this.httpsPort = httpsPort;
+        this.httpsFeature.setPort(httpsPort);
     }
 
     /**
@@ -401,7 +365,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
      * @param httpsServerClass the HTTPS server class.
      */
     public void setHttpsServerClass(String httpsServerClass) {
-        this.httpsServerClass = httpsServerClass;
+        this.httpsFeature.setHttpsServerClass(httpsServerClass);
     }
 
     /**

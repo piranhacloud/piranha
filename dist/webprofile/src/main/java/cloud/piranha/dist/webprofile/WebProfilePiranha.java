@@ -38,6 +38,7 @@ import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import static cloud.piranha.core.impl.WarFileExtractor.extractWarFile;
 import cloud.piranha.extension.webprofile.WebProfileExtension;
+import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
@@ -87,14 +88,9 @@ public class WebProfilePiranha implements Piranha, Runnable {
     private boolean exitOnStop = true;
 
     /**
-     * Stores the HTTP port.
+     * Stores the HTTP feature.
      */
-    private int httpPort = 8080;
-
-    /**
-     * Stores the HTTP server class.
-     */
-    private String httpServerClass;
+    private final HttpFeature httpFeature = new HttpFeature();
 
     /**
      * Stores the HTTPS port.
@@ -150,27 +146,6 @@ public class WebProfilePiranha implements Piranha, Runnable {
         LOGGER.log(INFO, () -> "Starting Piranha");
 
         webApplicationServer = new HttpWebApplicationServer();
-
-        if (httpPort > 0) {
-            HttpServer httpServer = null;
-            if (httpServerClass == null) {
-                httpServerClass = DefaultHttpServer.class.getName();
-            }
-            try {
-                httpServer = (HttpServer) Class.forName(httpServerClass)
-                        .getDeclaredConstructor().newInstance();
-            } catch (ClassNotFoundException | IllegalAccessException
-                    | IllegalArgumentException | InstantiationException
-                    | NoSuchMethodException | SecurityException
-                    | InvocationTargetException t) {
-                LOGGER.log(ERROR, "Unable to construct HTTP server", t);
-            }
-            if (httpServer != null) {
-                httpServer.setServerPort(httpPort);
-                httpServer.setHttpServerProcessor(webApplicationServer);
-                httpServer.start();
-            }
-        }
 
         if (httpsPort > 0) {
             HttpServer httpsServer = null;
@@ -253,6 +228,13 @@ public class WebProfilePiranha implements Piranha, Runnable {
 
         webApplicationServer.start();
 
+        /*
+         * Initialize and start HTTP endpoint.
+         */
+        httpFeature.init();
+        httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
+        httpFeature.start();
+
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
@@ -262,7 +244,7 @@ public class WebProfilePiranha implements Piranha, Runnable {
             if (!pidFile.getParentFile().exists() && !pidFile.getParentFile().mkdirs()) {
                 LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
             }
-            try ( PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
+            try (PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
                 writer.println(pid);
                 writer.flush();
             } catch (IOException ioe) {
@@ -341,7 +323,7 @@ public class WebProfilePiranha implements Piranha, Runnable {
      * @param httpPort the HTTP server port.
      */
     public void setHttpPort(int httpPort) {
-        this.httpPort = httpPort;
+        httpFeature.setPort(httpPort);
     }
 
     /**
@@ -350,7 +332,7 @@ public class WebProfilePiranha implements Piranha, Runnable {
      * @param httpServerClass the HTTP server class.
      */
     public void setHttpServerClass(String httpServerClass) {
-        this.httpServerClass = httpServerClass;
+        httpFeature.setHttpServerClass(httpServerClass);
     }
 
     /**

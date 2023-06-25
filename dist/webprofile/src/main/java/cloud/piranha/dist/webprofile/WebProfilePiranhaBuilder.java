@@ -143,9 +143,13 @@ public class WebProfilePiranhaBuilder {
         }
         piranha.setExitOnStop(exitOnStop);
         piranha.setHttpPort(httpPort);
-        piranha.setHttpServerClass(httpServerClass);
+        if (httpServerClass != null) {
+            piranha.setHttpServerClass(httpServerClass);
+        }
         piranha.setHttpsPort(httpsPort);
-        piranha.setHttpsServerClass(httpsServerClass);
+        if (httpsServerClass != null) {
+            piranha.setHttpsServerClass(httpsServerClass);
+        }
         piranha.setJpmsEnabled(jpms);
         if (httpsKeystoreFile != null) {
             piranha.setHttpsKeystoreFile(httpsKeystoreFile);

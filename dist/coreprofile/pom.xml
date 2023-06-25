@@ -40,6 +40,18 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>cloud.piranha.feature</groupId>
+            <artifactId>piranha-feature-http</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.feature</groupId>
+            <artifactId>piranha-feature-https</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
