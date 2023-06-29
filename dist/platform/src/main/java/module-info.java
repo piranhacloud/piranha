@@ -40,6 +40,7 @@ module cloud.piranha.dist.platform {
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.platform;
+    requires cloud.piranha.feature.http;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.impl;
     requires cloud.piranha.http.webapp;

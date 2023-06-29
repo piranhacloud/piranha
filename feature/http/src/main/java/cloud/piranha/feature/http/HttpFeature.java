@@ -132,7 +132,11 @@ public class HttpFeature implements Feature {
      * @param httpServerClass the HTTP server class.
      */
     public void setHttpServerClass(String httpServerClass) {
-        this.httpServerClass = httpServerClass;
+        if (httpServerClass != null) {
+            this.httpServerClass = httpServerClass;
+        } else {
+            this.httpServerClass = DefaultHttpServer.class.getName();
+        }
     }
 
     /**

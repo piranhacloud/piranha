@@ -88,8 +88,18 @@ public class CoreProfilePiranha implements Piranha, Runnable {
     /**
      * Stores the HTTP feature.
      */
-    private final HttpFeature httpFeature = new HttpFeature();
-    
+    private HttpFeature httpFeature;
+
+    /**
+     * Stores the HTTP port.
+     */
+    private int httpPort = 8080;
+
+    /**
+     * Stores the HTTP server class.
+     */
+    private String httpServerClass;
+
     /**
      * Stores the HTTPS feature.
      */
@@ -200,14 +210,17 @@ public class CoreProfilePiranha implements Piranha, Runnable {
         webApplicationServer.start();
 
         /*
-         * Initialize and start HTTP endpoint (if applicable).
+         * Construct, initialize and start HTTP endpoint (if applicable).
          */
-        if (httpFeature.getPort() > 0) {
+        if (httpPort > 0) {
+            httpFeature = new HttpFeature();
+            httpFeature.setHttpServerClass(httpServerClass);
+            httpFeature.setPort(httpPort);
             httpFeature.init();
             httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
             httpFeature.start();
         }
-        
+
         /**
          * Initialize and start the HTTPS endpoint (if applicable).
          */
@@ -216,7 +229,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
             httpsFeature.getHttpsServer().setHttpServerProcessor(webApplicationServer);
             httpsFeature.start();
         }
-        
+
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
@@ -226,7 +239,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
             if (!pidFile.getParentFile().exists() && !pidFile.getParentFile().mkdirs()) {
                 LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
             }
-            try ( PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
+            try (PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
                 writer.println(pid);
                 writer.flush();
             } catch (IOException ioe) {
@@ -305,7 +318,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
      * @param httpPort the HTTP server port.
      */
     public void setHttpPort(int httpPort) {
-        httpFeature.setPort(httpPort);
+        this.httpPort = httpPort;
     }
 
     /**

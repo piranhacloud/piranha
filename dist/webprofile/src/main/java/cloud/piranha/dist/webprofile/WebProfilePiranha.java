@@ -90,12 +90,22 @@ public class WebProfilePiranha implements Piranha, Runnable {
     /**
      * Stores the HTTP feature.
      */
-    private final HttpFeature httpFeature = new HttpFeature();
+    private HttpFeature httpFeature;
 
+    /**
+     * Stores the HTTP port.
+     */
+    private int httpPort = 8080;
+    
+    /**
+     * Stores the HTTP server class.
+     */
+    private String httpServerClass;
+    
     /**
      * Stores the HTTPS port.
      */
-    private int httpsPort = 8043;
+    private int httpsPort = -1;
 
     /**
      * Stores the HTTPS server class.
@@ -229,12 +239,17 @@ public class WebProfilePiranha implements Piranha, Runnable {
         webApplicationServer.start();
 
         /*
-         * Initialize and start HTTP endpoint.
+         * Construct, initialize and start HTTP endpoint (if applicable).
          */
-        httpFeature.init();
-        httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
-        httpFeature.start();
-
+        if (httpPort > 0) {
+            httpFeature = new HttpFeature();
+            httpFeature.setHttpServerClass(httpServerClass);
+            httpFeature.setPort(httpPort);
+            httpFeature.init();
+            httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
+            httpFeature.start();
+        }
+        
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
@@ -323,7 +338,7 @@ public class WebProfilePiranha implements Piranha, Runnable {
      * @param httpPort the HTTP server port.
      */
     public void setHttpPort(int httpPort) {
-        httpFeature.setPort(httpPort);
+        this.httpPort = httpPort;
     }
 
     /**
@@ -332,7 +347,7 @@ public class WebProfilePiranha implements Piranha, Runnable {
      * @param httpServerClass the HTTP server class.
      */
     public void setHttpServerClass(String httpServerClass) {
-        httpFeature.setHttpServerClass(httpServerClass);
+        this.httpServerClass = httpServerClass;
     }
 
     /**

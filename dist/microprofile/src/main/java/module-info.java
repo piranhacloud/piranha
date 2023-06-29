@@ -37,6 +37,7 @@ module cloud.piranha.dist.microprofile {
     opens cloud.piranha.dist.microprofile;
     requires transitive cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
+    requires cloud.piranha.feature.http;
     requires cloud.piranha.extension.microprofile;
     requires cloud.piranha.http.impl;
     requires cloud.piranha.http.webapp;
