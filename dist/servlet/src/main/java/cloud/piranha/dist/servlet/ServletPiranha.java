@@ -38,6 +38,7 @@ import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import static cloud.piranha.core.impl.WarFileExtractor.extractWarFile;
 import cloud.piranha.extension.servlet.ServletExtension;
+import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
@@ -90,6 +91,11 @@ public class ServletPiranha implements Piranha, Runnable {
      * Stores the exit on stop flag.
      */
     private boolean exitOnStop = true;
+    
+    /**
+     * Stores the HTTP feature.
+     */
+    private HttpFeature httpFeature;
 
     /**
      * Stores the HTTP port.
@@ -155,43 +161,6 @@ public class ServletPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, () -> "Starting Piranha");
 
         webApplicationServer = new HttpWebApplicationServer();
-
-        if (httpPort > 0) {
-            HttpServer httpServer = null;
-            if (httpServerClass == null) {
-                httpServerClass = DefaultHttpServer.class.getName();
-            }
-            try {
-                httpServer = (HttpServer) Class.forName(httpServerClass)
-                        .getDeclaredConstructor().newInstance();
-            } catch (ClassNotFoundException | IllegalAccessException
-                    | IllegalArgumentException | InstantiationException
-                    | NoSuchMethodException | SecurityException
-                    | InvocationTargetException t) {
-                LOGGER.log(ERROR, "Unable to construct HTTP server", t);
-            }
-
-            if (cracEnabled) {
-                try {
-                    HttpServer cracHttpServer = (HttpServer) Class
-                            .forName("cloud.piranha.http.crac.CracHttpServer")
-                            .getDeclaredConstructor(HttpServer.class)
-                            .newInstance(httpServer);
-                    httpServer = cracHttpServer;
-                } catch (ClassNotFoundException | IllegalAccessException
-                        | IllegalArgumentException | InstantiationException
-                        | NoSuchMethodException | SecurityException
-                        | InvocationTargetException t) {
-                    LOGGER.log(ERROR, "Unable to construct HTTP server", t);
-                }
-            }
-
-            if (httpServer != null) {
-                httpServer.setServerPort(httpPort);
-                httpServer.setHttpServerProcessor(webApplicationServer);
-                httpServer.start();
-            }
-        }
 
         if (httpsPort > 0) {
             HttpServer httpsServer = null;
@@ -289,7 +258,39 @@ public class ServletPiranha implements Piranha, Runnable {
         }
 
         webApplicationServer.start();
-
+        
+        /*
+         * Construct, initialize and start HTTP endpoint (if applicable).
+         */
+        if (httpPort > 0) {
+            httpFeature = new HttpFeature();
+            httpFeature.setHttpServerClass(httpServerClass);
+            httpFeature.setPort(httpPort);
+            httpFeature.init();
+            httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
+            
+            /*
+             * Enable Project CRaC.
+             */
+            if (cracEnabled) {
+                HttpServer httpServer = httpFeature.getHttpServer();
+                try {
+                    HttpServer cracHttpServer = (HttpServer) Class
+                            .forName("cloud.piranha.http.crac.CracHttpServer")
+                            .getDeclaredConstructor(HttpServer.class)
+                            .newInstance(httpServer);
+                    httpServer = cracHttpServer;
+                } catch (ClassNotFoundException | IllegalAccessException
+                        | IllegalArgumentException | InstantiationException
+                        | NoSuchMethodException | SecurityException
+                        | InvocationTargetException t) {
+                    LOGGER.log(ERROR, "Unable to construct HTTP server", t);
+                }
+                httpFeature.setHttpServer(httpServer);
+            }
+            httpFeature.start();
+        }
+        
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);

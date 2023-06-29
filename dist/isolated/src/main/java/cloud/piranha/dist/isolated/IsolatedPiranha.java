@@ -72,6 +72,21 @@ public class IsolatedPiranha implements Piranha, Runnable {
     private static IsolatedPiranha theOneAndOnlyInstance;
 
     /**
+     * Stores the HTTP feature.
+     */
+    private HttpFeature httpFeature;
+
+    /**
+     * Stores the HTTP port.
+     */
+    private int httpPort = 8080;
+    
+    /**
+     * Stores the HTTP server class.
+     */
+    private String httpServerClass;
+
+    /**
      * Stores the SSL flag.
      */
     private boolean ssl = false;
@@ -79,10 +94,12 @@ public class IsolatedPiranha implements Piranha, Runnable {
     /**
      * Stores the HTTP web application server.
      */
-    private HttpWebApplicationServer webApplicationServer;    
-    
+    private HttpWebApplicationServer webApplicationServer;
+
     /**
-     * {@return the instance}
+     * {
+     *
+     * @return the instance}
      */
     public static IsolatedPiranha get() {
         return theOneAndOnlyInstance;
@@ -106,8 +123,14 @@ public class IsolatedPiranha implements Piranha, Runnable {
      */
     private void processArguments(String[] arguments) {
         if (arguments != null) {
-            for (String argument : arguments) {
-                if (argument.equals("--ssl")) {
+            for (int i = 0; i < arguments.length; i++) {
+                if (arguments[i].equals("--http-port")) {
+                    httpPort = Integer.parseInt(arguments[i + 1]);
+                }
+                if (arguments[i].equals("--http-server-class")) {
+                    httpServerClass = arguments[i + 1];
+                }
+                if (arguments[i].equals("--ssl")) {
                     ssl = true;
                 }
             }
@@ -143,7 +166,7 @@ public class IsolatedPiranha implements Piranha, Runnable {
 
             try {
                 Files.delete(deployingFile.toPath());
-            } catch(IOException ioe) {
+            } catch (IOException ioe) {
                 LOGGER.log(WARNING, "Unable to delete deploying file", ioe);
             }
         }
@@ -155,22 +178,25 @@ public class IsolatedPiranha implements Piranha, Runnable {
         File startedFile = createStartedFile();
 
         File pidFile = new File("tmp/piranha.pid");
-        HttpServer httpServer;
-        
+        HttpServer httpServer = null;
+
         if (ssl) {
             httpServer = new DefaultHttpServer();
             httpServer.setServerPort(8080);
             httpServer.setHttpServerProcessor(webApplicationServer);
             httpServer.setSSL(ssl);
             httpServer.start();
-        } else {
-            /*
-             * Use HTTP feature.
-             */
-            HttpFeature httpFeature = new HttpFeature();
-            httpFeature.setPort(8080);
+        }
+
+        /*
+         * Construct, initialize and start HTTP endpoint (if applicable).
+         */
+        if (!ssl && httpPort > 0) {
+            httpFeature = new HttpFeature();
+            httpFeature.setHttpServerClass(httpServerClass);
+            httpFeature.setPort(httpPort);
             httpFeature.init();
-            httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);;
+            httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
             httpFeature.start();
             httpServer = httpFeature.getHttpServer();
         }
@@ -187,13 +213,13 @@ public class IsolatedPiranha implements Piranha, Runnable {
                 httpServer.stop();
                 try {
                     Files.delete(startedFile.toPath());
-                } catch(IOException ioe) {
+                } catch (IOException ioe) {
                     LOGGER.log(WARNING, "Unable to delete PID file", ioe);
                 }
                 System.exit(0);
             }
         }
-        
+
         finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Stopped Piranha");
         LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
@@ -257,10 +283,10 @@ public class IsolatedPiranha implements Piranha, Runnable {
 
         return startedFile;
     }
-    
+
     @Override
-    public void service(WebApplicationRequest request, WebApplicationResponse response) 
+    public void service(WebApplicationRequest request, WebApplicationResponse response)
             throws IOException, ServletException {
         webApplicationServer.service(request, response);
-    }    
+    }
 }
