@@ -43,6 +43,7 @@ module cloud.piranha.dist.isolated {
     requires cloud.piranha.embedded;
     requires cloud.piranha.extension.servlet;
     requires cloud.piranha.feature.http;
+    requires cloud.piranha.feature.https;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.impl;
     requires cloud.piranha.http.webapp;

@@ -127,7 +127,11 @@ public class HttpsFeature implements Feature {
      * @param httpsServerClass the HTTP server class.
      */
     public void setHttpsServerClass(String httpsServerClass) {
-        this.httpsServerClass = httpsServerClass;
+        if (httpsServerClass != null) {
+            this.httpsServerClass = httpsServerClass;
+        } else {
+            this.httpsServerClass = DefaultHttpServer.class.getName();
+        }
     }
 
     /**

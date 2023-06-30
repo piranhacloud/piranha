@@ -39,6 +39,7 @@ import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import static cloud.piranha.core.impl.WarFileExtractor.extractWarFile;
 import cloud.piranha.extension.webprofile.WebProfileExtension;
 import cloud.piranha.feature.http.HttpFeature;
+import cloud.piranha.feature.https.HttpsFeature;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
@@ -96,12 +97,17 @@ public class WebProfilePiranha implements Piranha, Runnable {
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
-    
+
     /**
      * Stores the HTTP server class.
      */
     private String httpServerClass;
-    
+
+    /**
+     * Stores the HTTPS feature.
+     */
+    private HttpsFeature httpsFeature;
+
     /**
      * Stores the HTTPS port.
      */
@@ -249,7 +255,19 @@ public class WebProfilePiranha implements Piranha, Runnable {
             httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
             httpFeature.start();
         }
-        
+
+        /*
+         * Construct, initialize and start HTTPS endpoint (if applicable).
+         */
+        if (httpsPort > 0) {
+            httpsFeature = new HttpsFeature();
+            httpsFeature.setHttpsServerClass(httpsServerClass);
+            httpsFeature.setPort(httpsPort);
+            httpsFeature.init();
+            httpsFeature.getHttpsServer().setHttpServerProcessor(webApplicationServer);
+            httpsFeature.start();
+        }
+
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);

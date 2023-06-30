@@ -103,7 +103,17 @@ public class CoreProfilePiranha implements Piranha, Runnable {
     /**
      * Stores the HTTPS feature.
      */
-    private final HttpsFeature httpsFeature = new HttpsFeature();
+    private HttpsFeature httpsFeature;
+
+    /**
+     * Stores the HTTP port.
+     */
+    private int httpsPort = 8080;
+
+    /**
+     * Stores the HTTP server class.
+     */
+    private String httpsServerClass;
 
     /**
      * Stores the JMPS enabled flag.
@@ -222,9 +232,12 @@ public class CoreProfilePiranha implements Piranha, Runnable {
         }
 
         /**
-         * Initialize and start the HTTPS endpoint (if applicable).
+         * Construct, initialize and start the HTTPS endpoint (if applicable).
          */
-        if (httpsFeature.getPort() > 0) {
+        if (httpsPort > 0) {
+            httpsFeature = new HttpsFeature();
+            httpsFeature.setHttpsServerClass(httpsServerClass);
+            httpsFeature.setPort(httpsPort);
             httpsFeature.init();
             httpsFeature.getHttpsServer().setHttpServerProcessor(webApplicationServer);
             httpsFeature.start();
@@ -369,7 +382,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
      * @param httpsPort the HTTPS server port.
      */
     public void setHttpsPort(int httpsPort) {
-        this.httpsFeature.setPort(httpsPort);
+        this.httpsPort = httpsPort;
     }
 
     /**
@@ -378,7 +391,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
      * @param httpsServerClass the HTTPS server class.
      */
     public void setHttpsServerClass(String httpsServerClass) {
-        this.httpsFeature.setHttpsServerClass(httpsServerClass);
+        this.httpsServerClass = httpsServerClass;
     }
 
     /**
