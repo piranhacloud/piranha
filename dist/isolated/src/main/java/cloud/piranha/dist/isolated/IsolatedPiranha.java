@@ -41,8 +41,8 @@ import cloud.piranha.core.api.Piranha;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.feature.http.HttpFeature;
+import cloud.piranha.feature.https.HttpsFeature;
 import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.builder.MicroWebApplication;
 import cloud.piranha.micro.loader.MicroConfiguration;
@@ -87,9 +87,19 @@ public class IsolatedPiranha implements Piranha, Runnable {
     private String httpServerClass;
 
     /**
-     * Stores the SSL flag.
+     * Stores the HTTPS feature.
      */
-    private boolean ssl = false;
+    private HttpsFeature httpsFeature;
+
+    /**
+     * Stores the HTTPS port.
+     */
+    private int httpsPort = -1;
+    
+    /**
+     * Stores the HTTPS server class.
+     */
+    private String httpsServerClass;
 
     /**
      * Stores the HTTP web application server.
@@ -130,8 +140,15 @@ public class IsolatedPiranha implements Piranha, Runnable {
                 if (arguments[i].equals("--http-server-class")) {
                     httpServerClass = arguments[i + 1];
                 }
+                if (arguments[i].equals("--https-port")) {
+                    httpsPort = Integer.parseInt(arguments[i + 1]);
+                }
+                if (arguments[i].equals("--https-server-class")) {
+                    httpsServerClass = arguments[i + 1];
+                }
                 if (arguments[i].equals("--ssl")) {
-                    ssl = true;
+                    LOGGER.log(WARNING, "The --ssl parameter is deprecated, please use --https-port instead");
+                    httpsPort = 8043;
                 }
             }
         }
@@ -170,28 +187,13 @@ public class IsolatedPiranha implements Piranha, Runnable {
                 LOGGER.log(WARNING, "Unable to delete deploying file", ioe);
             }
         }
-
-        long finishTime = System.currentTimeMillis();
-        LOGGER.log(INFO, "Started Piranha");
-        LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
-
-        File startedFile = createStartedFile();
-
-        File pidFile = new File("tmp/piranha.pid");
+        
         HttpServer httpServer = null;
-
-        if (ssl) {
-            httpServer = new DefaultHttpServer();
-            httpServer.setServerPort(8080);
-            httpServer.setHttpServerProcessor(webApplicationServer);
-            httpServer.setSSL(ssl);
-            httpServer.start();
-        }
 
         /*
          * Construct, initialize and start HTTP endpoint (if applicable).
          */
-        if (!ssl && httpPort > 0) {
+        if (httpPort > 0) {
             httpFeature = new HttpFeature();
             httpFeature.setHttpServerClass(httpServerClass);
             httpFeature.setPort(httpPort);
@@ -201,6 +203,28 @@ public class IsolatedPiranha implements Piranha, Runnable {
             httpServer = httpFeature.getHttpServer();
         }
 
+        /*
+         * Construct, initialize and start HTTPS endpoint (if applicable).
+         */
+        if (httpsPort > 0) {
+            httpsFeature = new HttpsFeature();
+            httpsFeature.setHttpsServerClass(httpsServerClass);
+            httpsFeature.setPort(httpsPort);
+            httpsFeature.init();
+            httpsFeature.getHttpsServer().setHttpServerProcessor(webApplicationServer);
+            httpsFeature.start();
+            if (httpServer == null) {
+                httpServer = httpsFeature.getHttpsServer();
+            }
+        }
+        
+        long finishTime = System.currentTimeMillis();
+        LOGGER.log(INFO, "Started Piranha");
+        LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
+
+        File startedFile = createStartedFile();
+        File pidFile = new File("tmp/piranha.pid");
+        
         while (httpServer.isRunning()) {
             try {
                 Thread.sleep(2000);

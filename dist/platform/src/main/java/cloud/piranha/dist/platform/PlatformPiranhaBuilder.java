@@ -62,7 +62,7 @@ public class PlatformPiranhaBuilder {
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
-    
+
     /**
      * Stores the HTTP server class.
      */
@@ -132,7 +132,9 @@ public class PlatformPiranhaBuilder {
         piranha.setDefaultExtensionClass(defaultExtensionClass);
         piranha.setExitOnStop(exitOnStop);
         piranha.setHttpPort(httpPort);
-        piranha.setHttpServerClass(httpServerClass);
+        if (httpServerClass != null) {
+            piranha.setHttpServerClass(httpServerClass);
+        }
         piranha.setHttpsPort(httpsPort);
         piranha.setHttpsServerClass(httpsServerClass);
         piranha.setJpmsEnabled(jpms);
@@ -203,7 +205,7 @@ public class PlatformPiranhaBuilder {
 
     /**
      * Set the HTTP server class.
-     * 
+     *
      * @param httpServerClass the HTTP server class.
      * @return the builder.
      */
@@ -211,7 +213,7 @@ public class PlatformPiranhaBuilder {
         this.httpServerClass = httpServerClass;
         return this;
     }
-    
+
     /**
      * Set the HTTPS keystore file.
      *
@@ -247,7 +249,7 @@ public class PlatformPiranhaBuilder {
 
     /**
      * Set the HTTPS server class.
-     * 
+     *
      * @param httpsServerClass the HTTPS server class.
      * @return the builder.
      */

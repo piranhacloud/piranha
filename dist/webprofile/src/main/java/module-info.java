@@ -39,6 +39,7 @@ module cloud.piranha.dist.webprofile {
     requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.webprofile;
     requires cloud.piranha.feature.http;
+    requires cloud.piranha.feature.https;
     requires cloud.piranha.http.impl;
     requires cloud.piranha.http.webapp;
     requires java.logging;

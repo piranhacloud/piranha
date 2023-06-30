@@ -39,6 +39,7 @@ module cloud.piranha.dist.servlet {
     requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.servlet;
     requires cloud.piranha.feature.http;
+    requires cloud.piranha.feature.https;
     requires cloud.piranha.http.impl;
     requires cloud.piranha.http.crac;
     requires cloud.piranha.http.webapp;
