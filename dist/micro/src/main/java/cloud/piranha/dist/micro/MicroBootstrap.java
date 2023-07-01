@@ -49,6 +49,11 @@ public class MicroBootstrap implements Runnable {
      * Stores the logger.
      */
     private static final System.Logger LOGGER = System.getLogger(MicroBootstrap.class.getName());
+    
+    /**
+     * Stores the context path.
+     */
+    private String contextPath = "ROOT";
 
     /**
      * The HTTP port on which Piranha accepts requests
@@ -99,6 +104,9 @@ public class MicroBootstrap implements Runnable {
 
         if (arguments.length > 0) {
             for (int i = 0; i < arguments.length; i++) {
+                if (arguments[i].equals("--context-path")) {
+                    contextPath = arguments[i + 1];
+                }
                 if (arguments[i].equals("--http-port")) {
                     port = Integer.parseInt(arguments[i + 1]);
                 }
@@ -143,8 +151,9 @@ public class MicroBootstrap implements Runnable {
     @Override
     public void run() {
         MicroConfiguration configuration = new MicroConfiguration();
-        configuration.setPort(port);
         configuration.setHttpServer(httpServer);
+        configuration.setContextPath(contextPath);
+        configuration.setPort(port);
 
         outerDeployer = new MicroOuterDeployer(configuration.postConstruct());
         outerDeployer.deploy(archive);

@@ -253,7 +253,7 @@ public class IsolatedPiranha implements Piranha, Runnable {
         String contextPath = getContextPath(warFile);
 
         MicroConfiguration configuration = new MicroConfiguration();
-        configuration.setRoot(contextPath);
+        configuration.setContextPath(contextPath);
         configuration.setHttpStart(false);
 
         try {
