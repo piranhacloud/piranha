@@ -86,9 +86,9 @@ public class MicroEmbeddedPiranhaBuilder {
             configuration.setHttpStart(false);
         }
 
-        if (configuration.getRoot() != null) {
+        if (configuration.getContextPath()!= null) {
             // If an explicit root is set, use it. Otherwise use the default.
-            microWebApplication.setContextPath(configuration.getRoot());
+            microWebApplication.setContextPath(configuration.getContextPath());
         }
 
         microWebApplication.setDeployedApplication(
