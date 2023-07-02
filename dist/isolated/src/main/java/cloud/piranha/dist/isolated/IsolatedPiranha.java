@@ -80,7 +80,7 @@ public class IsolatedPiranha implements Piranha, Runnable {
      * Stores the HTTP port.
      */
     private int httpPort = 8080;
-    
+
     /**
      * Stores the HTTP server class.
      */
@@ -95,7 +95,7 @@ public class IsolatedPiranha implements Piranha, Runnable {
      * Stores the HTTPS port.
      */
     private int httpsPort = -1;
-    
+
     /**
      * Stores the HTTPS server class.
      */
@@ -187,7 +187,7 @@ public class IsolatedPiranha implements Piranha, Runnable {
                 LOGGER.log(WARNING, "Unable to delete deploying file", ioe);
             }
         }
-        
+
         HttpServer httpServer = null;
 
         /*
@@ -217,36 +217,38 @@ public class IsolatedPiranha implements Piranha, Runnable {
                 httpServer = httpsFeature.getHttpsServer();
             }
         }
-        
+
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
         File startedFile = createStartedFile();
         File pidFile = new File("tmp/piranha.pid");
-        
-        while (httpServer.isRunning()) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-            }
 
-            if (!pidFile.exists()) {
-                webApplicationServer.stop();
-                httpServer.stop();
+        if (httpServer != null) {
+            while (httpServer.isRunning()) {
                 try {
-                    Files.delete(startedFile.toPath());
-                } catch (IOException ioe) {
-                    LOGGER.log(WARNING, "Unable to delete PID file", ioe);
+                    Thread.sleep(2000);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
                 }
-                System.exit(0);
+
+                if (!pidFile.exists()) {
+                    webApplicationServer.stop();
+                    httpServer.stop();
+                    try {
+                        Files.delete(startedFile.toPath());
+                    } catch (IOException ioe) {
+                        LOGGER.log(WARNING, "Unable to delete PID file", ioe);
+                    }
+                }
             }
         }
 
         finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Stopped Piranha");
         LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
+        System.exit(0);
     }
 
     private void deploy(File warFile, HttpWebApplicationServer webApplicationServer) {
