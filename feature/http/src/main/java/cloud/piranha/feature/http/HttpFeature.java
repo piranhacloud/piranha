@@ -28,6 +28,7 @@
 package cloud.piranha.feature.http;
 
 import cloud.piranha.feature.api.Feature;
+import cloud.piranha.feature.api.FeatureManager;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import java.lang.System.Logger;
@@ -45,6 +46,11 @@ public class HttpFeature implements Feature {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(HttpFeature.class.getName());
+    
+    /**
+     * Stores the feature manager.
+     */
+    private FeatureManager featureManager;
 
     /**
      * Stores the HTTP server.
@@ -70,6 +76,11 @@ public class HttpFeature implements Feature {
     @Override
     public void destroy() {
         httpServer = null;
+    }
+
+    @Override
+    public FeatureManager getFeatureManager() {
+        return featureManager;
     }
     
     /**
@@ -115,6 +126,11 @@ public class HttpFeature implements Feature {
                 httpServer.setServerPort(port);
             }
         }
+    }
+
+    @Override
+    public void setFeatureManager(FeatureManager featureManager) {
+        this.featureManager = featureManager;
     }
 
     /**
