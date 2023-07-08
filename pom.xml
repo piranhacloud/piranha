@@ -100,7 +100,7 @@
         <junit-platform-launcher.version>1.10.0-M1</junit-platform-launcher.version>
         <junit-pioneer.version>2.0.1</junit-pioneer.version>
         <junit.version>5.10.0-M1</junit.version>
-        <h2.version>2.1.214</h2.version>
+        <h2.version>2.2.220</h2.version>
         <maven-plugin-annotations.version>3.9.0</maven-plugin-annotations.version>
         <maven-plugin-api.version>4.0.0-alpha-5</maven-plugin-api.version>
         <maven-plugin-tools-annotations.version>3.9.0</maven-plugin-tools-annotations.version>
