@@ -32,6 +32,9 @@ import cloud.piranha.feature.api.FeatureManager;
 import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.feature.https.HttpsFeature;
 import cloud.piranha.http.api.HttpServer;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.ERROR;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * The CRaC feature that enables Project CRaC.
@@ -41,10 +44,37 @@ import cloud.piranha.http.api.HttpServer;
 public class CracFeature implements Feature {
 
     /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(CracFeature.class.getName());
+
+    /**
      * Stores the feature manager.
      */
     private FeatureManager featureManager;
-    
+
+    /**
+     * Create the CRaC HttpServer instance.
+     *
+     * @param httpServer the HttpServer instance to wrap.
+     * @return the CRaC HttpServer instance.
+     */
+    private HttpServer createCracHttpServer(HttpServer httpServer) {
+        HttpServer cracHttpServer = null;
+        try {
+            cracHttpServer = (HttpServer) Class
+                    .forName("cloud.piranha.http.crac.CracHttpServer")
+                    .getDeclaredConstructor(HttpServer.class)
+                    .newInstance(httpServer);
+        } catch (ClassNotFoundException | IllegalAccessException
+                | IllegalArgumentException | InstantiationException
+                | NoSuchMethodException | SecurityException
+                | InvocationTargetException t) {
+            LOGGER.log(ERROR, "Unable to construct CracHttpServer", t);
+        }
+        return cracHttpServer;
+    }
+
     @Override
     public FeatureManager getFeatureManager() {
         return featureManager;
@@ -67,8 +97,5 @@ public class CracFeature implements Feature {
                 httpsFeature.setHttpsServer(cracHttpServer);
             }
         }
-    }
-
-    private HttpServer createCracHttpServer(HttpServer httpServer) {
     }
 }
