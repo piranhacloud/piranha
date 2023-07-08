@@ -25,21 +25,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.feature.api;
+package cloud.piranha.feature.crac;
 
-import java.util.List;
+import cloud.piranha.feature.api.Feature;
+import cloud.piranha.feature.api.FeatureManager;
+import cloud.piranha.feature.http.HttpFeature;
+import cloud.piranha.feature.https.HttpsFeature;
+import cloud.piranha.http.api.HttpServer;
 
 /**
- * The Feature Manager API.
+ * The CRaC feature that enables Project CRaC.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface FeatureManager {    
+public class CracFeature implements Feature {
 
     /**
-     * Get the features.
-     * 
-     * @return the features.
+     * Stores the feature manager.
      */
-    List<Feature> getFeatures();
+    private FeatureManager featureManager;
+    
+    @Override
+    public FeatureManager getFeatureManager() {
+        return featureManager;
+    }
+
+    @Override
+    public void setFeatureManager(FeatureManager featureManager) {
+        this.featureManager = featureManager;
+    }
+
+    @Override
+    public void init() {
+        for (Feature feature : featureManager.getFeatures()) {
+            if (feature instanceof HttpFeature httpFeature) {
+                HttpServer cracHttpServer = createCracHttpServer(httpFeature.getHttpServer());
+                httpFeature.setHttpServer(cracHttpServer);
+            }
+            if (feature instanceof HttpsFeature httpsFeature) {
+                HttpServer cracHttpServer = createCracHttpServer(httpsFeature.getHttpsServer());
+                httpsFeature.setHttpsServer(cracHttpServer);
+            }
+        }
+    }
+
+    private HttpServer createCracHttpServer(HttpServer httpServer) {
+    }
 }
