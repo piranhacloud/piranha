@@ -17,6 +17,7 @@
 
     <modules>
         <module>api</module>
+        <module>crac</module>
         <module>http</module>
         <module>https</module>
     </modules>

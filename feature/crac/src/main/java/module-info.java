@@ -25,21 +25,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.feature.api;
-
-import java.util.List;
 
 /**
- * The Feature Manager API.
- *
+ * This module delivers the CRaC Feature.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface FeatureManager {    
+module cloud.piranha.feature.crac {
 
-    /**
-     * Get the features.
-     * 
-     * @return the features.
-     */
-    List<Feature> getFeatures();
+    exports cloud.piranha.feature.crac;
+    opens cloud.piranha.feature.crac;
+    requires cloud.piranha.feature.api;
+    requires static cloud.piranha.feature.http;
+    requires static cloud.piranha.feature.https;
+    requires cloud.piranha.http.api;
+    requires cloud.piranha.http.crac;
 }
