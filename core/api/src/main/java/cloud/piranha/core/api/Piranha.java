@@ -38,6 +38,15 @@ import java.io.IOException;
 public interface Piranha {
 
     /**
+     * Get the configuration.
+     * 
+     * @return the configuration.
+     */
+    default PiranhaConfiguration getConfiguration() {
+        return null;
+    }
+    
+    /**
      * Service the request and response.
      *
      * @param request the request.
@@ -47,4 +56,12 @@ public interface Piranha {
      */
     void service(WebApplicationRequest request, WebApplicationResponse response)
             throws IOException, ServletException;
+    
+    /**
+     * Set the configuration.
+     * 
+     * @param configuration the configuration.
+     */
+    default void setConfiguration(PiranhaConfiguration configuration) {
+    }
 }
