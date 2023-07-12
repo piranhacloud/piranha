@@ -80,7 +80,7 @@
         <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-io.version>2.13.0</commons-io.version>
         <crac.version>0.1.3</crac.version>
-        <eclipselink.version>4.0.1</eclipselink.version>
+        <eclipselink.version>4.0.2</eclipselink.version>
         <eclipse.jaxb.version>4.0.3</eclipse.jaxb.version>
         <eleos.version>3.0.0</eleos.version>
         <exousia.version>2.1.0</exousia.version>
@@ -90,19 +90,19 @@
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
         <hazelcast.version>5.3.1</hazelcast.version>
         <htmlunit.version>2.70.0</htmlunit.version>
-        <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
+        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <jakarta.faces.version>4.0.2</jakarta.faces.version>
         <jandex.version>3.1.2</jandex.version>
         <!-- Kept at 1.2.5.Final because 1.3.0.Final does not work with Arquillian -->
         <jboss-classfilewriter.version>1.2.5.Final</jboss-classfilewriter.version>
         <jersey.version>3.1.2</jersey.version>
         <jstl.version>3.0.1</jstl.version>
-        <junit-platform-launcher.version>1.10.0-M1</junit-platform-launcher.version>
+        <junit-platform-launcher.version>1.10.0-RC1</junit-platform-launcher.version>
         <junit-pioneer.version>2.0.1</junit-pioneer.version>
-        <junit.version>5.10.0-M1</junit.version>
+        <junit.version>5.10.0-RC1</junit.version>
         <h2.version>2.2.220</h2.version>
         <maven-plugin-annotations.version>3.9.0</maven-plugin-annotations.version>
-        <maven-plugin-api.version>4.0.0-alpha-5</maven-plugin-api.version>
+        <maven-plugin-api.version>4.0.0-alpha-7</maven-plugin-api.version>
         <maven-plugin-tools-annotations.version>3.9.0</maven-plugin-tools-annotations.version>
         <microprofile-jwt-auth.version>2.0.1</microprofile-jwt-auth.version>
         <netty.version>4.1.94.Final</netty.version>
@@ -114,13 +114,13 @@
         <shrinkwrap-impl-base.version>2.0.0-beta-1</shrinkwrap-impl-base.version>
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.1.4</shrinkwrap-resolver.version>
-        <soteria.version>3.0.2</soteria.version>
-        <spring-boot.version>3.1.0</spring-boot.version>
+        <soteria.version>3.0.3</soteria.version>
+        <spring-boot.version>3.1.1</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.1.3</tyrus.version>
         <undertow.version>2.3.7.Final</undertow.version>
         <wasp.version>3.2.0</wasp.version>
-        <weld.version>5.1.1.Final</weld.version>
+        <weld.version>5.1.1.SP1</weld.version>
         <yasson.version>3.0.3</yasson.version>
         <!-- plugins -->
         <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
