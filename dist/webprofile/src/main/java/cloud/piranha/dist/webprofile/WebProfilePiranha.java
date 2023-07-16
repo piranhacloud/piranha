@@ -28,11 +28,13 @@
 package cloud.piranha.dist.webprofile;
 
 import cloud.piranha.core.api.Piranha;
+import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.core.impl.DefaultModuleFinder;
 import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
+import cloud.piranha.core.impl.DefaultPiranhaConfiguration;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
@@ -40,8 +42,6 @@ import static cloud.piranha.core.impl.WarFileExtractor.extractWarFile;
 import cloud.piranha.extension.webprofile.WebProfileExtension;
 import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.feature.https.HttpsFeature;
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.ServletException;
@@ -57,12 +57,11 @@ import java.lang.module.Configuration;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleFinder;
 import java.lang.module.ModuleReference;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ServiceLoader;
 
 /**
- * The Piranha Micro runtime.
+ * The Piranha Web Profile runtime.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -74,54 +73,19 @@ public class WebProfilePiranha implements Piranha, Runnable {
     private static final Logger LOGGER = System.getLogger(WebProfilePiranha.class.getName());
 
     /**
-     * Stores the extension class.
+     * Stores the configuration.
      */
-    private Class<? extends WebApplicationExtension> extensionClass = WebProfileExtension.class;
-
-    /**
-     * Stores the context path.
-     */
-    private String contextPath = null;
-
-    /**
-     * Stores the exit on stop flag.
-     */
-    private boolean exitOnStop = true;
-
+    private final PiranhaConfiguration configuration;
+    
     /**
      * Stores the HTTP feature.
      */
     private HttpFeature httpFeature;
 
     /**
-     * Stores the HTTP port.
-     */
-    private int httpPort = 8080;
-
-    /**
-     * Stores the HTTP server class.
-     */
-    private String httpServerClass;
-
-    /**
      * Stores the HTTPS feature.
      */
     private HttpsFeature httpsFeature;
-
-    /**
-     * Stores the HTTPS port.
-     */
-    private int httpsPort = -1;
-
-    /**
-     * Stores the HTTPS server class.
-     */
-    private String httpsServerClass;
-
-    /**
-     * Stores the JMPS enabled flag.
-     */
-    private boolean jpmsEnabled = false;
 
     /**
      * Stores the stop flag.
@@ -149,9 +113,21 @@ public class WebProfilePiranha implements Piranha, Runnable {
     private File webAppDir;
 
     /**
-     * Stores the PID.
+     * Constructor.
      */
-    private Long pid;
+    public WebProfilePiranha() {
+        configuration = new DefaultPiranhaConfiguration();
+        configuration.setBoolean("exitOnStop", false);
+        configuration.setClass("extensionClass", WebProfileExtension.class);
+        configuration.setInteger("httpPort", 8080);
+        configuration.setInteger("httpsPort", -1);
+        configuration.setBoolean("jpmsEnabled", false);
+    }
+
+    @Override
+    public PiranhaConfiguration getConfiguration() {
+        return configuration;
+    }
 
     /**
      * Run method.
@@ -163,28 +139,7 @@ public class WebProfilePiranha implements Piranha, Runnable {
 
         webApplicationServer = new HttpWebApplicationServer();
 
-        if (httpsPort > 0) {
-            HttpServer httpsServer = null;
-            if (httpsServerClass == null) {
-                httpsServerClass = DefaultHttpServer.class.getName();
-            }
-            try {
-                httpsServer = (HttpServer) Class.forName(httpsServerClass)
-                        .getDeclaredConstructor().newInstance();
-            } catch (ClassNotFoundException | IllegalAccessException
-                    | IllegalArgumentException | InstantiationException
-                    | NoSuchMethodException | SecurityException
-                    | InvocationTargetException t) {
-                LOGGER.log(ERROR, "Unable to construct HTTPS server", t);
-            }
-            if (httpsServer != null) {
-                httpsServer.setHttpServerProcessor(webApplicationServer);
-                httpsServer.setServerPort(httpsPort);
-                httpsServer.setSSL(true);
-                httpsServer.start();
-            }
-        }
-
+        String contextPath = configuration.getString("contextPath");
         if (warFile != null && warFile.getName().toLowerCase().endsWith(".war")) {
             if (contextPath == null) {
                 contextPath = warFile.getName().substring(0, warFile.getName().length() - 4);
@@ -207,13 +162,13 @@ public class WebProfilePiranha implements Piranha, Runnable {
             DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDir);
             webApplication.setClassLoader(classLoader);
 
-            if (Boolean.getBoolean("cloud.piranha.modular.enable") || jpmsEnabled) {
+            if (Boolean.getBoolean("cloud.piranha.modular.enable") || configuration.getBoolean("jpmsEnabled", false)) {
                 setupLayers(classLoader);
             }
 
             if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
                 DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                extensionContext.add(extensionClass);
+                extensionContext.add((Class<? extends WebApplicationExtension>) configuration.getClass("extensionClass"));
                 extensionContext.configure(webApplication);
             } else {
                 DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
@@ -247,10 +202,10 @@ public class WebProfilePiranha implements Piranha, Runnable {
         /*
          * Construct, initialize and start HTTP endpoint (if applicable).
          */
-        if (httpPort > 0) {
+        if (configuration.getInteger("httpPort") > 0) {
             httpFeature = new HttpFeature();
-            httpFeature.setHttpServerClass(httpServerClass);
-            httpFeature.setPort(httpPort);
+            httpFeature.setHttpServerClass(configuration.getString("httpServerClass"));
+            httpFeature.setPort(configuration.getInteger("httpPort"));
             httpFeature.init();
             httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
             httpFeature.start();
@@ -259,10 +214,12 @@ public class WebProfilePiranha implements Piranha, Runnable {
         /*
          * Construct, initialize and start HTTPS endpoint (if applicable).
          */
-        if (httpsPort > 0) {
+        if (configuration.getInteger("httpsPort") > 0) {
             httpsFeature = new HttpsFeature();
-            httpsFeature.setHttpsServerClass(httpsServerClass);
-            httpsFeature.setPort(httpsPort);
+            httpsFeature.setHttpsKeystoreFile(configuration.getString("httpsKeystoreFile"));
+            httpsFeature.setHttpsKeystorePassword(configuration.getString("httpsKeystorePassword"));
+            httpsFeature.setHttpsServerClass(configuration.getString("httpsServerClass"));
+            httpsFeature.setPort(configuration.getInteger("httpsPort"));
             httpsFeature.init();
             httpsFeature.getHttpsServer().setHttpServerProcessor(webApplicationServer);
             httpsFeature.start();
@@ -272,13 +229,13 @@ public class WebProfilePiranha implements Piranha, Runnable {
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
-        if (pid != null) {
+        if (configuration.getLong("pid") != null) {
             File pidFile = new File("tmp", "piranha.pid");
             if (!pidFile.getParentFile().exists() && !pidFile.getParentFile().mkdirs()) {
                 LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
             }
             try (PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
-                writer.println(pid);
+                writer.println(configuration.getLong("pid"));
                 writer.flush();
             } catch (IOException ioe) {
                 LOGGER.log(WARNING, "Unable to write PID file", ioe);
@@ -286,7 +243,7 @@ public class WebProfilePiranha implements Piranha, Runnable {
         }
 
         while (!stop) {
-            if (pid != null) {
+            if (configuration.getLong("pid") != null) {
                 File pidFile = new File("tmp", "piranha.pid");
                 if (!pidFile.exists()) {
                     stop();
@@ -323,121 +280,6 @@ public class WebProfilePiranha implements Piranha, Runnable {
     }
 
     /**
-     * Set the context path.
-     *
-     * @param contextPath the context path.
-     */
-    public void setContextPath(String contextPath) {
-        this.contextPath = contextPath;
-    }
-
-    /**
-     * Set the default extension class.
-     *
-     * @param extensionClass the default extension class.
-     */
-    public void setExtensionClass(
-            Class<? extends WebApplicationExtension> extensionClass) {
-        this.extensionClass = extensionClass;
-    }
-
-    /**
-     * Set the exit on stop flag.
-     *
-     * @param exitOnStop the exit on stop flag.
-     */
-    public void setExitOnStop(boolean exitOnStop) {
-        this.exitOnStop = exitOnStop;
-    }
-
-    /**
-     * Set the HTTP server port.
-     *
-     * @param httpPort the HTTP server port.
-     */
-    public void setHttpPort(int httpPort) {
-        this.httpPort = httpPort;
-    }
-
-    /**
-     * Set the HTTP server class.
-     *
-     * @param httpServerClass the HTTP server class.
-     */
-    public void setHttpServerClass(String httpServerClass) {
-        this.httpServerClass = httpServerClass;
-    }
-
-    /**
-     * Set the HTTPS keystore file.
-     *
-     * <p>
-     * Convenience wrapper around the <code>javax.net.ssl.keyStore</code> system
-     * property. Note using this method sets the property for the entire JVM.
-     * </p>
-     *
-     * @param httpsKeystoreFile the HTTPS keystore file.
-     */
-    public void setHttpsKeystoreFile(String httpsKeystoreFile) {
-        if (httpsKeystoreFile != null) {
-            System.setProperty("javax.net.ssl.keyStore", httpsKeystoreFile);
-        }
-    }
-
-    /**
-     * Set the HTTPS keystore password.
-     *
-     * <p>
-     * Convenience wrapper around the
-     * <code>javax.net.ssl.keyStorePassword</code> system property. Note using
-     * this method sets the property for the entire JVM.
-     * </p>
-     *
-     * @param httpsKeystorePassword the HTTP keystore password.
-     */
-    public void setHttpsKeystorePassword(String httpsKeystorePassword) {
-        if (httpsKeystorePassword != null) {
-            System.setProperty("javax.net.ssl.keyStorePassword", httpsKeystorePassword);
-        }
-    }
-
-    /**
-     * Set the HTTPS server port.
-     *
-     * @param httpsPort the HTTPS server port.
-     */
-    public void setHttpsPort(int httpsPort) {
-        this.httpsPort = httpsPort;
-    }
-
-    /**
-     * Set the HTTPS server class.
-     *
-     * @param httpsServerClass the HTTPS server class.
-     */
-    public void setHttpsServerClass(String httpsServerClass) {
-        this.httpsServerClass = httpsServerClass;
-    }
-
-    /**
-     * Enable/disable JPMS.
-     *
-     * @param jpmsEnabled the JPMS enabled flag.
-     */
-    public void setJpmsEnabled(boolean jpmsEnabled) {
-        this.jpmsEnabled = jpmsEnabled;
-    }
-
-    /**
-     * Set the PID.
-     *
-     * @param pid the PID.
-     */
-    public void setPid(Long pid) {
-        this.pid = pid;
-    }
-
-    /**
      * Set the WAR file.
      *
      * @param warFile the WAR file.
@@ -469,7 +311,7 @@ public class WebProfilePiranha implements Piranha, Runnable {
     public void stop() {
         stop = true;
         thread = null;
-        if (exitOnStop) {
+        if (getConfiguration().getBoolean("exitOnStop", false)) {
             System.exit(0);
         }
     }

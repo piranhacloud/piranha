@@ -28,9 +28,11 @@
 package cloud.piranha.embedded;
 
 import cloud.piranha.core.api.Piranha;
+import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
+import cloud.piranha.core.impl.DefaultPiranhaConfiguration;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import jakarta.servlet.ServletException;
 import java.io.IOException;
@@ -46,6 +48,11 @@ import java.util.Map;
 public class EmbeddedPiranha implements Piranha {
 
     /**
+     * Stores the configuration.
+     */
+    private PiranhaConfiguration configuration;
+    
+    /**
      * Stores the web application.
      */
     private final WebApplication webApplication;
@@ -54,6 +61,7 @@ public class EmbeddedPiranha implements Piranha {
      * Constructor.
      */
     public EmbeddedPiranha() {
+        configuration = new DefaultPiranhaConfiguration();
         webApplication = new DefaultWebApplication();
     }
 
@@ -74,6 +82,11 @@ public class EmbeddedPiranha implements Piranha {
     public EmbeddedPiranha destroy() {
         webApplication.destroy();
         return this;
+    }
+
+    @Override
+    public PiranhaConfiguration getConfiguration() {
+        return configuration;
     }
 
     /**

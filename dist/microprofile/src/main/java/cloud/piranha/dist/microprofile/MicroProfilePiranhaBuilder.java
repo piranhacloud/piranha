@@ -28,7 +28,6 @@
 package cloud.piranha.dist.microprofile;
 
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.extension.microprofile.MicroProfileExtension;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import static java.lang.System.Logger.Level.WARNING;
@@ -39,81 +38,21 @@ import static java.lang.System.Logger.Level.WARNING;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class MicroProfilePiranhaBuilder {
-    
+
     /**
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(MicroProfilePiranhaBuilder.class.getName());
 
     /**
-     * Stores the context path.
+     * Stores the Micro Profile Piranha instance.
      */
-    private String contextPath = null;
-
-    /**
-     * Stores the extension class.
-     */
-    private Class<? extends WebApplicationExtension> extensionClass;
-
-    /**
-     * Stores the exit on stop flag.
-     */
-    private boolean exitOnStop = false;
-
-    /**
-     * Stores the HTTPS keystore file.
-     */
-    private String httpsKeystoreFile;
-
-    /**
-     * Stores the HTTPS keystore password.
-     */
-    private String httpsKeystorePassword;
-
-    /**
-     * Stores the HTTP port.
-     */
-    private int httpPort = 8080;
-
-    /**
-     * Stores the HTTP server class.
-     */
-    private String httpServerClass;
-
-    /**
-     * Stores the HTTPS port.
-     */
-    private int httpsPort = -1;
-
-    /**
-     * Stores the HTTPS server class.
-     */
-    private String httpsServerClass;
-
-    /**
-     * Stores the JPMS flag.
-     */
-    private boolean jpms = false;
+    private final MicroProfilePiranha piranha = new MicroProfilePiranha();
 
     /**
      * Stores the verbose flag.
      */
     private boolean verbose = false;
-
-    /**
-     * Stores the WAR file(name).
-     */
-    private String warFile;
-
-    /**
-     * Stores the web application directory.
-     */
-    private String webAppDir;
-
-    /**
-     * Stores the PID.
-     */
-    private Long pid;
 
     /**
      * Build the Piranha instance.
@@ -124,43 +63,17 @@ public class MicroProfilePiranhaBuilder {
         if (verbose) {
             showArguments();
         }
-        MicroProfilePiranha piranha = new MicroProfilePiranha();
-        if (extensionClass != null) {
-            piranha.setExtensionClass(extensionClass);
-        }
-        if (contextPath != null) {
-            piranha.setContextPath(contextPath);
-        }
-        piranha.setExitOnStop(exitOnStop);
-        piranha.setHttpPort(httpPort);
-        piranha.setHttpServerClass(httpServerClass);
-        piranha.setHttpsPort(httpsPort);
-        piranha.setHttpsServerClass(httpsServerClass);
-        piranha.setJpmsEnabled(jpms);
-        if (httpsKeystoreFile != null) {
-            piranha.setHttpsKeystoreFile(httpsKeystoreFile);
-        }
-        if (httpsKeystorePassword != null) {
-            piranha.setHttpsKeystorePassword(httpsKeystorePassword);
-        }
-        if (warFile != null) {
-            piranha.setWarFile(warFile);
-        }
-        if (webAppDir != null) {
-            piranha.setWebAppDir(webAppDir);
-        }
-        piranha.setPid(pid);
         return piranha;
     }
 
     /**
      * Set the context path.
-     * 
+     *
      * @param contextPath the context path.
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder contextPath(String contextPath) {
-        this.contextPath = contextPath;
+        piranha.getConfiguration().setString("contextPath", contextPath);
         return this;
     }
 
@@ -171,7 +84,7 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder exitOnStop(boolean exitOnStop) {
-        this.exitOnStop = exitOnStop;
+        piranha.getConfiguration().setBoolean("exitOnStop", exitOnStop);
         return this;
     }
 
@@ -183,7 +96,7 @@ public class MicroProfilePiranhaBuilder {
      */
     public MicroProfilePiranhaBuilder extensionClass(
             Class<? extends WebApplicationExtension> extensionClass) {
-        this.extensionClass = extensionClass;
+        piranha.getConfiguration().setClass("extensionClass", extensionClass);
         return this;
     }
 
@@ -195,8 +108,8 @@ public class MicroProfilePiranhaBuilder {
      */
     public MicroProfilePiranhaBuilder extensionClass(String extensionClassName) {
         try {
-            this.extensionClass = Class.forName(extensionClassName)
-                .asSubclass(WebApplicationExtension.class);
+            extensionClass(Class.forName(extensionClassName)
+                    .asSubclass(WebApplicationExtension.class));
         } catch (ClassNotFoundException cnfe) {
             LOGGER.log(WARNING, "Unable to load extension class", cnfe);
         }
@@ -210,21 +123,21 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder httpPort(int httpPort) {
-        this.httpPort = httpPort;
+        piranha.getConfiguration().setInteger("httpPort", httpPort);
         return this;
     }
 
     /**
      * Set the HTTP server class.
-     * 
+     *
      * @param httpServerClass the HTTP server class.
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder httpServerClass(String httpServerClass) {
-        this.httpServerClass = httpServerClass;
+        piranha.getConfiguration().setString("httpServerClass", httpServerClass);
         return this;
     }
-    
+
     /**
      * Set the HTTPS keystore file.
      *
@@ -232,7 +145,7 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder httpsKeystoreFile(String httpsKeystoreFile) {
-        this.httpsKeystoreFile = httpsKeystoreFile;
+        piranha.getConfiguration().setString("httpsKeystoreFile", httpsKeystoreFile);
         return this;
     }
 
@@ -243,7 +156,7 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder httpsKeystorePassword(String httpsKeystorePassword) {
-        this.httpsKeystorePassword = httpsKeystorePassword;
+        piranha.getConfiguration().setString("httpsKeystorePassword", httpsKeystorePassword);
         return this;
     }
 
@@ -254,18 +167,18 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder httpsPort(int httpsPort) {
-        this.httpsPort = httpsPort;
+        piranha.getConfiguration().setInteger("httpsPort", httpsPort);
         return this;
     }
 
     /**
      * Set the HTTPS server class.
-     * 
+     *
      * @param httpsServerClass the HTTPS server class.
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder httpsServerClass(String httpsServerClass) {
-        this.httpsServerClass = httpsServerClass;
+        piranha.getConfiguration().setString("httpsServerClass", httpsServerClass);
         return this;
     }
 
@@ -276,7 +189,7 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder jpms(boolean jpms) {
-        this.jpms = jpms;
+        piranha.getConfiguration().setBoolean("jpmsEnabled", jpms);
         return this;
     }
 
@@ -307,44 +220,18 @@ public class MicroProfilePiranhaBuilder {
                 Web application dir     : %s
                 
                 """.formatted(
-                contextPath,
-                extensionClass != null ? extensionClass.getName() : MicroProfileExtension.class.getName(),
-                exitOnStop,
-                httpPort,
-                httpServerClass,
-                httpsKeystoreFile,
-                httpsPort,
-                httpsServerClass,
-                jpms,
-                pid,
-                warFile,
-                webAppDir));
-    }
-
-    /**
-     * Set the SSL keystore file.
-     *
-     * @param sslKeystoreFile the SSL keystore file.
-     * @return the builder.
-     * @deprecated
-     */
-    @Deprecated(since = "23.5.0", forRemoval = true)
-    public MicroProfilePiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
-        this.httpsKeystoreFile = sslKeystoreFile;
-        return this;
-    }
-
-    /**
-     * Set the SSL keystore password.
-     *
-     * @param sslKeystorePassword the SSL keystore password.
-     * @return the builder.
-     * @deprecated
-     */
-    @Deprecated(since = "23.5.0", forRemoval = true)
-    public MicroProfilePiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
-        this.httpsKeystorePassword = sslKeystorePassword;
-        return this;
+                        piranha.getConfiguration().getString("contextPath"),
+                        piranha.getConfiguration().getClass("extensionClass"),
+                        piranha.getConfiguration().getBoolean("exitOnStop", false),
+                        piranha.getConfiguration().getInteger("httpPort"),
+                        piranha.getConfiguration().getString("httpServerClass"),
+                        piranha.getConfiguration().getString("httpsKeystoreFile"),
+                        piranha.getConfiguration().getInteger("httpsPort"),
+                        piranha.getConfiguration().getString("httpsServerClass"),
+                        piranha.getConfiguration().getBoolean("jpmsEnabled", false),
+                        piranha.getConfiguration().getLong("pid"),
+                        piranha.getConfiguration().getFile("warFile"),
+                        piranha.getConfiguration().getFile("webappDir")));
     }
 
     /**
@@ -365,7 +252,9 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder warFile(String warFile) {
-        this.warFile = warFile;
+        if (warFile != null) {
+            piranha.setWarFile(warFile);
+        }
         return this;
     }
 
@@ -376,7 +265,9 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder webAppDir(String webAppDir) {
-        this.webAppDir = webAppDir;
+        if (webAppDir != null) {
+            piranha.setWebAppDir(webAppDir);
+        }
         return this;
     }
 
@@ -387,7 +278,7 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder pid(Long pid) {
-        this.pid = pid;
+        piranha.getConfiguration().setLong("pid", pid);
         return this;
     }
 }

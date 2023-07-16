@@ -31,7 +31,6 @@ import java.lang.System.Logger.Level;
 
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.extension.platform.PlatformExtension;
-import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The Main for Piranha Platform.
@@ -76,13 +75,13 @@ public class PlatformPiranhaMain {
      */
     protected PlatformPiranhaBuilder processArguments(String[] arguments) {
         PlatformPiranhaBuilder builder = new PlatformPiranhaBuilder()
-                .defaultExtensionClass(getDefaultExtension())
+                .extensionClass(getDefaultExtension())
                 .exitOnStop(true);
 
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
-                if (arguments[i].equals("--default-extension")) {
-                    builder = builder.defaultExtensionClass(arguments[i + 1]);
+                if (arguments[i].equals("--extension-class")) {
+                    builder = builder.extensionClass(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--help")) {
                     return null;
@@ -114,14 +113,6 @@ public class PlatformPiranhaMain {
                 if (arguments[i].equals("--jpms")) {
                     builder = builder.jpms(true);
                 }
-                if (arguments[i].equals("--ssl-truststore-file")) {
-                    LOGGER.log(WARNING, "The --ssl-truststore-file has been replaced by --https-truststore-file [DEPRECATED]");
-                    builder = builder.sslTruststoreFile(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--ssl-truststore-password")) {
-                    LOGGER.log(WARNING, "The --ssl-truststore-password has been replaced by --https-truststore-password [DEPRECATED]");
-                    builder = builder.sslTruststorePassword(arguments[i + 1]);
-                }
                 if (arguments[i].equals("--verbose")) {
                     builder = builder.verbose(true);
                 }
@@ -140,7 +131,7 @@ public class PlatformPiranhaMain {
         LOGGER.log(Level.INFO, "");
         LOGGER.log(Level.INFO,
                 """
- --default-extension <className>      - Set the default extension
+ --extension-class <className>        - Set the extension
  --help                               - Show this help
  --http-port <integer>                - Set the HTTP port (use -1 to disable)
  --http-server-class                  - Set the HTTP server class
