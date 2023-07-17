@@ -75,7 +75,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
     /**
      * Stores the configuration.
      */
-    private PiranhaConfiguration configuration = new DefaultPiranhaConfiguration();
+    private final PiranhaConfiguration configuration;
 
     /**
      * Stores the HTTP feature.
@@ -106,6 +106,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
      * Constructor.
      */
     public CoreProfilePiranha() {
+        configuration = new DefaultPiranhaConfiguration();
         configuration.setClass("extensionClass", CoreProfileExtension.class);
         configuration.setBoolean("exitOnStop", false);
         configuration.setInteger("httpPort", 8080);
@@ -209,6 +210,8 @@ public class CoreProfilePiranha implements Piranha, Runnable {
          */
         if (configuration.getInteger("httpsPort") > 0) {
             httpsFeature = new HttpsFeature();
+            httpsFeature.setHttpsKeystoreFile(configuration.getString("httpsKeystoreFile"));
+            httpsFeature.setHttpsKeystorePassword(configuration.getString("httpsKeystorePassword"));
             httpsFeature.setHttpsServerClass(configuration.getString("httpsServerClass"));
             httpsFeature.setPort(configuration.getInteger("httpsPort"));
             httpsFeature.init();
@@ -247,11 +250,6 @@ public class CoreProfilePiranha implements Piranha, Runnable {
             }
         }
     }
-    
-    @Override
-    public void setConfiguration(PiranhaConfiguration configuration) {
-        this.configuration = configuration;
-    }
 
     private void setupLayers(DefaultWebApplicationClassLoader classLoader) {
         ModuleFinder defaultModuleFinder = new DefaultModuleFinder(classLoader.getResourceManager().getResourceList());
@@ -273,39 +271,6 @@ public class CoreProfilePiranha implements Piranha, Runnable {
     public void service(WebApplicationRequest request, WebApplicationResponse response)
             throws IOException, ServletException {
         webApplicationServer.service(request, response);
-    }
-
-    /**
-     * Set the HTTPS keystore file.
-     *
-     * <p>
-     * Convenience wrapper around the <code>javax.net.ssl.keyStore</code> system
-     * property. Note using this method sets the property for the entire JVM.
-     * </p>
-     *
-     * @param httpsKeystoreFile the HTTPS keystore file.
-     */
-    public void setHttpsKeystoreFile(String httpsKeystoreFile) {
-        if (httpsKeystoreFile != null) {
-            System.setProperty("javax.net.ssl.keyStore", httpsKeystoreFile);
-        }
-    }
-
-    /**
-     * Set the HTTPS keystore password.
-     *
-     * <p>
-     * Convenience wrapper around the
-     * <code>javax.net.ssl.keyStorePassword</code> system property. Note using
-     * this method sets the property for the entire JVM.
-     * </p>
-     *
-     * @param httpsKeystorePassword the HTTP keystore password.
-     */
-    public void setHttpsKeystorePassword(String httpsKeystorePassword) {
-        if (httpsKeystorePassword != null) {
-            System.setProperty("javax.net.ssl.keyStorePassword", httpsKeystorePassword);
-        }
     }
 
     /**

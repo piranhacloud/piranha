@@ -66,7 +66,7 @@ class ProgrammaticIT {
     @BeforeEach
     void beforeEach() {
         piranha = new ServerPiranhaBuilder()
-                .defaultExtensionClass(ServletExtension.class)
+                .extensionClass(ServletExtension.class)
                 .httpPort(8200)
                 .webAppsDir("target/webapps")
                 .build();

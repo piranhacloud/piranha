@@ -28,7 +28,6 @@
 package cloud.piranha.dist.webprofile;
 
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.extension.webprofile.WebProfileExtension;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import static java.lang.System.Logger.Level.WARNING;
@@ -46,64 +45,9 @@ public class WebProfilePiranhaBuilder {
     private static final Logger LOGGER = System.getLogger(WebProfilePiranhaBuilder.class.getName());
 
     /**
-     * Stores the context path.
+     * Stores the Piranha Web Profile instance.
      */
-    private String contextPath = null;
-
-    /**
-     * Stores the extension class.
-     */
-    private Class<? extends WebApplicationExtension> extensionClass;
-
-    /**
-     * Stores the exit on stop flag.
-     */
-    private boolean exitOnStop = false;
-
-    /**
-     * Stores the HTTP port.
-     */
-    private int httpPort = 8080;
-
-    /**
-     * Stores the HTTP server class.
-     */
-    private String httpServerClass;
-
-    /**
-     * Stores the HTTPS keystore file.
-     */
-    private String httpsKeystoreFile;
-
-    /**
-     * Stores the HTTPS keystore password.
-     */
-    private String httpsKeystorePassword;
-
-    /**
-     * Stores the HTTPS port.
-     */
-    private int httpsPort = -1;
-
-    /**
-     * Stores the HTTPS server class.
-     */
-    private String httpsServerClass;
-
-    /**
-     * Stores the JPMS flag.
-     */
-    private boolean jpms = false;
-
-    /**
-     * Stores the SSL keystore file.
-     */
-    private String sslKeystoreFile;
-
-    /**
-     * Stores the SSL keystore password.
-     */
-    private String sslKeystorePassword;
+    private final WebProfilePiranha piranha = new WebProfilePiranha();
 
     /**
      * Stores the verbose flag.
@@ -121,11 +65,6 @@ public class WebProfilePiranhaBuilder {
     private String webAppDir;
 
     /**
-     * Stores the PID.
-     */
-    private Long pid;
-
-    /**
      * Build the Piranha instance.
      *
      * @return the Piranha instance.
@@ -134,36 +73,12 @@ public class WebProfilePiranhaBuilder {
         if (verbose) {
             showArguments();
         }
-        WebProfilePiranha piranha = new WebProfilePiranha();
-        if (extensionClass != null) {
-            piranha.setExtensionClass(extensionClass);
-        }
-        if (contextPath != null) {
-            piranha.setContextPath(contextPath);
-        }
-        piranha.setExitOnStop(exitOnStop);
-        piranha.setHttpPort(httpPort);
-        if (httpServerClass != null) {
-            piranha.setHttpServerClass(httpServerClass);
-        }
-        piranha.setHttpsPort(httpsPort);
-        if (httpsServerClass != null) {
-            piranha.setHttpsServerClass(httpsServerClass);
-        }
-        piranha.setJpmsEnabled(jpms);
-        if (httpsKeystoreFile != null) {
-            piranha.setHttpsKeystoreFile(httpsKeystoreFile);
-        }
-        if (httpsKeystorePassword != null) {
-            piranha.setHttpsKeystorePassword(httpsKeystorePassword);
-        }
         if (warFile != null) {
             piranha.setWarFile(warFile);
         }
         if (webAppDir != null) {
             piranha.setWebAppDir(webAppDir);
         }
-        piranha.setPid(pid);
         return piranha;
     }
 
@@ -174,7 +89,7 @@ public class WebProfilePiranhaBuilder {
      * @return the builder.
      */
     public WebProfilePiranhaBuilder contextPath(String contextPath) {
-        this.contextPath = contextPath;
+        piranha.getConfiguration().setString("contextPath", contextPath);
         return this;
     }
 
@@ -185,7 +100,7 @@ public class WebProfilePiranhaBuilder {
      * @return the builder.
      */
     public WebProfilePiranhaBuilder exitOnStop(boolean exitOnStop) {
-        this.exitOnStop = exitOnStop;
+        piranha.getConfiguration().setBoolean("exitOnStop", exitOnStop);
         return this;
     }
 
@@ -197,7 +112,7 @@ public class WebProfilePiranhaBuilder {
      */
     public WebProfilePiranhaBuilder extensionClass(
             Class<? extends WebApplicationExtension> extensionClass) {
-        this.extensionClass = extensionClass;
+        piranha.getConfiguration().setClass("extensionClass", extensionClass);
         return this;
     }
 
@@ -209,8 +124,8 @@ public class WebProfilePiranhaBuilder {
      */
     public WebProfilePiranhaBuilder extensionClass(String extensionClassName) {
         try {
-            this.extensionClass = Class.forName(extensionClassName)
-                    .asSubclass(WebApplicationExtension.class);
+            extensionClass(Class.forName(extensionClassName)
+                    .asSubclass(WebApplicationExtension.class));
         } catch (ClassNotFoundException cnfe) {
             LOGGER.log(WARNING, "Unable to load extension class", cnfe);
         }
@@ -224,7 +139,7 @@ public class WebProfilePiranhaBuilder {
      * @return the builder.
      */
     public WebProfilePiranhaBuilder httpPort(int httpPort) {
-        this.httpPort = httpPort;
+        piranha.getConfiguration().setInteger("httpPort", httpPort);
         return this;
     }
 
@@ -235,7 +150,7 @@ public class WebProfilePiranhaBuilder {
      * @return the builder.
      */
     public WebProfilePiranhaBuilder httpServerClass(String httpServerClass) {
-        this.httpServerClass = httpServerClass;
+        piranha.getConfiguration().setString("httpServerClass", httpServerClass);
         return this;
     }
 
@@ -246,7 +161,7 @@ public class WebProfilePiranhaBuilder {
      * @return the builder.
      */
     public WebProfilePiranhaBuilder httpsKeystoreFile(String httpsKeystoreFile) {
-        this.httpsKeystoreFile = httpsKeystoreFile;
+        piranha.getConfiguration().setString("httpsKeystoreFile", httpsKeystoreFile);
         return this;
     }
 
@@ -257,7 +172,7 @@ public class WebProfilePiranhaBuilder {
      * @return the builder.
      */
     public WebProfilePiranhaBuilder httpsKeystorePassword(String httpsKeystorePassword) {
-        this.httpsKeystorePassword = httpsKeystorePassword;
+        piranha.getConfiguration().setString("httpsKeystorePassword", httpsKeystorePassword);
         return this;
     }
 
@@ -268,7 +183,7 @@ public class WebProfilePiranhaBuilder {
      * @return the builder.
      */
     public WebProfilePiranhaBuilder httpsPort(int httpsPort) {
-        this.httpsPort = httpsPort;
+        piranha.getConfiguration().setInteger("httpsPort", httpsPort);
         return this;
     }
 
@@ -279,7 +194,7 @@ public class WebProfilePiranhaBuilder {
      * @return the builder.
      */
     public WebProfilePiranhaBuilder httpsServerClass(String httpsServerClass) {
-        this.httpsServerClass = httpsServerClass;
+        piranha.getConfiguration().setString("httpsServerClass", httpsServerClass);
         return this;
     }
 
@@ -290,7 +205,18 @@ public class WebProfilePiranhaBuilder {
      * @return the builder.
      */
     public WebProfilePiranhaBuilder jpms(boolean jpms) {
-        this.jpms = jpms;
+        piranha.getConfiguration().setBoolean("jpmsEnabled", jpms);
+        return this;
+    }
+
+    /**
+     * Set the PID.
+     *
+     * @param pid the PID.
+     * @return the builder.
+     */
+    public WebProfilePiranhaBuilder pid(Long pid) {
+        piranha.getConfiguration().setLong("pid", pid);
         return this;
     }
 
@@ -321,44 +247,18 @@ public class WebProfilePiranhaBuilder {
                 Web application dir     : %s
                 
                 """.formatted(
-                        contextPath,
-                        extensionClass != null ? extensionClass.getName() : WebProfileExtension.class.getName(),
-                        exitOnStop,
-                        httpPort,
-                        httpServerClass,
-                        httpsKeystoreFile,
-                        httpsPort,
-                        httpsServerClass,
-                        jpms,
-                        pid,
+                        piranha.getConfiguration().getString("contextPath"),
+                        piranha.getConfiguration().getClass("extensionClass"),
+                        piranha.getConfiguration().getBoolean("exitOnStop", false),
+                        piranha.getConfiguration().getInteger("httpPort"),
+                        piranha.getConfiguration().getString("httpServerClass"),
+                        piranha.getConfiguration().getString("httpsKeystoreFile"),
+                        piranha.getConfiguration().getInteger("httpsPort"),
+                        piranha.getConfiguration().getString("httpsServerClass"),
+                        piranha.getConfiguration().getBoolean("jpmsEnabled", false),
+                        piranha.getConfiguration().getLong("pid"),
                         warFile,
                         webAppDir));
-    }
-
-    /**
-     * Set the SSL keystore file.
-     *
-     * @param sslKeystoreFile the SSL keystore file.
-     * @return the builder.
-     * @deprecated
-     */
-    @Deprecated(since = "23.5.0", forRemoval = true)
-    public WebProfilePiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
-        this.httpsKeystoreFile = sslKeystoreFile;
-        return this;
-    }
-
-    /**
-     * Set the SSL keystore password.
-     *
-     * @param sslKeystorePassword the SSL keystore password.
-     * @return the builder.
-     * @deprecated
-     */
-    @Deprecated(since = "23.5.0", forRemoval = true)
-    public WebProfilePiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
-        this.httpsKeystorePassword = sslKeystorePassword;
-        return this;
     }
 
     /**
@@ -391,17 +291,6 @@ public class WebProfilePiranhaBuilder {
      */
     public WebProfilePiranhaBuilder webAppDir(String webAppDir) {
         this.webAppDir = webAppDir;
-        return this;
-    }
-
-    /**
-     * Set the PID.
-     *
-     * @param pid the PID.
-     * @return the builder.
-     */
-    public WebProfilePiranhaBuilder pid(Long pid) {
-        this.pid = pid;
         return this;
     }
 }

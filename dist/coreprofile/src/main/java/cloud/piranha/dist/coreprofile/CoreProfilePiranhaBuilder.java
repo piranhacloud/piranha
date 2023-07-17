@@ -29,7 +29,6 @@ package cloud.piranha.dist.coreprofile;
 
 import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.extension.coreprofile.CoreProfileExtension;
 import java.io.File;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
@@ -48,19 +47,9 @@ public class CoreProfilePiranhaBuilder {
     private static final Logger LOGGER = System.getLogger(CoreProfilePiranhaBuilder.class.getName());
 
     /**
-     * Stores the HTTPS keystore file.
-     */
-    private String httpsKeystoreFile;
-
-    /**
-     * Stores the HTTPS keystore password.
-     */
-    private String httpsKeystorePassword;
-
-    /**
      * Stores the Piranha instance.
      */
-    private CoreProfilePiranha piranha = new CoreProfilePiranha();
+    private final CoreProfilePiranha piranha = new CoreProfilePiranha();
 
     /**
      * Stores the verbose flag.
@@ -75,12 +64,6 @@ public class CoreProfilePiranhaBuilder {
     public CoreProfilePiranha build() {
         if (verbose) {
             showArguments();
-        }
-        if (httpsKeystoreFile != null) {
-            piranha.setHttpsKeystoreFile(httpsKeystoreFile);
-        }
-        if (httpsKeystorePassword != null) {
-            piranha.setHttpsKeystorePassword(httpsKeystorePassword);
         }
         return piranha;
     }
@@ -164,7 +147,7 @@ public class CoreProfilePiranhaBuilder {
      * @return the builder.
      */
     public CoreProfilePiranhaBuilder httpsKeystoreFile(String httpsKeystoreFile) {
-        this.httpsKeystoreFile = httpsKeystoreFile;
+        piranha.getConfiguration().setString("httpsKeystoreFile", httpsKeystoreFile);
         return this;
     }
 
@@ -175,7 +158,7 @@ public class CoreProfilePiranhaBuilder {
      * @return the builder.
      */
     public CoreProfilePiranhaBuilder httpsKeystorePassword(String httpsKeystorePassword) {
-        this.httpsKeystorePassword = httpsKeystorePassword;
+        piranha.getConfiguration().setString("httpsKeystorePassword", httpsKeystorePassword);
         return this;
     }
 
@@ -253,11 +236,11 @@ public class CoreProfilePiranhaBuilder {
                 
                 """.formatted(
                         configuration.getString("contextPath"),
-                        configuration.getClass("extensionClass") != null ? configuration.getClass("extensionClass").getName() : CoreProfileExtension.class.getName(),
+                        configuration.getClass("extensionClass"),
                         configuration.getBoolean("exitOnStop", false),
-                        httpsKeystoreFile,
                         configuration.getInteger("httpPort"),
                         configuration.getString("httpServerClass"),
+                        configuration.getString("httpsKeystoreFile"),
                         configuration.getInteger("httpsPort"),
                         configuration.getString("httpsServerClass"),
                         configuration.getBoolean("jpms", false),

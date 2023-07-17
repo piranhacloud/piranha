@@ -42,9 +42,7 @@ public interface Piranha {
      * 
      * @return the configuration.
      */
-    default PiranhaConfiguration getConfiguration() {
-        return null;
-    }
+    PiranhaConfiguration getConfiguration();
     
     /**
      * Service the request and response.
@@ -56,12 +54,4 @@ public interface Piranha {
      */
     void service(WebApplicationRequest request, WebApplicationResponse response)
             throws IOException, ServletException;
-    
-    /**
-     * Set the configuration.
-     * 
-     * @param configuration the configuration.
-     */
-    default void setConfiguration(PiranhaConfiguration configuration) {
-    }
 }

@@ -38,8 +38,10 @@ import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import cloud.piranha.core.api.Piranha;
+import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
+import cloud.piranha.core.impl.DefaultPiranhaConfiguration;
 import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.feature.https.HttpsFeature;
 import cloud.piranha.http.api.HttpServer;
@@ -72,19 +74,14 @@ public class IsolatedPiranha implements Piranha, Runnable {
     private static IsolatedPiranha theOneAndOnlyInstance;
 
     /**
+     * Stores the configuration.
+     */
+    private final PiranhaConfiguration configuration;
+    
+    /**
      * Stores the HTTP feature.
      */
     private HttpFeature httpFeature;
-
-    /**
-     * Stores the HTTP port.
-     */
-    private int httpPort = 8080;
-
-    /**
-     * Stores the HTTP server class.
-     */
-    private String httpServerClass;
 
     /**
      * Stores the HTTPS feature.
@@ -92,24 +89,28 @@ public class IsolatedPiranha implements Piranha, Runnable {
     private HttpsFeature httpsFeature;
 
     /**
-     * Stores the HTTPS port.
-     */
-    private int httpsPort = -1;
-
-    /**
-     * Stores the HTTPS server class.
-     */
-    private String httpsServerClass;
-
-    /**
      * Stores the HTTP web application server.
      */
     private HttpWebApplicationServer webApplicationServer;
 
     /**
-     * {
+     * Constructor.
+     */
+    public IsolatedPiranha() {
+        configuration = new DefaultPiranhaConfiguration();
+        configuration.setInteger("httpPort", 8080);
+        configuration.setInteger("httpsPort", -1);
+    }
+
+    @Override
+    public PiranhaConfiguration getConfiguration() {
+        return configuration;
+    }
+    
+    /**
+     * Get the only instance.
      *
-     * @return the instance}
+     * @return the instance.
      */
     public static IsolatedPiranha get() {
         return theOneAndOnlyInstance;
@@ -135,20 +136,16 @@ public class IsolatedPiranha implements Piranha, Runnable {
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
                 if (arguments[i].equals("--http-port")) {
-                    httpPort = Integer.parseInt(arguments[i + 1]);
+                    configuration.setInteger("httpPort", Integer.valueOf(arguments[i + 1]));
                 }
                 if (arguments[i].equals("--http-server-class")) {
-                    httpServerClass = arguments[i + 1];
+                    configuration.setString("httpServerClass", arguments[i + 1]);
                 }
                 if (arguments[i].equals("--https-port")) {
-                    httpsPort = Integer.parseInt(arguments[i + 1]);
+                    configuration.setInteger("httpsPort", Integer.valueOf(arguments[i + 1]));
                 }
                 if (arguments[i].equals("--https-server-class")) {
-                    httpsServerClass = arguments[i + 1];
-                }
-                if (arguments[i].equals("--ssl")) {
-                    LOGGER.log(WARNING, "The --ssl parameter is deprecated, please use --https-port instead");
-                    httpsPort = 8043;
+                    configuration.setString("httpsServerClass", arguments[i + 1]);
                 }
             }
         }
@@ -193,10 +190,10 @@ public class IsolatedPiranha implements Piranha, Runnable {
         /*
          * Construct, initialize and start HTTP endpoint (if applicable).
          */
-        if (httpPort > 0) {
+        if (configuration.getInteger("httpPort") > 0) {
             httpFeature = new HttpFeature();
-            httpFeature.setHttpServerClass(httpServerClass);
-            httpFeature.setPort(httpPort);
+            httpFeature.setHttpServerClass(configuration.getString("httpServerClass"));
+            httpFeature.setPort(configuration.getInteger("httpPort"));
             httpFeature.init();
             httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
             httpFeature.start();
@@ -206,10 +203,10 @@ public class IsolatedPiranha implements Piranha, Runnable {
         /*
          * Construct, initialize and start HTTPS endpoint (if applicable).
          */
-        if (httpsPort > 0) {
+        if (configuration.getInteger("httpsPort") > 0) {
             httpsFeature = new HttpsFeature();
-            httpsFeature.setHttpsServerClass(httpsServerClass);
-            httpsFeature.setPort(httpsPort);
+            httpsFeature.setHttpsServerClass(configuration.getString("httpsServerClass"));
+            httpsFeature.setPort(configuration.getInteger("httpsPort"));
             httpsFeature.init();
             httpsFeature.getHttpsServer().setHttpServerProcessor(webApplicationServer);
             httpsFeature.start();

@@ -29,7 +29,6 @@ package cloud.piranha.dist.server;
 
 import java.lang.System.Logger.Level;
 
-import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.extension.servlet.ServletExtension;
 import static java.lang.System.Logger.Level.WARNING;
 
@@ -44,15 +43,6 @@ public class ServerPiranhaMain {
      * Stores the logger
      */
     private static final System.Logger LOGGER = System.getLogger(ServerPiranhaMain.class.getName());
-
-    /**
-     * Get the default extension.
-     *
-     * @return the default extension.
-     */
-    protected Class<? extends WebApplicationExtension> getDefaultExtension() {
-        return ServletExtension.class;
-    }
 
     /**
      * Main method.
@@ -76,13 +66,17 @@ public class ServerPiranhaMain {
      */
     protected ServerPiranhaBuilder processArguments(String[] arguments) {
         ServerPiranhaBuilder builder = new ServerPiranhaBuilder()
-                .defaultExtensionClass(getDefaultExtension())
+                .extensionClass(ServletExtension.class)
                 .exitOnStop(true);
 
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
                 if (arguments[i].equals("--default-extension")) {
-                    builder = builder.defaultExtensionClass(arguments[i + 1]);
+                    LOGGER.log(WARNING, "--default-extension has been replaced by --extension-class");
+                    builder = builder.extensionClass(arguments[i + 1]);
+                }
+                if (arguments[i].equals("--extension-class")) {
+                    builder = builder.extensionClass(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--help")) {
                     return null;
@@ -114,14 +108,6 @@ public class ServerPiranhaMain {
                 if (arguments[i].equals("--jpms")) {
                     builder = builder.jpms(true);
                 }
-                if (arguments[i].equals("--ssl-truststore-file")) {
-                    LOGGER.log(WARNING, "The --ssl-truststore-file has been replaced by --https-truststore-file [DEPRECATED]");
-                    builder = builder.sslTruststoreFile(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--ssl-truststore-password")) {
-                    LOGGER.log(WARNING, "The --ssl-truststore-password has been replaced by --https-truststore-password [DEPRECATED]");
-                    builder = builder.sslTruststorePassword(arguments[i + 1]);
-                }
                 if (arguments[i].equals("--verbose")) {
                     builder = builder.verbose(true);
                 }
@@ -140,7 +126,7 @@ public class ServerPiranhaMain {
         LOGGER.log(Level.INFO, "");
         LOGGER.log(Level.INFO,
                 """
- --default-extension <className>      - Set the default extension
+ --extension <className>              - Set the extension class
  --help                               - Show this help
  --http-port <integer>                - Set the HTTP port (use -1 to disable)
  --http-server-class                  - Set the HTTP server class

@@ -46,7 +46,7 @@ public class HttpsFeature implements Feature {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(HttpsFeature.class.getName());
-    
+
     /**
      * Stores the feature manager.
      */
@@ -77,6 +77,24 @@ public class HttpsFeature implements Feature {
         return featureManager;
     }
 
+    /**
+     * Get the HTTPS keystore file.
+     * 
+     * @return the HTTPS keystore file.
+     */
+    public String getHttpsKeystoreFile() {
+        return System.getProperty("javax.net.ssl.keyStore");
+    }
+
+    /**
+     * Get the HTTPS keystore password.
+     * 
+     * @return the HTTPS keystore password.
+     */
+    public String getHttpsKeystorePassword() {
+        return System.getProperty("javax.net.ssl.keyStorePassword");
+    }
+    
     /**
      * Get the HTTPS server.
      *
@@ -126,6 +144,40 @@ public class HttpsFeature implements Feature {
     @Override
     public void setFeatureManager(FeatureManager featureManager) {
         this.featureManager = featureManager;
+    }
+
+    /**
+     * Set the HTTPS keystore file.
+     *
+     * <p>
+     * This is currently a convenience wrapper around the
+     * <code>javax.net.ssl.keyStore</code> system property. Note using this
+     * method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param httpsKeystoreFile the HTTPS keystore file.
+     */
+    public void setHttpsKeystoreFile(String httpsKeystoreFile) {
+        if (httpsKeystoreFile != null) {
+            System.setProperty("javax.net.ssl.keyStore", httpsKeystoreFile);
+        }
+    }
+
+    /**
+     * Set the HTTPS keystore password.
+     *
+     * <p>
+     * This is currently a convenience wrapper around the
+     * <code>javax.net.ssl.keyStorePassword</code> system property. Note using
+     * this method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param httpsKeystorePassword the HTTPS keystore password.
+     */
+    public void setHttpsKeystorePassword(String httpsKeystorePassword) {
+        if (httpsKeystorePassword != null) {
+            System.setProperty("javax.net.ssl.keyStorePassword", httpsKeystorePassword);
+        }
     }
 
     /**
