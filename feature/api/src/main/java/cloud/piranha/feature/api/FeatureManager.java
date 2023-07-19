@@ -34,7 +34,14 @@ import java.util.List;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface FeatureManager {    
+public interface FeatureManager {
+    
+    /**
+     * Add a feature.
+     * 
+     * @param feature the feature.
+     */
+    void addFeature(Feature feature);
 
     /**
      * Get the features.
@@ -42,4 +49,9 @@ public interface FeatureManager {
      * @return the features.
      */
     List<Feature> getFeatures();
+    
+    /**
+     * Stop the features.
+     */
+    void stop();
 }

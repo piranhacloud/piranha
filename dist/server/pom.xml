@@ -31,6 +31,12 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.feature</groupId>
+            <artifactId>piranha-feature-exitonstop</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.feature</groupId>
             <artifactId>piranha-feature-http</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -42,11 +48,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-impl</artifactId>
+            <groupId>cloud.piranha.feature</groupId>
+            <artifactId>piranha-feature-impl</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency>        
         <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-webapp</artifactId>

@@ -28,9 +28,9 @@
 package cloud.piranha.feature.crac;
 
 import cloud.piranha.feature.api.Feature;
-import cloud.piranha.feature.api.FeatureManager;
 import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.feature.https.HttpsFeature;
+import cloud.piranha.feature.impl.DefaultFeature;
 import cloud.piranha.http.api.HttpServer;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.ERROR;
@@ -41,17 +41,12 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class CracFeature implements Feature {
+public class CracFeature extends DefaultFeature {
 
     /**
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(CracFeature.class.getName());
-
-    /**
-     * Stores the feature manager.
-     */
-    private FeatureManager featureManager;
 
     /**
      * Create the CRaC HttpServer instance.
@@ -73,16 +68,6 @@ public class CracFeature implements Feature {
             LOGGER.log(ERROR, "Unable to construct CracHttpServer", t);
         }
         return cracHttpServer;
-    }
-
-    @Override
-    public FeatureManager getFeatureManager() {
-        return featureManager;
-    }
-
-    @Override
-    public void setFeatureManager(FeatureManager featureManager) {
-        this.featureManager = featureManager;
     }
 
     @Override

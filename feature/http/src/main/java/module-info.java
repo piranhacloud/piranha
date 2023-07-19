@@ -35,7 +35,6 @@ module cloud.piranha.feature.http {
 
     exports cloud.piranha.feature.http;
     opens cloud.piranha.feature.http;
-    requires cloud.piranha.feature.api;
+    requires cloud.piranha.feature.impl;
     requires cloud.piranha.http.impl;
-    uses cloud.piranha.http.api.HttpServer;
 }

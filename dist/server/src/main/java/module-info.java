@@ -26,9 +26,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.core.api.WebApplicationExtension;
-
 /**
  * This module delivers the Piranha Server distribution.
  *
@@ -38,16 +35,12 @@ module cloud.piranha.dist.server {
 
     exports cloud.piranha.dist.server;
     opens cloud.piranha.dist.server;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.servlet;
+    requires cloud.piranha.feature.exitonstop;
     requires cloud.piranha.feature.http;
     requires cloud.piranha.feature.https;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.http.impl;
+    requires cloud.piranha.feature.impl;
     requires cloud.piranha.http.webapp;
     requires java.logging;
     requires java.naming;
-    uses HttpServer;
-    uses WebApplicationExtension;
 }

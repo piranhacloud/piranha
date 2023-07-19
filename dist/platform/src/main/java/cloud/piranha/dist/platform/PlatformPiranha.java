@@ -41,8 +41,11 @@ import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import static cloud.piranha.core.impl.WarFileExtractor.extractWarFile;
 import cloud.piranha.extension.platform.PlatformExtension;
+import cloud.piranha.feature.api.FeatureManager;
+import cloud.piranha.feature.exitonstop.ExitOnStopFeature;
 import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.feature.https.HttpsFeature;
+import cloud.piranha.feature.impl.DefaultFeatureManager;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
@@ -82,6 +85,11 @@ public class PlatformPiranha implements Piranha, Runnable {
      * Stores the configuration.
      */
     private final PiranhaConfiguration configuration;
+    
+    /**
+     * Stores the feature manager.
+     */
+    private FeatureManager featureManager;
     
     /**
      * Stores the HTTP feature.
@@ -132,6 +140,7 @@ public class PlatformPiranha implements Piranha, Runnable {
         configuration.setClass("extensionCLass", PlatformExtension.class);
         configuration.setInteger("httpPort", 8080);
         configuration.setInteger("httpsPort", -1);
+        featureManager = new DefaultFeatureManager();
     }
 
     @Override
@@ -234,6 +243,7 @@ public class PlatformPiranha implements Piranha, Runnable {
          */
         if (configuration.getInteger("httpPort") > 0) {
             httpFeature = new HttpFeature();
+            featureManager.addFeature(httpFeature);
             httpFeature.setHttpServerClass(configuration.getString("httpServerClass"));
             httpFeature.setPort(configuration.getInteger("httpPort"));
             httpFeature.init();
@@ -247,6 +257,7 @@ public class PlatformPiranha implements Piranha, Runnable {
          */
         if (configuration.getInteger("httpsPort") > 0) {
             httpsFeature = new HttpsFeature();
+            featureManager.addFeature(httpsFeature);
             httpsFeature.setHttpsKeystoreFile(configuration.getString("httpsKeystoreFile"));
             httpsFeature.setHttpsKeystorePassword(configuration.getString("httpsKeystorePassword"));
             httpsFeature.setHttpsServerClass(configuration.getString("httpsServerClass"));
@@ -257,6 +268,11 @@ public class PlatformPiranha implements Piranha, Runnable {
             if (httpServer == null) {
                 httpServer = httpsFeature.getHttpsServer();
             }
+        }
+        
+        if (configuration.getBoolean("exitOnStop", false)) {
+            ExitOnStopFeature exitOnStopFeature = new ExitOnStopFeature();
+            featureManager.addFeature(exitOnStopFeature);
         }
 
         long finishTime = System.currentTimeMillis();
@@ -320,9 +336,7 @@ public class PlatformPiranha implements Piranha, Runnable {
             }
         }
 
-        if (configuration.getBoolean("exitOnStop", false)) {
-            System.exit(0);
-        }
+        featureManager.stop();
     }
 
     private void setupLayers(DefaultWebApplicationClassLoader classLoader) {

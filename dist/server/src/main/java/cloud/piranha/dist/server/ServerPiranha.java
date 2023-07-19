@@ -39,8 +39,11 @@ import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import static cloud.piranha.core.impl.WarFileExtractor.extractWarFile;
+import cloud.piranha.feature.api.FeatureManager;
+import cloud.piranha.feature.exitonstop.ExitOnStopFeature;
 import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.feature.https.HttpsFeature;
+import cloud.piranha.feature.impl.DefaultFeatureManager;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
@@ -80,6 +83,11 @@ public class ServerPiranha implements Piranha, Runnable {
      * Stores the configuration.
      */
     private PiranhaConfiguration configuration;
+    
+    /**
+     * Stores the feature manager.
+     */
+    private FeatureManager featureManager;
     
     /**
      * Stores the HTTP feature.
@@ -130,6 +138,7 @@ public class ServerPiranha implements Piranha, Runnable {
         configuration.setInteger("httpPort", 8080);
         configuration.setInteger("httpsPort", -1);
         configuration.setBoolean("jpmsEnabled", false);
+        featureManager = new DefaultFeatureManager();
     }
 
     @Override
@@ -252,6 +261,11 @@ public class ServerPiranha implements Piranha, Runnable {
             httpServer = httpsFeature.getHttpsServer();
         }
 
+        if (configuration.getBoolean("exitOnStop", false)) {
+            ExitOnStopFeature exitOnStopFeature = new ExitOnStopFeature();
+            featureManager.addFeature(exitOnStopFeature);
+        }
+        
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
@@ -313,9 +327,7 @@ public class ServerPiranha implements Piranha, Runnable {
             }
         }
 
-        if (configuration.getBoolean("exitOnStop", false)) {
-            System.exit(0);
-        }
+        featureManager.stop();
     }
 
     private void setupLayers(DefaultWebApplicationClassLoader classLoader) {

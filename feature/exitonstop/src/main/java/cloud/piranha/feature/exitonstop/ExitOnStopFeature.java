@@ -25,22 +25,36 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.feature.exitonstop;
+
+import cloud.piranha.feature.impl.DefaultFeature;
 
 /**
- * This module delivers the Piranha Servlet distribution.
+ * The Exit on Stop feature.
+ * 
+ * <p>
+ *  The Exit on Stop feature will exit the JVM after all the features have 
+ *  asked to be stopped. It waits for a predefined amount of time before it
+ *  calls System.exit.
+ * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.dist.servlet {
-    
-    exports cloud.piranha.dist.servlet;
-    opens cloud.piranha.dist.servlet;
-    requires cloud.piranha.extension.servlet;
-    requires cloud.piranha.feature.exitonstop;
-    requires cloud.piranha.feature.http;
-    requires cloud.piranha.feature.https;
-    requires cloud.piranha.feature.impl;
-    requires cloud.piranha.http.crac;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
+public class ExitOnStopFeature extends DefaultFeature {
+
+    @Override
+    public void stop() {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch(InterruptedException ie) {
+                    // nothing needed here
+                }
+                System.exit(0);
+            }
+        };
+        thread.start();
+    }
 }

@@ -27,8 +27,8 @@
  */
 package cloud.piranha.feature.https;
 
-import cloud.piranha.feature.api.Feature;
 import cloud.piranha.feature.api.FeatureManager;
+import cloud.piranha.feature.impl.DefaultFeature;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
 import java.lang.System.Logger;
@@ -40,7 +40,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpsFeature implements Feature {
+public class HttpsFeature extends DefaultFeature {
 
     /**
      * Stores the logger.
@@ -70,11 +70,6 @@ public class HttpsFeature implements Feature {
     @Override
     public void destroy() {
         httpsServer = null;
-    }
-
-    @Override
-    public FeatureManager getFeatureManager() {
-        return featureManager;
     }
 
     /**
@@ -139,11 +134,6 @@ public class HttpsFeature implements Feature {
                 httpsServer.setSSL(true);
             }
         }
-    }
-
-    @Override
-    public void setFeatureManager(FeatureManager featureManager) {
-        this.featureManager = featureManager;
     }
 
     /**

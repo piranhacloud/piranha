@@ -42,8 +42,11 @@ import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.core.impl.DefaultPiranhaConfiguration;
+import cloud.piranha.feature.api.FeatureManager;
+import cloud.piranha.feature.exitonstop.ExitOnStopFeature;
 import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.feature.https.HttpsFeature;
+import cloud.piranha.feature.impl.DefaultFeatureManager;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.builder.MicroWebApplication;
@@ -79,6 +82,11 @@ public class IsolatedPiranha implements Piranha, Runnable {
     private final PiranhaConfiguration configuration;
     
     /**
+     * Stores the feature manager.
+     */
+    private FeatureManager featureManager;
+    
+    /**
      * Stores the HTTP feature.
      */
     private HttpFeature httpFeature;
@@ -100,6 +108,7 @@ public class IsolatedPiranha implements Piranha, Runnable {
         configuration = new DefaultPiranhaConfiguration();
         configuration.setInteger("httpPort", 8080);
         configuration.setInteger("httpsPort", -1);
+        featureManager = new DefaultFeatureManager();
     }
 
     @Override
@@ -123,6 +132,7 @@ public class IsolatedPiranha implements Piranha, Runnable {
      */
     public static void main(String[] arguments) {
         theOneAndOnlyInstance = new IsolatedPiranha();
+        theOneAndOnlyInstance.configuration.setBoolean("exitOnStop", true);
         theOneAndOnlyInstance.processArguments(arguments);
         theOneAndOnlyInstance.run();
     }
@@ -214,6 +224,13 @@ public class IsolatedPiranha implements Piranha, Runnable {
                 httpServer = httpsFeature.getHttpsServer();
             }
         }
+        
+        if (configuration.getBoolean("exitOnStop", false)) {
+            ExitOnStopFeature exitOnStopFeature = new ExitOnStopFeature();
+            featureManager.addFeature(exitOnStopFeature);
+            exitOnStopFeature.init();
+            exitOnStopFeature.start();
+        }
 
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
@@ -245,7 +262,8 @@ public class IsolatedPiranha implements Piranha, Runnable {
         finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Stopped Piranha");
         LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
-        System.exit(0);
+        
+        featureManager.stop();
     }
 
     private void deploy(File warFile, HttpWebApplicationServer webApplicationServer) {

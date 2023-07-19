@@ -27,20 +27,13 @@
  */
 
 /**
- * This module delivers the Piranha Servlet distribution.
+ * This module delivers the Exit on Stop Feature.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.dist.servlet {
-    
-    exports cloud.piranha.dist.servlet;
-    opens cloud.piranha.dist.servlet;
-    requires cloud.piranha.extension.servlet;
-    requires cloud.piranha.feature.exitonstop;
-    requires cloud.piranha.feature.http;
-    requires cloud.piranha.feature.https;
+module cloud.piranha.feature.exitonstop {
+
+    exports cloud.piranha.feature.exitonstop;
+    opens cloud.piranha.feature.exitonstop;
     requires cloud.piranha.feature.impl;
-    requires cloud.piranha.http.crac;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
 }

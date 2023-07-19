@@ -40,8 +40,11 @@ import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import static cloud.piranha.core.impl.WarFileExtractor.extractWarFile;
 import cloud.piranha.extension.servlet.ServletExtension;
+import cloud.piranha.feature.api.FeatureManager;
+import cloud.piranha.feature.exitonstop.ExitOnStopFeature;
 import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.feature.https.HttpsFeature;
+import cloud.piranha.feature.impl.DefaultFeatureManager;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
@@ -80,10 +83,15 @@ public class ServletPiranha implements Piranha, Runnable {
     private final PiranhaConfiguration configuration;
 
     /**
+     * Stores the feature manager.
+     */
+    private FeatureManager featureManager;
+
+    /**
      * Stores the HTTP feature.
      */
     private HttpFeature httpFeature;
-    
+
     /**
      * Stores the HTTP feature.
      */
@@ -125,6 +133,7 @@ public class ServletPiranha implements Piranha, Runnable {
         configuration.setInteger("httpPort", 8080);
         configuration.setInteger("httpsPort", -1);
         configuration.setBoolean("jpmsEnabled", false);
+        featureManager = new DefaultFeatureManager();
     }
 
     @Override
@@ -198,7 +207,7 @@ public class ServletPiranha implements Piranha, Runnable {
         }
 
         webApplicationServer.start();
-        
+
         /*
          * Construct, initialize and start HTTP endpoint (if applicable).
          */
@@ -208,7 +217,7 @@ public class ServletPiranha implements Piranha, Runnable {
             httpFeature.setPort(configuration.getInteger("httpPort"));
             httpFeature.init();
             httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
-            
+
             /*
              * Enable Project CRaC.
              */
@@ -230,7 +239,7 @@ public class ServletPiranha implements Piranha, Runnable {
             }
             httpFeature.start();
         }
-        
+
         /*
          * Construct, initialize and start HTTP endpoint (if applicable).
          */
@@ -242,7 +251,7 @@ public class ServletPiranha implements Piranha, Runnable {
             httpsFeature.setPort(configuration.getInteger("httpsPort"));
             httpsFeature.init();
             httpsFeature.getHttpsServer().setHttpServerProcessor(webApplicationServer);
-            
+
             /*
              * Enable Project CRaC.
              */
@@ -264,7 +273,12 @@ public class ServletPiranha implements Piranha, Runnable {
             }
             httpsFeature.start();
         }
-        
+
+        if (configuration.getBoolean("exitOnStop", false)) {
+            ExitOnStopFeature exitOnStopFeature = new ExitOnStopFeature();
+            featureManager.addFeature(exitOnStopFeature);
+        }
+
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
@@ -351,8 +365,6 @@ public class ServletPiranha implements Piranha, Runnable {
     public void stop() {
         stop = true;
         thread = null;
-        if (configuration.getBoolean("exitOnStop", false)) {
-            System.exit(0);
-        }
+        featureManager.stop();
     }
 }

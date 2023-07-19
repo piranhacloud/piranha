@@ -20,6 +20,8 @@
         <module>crac</module>
         <module>http</module>
         <module>https</module>
+        <module>impl</module>
+        <module>exitonstop</module>
     </modules>
 
     <dependencyManagement>
