@@ -35,13 +35,11 @@ module cloud.piranha.dist.coreprofile {
     
     exports cloud.piranha.dist.coreprofile;
     opens cloud.piranha.dist.coreprofile;
-    requires transitive cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.coreprofile;
+    requires cloud.piranha.feature.exitonstop;
     requires cloud.piranha.feature.http;
     requires cloud.piranha.feature.https;
-    requires cloud.piranha.http.impl;
+    requires cloud.piranha.feature.impl;
     requires cloud.piranha.http.webapp;
     requires java.logging;
-    uses cloud.piranha.http.api.HttpServer;
 }

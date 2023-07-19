@@ -25,22 +25,37 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.feature.impl;
+
+import cloud.piranha.feature.api.Feature;
+import cloud.piranha.feature.api.FeatureManager;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This module delivers the Piranha Servlet distribution.
+ * The default Feature manager.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.dist.servlet {
+public class DefaultFeatureManager implements FeatureManager {
+
+    /**
+     * Stores the features.
+     */
+    private final ArrayList<Feature> features = new ArrayList<>();
     
-    exports cloud.piranha.dist.servlet;
-    opens cloud.piranha.dist.servlet;
-    requires cloud.piranha.extension.servlet;
-    requires cloud.piranha.feature.exitonstop;
-    requires cloud.piranha.feature.http;
-    requires cloud.piranha.feature.https;
-    requires cloud.piranha.feature.impl;
-    requires cloud.piranha.http.crac;
-    requires cloud.piranha.http.webapp;
-    requires java.logging;
+    @Override
+    public void addFeature(Feature feature) {
+        features.add(feature);
+    }
+    
+    @Override
+    public List<Feature> getFeatures() {
+        return features;
+    }
+
+    @Override
+    public void stop() {
+        features.forEach(f -> f.stop());
+    }
 }

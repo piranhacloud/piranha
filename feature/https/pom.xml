@@ -12,7 +12,7 @@
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.feature</groupId>
-            <artifactId>piranha-feature-api</artifactId>
+            <artifactId>piranha-feature-impl</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

@@ -26,8 +26,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.core.api.WebApplicationExtension;
-
 /**
  * This module delivers the Piranha Platform distribution.
  *
@@ -37,15 +35,12 @@ module cloud.piranha.dist.platform {
 
     exports cloud.piranha.dist.platform;
     opens cloud.piranha.dist.platform;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.platform;
+    requires cloud.piranha.feature.exitonstop;
     requires cloud.piranha.feature.http;
     requires cloud.piranha.feature.https;
-    requires cloud.piranha.http.api;
-    requires cloud.piranha.http.impl;
+    requires cloud.piranha.feature.impl;
     requires cloud.piranha.http.webapp;
     requires java.logging;
     requires java.naming;
-    uses WebApplicationExtension;
 }

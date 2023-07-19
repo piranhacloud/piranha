@@ -40,8 +40,11 @@ import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import static cloud.piranha.core.impl.WarFileExtractor.extractWarFile;
 import cloud.piranha.extension.webprofile.WebProfileExtension;
+import cloud.piranha.feature.api.FeatureManager;
+import cloud.piranha.feature.exitonstop.ExitOnStopFeature;
 import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.feature.https.HttpsFeature;
+import cloud.piranha.feature.impl.DefaultFeatureManager;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.ServletException;
@@ -76,6 +79,11 @@ public class WebProfilePiranha implements Piranha, Runnable {
      * Stores the configuration.
      */
     private final PiranhaConfiguration configuration;
+    
+    /**
+     * Stores the feature manager.
+     */
+    private FeatureManager featureManager;
     
     /**
      * Stores the HTTP feature.
@@ -122,6 +130,7 @@ public class WebProfilePiranha implements Piranha, Runnable {
         configuration.setInteger("httpPort", 8080);
         configuration.setInteger("httpsPort", -1);
         configuration.setBoolean("jpmsEnabled", false);
+        featureManager = new DefaultFeatureManager();
     }
 
     @Override
@@ -224,6 +233,11 @@ public class WebProfilePiranha implements Piranha, Runnable {
             httpsFeature.getHttpsServer().setHttpServerProcessor(webApplicationServer);
             httpsFeature.start();
         }
+        
+        if (configuration.getBoolean("exitOnStop", false)) {
+            ExitOnStopFeature exitOnStopFeature = new ExitOnStopFeature();
+            featureManager.addFeature(exitOnStopFeature);
+        }
 
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
@@ -311,8 +325,6 @@ public class WebProfilePiranha implements Piranha, Runnable {
     public void stop() {
         stop = true;
         thread = null;
-        if (getConfiguration().getBoolean("exitOnStop", false)) {
-            System.exit(0);
-        }
+        featureManager.stop();
     }
 }

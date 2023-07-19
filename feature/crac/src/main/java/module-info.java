@@ -35,7 +35,7 @@ module cloud.piranha.feature.crac {
 
     exports cloud.piranha.feature.crac;
     opens cloud.piranha.feature.crac;
-    requires cloud.piranha.feature.api;
+    requires cloud.piranha.feature.impl;
     requires static cloud.piranha.feature.http;
     requires static cloud.piranha.feature.https;
     requires cloud.piranha.http.api;
