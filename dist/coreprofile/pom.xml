@@ -17,12 +17,6 @@
     <dependencies>
         <!-- compile -->
         <dependency>
-            <groupId>cloud.piranha.core</groupId>
-            <artifactId>piranha-core-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-coreprofile</artifactId>
             <version>${project.version}</version>

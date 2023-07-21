@@ -28,6 +28,7 @@
 package cloud.piranha.dist.microprofile;
 
 import cloud.piranha.core.api.WebApplicationExtension;
+import java.io.File;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import static java.lang.System.Logger.Level.WARNING;
@@ -253,7 +254,7 @@ public class MicroProfilePiranhaBuilder {
      */
     public MicroProfilePiranhaBuilder warFile(String warFile) {
         if (warFile != null) {
-            piranha.setWarFile(warFile);
+            piranha.getConfiguration().setFile("warFile", new File(warFile));
         }
         return this;
     }
@@ -266,7 +267,7 @@ public class MicroProfilePiranhaBuilder {
      */
     public MicroProfilePiranhaBuilder webAppDir(String webAppDir) {
         if (webAppDir != null) {
-            piranha.setWebAppDir(webAppDir);
+            piranha.getConfiguration().setFile("webAppDir", new File(webAppDir));
         }
         return this;
     }

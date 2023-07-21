@@ -129,10 +129,21 @@ public class WebAppFeature extends DefaultFeature {
     public File getWebAppDir() {
         return webAppDir;
     }
+    
+    /**
+     * Get the HttpWebApplicationServer.
+     * 
+     * @return the HttpWebApplicationServer.
+     */
+    public HttpWebApplicationServer getHttpWebApplicationServer() {
+        return webApplicationServer;
+    }
 
     @Override
     public void init() {
-        webApplicationServer = new HttpWebApplicationServer();
+        if (webApplicationServer == null) {
+            webApplicationServer = new HttpWebApplicationServer();
+        }
 
         if (warFile != null && warFile.getName().toLowerCase().endsWith(".war")) {
             if (contextPath == null) {
