@@ -25,34 +25,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.dist.webprofile;
+package cloud.piranha.feature.webapp;
 
-import cloud.piranha.core.api.Piranha;
-import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.impl.DefaultModuleFinder;
 import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
-import cloud.piranha.core.impl.DefaultPiranhaConfiguration;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
 import static cloud.piranha.core.impl.WarFileExtractor.extractWarFile;
-import cloud.piranha.extension.webprofile.WebProfileExtension;
-import cloud.piranha.feature.api.FeatureManager;
-import cloud.piranha.feature.exitonstop.ExitOnStopFeature;
-import cloud.piranha.feature.http.HttpFeature;
-import cloud.piranha.feature.https.HttpsFeature;
-import cloud.piranha.feature.impl.DefaultFeatureManager;
+import cloud.piranha.feature.impl.DefaultFeature;
+import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.ERROR;
-import static java.lang.System.Logger.Level.INFO;
-import static java.lang.System.Logger.Level.WARNING;
 import java.lang.module.Configuration;
 import java.lang.module.ModuleDescriptor;
 import java.lang.module.ModuleFinder;
@@ -61,51 +48,46 @@ import java.util.List;
 import java.util.ServiceLoader;
 
 /**
- * The Piranha Web Profile runtime.
+ * The Web Application feature.
+ *
+ * <p>
+ * The Web Application feature delivers the capability to host a single web
+ * application.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebProfilePiranha implements Piranha, Runnable {
+public class WebAppFeature extends DefaultFeature {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(WebProfilePiranha.class.getName());
+    private static final System.Logger LOGGER = System.getLogger(WebAppFeature.class.getName());
 
     /**
-     * Stores the configuration.
+     * Stores the context path.
      */
-    private final PiranhaConfiguration configuration;
-    
-    /**
-     * Stores the feature manager.
-     */
-    private FeatureManager featureManager;
-    
-    /**
-     * Stores the HTTP feature.
-     */
-    private HttpFeature httpFeature;
+    private String contextPath;
 
     /**
-     * Stores the HTTPS feature.
+     * Stores the extension class.
      */
-    private HttpsFeature httpsFeature;
+    private Class<? extends WebApplicationExtension> extensionClass;
 
     /**
-     * Stores the stop flag.
+     * Stores the JPMS enabled flag.
      */
-    private boolean stop = false;
+    private boolean jpmsEnabled;
 
     /**
-     * Stores the thread we use.
-     */
-    private Thread thread;
-
-    /**
-     * Stores the WAR file.
+     * Stores the war file.
      */
     private File warFile;
+
+    /**
+     * Stores the web application directory.
+     */
+    private File webAppDir;
 
     /**
      * Stores the HTTP web application server.
@@ -113,39 +95,45 @@ public class WebProfilePiranha implements Piranha, Runnable {
     private HttpWebApplicationServer webApplicationServer;
 
     /**
-     * Stores the web application directory;
+     * Get the context path.
+     *
+     * @return the context path.
      */
-    private File webAppDir;
-
-    /**
-     * Constructor.
-     */
-    public WebProfilePiranha() {
-        configuration = new DefaultPiranhaConfiguration();
-        configuration.setBoolean("exitOnStop", false);
-        configuration.setClass("extensionClass", WebProfileExtension.class);
-        configuration.setInteger("httpPort", 8080);
-        configuration.setInteger("httpsPort", -1);
-        configuration.setBoolean("jpmsEnabled", false);
-        featureManager = new DefaultFeatureManager();
-    }
-
-    @Override
-    public PiranhaConfiguration getConfiguration() {
-        return configuration;
+    public String getContextPath() {
+        return contextPath;
     }
 
     /**
-     * Run method.
+     * Get the HttpServerProcessor.
+     *
+     * @return the HttpServerProcessor.
      */
-    @Override
-    public void run() {
-        long startTime = System.currentTimeMillis();
-        LOGGER.log(INFO, () -> "Starting Piranha");
+    public HttpServerProcessor getHttpServerProcessor() {
+        return webApplicationServer;
+    }
 
+    /**
+     * Get the WAR file.
+     *
+     * @return the WAR file.
+     */
+    public File getWarFile() {
+        return warFile;
+    }
+
+    /**
+     * Get the web application directory.
+     *
+     * @return the web application directory.
+     */
+    public File getWebAppDir() {
+        return webAppDir;
+    }
+
+    @Override
+    public void init() {
         webApplicationServer = new HttpWebApplicationServer();
 
-        String contextPath = configuration.getString("contextPath");
         if (warFile != null && warFile.getName().toLowerCase().endsWith(".war")) {
             if (contextPath == null) {
                 contextPath = warFile.getName().substring(0, warFile.getName().length() - 4);
@@ -157,7 +145,6 @@ public class WebProfilePiranha implements Piranha, Runnable {
         }
 
         if (webAppDir != null && webAppDir.exists()) {
-
             if (contextPath == null) {
                 contextPath = webAppDir.getName();
             }
@@ -168,13 +155,13 @@ public class WebProfilePiranha implements Piranha, Runnable {
             DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDir);
             webApplication.setClassLoader(classLoader);
 
-            if (Boolean.getBoolean("cloud.piranha.modular.enable") || configuration.getBoolean("jpmsEnabled", false)) {
+            if (jpmsEnabled) {
                 setupLayers(classLoader);
             }
 
             if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
                 DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                extensionContext.add((Class<? extends WebApplicationExtension>) configuration.getClass("extensionClass"));
+                extensionContext.add((extensionClass));
                 extensionContext.configure(webApplication);
             } else {
                 DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
@@ -195,79 +182,75 @@ public class WebProfilePiranha implements Piranha, Runnable {
                 webApplication.initialize();
             } catch (Exception e) {
                 LOGGER.log(ERROR, "Failed to initialize web application");
-                System.exit(0);
             }
         }
 
         if (webAppDir == null && warFile == null) {
-            LOGGER.log(WARNING, "No web application deployed");
-        }
-
-        webApplicationServer.start();
-
-        /*
-         * Construct, initialize and start HTTP endpoint (if applicable).
-         */
-        if (configuration.getInteger("httpPort") > 0) {
-            httpFeature = new HttpFeature();
-            httpFeature.setHttpServerClass(configuration.getString("httpServerClass"));
-            httpFeature.setPort(configuration.getInteger("httpPort"));
-            httpFeature.init();
-            httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
-            httpFeature.start();
-        }
-
-        /*
-         * Construct, initialize and start HTTPS endpoint (if applicable).
-         */
-        if (configuration.getInteger("httpsPort") > 0) {
-            httpsFeature = new HttpsFeature();
-            httpsFeature.setHttpsKeystoreFile(configuration.getString("httpsKeystoreFile"));
-            httpsFeature.setHttpsKeystorePassword(configuration.getString("httpsKeystorePassword"));
-            httpsFeature.setHttpsServerClass(configuration.getString("httpsServerClass"));
-            httpsFeature.setPort(configuration.getInteger("httpsPort"));
-            httpsFeature.init();
-            httpsFeature.getHttpsServer().setHttpServerProcessor(webApplicationServer);
-            httpsFeature.start();
-        }
-        
-        if (configuration.getBoolean("exitOnStop", false)) {
-            ExitOnStopFeature exitOnStopFeature = new ExitOnStopFeature();
-            featureManager.addFeature(exitOnStopFeature);
-        }
-
-        long finishTime = System.currentTimeMillis();
-        LOGGER.log(INFO, "Started Piranha");
-        LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
-
-        if (configuration.getLong("pid") != null) {
-            File pidFile = new File("tmp", "piranha.pid");
-            if (!pidFile.getParentFile().exists() && !pidFile.getParentFile().mkdirs()) {
-                LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
-            }
-            try (PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
-                writer.println(configuration.getLong("pid"));
-                writer.flush();
-            } catch (IOException ioe) {
-                LOGGER.log(WARNING, "Unable to write PID file", ioe);
-            }
-        }
-
-        while (!stop) {
-            if (configuration.getLong("pid") != null) {
-                File pidFile = new File("tmp", "piranha.pid");
-                if (!pidFile.exists()) {
-                    stop();
-                }
-            }
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-            }
+            LOGGER.log(ERROR, "No web application deployed");
         }
     }
 
+    /**
+     * Get the JPMS enabled flag.
+     *
+     * @return true if JPMS should be enabled, false otherwise.
+     */
+    public boolean isJpmsEnabled() {
+        return jpmsEnabled;
+    }
+
+    /**
+     * Set the context path.
+     *
+     * @param contextPath the context path.
+     */
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
+    }
+
+    /**
+     * Set the extension class.
+     *
+     * @param extensionClass the extension class.
+     */
+    public void setExtensionClass(Class<? extends WebApplicationExtension> extensionClass) {
+        this.extensionClass = extensionClass;
+    }
+
+    /**
+     * Set the JPMS enabled flag.
+     * 
+     * @param jpmsEnabled the JPMS enabled flag. 
+     */
+    public void setJpmsEnabled(boolean jpmsEnabled) {
+        this.jpmsEnabled = jpmsEnabled;
+    }
+
+    /**
+     * Set the WAR file.
+     *
+     * @param warFile the WAR file.
+     */
+    public void setWarFile(File warFile) {
+        if (warFile != null) {
+            this.warFile = warFile;
+        }
+    }
+
+    /**
+     * Set the web application directory.
+     *
+     * @param webAppDir the web application directory.
+     */
+    public void setWebAppDir(File webAppDir) {
+        this.webAppDir = webAppDir;
+    }
+
+    /**
+     * Setup the layers.
+     *
+     * @param classLoader the web application class loader.
+     */
     private void setupLayers(DefaultWebApplicationClassLoader classLoader) {
         ModuleFinder defaultModuleFinder = new DefaultModuleFinder(classLoader.getResourceManager().getResourceList());
 
@@ -284,38 +267,13 @@ public class WebProfilePiranha implements Piranha, Runnable {
         }
     }
 
-    /**
-     * Set the WAR file.
-     *
-     * @param warFile the WAR file.
-     */
-    public void setWarFile(String warFile) {
-        this.warFile = new File(warFile);
-    }
-
-    /**
-     * Set the web application directory.
-     *
-     * @param webAppDir the web application directory.
-     */
-    public void setWebAppDir(String webAppDir) {
-        this.webAppDir = new File(webAppDir);
-    }
-
-    /**
-     * Start the server.
-     */
+    @Override
     public void start() {
-        thread = new Thread(this);
-        thread.start();
+        webApplicationServer.start();
     }
 
-    /**
-     * Stop the server.
-     */
+    @Override
     public void stop() {
-        stop = true;
-        thread = null;
-        featureManager.stop();
+        webApplicationServer.stop();
     }
 }

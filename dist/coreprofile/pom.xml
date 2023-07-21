@@ -29,12 +29,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-webapp</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.feature</groupId>
             <artifactId>piranha-feature-exitonstop</artifactId>
             <version>${project.version}</version>
@@ -54,7 +48,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.feature</groupId>
-            <artifactId>piranha-feature-impl</artifactId>
+            <artifactId>piranha-feature-webapp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

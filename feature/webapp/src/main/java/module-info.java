@@ -25,53 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.http.webapp;
-
-import cloud.piranha.core.api.Piranha;
-import cloud.piranha.http.api.HttpServerProcessor;
-import cloud.piranha.http.api.HttpServerProcessorEndState;
-import static cloud.piranha.http.api.HttpServerProcessorEndState.COMPLETED;
-import cloud.piranha.http.api.HttpServerRequest;
-import cloud.piranha.http.api.HttpServerResponse;
-import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.ERROR;
 
 /**
- * The Web Application HttpServerProcessor.
- *
+ * This module delivers the Web Application Feature.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpWebApplicationServerProcessor implements HttpServerProcessor {
-    
-    /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = System.getLogger(HttpWebApplicationServerProcessor.class.getName());
+module cloud.piranha.feature.webapp {
 
-    /**
-     * Stores the Piranha instance.
-     */
-    private final Piranha piranha;
-
-    /**
-     * Constructor.
-     *
-     * @param piranha the Piranha instance.
-     */
-    public HttpWebApplicationServerProcessor(Piranha piranha) {
-        this.piranha = piranha;
-    }
-
-    @Override
-    public HttpServerProcessorEndState process(HttpServerRequest request, HttpServerResponse response) {
-        try {
-            HttpWebApplicationRequest servletRequest = new HttpWebApplicationRequest(request);
-            HttpWebApplicationResponse servletResponse = new HttpWebApplicationResponse(response);
-            piranha.service(servletRequest, servletResponse);
-            servletResponse.flushBuffer();
-        } catch (Exception e) {
-            LOGGER.log(ERROR, "An exception occurred while processing the request", e);
-        }
-        return COMPLETED;
-    }
+    exports cloud.piranha.feature.webapp;
+    opens cloud.piranha.feature.webapp;
+    requires transitive cloud.piranha.feature.impl;
+    requires transitive cloud.piranha.http.webapp;
 }

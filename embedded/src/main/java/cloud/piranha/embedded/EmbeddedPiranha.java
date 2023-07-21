@@ -157,7 +157,14 @@ public class EmbeddedPiranha implements Piranha {
         return response;
     }
 
-    @Override
+    /**
+     * Service the request.
+     * 
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a Servlet error occurs.
+     */
     public void service(WebApplicationRequest request, WebApplicationResponse response) throws IOException, ServletException {
         if (request instanceof EmbeddedRequest embeddedRequest) {
             embeddedRequest.setWebApplication(webApplication);
