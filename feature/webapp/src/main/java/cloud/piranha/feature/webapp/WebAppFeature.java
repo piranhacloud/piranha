@@ -92,7 +92,7 @@ public class WebAppFeature extends DefaultFeature {
     /**
      * Stores the HTTP web application server.
      */
-    private HttpWebApplicationServer webApplicationServer;
+    private HttpWebApplicationServer httpWebApplicationServer;
 
     /**
      * Get the context path.
@@ -109,7 +109,7 @@ public class WebAppFeature extends DefaultFeature {
      * @return the HttpServerProcessor.
      */
     public HttpServerProcessor getHttpServerProcessor() {
-        return webApplicationServer;
+        return httpWebApplicationServer;
     }
 
     /**
@@ -136,13 +136,13 @@ public class WebAppFeature extends DefaultFeature {
      * @return the HttpWebApplicationServer.
      */
     public HttpWebApplicationServer getHttpWebApplicationServer() {
-        return webApplicationServer;
+        return httpWebApplicationServer;
     }
 
     @Override
     public void init() {
-        if (webApplicationServer == null) {
-            webApplicationServer = new HttpWebApplicationServer();
+        if (httpWebApplicationServer == null) {
+            httpWebApplicationServer = new HttpWebApplicationServer();
         }
 
         if (warFile != null && warFile.getName().toLowerCase().endsWith(".war")) {
@@ -187,7 +187,7 @@ public class WebAppFeature extends DefaultFeature {
                 contextPath = "/" + contextPath;
             }
             webApplication.setContextPath(contextPath);
-            webApplicationServer.addWebApplication(webApplication);
+            httpWebApplicationServer.addWebApplication(webApplication);
 
             try {
                 webApplication.initialize();
@@ -226,6 +226,15 @@ public class WebAppFeature extends DefaultFeature {
      */
     public void setExtensionClass(Class<? extends WebApplicationExtension> extensionClass) {
         this.extensionClass = extensionClass;
+    }
+
+    /**
+     * Set the HttpWebApplicationServer.
+     * 
+     * @param httpWebApplicationServer the HttpWebApplicationServer.
+     */
+    public void setHttpWebApplicationServer(HttpWebApplicationServer httpWebApplicationServer) {
+        this.httpWebApplicationServer = httpWebApplicationServer;
     }
 
     /**
@@ -280,11 +289,11 @@ public class WebAppFeature extends DefaultFeature {
 
     @Override
     public void start() {
-        webApplicationServer.start();
+        httpWebApplicationServer.start();
     }
 
     @Override
     public void stop() {
-        webApplicationServer.stop();
+        httpWebApplicationServer.stop();
     }
 }

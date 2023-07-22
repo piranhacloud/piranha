@@ -23,6 +23,7 @@
         <module>impl</module>
         <module>exitonstop</module>
         <module>webapp</module>
+        <module>webapps</module>
     </modules>
 
     <dependencyManagement>
