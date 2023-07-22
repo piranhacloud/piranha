@@ -54,16 +54,6 @@ public class PlatformPiranhaBuilder {
     private final PlatformPiranha piranha = new PlatformPiranha();
 
     /**
-     * Stores the HTTPS truststore file.
-     */
-    private String httpsTruststoreFile;
-
-    /**
-     * Stores the HTTPS truststore password.
-     */
-    private String httpsTruststorePassword;
-
-    /**
      * Stores the InitialContext factory.
      */
     private String initialContextFactory = "cloud.piranha.naming.thread.ThreadInitialContextFactory";
@@ -72,11 +62,6 @@ public class PlatformPiranhaBuilder {
      * Stores the verbose flag.
      */
     private boolean verbose = false;
-
-    /**
-     * Stores the web applications directory.
-     */
-    private String webAppsDir = "webapps";
 
     /**
      * Build the server.
@@ -88,13 +73,6 @@ public class PlatformPiranhaBuilder {
             showArguments();
         }
         System.setProperty(INITIAL_CONTEXT_FACTORY, initialContextFactory);
-        if (httpsTruststoreFile != null) {
-            piranha.setHttpsTruststoreFile(httpsTruststoreFile);
-        }
-        if (httpsTruststorePassword != null) {
-            piranha.setHttpsTruststorePassword(httpsTruststorePassword);
-        }
-        piranha.setWebAppsDir(new File(webAppsDir));
         return piranha;
     }
 
@@ -209,7 +187,7 @@ public class PlatformPiranhaBuilder {
      * @return the builder.
      */
     public PlatformPiranhaBuilder httpsTruststoreFile(String httpsTruststoreFile) {
-        this.httpsTruststoreFile = httpsTruststoreFile;
+        piranha.getConfiguration().setString("httpsTruststoreFile", httpsTruststoreFile);
         return this;
     }
 
@@ -220,7 +198,7 @@ public class PlatformPiranhaBuilder {
      * @return the builder.
      */
     public PlatformPiranhaBuilder httpsTruststorePassword(String httpsTruststorePassword) {
-        this.httpsTruststorePassword = httpsTruststorePassword;
+        piranha.getConfiguration().setString("httpsTruststorePassword", httpsTruststorePassword);
         return this;
     }
 
@@ -267,9 +245,9 @@ public class PlatformPiranhaBuilder {
                 piranha.getConfiguration().getString("httpsKeystoreFile"),
                 piranha.getConfiguration().getInteger("httpsPort"),
                 piranha.getConfiguration().getString("httpsServerClass"),
-                httpsTruststoreFile,
+                piranha.getConfiguration().getString("httpsTruststoreFile"),
                 piranha.getConfiguration().getBoolean("jpmsEnabled", false),
-                webAppsDir
+                piranha.getConfiguration().getFile("webAppsDir")
         ));
     }
 
@@ -291,7 +269,9 @@ public class PlatformPiranhaBuilder {
      * @return the builder.
      */
     public PlatformPiranhaBuilder webAppsDir(String webAppsDir) {
-        this.webAppsDir = webAppsDir;
+        if (webAppsDir != null) {
+            piranha.getConfiguration().setFile("webAppsDir", new File(webAppsDir));
+        }
         return this;
     }
 }

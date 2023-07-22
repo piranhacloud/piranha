@@ -150,6 +150,8 @@ public class CoreProfilePiranha implements Piranha, Runnable {
             httpsFeature.setHttpsKeystoreFile(configuration.getString("httpsKeystoreFile"));
             httpsFeature.setHttpsKeystorePassword(configuration.getString("httpsKeystorePassword"));
             httpsFeature.setHttpsServerClass(configuration.getString("httpsServerClass"));
+            httpsFeature.setHttpsTruststoreFile(configuration.getString("httpsTruststoreFile"));
+            httpsFeature.setHttpsTruststorePassword(configuration.getString("httpsTruststorePassword"));
             httpsFeature.setPort(configuration.getInteger("httpsPort"));
             httpsFeature.init();
             httpsFeature.getHttpsServer().setHttpServerProcessor(webAppFeature.getHttpServerProcessor());

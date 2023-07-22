@@ -126,18 +126,24 @@ public class ServerPiranhaMain {
         LOGGER.log(Level.INFO, "");
         LOGGER.log(Level.INFO,
                 """
- --extension <className>              - Set the extension class
- --help                               - Show this help
- --http-port <integer>                - Set the HTTP port (use -1 to disable)
- --http-server-class                  - Set the HTTP server class
- --https-keystore-file <file>         - Set the HTTPS keystore file 
- --https-keystore-password <string>   - Set the HTTPS keystore password
- --https-port <integer>               - Set the HTTPS port (disabled by default)
- --https-server-class                 - Set the HTTPS server class
- --https-truststore-file <file>       - Set the SSL keystore file
- --https-truststore-password <string> - Set the SSL keystore password
- --jpms                               - Enable Java Platform Module System
- --webapps-dir <directory>            - Set the web applications directory
-                """);
+   --extension-class <className>        - Set the extension to use
+   --help                               - Show this help
+   --http-port <integer>                - Set the HTTP port (use -1 to disable)
+   --http-server-class <className>      - Set the HTTP server class to use
+   --https-keystore-file <file>         - Set the HTTPS keystore file (applies to
+                                          the whole JVM)
+   --https-keystore-password <string>   - Set the HTTPS keystore password 
+                                          (applies to the whole JVM)
+   --https-port <integer>               - Set the HTTPS port (disabled by 
+                                          default)
+   --https-server-class <className>     - Set the HTTPS server class to use
+   --https-truststore-file <file>       - Set the HTTPS keystore file (applies to
+                                          the whole JVM)
+   --https-truststore-password <string> - Set the HTTPS keystore password 
+                                          (applies to the whole JVM)
+   --jpms                               - Enable Java Platform Module System
+   --verbose                            - Shows the runtime parameters
+   --webapps-dir <directory>            - Set the web applications directory
+                 """);
     }
 }

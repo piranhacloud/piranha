@@ -27,49 +27,26 @@
  */
 package cloud.piranha.feature.exitonstop;
 
-import cloud.piranha.feature.impl.DefaultFeature;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * The Exit on Stop feature.
- * 
- * <p>
- *  The Exit on Stop feature will exit the JVM after all the features have 
- *  asked to be stopped. It waits for a predefined amount of time before it
- *  calls System.exit.
- * </p>
- * 
+ * The JUnit tests for the ExitOnStopFeature class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ExitOnStopFeature extends DefaultFeature {
-    
-    /**
-     * Stores the exiting flag.
-     */
-    private boolean exiting = false;
-    
-    /**
-     * Are we in the process of exiting?
-     * 
-     * @return true if we are, false otherwise.
-     */
-    public boolean isExiting() {
-        return exiting;
-    }
+public class ExitOnStopFeatureTest {
 
-    @Override
-    public void stop() {
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                exiting = true;
-                try {
-                    Thread.sleep(2000);
-                } catch(InterruptedException ie) {
-                    Thread.currentThread().interrupt();
-                }
-                System.exit(0);
-            }
-        };
-        thread.start();
+    /**
+     * Test stop method.
+     * 
+     * @throws Exception when an error occurs.
+     */
+    @Test
+    public void testStop() throws Exception {
+        ExitOnStopFeature feature = new ExitOnStopFeature();
+        feature.stop();
+        Thread.sleep(500);
+        assertTrue(feature.isExiting());
     }
 }

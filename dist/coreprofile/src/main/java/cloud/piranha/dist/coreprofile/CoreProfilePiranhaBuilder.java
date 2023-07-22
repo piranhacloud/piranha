@@ -185,6 +185,28 @@ public class CoreProfilePiranhaBuilder {
     }
 
     /**
+     * Set the HTTPS truststore file.
+     *
+     * @param httpsTruststoreFile the HTTPS truststore file.
+     * @return the builder.
+     */
+    public CoreProfilePiranhaBuilder httpsTruststoreFile(String httpsTruststoreFile) {
+        piranha.getConfiguration().setString("httpsTruststoreFile", httpsTruststoreFile);
+        return this;
+    }
+
+    /**
+     * Set the HTTPS truststore password.
+     *
+     * @param httpsTruststorePassword the HTTPS truststore password.
+     * @return the builder.
+     */
+    public CoreProfilePiranhaBuilder httpsTruststorePassword(String httpsTruststorePassword) {
+        piranha.getConfiguration().setString("httpsTruststorePassword", httpsTruststorePassword);
+        return this;
+    }
+
+    /**
      * Enable/disable JPMS.
      *
      * @param jpms the JPMS flag.
@@ -220,19 +242,21 @@ public class CoreProfilePiranhaBuilder {
                 Arguments
                 =========
                 
-                Context path            : %s
-                Extension class         : %s
-                Exit on stop            : %s
-                HTTP port               : %s
-                HTTP server class       : %s
-                HTTPS keystore file     : %s
-                HTTPS keystore password : ****
-                HTTPS port              : %s
-                HTTPS server class      : %s
-                JPMS enabled            : %s
-                PID                     : %s
-                WAR filename            : %s
-                Web application dir     : %s
+                Context path              : %s
+                Extension class           : %s
+                Exit on stop              : %s
+                HTTP port                 : %s
+                HTTP server class         : %s
+                HTTPS keystore file       : %s
+                HTTPS keystore password   : ****
+                HTTPS port                : %s
+                HTTPS server class        : %s
+                HTTPS truststore file     : %s
+                HTTPS truststore password : ****
+                JPMS enabled              : %s
+                PID                       : %s
+                WAR filename              : %s
+                Web application dir       : %s
                 
                 """.formatted(
                         configuration.getString("contextPath"),
@@ -243,6 +267,7 @@ public class CoreProfilePiranhaBuilder {
                         configuration.getString("httpsKeystoreFile"),
                         configuration.getInteger("httpsPort"),
                         configuration.getString("httpsServerClass"),
+                        configuration.getString("httpsTruststoreFile"),
                         configuration.getBoolean("jpms", false),
                         configuration.getLong("pid"),
                         configuration.getFile("warFile"),
@@ -250,7 +275,7 @@ public class CoreProfilePiranhaBuilder {
                 )
         );
     }
-
+    
     /**
      * Set the verbose flag.
      *

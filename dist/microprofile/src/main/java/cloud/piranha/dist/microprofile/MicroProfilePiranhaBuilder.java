@@ -27,6 +27,7 @@
  */
 package cloud.piranha.dist.microprofile;
 
+import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationExtension;
 import java.io.File;
 import java.lang.System.Logger;
@@ -184,6 +185,28 @@ public class MicroProfilePiranhaBuilder {
     }
 
     /**
+     * Set the HTTPS truststore file.
+     *
+     * @param httpsTruststoreFile the HTTPS truststore file.
+     * @return the builder.
+     */
+    public MicroProfilePiranhaBuilder httpsTruststoreFile(String httpsTruststoreFile) {
+        piranha.getConfiguration().setString("httpsTruststoreFile", httpsTruststoreFile);
+        return this;
+    }
+
+    /**
+     * Set the HTTPS truststore password.
+     *
+     * @param httpsTruststorePassword the HTTPS truststore password.
+     * @return the builder.
+     */
+    public MicroProfilePiranhaBuilder httpsTruststorePassword(String httpsTruststorePassword) {
+        piranha.getConfiguration().setString("httpsTruststorePassword", httpsTruststorePassword);
+        return this;
+    }
+
+    /**
      * Enable/disable JPMS.
      *
      * @param jpms the JPMS flag.
@@ -198,6 +221,8 @@ public class MicroProfilePiranhaBuilder {
      * Show the arguments used.
      */
     private void showArguments() {
+        PiranhaConfiguration configuration = piranha.getConfiguration();
+        
         LOGGER.log(Level.INFO,
                 """
                 
@@ -206,33 +231,38 @@ public class MicroProfilePiranhaBuilder {
                 Arguments
                 =========
                 
-                Context path            : %s
-                Extension class         : %s
-                Exit on stop            : %s
-                HTTP port               : %s
-                HTTP server class       : %s
-                HTTPS keystore file     : %s
-                HTTPS keystore password : ****
-                HTTPS port              : %s
-                HTTPS server class      : %s
-                JPMS enabled            : %s
-                PID                     : %s
-                WAR filename            : %s
-                Web application dir     : %s
+                Context path              : %s
+                Extension class           : %s
+                Exit on stop              : %s
+                HTTP port                 : %s
+                HTTP server class         : %s
+                HTTPS keystore file       : %s
+                HTTPS keystore password   : ****
+                HTTPS port                : %s
+                HTTPS server class        : %s
+                HTTPS truststore file     : %s
+                HTTPS truststore password : ****
+                JPMS enabled              : %s
+                PID                       : %s
+                WAR filename              : %s
+                Web application dir       : %s
                 
                 """.formatted(
-                        piranha.getConfiguration().getString("contextPath"),
-                        piranha.getConfiguration().getClass("extensionClass"),
-                        piranha.getConfiguration().getBoolean("exitOnStop", false),
-                        piranha.getConfiguration().getInteger("httpPort"),
-                        piranha.getConfiguration().getString("httpServerClass"),
-                        piranha.getConfiguration().getString("httpsKeystoreFile"),
-                        piranha.getConfiguration().getInteger("httpsPort"),
-                        piranha.getConfiguration().getString("httpsServerClass"),
-                        piranha.getConfiguration().getBoolean("jpmsEnabled", false),
-                        piranha.getConfiguration().getLong("pid"),
-                        piranha.getConfiguration().getFile("warFile"),
-                        piranha.getConfiguration().getFile("webappDir")));
+                        configuration.getString("contextPath"),
+                        configuration.getClass("extensionClass"),
+                        configuration.getBoolean("exitOnStop", false),
+                        configuration.getInteger("httpPort"),
+                        configuration.getString("httpServerClass"),
+                        configuration.getString("httpsKeystoreFile"),
+                        configuration.getInteger("httpsPort"),
+                        configuration.getString("httpsServerClass"),
+                        configuration.getString("httpsTruststoreFile"),
+                        configuration.getBoolean("jpms", false),
+                        configuration.getLong("pid"),
+                        configuration.getFile("warFile"),
+                        configuration.getFile("webAppDir")
+                )
+        );
     }
 
     /**
