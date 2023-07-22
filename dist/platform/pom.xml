@@ -18,12 +18,6 @@
     <dependencies>
         <!-- compile -->
         <dependency>
-            <groupId>cloud.piranha.core</groupId>
-            <artifactId>piranha-core-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-platform</artifactId>
             <version>${project.version}</version>
@@ -49,25 +43,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.feature</groupId>
-            <artifactId>piranha-feature-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>        
-        <dependency>
-            <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-impl</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.http</groupId>
-            <artifactId>piranha-http-webapp</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource-impl</artifactId>
+            <artifactId>piranha-feature-webapps</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

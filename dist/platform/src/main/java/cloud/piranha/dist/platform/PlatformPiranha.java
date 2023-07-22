@@ -30,36 +30,21 @@ package cloud.piranha.dist.platform;
 import cloud.piranha.core.api.Piranha;
 import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationServerRequestMapper;
-import cloud.piranha.core.impl.DefaultModuleFinder;
-import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
 import cloud.piranha.core.impl.DefaultPiranhaConfiguration;
-import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
-import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import static cloud.piranha.core.impl.WarFileExtractor.extractWarFile;
 import cloud.piranha.extension.platform.PlatformExtension;
 import cloud.piranha.feature.api.FeatureManager;
 import cloud.piranha.feature.exitonstop.ExitOnStopFeature;
 import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.feature.https.HttpsFeature;
 import cloud.piranha.feature.impl.DefaultFeatureManager;
+import cloud.piranha.feature.webapps.WebAppsFeature;
 import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.webapp.HttpWebApplicationServer;
-import cloud.piranha.resource.impl.DirectoryResource;
 import java.io.File;
 import java.io.IOException;
 import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
-import java.lang.module.Configuration;
-import java.lang.module.ModuleDescriptor;
-import java.lang.module.ModuleFinder;
-import java.lang.module.ModuleReference;
 import java.nio.file.Files;
-import java.util.List;
-import java.util.ServiceLoader;
 
 /**
  * The Piranha Server runtime.
@@ -86,7 +71,7 @@ public class PlatformPiranha implements Piranha, Runnable {
     /**
      * Stores the feature manager.
      */
-    private FeatureManager featureManager;
+    private final FeatureManager featureManager;
     
     /**
      * Stores the HTTP feature.
@@ -119,15 +104,10 @@ public class PlatformPiranha implements Piranha, Runnable {
     private Thread thread;
 
     /**
-     * Stores the HTTP web application server.
+     * Stores the WebAppsFeature.
      */
-    private HttpWebApplicationServer webApplicationServer;
-
-    /**
-     * Stores the web applications directory.
-     */
-    private File webAppsDir = new File("webapps");
-
+    private WebAppsFeature webAppsFeature;
+    
     /**
      * Constructor.
      */
@@ -137,6 +117,7 @@ public class PlatformPiranha implements Piranha, Runnable {
         configuration.setClass("extensionCLass", PlatformExtension.class);
         configuration.setInteger("httpPort", 8080);
         configuration.setInteger("httpsPort", -1);
+        configuration.setFile("webAppsDir", new File("webapps"));
         featureManager = new DefaultFeatureManager();
     }
 
@@ -176,65 +157,15 @@ public class PlatformPiranha implements Piranha, Runnable {
     public void run() {
         long startTime = System.currentTimeMillis();
         LOGGER.log(INFO, () -> "Starting Piranha");
-
-        webApplicationServer = new HttpWebApplicationServer();
-        webApplicationServer.start();
-
-        WebApplicationServerRequestMapper requestMapper = webApplicationServer.getRequestMapper();
-
-        File[] webapps = webAppsDir.listFiles();
-        if (webapps != null) {
-            for (File webapp : webapps) {
-                if (webapp.getName().toLowerCase().endsWith(".war")) {
-                    String contextPath = webapp.getName().substring(0, webapp.getName().length() - 4);
-                    File webAppDirectory = new File(webAppsDir, contextPath);
-                    extractWarFile(webapp, webAppDirectory);
-
-                    DefaultWebApplication webApplication = new PlatformWebApplication(requestMapper);
-
-                    webApplication.addResource(new DirectoryResource(webAppDirectory));
-
-                    DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDirectory);
-                    webApplication.setClassLoader(classLoader);
-
-                    if (Boolean.getBoolean("cloud.piranha.modular.enable") || configuration.getBoolean("jpmsEnabled", false)) {
-                        setupLayers(classLoader);
-                    }
-
-                    if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
-                        DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                        extensionContext.add((Class<? extends WebApplicationExtension>) configuration.getClass("extensionClass)"));
-                        extensionContext.configure(webApplication);
-                    } else {
-                        DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                        ServiceLoader<WebApplicationExtension> serviceLoader = ServiceLoader.load(WebApplicationExtension.class, classLoader);
-                        extensionContext.add(serviceLoader.iterator().next());
-                        extensionContext.configure(webApplication);
-                    }
-
-                    if (contextPath.equalsIgnoreCase("ROOT")) {
-                        contextPath = "";
-                    } else if (!contextPath.startsWith("/")) {
-                        contextPath = "/" + contextPath;
-                    }
-
-                    webApplication.setContextPath(contextPath);
-
-                    try {
-                        webApplication.initialize();
-                        webApplication.start();
-
-                        LOGGER.log(INFO, "Deployed " + webapp.getName() + " at " + webApplication.getContextPath());
-
-                    } catch (Error e) {
-                        LOGGER.log(ERROR, () -> "Failed to initialize app " + webapp.getName(), e);
-                    }
-
-                    webApplicationServer.addWebApplication(webApplication);
-                }
-            }
-        }
         
+        webAppsFeature = new WebAppsFeature();
+        featureManager.addFeature(webAppsFeature);
+        webAppsFeature.setExtensionClass((Class<? extends WebApplicationExtension>) configuration.getClass("extensionClass"));
+        webAppsFeature.setJpmsEnabled(configuration.getBoolean("jpmsEnabled", false));
+        webAppsFeature.setWebAppsDir(configuration.getFile("webAppsDir"));
+        webAppsFeature.init();
+        webAppsFeature.start();
+
         /*
          * Construct, initialize and start HTTP endpoint (if applicable).
          */
@@ -244,7 +175,7 @@ public class PlatformPiranha implements Piranha, Runnable {
             httpFeature.setHttpServerClass(configuration.getString("httpServerClass"));
             httpFeature.setPort(configuration.getInteger("httpPort"));
             httpFeature.init();
-            httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
+            httpFeature.getHttpServer().setHttpServerProcessor(webAppsFeature.getHttpServerProcessor());
             httpFeature.start();
             httpServer = httpFeature.getHttpServer();
         }
@@ -260,7 +191,7 @@ public class PlatformPiranha implements Piranha, Runnable {
             httpsFeature.setHttpsServerClass(configuration.getString("httpsServerClass"));
             httpsFeature.setPort(configuration.getInteger("httpsPort"));
             httpsFeature.init();
-            httpsFeature.getHttpsServer().setHttpServerProcessor(webApplicationServer);
+            httpsFeature.getHttpsServer().setHttpServerProcessor(webAppsFeature.getHttpServerProcessor());
             httpsFeature.start();
             if (httpServer == null) {
                 httpServer = httpsFeature.getHttpsServer();
@@ -306,8 +237,9 @@ public class PlatformPiranha implements Piranha, Runnable {
             }
 
             if (!pidFile.exists()) {
-                webApplicationServer.stop();
-                stopHttpServer();
+                if (httpServer != null) {
+                    httpServer.stop();
+                }
                 if (httpsServer != null) {
                     httpsServer.stop();
                 }
@@ -332,24 +264,8 @@ public class PlatformPiranha implements Piranha, Runnable {
                 LOGGER.log(WARNING, "Unable to create piranha.stopped file", ioe);
             }
         }
-
+        
         featureManager.stop();
-    }
-
-    private void setupLayers(DefaultWebApplicationClassLoader classLoader) {
-        ModuleFinder defaultModuleFinder = new DefaultModuleFinder(classLoader.getResourceManager().getResourceList());
-
-        List<String> roots = defaultModuleFinder.findAll()
-                .stream()
-                .map(ModuleReference::descriptor)
-                .map(ModuleDescriptor::name)
-                .toList();
-
-        if (!roots.isEmpty()) {
-            Configuration configuration = ModuleLayer.boot().configuration().resolveAndBind(defaultModuleFinder, ModuleFinder.of(), roots);
-            ModuleLayer.Controller controller = ModuleLayer.defineModules(configuration, List.of(ModuleLayer.boot()), x -> classLoader);
-            DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
-        }
     }
 
     /**
@@ -392,7 +308,7 @@ public class PlatformPiranha implements Piranha, Runnable {
      * @param webAppsDir the web applications directory.
      */
     public void setWebAppsDir(File webAppsDir) {
-        this.webAppsDir = webAppsDir;
+        this.configuration.setFile("webAppsDir", webAppsDir);
     }
 
     /**
@@ -443,14 +359,5 @@ public class PlatformPiranha implements Piranha, Runnable {
 
         started = false;
         thread = null;
-    }
-
-    /**
-     * Stores the HTTP server (if requested).
-     */
-    private void stopHttpServer() {
-        if (httpServer != null) {
-            httpServer.stop();
-        }
     }
 }

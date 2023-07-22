@@ -27,14 +27,17 @@
  */
 
 /**
- * This module delivers the HTTPS Feature.
+ * This module delivers the WebApps Feature.
+ * 
+ * <p>
+ *  The WebApps feature delivers the support to run multiple web applications.
+ * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.feature.https {
+module cloud.piranha.feature.webapps {
 
-    exports cloud.piranha.feature.https;
-    opens cloud.piranha.feature.https;
-    requires transitive cloud.piranha.feature.impl;
-    requires transitive cloud.piranha.http.impl;
+    exports cloud.piranha.feature.webapps;
+    opens cloud.piranha.feature.webapps;
+    requires transitive cloud.piranha.feature.webapp;
 }
