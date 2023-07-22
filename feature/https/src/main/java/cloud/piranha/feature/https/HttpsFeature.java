@@ -27,7 +27,6 @@
  */
 package cloud.piranha.feature.https;
 
-import cloud.piranha.feature.api.FeatureManager;
 import cloud.piranha.feature.impl.DefaultFeature;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.impl.DefaultHttpServer;
@@ -46,11 +45,6 @@ public class HttpsFeature extends DefaultFeature {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(HttpsFeature.class.getName());
-
-    /**
-     * Stores the feature manager.
-     */
-    private FeatureManager featureManager;
 
     /**
      * Stores the HTTPS server.
@@ -108,6 +102,23 @@ public class HttpsFeature extends DefaultFeature {
         return httpsServerClass;
     }
 
+    /**
+     * Get the HTTPS truststore file.
+     * 
+     * @return the HTTPS truststore file.
+     */
+    public String getHttpsTruststoreFile() {
+        return System.getProperty("javax.net.ssl.trustStore");
+    }
+
+    /**
+     * Get the HTTPS truststore password.
+     * 
+     * @return the HTTPS truststore password.
+     */
+    public String getHttpsTruststorePassword() {
+        return System.getProperty("javax.net.ssl.trustStorePassword");
+    }    
     /**
      * Get the port.
      *
@@ -192,6 +203,40 @@ public class HttpsFeature extends DefaultFeature {
         }
     }
 
+    /**
+     * Set the HTTPS truststore file.
+     *
+     * <p>
+     * This is currently a convenience wrapper around the
+     * <code>javax.net.ssl.trustStore</code> system property. Note using this
+     * method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param httpsTruststoreFile the HTTPS truststore file.
+     */
+    public void setHttpsTruststoreFile(String httpsTruststoreFile) {
+        if (httpsTruststoreFile != null) {
+            System.setProperty("javax.net.ssl.trustStore", httpsTruststoreFile);
+        }
+    }
+
+    /**
+     * Set the HTTPS truststore password.
+     *
+     * <p>
+     * This is currently a convenience wrapper around the
+     * <code>javax.net.ssl.trustStorePassword</code> system property. Note using
+     * this method sets the property for the entire JVM.
+     * </p>
+     *
+     * @param httpsTruststorePassword the HTTPS truststore password.
+     */
+    public void setHttpsTruststorePassword(String httpsTruststorePassword) {
+        if (httpsTruststorePassword != null) {
+            System.setProperty("javax.net.ssl.trustStorePassword", httpsTruststorePassword);
+        }
+    }
+    
     /**
      * Set the port.
      *
