@@ -30,8 +30,6 @@ package cloud.piranha.dist.platform;
 import cloud.piranha.core.api.Piranha;
 import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.core.api.WebApplicationServerRequestMapper;
 import cloud.piranha.core.impl.DefaultModuleFinder;
 import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
@@ -49,7 +47,6 @@ import cloud.piranha.feature.impl.DefaultFeatureManager;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.resource.impl.DirectoryResource;
-import jakarta.servlet.ServletException;
 import java.io.File;
 import java.io.IOException;
 import java.lang.System.Logger;
@@ -353,12 +350,6 @@ public class PlatformPiranha implements Piranha, Runnable {
             ModuleLayer.Controller controller = ModuleLayer.defineModules(configuration, List.of(ModuleLayer.boot()), x -> classLoader);
             DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
         }
-    }
-
-    @Override
-    public void service(WebApplicationRequest request, WebApplicationResponse response)
-            throws IOException, ServletException {
-        webApplicationServer.service(request, response);
     }
 
     /**

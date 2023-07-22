@@ -39,8 +39,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import cloud.piranha.core.api.Piranha;
 import cloud.piranha.core.api.PiranhaConfiguration;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
 import cloud.piranha.core.impl.DefaultPiranhaConfiguration;
 import cloud.piranha.feature.api.FeatureManager;
 import cloud.piranha.feature.exitonstop.ExitOnStopFeature;
@@ -52,7 +50,6 @@ import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.builder.MicroWebApplication;
 import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
-import jakarta.servlet.ServletException;
 
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
@@ -323,11 +320,5 @@ public class IsolatedPiranha implements Piranha, Runnable {
         }
 
         return startedFile;
-    }
-
-    @Override
-    public void service(WebApplicationRequest request, WebApplicationResponse response)
-            throws IOException, ServletException {
-        webApplicationServer.service(request, response);
     }
 }

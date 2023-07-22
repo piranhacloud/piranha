@@ -28,6 +28,7 @@
 package cloud.piranha.dist.servlet;
 
 import cloud.piranha.core.api.WebApplicationExtension;
+import java.io.File;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 
@@ -56,16 +57,6 @@ public class ServletPiranhaBuilder {
     private boolean verbose = false;
 
     /**
-     * Stores the WAR file(name).
-     */
-    private String warFile;
-
-    /**
-     * Stores the web application directory.
-     */
-    private String webAppDir;
-
-    /**
      * Build the Piranha instance.
      *
      * @return the Piranha instance.
@@ -73,12 +64,6 @@ public class ServletPiranhaBuilder {
     public ServletPiranha build() {
         if (verbose) {
             showArguments();
-        }
-        if (warFile != null) {
-            piranha.setWarFile(warFile);
-        }
-        if (webAppDir != null) {
-            piranha.setWebAppDir(webAppDir);
         }
         return piranha;
     }
@@ -268,8 +253,8 @@ public class ServletPiranhaBuilder {
                         piranha.getConfiguration().getString("httpsServerClass"),
                         piranha.getConfiguration().getBoolean("jpmsEnabled", false),
                         piranha.getConfiguration().getLong("pid"),
-                        warFile,
-                        webAppDir));
+                        piranha.getConfiguration().getFile("warFile"),
+                        piranha.getConfiguration().getFile("webAppDir")));
     }
 
     /**
@@ -290,7 +275,9 @@ public class ServletPiranhaBuilder {
      * @return the builder.
      */
     public ServletPiranhaBuilder warFile(String warFile) {
-        this.warFile = warFile;
+        if (warFile != null) {
+            piranha.getConfiguration().setFile("warFile", new File(warFile));
+        }
         return this;
     }
 
@@ -301,7 +288,9 @@ public class ServletPiranhaBuilder {
      * @return the builder.
      */
     public ServletPiranhaBuilder webAppDir(String webAppDir) {
-        this.webAppDir = webAppDir;
+        if (webAppDir != null) {
+            piranha.getConfiguration().setFile("webAppDir", new File(webAppDir));
+        }
         return this;
     }
 }

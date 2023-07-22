@@ -30,38 +30,21 @@ package cloud.piranha.dist.coreprofile;
 import cloud.piranha.core.api.Piranha;
 import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
-import cloud.piranha.core.impl.DefaultModuleFinder;
-import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
 import cloud.piranha.core.impl.DefaultPiranhaConfiguration;
-import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
-import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import static cloud.piranha.core.impl.WarFileExtractor.extractWarFile;
 import cloud.piranha.extension.coreprofile.CoreProfileExtension;
 import cloud.piranha.feature.api.FeatureManager;
 import cloud.piranha.feature.exitonstop.ExitOnStopFeature;
 import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.feature.https.HttpsFeature;
 import cloud.piranha.feature.impl.DefaultFeatureManager;
-import cloud.piranha.http.webapp.HttpWebApplicationServer;
-import cloud.piranha.resource.impl.DirectoryResource;
-import jakarta.servlet.ServletException;
+import cloud.piranha.feature.webapp.WebAppFeature;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
-import java.lang.module.Configuration;
-import java.lang.module.ModuleDescriptor;
-import java.lang.module.ModuleFinder;
-import java.lang.module.ModuleReference;
-import java.util.List;
-import java.util.ServiceLoader;
 
 /**
  * The Piranha Core Profile runtime.
@@ -104,11 +87,11 @@ public class CoreProfilePiranha implements Piranha, Runnable {
      * Stores the thread we use.
      */
     private Thread thread;
-
+    
     /**
-     * Stores the HTTP web application server.
+     * Stores the web app feature.
      */
-    private HttpWebApplicationServer webApplicationServer;
+    private WebAppFeature webAppFeature;
 
     /**
      * Constructor.
@@ -135,72 +118,15 @@ public class CoreProfilePiranha implements Piranha, Runnable {
         long startTime = System.currentTimeMillis();
         LOGGER.log(INFO, () -> "Starting Piranha");
 
-        webApplicationServer = new HttpWebApplicationServer();
-
-        File webAppDir = null;
-        File warFile = configuration.getFile("warFile");
-
-        if (warFile != null && warFile.getName().toLowerCase().endsWith(".war")) {
-            String contextPath = configuration.getString("contextPath");
-            if (contextPath == null) {
-                contextPath = warFile.getName().substring(0, warFile.getName().length() - 4);
-                configuration.setString("contextPath", contextPath);
-            }
-            if (webAppDir == null) {
-                webAppDir = new File(contextPath);
-                configuration.setFile("webAppDir", webAppDir);
-            }
-            extractWarFile(warFile, webAppDir);
-        }
-
-        if (webAppDir != null && webAppDir.exists()) {
-            String contextPath = configuration.getString("contextPath");
-            if (contextPath == null) {
-                contextPath = webAppDir.getName();
-            }
-
-            DefaultWebApplication webApplication = new DefaultWebApplication();
-            webApplication.addResource(new DirectoryResource(webAppDir));
-
-            DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDir);
-            webApplication.setClassLoader(classLoader);
-
-            if (Boolean.getBoolean("cloud.piranha.modular.enable") || configuration.getBoolean("jpmsEnabled", false)) {
-                setupLayers(classLoader);
-            }
-
-            if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
-                DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                extensionContext.add((Class<WebApplicationExtension>) configuration.getClass("extensionClass"));
-                extensionContext.configure(webApplication);
-            } else {
-                DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                ServiceLoader<WebApplicationExtension> serviceLoader = ServiceLoader.load(WebApplicationExtension.class, classLoader);
-                extensionContext.add(serviceLoader.iterator().next());
-                extensionContext.configure(webApplication);
-            }
-
-            if (contextPath.equalsIgnoreCase("ROOT")) {
-                contextPath = "";
-            } else if (!contextPath.startsWith("/")) {
-                contextPath = "/" + contextPath;
-            }
-            webApplication.setContextPath(contextPath);
-            webApplicationServer.addWebApplication(webApplication);
-
-            try {
-                webApplication.initialize();
-            } catch (Exception e) {
-                LOGGER.log(ERROR, "Failed to initialize web application");
-                System.exit(0);
-            }
-        }
-
-        if (webAppDir == null && warFile == null) {
-            LOGGER.log(WARNING, "No web application deployed");
-        }
-
-        webApplicationServer.start();
+        webAppFeature = new WebAppFeature();
+        featureManager.addFeature(webAppFeature);
+        webAppFeature.setContextPath(configuration.getString("contextPath"));
+        webAppFeature.setExtensionClass((Class<? extends WebApplicationExtension>) configuration.getClass("extensionClass"));
+        webAppFeature.setJpmsEnabled(configuration.getBoolean("jpmsEnabled", false));
+        webAppFeature.setWarFile(configuration.getFile("warFile"));
+        webAppFeature.setWebAppDir(configuration.getFile("webAppDir"));
+        webAppFeature.init();
+        webAppFeature.start();
 
         /*
          * Construct, initialize and start HTTP endpoint (if applicable).
@@ -211,7 +137,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
             httpFeature.setHttpServerClass(configuration.getString("httpServerClass"));
             httpFeature.setPort(configuration.getInteger("httpPort"));
             httpFeature.init();
-            httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
+            httpFeature.getHttpServer().setHttpServerProcessor(webAppFeature.getHttpServerProcessor());
             httpFeature.start();
         }
 
@@ -226,7 +152,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
             httpsFeature.setHttpsServerClass(configuration.getString("httpsServerClass"));
             httpsFeature.setPort(configuration.getInteger("httpsPort"));
             httpsFeature.init();
-            httpsFeature.getHttpsServer().setHttpServerProcessor(webApplicationServer);
+            httpsFeature.getHttpsServer().setHttpServerProcessor(webAppFeature.getHttpServerProcessor());
             httpsFeature.start();
         }
 
@@ -267,28 +193,6 @@ public class CoreProfilePiranha implements Piranha, Runnable {
                 Thread.currentThread().interrupt();
             }
         }
-    }
-
-    private void setupLayers(DefaultWebApplicationClassLoader classLoader) {
-        ModuleFinder defaultModuleFinder = new DefaultModuleFinder(classLoader.getResourceManager().getResourceList());
-
-        List<String> roots = defaultModuleFinder.findAll()
-                .stream()
-                .map(ModuleReference::descriptor)
-                .map(ModuleDescriptor::name)
-                .toList();
-
-        if (!roots.isEmpty()) {
-            Configuration configuration = ModuleLayer.boot().configuration().resolveAndBind(defaultModuleFinder, ModuleFinder.of(), roots);
-            ModuleLayer.Controller controller = ModuleLayer.defineModules(configuration, List.of(ModuleLayer.boot()), x -> classLoader);
-            DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
-        }
-    }
-
-    @Override
-    public void service(WebApplicationRequest request, WebApplicationResponse response)
-            throws IOException, ServletException {
-        webApplicationServer.service(request, response);
     }
 
     /**

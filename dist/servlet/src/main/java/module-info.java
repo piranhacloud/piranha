@@ -39,7 +39,7 @@ module cloud.piranha.dist.servlet {
     requires cloud.piranha.feature.exitonstop;
     requires cloud.piranha.feature.http;
     requires cloud.piranha.feature.https;
-    requires cloud.piranha.feature.impl;
+    requires cloud.piranha.feature.webapp;
     requires cloud.piranha.http.crac;
     requires cloud.piranha.http.webapp;
     requires java.logging;
