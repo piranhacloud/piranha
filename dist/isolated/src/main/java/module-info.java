@@ -43,7 +43,7 @@ module cloud.piranha.dist.isolated {
     requires cloud.piranha.feature.exitonstop;
     requires cloud.piranha.feature.http;
     requires cloud.piranha.feature.https;
-    requires cloud.piranha.feature.impl;
+    requires cloud.piranha.feature.logging;
     requires cloud.piranha.http.webapp;
     requires cloud.piranha.micro.builder;
     requires cloud.piranha.micro.loader;

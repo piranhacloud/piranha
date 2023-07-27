@@ -218,6 +218,17 @@ public class WebProfilePiranhaBuilder {
     }
 
     /**
+     * Set the logging level.
+     *
+     * @param loggingLevel the logging level.
+     * @return the builder.
+     */
+    public WebProfilePiranhaBuilder loggingLevel(String loggingLevel) {
+        piranha.getConfiguration().setString("loggingLevel", loggingLevel);
+        return this;
+    }
+
+    /**
      * Set the PID.
      *
      * @param pid the PID.
@@ -254,6 +265,7 @@ public class WebProfilePiranhaBuilder {
                 HTTPS truststore file     : %s
                 HTTPS truststore password : ****
                 JPMS enabled              : %s
+                Logging level             : %s
                 PID                       : %s
                 WAR filename              : %s
                 Web application dir       : %s
@@ -269,6 +281,7 @@ public class WebProfilePiranhaBuilder {
                         configuration.getString("httpsServerClass"),
                         configuration.getString("httpsTruststoreFile"),
                         configuration.getBoolean("jpms", false),
+                        configuration.getString("loggingLevel"),
                         configuration.getLong("pid"),
                         configuration.getFile("warFile"),
                         configuration.getFile("webAppDir")
