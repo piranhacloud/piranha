@@ -218,6 +218,17 @@ public class MicroProfilePiranhaBuilder {
     }
 
     /**
+     * Set the logging level.
+     * 
+     * @param loggingLevel the logging level.
+     * @return the builder.
+     */
+    public MicroProfilePiranhaBuilder loggingLevel(String loggingLevel) {
+        piranha.getConfiguration().setString("loggingLevel", loggingLevel);
+        return this;
+    }
+    
+    /**
      * Show the arguments used.
      */
     private void showArguments() {
@@ -243,6 +254,7 @@ public class MicroProfilePiranhaBuilder {
                 HTTPS truststore file     : %s
                 HTTPS truststore password : ****
                 JPMS enabled              : %s
+                Logging Level             : %s
                 PID                       : %s
                 WAR filename              : %s
                 Web application dir       : %s
@@ -258,6 +270,7 @@ public class MicroProfilePiranhaBuilder {
                         configuration.getString("httpsServerClass"),
                         configuration.getString("httpsTruststoreFile"),
                         configuration.getBoolean("jpms", false),
+                        configuration.getString("loggingLevel"),
                         configuration.getLong("pid"),
                         configuration.getFile("warFile"),
                         configuration.getFile("webAppDir")

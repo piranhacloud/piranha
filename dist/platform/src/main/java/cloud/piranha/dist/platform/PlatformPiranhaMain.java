@@ -113,6 +113,9 @@ public class PlatformPiranhaMain {
                 if (arguments[i].equals("--jpms")) {
                     builder = builder.jpms(true);
                 }
+                if (arguments[i].equals("--logging-level")) {
+                    builder = builder.loggingLevel(arguments[i + 1]);
+                }
                 if (arguments[i].equals("--verbose")) {
                     builder = builder.verbose(true);
                 }
@@ -147,6 +150,7 @@ public class PlatformPiranhaMain {
   --https-truststore-password <string> - Set the HTTPS keystore password 
                                          (applies to the whole JVM)
   --jpms                               - Enable Java Platform Module System
+  --logging-level <string>             - Set the logging level
   --verbose                            - Shows the runtime parameters
   --webapps-dir <directory>            - Set the web applications directory
                 """);

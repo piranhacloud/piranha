@@ -214,6 +214,17 @@ public class ServerPiranhaBuilder {
     }
 
     /**
+     * Set the logging level.
+     * 
+     * @param loggingLevel the logging level.
+     * @return the builder.
+     */
+    public ServerPiranhaBuilder loggingLevel(String loggingLevel) {
+        piranha.getConfiguration().setString("loggingLevel", loggingLevel);
+        return this;
+    }
+
+    /**
      * Show the arguments used.
      */
     private void showArguments() {
@@ -236,6 +247,7 @@ public class ServerPiranhaBuilder {
             HTTPS truststore file     : %s
             HTTPS truststore password : ****
             JPMS enabled              : %s
+            Logging level             : %s
             Web applications dir      : %s
 
             """.formatted(
@@ -248,6 +260,7 @@ public class ServerPiranhaBuilder {
                         piranha.getConfiguration().getString("httpsServerClass"),
                         piranha.getConfiguration().getString("httpsTruststoreFile"),
                         piranha.getConfiguration().getBoolean("jpmsEnabled", false),
+                        piranha.getConfiguration().getString("loggingLevel"),
                         piranha.getConfiguration().getFile("webAppsDir")
                 ));
     }

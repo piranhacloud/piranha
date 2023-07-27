@@ -47,6 +47,7 @@ public class DefaultFeatureManager implements FeatureManager {
     @Override
     public void addFeature(Feature feature) {
         features.add(feature);
+        feature.setFeatureManager(this);
     }
     
     @Override

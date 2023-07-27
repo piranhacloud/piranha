@@ -18,10 +18,11 @@
     <modules>
         <module>api</module>
         <module>crac</module>
+        <module>exitonstop</module>
         <module>http</module>
         <module>https</module>
         <module>impl</module>
-        <module>exitonstop</module>
+        <module>logging</module>
         <module>webapp</module>
         <module>webapps</module>
     </modules>

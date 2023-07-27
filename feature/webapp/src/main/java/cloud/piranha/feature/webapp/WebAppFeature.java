@@ -104,11 +104,29 @@ public class WebAppFeature extends DefaultFeature {
     }
 
     /**
+     * Get the extension class.
+     * 
+     * @return the extension class.
+     */
+    public Class<? extends WebApplicationExtension> getExtensionClass() {
+        return extensionClass;
+    }
+
+    /**
      * Get the HttpServerProcessor.
      *
      * @return the HttpServerProcessor.
      */
     public HttpServerProcessor getHttpServerProcessor() {
+        return httpWebApplicationServer;
+    }
+    
+    /**
+     * Get the HttpWebApplicationServer.
+     * 
+     * @return the HttpWebApplicationServer.
+     */
+    public HttpWebApplicationServer getHttpWebApplicationServer() {
         return httpWebApplicationServer;
     }
 
@@ -128,15 +146,6 @@ public class WebAppFeature extends DefaultFeature {
      */
     public File getWebAppDir() {
         return webAppDir;
-    }
-    
-    /**
-     * Get the HttpWebApplicationServer.
-     * 
-     * @return the HttpWebApplicationServer.
-     */
-    public HttpWebApplicationServer getHttpWebApplicationServer() {
-        return httpWebApplicationServer;
     }
 
     @Override

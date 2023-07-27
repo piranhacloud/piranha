@@ -45,6 +45,7 @@ import cloud.piranha.feature.exitonstop.ExitOnStopFeature;
 import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.feature.https.HttpsFeature;
 import cloud.piranha.feature.impl.DefaultFeatureManager;
+import cloud.piranha.feature.logging.LoggingFeature;
 import cloud.piranha.http.api.HttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.builder.MicroWebApplication;
@@ -154,6 +155,9 @@ public class IsolatedPiranha implements Piranha, Runnable {
                 if (arguments[i].equals("--https-server-class")) {
                     configuration.setString("httpsServerClass", arguments[i + 1]);
                 }
+                if (arguments[i].equals("--logging-level")) {
+                    configuration.setString("loggingLevel", arguments[i + 1]);
+                }
             }
         }
     }
@@ -164,6 +168,13 @@ public class IsolatedPiranha implements Piranha, Runnable {
     @Override
     public void run() {
         long startTime = System.currentTimeMillis();
+        
+        LoggingFeature loggingFeature = new LoggingFeature();
+        featureManager.addFeature(loggingFeature);
+        loggingFeature.setLevel(configuration.getString("loggingLevel"));
+        loggingFeature.init();
+        loggingFeature.start();
+        
         LOGGER.log(INFO, () -> "Starting Piranha");
 
         webApplicationServer = new HttpWebApplicationServer();

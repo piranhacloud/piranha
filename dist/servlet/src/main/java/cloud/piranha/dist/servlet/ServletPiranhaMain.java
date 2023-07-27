@@ -75,14 +75,14 @@ public class ServletPiranhaMain {
                 if (arguments[i].equals("--extension-class")) {
                     builder = builder.extensionClass(arguments[i + 1]);
                 }
-                if (arguments[i].equals("--help")) {
-                    return null;
-                }
                 if (arguments[i].equals("--context-path")) {
                     builder = builder.contextPath(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--enable-crac")) {
                     builder = builder.crac(true);
+                }
+                if (arguments[i].equals("--help")) {
+                    return null;
                 }
                 if (arguments[i].equals("--http-port")) {
                     int arg = Integer.parseInt(arguments[i + 1]);
@@ -114,6 +114,9 @@ public class ServletPiranhaMain {
                 }
                 if (arguments[i].equals("--jpms")) {
                     builder = builder.jpms(true);
+                }
+                if (arguments[i].equals("--logging-level")) {
+                    builder = builder.loggingLevel(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--verbose")) {
                     builder = builder.verbose(true);
@@ -165,6 +168,7 @@ public class ServletPiranhaMain {
   --https-truststore-password <string> - Set the HTTPS keystore password 
                                          (applies to the whole JVM)
   --jpms                               - Enable Java Platform Module System
+  --logging-level <string>             - Set the logging level
   --verbose                            - Shows the runtime parameters
   --war-file <file>                    - The WAR file to deploy
   --webapp-dir <directory>             - The directory to use for the web

@@ -36,6 +36,7 @@ import cloud.piranha.feature.exitonstop.ExitOnStopFeature;
 import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.feature.https.HttpsFeature;
 import cloud.piranha.feature.impl.DefaultFeatureManager;
+import cloud.piranha.feature.logging.LoggingFeature;
 import cloud.piranha.feature.webapps.WebAppsFeature;
 import cloud.piranha.http.api.HttpServer;
 import java.io.File;
@@ -155,6 +156,13 @@ public class ServerPiranha implements Piranha, Runnable {
     @Override
     public void run() {
         long startTime = System.currentTimeMillis();
+
+        LoggingFeature loggingFeature = new LoggingFeature();
+        featureManager.addFeature(loggingFeature);
+        loggingFeature.setLevel(configuration.getString("loggingLevel"));
+        loggingFeature.init();
+        loggingFeature.start();
+
         LOGGER.log(INFO, () -> "Starting Piranha");
 
         webAppsFeature = new WebAppsFeature();
