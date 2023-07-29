@@ -25,6 +25,7 @@
         <module>logging</module>
         <module>webapp</module>
         <module>webapps</module>
+        <module>isolatedwebapp</module>
     </modules>
 
     <dependencyManagement>
