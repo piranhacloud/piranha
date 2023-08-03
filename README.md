@@ -11,6 +11,7 @@
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=security_rating)](https://sonarcloud.io/dashboard?id=piranhacloud_piranha)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=piranhacloud_piranha)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=piranhacloud_piranha)
+[![Project Map](https://sourcespy.com/shield.svg)](https://sourcespy.com/github/piranhacloudpiranha/)
 
 The Piranha Project delivers you with Cloud ready containers and useful add-on / 
 integration modules.
