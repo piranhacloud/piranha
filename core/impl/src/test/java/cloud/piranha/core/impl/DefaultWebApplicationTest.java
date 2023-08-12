@@ -1041,7 +1041,7 @@ class DefaultWebApplicationTest {
     /**
      * Test getJspConfigDescriptor method.
      *
-     * @assertion Servlet:JAVADOC:690
+     * @jaarta.assertion Servlet:JAVADOC:690
      */
     @Test
     void testGetJspConfigDescriptor() {
