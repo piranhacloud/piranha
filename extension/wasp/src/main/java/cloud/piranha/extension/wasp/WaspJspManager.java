@@ -36,7 +36,7 @@ import cloud.piranha.core.api.WebApplication;
 /**
  * The WaSP manager delivered by the Jasper integration.
  *
- * @assertion Servlet:JAVADOC:690
+ * @jakarta.assertion Servlet:JAVADOC:690
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class WaspJspManager implements JspManager {

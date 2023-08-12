@@ -44,7 +44,7 @@ class JspDescriptorTest {
     /**
      * Test getJspDescriptor method.
      *
-     * @assertion Servlet:JAVADOC:690
+     * @jakarta.assertion Servlet:JAVADOC:690
      * @throws Exception when a serious error occurs.
      */
     @Test
