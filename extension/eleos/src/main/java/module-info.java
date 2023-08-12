@@ -39,9 +39,11 @@
 module cloud.piranha.extension.eleos {
 
     exports cloud.piranha.extension.eleos;
+    
     opens cloud.piranha.extension.eleos;
+    
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires jakarta.security.auth.message;
-    requires org.omnifaces.eleos;
+    requires transitive org.glassfish.eleos;
 }
