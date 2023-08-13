@@ -34,7 +34,9 @@
 module cloud.piranha.extension.security.jakarta {
 
     exports cloud.piranha.extension.security.jakarta;
+    
     opens cloud.piranha.extension.security.jakarta;
+    
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.eleos;
@@ -43,6 +45,6 @@ module cloud.piranha.extension.security.jakarta {
     requires cloud.piranha.extension.soteria;
     requires cloud.piranha.extension.weld;
     requires java.naming;
+    requires org.glassfish.eleos;
     requires org.glassfish.exousia;
-    requires org.omnifaces.eleos;
 }
