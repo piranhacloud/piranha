@@ -22,6 +22,7 @@
         <module>http</module>
         <module>https</module>
         <module>impl</module>
+        <module>isolatedwebapp</module>
         <module>logging</module>
         <module>webapp</module>
         <module>webapps</module>
