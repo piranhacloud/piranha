@@ -49,6 +49,11 @@ public interface WebApplicationResponse extends HttpServletResponse {
      * @return the content language.
      */
     String getContentLanguage();
+    
+    /**
+     * Get the content length.
+     */
+    long getContentLength();
 
     /**
      * {@return the cookies}

@@ -25,31 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.impl;
+package cloud.piranha.core.api;
 
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
+import java.io.PrintWriter;
+import java.io.Writer;
 
 /**
- * The JUnit tests for the ServletOutputStream API.
- *
+ * The WebApplicationPrintWriter API.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletOutputStreamTest extends cloud.piranha.core.tests.ServletOutputStreamTest {
-
-    @Override
-    public WebApplication createWebApplication() {
-        return new DefaultWebApplication();
-    }
-
-    @Override
-    public WebApplicationRequest createWebApplicationRequest() {
-        return new DefaultWebApplicationRequest();
-    }
-
-    @Override
-    public WebApplicationResponse createWebApplicationResponse() {
-        return new DefaultWebApplicationResponse();
+public class WebApplicationPrintWriter extends PrintWriter {
+    
+    /**
+     * Stores the response object.
+     */
+    protected WebApplicationResponse response;
+    
+    /**
+     * Constructor.
+     * 
+     * @param response the response object.
+     * @param writer the writer.
+     * @param autoFlush the auto flush flag.
+     */
+    public WebApplicationPrintWriter(WebApplicationResponse response, Writer writer, boolean autoFlush) {
+        super(writer, autoFlush);
+        this.response = response;
     }
 }

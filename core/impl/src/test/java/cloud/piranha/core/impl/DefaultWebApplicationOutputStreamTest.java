@@ -25,11 +25,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.tests;
+package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.WriteListener;
 import java.io.IOException;
@@ -37,49 +34,28 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * The JUnit tests for the ServletOutputStream API.
- * 
+ * The JUnit tests for the DefaultWebApplicationResponse class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class ServletOutputStreamTest {
-    
-    /**
-     * Create a web application.
-     * 
-     * @return the web application.
-     */
-    public abstract WebApplication createWebApplication();
-    
-    /**
-     * Create a web application request.
-     * 
-     * @return the web application request.
-     */
-    public abstract WebApplicationRequest createWebApplicationRequest();
-    
-    /**
-     * Create a web application response.
-     * 
-     * @return the web application response.
-     */
-    public abstract WebApplicationResponse createWebApplicationResponse();
-    
+class DefaultWebApplicationOutputStreamTest {
+
     /**
      * Test isReady method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     void testIsReady() throws Exception {
-        WebApplicationResponse response = createWebApplicationResponse();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ServletOutputStream outputStream = response.getOutputStream();
         assertFalse(outputStream.isReady());
     }
-    
+
     /**
      * Test setWriteListener method.
      */
     void testWriteListener() throws Exception {
-        WebApplicationResponse response = createWebApplicationResponse();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ServletOutputStream outputStream = response.getOutputStream();
         outputStream.setWriteListener(new WriteListener() {
             @Override

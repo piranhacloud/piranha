@@ -25,17 +25,70 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.core.impl;
+
+import cloud.piranha.core.api.WebApplicationPrintWriter;
+import cloud.piranha.core.api.WebApplicationResponse;
+import java.io.IOException;
+import java.io.Writer;
 
 /**
- * This module delivers the default implementations for the Piranha APIs.
- * 
+ * The PrintWriter for a WebApplicationResponse.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.core.impl {
+public class DefaultWebApplicationPrintWriter extends WebApplicationPrintWriter {
 
-    exports cloud.piranha.core.impl;
-    opens cloud.piranha.core.impl;
-    requires transitive cloud.piranha.core.api;
-    requires transitive cloud.piranha.resource.impl;
-    requires java.base;
+    /**
+     * Stores the content length.
+     */
+    private long contentLength = -1;
+
+    /**
+     * Stores the content written.
+     */
+    private long contentWritten = 0;
+
+    /**
+     * Constructor.
+     *
+     * @param response the response object.
+     * @param writer the writer.
+     * @param autoFlush the auto flush flag.
+     */
+    public DefaultWebApplicationPrintWriter(WebApplicationResponse response, Writer writer, boolean autoFlush) {
+        super(response, writer, autoFlush);
+        contentLength = response.getContentLength() * 2;
+    }
+
+    @Override
+    public void write(char[] characters) {
+        if (characters != null) {
+            for (int i = 0; i < characters.length; i++) {
+                write(characters[i]);
+            }
+        }
+    }
+
+    @Override
+    public void write(String s) {
+        if (s != null) {
+            s.chars().forEach(c -> write(c));
+        }
+    }
+
+    @Override
+    public void write(int c) {
+        super.write(c);
+        if (contentLength > 0) {
+            contentWritten++;
+            if (contentWritten > contentLength) {
+                try {
+                    response.flushBuffer();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
+            }
+        }
+    }
 }
