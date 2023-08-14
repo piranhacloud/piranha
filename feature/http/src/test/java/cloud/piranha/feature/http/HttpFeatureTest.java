@@ -25,9 +25,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.feature.https;
+package cloud.piranha.feature.http;
 
-import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.http.api.HttpServer;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -41,13 +40,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpFeatureTest {
+class HttpFeatureTest {
 
     /**
      * Test destroy method.
      */
     @Test
-    public void testDestroy() {
+    void testDestroy() {
         HttpFeature feature = new HttpFeature();
         feature.init();
         assertNotNull(feature.getHttpServer());
@@ -64,7 +63,7 @@ public class HttpFeatureTest {
      * Test getHttpServer method.
      */
     @Test
-    public void testGetHttpServerMethod() {
+    void testGetHttpServerMethod() {
         HttpFeature feature = new HttpFeature();
         feature.init();
         HttpServer httpsServer = feature.getHttpServer();
@@ -78,7 +77,7 @@ public class HttpFeatureTest {
      * Test getHttpServerClass method.
      */
     @Test
-    public void testGetHttpServerClass() {
+    void testGetHttpServerClass() {
         HttpFeature feature = new HttpFeature();
         feature.setHttpServerClass("BOGUS");
         assertEquals("BOGUS", feature.getHttpServerClass());
@@ -90,7 +89,7 @@ public class HttpFeatureTest {
      * Test getPort method.
      */
     @Test
-    public void testGetPort() {
+    void testGetPort() {
         HttpFeature feature = new HttpFeature();
         feature.setPort(1234);
         assertEquals(1234, feature.getPort());
@@ -100,7 +99,7 @@ public class HttpFeatureTest {
      * Test stop method.
      */
     @Test
-    public void testStop() {
+    void testStop() {
         HttpFeature feature = new HttpFeature();
         feature.init();
         assertFalse(feature.getHttpServer().isRunning());

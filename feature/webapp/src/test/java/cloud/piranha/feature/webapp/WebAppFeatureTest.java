@@ -39,13 +39,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebAppFeatureTest {
+class WebAppFeatureTest {
     
     /**
      * Test getExtensionClass method.
      */
     @Test
-    public void testGetExtensionClass() {
+    void testGetExtensionClass() {
         WebAppFeature feature = new WebAppFeature();
         assertNull(feature.getExtensionClass());
         feature.setExtensionClass(WebApplicationExtension.class);
@@ -56,7 +56,7 @@ public class WebAppFeatureTest {
      * Test getContextPath method.
      */
     @Test
-    public void testGetContextPath() {
+    void testGetContextPath() {
         WebAppFeature feature = new WebAppFeature();
         assertNull(feature.getContextPath());
         feature.setContextPath("/contextpath");
@@ -67,7 +67,7 @@ public class WebAppFeatureTest {
      * Test getWarFile method.
      */
     @Test
-    public void testGetWarFile() {
+    void testGetWarFile() {
         WebAppFeature feature = new WebAppFeature();
         assertNull(feature.getWarFile());
         File warFile = new File("test.war");
@@ -79,7 +79,7 @@ public class WebAppFeatureTest {
      * Test getWebAppDir method.
      */
     @Test
-    public void testGetWebAppDir() {
+    void testGetWebAppDir() {
         WebAppFeature feature = new WebAppFeature();
         assertNull(feature.getWebAppDir());
         File webAppDir = new File("test");

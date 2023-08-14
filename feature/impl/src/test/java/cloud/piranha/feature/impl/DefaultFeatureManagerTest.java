@@ -38,13 +38,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultFeatureManagerTest {
+class DefaultFeatureManagerTest {
     
     /**
      * Test addFeature method.
      */
     @Test
-    public void testAddFeature() {
+    void testAddFeature() {
         DefaultFeatureManager manager = new DefaultFeatureManager();
         Feature feature = new DefaultFeature();
         manager.addFeature(feature);
@@ -52,10 +52,10 @@ public class DefaultFeatureManagerTest {
     }
 
     /**
-     * Test of stop method, of class DefaultFeatureManager.
+     * Test stop method.
      */
     @Test
-    public void testStop() {
+    void testStop() {
         DefaultFeatureManager manager = new DefaultFeatureManager();
         manager.addFeature(new DefaultFeature() {
             @Override
