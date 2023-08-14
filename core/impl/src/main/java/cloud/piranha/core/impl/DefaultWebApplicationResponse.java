@@ -316,6 +316,11 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
     public String getContentLanguage() {
         return contentLanguage;
     }
+    
+    @Override
+    public long getContentLength() {
+        return contentLength;
+    }
 
     @Override
     public String getContentType() {
@@ -409,7 +414,7 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
                     setCharacterEncoding(ISO_8859_1);
                 }
                 gotWriter = true;
-                writer = new PrintWriter(new OutputStreamWriter(webApplicationOutputStream, characterEncoding), false);
+                writer = new DefaultWebApplicationPrintWriter(this, new OutputStreamWriter(webApplicationOutputStream, characterEncoding), false);
             }
             result = writer;
         } else {
