@@ -70,7 +70,7 @@ class HelloArquillianIT {
      */
     @Test
     @RunAsClient
-    public void testHelloArquillian() throws Exception {
+    void testHelloArquillian() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
                 .newBuilder(new URI(baseUrl + "helloarquillian"))

@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ExitOnStopFeatureTest {
+class ExitOnStopFeatureTest {
 
     /**
      * Test stop method.
@@ -43,7 +43,7 @@ public class ExitOnStopFeatureTest {
      * @throws Exception when an error occurs.
      */
     @Test
-    public void testStop() throws Exception {
+    void testStop() throws Exception {
         ExitOnStopFeature feature = new ExitOnStopFeature();
         feature.stop();
         Thread.sleep(500);

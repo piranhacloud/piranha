@@ -35,13 +35,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationRequestMappingTest {
+class DefaultWebApplicationRequestMappingTest {
     
     /**
      * Test getMatchValue method.
      */
     @Test
-    public void testGetMatchValue() {
+    void testGetMatchValue() {
         DefaultWebApplicationRequestMapping mapping = new DefaultWebApplicationRequestMapping(null);
         assertNull(mapping.getMatchValue());
         mapping.setMatchValue("/match");
@@ -52,7 +52,7 @@ public class DefaultWebApplicationRequestMappingTest {
      * Test getPattern method.
      */
     @Test
-    public void testGetPattern() {
+    void testGetPattern() {
         DefaultWebApplicationRequestMapping mapping = new DefaultWebApplicationRequestMapping("/*");
         assertEquals("/*", mapping.getPattern());
     }
@@ -61,7 +61,7 @@ public class DefaultWebApplicationRequestMappingTest {
      * Test isExact method.
      */
     @Test
-    public void testIsExact() {
+    void testIsExact() {
         DefaultWebApplicationRequestMapping mapping = new DefaultWebApplicationRequestMapping("/exact");
         assertFalse(mapping.isExact());
         mapping.setExact(true);
@@ -72,7 +72,7 @@ public class DefaultWebApplicationRequestMappingTest {
      * Test isExtension method.
      */
     @Test
-    public void testIsExtension() {
+    void testIsExtension() {
         DefaultWebApplicationRequestMapping mapping = new DefaultWebApplicationRequestMapping("*.html");
         assertFalse(mapping.isExtension());
         mapping.setExtension(true);
@@ -83,7 +83,7 @@ public class DefaultWebApplicationRequestMappingTest {
      * Test setPattern method.
      */
     @Test
-    public void testSetPattern() {
+    void testSetPattern() {
         DefaultWebApplicationRequestMapping mapping = new DefaultWebApplicationRequestMapping("/pattern1");
         assertEquals("/pattern1", mapping.getPattern());
         mapping.setPattern("/pattern2");

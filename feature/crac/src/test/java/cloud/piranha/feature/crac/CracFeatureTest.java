@@ -39,15 +39,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-
-
-public class CracFeatureTest {
+class CracFeatureTest {
 
     /**
      * Test init method.
      */
     @Test
-    public void testInit() {
+    void testInit() {
         DefaultFeatureManager manager = new DefaultFeatureManager();
         HttpFeature httpFeature = new HttpFeature();
         httpFeature.setFeatureManager(manager);
@@ -65,7 +63,7 @@ public class CracFeatureTest {
      * Test init method.
      */
     @Test
-    public void testInit2() {
+    void testInit2() {
         DefaultFeatureManager manager = new DefaultFeatureManager();
         HttpsFeature httpsFeature = new HttpsFeature();
         httpsFeature.setFeatureManager(manager);

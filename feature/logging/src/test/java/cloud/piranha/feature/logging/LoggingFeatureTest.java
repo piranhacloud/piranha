@@ -39,13 +39,13 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class LoggingFeatureTest {
+class LoggingFeatureTest {
     
     /**
      * Test getLevel method.
      */
     @Test
-    public void testGetLevel() {
+    void testGetLevel() {
         LoggingFeature feature = new LoggingFeature();
         assertNull(feature.getLevel());
         feature.setLevel("SEVERE");
@@ -56,7 +56,7 @@ public class LoggingFeatureTest {
      * Test init method
      */
     @Test
-    public void testInit() {
+    void testInit() {
         LoggingFeature feature = new LoggingFeature();
         feature.init();
         assertEquals(INFO, LogManager.getLogManager().getLogger("").getLevel());

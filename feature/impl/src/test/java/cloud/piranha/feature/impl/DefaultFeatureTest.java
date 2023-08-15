@@ -36,13 +36,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultFeatureTest {
+class DefaultFeatureTest {
     
     /**
      * Test getFeatureManager method
      */
     @Test
-    public void testGetFeatureManager() {
+    void testGetFeatureManager() {
         DefaultFeature feature = new DefaultFeature();
         assertNull(feature.getFeatureManager());
         DefaultFeatureManager manager = new DefaultFeatureManager();

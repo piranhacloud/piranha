@@ -40,13 +40,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HttpsFeatureTest {
+class HttpsFeatureTest {
 
     /**
      * Test destroy method.
      */
     @Test
-    public void testDestroy() {
+    void testDestroy() {
         HttpsFeature feature = new HttpsFeature();
         feature.init();
         assertNotNull(feature.getHttpsServer());
@@ -63,7 +63,7 @@ public class HttpsFeatureTest {
      * Test getHttpsKeystoreFile method.
      */
     @Test
-    public void testGetHttpsKeystoreFile() {
+    void testGetHttpsKeystoreFile() {
         HttpsFeature feature = new HttpsFeature();
         feature.setHttpsKeystoreFile("keystore");
         assertEquals("keystore", feature.getHttpsKeystoreFile());
@@ -83,7 +83,7 @@ public class HttpsFeatureTest {
      * Test getHttpServer method.
      */
     @Test
-    public void testGetHttpServerMethod() {
+    void testGetHttpServerMethod() {
         HttpsFeature feature = new HttpsFeature();
         feature.init();
         HttpServer httpsServer = feature.getHttpsServer();
@@ -97,7 +97,7 @@ public class HttpsFeatureTest {
      * Test getHttpServerClass method.
      */
     @Test
-    public void testGetHttpServerClass() {
+    void testGetHttpServerClass() {
         HttpsFeature feature = new HttpsFeature();
         feature.setHttpsServerClass("BOGUS");
         assertEquals("BOGUS", feature.getHttpsServerClass());
@@ -109,7 +109,7 @@ public class HttpsFeatureTest {
      * Test getHttpsTruststoreFile method.
      */
     @Test
-    public void testGetHttpsTruststoreFile() {
+    void testGetHttpsTruststoreFile() {
         HttpsFeature feature = new HttpsFeature();
         feature.setHttpsTruststoreFile("truststore");
         assertEquals("truststore", feature.getHttpsTruststoreFile());
@@ -119,7 +119,7 @@ public class HttpsFeatureTest {
      * Test getHttpsTruststorePassword method.
      */
     @Test
-    public void testGetHttpsTruststorePassword() {
+    void testGetHttpsTruststorePassword() {
         HttpsFeature feature = new HttpsFeature();
         feature.setHttpsTruststorePassword("password");
         assertEquals("password", feature.getHttpsTruststorePassword());
@@ -129,7 +129,7 @@ public class HttpsFeatureTest {
      * Test getPort method.
      */
     @Test
-    public void testGetPort() {
+    void testGetPort() {
         HttpsFeature feature = new HttpsFeature();
         feature.setPort(1234);
         assertEquals(1234, feature.getPort());
@@ -139,7 +139,7 @@ public class HttpsFeatureTest {
      * Test stop method.
      */
     @Test
-    public void testStop() {
+    void testStop() {
         HttpsFeature feature = new HttpsFeature();
         feature.init();
         assertFalse(feature.getHttpsServer().isRunning());
