@@ -26,6 +26,7 @@
         <module>logging</module>
         <module>webapp</module>
         <module>webapps</module>
+        <module>pid</module>
     </modules>
 
     <dependencyManagement>

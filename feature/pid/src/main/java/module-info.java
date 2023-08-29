@@ -27,22 +27,15 @@
  */
 
 /**
- * This module delivers the Piranha Core Profile distribution.
+ * This module delivers the PID Feature.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.dist.coreprofile {
+module cloud.piranha.feature.pid {
+
+    exports cloud.piranha.feature.pid;
     
-    exports cloud.piranha.dist.coreprofile;
-
-    opens cloud.piranha.dist.coreprofile;
-
-    requires cloud.piranha.extension.coreprofile;
-    requires cloud.piranha.feature.exitonstop;
-    requires cloud.piranha.feature.http;
-    requires cloud.piranha.feature.https;
-    requires cloud.piranha.feature.logging;
-    requires cloud.piranha.feature.pid;
-    requires cloud.piranha.feature.webapp;
-    requires java.logging;
+    opens cloud.piranha.feature.pid;
+    
+    requires transitive cloud.piranha.feature.impl;
 }

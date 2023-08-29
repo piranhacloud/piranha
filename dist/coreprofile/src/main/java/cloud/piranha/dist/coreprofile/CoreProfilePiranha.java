@@ -38,14 +38,10 @@ import cloud.piranha.feature.http.HttpFeature;
 import cloud.piranha.feature.https.HttpsFeature;
 import cloud.piranha.feature.impl.DefaultFeatureManager;
 import cloud.piranha.feature.logging.LoggingFeature;
+import cloud.piranha.feature.pid.PidFeature;
 import cloud.piranha.feature.webapp.WebAppFeature;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.INFO;
-import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The Piranha Core Profile runtime.
@@ -68,31 +64,6 @@ public class CoreProfilePiranha implements Piranha, Runnable {
      * Stores the feature manager.
      */
     private final FeatureManager featureManager;
-
-    /**
-     * Stores the HTTP feature.
-     */
-    private HttpFeature httpFeature;
-
-    /**
-     * Stores the HTTPS feature.
-     */
-    private HttpsFeature httpsFeature;
-
-    /**
-     * Stores the stop flag.
-     */
-    private boolean stop = false;
-
-    /**
-     * Stores the thread we use.
-     */
-    private Thread thread;
-    
-    /**
-     * Stores the web app feature.
-     */
-    private WebAppFeature webAppFeature;
 
     /**
      * Constructor.
@@ -118,6 +89,9 @@ public class CoreProfilePiranha implements Piranha, Runnable {
     public void run() {
         long startTime = System.currentTimeMillis();
         
+        /*
+         * Setup logging.
+         */
         LoggingFeature loggingFeature = new LoggingFeature();
         featureManager.addFeature(loggingFeature);
         loggingFeature.setLevel(configuration.getString("loggingLevel"));
@@ -126,7 +100,10 @@ public class CoreProfilePiranha implements Piranha, Runnable {
 
         LOGGER.log(INFO, () -> "Starting Piranha");
 
-        webAppFeature = new WebAppFeature();
+        /*
+         * Setup the web application.
+         */
+        WebAppFeature webAppFeature = new WebAppFeature();
         featureManager.addFeature(webAppFeature);
         webAppFeature.setContextPath(configuration.getString("contextPath"));
         webAppFeature.setExtensionClass((Class<? extends WebApplicationExtension>) configuration.getClass("extensionClass"));
@@ -137,10 +114,10 @@ public class CoreProfilePiranha implements Piranha, Runnable {
         webAppFeature.start();
 
         /*
-         * Construct, initialize and start HTTP endpoint (if applicable).
+         * Setup the HTTP endpoint (if applicable).
          */
         if (configuration.getInteger("httpPort") > 0) {
-            httpFeature = new HttpFeature();
+            HttpFeature httpFeature = new HttpFeature();
             featureManager.addFeature(httpFeature);
             httpFeature.setHttpServerClass(configuration.getString("httpServerClass"));
             httpFeature.setPort(configuration.getInteger("httpPort"));
@@ -150,10 +127,10 @@ public class CoreProfilePiranha implements Piranha, Runnable {
         }
 
         /**
-         * Construct, initialize and start the HTTPS endpoint (if applicable).
+         * Setup the HTTPS endpoint (if applicable).
          */
         if (configuration.getInteger("httpsPort") > 0) {
-            httpsFeature = new HttpsFeature();
+            HttpsFeature httpsFeature = new HttpsFeature();
             featureManager.addFeature(httpsFeature);
             httpsFeature.setHttpsKeystoreFile(configuration.getString("httpsKeystoreFile"));
             httpsFeature.setHttpsKeystorePassword(configuration.getString("httpsKeystorePassword"));
@@ -166,42 +143,32 @@ public class CoreProfilePiranha implements Piranha, Runnable {
             httpsFeature.start();
         }
 
+        /*
+         * Setup the 'Exit on Stop' (if applicable).
+         */
         if (configuration.getBoolean("exitOnStop", false)) {
             ExitOnStopFeature exitOnStopFeature = new ExitOnStopFeature();
             featureManager.addFeature(exitOnStopFeature);
             exitOnStopFeature.init();
             exitOnStopFeature.start();
         }
+        
+        /*
+         * Setup the PID feature.
+         */
+        PidFeature pidFeature = new PidFeature();
+        if (configuration.getLong("pid") != null) {
+            pidFeature.setPid(configuration.getLong("pid"));
+        }
 
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
-        if (getConfiguration().getLong("pid") != null) {
-            File pidFile = new File("tmp", "piranha.pid");
-            if (!pidFile.getParentFile().exists() && !pidFile.getParentFile().mkdirs()) {
-                LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
-            }
-            try (PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
-                writer.println(getConfiguration().getLong("pid"));
-                writer.flush();
-            } catch (IOException ioe) {
-                LOGGER.log(WARNING, "Unable to write PID file", ioe);
-            }
-        }
-
-        while (!stop) {
-            if (getConfiguration().getLong("pid") != null) {
-                File pidFile = new File("tmp", "piranha.pid");
-                if (!pidFile.exists()) {
-                    stop();
-                }
-            }
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-            }
+        try {
+            pidFeature.getThread().join();
+        } catch (InterruptedException ie) {
+            // safe to ignore.
         }
     }
 
@@ -209,16 +176,12 @@ public class CoreProfilePiranha implements Piranha, Runnable {
      * Start the server.
      */
     public void start() {
-        thread = new Thread(this);
-        thread.start();
     }
 
     /**
      * Stop the server.
      */
     public void stop() {
-        stop = true;
-        thread = null;
         featureManager.stop();
     }
 }
