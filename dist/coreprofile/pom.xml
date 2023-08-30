@@ -48,12 +48,6 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.feature</groupId>
-            <artifactId>piranha-feature-pid</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.feature</groupId>
             <artifactId>piranha-feature-webapp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
