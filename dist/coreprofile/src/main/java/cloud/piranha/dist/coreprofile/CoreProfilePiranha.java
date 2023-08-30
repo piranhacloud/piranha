@@ -172,7 +172,7 @@ public class CoreProfilePiranha implements Piranha, Runnable {
             exitOnStopFeature.init();
             exitOnStopFeature.start();
         }
-
+        
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
