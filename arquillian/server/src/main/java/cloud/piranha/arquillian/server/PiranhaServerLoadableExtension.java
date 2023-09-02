@@ -56,9 +56,16 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
         builder.service(DeployableContainer.class, PiranhaServerDeployableContainer.class);
     }
 
-    // Defines the configuration class used: PiranhaServerContainerConfiguration.class
-    // Defines the protocol used: "Servlet 5.0"
-
+    /**
+     * The Piranha DeployableContainer.
+     * 
+     * <pre>
+     *  Defines the configuration class used: PiranhaServerContainerConfiguration.class
+     *  Defines the protocol used: "Servlet 5.0"
+     * </pre>
+     * 
+     * @author Manfred Riem (mriem@manorrock.com)
+     */
     public abstract static class PiranhaServerContainerBase implements DeployableContainer<PiranhaServerContainerConfiguration> {
 
         @Override
@@ -72,8 +79,15 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
         }
     }
 
-    // Defines the configuration class to be essentially the same as MicroConfiguration.class
-
+    /**
+     * The Piranha MicroConfiguration.
+     * 
+     * <pre>
+     *  Defines the configuration class to be essentially the same as MicroConfiguration.class
+     * </pre>
+     * 
+     * @author Manfred Riem (mriem@manorrock.com)
+     */
     public static class PiranhaServerContainerConfiguration extends MicroConfiguration implements ContainerConfiguration {
 
         /**
@@ -117,7 +131,7 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
          * Initializes configuration after all configured values were loaded.
          * Computes generated configuration, e.g. a free port for autoPort
          *
-         * @return
+         * @return the PiranhaServerContainerConfiguration.
          */
         @Override
         public PiranhaServerContainerConfiguration postConstruct() {
