@@ -29,7 +29,7 @@ package cloud.piranha.extension.naming;
 
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.naming.impl.DefaultInitialContext;
+import com.manorrock.herring.DefaultInitialContext;
 import jakarta.annotation.Resource;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.WARNING;
