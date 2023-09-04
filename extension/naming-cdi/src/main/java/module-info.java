@@ -37,8 +37,8 @@ module cloud.piranha.extension.naming.cdi {
     exports cloud.piranha.extension.naming.cdi;
     opens cloud.piranha.extension.naming.cdi;
     requires cloud.piranha.core.api;
-    requires transitive cloud.piranha.naming.impl;
-    requires transitive cloud.piranha.naming.thread;
+    requires transitive com.manorrock.herring;
+    requires transitive com.manorrock.herring.thread;
     requires jakarta.annotation;
     requires jakarta.cdi;
     requires transitive java.naming;

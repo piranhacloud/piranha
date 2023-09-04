@@ -53,7 +53,6 @@
         <module>http</module>
         <module>maven</module>
         <module>micro</module>
-        <module>naming</module>
         <module>resource</module>
         <module>spring</module>
     </modules>

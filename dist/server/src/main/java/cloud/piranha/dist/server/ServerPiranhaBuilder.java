@@ -56,7 +56,7 @@ public class ServerPiranhaBuilder {
     /**
      * Stores the InitialContext factory.
      */
-    private String initialContextFactory = "cloud.piranha.naming.thread.ThreadInitialContextFactory";
+    private String initialContextFactory = "com.manorrock.herring.thread.ThreadInitialContextFactory";
 
     /**
      * Stores the verbose flag.

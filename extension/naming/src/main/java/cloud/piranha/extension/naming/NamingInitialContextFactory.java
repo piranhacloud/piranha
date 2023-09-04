@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.naming;
 
-import cloud.piranha.naming.impl.DefaultInitialContext;
+import com.manorrock.herring.DefaultInitialContext;
 import java.util.Hashtable;
 import javax.naming.Context;
 import javax.naming.NamingException;

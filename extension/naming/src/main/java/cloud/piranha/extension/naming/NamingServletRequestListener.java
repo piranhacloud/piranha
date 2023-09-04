@@ -28,7 +28,7 @@
 package cloud.piranha.extension.naming;
 
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.naming.thread.ThreadInitialContextFactory;
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
 import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
 import static java.lang.System.Logger.Level.DEBUG;
