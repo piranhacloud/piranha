@@ -39,7 +39,7 @@
  *  <li>Eclipse Yasson (JSON-B)</li>
  *  <li>Glassfish Expressly (EL)</li>
  *  <li>Glassfish Jersey (REST)</li>
- *  <li>Manorrock Herring (JNDI)</li>
+ *  <li>Naming (JNDI)</li>
  *  <li>ServletContainerInitializer</li>
  * </ul>
  */
@@ -50,8 +50,8 @@ module cloud.piranha.extension.coreprofile {
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.annotationscan.classfile;
+    requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.scinitializer;
-    requires com.manorrock.herring;
     requires jakarta.ws.rs;
     requires org.eclipse.parsson;
     requires org.eclipse.yasson;
