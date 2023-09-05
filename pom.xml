@@ -21,7 +21,7 @@
     <licenses>
         <license>
             <name>Piranha License</name>
-            <url>https://raw.githubusercontent.com/piranhacloud/piranha/master/LICENSE</url>
+            <url>https://raw.githubusercontent.com/piranhacloud/piranha/current/LICENSE</url>
         </license>
     </licenses>
 
@@ -73,7 +73,7 @@
         <!-- dependencies -->
         <angus.activation.version>2.0.1</angus.activation.version>
         <angus.mail.version>2.0.2</angus.mail.version>
-        <arquillian.version>1.7.0.Final</arquillian.version>
+        <arquillian.version>1.7.1.Final</arquillian.version>
         <bcel.version>6.7.0</bcel.version>
         <checkstyle.version>10.12.2</checkstyle.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
@@ -81,17 +81,18 @@
         <crac.version>0.1.3</crac.version>
         <eclipselink.version>4.0.2</eclipselink.version>
         <eclipse.jaxb.version>4.0.3</eclipse.jaxb.version>
-        <eleos.version>3.0.1</eleos.version>
+        <eleos.version>3.0.3</eleos.version>
         <exousia.version>2.1.0</exousia.version>
         <expressly.version>5.0.0</expressly.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
         <grizzly.version>4.0.0</grizzly.version>
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
-        <hazelcast.version>5.3.1</hazelcast.version>
+        <hazelcast.version>5.3.2</hazelcast.version>
         <htmlunit.version>2.70.0</htmlunit.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+        <h2.version>2.2.222</h2.version>
         <jakarta.faces.version>4.0.3</jakarta.faces.version>
-        <jandex.version>3.1.2</jandex.version>
+        <jandex.version>3.1.3</jandex.version>
         <!-- Kept at 1.2.5.Final because 1.3.0.Final does not work with Arquillian -->
         <jboss-classfilewriter.version>1.2.5.Final</jboss-classfilewriter.version>
         <jersey.version>3.1.3</jersey.version>
@@ -99,7 +100,6 @@
         <junit-platform-launcher.version>1.10.0</junit-platform-launcher.version>
         <junit-pioneer.version>2.0.1</junit-pioneer.version>
         <junit.version>5.10.0</junit.version>
-        <h2.version>2.2.220</h2.version>
         <maven-plugin-annotations.version>3.9.0</maven-plugin-annotations.version>
         <maven-plugin-api.version>4.0.0-alpha-7</maven-plugin-api.version>
         <maven-plugin-tools-annotations.version>3.9.0</maven-plugin-tools-annotations.version>
@@ -114,10 +114,10 @@
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.1.4</shrinkwrap-resolver.version>
         <soteria.version>3.0.3</soteria.version>
-        <spring-boot.version>3.1.2</spring-boot.version>
+        <spring-boot.version>3.1.3</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.1.3</tyrus.version>
-        <undertow.version>2.3.7.Final</undertow.version>
+        <undertow.version>2.3.8.Final</undertow.version>
         <wasp.version>3.2.0</wasp.version>
         <weld.version>5.1.1.SP2</weld.version>
         <yasson.version>3.0.3</yasson.version>
