@@ -29,9 +29,11 @@ package cloud.piranha.core.impl;
 
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.WriteListener;
+import static jakarta.servlet.http.HttpServletResponse.SC_SWITCHING_PROTOCOLS;
 import java.io.IOException;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the DefaultWebApplicationResponse class.
@@ -45,17 +47,26 @@ class DefaultWebApplicationOutputStreamTest {
      *
      * @throws Exception when a serious error occurs.
      */
+    @Test
     void testIsReady() throws Exception {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ServletOutputStream outputStream = response.getOutputStream();
-        assertFalse(outputStream.isReady());
+        assertTrue(outputStream.isReady());
     }
 
     /**
      * Test setWriteListener method.
      */
+    @Test
     void testWriteListener() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        request.setUpgraded(true);
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setStatus(SC_SWITCHING_PROTOCOLS);
+        webApplication.linkRequestAndResponse(request, response);
+        response.setWebApplication(webApplication);
         ServletOutputStream outputStream = response.getOutputStream();
         outputStream.setWriteListener(new WriteListener() {
             @Override
