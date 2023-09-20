@@ -207,6 +207,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
 
     @Override
     public void undeploy(Descriptor d) throws DeploymentException {
+        // not supporting undeployment by descriptor.
     }
 
     /**
