@@ -871,7 +871,7 @@
                                     <version>3.8.7</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>17</version>
+                                    <version>${java.version}</version>
                                 </requireJavaVersion>
                             </rules>    
                         </configuration>
