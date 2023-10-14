@@ -104,7 +104,7 @@
         <maven-plugin-api.version>4.0.0-alpha-7</maven-plugin-api.version>
         <maven-plugin-tools-annotations.version>3.9.0</maven-plugin-tools-annotations.version>
         <microprofile-jwt-auth.version>2.0.2</microprofile-jwt-auth.version>
-        <netty.version>4.1.94.Final</netty.version>
+        <netty.version>4.1.100.Final</netty.version>
         <omnibeans.version>0.3</omnibeans.version>
         <omniservices.version>0.4</omniservices.version>
         <omniutils.version>0.13</omniutils.version>
