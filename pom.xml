@@ -145,8 +145,8 @@
         <maven-plugin-plugin.version>3.9.0</maven-plugin-plugin.version>
         <maven-replacer-plugin.version>1.5.3</maven-replacer-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-        <maven-shade-plugin.version>3.5.0</maven-shade-plugin.version>
-        <!-- Kept at 4.0.0-M3 because 4.0.0-M[4-9] do not work -->
+        <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
+        <!-- Kept at 4.0.0-M3 because 4.0.0-M[4-10] do not work -->
         <maven-site-plugin.version>4.0.0-M3</maven-site-plugin.version>
         <!-- Kept at 3.2.1 as 3.3.0 does not work -->
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
@@ -156,7 +156,7 @@
         <moditect-maven-plugin.version>1.0.0.RC2</moditect-maven-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
         <tidy-maven-plugin.version>1.2.0</tidy-maven-plugin.version>
-        <versions-maven-plugin.version>2.16.0</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.16.1</versions-maven-plugin.version>
         <!-- other -->
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
