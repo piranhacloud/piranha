@@ -45,6 +45,12 @@ import org.junit.jupiter.api.Test;
 public abstract class ReadListenerTest {
 
     /**
+     * Default constructor.
+     */
+    public ReadListenerTest() {
+    }
+    
+    /**
      * Create a web application.
      *
      * @return the web application.
@@ -114,6 +120,9 @@ public abstract class ReadListenerTest {
         assertNotNull(webApplication.getAttribute("onDataAvailable"));
     }
 
+    /**
+     * A test ReadListener for onAllDataRead.
+     */
     public static class TestOnAllDataReadReadListener implements ReadListener {
 
         /**
@@ -144,6 +153,9 @@ public abstract class ReadListenerTest {
         }
     }
 
+    /**
+     * A test ReadListener for onDataAvailable.
+     */
     public static class TestOnDataAvailableReadListener implements ReadListener {
 
         /**

@@ -55,6 +55,7 @@ module cloud.piranha.extension.webprofile {
     opens cloud.piranha.extension.webprofile;
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
+    requires cloud.piranha.extension.annotationscan.classfile;
     requires cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.extension.datasource;
     requires cloud.piranha.extension.eclipselink;

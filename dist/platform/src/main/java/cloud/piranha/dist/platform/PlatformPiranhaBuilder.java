@@ -49,74 +49,19 @@ public class PlatformPiranhaBuilder {
     private static final System.Logger LOGGER = System.getLogger(PlatformPiranhaBuilder.class.getName());
 
     /**
-     * Stores the default extension class.
+     * Stores the Platform Piranha instance.
      */
-    private Class<? extends WebApplicationExtension> defaultExtensionClass;
-
-    /**
-     * Stores the exit on stop flag.
-     */
-    private boolean exitOnStop = false;
-
-    /**
-     * Stores the HTTP port.
-     */
-    private int httpPort = 8080;
-    
-    /**
-     * Stores the HTTP server class.
-     */
-    private String httpServerClass;
-
-    /**
-     * Stores the HTTPS keystore file.
-     */
-    private String httpsKeystoreFile;
-
-    /**
-     * Stores the HTTPS keystore password.
-     */
-    private String httpsKeystorePassword;
-
-    /**
-     * Stores the HTTPS port.
-     */
-    private int httpsPort = -1;
-
-    /**
-     * Stores the HTTPS server class.
-     */
-    private String httpsServerClass;
+    private final PlatformPiranha piranha = new PlatformPiranha();
 
     /**
      * Stores the InitialContext factory.
      */
-    private String initialContextFactory = "cloud.piranha.naming.thread.ThreadInitialContextFactory";
-
-    /**
-     * Stores the JPMS flag.
-     */
-    private boolean jpms = false;
-
-    /**
-     * Stores the SSL truststore file.
-     */
-    private String sslTruststoreFile;
-
-    /**
-     * Stores the SSL truststore password.
-     */
-    private String sslTruststorePassword;
+    private String initialContextFactory = "com.manorrock.herring.thread.ThreadInitialContextFactory";
 
     /**
      * Stores the verbose flag.
      */
     private boolean verbose = false;
-
-    /**
-     * Stores the web applications directory.
-     */
-    private String webAppsDir = "webapps";
 
     /**
      * Build the server.
@@ -128,55 +73,7 @@ public class PlatformPiranhaBuilder {
             showArguments();
         }
         System.setProperty(INITIAL_CONTEXT_FACTORY, initialContextFactory);
-        PlatformPiranha piranha = new PlatformPiranha();
-        piranha.setDefaultExtensionClass(defaultExtensionClass);
-        piranha.setExitOnStop(exitOnStop);
-        piranha.setHttpPort(httpPort);
-        piranha.setHttpServerClass(httpServerClass);
-        piranha.setHttpsPort(httpsPort);
-        piranha.setHttpsServerClass(httpsServerClass);
-        piranha.setJpmsEnabled(jpms);
-        if (httpsKeystoreFile != null) {
-            piranha.setHttpsKeystoreFile(httpsKeystoreFile);
-        }
-        if (httpsKeystorePassword != null) {
-            piranha.setHttpsKeystorePassword(httpsKeystorePassword);
-        }
-        if (sslTruststoreFile != null) {
-            piranha.setSslKeystoreFile(sslTruststoreFile);
-        }
-        if (sslTruststorePassword != null) {
-            piranha.setSslKeystorePassword(sslTruststorePassword);
-        }
-        piranha.setWebAppsDir(new File(webAppsDir));
         return piranha;
-    }
-
-    /**
-     * Set the default extension class.
-     *
-     * @param defaultExtensionClass the default extension class.
-     * @return the builder.
-     */
-    public PlatformPiranhaBuilder defaultExtensionClass(Class<? extends WebApplicationExtension> defaultExtensionClass) {
-        this.defaultExtensionClass = defaultExtensionClass;
-        return this;
-    }
-
-    /**
-     * Set the default extension class.
-     *
-     * @param defaultExtensionClassName the default extension class name.
-     * @return the builder.
-     */
-    public PlatformPiranhaBuilder defaultExtensionClass(String defaultExtensionClassName) {
-        try {
-            this.defaultExtensionClass = Class.forName(defaultExtensionClassName)
-                    .asSubclass(WebApplicationExtension.class);
-        } catch (ClassNotFoundException cnfe) {
-            LOGGER.log(WARNING, "Unable to load default extension class", cnfe);
-        }
-        return this;
     }
 
     /**
@@ -186,7 +83,34 @@ public class PlatformPiranhaBuilder {
      * @return the builder.
      */
     public PlatformPiranhaBuilder exitOnStop(boolean exitOnStop) {
-        this.exitOnStop = exitOnStop;
+        piranha.getConfiguration().setBoolean("exitOnStop", exitOnStop);
+        return this;
+    }
+
+    /**
+     * Set the extension class.
+     *
+     * @param extensionClass the extension class.
+     * @return the builder.
+     */
+    public PlatformPiranhaBuilder extensionClass(Class<? extends WebApplicationExtension> extensionClass) {
+        piranha.getConfiguration().setClass("extensionClass", extensionClass);
+        return this;
+    }
+
+    /**
+     * Set the extension class.
+     *
+     * @param extensionClassName the extension class name.
+     * @return the builder.
+     */
+    public PlatformPiranhaBuilder extensionClass(String extensionClassName) {
+        try {
+            extensionClass(Class.forName(extensionClassName)
+                    .asSubclass(WebApplicationExtension.class));
+        } catch (ClassNotFoundException cnfe) {
+            LOGGER.log(WARNING, "Unable to load default extension class", cnfe);
+        }
         return this;
     }
 
@@ -197,21 +121,21 @@ public class PlatformPiranhaBuilder {
      * @return the builder.
      */
     public PlatformPiranhaBuilder httpPort(int httpPort) {
-        this.httpPort = httpPort;
+        piranha.getConfiguration().setInteger("httpPort", httpPort);
         return this;
     }
 
     /**
      * Set the HTTP server class.
-     * 
+     *
      * @param httpServerClass the HTTP server class.
      * @return the builder.
      */
     public PlatformPiranhaBuilder httpServerClass(String httpServerClass) {
-        this.httpServerClass = httpServerClass;
+        piranha.getConfiguration().setString("httpServerClass", httpServerClass);
         return this;
     }
-    
+
     /**
      * Set the HTTPS keystore file.
      *
@@ -219,7 +143,7 @@ public class PlatformPiranhaBuilder {
      * @return the builder.
      */
     public PlatformPiranhaBuilder httpsKeystoreFile(String httpsKeystoreFile) {
-        this.httpsKeystoreFile = httpsKeystoreFile;
+        piranha.getConfiguration().setString("httpsKeystoreFile", httpsKeystoreFile);
         return this;
     }
 
@@ -230,7 +154,7 @@ public class PlatformPiranhaBuilder {
      * @return the builder.
      */
     public PlatformPiranhaBuilder httpsKeystorePassword(String httpsKeystorePassword) {
-        this.httpsKeystorePassword = httpsKeystorePassword;
+        piranha.getConfiguration().setString("httpsKeystorePassword", httpsKeystorePassword);
         return this;
     }
 
@@ -241,18 +165,40 @@ public class PlatformPiranhaBuilder {
      * @return the builder.
      */
     public PlatformPiranhaBuilder httpsPort(int httpsPort) {
-        this.httpsPort = httpsPort;
+        piranha.getConfiguration().setInteger("httpsPort", httpsPort);
         return this;
     }
 
     /**
      * Set the HTTPS server class.
-     * 
+     *
      * @param httpsServerClass the HTTPS server class.
      * @return the builder.
      */
     public PlatformPiranhaBuilder httpsServerClass(String httpsServerClass) {
-        this.httpsServerClass = httpsServerClass;
+        piranha.getConfiguration().setString("httpsServerClass", httpsServerClass);
+        return this;
+    }
+
+    /**
+     * Set the HTTPS truststore file.
+     *
+     * @param httpsTruststoreFile the HTTPS truststore file.
+     * @return the builder.
+     */
+    public PlatformPiranhaBuilder httpsTruststoreFile(String httpsTruststoreFile) {
+        piranha.getConfiguration().setString("httpsTruststoreFile", httpsTruststoreFile);
+        return this;
+    }
+
+    /**
+     * Set the HTTPS truststore password.
+     *
+     * @param httpsTruststorePassword the HTTPS truststore password.
+     * @return the builder.
+     */
+    public PlatformPiranhaBuilder httpsTruststorePassword(String httpsTruststorePassword) {
+        piranha.getConfiguration().setString("httpsTruststorePassword", httpsTruststorePassword);
         return this;
     }
 
@@ -263,10 +209,21 @@ public class PlatformPiranhaBuilder {
      * @return the builder.
      */
     public PlatformPiranhaBuilder jpms(boolean jpms) {
-        this.jpms = jpms;
+        piranha.getConfiguration().setBoolean("jpmsEnabled", jpms);
         return this;
     }
 
+    /**
+     * Set the logging level.
+     * 
+     * @param loggingLevel the logging level.
+     * @return the builder.
+     */
+    public PlatformPiranhaBuilder loggingLevel(String loggingLevel) {
+        piranha.getConfiguration().setString("loggingLevel", loggingLevel);
+        return this;
+    }
+    
     /**
      * Show the arguments used.
      */
@@ -278,79 +235,33 @@ public class PlatformPiranhaBuilder {
                 Arguments
                 =========
                 
-                Default extension class : %s
-                Exit on stop            : %s
-                HTTP port               : %s
-                HTTP server class       : %s
-                HTTPS keystore file     : %s
-                HTTPS keystore password : ****
-                HTTPS port              : %s
-                HTTPS server class      : %s
-                JPMS enabled            : %s
-                SSL truststore file     : %s
-                SSL truststore password : ****
-                Web applications dir    : %s
+                Extension class           : %s
+                Exit on stop              : %s
+                HTTP port                 : %s
+                HTTP server class         : %s
+                HTTPS keystore file       : %s
+                HTTPS keystore password   : ****
+                HTTPS port                : %s
+                HTTPS server class        : %s
+                HTTPS truststore file     : %s
+                HTTPS truststore password : ****
+                JPMS enabled              : %s
+                Logging level             : %s
+                Web applications dir      : %s
                 
                 """.formatted(
-                defaultExtensionClass.getName(),
-                exitOnStop,
-                httpPort,
-                httpServerClass,
-                httpsKeystoreFile,
-                httpsPort,
-                httpsServerClass,
-                jpms,
-                sslTruststoreFile,
-                webAppsDir
+                piranha.getConfiguration().getClass("extensionClass"),
+                piranha.getConfiguration().getBoolean("exitOnStop", false),
+                piranha.getConfiguration().getInteger("httpPort"),
+                piranha.getConfiguration().getString("httpServerClass"),
+                piranha.getConfiguration().getString("httpsKeystoreFile"),
+                piranha.getConfiguration().getInteger("httpsPort"),
+                piranha.getConfiguration().getString("httpsServerClass"),
+                piranha.getConfiguration().getString("httpsTruststoreFile"),
+                piranha.getConfiguration().getBoolean("jpmsEnabled", false),
+                piranha.getConfiguration().getString("loggingLevel"),
+                piranha.getConfiguration().getFile("webAppsDir")
         ));
-    }
-
-    /**
-     * Set the SSL keystore file.
-     *
-     * @param sslKeystoreFile the SSL keystore file.
-     * @return the builder.
-     * @deprecated
-     */
-    @Deprecated(since = "23.5.0", forRemoval = true)
-    public PlatformPiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
-        this.httpsKeystoreFile = sslKeystoreFile;
-        return this;
-    }
-
-    /**
-     * Set the SSL keystore password.
-     *
-     * @param sslKeystorePassword the SSL keystore password.
-     * @return the builder.
-     * @deprecated
-     */
-    @Deprecated(since = "23.5.0", forRemoval = true)
-    public PlatformPiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
-        this.httpsKeystorePassword = sslKeystorePassword;
-        return this;
-    }
-
-    /**
-     * Set the SSL truststore file.
-     *
-     * @param sslTruststoreFile the SSL truststore file.
-     * @return the builder.
-     */
-    public PlatformPiranhaBuilder sslTruststoreFile(String sslTruststoreFile) {
-        this.sslTruststoreFile = sslTruststoreFile;
-        return this;
-    }
-
-    /**
-     * Set the SSL truststore password.
-     *
-     * @param sslTruststorePassword the SSL truststore password.
-     * @return the builder.
-     */
-    public PlatformPiranhaBuilder sslTruststorePassword(String sslTruststorePassword) {
-        this.sslTruststorePassword = sslTruststorePassword;
-        return this;
     }
 
     /**
@@ -371,7 +282,9 @@ public class PlatformPiranhaBuilder {
      * @return the builder.
      */
     public PlatformPiranhaBuilder webAppsDir(String webAppsDir) {
-        this.webAppsDir = webAppsDir;
+        if (webAppsDir != null) {
+            piranha.getConfiguration().setFile("webAppsDir", new File(webAppsDir));
+        }
         return this;
     }
 }

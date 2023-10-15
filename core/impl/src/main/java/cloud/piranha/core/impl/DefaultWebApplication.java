@@ -92,6 +92,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toSet;
 import java.util.stream.Stream;
 import cloud.piranha.core.api.WebApplicationManager;
+import static java.lang.System.Logger.Level.INFO;
 
 /**
  * The default WebApplication.
@@ -203,7 +204,7 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the status.
      */
     protected int status;
-    
+
     /**
      * Stores the active requests and the associated responses.
      */
@@ -296,6 +297,11 @@ public class DefaultWebApplication implements WebApplication {
     protected WebApplicationManager manager;
 
     /**
+     * Stores the mime types.
+     */
+    private final Map<String, String> mimeTypes = new HashMap<>();
+
+    /**
      * Constructor.
      */
     public DefaultWebApplication() {
@@ -317,6 +323,17 @@ public class DefaultWebApplication implements WebApplication {
         manager = new DefaultWebApplicationManager();
         manager.getHttpSessionManager().setWebApplication(this);
         manager.getDispatcherManager().setWebApplication(this);
+        mimeTypes.put("css", "text/css");
+        mimeTypes.put("js", "text/javascript");
+        mimeTypes.put("ico", "image/x-icon");
+        mimeTypes.put("svg", "image/svg+xml");
+        mimeTypes.put("png", "image/png");
+        mimeTypes.put("ttf", "font/ttf");
+        mimeTypes.put("html", "text/html");
+        mimeTypes.put("htm", "text/html");
+        mimeTypes.put("text", "text/plain");
+        mimeTypes.put("txt", "text/plain");
+
     }
 
     @Override
@@ -464,6 +481,11 @@ public class DefaultWebApplication implements WebApplication {
         if (listener instanceof HttpSessionListener) {
             getManager().getHttpSessionManager().addListener(listener);
         }
+    }
+
+    @Override
+    public void addMimeType(String extension, String mimeType) {
+        mimeTypes.put(extension.toLowerCase(), mimeType);
     }
 
     @Override
@@ -770,7 +792,11 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public String getMimeType(String filename) {
-        return manager.getMimeTypeManager().getMimeType(filename);
+        String mimeType = null;
+        if (filename != null && filename.contains(".")) {
+            mimeType = mimeTypes.get(filename.substring(filename.lastIndexOf(".") + 1).toLowerCase());
+        }
+        return mimeType;
     }
 
     @Override
@@ -1149,16 +1175,12 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public void log(String message, Throwable throwable) {
-        if (manager.getLoggingManager() != null) {
-            manager.getLoggingManager().log(message, throwable);
-        }
+        LOGGER.log(INFO, message, throwable);
     }
 
     @Override
     public void log(String message) {
-        if (manager.getLoggingManager() != null) {
-            manager.getLoggingManager().log(message);
-        }
+        LOGGER.log(INFO, message);
     }
 
     @Override

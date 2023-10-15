@@ -403,6 +403,17 @@ class DefaultWebApplicationTest {
     }
 
     /**
+     * Test addMimeType method.
+     */
+    @Test
+    void testAddMimeType() {
+        WebApplication webApplication = new DefaultWebApplication();
+        assertNull(webApplication.getMimeType("my.class"));
+        webApplication.addMimeType("class", "application/x-java-class");
+        assertEquals("application/x-java-class", webApplication.getMimeType("my.class"));
+    }
+    
+    /**
      * Test addListener method.
      */
     @Test
@@ -1030,7 +1041,7 @@ class DefaultWebApplicationTest {
     /**
      * Test getJspConfigDescriptor method.
      *
-     * @assertion Servlet:JAVADOC:690
+     * @jaarta.assertion Servlet:JAVADOC:690
      */
     @Test
     void testGetJspConfigDescriptor() {
@@ -1074,6 +1085,44 @@ class DefaultWebApplicationTest {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         assertNotNull(webApplication.getMimeType("index.html"));
         assertEquals("text/html", webApplication.getMimeType("index.html"));
+    }
+    
+    /**
+     * Test getMimeType method.
+     */
+    @Test
+    void testGetMimeType2() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        assertEquals("text/css", webApplication.getMimeType("TEST.CSS"));
+        assertEquals("text/javascript", webApplication.getMimeType("TEST.JS"));
+    }
+
+    /**
+     * Test getMimeType method.
+     */
+    @Test
+    void testGetMimeType3() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        assertNull(webApplication.getMimeType("this_maps_to.null"));
+    }
+
+    /**
+     * Test getMimeType method.
+     */
+    @Test
+    void testGetMimeType4() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addMimeType("class", "application/x-java-class");
+        assertEquals(webApplication.getMimeType("my.class"), "application/x-java-class");
+    }
+
+    /**
+     * Test getMimeType method.
+     */
+    @Test
+    void testGetMimeType5() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        assertNull(webApplication.getMimeType("myclass"));
     }
 
     /**
@@ -1837,19 +1886,6 @@ class DefaultWebApplicationTest {
         assertFalse(webApplication.isMetadataComplete());
         webApplication.setMetadataComplete(true);
         assertTrue(webApplication.isMetadataComplete());
-    }
-
-    /**
-     * Test setLoggingManager method.
-     *
-     * REVIEW LOCATION
-     */
-    @Test
-    void testSetLoggingManager() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.getManager().setLoggingManager(null);
-        webApplication.log("KABOOM");
-        assertNull(webApplication.getManager().getLoggingManager());
     }
 
     /**

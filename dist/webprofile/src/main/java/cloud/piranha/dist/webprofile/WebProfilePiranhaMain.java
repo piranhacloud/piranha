@@ -75,11 +75,11 @@ public class WebProfilePiranhaMain {
                 if (arguments[i].equals("--extension-class")) {
                     builder = builder.extensionClass(arguments[i + 1]);
                 }
-                if (arguments[i].equals("--help")) {
-                    return null;
-                }
                 if (arguments[i].equals("--context-path")) {
                     builder = builder.contextPath(arguments[i + 1]);
+                }
+                if (arguments[i].equals("--help")) {
+                    return null;
                 }
                 if (arguments[i].equals("--http-port")) {
                     int arg = Integer.parseInt(arguments[i + 1]);
@@ -103,16 +103,17 @@ public class WebProfilePiranhaMain {
                 if (arguments[i].equals("--https-server-class")) {
                     builder = builder.httpsServerClass(arguments[i + 1]);
                 }
+                if (arguments[i].equals("--https-truststore-file")) {
+                    builder = builder.httpsTruststoreFile(arguments[i + 1]);
+                }
+                if (arguments[i].equals("--https-truststore-password")) {
+                    builder = builder.httpsTruststorePassword(arguments[i + 1]);
+                }
                 if (arguments[i].equals("--jpms")) {
                     builder = builder.jpms(true);
                 }
-                if (arguments[i].equals("--ssl-keystore-file")) {
-                    LOGGER.log(WARNING, "The --ssl-keystore-file has been replaced by --https-keystore-file [DEPRECATED]");
-                    builder = builder.httpsKeystoreFile(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--ssl-keystore-password")) {
-                    LOGGER.log(WARNING, "The --ssl-keystore-password has been replaced by --https-keystore-password [DEPRECATED]");
-                    builder = builder.httpsKeystorePassword(arguments[i + 1]);
+                if (arguments[i].equals("--logging-level")) {
+                    builder = builder.loggingLevel(arguments[i + 1]);
                 }
                 if (arguments[i].equals("--verbose")) {
                     builder = builder.verbose(true);
@@ -146,25 +147,31 @@ public class WebProfilePiranhaMain {
         LOGGER.log(Level.INFO, "");
         LOGGER.log(Level.INFO,
                 """
-                  --extension-class <className>    - Set the extension to use
-                  --help                           - Show this help
-                  --context-path <string>          - Set the Servlet context path
-                  --http-port <integer>            - Set the HTTP port (use -1 to disable)
-                  --http-server-class <className>  - Set the HTTP server class to use
-                  --https-port <integer>           - Set the HTTPS port (disabled by default)
-                  --https-server-class <className> - Set the HTTPS server class to use
-                  --jpms                           - Enable Java Platform Module System
-                  --ssl-keystore-file <file>       - Set the SSL keystore file (applies to the
-                                                     whole JVM)
-                  --ssl-keystore-password <string> - Set the SSL keystore password (applies to
-                                                     the whole JVM
-                  --verbose                        - Shows the runtime parameters
-                  --war-file <file>                - The WAR file to deploy
-                  --webapp-dir <directory>         - The directory to use for the web
-                                                     application (auto creates when it does not
-                                                     exist, if omitted runtime will use the 
-                                                     filename portion of --war-file)
-                  --write-pid                      - Write out a PID file
+  --extension-class <className>        - Set the extension to use
+  --help                               - Show this help
+  --context-path <string>              - Set the Servlet context path
+  --http-port <integer>                - Set the HTTP port (use -1 to disable)
+  --http-server-class <className>      - Set the HTTP server class to use
+  --https-keystore-file <file>         - Set the HTTPS keystore file (applies to
+                                         the whole JVM)
+  --https-keystore-password <string>   - Set the HTTPS keystore password 
+                                         (applies to the whole JVM)
+  --https-port <integer>               - Set the HTTPS port (disabled by 
+                                         default)
+  --https-server-class <className>     - Set the HTTPS server class to use
+  --https-truststore-file <file>       - Set the HTTPS keystore file (applies to
+                                         the whole JVM)
+  --https-truststore-password <string> - Set the HTTPS keystore password 
+                                         (applies to the whole JVM)
+  --jpms                               - Enable Java Platform Module System
+  --logging-level <string>             - Set the logging level
+  --verbose                            - Shows the runtime parameters
+  --war-file <file>                    - The WAR file to deploy
+  --webapp-dir <directory>             - The directory to use for the web
+                                         application (auto creates when it does
+                                         not exist, if omitted runtime will use
+                                         the filename portion of --war-file)
+  --write-pid                          - Write out a PID file
                 """);
     }
 }

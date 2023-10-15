@@ -192,6 +192,25 @@ class DefaultWebApplicationResponseTest {
             fail();
         }
     }
+    
+    /**
+     * Test flushBuffer method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testFlushBuffer2() throws Exception {
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setContentLength(20);
+        PrintWriter writer = response.getWriter();
+        writer.print("0123456789");
+        writer.print("0123456789");
+        writer.print("0123456789");
+        writer.print("0123456789");
+        writer.println("And we flushed!");
+        response.addIntHeader("header1", 12345);
+        assertNull(response.getHeader("header1"));
+    }
 
     /**
      * Test getBufferSize method.

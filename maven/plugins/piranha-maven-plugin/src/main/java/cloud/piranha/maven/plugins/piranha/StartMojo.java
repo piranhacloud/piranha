@@ -77,8 +77,14 @@ public class StartMojo extends BaseMojo {
             }
             commands.add(contextPath);
         }
-        commands.add("--http-port");
-        commands.add(httpPort.toString());
+        if (httpPort > 0) {
+            commands.add("--http-port");
+            commands.add(httpPort.toString());
+        }
+        if (httpsPort > 0) {
+            commands.add("--https-port");
+            commands.add(httpsPort.toString());
+        }
         commands.add("--war-file");
         commands.add(warName + ".war");
         commands.add("--write-pid");

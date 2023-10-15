@@ -62,6 +62,12 @@ public class WebXmlFilterMapping {
     private List<String> urlPatterns = new ArrayList<>();
 
     /**
+     * Default constructor.
+     */
+    public WebXmlFilterMapping() {
+    }
+    
+    /**
      * Get the dispatchers.
      *
      * @return the dispatchers.

@@ -36,12 +36,18 @@ import java.util.List;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class WebXmlJspConfig {
-
+    
     /**
      * Stores the list of taglib.
      */
     private List<WebXmlJspConfigTaglib> taglibs = new ArrayList<>();
     
+    /**
+     * Default constructor.
+     */
+    public WebXmlJspConfig() {
+    }
+
     /**
      * Get the list of taglib.
      * 

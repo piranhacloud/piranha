@@ -53,7 +53,7 @@ class PlatformPiranhaBuilderTest {
     @Test
     void testHttpPort() throws Exception {
         PlatformPiranha piranha = new PlatformPiranhaBuilder()
-                .defaultExtensionClass(PlatformExtension.class)
+                .extensionClass(PlatformExtension.class)
                 .httpPort(8118)
                 .build();
         piranha.start();
@@ -73,7 +73,7 @@ class PlatformPiranhaBuilderTest {
     @Test
     void testHttpPort2() throws Exception {
         PlatformPiranha piranha = new PlatformPiranhaBuilder()
-                .defaultExtensionClass(PlatformExtension.class)
+                .extensionClass(PlatformExtension.class)
                 .httpPort(-1)
                 .httpsPort(8043)
                 .build();
@@ -95,9 +95,9 @@ class PlatformPiranhaBuilderTest {
     @Test
     void testHttpsPort2() throws Exception {
         PlatformPiranha piranha = new PlatformPiranhaBuilder()
-                .defaultExtensionClass(PlatformExtension.class)
-                .sslKeystoreFile("src/main/zip/etc/keystore.jks")
-                .sslKeystorePassword("password")
+                .extensionClass(PlatformExtension.class)
+                .httpsKeystoreFile("src/main/zip/etc/keystore.jks")
+                .httpsKeystorePassword("password")
                 .httpPort(8228)
                 .httpsPort(8338)
                 .build();
@@ -114,14 +114,14 @@ class PlatformPiranhaBuilderTest {
     }
 
     /**
-     * Test defaultExtensionClass method.
+     * Test extensionClass method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
     void testDefaultExtensionClass() throws Exception {
         PlatformPiranha piranha = new PlatformPiranhaBuilder()
-                .defaultExtensionClass(PlatformExtension.class.getName())
+                .extensionClass(PlatformExtension.class.getName())
                 .httpPort(8080)
                 .verbose(true)
                 .build();

@@ -90,9 +90,9 @@ public class SnoopIT {
                 .command("java",
                         "-jar",
                         "piranha-dist-micro.jar",
-                        "--port",
+                        "--http-port",
                         String.valueOf(port),
-                        "--war",
+                        "--war-file",
                         "snoop.war")
                 .start();
 

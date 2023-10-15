@@ -37,6 +37,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 class DefaultWebConnectionTest {
+
+    /**
+     * Test close method.
+     */
+    @Test
+    void testClose() throws Exception {
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        DefaultWebConnection connection = new DefaultWebConnection(request, response);
+        connection.close();
+        assertFalse(connection.getInputStream().isReady());
+        assertFalse(connection.getOutputStream().isReady());
+    }
     
     /**
      * Test getInputStream method.
@@ -56,18 +69,5 @@ class DefaultWebConnectionTest {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         DefaultWebConnection connection = new DefaultWebConnection(null, response);
         assertNotNull(connection.getOutputStream());
-    }
-
-    /**
-     * Test close method.
-     */
-    @Test
-    public void testClose() throws Exception {
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        DefaultWebConnection connection = new DefaultWebConnection(request, response);
-        connection.close();
-        assertFalse(connection.getInputStream().isReady());
-        assertFalse(connection.getOutputStream().isReady());
     }
 }

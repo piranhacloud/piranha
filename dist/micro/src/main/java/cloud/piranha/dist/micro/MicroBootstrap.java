@@ -27,6 +27,8 @@
  */
 package cloud.piranha.dist.micro;
 
+import cloud.piranha.core.api.PiranhaConfiguration;
+import cloud.piranha.core.impl.DefaultPiranhaConfiguration;
 import java.io.File;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -45,9 +47,14 @@ import cloud.piranha.micro.loader.MicroOuterDeployer;
 public class MicroBootstrap implements Runnable {
 
     /**
-     * The HTTP port on which Piranha accepts requests
+     * Stores the logger.
      */
-    private int port = 8080;
+    private static final System.Logger LOGGER = System.getLogger(MicroBootstrap.class.getName());
+    
+    /**
+     * Stores the configuration.
+     */
+    private final PiranhaConfiguration configuration;
 
     /**
      * Stores the HTTP server implementation.
@@ -64,6 +71,15 @@ public class MicroBootstrap implements Runnable {
      */
     private MicroOuterDeployer outerDeployer;
 
+    /**
+     * Constructor.
+     */
+    public MicroBootstrap() {
+        configuration = new DefaultPiranhaConfiguration();
+        configuration.setString("contextPath", "ROOT");
+        configuration.setInteger("httpPort", 8080);
+    }
+    
     /**
      * Main method.
      *
@@ -93,16 +109,17 @@ public class MicroBootstrap implements Runnable {
 
         if (arguments.length > 0) {
             for (int i = 0; i < arguments.length; i++) {
-                if (arguments[i].equals("--war")) {
+                if (arguments[i].equals("--context-path")) {
+                    configuration.setString("contextPath", arguments[i + 1]);
+                }
+                if (arguments[i].equals("--http-port")) {
+                    configuration.setInteger("httpPort", Integer.valueOf(arguments[i + 1]));
+                }
+                if (arguments[i].equals("--war-file")) {
                     warFile = new File(arguments[i + 1]);
                 }
-                
                 if (arguments[i].equals("--webapp")) {
                     explodedDir = new File(arguments[i + 1]);
-                }
-                
-                if (arguments[i].equals("--port")) {
-                    port = Integer.parseInt(arguments[i + 1]);
                 }
 
                 if (arguments[i].equals("--http")) {
@@ -129,11 +146,12 @@ public class MicroBootstrap implements Runnable {
      */
     @Override
     public void run() {
-        MicroConfiguration configuration = new MicroConfiguration();
-        configuration.setPort(port);
-        configuration.setHttpServer(httpServer);
+        MicroConfiguration microConfiguration = new MicroConfiguration();
+        microConfiguration.setHttpServer(httpServer);
+        microConfiguration.setContextPath(configuration.getString("contextPath"));
+        microConfiguration.setPort(configuration.getInteger("httpPort"));
 
-        outerDeployer = new MicroOuterDeployer(configuration.postConstruct());
+        outerDeployer = new MicroOuterDeployer(microConfiguration.postConstruct());
         outerDeployer.deploy(archive);
     }
 

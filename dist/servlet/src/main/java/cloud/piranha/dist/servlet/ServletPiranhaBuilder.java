@@ -27,8 +27,9 @@
  */
 package cloud.piranha.dist.servlet;
 
+import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.extension.servlet.ServletExtension;
+import java.io.File;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 
@@ -47,79 +48,14 @@ public class ServletPiranhaBuilder {
     private static final Logger LOGGER = System.getLogger(ServletPiranhaBuilder.class.getName());
 
     /**
-     * Stores the context path.
+     * Stores the Piranha Servlet instance.
      */
-    private String contextPath = null;
-
-    /**
-     * Stores the CRaC enabled flag.
-     */
-    private boolean crac = false;
-
-    /**
-     * Stores the extension class.
-     */
-    private Class<? extends WebApplicationExtension> extensionClass;
-
-    /**
-     * Stores the exit on stop flag.
-     */
-    private boolean exitOnStop = false;
-
-    /**
-     * Stores the HTTP port.
-     */
-    private int httpPort = 8080;
-
-    /**
-     * Stores the HTTP server class.
-     */
-    private String httpServerClass;
-
-    /**
-     * Stores the HTTPS keystore file.
-     */
-    private String httpsKeystoreFile;
-
-    /**
-     * Stores the HTTPS keystore password.
-     */
-    private String httpsKeystorePassword;
-
-    /**
-     * Stores the HTTPS port.
-     */
-    private int httpsPort = -1;
-
-    /**
-     * Stores the HTTPS server class.
-     */
-    private String httpsServerClass;
-
-    /**
-     * Stores the JPMS flag.
-     */
-    private boolean jpms = false;
+    private final ServletPiranha piranha = new ServletPiranha();
 
     /**
      * Stores the verbose flag.
      */
     private boolean verbose = false;
-
-    /**
-     * Stores the WAR file(name).
-     */
-    private String warFile;
-
-    /**
-     * Stores the web application directory.
-     */
-    private String webAppDir;
-
-    /**
-     * Stores the PID.
-     */
-    private Long pid;
 
     /**
      * Build the Piranha instance.
@@ -130,33 +66,6 @@ public class ServletPiranhaBuilder {
         if (verbose) {
             showArguments();
         }
-        ServletPiranha piranha = new ServletPiranha();
-        if (extensionClass != null) {
-            piranha.setExtensionClass(extensionClass);
-        }
-        piranha.setCracEnabled(crac);
-        if (contextPath != null) {
-            piranha.setContextPath(contextPath);
-        }
-        piranha.setExitOnStop(exitOnStop);
-        piranha.setHttpPort(httpPort);
-        piranha.setHttpServerClass(httpServerClass);
-        piranha.setHttpsPort(httpsPort);
-        piranha.setHttpsServerClass(httpsServerClass);
-        piranha.setJpmsEnabled(jpms);
-        if (httpsKeystoreFile != null) {
-            piranha.setHttpsKeystoreFile(httpsKeystoreFile);
-        }
-        if (httpsKeystorePassword != null) {
-            piranha.setHttpsKeystorePassword(httpsKeystorePassword);
-        }
-        if (warFile != null) {
-            piranha.setWarFile(warFile);
-        }
-        if (webAppDir != null) {
-            piranha.setWebAppDir(webAppDir);
-        }
-        piranha.setPid(pid);
         return piranha;
     }
 
@@ -167,7 +76,7 @@ public class ServletPiranhaBuilder {
      * @return the builder.
      */
     public ServletPiranhaBuilder contextPath(String contextPath) {
-        this.contextPath = contextPath;
+        piranha.getConfiguration().setString("contextPath", contextPath);
         return this;
     }
 
@@ -178,7 +87,7 @@ public class ServletPiranhaBuilder {
      * @return the builder.
      */
     public ServletPiranhaBuilder crac(boolean crac) {
-        this.crac = crac;
+        piranha.getConfiguration().setBoolean("cracEnabled", crac);
         return this;
     }
 
@@ -189,7 +98,7 @@ public class ServletPiranhaBuilder {
      * @return the builder.
      */
     public ServletPiranhaBuilder exitOnStop(boolean exitOnStop) {
-        this.exitOnStop = exitOnStop;
+        piranha.getConfiguration().setBoolean("exitOnStop", exitOnStop);
         return this;
     }
 
@@ -201,7 +110,7 @@ public class ServletPiranhaBuilder {
      */
     public ServletPiranhaBuilder extensionClass(
             Class<? extends WebApplicationExtension> extensionClass) {
-        this.extensionClass = extensionClass;
+        piranha.getConfiguration().setClass("extensionClass", extensionClass);
         return this;
     }
 
@@ -213,8 +122,8 @@ public class ServletPiranhaBuilder {
      */
     public ServletPiranhaBuilder extensionClass(String extensionClassName) {
         try {
-            this.extensionClass = Class.forName(extensionClassName)
-                    .asSubclass(WebApplicationExtension.class);
+            extensionClass(Class.forName(extensionClassName)
+                    .asSubclass(WebApplicationExtension.class));
         } catch (ClassNotFoundException cnfe) {
             LOGGER.log(WARNING, "Unable to load extension class", cnfe);
         }
@@ -228,7 +137,7 @@ public class ServletPiranhaBuilder {
      * @return the builder.
      */
     public ServletPiranhaBuilder httpPort(int httpPort) {
-        this.httpPort = httpPort;
+        piranha.getConfiguration().setInteger("httpPort", httpPort);
         return this;
     }
 
@@ -239,7 +148,7 @@ public class ServletPiranhaBuilder {
      * @return the builder.
      */
     public ServletPiranhaBuilder httpServerClass(String httpServerClass) {
-        this.httpServerClass = httpServerClass;
+        piranha.getConfiguration().setString("httpServerClass", httpServerClass);
         return this;
     }
 
@@ -250,7 +159,7 @@ public class ServletPiranhaBuilder {
      * @return the builder.
      */
     public ServletPiranhaBuilder httpsKeystoreFile(String httpsKeystoreFile) {
-        this.httpsKeystoreFile = httpsKeystoreFile;
+        piranha.getConfiguration().setString("httpsKeystoreFile", httpsKeystoreFile);
         return this;
     }
 
@@ -261,7 +170,7 @@ public class ServletPiranhaBuilder {
      * @return the builder.
      */
     public ServletPiranhaBuilder httpsKeystorePassword(String httpsKeystorePassword) {
-        this.httpsKeystorePassword = httpsKeystorePassword;
+        piranha.getConfiguration().setString("httpsKeystorePassword", httpsKeystorePassword);
         return this;
     }
 
@@ -272,7 +181,7 @@ public class ServletPiranhaBuilder {
      * @return the builder.
      */
     public ServletPiranhaBuilder httpsPort(int httpsPort) {
-        this.httpsPort = httpsPort;
+        piranha.getConfiguration().setInteger("httpsPort", httpsPort);
         return this;
     }
 
@@ -283,10 +192,32 @@ public class ServletPiranhaBuilder {
      * @return the builder.
      */
     public ServletPiranhaBuilder httpsServerClass(String httpsServerClass) {
-        this.httpsServerClass = httpsServerClass;
+        piranha.getConfiguration().setString("httpsServerClass", httpsServerClass);
         return this;
     }
 
+    /**
+     * Set the HTTPS truststore file.
+     *
+     * @param httpsTruststoreFile the HTTPS truststore file.
+     * @return the builder.
+     */
+    public ServletPiranhaBuilder httpsTruststoreFile(String httpsTruststoreFile) {
+        piranha.getConfiguration().setString("httpsTruststoreFile", httpsTruststoreFile);
+        return this;
+    }
+
+    /**
+     * Set the HTTPS truststore password.
+     *
+     * @param httpsTruststorePassword the HTTPS truststore password.
+     * @return the builder.
+     */
+    public ServletPiranhaBuilder httpsTruststorePassword(String httpsTruststorePassword) {
+        piranha.getConfiguration().setString("httpsTruststorePassword", httpsTruststorePassword);
+        return this;
+    }
+    
     /**
      * Enable/disable JPMS.
      *
@@ -294,7 +225,29 @@ public class ServletPiranhaBuilder {
      * @return the builder.
      */
     public ServletPiranhaBuilder jpms(boolean jpms) {
-        this.jpms = jpms;
+        piranha.getConfiguration().setBoolean("jpmsEnabled", jpms);
+        return this;
+    }
+
+    /**
+     * Set the logging level.
+     * 
+     * @param loggingLevel the logging level.
+     * @return the builder.
+     */
+    public ServletPiranhaBuilder loggingLevel(String loggingLevel) {
+        piranha.getConfiguration().setString("loggingLevel", loggingLevel);
+        return this;
+    }
+
+    /**
+     * Set the PID.
+     *
+     * @param pid the PID.
+     * @return the builder.
+     */
+    public ServletPiranhaBuilder pid(Long pid) {
+        piranha.getConfiguration().setLong("pid", pid);
         return this;
     }
 
@@ -302,6 +255,8 @@ public class ServletPiranhaBuilder {
      * Show the arguments used.
      */
     private void showArguments() {
+        PiranhaConfiguration configuration = piranha.getConfiguration();
+        
         LOGGER.log(Level.INFO,
                 """
                 
@@ -310,58 +265,40 @@ public class ServletPiranhaBuilder {
                 Arguments
                 =========
                 
-                Context path            : %s
-                Extension class         : %s
-                Exit on stop            : %s
-                HTTP port               : %s
-                HTTP server class       : %s
-                HTTPS keystore file     : %s
-                HTTPS keystore password : ****
-                HTTPS port              : %s
-                HTTPS server class      : %s
-                JPMS enabled            : %s
-                PID                     : %s
-                WAR filename            : %s
-                Web application dir     : %s                
+                Context path              : %s
+                Extension class           : %s
+                Exit on stop              : %s
+                HTTP port                 : %s
+                HTTP server class         : %s
+                HTTPS keystore file       : %s
+                HTTPS keystore password   : ****
+                HTTPS port                : %s
+                HTTPS server class        : %s
+                HTTPS truststore file     : %s
+                HTTPS truststore password : ****
+                JPMS enabled              : %s
+                Logging level             : %s
+                PID                       : %s
+                WAR filename              : %s
+                Web application dir       : %s
+                
                 """.formatted(
-                        contextPath,
-                        extensionClass != null ? extensionClass.getName() : ServletExtension.class.getName(),
-                        exitOnStop,
-                        httpPort,
-                        httpServerClass,
-                        httpsKeystoreFile,
-                        httpsPort,
-                        httpsServerClass,
-                        jpms,
-                        pid,
-                        warFile,
-                        webAppDir));
-    }
-
-    /**
-     * Set the SSL keystore file.
-     *
-     * @param sslKeystoreFile the SSL keystore file.
-     * @return the builder.
-     * @deprecated
-     */
-    @Deprecated(since = "23.5.0", forRemoval = true)
-    public ServletPiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
-        this.httpsKeystoreFile = sslKeystoreFile;
-        return this;
-    }
-
-    /**
-     * Set the SSL keystore password.
-     *
-     * @param sslKeystorePassword the SSL keystore password.
-     * @return the builder.
-     * @deprecated
-     */
-    @Deprecated(since = "23.5.0", forRemoval = true)
-    public ServletPiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
-        this.httpsKeystorePassword = sslKeystorePassword;
-        return this;
+                        configuration.getString("contextPath"),
+                        configuration.getClass("extensionClass"),
+                        configuration.getBoolean("exitOnStop", false),
+                        configuration.getInteger("httpPort"),
+                        configuration.getString("httpServerClass"),
+                        configuration.getString("httpsKeystoreFile"),
+                        configuration.getInteger("httpsPort"),
+                        configuration.getString("httpsServerClass"),
+                        configuration.getString("httpsTruststoreFile"),
+                        configuration.getBoolean("jpms", false),
+                        configuration.getString("loggingLevel"),
+                        configuration.getLong("pid"),
+                        configuration.getFile("warFile"),
+                        configuration.getFile("webAppDir")
+                )
+        );
     }
 
     /**
@@ -382,7 +319,9 @@ public class ServletPiranhaBuilder {
      * @return the builder.
      */
     public ServletPiranhaBuilder warFile(String warFile) {
-        this.warFile = warFile;
+        if (warFile != null) {
+            piranha.getConfiguration().setFile("warFile", new File(warFile));
+        }
         return this;
     }
 
@@ -393,18 +332,9 @@ public class ServletPiranhaBuilder {
      * @return the builder.
      */
     public ServletPiranhaBuilder webAppDir(String webAppDir) {
-        this.webAppDir = webAppDir;
-        return this;
-    }
-
-    /**
-     * Set the PID.
-     *
-     * @param pid the PID.
-     * @return the builder.
-     */
-    public ServletPiranhaBuilder pid(Long pid) {
-        this.pid = pid;
+        if (webAppDir != null) {
+            piranha.getConfiguration().setFile("webAppDir", new File(webAppDir));
+        }
         return this;
     }
 }

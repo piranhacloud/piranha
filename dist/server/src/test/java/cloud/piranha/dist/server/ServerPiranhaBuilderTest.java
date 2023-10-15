@@ -53,7 +53,7 @@ class ServerPiranhaBuilderTest {
     @Test
     void testHttpPort() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
-                .defaultExtensionClass(ServletExtension.class)
+                .extensionClass(ServletExtension.class)
                 .httpPort(8118)
                 .build();
         piranha.start();
@@ -73,7 +73,7 @@ class ServerPiranhaBuilderTest {
     @Test
     void testHttpPort2() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
-                .defaultExtensionClass(ServletExtension.class)
+                .extensionClass(ServletExtension.class)
                 .httpPort(-1)
                 .httpsPort(8043)
                 .build();
@@ -95,9 +95,9 @@ class ServerPiranhaBuilderTest {
     @Test
     void testHttpsPort2() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
-                .defaultExtensionClass(ServletExtension.class)
-                .sslKeystoreFile("src/main/zip/etc/keystore.jks")
-                .sslKeystorePassword("password")
+                .extensionClass(ServletExtension.class)
+                .httpsKeystoreFile("src/main/zip/etc/keystore.jks")
+                .httpsKeystorePassword("password")
                 .httpPort(8228)
                 .httpsPort(8338)
                 .build();
@@ -121,7 +121,7 @@ class ServerPiranhaBuilderTest {
     @Test
     void testDefaultExtensionClass() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
-                .defaultExtensionClass(ServletExtension.class.getName())
+                .extensionClass(ServletExtension.class.getName())
                 .httpPort(8080)
                 .verbose(true)
                 .build();

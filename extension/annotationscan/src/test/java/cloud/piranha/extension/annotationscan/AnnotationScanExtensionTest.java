@@ -30,6 +30,7 @@ package cloud.piranha.extension.annotationscan;
 import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
 import cloud.piranha.resource.impl.DefaultResourceManager;
 import cloud.piranha.resource.impl.DefaultResourceManagerClassLoader;
 import jakarta.servlet.annotation.WebServlet;

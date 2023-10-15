@@ -27,8 +27,9 @@
  */
 package cloud.piranha.dist.microprofile;
 
+import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.extension.microprofile.MicroProfileExtension;
+import java.io.File;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import static java.lang.System.Logger.Level.WARNING;
@@ -39,81 +40,21 @@ import static java.lang.System.Logger.Level.WARNING;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class MicroProfilePiranhaBuilder {
-    
+
     /**
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(MicroProfilePiranhaBuilder.class.getName());
 
     /**
-     * Stores the context path.
+     * Stores the Micro Profile Piranha instance.
      */
-    private String contextPath = null;
-
-    /**
-     * Stores the extension class.
-     */
-    private Class<? extends WebApplicationExtension> extensionClass;
-
-    /**
-     * Stores the exit on stop flag.
-     */
-    private boolean exitOnStop = false;
-
-    /**
-     * Stores the HTTPS keystore file.
-     */
-    private String httpsKeystoreFile;
-
-    /**
-     * Stores the HTTPS keystore password.
-     */
-    private String httpsKeystorePassword;
-
-    /**
-     * Stores the HTTP port.
-     */
-    private int httpPort = 8080;
-
-    /**
-     * Stores the HTTP server class.
-     */
-    private String httpServerClass;
-
-    /**
-     * Stores the HTTPS port.
-     */
-    private int httpsPort = -1;
-
-    /**
-     * Stores the HTTPS server class.
-     */
-    private String httpsServerClass;
-
-    /**
-     * Stores the JPMS flag.
-     */
-    private boolean jpms = false;
+    private final MicroProfilePiranha piranha = new MicroProfilePiranha();
 
     /**
      * Stores the verbose flag.
      */
     private boolean verbose = false;
-
-    /**
-     * Stores the WAR file(name).
-     */
-    private String warFile;
-
-    /**
-     * Stores the web application directory.
-     */
-    private String webAppDir;
-
-    /**
-     * Stores the PID.
-     */
-    private Long pid;
 
     /**
      * Build the Piranha instance.
@@ -124,43 +65,17 @@ public class MicroProfilePiranhaBuilder {
         if (verbose) {
             showArguments();
         }
-        MicroProfilePiranha piranha = new MicroProfilePiranha();
-        if (extensionClass != null) {
-            piranha.setExtensionClass(extensionClass);
-        }
-        if (contextPath != null) {
-            piranha.setContextPath(contextPath);
-        }
-        piranha.setExitOnStop(exitOnStop);
-        piranha.setHttpPort(httpPort);
-        piranha.setHttpServerClass(httpServerClass);
-        piranha.setHttpsPort(httpsPort);
-        piranha.setHttpsServerClass(httpsServerClass);
-        piranha.setJpmsEnabled(jpms);
-        if (httpsKeystoreFile != null) {
-            piranha.setHttpsKeystoreFile(httpsKeystoreFile);
-        }
-        if (httpsKeystorePassword != null) {
-            piranha.setHttpsKeystorePassword(httpsKeystorePassword);
-        }
-        if (warFile != null) {
-            piranha.setWarFile(warFile);
-        }
-        if (webAppDir != null) {
-            piranha.setWebAppDir(webAppDir);
-        }
-        piranha.setPid(pid);
         return piranha;
     }
 
     /**
      * Set the context path.
-     * 
+     *
      * @param contextPath the context path.
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder contextPath(String contextPath) {
-        this.contextPath = contextPath;
+        piranha.getConfiguration().setString("contextPath", contextPath);
         return this;
     }
 
@@ -171,7 +86,7 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder exitOnStop(boolean exitOnStop) {
-        this.exitOnStop = exitOnStop;
+        piranha.getConfiguration().setBoolean("exitOnStop", exitOnStop);
         return this;
     }
 
@@ -183,7 +98,7 @@ public class MicroProfilePiranhaBuilder {
      */
     public MicroProfilePiranhaBuilder extensionClass(
             Class<? extends WebApplicationExtension> extensionClass) {
-        this.extensionClass = extensionClass;
+        piranha.getConfiguration().setClass("extensionClass", extensionClass);
         return this;
     }
 
@@ -195,8 +110,8 @@ public class MicroProfilePiranhaBuilder {
      */
     public MicroProfilePiranhaBuilder extensionClass(String extensionClassName) {
         try {
-            this.extensionClass = Class.forName(extensionClassName)
-                .asSubclass(WebApplicationExtension.class);
+            extensionClass(Class.forName(extensionClassName)
+                    .asSubclass(WebApplicationExtension.class));
         } catch (ClassNotFoundException cnfe) {
             LOGGER.log(WARNING, "Unable to load extension class", cnfe);
         }
@@ -210,21 +125,21 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder httpPort(int httpPort) {
-        this.httpPort = httpPort;
+        piranha.getConfiguration().setInteger("httpPort", httpPort);
         return this;
     }
 
     /**
      * Set the HTTP server class.
-     * 
+     *
      * @param httpServerClass the HTTP server class.
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder httpServerClass(String httpServerClass) {
-        this.httpServerClass = httpServerClass;
+        piranha.getConfiguration().setString("httpServerClass", httpServerClass);
         return this;
     }
-    
+
     /**
      * Set the HTTPS keystore file.
      *
@@ -232,7 +147,7 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder httpsKeystoreFile(String httpsKeystoreFile) {
-        this.httpsKeystoreFile = httpsKeystoreFile;
+        piranha.getConfiguration().setString("httpsKeystoreFile", httpsKeystoreFile);
         return this;
     }
 
@@ -243,7 +158,7 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder httpsKeystorePassword(String httpsKeystorePassword) {
-        this.httpsKeystorePassword = httpsKeystorePassword;
+        piranha.getConfiguration().setString("httpsKeystorePassword", httpsKeystorePassword);
         return this;
     }
 
@@ -254,18 +169,40 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder httpsPort(int httpsPort) {
-        this.httpsPort = httpsPort;
+        piranha.getConfiguration().setInteger("httpsPort", httpsPort);
         return this;
     }
 
     /**
      * Set the HTTPS server class.
-     * 
+     *
      * @param httpsServerClass the HTTPS server class.
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder httpsServerClass(String httpsServerClass) {
-        this.httpsServerClass = httpsServerClass;
+        piranha.getConfiguration().setString("httpsServerClass", httpsServerClass);
+        return this;
+    }
+
+    /**
+     * Set the HTTPS truststore file.
+     *
+     * @param httpsTruststoreFile the HTTPS truststore file.
+     * @return the builder.
+     */
+    public MicroProfilePiranhaBuilder httpsTruststoreFile(String httpsTruststoreFile) {
+        piranha.getConfiguration().setString("httpsTruststoreFile", httpsTruststoreFile);
+        return this;
+    }
+
+    /**
+     * Set the HTTPS truststore password.
+     *
+     * @param httpsTruststorePassword the HTTPS truststore password.
+     * @return the builder.
+     */
+    public MicroProfilePiranhaBuilder httpsTruststorePassword(String httpsTruststorePassword) {
+        piranha.getConfiguration().setString("httpsTruststorePassword", httpsTruststorePassword);
         return this;
     }
 
@@ -276,14 +213,27 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder jpms(boolean jpms) {
-        this.jpms = jpms;
+        piranha.getConfiguration().setBoolean("jpmsEnabled", jpms);
         return this;
     }
 
     /**
+     * Set the logging level.
+     * 
+     * @param loggingLevel the logging level.
+     * @return the builder.
+     */
+    public MicroProfilePiranhaBuilder loggingLevel(String loggingLevel) {
+        piranha.getConfiguration().setString("loggingLevel", loggingLevel);
+        return this;
+    }
+    
+    /**
      * Show the arguments used.
      */
     private void showArguments() {
+        PiranhaConfiguration configuration = piranha.getConfiguration();
+        
         LOGGER.log(Level.INFO,
                 """
                 
@@ -292,59 +242,40 @@ public class MicroProfilePiranhaBuilder {
                 Arguments
                 =========
                 
-                Context path            : %s
-                Extension class         : %s
-                Exit on stop            : %s
-                HTTP port               : %s
-                HTTP server class       : %s
-                HTTPS keystore file     : %s
-                HTTPS keystore password : ****
-                HTTPS port              : %s
-                HTTPS server class      : %s
-                JPMS enabled            : %s
-                PID                     : %s
-                WAR filename            : %s
-                Web application dir     : %s
+                Context path              : %s
+                Extension class           : %s
+                Exit on stop              : %s
+                HTTP port                 : %s
+                HTTP server class         : %s
+                HTTPS keystore file       : %s
+                HTTPS keystore password   : ****
+                HTTPS port                : %s
+                HTTPS server class        : %s
+                HTTPS truststore file     : %s
+                HTTPS truststore password : ****
+                JPMS enabled              : %s
+                Logging Level             : %s
+                PID                       : %s
+                WAR filename              : %s
+                Web application dir       : %s
                 
                 """.formatted(
-                contextPath,
-                extensionClass != null ? extensionClass.getName() : MicroProfileExtension.class.getName(),
-                exitOnStop,
-                httpPort,
-                httpServerClass,
-                httpsKeystoreFile,
-                httpsPort,
-                httpsServerClass,
-                jpms,
-                pid,
-                warFile,
-                webAppDir));
-    }
-
-    /**
-     * Set the SSL keystore file.
-     *
-     * @param sslKeystoreFile the SSL keystore file.
-     * @return the builder.
-     * @deprecated
-     */
-    @Deprecated(since = "23.5.0", forRemoval = true)
-    public MicroProfilePiranhaBuilder sslKeystoreFile(String sslKeystoreFile) {
-        this.httpsKeystoreFile = sslKeystoreFile;
-        return this;
-    }
-
-    /**
-     * Set the SSL keystore password.
-     *
-     * @param sslKeystorePassword the SSL keystore password.
-     * @return the builder.
-     * @deprecated
-     */
-    @Deprecated(since = "23.5.0", forRemoval = true)
-    public MicroProfilePiranhaBuilder sslKeystorePassword(String sslKeystorePassword) {
-        this.httpsKeystorePassword = sslKeystorePassword;
-        return this;
+                        configuration.getString("contextPath"),
+                        configuration.getClass("extensionClass"),
+                        configuration.getBoolean("exitOnStop", false),
+                        configuration.getInteger("httpPort"),
+                        configuration.getString("httpServerClass"),
+                        configuration.getString("httpsKeystoreFile"),
+                        configuration.getInteger("httpsPort"),
+                        configuration.getString("httpsServerClass"),
+                        configuration.getString("httpsTruststoreFile"),
+                        configuration.getBoolean("jpms", false),
+                        configuration.getString("loggingLevel"),
+                        configuration.getLong("pid"),
+                        configuration.getFile("warFile"),
+                        configuration.getFile("webAppDir")
+                )
+        );
     }
 
     /**
@@ -365,7 +296,9 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder warFile(String warFile) {
-        this.warFile = warFile;
+        if (warFile != null) {
+            piranha.getConfiguration().setFile("warFile", new File(warFile));
+        }
         return this;
     }
 
@@ -376,7 +309,9 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder webAppDir(String webAppDir) {
-        this.webAppDir = webAppDir;
+        if (webAppDir != null) {
+            piranha.getConfiguration().setFile("webAppDir", new File(webAppDir));
+        }
         return this;
     }
 
@@ -387,7 +322,7 @@ public class MicroProfilePiranhaBuilder {
      * @return the builder.
      */
     public MicroProfilePiranhaBuilder pid(Long pid) {
-        this.pid = pid;
+        piranha.getConfiguration().setLong("pid", pid);
         return this;
     }
 }

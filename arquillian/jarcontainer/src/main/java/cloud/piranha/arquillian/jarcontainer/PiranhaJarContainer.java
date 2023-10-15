@@ -86,6 +86,12 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
      */
     private File localRepositoryDir = new File(System.getProperty("user.home"), ".m2/repository");
 
+    /**
+     * Default constructor.
+     */
+    public PiranhaJarContainer() {
+    }
+    
     @Override
     public Class<PiranhaJarContainerConfiguration> getConfigurationClass() {
         return PiranhaJarContainerConfiguration.class;
@@ -201,6 +207,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
 
     @Override
     public void undeploy(Descriptor d) throws DeploymentException {
+        // not supporting undeployment by descriptor.
     }
 
     /**
@@ -313,6 +320,9 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
 
     /**
      * Start and wait for Piranha Core Profile.
+     * 
+     * @param runtimeDirectory the runtime directory.
+     * @param warFilename the WAR filename.
      */
     private void startPiranhaCoreProfile(
             File runtimeDirectory,
@@ -355,6 +365,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
     /**
      * Copy the Piranha Core Profile JAR file.
      *
+     * @param runtimeDirectory the runtime directory.
      * @param zipFile the zip file.
      */
     private void copyPiranhaCoreProfileJarFile(File runtimeDirectory, File zipFile) throws IOException {

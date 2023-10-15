@@ -30,6 +30,7 @@ package cloud.piranha.extension.platform;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
+import cloud.piranha.extension.annotationscan.classfile.ClassfileAnnotationScanExtension;
 import cloud.piranha.extension.naming.NamingExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 
@@ -43,7 +44,15 @@ public class PlatformExtension implements WebApplicationExtension {
     @Override
     public void extend(WebApplicationExtensionContext context) {
         context.add(NamingExtension.class);                         // Naming (JNDI)
-        context.add(AnnotationScanExtension.class);                 // Annotation scanning
+        context.add(getAnnotationScanExtensionClass());                 // Annotation scanning
         context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
     }
+
+    private static Class<? extends WebApplicationExtension> getAnnotationScanExtensionClass() {
+        if (System.getProperty(ClassfileAnnotationScanExtension.EXPERIMENTAL_PROPERTY) != null) {
+            return ClassfileAnnotationScanExtension.class;   // Annotation scanning using the new Classfile API
+        }
+        return AnnotationScanExtension.class;  // Annotation scanning
+    }
+
 }

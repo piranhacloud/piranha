@@ -36,8 +36,8 @@ module cloud.piranha.extension.naming {
     exports cloud.piranha.extension.naming;
     opens cloud.piranha.extension.naming;
     requires cloud.piranha.core.api;
-    requires transitive cloud.piranha.naming.impl;
-    requires transitive cloud.piranha.naming.thread;
+    requires transitive com.manorrock.herring;
+    requires transitive com.manorrock.herring.thread;
     requires jakarta.annotation;
     requires transitive java.naming;
 }

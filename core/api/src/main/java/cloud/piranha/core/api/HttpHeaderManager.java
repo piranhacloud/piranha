@@ -90,6 +90,13 @@ public interface HttpHeaderManager {
      * int.
      */
     int getIntHeader(String name) throws NumberFormatException;
+    
+    /**
+     * Remove the given header.
+     * 
+     * @param name the header name.
+     */
+    void removeHeader(String name);
 
     /**
      * Set the header.

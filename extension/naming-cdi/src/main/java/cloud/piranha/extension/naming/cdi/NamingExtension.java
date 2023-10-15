@@ -48,7 +48,7 @@ import javax.naming.spi.NamingManager;
 
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.naming.impl.DefaultInitialContext;
+import com.manorrock.herring.DefaultInitialContext;
 import jakarta.annotation.Resource;
 import jakarta.enterprise.inject.spi.CDI;
 

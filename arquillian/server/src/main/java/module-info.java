@@ -30,6 +30,11 @@ import org.jboss.arquillian.core.spi.LoadableExtension;
 
 import cloud.piranha.arquillian.server.PiranhaServerLoadableExtension;
 
+/**
+ * The Piranha Arquillian Server module.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 module cloud.piranha.arquillian.server {
 
     provides LoadableExtension with PiranhaServerLoadableExtension;

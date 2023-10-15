@@ -28,7 +28,7 @@
 package cloud.piranha.core.api;
 
 /**
- * A session-config inside of web.xml/web-fragment.xml.
+ * A session-config inside of web.xml or web-fragment.xml.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -44,6 +44,12 @@ public class WebXmlSessionConfig {
      */
     private int sessionTimeout;
 
+    /**
+     * Default constructor.
+     */
+    public WebXmlSessionConfig() {
+    }
+    
     /**
      * Get the cookie config.
      *

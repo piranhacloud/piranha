@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class DefaultWebApplicationManagerTest {
+class DefaultWebApplicationManagerTest {
 
     /**
      * Test getAnnotationManager method.
@@ -122,28 +122,6 @@ public class DefaultWebApplicationManagerTest {
         assertNotNull(manager.getLocaleEncodingManager());
         manager.setLocaleEncodingManager(null);
         assertNull(manager.getLocaleEncodingManager());
-    }
-
-    /**
-     * Test getLoggingManager method.
-     */
-    @Test
-    void testGetLoggingManager() {
-        DefaultWebApplicationManager manager = new DefaultWebApplicationManager();
-        assertNotNull(manager.getLoggingManager());
-        manager.setLoggingManager(null);
-        assertNull(manager.getLoggingManager());
-    }
-
-    /**
-     * Test getMimeTypeManager method.
-     */
-    @Test
-    void testGetMimeTypeManager() {
-        DefaultWebApplicationManager manager = new DefaultWebApplicationManager();
-        assertNotNull(manager.getMimeTypeManager());
-        manager.setMimeTypeManager(null);
-        assertNull(manager.getMimeTypeManager());
     }
 
     /**

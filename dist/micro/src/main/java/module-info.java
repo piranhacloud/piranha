@@ -35,6 +35,7 @@ module cloud.piranha.dist.micro {
 
     exports cloud.piranha.dist.micro;
     opens cloud.piranha.dist.micro;
+    requires cloud.piranha.core.impl;
     requires cloud.piranha.resource.impl;
     requires cloud.piranha.resource.shrinkwrap;
     requires java.logging;

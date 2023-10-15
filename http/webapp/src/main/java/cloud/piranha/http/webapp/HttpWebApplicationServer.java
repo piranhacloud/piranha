@@ -60,6 +60,11 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     private static final Logger LOGGER = System.getLogger(HttpWebApplicationServer.class.getName());
 
     /**
+     * Stores the running boolean.
+     */
+    protected boolean running = false;
+
+    /**
      * Stores the request mapper.
      */
     protected WebApplicationServerRequestMapper requestMapper;
@@ -185,31 +190,37 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
 
     @Override
     public void start() {
-        LOGGER.log(DEBUG, "Starting HTTP web application server");
-        webApplications.values().forEach(webApp -> {
-            ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
-            try {
-                Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
-                webApp.start();
-            } finally {
-                Thread.currentThread().setContextClassLoader(oldClassLoader);
-            }
-        });
-        LOGGER.log(DEBUG, "Started HTTP web application server");
+        if (!running) {
+            LOGGER.log(DEBUG, "Starting HTTP web application server");
+            webApplications.values().forEach(webApp -> {
+                ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
+                try {
+                    Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
+                    webApp.start();
+                } finally {
+                    Thread.currentThread().setContextClassLoader(oldClassLoader);
+                }
+            });
+            LOGGER.log(DEBUG, "Started HTTP web application server");
+            running = true;
+        }
     }
 
     @Override
     public void stop() {
-        LOGGER.log(DEBUG, "Stopping HTTP web application server");
-        webApplications.values().forEach(webApp -> {
-            ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
-            try {
-                Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
-                webApp.stop();
-            } finally {
-                Thread.currentThread().setContextClassLoader(oldClassLoader);
-            }
-        });
-        LOGGER.log(DEBUG, "Stopped HTTP web application server");
+        if (running) {
+            LOGGER.log(DEBUG, "Stopping HTTP web application server");
+            webApplications.values().forEach(webApp -> {
+                ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
+                try {
+                    Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
+                    webApp.stop();
+                } finally {
+                    Thread.currentThread().setContextClassLoader(oldClassLoader);
+                }
+            });
+            LOGGER.log(DEBUG, "Stopped HTTP web application server");
+            running = false;
+        }
     }
 }

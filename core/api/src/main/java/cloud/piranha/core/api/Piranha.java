@@ -27,9 +27,6 @@
  */
 package cloud.piranha.core.api;
 
-import jakarta.servlet.ServletException;
-import java.io.IOException;
-
 /**
  * The Piranha API.
  *
@@ -38,13 +35,9 @@ import java.io.IOException;
 public interface Piranha {
 
     /**
-     * Service the request and response.
-     *
-     * @param request the request.
-     * @param response the response.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a Servlet error occurs.
+     * Get the configuration.
+     * 
+     * @return the configuration.
      */
-    void service(WebApplicationRequest request, WebApplicationResponse response)
-            throws IOException, ServletException;
+    PiranhaConfiguration getConfiguration();
 }

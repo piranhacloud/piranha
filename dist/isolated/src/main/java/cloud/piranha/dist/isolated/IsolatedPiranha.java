@@ -38,15 +38,19 @@ import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import cloud.piranha.core.api.Piranha;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
+import cloud.piranha.core.api.PiranhaConfiguration;
+import cloud.piranha.core.impl.DefaultPiranhaConfiguration;
+import cloud.piranha.feature.api.FeatureManager;
+import cloud.piranha.feature.exitonstop.ExitOnStopFeature;
+import cloud.piranha.feature.http.HttpFeature;
+import cloud.piranha.feature.https.HttpsFeature;
+import cloud.piranha.feature.impl.DefaultFeatureManager;
+import cloud.piranha.feature.logging.LoggingFeature;
 import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.impl.DefaultHttpServer;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import cloud.piranha.micro.builder.MicroWebApplication;
 import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
-import jakarta.servlet.ServletException;
 
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
@@ -71,17 +75,49 @@ public class IsolatedPiranha implements Piranha, Runnable {
     private static IsolatedPiranha theOneAndOnlyInstance;
 
     /**
-     * Stores the SSL flag.
+     * Stores the configuration.
      */
-    private boolean ssl = false;
+    private final PiranhaConfiguration configuration;
+    
+    /**
+     * Stores the feature manager.
+     */
+    private FeatureManager featureManager;
+    
+    /**
+     * Stores the HTTP feature.
+     */
+    private HttpFeature httpFeature;
+
+    /**
+     * Stores the HTTPS feature.
+     */
+    private HttpsFeature httpsFeature;
 
     /**
      * Stores the HTTP web application server.
      */
-    private HttpWebApplicationServer webApplicationServer;    
+    private HttpWebApplicationServer webApplicationServer;
+
+    /**
+     * Constructor.
+     */
+    public IsolatedPiranha() {
+        configuration = new DefaultPiranhaConfiguration();
+        configuration.setInteger("httpPort", 8080);
+        configuration.setInteger("httpsPort", -1);
+        featureManager = new DefaultFeatureManager();
+    }
+
+    @Override
+    public PiranhaConfiguration getConfiguration() {
+        return configuration;
+    }
     
     /**
-     * {@return the instance}
+     * Get the only instance.
+     *
+     * @return the instance.
      */
     public static IsolatedPiranha get() {
         return theOneAndOnlyInstance;
@@ -94,6 +130,7 @@ public class IsolatedPiranha implements Piranha, Runnable {
      */
     public static void main(String[] arguments) {
         theOneAndOnlyInstance = new IsolatedPiranha();
+        theOneAndOnlyInstance.configuration.setBoolean("exitOnStop", true);
         theOneAndOnlyInstance.processArguments(arguments);
         theOneAndOnlyInstance.run();
     }
@@ -105,9 +142,21 @@ public class IsolatedPiranha implements Piranha, Runnable {
      */
     private void processArguments(String[] arguments) {
         if (arguments != null) {
-            for (String argument : arguments) {
-                if (argument.equals("--ssl")) {
-                    ssl = true;
+            for (int i = 0; i < arguments.length; i++) {
+                if (arguments[i].equals("--http-port")) {
+                    configuration.setInteger("httpPort", Integer.valueOf(arguments[i + 1]));
+                }
+                if (arguments[i].equals("--http-server-class")) {
+                    configuration.setString("httpServerClass", arguments[i + 1]);
+                }
+                if (arguments[i].equals("--https-port")) {
+                    configuration.setInteger("httpsPort", Integer.valueOf(arguments[i + 1]));
+                }
+                if (arguments[i].equals("--https-server-class")) {
+                    configuration.setString("httpsServerClass", arguments[i + 1]);
+                }
+                if (arguments[i].equals("--logging-level")) {
+                    configuration.setString("loggingLevel", arguments[i + 1]);
                 }
             }
         }
@@ -119,15 +168,16 @@ public class IsolatedPiranha implements Piranha, Runnable {
     @Override
     public void run() {
         long startTime = System.currentTimeMillis();
+        
+        LoggingFeature loggingFeature = new LoggingFeature();
+        featureManager.addFeature(loggingFeature);
+        loggingFeature.setLevel(configuration.getString("loggingLevel"));
+        loggingFeature.init();
+        loggingFeature.start();
+        
         LOGGER.log(INFO, () -> "Starting Piranha");
 
         webApplicationServer = new HttpWebApplicationServer();
-
-        HttpServer httpServer = new DefaultHttpServer();
-        httpServer.setServerPort(8080);
-        httpServer.setHttpServerProcessor(webApplicationServer);
-        httpServer.setSSL(ssl);
-        httpServer.start();
         webApplicationServer.start();
 
         File[] webapps = new File("webapps").listFiles();
@@ -148,9 +198,46 @@ public class IsolatedPiranha implements Piranha, Runnable {
 
             try {
                 Files.delete(deployingFile.toPath());
-            } catch(IOException ioe) {
+            } catch (IOException ioe) {
                 LOGGER.log(WARNING, "Unable to delete deploying file", ioe);
             }
+        }
+
+        HttpServer httpServer = null;
+
+        /*
+         * Construct, initialize and start HTTP endpoint (if applicable).
+         */
+        if (configuration.getInteger("httpPort") > 0) {
+            httpFeature = new HttpFeature();
+            httpFeature.setHttpServerClass(configuration.getString("httpServerClass"));
+            httpFeature.setPort(configuration.getInteger("httpPort"));
+            httpFeature.init();
+            httpFeature.getHttpServer().setHttpServerProcessor(webApplicationServer);
+            httpFeature.start();
+            httpServer = httpFeature.getHttpServer();
+        }
+
+        /*
+         * Construct, initialize and start HTTPS endpoint (if applicable).
+         */
+        if (configuration.getInteger("httpsPort") > 0) {
+            httpsFeature = new HttpsFeature();
+            httpsFeature.setHttpsServerClass(configuration.getString("httpsServerClass"));
+            httpsFeature.setPort(configuration.getInteger("httpsPort"));
+            httpsFeature.init();
+            httpsFeature.getHttpsServer().setHttpServerProcessor(webApplicationServer);
+            httpsFeature.start();
+            if (httpServer == null) {
+                httpServer = httpsFeature.getHttpsServer();
+            }
+        }
+        
+        if (configuration.getBoolean("exitOnStop", false)) {
+            ExitOnStopFeature exitOnStopFeature = new ExitOnStopFeature();
+            featureManager.addFeature(exitOnStopFeature);
+            exitOnStopFeature.init();
+            exitOnStopFeature.start();
         }
 
         long finishTime = System.currentTimeMillis();
@@ -158,37 +245,40 @@ public class IsolatedPiranha implements Piranha, Runnable {
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
         File startedFile = createStartedFile();
-
         File pidFile = new File("tmp/piranha.pid");
-        while (httpServer.isRunning()) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-            }
 
-            if (!pidFile.exists()) {
-                webApplicationServer.stop();
-                httpServer.stop();
+        if (httpServer != null) {
+            while (httpServer.isRunning()) {
                 try {
-                    Files.delete(startedFile.toPath());
-                } catch(IOException ioe) {
-                    LOGGER.log(WARNING, "Unable to delete PID file", ioe);
+                    Thread.sleep(2000);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
                 }
-                System.exit(0);
+
+                if (!pidFile.exists()) {
+                    webApplicationServer.stop();
+                    httpServer.stop();
+                    try {
+                        Files.delete(startedFile.toPath());
+                    } catch (IOException ioe) {
+                        LOGGER.log(WARNING, "Unable to delete PID file", ioe);
+                    }
+                }
             }
         }
 
         finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Stopped Piranha");
         LOGGER.log(INFO, "We ran for {0} milliseconds", finishTime - startTime);
+        
+        featureManager.stop();
     }
 
     private void deploy(File warFile, HttpWebApplicationServer webApplicationServer) {
         String contextPath = getContextPath(warFile);
 
         MicroConfiguration configuration = new MicroConfiguration();
-        configuration.setRoot(contextPath);
+        configuration.setContextPath(contextPath);
         configuration.setHttpStart(false);
 
         try {
@@ -242,10 +332,4 @@ public class IsolatedPiranha implements Piranha, Runnable {
 
         return startedFile;
     }
-    
-    @Override
-    public void service(WebApplicationRequest request, WebApplicationResponse response) 
-            throws IOException, ServletException {
-        webApplicationServer.service(request, response);
-    }    
 }

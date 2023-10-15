@@ -5,7 +5,7 @@
 
     <groupId>cloud.piranha</groupId>
     <artifactId>project</artifactId>
-    <version>23.5.0-SNAPSHOT</version>
+    <version>23.11.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Piranha - Project</name>
@@ -21,7 +21,7 @@
     <licenses>
         <license>
             <name>Piranha License</name>
-            <url>https://raw.githubusercontent.com/piranhacloud/piranha/master/LICENSE</url>
+            <url>https://raw.githubusercontent.com/piranhacloud/piranha/current/LICENSE</url>
         </license>
     </licenses>
 
@@ -53,7 +53,6 @@
         <module>http</module>
         <module>maven</module>
         <module>micro</module>
-        <module>naming</module>
         <module>resource</module>
         <module>spring</module>
     </modules>
@@ -72,92 +71,94 @@
 
     <properties>
         <!-- dependencies -->
-        <angus.activation.version>2.0.0</angus.activation.version>
-        <angus.mail.version>2.0.1</angus.mail.version>
-        <arquillian.version>1.7.0.Alpha13</arquillian.version>
+        <angus.activation.version>2.0.1</angus.activation.version>
+        <angus.mail.version>2.0.2</angus.mail.version>
+        <arquillian.version>1.7.1.Final</arquillian.version>
         <bcel.version>6.7.0</bcel.version>
-        <checkstyle.version>10.9.3</checkstyle.version>
+        <checkstyle.version>10.12.3</checkstyle.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
-        <commons-io.version>2.11.0</commons-io.version>
+        <commons-io.version>2.13.0</commons-io.version>
         <crac.version>0.1.3</crac.version>
-        <eclipselink.version>4.0.1</eclipselink.version>
-        <eclipse.jaxb.version>4.0.2</eclipse.jaxb.version>
-        <eleos.version>3.0.0</eleos.version>
+        <eclipselink.version>4.0.2</eclipselink.version>
+        <eclipse.jaxb.version>4.0.3</eclipse.jaxb.version>
+        <eleos.version>3.0.4</eleos.version>
         <exousia.version>2.1.0</exousia.version>
         <expressly.version>5.0.0</expressly.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
         <grizzly.version>4.0.0</grizzly.version>
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
-        <hazelcast.version>5.3.0-BETA-2</hazelcast.version>
+        <hazelcast.version>5.3.2</hazelcast.version>
         <htmlunit.version>2.70.0</htmlunit.version>
-        <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
-        <jakarta.faces.version>4.0.2</jakarta.faces.version>
-        <jandex.version>3.0.5</jandex.version>
+        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+        <h2.version>2.2.222</h2.version>
+        <jakarta.faces.version>4.0.4</jakarta.faces.version>
+        <jandex.version>3.1.3</jandex.version>
         <!-- Kept at 1.2.5.Final because 1.3.0.Final does not work with Arquillian -->
         <jboss-classfilewriter.version>1.2.5.Final</jboss-classfilewriter.version>
-        <jersey.version>3.1.1</jersey.version>
+        <jersey.version>3.1.3</jersey.version>
         <jstl.version>3.0.1</jstl.version>
-        <junit.version>5.9.2</junit.version>
-        <junit-pioneer.version>2.0.0</junit-pioneer.version>
-        <junit-platform-launcher.version>1.9.2</junit-platform-launcher.version>
-        <h2.version>2.1.214</h2.version>
-        <maven-plugin-annotations.version>3.8.1</maven-plugin-annotations.version>
-        <maven-plugin-api.version>4.0.0-alpha-5</maven-plugin-api.version>
-        <maven-plugin-tools-annotations.version>3.8.1</maven-plugin-tools-annotations.version>
-        <microprofile-jwt-auth.version>2.0.1</microprofile-jwt-auth.version>
-        <netty.version>4.1.91.Final</netty.version>
+        <junit-platform-launcher.version>1.10.0</junit-platform-launcher.version>
+        <junit-pioneer.version>2.1.0</junit-pioneer.version>
+        <junit.version>5.10.0</junit.version>
+        <maven-plugin-annotations.version>3.9.0</maven-plugin-annotations.version>
+        <maven-plugin-api.version>4.0.0-alpha-7</maven-plugin-api.version>
+        <maven-plugin-tools-annotations.version>3.9.0</maven-plugin-tools-annotations.version>
+        <microprofile-jwt-auth.version>2.0.2</microprofile-jwt-auth.version>
+        <netty.version>4.1.94.Final</netty.version>
         <omnibeans.version>0.3</omnibeans.version>
         <omniservices.version>0.4</omniservices.version>
         <omniutils.version>0.13</omniutils.version>
         <omni-mp-config.version>3.0.0</omni-mp-config.version>
-        <parsson.version>1.1.1</parsson.version>
+        <parsson.version>1.1.4</parsson.version>
         <shrinkwrap-impl-base.version>2.0.0-beta-1</shrinkwrap-impl-base.version>
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.1.4</shrinkwrap-resolver.version>
-        <soteria.version>3.0.2</soteria.version>
-        <spring-boot.version>3.0.5</spring-boot.version>
+        <soteria.version>3.0.3</soteria.version>
+        <spring-boot.version>3.1.3</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.1.3</tyrus.version>
-        <undertow.version>2.3.5.Final</undertow.version>
+        <undertow.version>2.3.8.Final</undertow.version>
         <wasp.version>3.2.0</wasp.version>
-        <weld.version>5.1.0.Final</weld.version>
+        <weld.version>5.1.1.SP2</weld.version>
         <yasson.version>3.0.3</yasson.version>
         <!-- plugins -->
-        <build-helper-maven-plugin.version>3.3.0</build-helper-maven-plugin.version>
+        <build-helper-maven-plugin.version>3.4.0</build-helper-maven-plugin.version>
         <clirr-maven-plugin.version>2.8</clirr-maven-plugin.version>
-        <flatten-maven-plugin.version>1.4.1</flatten-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.9</jacoco-maven-plugin.version>
+        <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
         <jtoolprovider-plugin.version>1.0.34</jtoolprovider-plugin.version>
         <lifecycle-mapping-plugin.version>1.0.0</lifecycle-mapping-plugin.version>
         <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
-        <maven-assembly-plugin.version>3.5.0</maven-assembly-plugin.version>
-        <maven-checkstyle-plugin.version>3.2.1</maven-checkstyle-plugin.version>
-        <maven-clean-plugin.version>3.2.0</maven-clean-plugin.version>
+        <maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
+        <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
+        <maven-clean-plugin.version>3.3.1</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-        <maven-dependency-plugin.version>3.5.0</maven-dependency-plugin.version>
+        <maven-dependency-plugin.version>3.6.0</maven-dependency-plugin.version>
         <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
-        <maven-enforcer-plugin.version>3.3.0</maven-enforcer-plugin.version>
-        <maven-failsafe-plugin.version>3.0.0</maven-failsafe-plugin.version>
-        <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
+        <maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
+        <maven-failsafe-plugin.version>3.1.2</maven-failsafe-plugin.version>
+        <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
         <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
-        <maven-invoker-plugin.version>3.5.1</maven-invoker-plugin.version>
+        <maven-invoker-plugin.version>3.6.0</maven-invoker-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-        <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
-        <maven-plugin-plugin.version>3.8.1</maven-plugin-plugin.version>
+        <maven-javadoc-plugin.version>3.6.0</maven-javadoc-plugin.version>
+        <maven-plugin-plugin.version>3.9.0</maven-plugin-plugin.version>
         <maven-replacer-plugin.version>1.5.3</maven-replacer-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-        <maven-shade-plugin.version>3.4.1</maven-shade-plugin.version>
-        <!-- Kept at 4.0.0-M3 because 4.0.0-M[4-7] do not work -->
+        <maven-shade-plugin.version>3.5.0</maven-shade-plugin.version>
+        <!-- Kept at 4.0.0-M3 because 4.0.0-M[4-9] do not work -->
         <maven-site-plugin.version>4.0.0-M3</maven-site-plugin.version>
+        <!-- Kept at 3.2.1 as 3.3.0 does not work -->
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
-        <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
-        <!-- Kept at 1.0.0.RC2 because 1.0.0.RC3 does not work -->
+        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
+        <!-- Kept at 1.0.0.RC2 because 1.0.0.[RC3-Final] do not work -->
         <moditect-maven-plugin.version>1.0.0.RC2</moditect-maven-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
         <tidy-maven-plugin.version>1.2.0</tidy-maven-plugin.version>
-        <versions-maven-plugin.version>2.15.0</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.16.0</versions-maven-plugin.version>
         <!-- other -->
+        <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -426,9 +427,9 @@
                 <version>${hibernate-validator.version}</version>
             </dependency>
             
-            <!-- JBoss Jandex -->
+            <!-- SmallRye Jandex -->
             <dependency>
-                <groupId>org.jboss</groupId>
+                <groupId>io.smallrye</groupId>
                 <artifactId>jandex</artifactId>
                 <version>${jandex.version}</version>
             </dependency>
@@ -812,7 +813,6 @@
                                 <module name="JavadocMethod">
                                     <!-- allowed until Checkstyle catches up with Java 16 style inline syntax -->
                                     <property name="allowMissingReturnTag" value="true"/>
-                                    <property name="accessModifiers" value="public"/>
                                 </module>
                                 <module name="JavadocVariable"/>
                                 <module name="OverloadMethodsDeclarationOrder"/>
@@ -853,7 +853,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <inherited>true</inherited>
                 <configuration>
-                    <release>17</release>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -868,10 +868,10 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>3.8.6</version>
+                                    <version>3.8.7</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>17</version>
+                                    <version>${java.version}</version>
                                 </requireJavaVersion>
                             </rules>    
                         </configuration>
@@ -923,7 +923,7 @@
                             <docfilessubdirs>true</docfilessubdirs>
                             <tags>
                                 <tag>
-                                    <name>assertion</name>
+                                    <name>jakarta.assertion</name>
                                     <placement>a</placement>
                                     <head>Assertion: </head>
                                 </tag>

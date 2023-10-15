@@ -59,6 +59,12 @@ import org.junit.jupiter.api.Test;
 public abstract class RequestDispatcherTest {
 
     /**
+     * Default constructor.
+     */
+    public RequestDispatcherTest() {
+    }
+    
+    /**
      * Create the web application.
      *
      * @return the web application.
@@ -82,12 +88,12 @@ public abstract class RequestDispatcherTest {
     /**
      * Test forward method on a named RequestDispatcher.
      *
-     * @assertion Servlet:SPEC:181
-     * @assertion Servlet:SPEC:181.1
-     * @assertion Servlet:SPEC:181.2
-     * @assertion Servlet:SPEC:181.3
-     * @assertion Servlet:SPEC:181.4
-     * @assertion Servlet:SPEC:181.5
+     * @jakarta.assertion Servlet:SPEC:181
+     * @jakarta.assertion Servlet:SPEC:181.1
+     * @jakarta.assertion Servlet:SPEC:181.2
+     * @jakarta.assertion Servlet:SPEC:181.3
+     * @jakarta.assertion Servlet:SPEC:181.4
+     * @jakarta.assertion Servlet:SPEC:181.5
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -136,7 +142,7 @@ public abstract class RequestDispatcherTest {
     /**
      * Test forward method on a named RequestDispatcher.
      *
-     * @assertion Servlet:SPEC:79
+     * @jakarta.assertion Servlet:SPEC:79
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -168,7 +174,7 @@ public abstract class RequestDispatcherTest {
     /**
      * Test forward method on a named RequestDispatcher.
      *
-     * @assertion Servlet:SPEC:80
+     * @jakarta.assertion Servlet:SPEC:80
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -231,7 +237,7 @@ public abstract class RequestDispatcherTest {
     /**
      * Test include method on a named RequestDispatcher.
      * 
-     * @assertion Servlet:SPEC:192.1
+     * @jakarta.assertion Servlet:SPEC:192.1
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -269,7 +275,7 @@ public abstract class RequestDispatcherTest {
     /**
      * Test include method on a named RequestDispatcher.
      * 
-     * @assertion Servlet:SPEC:192.2
+     * @jakarta.assertion Servlet:SPEC:192.2
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -309,8 +315,8 @@ public abstract class RequestDispatcherTest {
     /**
      * Test include method on a named RequestDispatcher.
      * 
-     * @assertion Servlet:SPEC:192.3
-     * @assertion Servlet:SPEC:192.4
+     * @jakarta.assertion Servlet:SPEC:192.3
+     * @jakarta.assertion Servlet:SPEC:192.4
      * @throws Exception when a serious error occurs.
      */
     @Test

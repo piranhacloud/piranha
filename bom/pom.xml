@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>23.5.0-SNAPSHOT</version>
+        <version>23.11.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>bom</artifactId>
@@ -16,7 +16,7 @@
 
     <properties>
         <!-- dependencies -->
-        <jakarta.activation-api.version>2.1.1</jakarta.activation-api.version>
+        <jakarta.activation-api.version>2.1.2</jakarta.activation-api.version>
         <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
         <jakarta.authentication-api.version>3.0.0</jakarta.authentication-api.version>
         <jakarta.authorization-api.version>2.1.0</jakarta.authorization-api.version>
@@ -26,8 +26,8 @@
         <jakarta.faces-api.version>4.0.1</jakarta.faces-api.version>
         <jakarta.jakartaee-core-api.version>10.0.0</jakarta.jakartaee-core-api.version>
         <jakarta.jakartaee-web-api.version>10.0.0</jakarta.jakartaee-web-api.version>
-        <jakarta.json-api.version>2.1.1</jakarta.json-api.version>
-        <jakarta.mail-api.version>2.1.1</jakarta.mail-api.version>
+        <jakarta.json-api.version>2.1.2</jakarta.json-api.version>
+        <jakarta.mail-api.version>2.1.2</jakarta.mail-api.version>
         <jakarta.json.bind-api.version>3.0.0</jakarta.json.bind-api.version>
         <jakarta.persistence-api.version>3.1.0</jakarta.persistence-api.version>
         <jakarta.security.enterprise-api.version>3.0.0</jakarta.security.enterprise-api.version>
@@ -36,10 +36,10 @@
         <jakarta.servlet.jsp.jstl-api.version>3.0.0</jakarta.servlet.jsp.jstl-api.version>
         <jakarta.transaction-api.version>2.0.1</jakarta.transaction-api.version>
         <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
-        <jakarta.websocket-api.version>2.1.0</jakarta.websocket-api.version>
+        <jakarta.websocket-api.version>2.1.1</jakarta.websocket-api.version>
         <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
         <jakarta.xml.bind-api.version>4.0.0</jakarta.xml.bind-api.version>
-        <microprofile-config-api.version>3.0.2</microprofile-config-api.version>
+        <microprofile-config-api.version>3.0.3</microprofile-config-api.version>
         <microprofile-jwt-auth-api.version>2.1</microprofile-jwt-auth-api.version>
         <!-- other -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

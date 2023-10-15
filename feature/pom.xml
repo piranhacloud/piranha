@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>23.5.0-SNAPSHOT</version>
+        <version>23.11.0-SNAPSHOT</version>
     </parent>
 
     <groupId>cloud.piranha.feature</groupId>
@@ -17,6 +17,16 @@
 
     <modules>
         <module>api</module>
+        <module>crac</module>
+        <module>exitonstop</module>
+        <module>http</module>
+        <module>https</module>
+        <module>impl</module>
+        <module>isolatedwebapp</module>
+        <module>logging</module>
+        <module>webapp</module>
+        <module>webapps</module>
+        <module>pid</module>
     </modules>
 
     <dependencyManagement>

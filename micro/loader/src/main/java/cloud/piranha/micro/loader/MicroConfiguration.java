@@ -225,8 +225,8 @@ public class MicroConfiguration {
         Map<String, Object> config = new HashMap<>();
         config.put("micro.port", getPort());
         config.put("micro.rootIsWarName", rootIsWarName);
-        if (getRoot() != null) {
-            config.put("micro.root", getRoot());
+        if (getContextPath() != null) {
+            config.put("micro.root", getContextPath());
         }
         config.put("micro.http.start", httpStart);
 
@@ -328,7 +328,7 @@ public class MicroConfiguration {
      * Sets that the war name should be used for the root context of a web app.
      * 
      * <p>
-     * Setting this to true overrides the explicit context root set via the <code>setRoot</code> method.
+     * Setting this to true overrides the explicit context root set via the <code>setContextPath</code> method.
      * 
      * @param rootIsWarName whether the war name is used for the context root
      */
@@ -337,19 +337,19 @@ public class MicroConfiguration {
     }
 
     /**
-     * {@return the root}
+     * {@return the context path}
      */
-    public String getRoot() {
+    public String getContextPath() {
         return root;
     }
 
     /**
-     * Set the root.
+     * Set the context path.
      * 
-     * @param root the root.
+     * @param contextPath the context path.
      */
-    public void setRoot(String root) {
-        this.root = root;
+    public void setContextPath(String contextPath) {
+        this.root = contextPath;
     }
 
     /**

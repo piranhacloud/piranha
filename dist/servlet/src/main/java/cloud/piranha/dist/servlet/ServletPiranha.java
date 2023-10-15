@@ -28,21 +28,18 @@
 package cloud.piranha.dist.servlet;
 
 import cloud.piranha.core.api.Piranha;
+import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
-import cloud.piranha.core.impl.DefaultModuleFinder;
-import cloud.piranha.core.impl.DefaultModuleLayerProcessor;
-import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.core.impl.DefaultWebApplicationClassLoader;
-import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
-import static cloud.piranha.core.impl.WarFileExtractor.extractWarFile;
+import cloud.piranha.core.impl.DefaultPiranhaConfiguration;
 import cloud.piranha.extension.servlet.ServletExtension;
+import cloud.piranha.feature.api.FeatureManager;
+import cloud.piranha.feature.exitonstop.ExitOnStopFeature;
+import cloud.piranha.feature.http.HttpFeature;
+import cloud.piranha.feature.https.HttpsFeature;
+import cloud.piranha.feature.impl.DefaultFeatureManager;
+import cloud.piranha.feature.logging.LoggingFeature;
+import cloud.piranha.feature.webapp.WebAppFeature;
 import cloud.piranha.http.api.HttpServer;
-import cloud.piranha.http.impl.DefaultHttpServer;
-import cloud.piranha.http.webapp.HttpWebApplicationServer;
-import cloud.piranha.resource.impl.DirectoryResource;
-import jakarta.servlet.ServletException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -51,13 +48,7 @@ import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
-import java.lang.module.Configuration;
-import java.lang.module.ModuleDescriptor;
-import java.lang.module.ModuleFinder;
-import java.lang.module.ModuleReference;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.ServiceLoader;
 
 /**
  * The Piranha Servlet runtime.
@@ -72,49 +63,24 @@ public class ServletPiranha implements Piranha, Runnable {
     private static final Logger LOGGER = System.getLogger(ServletPiranha.class.getName());
 
     /**
-     * Stores the extension class.
+     * Stores the configuration.
      */
-    private Class<? extends WebApplicationExtension> extensionClass = ServletExtension.class;
+    private final PiranhaConfiguration configuration;
 
     /**
-     * Stores the context path.
+     * Stores the feature manager.
      */
-    private String contextPath = null;
+    private final FeatureManager featureManager;
 
     /**
-     * Stores the CRaC enabled flag.
+     * Stores the HTTP feature.
      */
-    private boolean cracEnabled = false;
+    private HttpFeature httpFeature;
 
     /**
-     * Stores the exit on stop flag.
+     * Stores the HTTP feature.
      */
-    private boolean exitOnStop = true;
-
-    /**
-     * Stores the HTTP port.
-     */
-    private int httpPort = 8080;
-
-    /**
-     * Stores the HTTP server class.
-     */
-    private String httpServerClass;
-
-    /**
-     * Stores the HTTPS port.
-     */
-    private int httpsPort = 8043;
-
-    /**
-     * Stores the HTTPS server class.
-     */
-    private String httpsServerClass;
-
-    /**
-     * Stores the JMPS enabled flag.
-     */
-    private boolean jpmsEnabled = false;
+    private HttpsFeature httpsFeature;
 
     /**
      * Stores the stop flag.
@@ -125,53 +91,68 @@ public class ServletPiranha implements Piranha, Runnable {
      * Stores the thread we use.
      */
     private Thread thread;
+    
+    /**
+     * Stores the web application feature.
+     */
+    private WebAppFeature webAppFeature;
 
     /**
-     * Stores the WAR file.
+     * Constructor.
      */
-    private File warFile;
+    public ServletPiranha() {
+        configuration = new DefaultPiranhaConfiguration();
+        configuration.setBoolean("cracEnabled", false);
+        configuration.setBoolean("exitOnStop", false);
+        configuration.setClass("extensionClass", ServletExtension.class);
+        configuration.setInteger("httpPort", 8080);
+        configuration.setInteger("httpsPort", -1);
+        configuration.setBoolean("jpmsEnabled", false);
+        featureManager = new DefaultFeatureManager();
+    }
 
-    /**
-     * Stores the HTTP web application server.
-     */
-    private HttpWebApplicationServer webApplicationServer;
+    @Override
+    public PiranhaConfiguration getConfiguration() {
+        return configuration;
+    }
 
-    /**
-     * Stores the web application directory;
-     */
-    private File webAppDir;
-
-    /**
-     * Stores the PID.
-     */
-    private Long pid;
-
-    /**
-     * Run method.
-     */
     @Override
     public void run() {
         long startTime = System.currentTimeMillis();
+        
+        LoggingFeature loggingFeature = new LoggingFeature();
+        featureManager.addFeature(loggingFeature);
+        loggingFeature.setLevel(configuration.getString("loggingLevel"));
+        loggingFeature.init();
+        loggingFeature.start();
+        
         LOGGER.log(INFO, () -> "Starting Piranha");
+        
+        webAppFeature = new WebAppFeature();
+        featureManager.addFeature(webAppFeature);
+        webAppFeature.setContextPath(configuration.getString("contextPath"));
+        webAppFeature.setExtensionClass((Class<? extends WebApplicationExtension>) configuration.getClass("extensionClass"));
+        webAppFeature.setJpmsEnabled(configuration.getBoolean("jpmsEnabled", false));
+        webAppFeature.setWarFile(configuration.getFile("warFile"));
+        webAppFeature.setWebAppDir(configuration.getFile("webAppDir"));
+        webAppFeature.init();
+        webAppFeature.start();
 
-        webApplicationServer = new HttpWebApplicationServer();
+        /*
+         * Construct, initialize and start HTTP endpoint (if applicable).
+         */
+        if (configuration.getInteger("httpPort") > 0) {
+            httpFeature = new HttpFeature();
+            httpFeature.setHttpServerClass(configuration.getString("httpServerClass"));
+            httpFeature.setPort(configuration.getInteger("httpPort"));
+            httpFeature.init();
+            httpFeature.getHttpServer().setHttpServerProcessor(webAppFeature.getHttpServerProcessor());
 
-        if (httpPort > 0) {
-            HttpServer httpServer = null;
-            if (httpServerClass == null) {
-                httpServerClass = DefaultHttpServer.class.getName();
-            }
-            try {
-                httpServer = (HttpServer) Class.forName(httpServerClass)
-                        .getDeclaredConstructor().newInstance();
-            } catch (ClassNotFoundException | IllegalAccessException
-                    | IllegalArgumentException | InstantiationException
-                    | NoSuchMethodException | SecurityException
-                    | InvocationTargetException t) {
-                LOGGER.log(ERROR, "Unable to construct HTTP server", t);
-            }
-
-            if (cracEnabled) {
+            /*
+             * Enable Project CRaC.
+             */
+            if (configuration.getBoolean("cracEnabled", false)) {
+                HttpServer httpServer = httpFeature.getHttpServer();
                 try {
                     HttpServer cracHttpServer = (HttpServer) Class
                             .forName("cloud.piranha.http.crac.CracHttpServer")
@@ -184,123 +165,63 @@ public class ServletPiranha implements Piranha, Runnable {
                         | InvocationTargetException t) {
                     LOGGER.log(ERROR, "Unable to construct HTTP server", t);
                 }
+                httpFeature.setHttpServer(httpServer);
             }
-
-            if (httpServer != null) {
-                httpServer.setServerPort(httpPort);
-                httpServer.setHttpServerProcessor(webApplicationServer);
-                httpServer.start();
-            }
+            httpFeature.start();
         }
 
-        if (httpsPort > 0) {
-            HttpServer httpsServer = null;
-            if (httpsServerClass == null) {
-                httpsServerClass = DefaultHttpServer.class.getName();
-            }
-            try {
-                httpsServer = (HttpServer) Class.forName(httpsServerClass)
-                        .getDeclaredConstructor().newInstance();
-            } catch (ClassNotFoundException | IllegalAccessException
-                    | IllegalArgumentException | InstantiationException
-                    | NoSuchMethodException | SecurityException
-                    | InvocationTargetException t) {
-                LOGGER.log(ERROR, "Unable to construct HTTPS server", t);
-            }
+        /*
+         * Construct, initialize and start HTTP endpoint (if applicable).
+         */
+        if (configuration.getInteger("httpsPort") > 0) {
+            httpsFeature = new HttpsFeature();
+            httpsFeature.setHttpsKeystoreFile(configuration.getString("httpsKeystoreFile"));
+            httpsFeature.setHttpsKeystorePassword(configuration.getString("httpsKeystorePassword"));
+            httpsFeature.setHttpsServerClass(configuration.getString("httpsServerClass"));
+            httpsFeature.setHttpsTruststoreFile(configuration.getString("httpsTruststoreFile"));
+            httpsFeature.setHttpsTruststorePassword(configuration.getString("httpsTruststorePassword"));
+            httpsFeature.setPort(configuration.getInteger("httpsPort"));
+            httpsFeature.init();
+            httpsFeature.getHttpsServer().setHttpServerProcessor(webAppFeature.getHttpServerProcessor());
 
-            if (cracEnabled) {
+            /*
+             * Enable Project CRaC.
+             */
+            if (configuration.getBoolean("cracEnabled", false)) {
+                HttpServer httpServer = httpsFeature.getHttpsServer();
                 try {
-                    HttpServer cracHttpsServer = (HttpServer) Class
+                    HttpServer cracHttpServer = (HttpServer) Class
                             .forName("cloud.piranha.http.crac.CracHttpServer")
                             .getDeclaredConstructor(HttpServer.class)
-                            .newInstance(httpsServer);
-                    httpsServer = cracHttpsServer;
+                            .newInstance(httpServer);
+                    httpServer = cracHttpServer;
                 } catch (ClassNotFoundException | IllegalAccessException
                         | IllegalArgumentException | InstantiationException
                         | NoSuchMethodException | SecurityException
                         | InvocationTargetException t) {
                     LOGGER.log(ERROR, "Unable to construct HTTP server", t);
                 }
+                httpsFeature.setHttpsServer(httpServer);
             }
-
-            if (httpsServer != null) {
-                httpsServer.setHttpServerProcessor(webApplicationServer);
-                httpsServer.setServerPort(httpsPort);
-                httpsServer.setSSL(true);
-                httpsServer.start();
-            }
+            httpsFeature.start();
         }
 
-        if (warFile != null && warFile.getName().toLowerCase().endsWith(".war")) {
-            if (contextPath == null) {
-                contextPath = warFile.getName().substring(0, warFile.getName().length() - 4);
-            }
-            if (webAppDir == null) {
-                webAppDir = new File(contextPath);
-            }
-            extractWarFile(warFile, webAppDir);
+        if (configuration.getBoolean("exitOnStop", false)) {
+            ExitOnStopFeature exitOnStopFeature = new ExitOnStopFeature();
+            featureManager.addFeature(exitOnStopFeature);
         }
-
-        if (webAppDir != null && webAppDir.exists()) {
-
-            if (contextPath == null) {
-                contextPath = webAppDir.getName();
-            }
-
-            DefaultWebApplication webApplication = new DefaultWebApplication();
-            webApplication.addResource(new DirectoryResource(webAppDir));
-
-            DefaultWebApplicationClassLoader classLoader = new DefaultWebApplicationClassLoader(webAppDir);
-            webApplication.setClassLoader(classLoader);
-
-            if (Boolean.getBoolean("cloud.piranha.modular.enable") || jpmsEnabled) {
-                setupLayers(classLoader);
-            }
-
-            if (classLoader.getResource("/META-INF/services/" + WebApplicationExtension.class.getName()) == null) {
-                DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                extensionContext.add(extensionClass);
-                extensionContext.configure(webApplication);
-            } else {
-                DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
-                ServiceLoader<WebApplicationExtension> serviceLoader = ServiceLoader.load(WebApplicationExtension.class, classLoader);
-                extensionContext.add(serviceLoader.iterator().next());
-                extensionContext.configure(webApplication);
-            }
-
-            if (contextPath.equalsIgnoreCase("ROOT")) {
-                contextPath = "";
-            } else if (!contextPath.startsWith("/")) {
-                contextPath = "/" + contextPath;
-            }
-            webApplication.setContextPath(contextPath);
-            webApplicationServer.addWebApplication(webApplication);
-
-            try {
-                webApplication.initialize();
-            } catch (Exception e) {
-                LOGGER.log(ERROR, "Failed to initialize web application");
-                System.exit(0);
-            }
-        }
-
-        if (webAppDir == null && warFile == null) {
-            LOGGER.log(WARNING, "No web application deployed");
-        }
-
-        webApplicationServer.start();
 
         long finishTime = System.currentTimeMillis();
         LOGGER.log(INFO, "Started Piranha");
         LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
 
-        if (pid != null) {
+        if (configuration.getLong("pid") != null) {
             File pidFile = new File("tmp", "piranha.pid");
             if (!pidFile.getParentFile().exists() && !pidFile.getParentFile().mkdirs()) {
                 LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
             }
             try (PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
-                writer.println(pid);
+                writer.println(configuration.getLong("pid"));
                 writer.flush();
             } catch (IOException ioe) {
                 LOGGER.log(WARNING, "Unable to write PID file", ioe);
@@ -308,7 +229,7 @@ public class ServletPiranha implements Piranha, Runnable {
         }
 
         while (!stop) {
-            if (pid != null) {
+            if (configuration.getLong("pid") != null) {
                 File pidFile = new File("tmp", "piranha.pid");
                 if (!pidFile.exists()) {
                     stop();
@@ -320,170 +241,6 @@ public class ServletPiranha implements Piranha, Runnable {
                 Thread.currentThread().interrupt();
             }
         }
-    }
-
-    private void setupLayers(DefaultWebApplicationClassLoader classLoader) {
-        ModuleFinder defaultModuleFinder = new DefaultModuleFinder(classLoader.getResourceManager().getResourceList());
-
-        List<String> roots = defaultModuleFinder.findAll()
-                .stream()
-                .map(ModuleReference::descriptor)
-                .map(ModuleDescriptor::name)
-                .toList();
-
-        if (!roots.isEmpty()) {
-            Configuration configuration = ModuleLayer.boot().configuration().resolveAndBind(defaultModuleFinder, ModuleFinder.of(), roots);
-            ModuleLayer.Controller controller = ModuleLayer.defineModules(configuration, List.of(ModuleLayer.boot()), x -> classLoader);
-            DefaultModuleLayerProcessor.INSTANCE.processModuleLayerOptions(controller);
-        }
-    }
-
-    @Override
-    public void service(WebApplicationRequest request, WebApplicationResponse response)
-            throws IOException, ServletException {
-        webApplicationServer.service(request, response);
-    }
-
-    /**
-     * Set the context path.
-     *
-     * @param contextPath the context path.
-     */
-    public void setContextPath(String contextPath) {
-        this.contextPath = contextPath;
-    }
-
-    /**
-     * Set the CRaC enabled flag.
-     *
-     * @param cracEnabled the CRaC enabled flag.
-     */
-    public void setCracEnabled(boolean cracEnabled) {
-        this.cracEnabled = cracEnabled;
-    }
-
-    /**
-     * Set the default extension class.
-     *
-     * @param extensionClass the default extension class.
-     */
-    public void setExtensionClass(
-            Class<? extends WebApplicationExtension> extensionClass) {
-        this.extensionClass = extensionClass;
-    }
-
-    /**
-     * Set the exit on stop flag.
-     *
-     * @param exitOnStop the exit on stop flag.
-     */
-    public void setExitOnStop(boolean exitOnStop) {
-        this.exitOnStop = exitOnStop;
-    }
-
-    /**
-     * Set the HTTP server port.
-     *
-     * @param httpPort the HTTP server port.
-     */
-    public void setHttpPort(int httpPort) {
-        this.httpPort = httpPort;
-    }
-
-    /**
-     * Set the HTTP server class.
-     *
-     * @param httpServerClass the HTTP server class.
-     */
-    public void setHttpServerClass(String httpServerClass) {
-        this.httpServerClass = httpServerClass;
-    }
-
-    /**
-     * Set the HTTPS keystore file.
-     *
-     * <p>
-     * Convenience wrapper around the <code>javax.net.ssl.keyStore</code> system
-     * property. Note using this method sets the property for the entire JVM.
-     * </p>
-     *
-     * @param httpsKeystoreFile the HTTPS keystore file.
-     */
-    public void setHttpsKeystoreFile(String httpsKeystoreFile) {
-        if (httpsKeystoreFile != null) {
-            System.setProperty("javax.net.ssl.keyStore", httpsKeystoreFile);
-        }
-    }
-
-    /**
-     * Set the HTTPS keystore password.
-     *
-     * <p>
-     * Convenience wrapper around the
-     * <code>javax.net.ssl.keyStorePassword</code> system property. Note using
-     * this method sets the property for the entire JVM.
-     * </p>
-     *
-     * @param httpsKeystorePassword the HTTP keystore password.
-     */
-    public void setHttpsKeystorePassword(String httpsKeystorePassword) {
-        if (httpsKeystorePassword != null) {
-            System.setProperty("javax.net.ssl.keyStorePassword", httpsKeystorePassword);
-        }
-    }
-
-    /**
-     * Set the HTTPS server port.
-     *
-     * @param httpsPort the HTTPS server port.
-     */
-    public void setHttpsPort(int httpsPort) {
-        this.httpsPort = httpsPort;
-    }
-
-    /**
-     * Set the HTTPS server class.
-     *
-     * @param httpsServerClass the HTTPS server class.
-     */
-    public void setHttpsServerClass(String httpsServerClass) {
-        this.httpsServerClass = httpsServerClass;
-    }
-
-    /**
-     * Enable/disable JPMS.
-     *
-     * @param jpmsEnabled the JPMS enabled flag.
-     */
-    public void setJpmsEnabled(boolean jpmsEnabled) {
-        this.jpmsEnabled = jpmsEnabled;
-    }
-
-    /**
-     * Set the PID.
-     *
-     * @param pid the PID.
-     */
-    public void setPid(Long pid) {
-        this.pid = pid;
-    }
-
-    /**
-     * Set the WAR file.
-     *
-     * @param warFile the WAR file.
-     */
-    public void setWarFile(String warFile) {
-        this.warFile = new File(warFile);
-    }
-
-    /**
-     * Set the web application directory.
-     *
-     * @param webAppDir the web application directory.
-     */
-    public void setWebAppDir(String webAppDir) {
-        this.webAppDir = new File(webAppDir);
     }
 
     /**
@@ -500,8 +257,6 @@ public class ServletPiranha implements Piranha, Runnable {
     public void stop() {
         stop = true;
         thread = null;
-        if (exitOnStop) {
-            System.exit(0);
-        }
+        featureManager.stop();
     }
 }

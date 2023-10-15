@@ -74,6 +74,12 @@ public abstract class BaseMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "8080", property = "piranha.httpPort", required = false)
     protected Integer httpPort;
+    
+    /**
+     * Stores the HTTPS port
+     */
+    @Parameter(defaultValue = "-1", property = "piranha.httpsPort", required = false)
+    protected Integer httpsPort;
 
     /**
      * Stores the JVM arguments.

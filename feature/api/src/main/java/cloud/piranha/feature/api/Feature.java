@@ -33,4 +33,42 @@ package cloud.piranha.feature.api;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public interface Feature {
+
+    /**
+     * Destroy the feature.
+     */
+    default void destroy() {
+    }
+
+    /**
+     * Get the feature manager.
+     *
+     * @return the feature manager.
+     */
+    FeatureManager getFeatureManager();
+
+    /**
+     * Initialize the feature.
+     */
+    default void init() {
+    }
+
+    /**
+     * Set the feature manager.
+     *
+     * @param featureManager the feature manager.
+     */
+    void setFeatureManager(FeatureManager featureManager);
+
+    /**
+     * Start the feature.
+     */
+    default void start() {
+    }
+
+    /**
+     * Stop the feature.
+     */
+    default void stop() {
+    }
 }

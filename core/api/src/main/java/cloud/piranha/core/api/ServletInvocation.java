@@ -108,6 +108,8 @@ public interface ServletInvocation {
     }
 
     /**
+     * Set the from named flag.
+     * 
      * @param fromNamed whether this invocation is obtained from a getNamedDispatcher
      */
     default void setFromNamed(boolean fromNamed) {

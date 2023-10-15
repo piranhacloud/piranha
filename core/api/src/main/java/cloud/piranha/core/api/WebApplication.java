@@ -110,6 +110,14 @@ public interface WebApplication extends ServletContext {
     void addInitializer(ServletContainerInitializer servletContainerInitializer);
 
     /**
+     * Add the mime type.
+     *
+     * @param extension the extension (without the dot).
+     * @param mimeType the mime type to return.
+     */
+    void addMimeType(String extension, String mimeType);
+
+    /**
      * Add the resource.
      *
      * @param resource the resouce.
