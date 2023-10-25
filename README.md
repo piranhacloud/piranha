@@ -5,7 +5,6 @@
 ![build status](https://github.com/piranhacloud/piranha/workflows/build/badge.svg)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=piranhacloud_piranha)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=coverage)](https://sonarcloud.io/dashboard?id=piranhacloud_piranha)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=piranhacloud_piranha)
 [![Project Map](https://sourcespy.com/shield.svg)](https://sourcespy.com/github/piranhacloudpiranha/)
 
 The Piranha Project delivers you with Cloud ready containers and useful add-on / 
