@@ -75,14 +75,14 @@
         <angus.mail.version>2.0.2</angus.mail.version>
         <arquillian.version>1.7.1.Final</arquillian.version>
         <bcel.version>6.7.0</bcel.version>
-        <checkstyle.version>10.12.3</checkstyle.version>
+        <checkstyle.version>10.12.4</checkstyle.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
-        <commons-io.version>2.13.0</commons-io.version>
+        <commons-io.version>2.14.0</commons-io.version>
         <crac.version>0.1.3</crac.version>
         <eclipselink.version>4.0.2</eclipselink.version>
         <eclipse.jaxb.version>4.0.3</eclipse.jaxb.version>
         <eleos.version>3.0.4</eleos.version>
-        <exousia.version>2.1.0</exousia.version>
+        <exousia.version>2.1.1</exousia.version>
         <expressly.version>5.0.0</expressly.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
         <grizzly.version>4.0.0</grizzly.version>
@@ -90,9 +90,9 @@
         <hazelcast.version>5.3.2</hazelcast.version>
         <htmlunit.version>2.70.0</htmlunit.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
-        <h2.version>2.2.222</h2.version>
+        <h2.version>2.2.224</h2.version>
         <jakarta.faces.version>4.0.4</jakarta.faces.version>
-        <jandex.version>3.1.3</jandex.version>
+        <jandex.version>3.1.5</jandex.version>
         <!-- Kept at 1.2.5.Final because 1.3.0.Final does not work with Arquillian -->
         <jboss-classfilewriter.version>1.2.5.Final</jboss-classfilewriter.version>
         <jersey.version>3.1.3</jersey.version>
@@ -104,7 +104,7 @@
         <maven-plugin-api.version>4.0.0-alpha-7</maven-plugin-api.version>
         <maven-plugin-tools-annotations.version>3.9.0</maven-plugin-tools-annotations.version>
         <microprofile-jwt-auth.version>2.0.2</microprofile-jwt-auth.version>
-        <netty.version>4.1.94.Final</netty.version>
+        <netty.version>4.1.100.Final</netty.version>
         <omnibeans.version>0.3</omnibeans.version>
         <omniservices.version>0.4</omniservices.version>
         <omniutils.version>0.13</omniutils.version>
@@ -114,12 +114,12 @@
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.1.4</shrinkwrap-resolver.version>
         <soteria.version>3.0.3</soteria.version>
-        <spring-boot.version>3.1.3</spring-boot.version>
+        <spring-boot.version>3.1.4</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.1.3</tyrus.version>
-        <undertow.version>2.3.8.Final</undertow.version>
+        <undertow.version>2.3.9.Final</undertow.version>
         <wasp.version>3.2.0</wasp.version>
-        <weld.version>5.1.1.SP2</weld.version>
+        <weld.version>5.1.2.Final</weld.version>
         <yasson.version>3.0.3</yasson.version>
         <!-- plugins -->
         <build-helper-maven-plugin.version>3.4.0</build-helper-maven-plugin.version>
@@ -145,8 +145,8 @@
         <maven-plugin-plugin.version>3.9.0</maven-plugin-plugin.version>
         <maven-replacer-plugin.version>1.5.3</maven-replacer-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-        <maven-shade-plugin.version>3.5.0</maven-shade-plugin.version>
-        <!-- Kept at 4.0.0-M3 because 4.0.0-M[4-9] do not work -->
+        <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
+        <!-- Kept at 4.0.0-M3 because 4.0.0-M[4-10] do not work -->
         <maven-site-plugin.version>4.0.0-M3</maven-site-plugin.version>
         <!-- Kept at 3.2.1 as 3.3.0 does not work -->
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
@@ -156,7 +156,7 @@
         <moditect-maven-plugin.version>1.0.0.RC2</moditect-maven-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
         <tidy-maven-plugin.version>1.2.0</tidy-maven-plugin.version>
-        <versions-maven-plugin.version>2.16.0</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.16.1</versions-maven-plugin.version>
         <!-- other -->
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -9,10 +9,10 @@
         <version>23.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>spring-boot-starter-piranha-embedded</artifactId>
+    <artifactId>piranha-embedded-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Spring - Piranha Embedded Starter</name>
+    <name>Piranha - Spring - Piranha Embedded Spring Boot Starter</name>
     <description>
         This module delivers the Spring Boot starter for Piranha Embedded.
     </description>

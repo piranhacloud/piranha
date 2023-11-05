@@ -37,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.spring</groupId>
-            <artifactId>spring-boot-starter-piranha-embedded</artifactId>
+            <artifactId>piranha-embedded-spring-boot-starter</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
