@@ -3,7 +3,6 @@
 # Piranha Project
 
 ![build status](https://github.com/piranhacloud/piranha/workflows/build/badge.svg)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=piranhacloud_piranha&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=piranhacloud_piranha)
 [![Project Map](https://sourcespy.com/shield.svg)](https://sourcespy.com/github/piranhacloudpiranha/)
 
 The Piranha Project delivers you with Cloud ready containers and useful add-on / 
