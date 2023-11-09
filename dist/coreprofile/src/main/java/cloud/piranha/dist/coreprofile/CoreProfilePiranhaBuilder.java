@@ -78,6 +78,17 @@ public class CoreProfilePiranhaBuilder {
         piranha.getConfiguration().setString("contextPath", contextPath);
         return this;
     }
+    
+    /**
+     * Set the CRaC enabled flag.
+     *
+     * @param crac the CRaC enabled flag.
+     * @return the builder.
+     */
+    public CoreProfilePiranhaBuilder crac(boolean crac) {
+        piranha.getConfiguration().setBoolean("cracEnabled", crac);
+        return this;
+    }
 
     /**
      * Set the exit on stop flag.
