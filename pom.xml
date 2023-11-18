@@ -75,50 +75,50 @@
         <angus.mail.version>2.0.2</angus.mail.version>
         <arquillian.version>1.7.1.Final</arquillian.version>
         <bcel.version>6.7.0</bcel.version>
-        <checkstyle.version>10.12.4</checkstyle.version>
+        <checkstyle.version>10.12.5</checkstyle.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
-        <commons-io.version>2.14.0</commons-io.version>
+        <commons-io.version>2.15.0</commons-io.version>
         <crac.version>0.1.3</crac.version>
         <eclipselink.version>4.0.2</eclipselink.version>
-        <eclipse.jaxb.version>4.0.3</eclipse.jaxb.version>
+        <eclipse.jaxb.version>4.0.4</eclipse.jaxb.version>
         <eleos.version>3.0.4</eleos.version>
         <exousia.version>2.1.1</exousia.version>
         <expressly.version>5.0.0</expressly.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
-        <grizzly.version>4.0.0</grizzly.version>
+        <grizzly.version>4.0.1</grizzly.version>
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
-        <hazelcast.version>5.3.2</hazelcast.version>
+        <hazelcast.version>5.3.6</hazelcast.version>
         <htmlunit.version>2.70.0</htmlunit.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <h2.version>2.2.224</h2.version>
-        <jakarta.faces.version>4.0.4</jakarta.faces.version>
+        <jakarta.faces.version>4.0.5</jakarta.faces.version>
         <jandex.version>3.1.5</jandex.version>
         <!-- Kept at 1.2.5.Final because 1.3.0.Final does not work with Arquillian -->
         <jboss-classfilewriter.version>1.2.5.Final</jboss-classfilewriter.version>
         <jersey.version>3.1.3</jersey.version>
         <jstl.version>3.0.1</jstl.version>
-        <junit-platform-launcher.version>1.10.0</junit-platform-launcher.version>
-        <junit-pioneer.version>2.1.0</junit-pioneer.version>
-        <junit.version>5.10.0</junit.version>
-        <maven-plugin-annotations.version>3.9.0</maven-plugin-annotations.version>
-        <maven-plugin-api.version>4.0.0-alpha-7</maven-plugin-api.version>
-        <maven-plugin-tools-annotations.version>3.9.0</maven-plugin-tools-annotations.version>
+        <junit-pioneer.version>2.2.0</junit-pioneer.version>
+        <junit-platform-launcher.version>1.10.1</junit-platform-launcher.version>
+        <junit.version>5.10.1</junit.version>
+        <maven-plugin-annotations.version>3.10.2</maven-plugin-annotations.version>
+        <maven-plugin-api.version>4.0.0-alpha-8</maven-plugin-api.version>
+        <maven-plugin-tools-annotations.version>3.10.2</maven-plugin-tools-annotations.version>
         <microprofile-jwt-auth.version>2.0.2</microprofile-jwt-auth.version>
-        <netty.version>4.1.100.Final</netty.version>
+        <netty.version>4.1.101.Final</netty.version>
         <omnibeans.version>0.3</omnibeans.version>
         <omniservices.version>0.4</omniservices.version>
         <omniutils.version>0.13</omniutils.version>
         <omni-mp-config.version>3.0.0</omni-mp-config.version>
-        <parsson.version>1.1.4</parsson.version>
+        <parsson.version>1.1.5</parsson.version>
         <shrinkwrap-impl-base.version>2.0.0-beta-1</shrinkwrap-impl-base.version>
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.1.4</shrinkwrap-resolver.version>
         <soteria.version>3.0.3</soteria.version>
-        <spring-boot.version>3.1.4</spring-boot.version>
+        <spring-boot.version>3.1.5</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
-        <tyrus.version>2.1.3</tyrus.version>
-        <undertow.version>2.3.9.Final</undertow.version>
-        <wasp.version>3.2.0</wasp.version>
+        <tyrus.version>2.1.4</tyrus.version>
+        <undertow.version>2.3.10.Final</undertow.version>
+        <wasp.version>3.2.1</wasp.version>
         <weld.version>5.1.2.Final</weld.version>
         <yasson.version>3.0.3</yasson.version>
         <!-- plugins -->

@@ -42,8 +42,8 @@ module cloud.piranha.http.grizzly {
     exports cloud.piranha.http.grizzly;
     opens cloud.piranha.http.grizzly;
     requires transitive cloud.piranha.http.api;
-    requires grizzly.framework;
-    requires transitive grizzly.http;
-    requires transitive grizzly.http.server;
-    requires grizzly.http2;
+    requires org.glassfish.grizzly;
+    requires transitive org.glassfish.grizzly.http;
+    requires transitive org.glassfish.grizzly.http.server;
+    requires org.glassfish.grizzly.http2;
 }
