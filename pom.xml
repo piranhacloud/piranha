@@ -85,7 +85,8 @@
         <exousia.version>2.1.1</exousia.version>
         <expressly.version>5.0.0</expressly.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
-        <grizzly.version>4.0.1</grizzly.version>
+        <!-- kept at 4.0.0 because tyrus 2.1.4 requires it -->
+        <grizzly.version>4.0.0</grizzly.version>
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
         <hazelcast.version>5.3.6</hazelcast.version>
         <htmlunit.version>2.70.0</htmlunit.version>
@@ -125,38 +126,39 @@
         <build-helper-maven-plugin.version>3.4.0</build-helper-maven-plugin.version>
         <clirr-maven-plugin.version>2.8</clirr-maven-plugin.version>
         <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
         <jtoolprovider-plugin.version>1.0.34</jtoolprovider-plugin.version>
         <lifecycle-mapping-plugin.version>1.0.0</lifecycle-mapping-plugin.version>
         <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
         <maven-assembly-plugin.version>3.6.0</maven-assembly-plugin.version>
-        <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
-        <maven-clean-plugin.version>3.3.1</maven-clean-plugin.version>
+        <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
+        <maven-clean-plugin.version>3.3.2</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-        <maven-dependency-plugin.version>3.6.0</maven-dependency-plugin.version>
+        <maven-dependency-plugin.version>3.6.1</maven-dependency-plugin.version>
         <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
         <maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
-        <maven-failsafe-plugin.version>3.1.2</maven-failsafe-plugin.version>
+        <maven-failsafe-plugin.version>3.2.2</maven-failsafe-plugin.version>
         <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
         <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
         <maven-invoker-plugin.version>3.6.0</maven-invoker-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-        <maven-javadoc-plugin.version>3.6.0</maven-javadoc-plugin.version>
-        <maven-plugin-plugin.version>3.9.0</maven-plugin-plugin.version>
+        <maven-javadoc-plugin.version>3.6.2</maven-javadoc-plugin.version>
+        <maven-plugin-plugin.version>3.10.2</maven-plugin-plugin.version>
         <maven-replacer-plugin.version>1.5.3</maven-replacer-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
         <!-- Kept at 4.0.0-M3 because 4.0.0-M[4-10] do not work -->
-        <maven-site-plugin.version>4.0.0-M3</maven-site-plugin.version>
+        <maven-site-plugin.version>4.0.0-M11</maven-site-plugin.version>
         <!-- Kept at 3.2.1 as 3.3.0 does not work -->
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+        <!-- Kept at 3.2.1 as 3.2.2 does not work -->
+        <maven-surefire-plugin.version>3.2.1</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
-        <!-- Kept at 1.0.0.RC2 because 1.0.0.[RC3-Final] do not work -->
+        <!-- Kept at 1.0.0.RC2 because 1.0.0.[RC3-Final] through 1.1.0 do not work -->
         <moditect-maven-plugin.version>1.0.0.RC2</moditect-maven-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
         <tidy-maven-plugin.version>1.2.0</tidy-maven-plugin.version>
-        <versions-maven-plugin.version>2.16.1</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
         <!-- other -->
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
