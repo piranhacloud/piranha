@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17
+FROM eclipse-temurin:21
 RUN useradd -m piranha
 ADD target/piranha-dist-platform.tar.gz /home/piranha/
 RUN chown -R piranha:piranha /home/piranha
