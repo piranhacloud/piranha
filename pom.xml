@@ -147,8 +147,8 @@
         <maven-replacer-plugin.version>1.5.3</maven-replacer-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
-        <!-- Kept at 4.0.0-M3 because 4.0.0-M[4-10] do not work -->
-        <maven-site-plugin.version>4.0.0-M11</maven-site-plugin.version>
+        <!-- Kept at 4.0.0-M3 because 4.0.0-M[4-11] do not work -->
+        <maven-site-plugin.version>4.0.0-M3</maven-site-plugin.version>
         <!-- Kept at 3.2.1 as 3.3.0 does not work -->
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <!-- Kept at 3.2.1 as 3.2.2 does not work -->
