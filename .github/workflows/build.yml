@@ -25,9 +25,9 @@ jobs:
         distribution: 'temurin'
         java-version: 21
     - name: Build with Maven
-      run: |
-        export MAVEN_OPTS='-Xms256m -Xmx1024m'
-        mvn --no-transfer-progress -B install
+      env:
+          MAVEN_OPTS: '-Xms256m -Xmx1024m'
+      run: mvn --no-transfer-progress -B install
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: ${{ runner.os != 'Windows' }}
