@@ -26,7 +26,7 @@ jobs:
         java-version: 21
     - name: Build with Maven
       env:
-          MAVEN_OPTS: '-Xms256m -Xmx1024m'
+          MAVEN_OPTS: '-Xmx1024m -Xms256m'
       run: mvn --no-transfer-progress -B install
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v1
