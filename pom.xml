@@ -119,6 +119,7 @@
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.1.4</tyrus.version>
         <undertow.version>2.3.10.Final</undertow.version>
+        <!-- Kept at 3.2.0 because 3.2.1 fails our tests on Windows -->
         <wasp.version>3.2.0</wasp.version>
         <weld.version>5.1.2.Final</weld.version>
         <yasson.version>3.0.3</yasson.version>
