@@ -3,7 +3,7 @@
 The release process described below uses the 'current' branch. For patch 
 releases see the [Patch releases](#patch-releases) section below
 
-## On the 12th of the month
+## On the 11th of the month
 
 1. Create release-X.Y.Z branch from current
 1. Wait for the build on the release-X.Y.Z branch to complete
@@ -28,11 +28,11 @@ releases see the [Patch releases](#patch-releases) section below
 1. Make sure “Create a discussion for this release” is checked
 1. Make sure Category is set to General 
 1. Publish release notes
+1. Wait for release bits to show up on Maven Central
+1. On the piranha_cloud Twitter announce that Piranha X.Y.Z has been released and make sure to thank our contributors.
 1. Apply fixes from release-X.Y.Z branch to the current branch with a corresponding issue (if any).
 1. Delete the release-X.Y.Z branch
 1. Close the milestone on GitHub
-1. Wait for release bits to show up on Maven Central
-1. On the piranha_cloud Twitter announce that Piranha X.Y.Z has been released and make sure to thank our contributors.
 
 ## Patch releases
 
