@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,29 +30,68 @@ package cloud.piranha.core.impl;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSessionEvent;
+import jakarta.servlet.http.HttpSessionIdListener;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the HttpSessionIdListener API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HttpSessionSessionIdListenerTest extends cloud.piranha.core.tests.HttpSessionIdListenerTest {
+public class HttpSessionIdListenerTest {
 
-    @Override
-    protected WebApplication createWebApplication() {
+    private WebApplication createWebApplication() {
         return new DefaultWebApplication();
     }
 
-    @Override
-    protected WebApplicationRequest createWebApplicationRequest() {
+    private WebApplicationRequest createWebApplicationRequest() {
         return new DefaultWebApplicationRequest();
     }
 
-    @Override
-    protected WebApplicationResponse createWebApplicationResponse() {
+    private WebApplicationResponse createWebApplicationResponse() {
         DefaultWebApplicationResponse response  = new DefaultWebApplicationResponse();
         response.getWebApplicationOutputStream().setOutputStream(new ByteArrayOutputStream());
         return response;
+    }
+
+    /**
+     * Test sessionIdChanged method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testSessionIdChanged() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        webApplication.addListener(new HttpSessionIdListener() {
+            @Override
+            public void sessionIdChanged(HttpSessionEvent event, String oldSessionId) {
+                event.getSession().getServletContext().setAttribute("testSessionIdChanged", true);
+            }
+        });
+        webApplication.addServlet("TestSessionIdChangedServlet", new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                request.getSession();
+                request.changeSessionId();
+            }
+        });
+        webApplication.addServletMapping("TestSessionIdChangedServlet", "/testSessionIdChangedServlet");
+        webApplication.initialize();
+        webApplication.start();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setServletPath("/testSessionIdChangedServlet");
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.service(request, response);
+        assertNotNull(webApplication.getAttribute("testSessionIdChanged"));
     }
 }

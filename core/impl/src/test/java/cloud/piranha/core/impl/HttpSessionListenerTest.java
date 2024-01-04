@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.tests;
+package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
@@ -36,43 +36,31 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the HttpSessionListenerTest API.
+ * The JUnit tests for the HttpSessionListener API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class HttpSessionListenerTest {
+public class HttpSessionListenerTest {
 
-    /**
-     * Default constructor.
-     */
-    public HttpSessionListenerTest() {
+    private WebApplication createWebApplication() {
+        return new DefaultWebApplication();
     }
 
-    /**
-     * Create the web application.
-     *
-     * @return the web application.
-     */
-    protected abstract WebApplication createWebApplication();
+    private WebApplicationRequest createWebApplicationRequest() {
+        return new DefaultWebApplicationRequest();
+    }
 
-    /**
-     * Create the web application request.
-     *
-     * @return the web application request.
-     */
-    protected abstract WebApplicationRequest createWebApplicationRequest();
-
-    /**
-     * Create the web application response.
-     *
-     * @return the web application response.
-     */
-    protected abstract WebApplicationResponse createWebApplicationResponse();
+    private WebApplicationResponse createWebApplicationResponse() {
+        DefaultWebApplicationResponse response  = new DefaultWebApplicationResponse();
+        response.getWebApplicationOutputStream().setOutputStream(new ByteArrayOutputStream());
+        return response;
+    }
 
     /**
      * Test sessionCreated method.

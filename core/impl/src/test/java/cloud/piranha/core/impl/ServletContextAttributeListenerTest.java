@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,29 +30,145 @@ package cloud.piranha.core.impl;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextAttributeEvent;
+import jakarta.servlet.ServletContextAttributeListener;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the ServletContextAttributeListener API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ServletContextAttributeListenerTest extends cloud.piranha.core.tests.ServletContextAttributeListenerTest {
+class ServletContextAttributeListenerTest {
 
-    @Override
-    protected WebApplication createWebApplication() {
+    private WebApplication createWebApplication() {
         return new DefaultWebApplication();
     }
 
-    @Override
-    protected WebApplicationRequest createWebApplicationRequest() {
+    private WebApplicationRequest createWebApplicationRequest() {
         return new DefaultWebApplicationRequest();
     }
 
-    @Override
-    protected WebApplicationResponse createWebApplicationResponse() {
+    private WebApplicationResponse createWebApplicationResponse() {
         DefaultWebApplicationResponse response  = new DefaultWebApplicationResponse();
         response.getWebApplicationOutputStream().setOutputStream(new ByteArrayOutputStream());
         return response;
+    }
+
+    /**
+     * Test attributeAdded method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testAttributeAdded() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        webApplication.addListener(new ServletContextAttributeListener() {
+            @Override
+            public void attributeAdded(ServletContextAttributeEvent event) {
+                event.getServletContext().setAttribute("testAttributeAdded", true);
+            }
+        });
+        webApplication.addServlet("TestAttributeAddedServlet", new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                request.getServletContext().setAttribute("name", "value");
+            }
+        });
+        webApplication.addServletMapping(
+                "TestAttributeAddedServlet",
+                "/testAttributeAdded");
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setServletPath("/testAttributeAdded");
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
+        assertNotNull(webApplication.getAttribute("testAttributeAdded"));
+        webApplication.stop();
+    }
+
+    /**
+     * Test attributeRemoved method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testAttributeRemoved() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        webApplication.addListener(new ServletContextAttributeListener() {
+            @Override
+            public void attributeRemoved(ServletContextAttributeEvent event) {
+                event.getServletContext().setAttribute("testAttributeRemoved", true);
+            }
+        });
+        webApplication.addServlet("TestAttributeRemovedServlet",  new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                ServletContext context = request.getServletContext();
+                context.setAttribute("name", "value");
+                context.removeAttribute("name");
+            }
+        });
+        webApplication.addServletMapping(
+                "TestAttributeRemovedServlet",
+                "/testAttributeRemoved");
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setServletPath("/testAttributeRemoved");
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
+        assertNotNull(webApplication.getAttribute("testAttributeRemoved"));
+        webApplication.stop();
+    }
+
+    /**
+     * Test attributeReplaced method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testAttributeReplaced() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        webApplication.addListener(new ServletContextAttributeListener() {
+            @Override
+            public void attributeReplaced(ServletContextAttributeEvent event) {
+                event.getServletContext().setAttribute("testAttributeReplaced", true);
+            }
+        });
+        webApplication.addServlet("TestAttributeReplacedServlet",  new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                ServletContext context = request.getServletContext();
+                context.setAttribute("name", "value");
+                context.setAttribute("name", "value2");
+            }
+        });
+        webApplication.addServletMapping(
+                "TestAttributeReplacedServlet",
+                "/testAttributeReplaced");
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setServletPath("/testAttributeReplaced");
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.initialize();
+        webApplication.start();
+        webApplication.service(request, response);
+        assertNotNull(webApplication.getAttribute("testAttributeReplaced"));
+        webApplication.stop();
     }
 }

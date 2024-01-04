@@ -41,12 +41,6 @@
         </dependency>
         <!-- test -->
         <dependency>
-            <groupId>cloud.piranha.core</groupId>
-            <artifactId>piranha-core-tests</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-impl</artifactId>
             <version>${project.version}</version>
