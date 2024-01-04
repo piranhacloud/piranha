@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,26 +30,144 @@ package cloud.piranha.core.impl;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.ServletInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the ReadListener API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ReadListenerTest extends cloud.piranha.core.tests.ReadListenerTest {
+public class ReadListenerTest {
 
-    @Override
-    public WebApplication createWebApplication() {
+    private WebApplication createWebApplication() {
         return new DefaultWebApplication();
     }
 
-    @Override
-    public WebApplicationRequest createWebApplicationRequest() {
+    private WebApplicationRequest createWebApplicationRequest() {
         return new DefaultWebApplicationRequest();
     }
 
-    @Override
-    public WebApplicationResponse createWebApplicationResponse() {
+    private WebApplicationResponse createWebApplicationResponse() {
         return new DefaultWebApplicationResponse();
+    }
+
+    /**
+     * Test onAllDataRead method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testOnAllDataRead() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setAsyncSupported(true);
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        request.startAsync();
+        try (ServletInputStream inputStream = request.getInputStream()) {
+            request.getWebApplicationInputStream().setInputStream(new ByteArrayInputStream("read this".getBytes()));
+            inputStream.setReadListener(new TestOnAllDataReadReadListener(webApplication));
+            int character = inputStream.read();
+            while(character != -1) {
+                character = inputStream.read();
+            }
+        }
+        Thread.sleep(2000);
+        assertNotNull(webApplication.getAttribute("onAllDataRead"));
+    }
+
+    /**
+     * Test onDataAvailable method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testOnDataAvailable() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setAsyncSupported(true);
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        request.startAsync();
+        ServletInputStream inputStream = request.getInputStream();
+        request.getWebApplicationInputStream().setInputStream(new ByteArrayInputStream("a".getBytes()));
+        inputStream.setReadListener(new TestOnDataAvailableReadListener(webApplication));
+        Thread.sleep(5000);
+        assertNotNull(webApplication.getAttribute("onDataAvailable"));
+    }
+
+    /**
+     * A test ReadListener for onAllDataRead.
+     */
+    public static class TestOnAllDataReadReadListener implements ReadListener {
+
+        /**
+         * Stores the web application.
+         */
+        private final WebApplication webApplication;
+        
+        /**
+         * Constructor.
+         * 
+         * @param webApplication the web application.
+         */
+        public TestOnAllDataReadReadListener(WebApplication webApplication) {
+            this.webApplication = webApplication;
+        }
+        
+        @Override
+        public void onAllDataRead() throws IOException {
+            webApplication.setAttribute("onAllDataRead", true);
+        }
+
+        @Override
+        public void onDataAvailable() throws IOException {
+        }
+
+        @Override
+        public void onError(Throwable t) {
+        }
+    }
+
+    /**
+     * A test ReadListener for onDataAvailable.
+     */
+    public static class TestOnDataAvailableReadListener implements ReadListener {
+
+        /**
+         * Stores the web application.
+         */
+        private final WebApplication webApplication;
+        
+        /**
+         * Constructor.
+         * 
+         * @param webApplication the web application.
+         */
+        public TestOnDataAvailableReadListener(WebApplication webApplication) {
+            this.webApplication = webApplication;
+        }
+        
+        @Override
+        public void onAllDataRead() throws IOException {
+        }
+
+        @Override
+        public void onDataAvailable() throws IOException {
+            webApplication.setAttribute("onDataAvailable", true);
+        }
+
+        @Override
+        public void onError(Throwable t) {
+        }
     }
 }

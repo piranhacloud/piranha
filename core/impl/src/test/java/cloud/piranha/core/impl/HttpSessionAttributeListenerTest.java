@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.tests;
+package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
@@ -45,34 +45,34 @@ import org.junit.jupiter.api.Test;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public abstract class HttpSessionAttributeListenerTest {
+class HttpSessionAttributeListenerTest {
 
-    /**
-     * Default constructor.
-     */
-    public HttpSessionAttributeListenerTest() {
-    }
-    
     /**
      * Create the web application.
      *
      * @return the web application.
      */
-    protected abstract WebApplication createWebApplication();
+    private WebApplication createWebApplication() {
+        return new DefaultWebApplication();
+    }
 
     /**
      * Create the web application request.
      *
      * @return the web application request.
      */
-    protected abstract WebApplicationRequest createWebApplicationRequest();
+    private WebApplicationRequest createWebApplicationRequest() {
+        return new DefaultWebApplicationRequest();
+    }
 
     /**
      * Create the web application response.
      *
      * @return the web application response.
      */
-    protected abstract WebApplicationResponse createWebApplicationResponse();
+    private WebApplicationResponse createWebApplicationResponse() {
+        return new DefaultWebApplicationResponse();
+    }
 
     /**
      * Test attributeAdded method.
