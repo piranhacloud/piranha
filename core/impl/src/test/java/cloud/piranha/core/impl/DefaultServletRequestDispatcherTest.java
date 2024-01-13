@@ -34,6 +34,7 @@ import jakarta.servlet.UnavailableException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 
 import org.junit.jupiter.api.Test;
 
@@ -135,6 +136,33 @@ class DefaultServletRequestDispatcherTest {
         RequestDispatcher dispatcher = webApp.getRequestDispatcher("/Runtime");
         assertThrows(RuntimeException.class, () -> dispatcher.forward(request, response));
     }
+    
+    /**
+     * Test that a request given to the request dispatcher upon forward is the
+     * same as the original request.
+     */
+    @Test
+    void testForward5() throws Exception {
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        response.setBodyOnly(true);
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addServlet("NoWrapping", new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                response.getWriter().println(req.toString());
+            }
+        });
+        webApplication.addServletMapping("NoWrapping", "/nowrapping");
+        webApplication.initialize();
+        webApplication.start();
+        RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/nowrapping");
+        assertNotNull(dispatcher);
+        dispatcher.forward(request, response);
+        assertEquals(request.toString() + "\n", byteOutput.toString("UTF-8"));
+    }
 
     /**
      * Test include method.
@@ -229,7 +257,7 @@ class DefaultServletRequestDispatcherTest {
         assertTrue(responseText.contains(RequestDispatcher.ERROR_EXCEPTION_TYPE));
         assertTrue(responseText.contains(IOException.class.getName()));
     }
-
+    
     static class TestSendError extends HttpServlet {
         @Override
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
