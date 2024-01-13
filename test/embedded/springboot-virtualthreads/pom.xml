@@ -54,7 +54,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <release>20</release>
+                    <release>${java.version}</release>
                     <enablePreview>true</enablePreview>
                 </configuration>
             </plugin>
@@ -63,9 +63,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                  <jvmArguments>
-                      --enable-preview --add-modules=jdk.incubator.concurrent
-                  </jvmArguments>
+                  <jvmArguments>--enable-preview</jvmArguments>
                 </configuration>
             </plugin>
         </plugins>

@@ -38,5 +38,4 @@ module cloud.piranha.http.virtual {
     opens cloud.piranha.http.virtual;
     requires cloud.piranha.http.api;
     requires cloud.piranha.http.impl;
-    requires jdk.incubator.concurrent;
 }
