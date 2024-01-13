@@ -1260,11 +1260,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         parameters.put(name, values);
     }
 
-    /**
-     * Set the path info.
-     *
-     * @param pathInfo the path info.
-     */
+    @Override
     public void setPathInfo(String pathInfo) {
         this.pathInfo = pathInfo;
     }
@@ -1431,11 +1427,6 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         }
 
         return asyncContext;
-    }
-
-    @Override
-    public String toString() {
-        return getRequestURIWithQueryString() + " " + super.toString();
     }
 
     /**

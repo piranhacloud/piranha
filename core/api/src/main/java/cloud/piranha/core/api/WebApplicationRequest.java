@@ -128,6 +128,14 @@ public interface WebApplicationRequest extends HttpServletRequest {
     void setWebApplication(WebApplication webApplication);
 
     /**
+     * Set the path info.
+     * 
+     * @param pathInfo the path info.
+     */
+    default void setPathInfo(String pathInfo) {
+    }
+
+    /**
      * Set the query string.
      * 
      * @param queryString the query string.
