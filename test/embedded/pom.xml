@@ -25,21 +25,10 @@
         <module>soteria-basic</module>
         <module>soteria-form</module>
         <module>springboot</module>
+        <module>springboot-virtualthreads</module>
         <module>web-fragment-in-jar</module>
         <module>web-fragment-in-jar-test</module>
         <module>web-fragment-in-jar-webapp</module>
         <module>weld</module>
     </modules>
-
-    <profiles>
-        <profile>
-            <id>jdk20</id>
-            <activation>
-                <jdk>20</jdk>
-            </activation>
-            <modules>
-                <module>springboot-virtualthreads</module>
-            </modules>
-        </profile>
-    </profiles>
 </project>
