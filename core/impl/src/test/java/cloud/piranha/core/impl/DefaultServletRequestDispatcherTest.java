@@ -152,7 +152,7 @@ class DefaultServletRequestDispatcherTest {
         webApplication.addServlet("NoWrapping", new HttpServlet() {
             @Override
             protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-                response.getWriter().println(req.toString());
+                response.getWriter().print(req.toString());
             }
         });
         webApplication.addServletMapping("NoWrapping", "/nowrapping");
@@ -161,7 +161,7 @@ class DefaultServletRequestDispatcherTest {
         RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/nowrapping");
         assertNotNull(dispatcher);
         dispatcher.forward(request, response);
-        assertEquals(request.toString() + "\n", byteOutput.toString("UTF-8"));
+        assertEquals(request.toString(), byteOutput.toString("UTF-8"));
     }
 
     /**
