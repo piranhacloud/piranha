@@ -1278,11 +1278,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         this.protocol = protocol;
     }
 
-    /**
-     * Set the query string.
-     *
-     * @param queryString the query string.
-     */
+    @Override
     public void setQueryString(String queryString) {
         this.queryString = queryString;
     }

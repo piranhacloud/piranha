@@ -128,6 +128,14 @@ public interface WebApplicationRequest extends HttpServletRequest {
     void setWebApplication(WebApplication webApplication);
 
     /**
+     * Set the query string.
+     * 
+     * @param queryString the query string.
+     */
+    default void setQueryString(String queryString) {
+    }
+
+    /**
      * Set the web application input stream.
      *
      * @param webApplicationInputStream the web application input stream.
