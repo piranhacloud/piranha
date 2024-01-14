@@ -28,7 +28,8 @@
 package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.WebApplication;
-import java.io.IOException;
+import cloud.piranha.core.api.WebApplicationRequest;
+import cloud.piranha.core.api.WebApplicationResponse;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.UnavailableException;
@@ -36,10 +37,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
-
-import org.junit.jupiter.api.Test;
-
+import java.io.IOException;
+import java.io.PrintWriter;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for DefaultServletRequestDispatcher.
@@ -55,49 +56,36 @@ class DefaultServletRequestDispatcherTest {
      */
     @Test
     void testForward() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addServlet("Snoop", TestSnoopServlet.class);
-        webApplication.initialize();
-        webApplication.start();
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        RequestDispatcher dispatcher = webApplication.getNamedDispatcher("Snoop");
-        dispatcher.forward(request, response);
-        response.flushBuffer();
-        String responseText = new String(response.getResponseBytes());
-        assertTrue(responseText.contains("<title>Snoop</title>"));
-    }
-
-    /**
-     * Test forward method.
-     *
-     * @throws Exception when an error occurs.
-     */
-    @Test
-    void testForward2() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.setWebApplicationRequestMapper(new DefaultWebApplicationRequestMapper());
-        webApplication.addServlet("Snoop", TestSnoopServlet.class);
-        webApplication.addServletMapping("Snoop", "/Snoop");
+        WebApplication webApplication = new DefaultWebApplicationBuilder()
+                .servlet("Forward", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                        PrintWriter out = resp.getWriter();
+                        out.println("Forward");
+                        out.flush();
+                    }
+                })
+                .servletMapping("Forward", "/forward")
+                .build();
         webApplication.initialize();
         webApplication.start();
 
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApplication);
+        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+                .webApplication(webApplication)
+                .build();
 
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApplication);
+        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApplication)
+                .bodyOnly(true)
+                .build();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
 
-        webApplication.linkRequestAndResponse(request, response);
-
-        RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/Snoop");
+        RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/forward");
         dispatcher.forward(request, response);
-        String responseText = new String(response.getResponseBytes());
-        webApplication.stop();
-        assertTrue(responseText.contains("<title>Snoop</title>"));
+
+        String responseText = new String(byteOutput.toByteArray());
+        assertTrue(responseText.contains("Forward"));
     }
 
     /**
@@ -107,15 +95,27 @@ class DefaultServletRequestDispatcherTest {
      */
     @Test
     void testForward3() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setWebApplicationRequestMapper(new DefaultWebApplicationRequestMapper());
-        webApp.addServlet("Error", TestIOExceptionServlet.class);
-        webApp.addServletMapping("Error", "/Error");
-        webApp.initialize();
-        webApp.start();
-        RequestDispatcher dispatcher = webApp.getRequestDispatcher("/Error");
+        WebApplication webApplication = new DefaultWebApplicationBuilder()
+                .servlet("Error", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+                        throw new IOException();
+                    }
+                })
+                .servletMapping("Error", "/error")
+                .build();
+        webApplication.initialize();
+        webApplication.start();
+
+        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+                .webApplication(webApplication)
+                .build();
+
+        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApplication)
+                .build();
+
+        RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/error");
         assertThrows(IOException.class, () -> dispatcher.forward(request, response));
     }
 
@@ -126,21 +126,35 @@ class DefaultServletRequestDispatcherTest {
      */
     @Test
     void testForward4() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.setWebApplicationRequestMapper(new DefaultWebApplicationRequestMapper());
-        webApp.addServlet("Runtime", TestRuntimeExceptionServlet.class);
-        webApp.addServletMapping("Runtime", "/Runtime");
-        webApp.initialize();
-        webApp.start();
-        RequestDispatcher dispatcher = webApp.getRequestDispatcher("/Runtime");
+        WebApplication webApplication = new DefaultWebApplicationBuilder()
+                .servlet("Runtime", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+                        throw new RuntimeException();
+                    }
+                })
+                .servletMapping("Runtime", "/runtime")
+                .build();
+        webApplication.initialize();
+        webApplication.start();
+
+        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+                .webApplication(webApplication)
+                .build();
+
+        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApplication)
+                .build();
+
+        RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/runtime");
         assertThrows(RuntimeException.class, () -> dispatcher.forward(request, response));
     }
 
     /**
      * Test that a request given to the request dispatcher upon forward is the
      * same as the original request.
+     *
+     * @throws Exception when an error occurs.
      */
     @Test
     void testForwardNoWrapping() throws Exception {
@@ -155,19 +169,64 @@ class DefaultServletRequestDispatcherTest {
                 .build();
         webApplication.initialize();
         webApplication.start();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+
+        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+                .webApplication(webApplication)
+                .build();
+
+        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApplication)
+                .build();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         response.setBodyOnly(true);
+
         RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/nowrapping");
-        assertNotNull(dispatcher);
         dispatcher.forward(request, response);
         assertEquals(request.toString(), byteOutput.toString("UTF-8"));
     }
 
     /**
+     * Test a forward using a named dispatcher.
+     *
+     * @throws Exception when an error occurs.
+     */
+    @Test
+    void testForwardWithNamedDispatcher() throws Exception {
+        WebApplication webApplication = new DefaultWebApplicationBuilder()
+                .servlet("Forward", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                        PrintWriter out = resp.getWriter();
+                        out.println("Forward");
+                    }
+                })
+                .servletMapping("Forward", "/forward")
+                .build();
+        webApplication.initialize();
+        webApplication.start();
+
+        TestWebApplicationRequest request = new TestWebApplicationRequest();
+        request.setWebApplication(webApplication);
+
+        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApplication)
+                .build();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        response.setBodyOnly(true);
+
+        RequestDispatcher dispatcher = webApplication.getNamedDispatcher("Forward");
+        dispatcher.forward(request, response);
+        response.flushBuffer();
+        String responseText = new String(byteOutput.toByteArray());
+        assertTrue(responseText.contains("Forward"));
+    }
+
+    /**
      * Test a forward with a query string.
+     *
+     * @throws Exception when an error occurs.
      */
     @Test
     void testForwardWithQueryString() throws Exception {
@@ -201,15 +260,20 @@ class DefaultServletRequestDispatcherTest {
                 .build();
         webApplication.initialize();
         webApplication.start();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        request.setServletPath("/forward");
-        request.setQueryString("p=Original");
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+
+        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+                .webApplication(webApplication)
+                .servletPath("/forward")
+                .queryString("p=Original")
+                .build();
+
+        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApplication)
+                .bodyOnly(true)
+                .build();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
-        response.setBodyOnly(true);
-        response.setWebApplication(webApplication);
+
         webApplication.service(request, response);
         assertEquals("New", byteOutput.toString());
     }
@@ -221,24 +285,33 @@ class DefaultServletRequestDispatcherTest {
      */
     @Test
     void testInclude() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addServlet("Echo", TestEcho1Servlet.class);
+        WebApplication webApplication = new DefaultWebApplicationBuilder()
+                .servlet("Echo", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+                        response.getWriter().print("ECHO");
+                        response.getWriter().flush();
+                    }
+                })
+                .build();
         webApplication.initialize();
         webApplication.start();
 
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApplication);
+        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+                .webApplication(webApplication)
+                .build();
 
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApplication);
-
-        webApplication.linkRequestAndResponse(request, response);
+        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApplication)
+                .bodyOnly(true)
+                .build();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
 
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("Echo");
         dispatcher.include(request, response);
         response.flushBuffer();
-        String responseText = new String(response.getResponseBytes());
-        assertTrue(responseText.contains("ECHO"));
+        assertTrue(byteOutput.toString().contains("ECHO"));
     }
 
     /**
@@ -248,20 +321,33 @@ class DefaultServletRequestDispatcherTest {
      */
     @Test
     void testInclude2() throws Exception {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addServlet("Echo2", TestEcho2Servlet.class);
-        webApp.initialize();
-        webApp.start();
-        webApp.linkRequestAndResponse(request, response);
-        RequestDispatcher dispatcher = webApp.getNamedDispatcher("Echo2");
+        WebApplication webApplication = new DefaultWebApplicationBuilder()
+                .servlet("Echo2", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+                        response.getOutputStream().write("ECHO".getBytes());
+                        response.getOutputStream().flush();
+                    }
+                })
+                .build();
+        webApplication.initialize();
+        webApplication.start();
+
+        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+                .webApplication(webApplication)
+                .build();
+
+        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApplication)
+                .bodyOnly(true)
+                .build();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+
+        RequestDispatcher dispatcher = webApplication.getNamedDispatcher("Echo2");
         dispatcher.include(request, response);
         response.flushBuffer();
-        String responseText = new String(response.getResponseBytes());
-        webApp.unlinkRequestAndResponse(request, response);
-        webApp.stop();
-        assertTrue(responseText.contains("ECHO"));
+        assertTrue(byteOutput.toString().contains("ECHO"));
     }
 
     /**
@@ -289,19 +375,21 @@ class DefaultServletRequestDispatcherTest {
                 .build();
         webApplication.initialize();
         webApplication.start();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApplication);
+
+        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+                .webApplication(webApplication)
+                .build();
+
+        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApplication)
+                .bodyOnly(true)
+                .build();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
-        response.setBodyOnly(true);
-        webApplication.linkRequestAndResponse(request, response);
+
         RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/nowrapping");
-        assertNotNull(dispatcher);
         dispatcher.forward(request, response);
         assertEquals(request.toString(), byteOutput.toString("UTF-8"));
-        webApplication.unlinkRequestAndResponse(request, response);
     }
 
     @Test
