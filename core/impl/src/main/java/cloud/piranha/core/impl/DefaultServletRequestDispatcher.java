@@ -724,7 +724,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
          */
         WebApplicationRequest request = unwrap(servletRequest, WebApplicationRequest.class);
         
-        /**
+        /*
          * Set the forward attributes.
          */
         request.setAttribute(FORWARD_CONTEXT_PATH, request.getContextPath());
@@ -733,12 +733,12 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         request.setAttribute(FORWARD_REQUEST_URI, request.getRequestURI());
         request.setAttribute(FORWARD_SERVLET_PATH, request.getServletPath());
         
-        /**
+        /*
          * Set the new dispatcher type.
          */
         request.setDispatcherType(FORWARD);
 
-        /**
+        /*
          * Set the new servlet path and the new query string.
          */
         if (path != null) {
@@ -747,6 +747,33 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         } else {
             request.setServletPath("/" + servletEnvironment.getServletName());
             request.setQueryString(request.getQueryString());
+        }
+        
+        /*
+         * Aggregate the request parameters with giving the new parameter values
+         * precedence over the old ones.
+         */
+        if (request.getQueryString() != null) {
+            String queryString = request.getQueryString();
+            Map<String, String[]> parameters = request.getModifiableParameterMap();
+            for (String param : queryString.split("&")) {
+                String[] pair = param.split("=");
+                String key = URLDecoder.decode(pair[0], StandardCharsets.UTF_8);
+                String value = "";
+                if (pair.length > 1) {
+                    value = URLDecoder.decode(pair[1], StandardCharsets.UTF_8);
+                }
+                String[] values = parameters.get(key);
+                if (values == null) {
+                    values = new String[]{value};
+                    parameters.put(key, values);
+                } else {
+                    String[] newValues = new String[values.length + 1];
+                    System.arraycopy(values, 0, newValues, 1, values.length);
+                    newValues[0] = value;
+                    parameters.put(key, newValues);
+                }
+            }
         }
         
         invocationFinder.addFilters(FORWARD, servletInvocation, request.getServletPath(), "");

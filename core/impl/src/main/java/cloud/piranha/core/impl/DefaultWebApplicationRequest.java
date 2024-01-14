@@ -601,6 +601,11 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
     }
 
     @Override
+    public Map<String, String[]> getModifiableParameterMap() {
+        return parameters;
+    }
+
+    @Override
     public MultipartConfigElement getMultipartConfig() {
         return multipartConfig;
     }
