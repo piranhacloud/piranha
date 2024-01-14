@@ -815,7 +815,8 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         if (!resolved.startsWith(rootContext)) {
             resolved = rootContext.resolveSibling(resolved);
         }
-        return webApplication.getRequestDispatcher(resolved.toString());
+        String servletPath = resolved.toString().replace('\\', '/');
+        return webApplication.getRequestDispatcher(servletPath);
     }
 
     @Override
@@ -1260,11 +1261,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         parameters.put(name, values);
     }
 
-    /**
-     * Set the path info.
-     *
-     * @param pathInfo the path info.
-     */
+    @Override
     public void setPathInfo(String pathInfo) {
         this.pathInfo = pathInfo;
     }
@@ -1431,11 +1428,6 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         }
 
         return asyncContext;
-    }
-
-    @Override
-    public String toString() {
-        return getRequestURIWithQueryString() + " " + super.toString();
     }
 
     /**

@@ -142,7 +142,7 @@ class DefaultServletRequestDispatcherTest {
      * same as the original request.
      */
     @Test
-    void testForward5() throws Exception {
+    void testForwardNoWrapping() throws Exception {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
@@ -212,6 +212,45 @@ class DefaultServletRequestDispatcherTest {
         webApp.unlinkRequestAndResponse(request, response);
         webApp.stop();
         assertTrue(responseText.contains("ECHO"));
+    }
+    
+    /**
+     * Test that a request given to the request dispatcher upon include is the
+     * same as the original request.
+     */
+    @Test
+    void testIncludeNoWrapping() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addServlet("NoWrapping", new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                req.getRequestDispatcher("/nowrapping2").include(req, resp);
+                resp.flushBuffer();
+            }
+        });
+        webApplication.addServlet("NoWrapping2", new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                resp.getWriter().print(req.toString());
+            }
+        });
+        webApplication.addServletMapping("NoWrapping", "/nowrapping");
+        webApplication.addServletMapping("NoWrapping2", "/nowrapping2");
+        webApplication.initialize();
+        webApplication.start();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        response.setBodyOnly(true);
+        webApplication.linkRequestAndResponse(request, response);
+        RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/nowrapping");
+        assertNotNull(dispatcher);
+        dispatcher.forward(request, response);
+        assertEquals(request.toString(), byteOutput.toString("UTF-8"));
+        webApplication.unlinkRequestAndResponse(request, response);
     }
 
     @Test
