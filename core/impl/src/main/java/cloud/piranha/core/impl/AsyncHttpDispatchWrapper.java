@@ -113,6 +113,11 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     }
 
     @Override
+    public Map<String, String[]> getModifiableParameterMap() {
+        return wrapperParameters;
+    }
+
+    @Override
     public HttpServletRequest getRequest() {
         return (HttpServletRequest) super.getRequest();
     }

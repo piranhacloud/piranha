@@ -27,6 +27,7 @@
  */
 package cloud.piranha.core.impl;
 
+import cloud.piranha.core.api.WebApplication;
 import java.io.IOException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -86,12 +87,12 @@ class DefaultServletRequestDispatcherTest {
 
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setWebApplication(webApplication);
-        
+
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApplication);
-        
+
         webApplication.linkRequestAndResponse(request, response);
-        
+
         RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/Snoop");
         dispatcher.forward(request, response);
         String responseText = new String(response.getResponseBytes());
@@ -136,32 +137,81 @@ class DefaultServletRequestDispatcherTest {
         RequestDispatcher dispatcher = webApp.getRequestDispatcher("/Runtime");
         assertThrows(RuntimeException.class, () -> dispatcher.forward(request, response));
     }
-    
+
     /**
      * Test that a request given to the request dispatcher upon forward is the
      * same as the original request.
      */
     @Test
     void testForwardNoWrapping() throws Exception {
+        WebApplication webApplication = new DefaultWebApplicationBuilder()
+                .servlet("NoWrapping", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                        resp.getWriter().print(req.toString());
+                    }
+                })
+                .servletMapping("NoWrapping", "/nowrapping")
+                .build();
+        webApplication.initialize();
+        webApplication.start();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         response.getWebApplicationOutputStream().setOutputStream(byteOutput);
         response.setBodyOnly(true);
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addServlet("NoWrapping", new HttpServlet() {
-            @Override
-            protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-                response.getWriter().print(req.toString());
-            }
-        });
-        webApplication.addServletMapping("NoWrapping", "/nowrapping");
-        webApplication.initialize();
-        webApplication.start();
         RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/nowrapping");
         assertNotNull(dispatcher);
         dispatcher.forward(request, response);
         assertEquals(request.toString(), byteOutput.toString("UTF-8"));
+    }
+
+    /**
+     * Test a forward with a query string.
+     */
+    @Test
+    void testForwardWithQueryString() throws Exception {
+        WebApplication webApplication = new DefaultWebApplicationBuilder()
+                .servlet("Forward", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                        /*
+                         * Force the original parameter to be parsed out of the query string.
+                         */
+                        req.getParameter("p");
+                        /*
+                         * Dispatch with a new parameter value.
+                         */
+                        getServletContext()
+                                .getRequestDispatcher("/forward2?p=New")
+                                .forward(req, resp);
+                    }
+                })
+                .servletMapping("Forward", "/forward")
+                .servlet("Forward2", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                        /*
+                         * We should be getting the new parameter value here as it takes precendence.
+                         */
+                        resp.getWriter().print(req.getParameterMap().get("p")[0]);
+                    }
+                })
+                .servletMapping("Forward2", "/forward2")
+                .build();
+        webApplication.initialize();
+        webApplication.start();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        request.setServletPath("/forward");
+        request.setQueryString("p=Original");
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+        response.setBodyOnly(true);
+        response.setWebApplication(webApplication);
+        webApplication.service(request, response);
+        assertEquals("New", byteOutput.toString());
     }
 
     /**
@@ -178,12 +228,12 @@ class DefaultServletRequestDispatcherTest {
 
         TestWebApplicationRequest request = new TestWebApplicationRequest();
         request.setWebApplication(webApplication);
-        
+
         TestWebApplicationResponse response = new TestWebApplicationResponse();
         response.setWebApplication(webApplication);
 
         webApplication.linkRequestAndResponse(request, response);
-        
+
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("Echo");
         dispatcher.include(request, response);
         response.flushBuffer();
@@ -213,29 +263,30 @@ class DefaultServletRequestDispatcherTest {
         webApp.stop();
         assertTrue(responseText.contains("ECHO"));
     }
-    
+
     /**
      * Test that a request given to the request dispatcher upon include is the
      * same as the original request.
      */
     @Test
     void testIncludeNoWrapping() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addServlet("NoWrapping", new HttpServlet() {
-            @Override
-            protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-                req.getRequestDispatcher("/nowrapping2").include(req, resp);
-                resp.flushBuffer();
-            }
-        });
-        webApplication.addServlet("NoWrapping2", new HttpServlet() {
-            @Override
-            protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-                resp.getWriter().print(req.toString());
-            }
-        });
-        webApplication.addServletMapping("NoWrapping", "/nowrapping");
-        webApplication.addServletMapping("NoWrapping2", "/nowrapping2");
+        WebApplication webApplication = new DefaultWebApplicationBuilder()
+                .servlet("NoWrapping", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                        req.getRequestDispatcher("/nowrapping2").include(req, resp);
+                        resp.flushBuffer();
+                    }
+                })
+                .servletMapping("NoWrapping", "/nowrapping")
+                .servlet("NoWrapping2", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                        resp.getWriter().print(req.toString());
+                    }
+                })
+                .servletMapping("NoWrapping2", "/nowrapping2")
+                .build();
         webApplication.initialize();
         webApplication.start();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
@@ -296,8 +347,9 @@ class DefaultServletRequestDispatcherTest {
         assertTrue(responseText.contains(RequestDispatcher.ERROR_EXCEPTION_TYPE));
         assertTrue(responseText.contains(IOException.class.getName()));
     }
-    
+
     static class TestSendError extends HttpServlet {
+
         @Override
         protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
             if (request.getParameter("send-error") != null) {

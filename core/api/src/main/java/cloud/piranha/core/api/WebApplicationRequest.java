@@ -32,6 +32,7 @@ import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpUpgradeHandler;
 import java.security.Principal;
+import java.util.Map;
 
 /**
  * The WebApplicationRequest API.
@@ -40,6 +41,13 @@ import java.security.Principal;
  */
 public interface WebApplicationRequest extends HttpServletRequest {
 
+    /**
+     * Get the modifiable parameter map.
+     * 
+     * @return the modifiable parameter map.
+     */
+    Map<String, String[]> getModifiableParameterMap();
+    
     /**
      * {@return the multipartConfig}
      */
