@@ -249,7 +249,6 @@ class DefaultServletRequestDispatcherTest {
         RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/nowrapping");
         assertNotNull(dispatcher);
         dispatcher.forward(request, response);
-        response.flushBuffer();
         assertEquals(request.toString(), byteOutput.toString("UTF-8"));
         webApplication.unlinkRequestAndResponse(request, response);
     }

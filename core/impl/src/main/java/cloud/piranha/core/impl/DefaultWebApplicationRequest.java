@@ -815,7 +815,8 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         if (!resolved.startsWith(rootContext)) {
             resolved = rootContext.resolveSibling(resolved);
         }
-        return webApplication.getRequestDispatcher(resolved.toString());
+        String servletPath = resolved.toString().replace('\\', '/');
+        return webApplication.getRequestDispatcher(servletPath);
     }
 
     @Override
