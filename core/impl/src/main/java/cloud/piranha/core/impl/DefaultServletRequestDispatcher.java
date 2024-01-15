@@ -263,7 +263,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
          * Unwrap the passed ServletRequest to the underlying WebApplicationRequest.
          */
         WebApplicationRequest request = unwrap(servletRequest, WebApplicationRequest.class);
-        
+
         /**
          * Set the include attributes.
          */
@@ -272,18 +272,49 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         request.setAttribute(INCLUDE_QUERY_STRING, request.getQueryString());
         request.setAttribute(INCLUDE_REQUEST_URI, request.getRequestURI());
         request.setAttribute(INCLUDE_SERVLET_PATH, request.getServletPath());
-        
+
         /**
          * Set the new dispatcher type.
          */
         request.setDispatcherType(INCLUDE);
         request.setServletPath(path == null ? "/" + servletEnvironment.getServletName() : getServletPath(path));
         request.setPathInfo(null);
+        
+        if (path != null) {
+            request.setQueryString(getQueryString(path));
+        }
 
         invocationFinder.addFilters(INCLUDE, servletInvocation, request.getServletPath(), "");
 
         if (servletInvocation.getServletEnvironment() != null) {
             request.setAsyncSupported(request.isAsyncSupported() && isAsyncSupportedInChain());
+        }
+
+        /*
+         * Aggregate the request parameters with giving the new parameter values
+         * precedence over the old ones.
+         */
+        if (request.getQueryString() != null) {
+            String queryString = request.getQueryString();
+            Map<String, String[]> parameters = request.getModifiableParameterMap();
+            for (String param : queryString.split("&")) {
+                String[] pair = param.split("=");
+                String key = URLDecoder.decode(pair[0], StandardCharsets.UTF_8);
+                String value = "";
+                if (pair.length > 1) {
+                    value = URLDecoder.decode(pair[1], StandardCharsets.UTF_8);
+                }
+                String[] values = parameters.get(key);
+                if (values == null) {
+                    values = new String[]{value};
+                    parameters.put(key, values);
+                } else {
+                    String[] newValues = new String[values.length + 1];
+                    System.arraycopy(values, 0, newValues, 1, values.length);
+                    newValues[0] = value;
+                    parameters.put(key, newValues);
+                }
+            }
         }
 
         /*
@@ -293,7 +324,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             servletEnvironment.getWebApplication().linkRequestAndResponse(servletRequest, servletResponse);
             servletInvocation.getFilterChain().doFilter(servletRequest, servletResponse);
             servletEnvironment.getWebApplication().unlinkRequestAndResponse(servletRequest, servletResponse);
-        } catch(Exception e) {
+        } catch (Exception e) {
             rethrow(e);
         } finally {
             /*
@@ -301,7 +332,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
              */
             request.setServletPath((String) request.getAttribute(INCLUDE_SERVLET_PATH));
             request.setPathInfo((String) request.getAttribute(INCLUDE_PATH_INFO));
-            
+
             /*
              * Remove include attributes.
              */
@@ -699,7 +730,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
 
         /*
          * If response is already committed we need to throw an IllegalStateException.
-        */
+         */
         if (servletResponse.isCommitted()) {
             throw new IllegalStateException("Response already committed");
         }
@@ -723,7 +754,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
          * Unwrap the passed ServletRequest to the underlying WebApplicationRequest.
          */
         WebApplicationRequest request = unwrap(servletRequest, WebApplicationRequest.class);
-        
+
         /*
          * Set the forward attributes.
          */
@@ -732,7 +763,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         request.setAttribute(FORWARD_QUERY_STRING, request.getQueryString());
         request.setAttribute(FORWARD_REQUEST_URI, request.getRequestURI());
         request.setAttribute(FORWARD_SERVLET_PATH, request.getServletPath());
-        
+
         /*
          * Set the new dispatcher type.
          */
@@ -748,7 +779,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             request.setServletPath("/" + servletEnvironment.getServletName());
             request.setQueryString(request.getQueryString());
         }
-        
+
         /*
          * Aggregate the request parameters with giving the new parameter values
          * precedence over the old ones.
@@ -775,7 +806,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 }
             }
         }
-        
+
         invocationFinder.addFilters(FORWARD, servletInvocation, request.getServletPath(), "");
 
         if (servletInvocation.getServletEnvironment() != null) {

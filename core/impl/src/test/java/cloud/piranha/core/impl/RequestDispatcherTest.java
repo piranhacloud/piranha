@@ -141,7 +141,7 @@ class RequestDispatcherTest {
                 .build();
         webApplication.initialize();
         webApplication.start();
-        
+
         WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .build();
@@ -737,6 +737,61 @@ class RequestDispatcherTest {
         dispatcher.include(request, response);
         response.flushBuffer();
         assertEquals("123456", new String(byteOutput.toByteArray()));
+    }
+
+    /**
+     * Test an include with a query string.
+     *
+     * @throws Exception when an error occurs.
+     */
+    @Test
+    void testIncludeWithQueryString() throws Exception {
+        WebApplication webApplication = new DefaultWebApplicationBuilder()
+                .servlet("Include", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                        /*
+                         * Force the original parameter to be parsed out of the query string.
+                         */
+                        req.getParameter("p");
+                        /*
+                         * Dispatch with a new parameter value.
+                         */
+                        getServletContext()
+                                .getRequestDispatcher("/include2?p=New")
+                                .include(req, resp);
+                    }
+                })
+                .servletMapping("Include", "/include")
+                .servlet("Include2", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+                        /*
+                         * We should be getting the new parameter value here as it takes precendence.
+                         */
+                        resp.getWriter().print(req.getParameterMap().get("p")[0]);
+                    }
+                })
+                .servletMapping("Include2", "/include2")
+                .build();
+        webApplication.initialize();
+        webApplication.start();
+
+        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+                .webApplication(webApplication)
+                .servletPath("/include")
+                .queryString("p=Original")
+                .build();
+
+        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApplication)
+                .bodyOnly(true)
+                .build();
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
+
+        webApplication.service(request, response);
+        assertEquals("New", byteOutput.toString());
     }
 
     @Test
