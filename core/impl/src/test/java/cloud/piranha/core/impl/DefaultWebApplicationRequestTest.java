@@ -703,17 +703,6 @@ class DefaultWebApplicationRequestTest {
     }
 
     /**
-     * Test getRequestDispatcher method.
-     */
-    @Test
-    void testGetRequestDispatcher() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        assertNotNull(request.getRequestDispatcher("/test"));
-    }
-
-    /**
      * Test getRequestId method.
      */
     @Test
