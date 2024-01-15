@@ -1135,28 +1135,6 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test getNamedDispatcher method.
-     */
-    @Test
-    void testGetNamedDispatcher() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addServlet("TestGetNamedDispatcherServlet", new HttpServlet() {
-        });
-        webApplication.initialize();
-        assertNotNull(webApplication.getNamedDispatcher("TestGetNamedDispatcherServlet"));
-    }
-
-    /**
-     * Test getNamedDispatcher method.
-     */
-    @Test
-    void testGetNamedDispatcher2() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.initialize();
-        assertNull(webApplication.getNamedDispatcher("TestGetNamedDispatcher2Servlet"));
-    }
-
-    /**
      * Test getRealPath method.
      */
     @Test
@@ -1196,18 +1174,6 @@ class DefaultWebApplicationTest {
         assertNull(webApplication.getRequestCharacterEncoding());
         webApplication.setRequestCharacterEncoding("UTF-8");
         assertEquals("UTF-8", webApplication.getRequestCharacterEncoding());
-    }
-
-    /**
-     * Test getRequestDispatcher method.
-     */
-    @Test
-    void testGetRequestDispatcher() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addServlet("TestGetRequestDispatcherServlet", new HttpServlet() {
-        });
-        webApplication.addServletMapping("TestGetRequestDispatcherServlet", "/testGetRequestDispatcher");
-        assertNotNull(webApplication.getRequestDispatcher("/testGetRequestDispatcher"));
     }
 
     /**
@@ -1421,33 +1387,6 @@ class DefaultWebApplicationTest {
     void testGetVirtualServerName() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         assertEquals("server", webApplication.getVirtualServerName());
-    }
-
-    /**
-     * Test include.
-     *
-     * REVIEW LOCATION
-     *
-     * @throws Exception when a serious error occurred.
-     */
-    @Test
-    void testInclude() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addServlet("Include", TestIncludeServlet.class);
-        webApp.addServletMapping("Include", "/include");
-        webApp.addServlet("Include2", TestInclude2Servlet.class);
-        webApp.addServletMapping("Include2", "/include2");
-        webApp.initialize();
-        webApp.start();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApp);
-        request.setServletPath("/include");
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
-        response.setWebApplication(webApp);
-        webApp.service(request, response);
-        assertTrue(new String(byteOutput.toByteArray()).contains("This was included"));
     }
 
     /**

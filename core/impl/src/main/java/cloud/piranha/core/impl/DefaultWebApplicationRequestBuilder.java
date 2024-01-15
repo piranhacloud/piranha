@@ -59,7 +59,7 @@ public class DefaultWebApplicationRequestBuilder {
     public DefaultWebApplicationRequest build() {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         request.setQueryString(queryString);
-        request.setServletPath(servletPath);
+        request.setServletPath(servletPath != null ? servletPath : "");
         request.setWebApplication(webApplication);
         return request;
     }
