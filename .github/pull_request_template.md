@@ -1,3 +1,0 @@
-## Required
-
-Associated issue: 
