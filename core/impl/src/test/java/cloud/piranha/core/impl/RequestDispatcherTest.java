@@ -28,8 +28,6 @@
 package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequest;
-import cloud.piranha.core.api.WebApplicationResponse;
 import jakarta.servlet.RequestDispatcher;
 import static jakarta.servlet.RequestDispatcher.FORWARD_CONTEXT_PATH;
 import static jakarta.servlet.RequestDispatcher.FORWARD_MAPPING;
@@ -101,19 +99,19 @@ class RequestDispatcherTest {
                         writer.flush();
                     }
                 })
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .build();
 
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
                 .webApplication(webApplication)
                 .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
                 .build();
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
 
         webApplication.linkRequestAndResponse(request, response);
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestNamedForwardServlet");
@@ -138,20 +136,20 @@ class RequestDispatcherTest {
                         writer.flush();
                     }
                 })
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
-        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .build();
 
-        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
                 .webApplication(webApplication)
                 .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
                 .build();
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
 
         webApplication.linkRequestAndResponse(request, response);
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestNamedForward2Servlet");
@@ -175,20 +173,20 @@ class RequestDispatcherTest {
                         writer.print("SUCCESS");
                     }
                 })
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
-        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .build();
 
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
                 .webApplication(webApplication)
                 .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
                 .build();
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
 
         webApplication.linkRequestAndResponse(request, response);
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestNamedForward3Servlet");
@@ -211,20 +209,20 @@ class RequestDispatcherTest {
                         writer.println("FAILED");
                     }
                 })
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
-        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .build();
 
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
                 .webApplication(webApplication)
                 .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
                 .build();
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
 
         response.flushBuffer();
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestNamedForward4Servlet");
@@ -253,19 +251,19 @@ class RequestDispatcherTest {
                         writer.println("INCLUDED");
                     }
                 })
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
-        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .build();
 
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
                 .webApplication(webApplication)
+                .underlyingOutputStream(byteOutput)
                 .build();
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
 
         webApplication.linkRequestAndResponse(request, response);
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("TestNamedIncludeServlet");
@@ -295,20 +293,20 @@ class RequestDispatcherTest {
                     }
                 })
                 .servletMapping("Forward", "/forward")
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
-        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .build();
 
-        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
                 .webApplication(webApplication)
                 .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
                 .build();
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
 
         RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/forward");
         dispatcher.forward(request, response);
@@ -332,15 +330,15 @@ class RequestDispatcherTest {
                     }
                 })
                 .servletMapping("Error", "/error")
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
-        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .build();
 
-        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
                 .webApplication(webApplication)
                 .build();
 
@@ -363,15 +361,15 @@ class RequestDispatcherTest {
                     }
                 })
                 .servletMapping("Runtime", "/runtime")
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
-        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .build();
 
-        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
                 .webApplication(webApplication)
                 .build();
 
@@ -395,20 +393,20 @@ class RequestDispatcherTest {
                     }
                 })
                 .servletMapping("NoWrapping", "/nowrapping")
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
-        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .build();
 
-        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
-                .webApplication(webApplication)
-                .build();
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
-        response.setBodyOnly(true);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApplication)
+                .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
+                .build();
 
         RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/nowrapping");
         dispatcher.forward(request, response);
@@ -431,19 +429,20 @@ class RequestDispatcherTest {
                     }
                 })
                 .servletMapping("Forward", "/forward")
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        request.setWebApplication(webApplication);
-
-        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .build();
+
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
-        response.setBodyOnly(true);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApplication)
+                .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
+                .build();
 
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("Forward");
         dispatcher.forward(request, response);
@@ -486,22 +485,22 @@ class RequestDispatcherTest {
                     }
                 })
                 .servletMapping("Forward2", "/forward2")
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
-        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .servletPath("/forward")
                 .queryString("p=Original")
                 .build();
 
-        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
                 .webApplication(webApplication)
                 .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
                 .build();
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
 
         webApplication.service(request, response);
         assertEquals("New", byteOutput.toString());
@@ -516,9 +515,10 @@ class RequestDispatcherTest {
         WebApplication webApplication = new DefaultWebApplicationBuilder()
                 .servlet("ExistingNamedDispatcher", new HttpServlet() {
                 })
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
+
         assertNotNull(webApplication.getNamedDispatcher("ExistingNamedDispatcher"));
     }
 
@@ -528,8 +528,11 @@ class RequestDispatcherTest {
      */
     @Test
     void testGetNonExistingNamedDispatcher() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.initialize();
+        WebApplication webApplication = new DefaultWebApplicationBuilder()
+                .build()
+                .initialize()
+                .start();
+
         assertNull(webApplication.getNamedDispatcher("NotExistingNamedDispatcher"));
     }
 
@@ -548,20 +551,20 @@ class RequestDispatcherTest {
                         response.getWriter().flush();
                     }
                 })
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
-        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .build();
 
-        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
                 .webApplication(webApplication)
                 .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
                 .build();
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
 
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("Writer");
         dispatcher.include(request, response);
@@ -584,20 +587,20 @@ class RequestDispatcherTest {
                         response.getOutputStream().flush();
                     }
                 })
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
-        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .build();
 
-        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
                 .webApplication(webApplication)
                 .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
                 .build();
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
 
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("OutputStream");
         dispatcher.include(request, response);
@@ -627,20 +630,20 @@ class RequestDispatcherTest {
                     }
                 })
                 .servletMapping("NoWrapping2", "/nowrapping2")
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
-        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .build();
 
-        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
                 .webApplication(webApplication)
                 .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
                 .build();
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
 
         RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/nowrapping");
         dispatcher.forward(request, response);
@@ -666,9 +669,9 @@ class RequestDispatcherTest {
                         writer.println(request.getSession().getId());
                     }
                 })
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
@@ -716,21 +719,21 @@ class RequestDispatcherTest {
                         }
                     }
                 })
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .build();
 
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
                 .webApplication(webApplication)
                 .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
                 .build();
         response.setBufferSize(5);
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
 
         webApplication.linkRequestAndResponse(request, response);
         RequestDispatcher dispatcher = webApplication.getNamedDispatcher("BufferSize");
@@ -773,22 +776,22 @@ class RequestDispatcherTest {
                     }
                 })
                 .servletMapping("Include2", "/include2")
-                .build();
-        webApplication.initialize();
-        webApplication.start();
+                .build()
+                .initialize()
+                .start();
 
-        WebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
                 .webApplication(webApplication)
                 .servletPath("/include")
                 .queryString("p=Original")
                 .build();
 
-        WebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
                 .webApplication(webApplication)
                 .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
                 .build();
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
 
         webApplication.service(request, response);
         assertEquals("New", byteOutput.toString());
@@ -796,58 +799,78 @@ class RequestDispatcherTest {
 
     @Test
     void testErrorDispatcher() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addServlet("error-servlet", new TestSendError());
-        webApp.addServletMapping("error-servlet", "/sendError");
-        webApp.addServlet("snoop", TestSnoopServlet.class);
-        webApp.addServletMapping("snoop", "/snoop");
+        WebApplication webApp = new DefaultWebApplicationBuilder()
+                .servlet("error-servlet", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+                        if (request.getParameter("send-error") != null) {
+                            response.sendError(500, "some-internal-error");
+                            return;
+                        }
+                        throw new UnavailableException("unavailable");
+                    }
+                })
+                .servletMapping("error-servlet", "/sendError")
+                .servlet("snoop", TestSnoopServlet.class)
+                .servletMapping("snoop", "/snoop")
+                .build();
         webApp.getManager().getErrorPageManager().addErrorPage(500, "/snoop");
         webApp.initialize();
         webApp.start();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setServletPath("/sendError");
+
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+                .servletPath("/sendError")
+                .build();
         request.setParameter("send-error", new String[]{"true"});
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApp);
+
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApp)
+                .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
+                .build();
+
         webApp.service(request, response);
-        String responseText = new String(response.getResponseBytes());
-        webApp.stop();
+        String responseText = new String(byteOutput.toByteArray());
         assertTrue(responseText.contains(RequestDispatcher.ERROR_MESSAGE));
         assertTrue(responseText.contains("some-internal-error"));
     }
 
     @Test
     void testErrorDispatcher2() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addServlet("error-servlet", TestIOExceptionServlet.class);
-        webApp.addServletMapping("error-servlet", "/sendError");
+        WebApplication webApp = new DefaultWebApplicationBuilder()
+                .servlet("error-servlet", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+                        throw new IOException();
+                    }
+                })
+                .servletMapping("error-servlet", "/sendError")
+                .build();
+
         webApp.addServlet("snoop", TestSnoopServlet.class);
         webApp.addServletMapping("snoop", "/snoop");
         webApp.getManager().getErrorPageManager().addErrorPage(IOException.class.getName(), "/snoop");
         webApp.initialize();
         webApp.start();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setServletPath("/sendError");
-        TestWebApplicationResponse response = new TestWebApplicationResponse();
-        response.setWebApplication(webApp);
+
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+                .webApplication(webApp)
+                .servletPath("/sendError")
+                .build();
+
+        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApp)
+                .bodyOnly(true)
+                .underlyingOutputStream(byteOutput)
+                .build();
+
         webApp.service(request, response);
-        String responseText = new String(response.getResponseBytes());
-        webApp.stop();
+        String responseText = new String(byteOutput.toByteArray());
         assertEquals(500, response.getStatus());
         assertTrue(responseText.contains(RequestDispatcher.ERROR_EXCEPTION_TYPE));
         assertTrue(responseText.contains(IOException.class.getName()));
-    }
-
-    static class TestSendError extends HttpServlet {
-
-        @Override
-        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-            if (request.getParameter("send-error") != null) {
-                response.sendError(500, "some-internal-error");
-                return;
-            }
-            throw new UnavailableException("unavailable");
-        }
     }
 
     /**
@@ -855,9 +878,15 @@ class RequestDispatcherTest {
      */
     @Test
     void testGetRequestDispatcher() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
+        WebApplication webApplication = new DefaultWebApplicationBuilder()
+                .build()
+                .initialize()
+                .start();
+
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+                .webApplication(webApplication)
+                .build();
+
         assertNotNull(request.getRequestDispatcher("/test"));
     }
 
@@ -866,10 +895,14 @@ class RequestDispatcherTest {
      */
     @Test
     void testGetRequestDispatcher2() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.addServlet("TestGetRequestDispatcherServlet", new HttpServlet() {
-        });
-        webApplication.addServletMapping("TestGetRequestDispatcherServlet", "/testGetRequestDispatcher");
+        WebApplication webApplication = new DefaultWebApplicationBuilder()
+                .servlet("TestGetRequestDispatcherServlet", new HttpServlet() {
+                })
+                .servletMapping("TestGetRequestDispatcherServlet", "testGetRequestDispatcher")
+                .build()
+                .initialize()
+                .start();
+
         assertNotNull(webApplication.getRequestDispatcher("/testGetRequestDispatcher"));
     }
 
@@ -880,21 +913,42 @@ class RequestDispatcherTest {
      */
     @Test
     void testInclude2() throws Exception {
-        DefaultWebApplication webApp = new DefaultWebApplication();
-        webApp.addServlet("Include", TestIncludeServlet.class);
-        webApp.addServletMapping("Include", "/include");
-        webApp.addServlet("Include2", TestInclude2Servlet.class);
-        webApp.addServletMapping("Include2", "/include2");
-        webApp.initialize();
-        webApp.start();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApp);
-        request.setServletPath("/include");
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        WebApplication webApplication = new DefaultWebApplicationBuilder()
+                .servlet("Include", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+                            throws IOException, ServletException {
+                        RequestDispatcher dispatcher = request
+                                .getServletContext().getRequestDispatcher("/include2");
+                        dispatcher.include(request, response);
+                    }
+                })
+                .servletMapping("Include", "/include")
+                .servlet("Include2", new HttpServlet() {
+                    @Override
+                    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+                            throws IOException, ServletException {
+                        response.getWriter().print("This was included");
+                        response.getWriter().flush();
+                    }
+                })
+                .servletMapping("Include2", "/include2")
+                .build()
+                .initialize()
+                .start();
+
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequestBuilder()
+                .webApplication(webApplication)
+                .servletPath("/include")
+                .build();
+
         ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
-        response.setWebApplication(webApp);
-        webApp.service(request, response);
+        DefaultWebApplicationResponse response = new DefaultWebApplicationResponseBuilder()
+                .webApplication(webApplication)
+                .underlyingOutputStream(byteOutput)
+                .build();
+
+        webApplication.service(request, response);
         assertTrue(new String(byteOutput.toByteArray()).contains("This was included"));
     }
 }

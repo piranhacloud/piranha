@@ -27,7 +27,6 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.Filter;
@@ -40,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The default WebApplication builder.
+ * The DefaultWebApplication builder.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -82,23 +81,9 @@ public class DefaultWebApplicationBuilder {
     private final Map<String, Object> servlets = new HashMap<>();
 
     /**
-     * Stores the web application.
-     */
-    private WebApplication webApplication;
-
-    /**
      * Constructor.
      */
     public DefaultWebApplicationBuilder() {
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param webApplication the web application.
-     */
-    public DefaultWebApplicationBuilder(WebApplication webApplication) {
-        this.webApplication = webApplication;
     }
 
     /**
@@ -106,10 +91,8 @@ public class DefaultWebApplicationBuilder {
      *
      * @return the web application.
      */
-    public WebApplication build() {
-        if (webApplication == null) {
-            webApplication = new DefaultWebApplication();
-        }
+    public DefaultWebApplication build() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         for (Resource resource : resources) {
             webApplication.addResource(resource);
         }
@@ -310,17 +293,6 @@ public class DefaultWebApplicationBuilder {
      */
     public DefaultWebApplicationBuilder servletMapping(String servletName, String mapping) {
         servletMappings.put(servletName, mapping);
-        return this;
-    }
-
-    /**
-     * Set the web application.
-     *
-     * @param webApplication the web application.
-     * @return the web application builder.
-     */
-    public DefaultWebApplicationBuilder webApplication(WebApplication webApplication) {
-        this.webApplication = webApplication;
         return this;
     }
 }
