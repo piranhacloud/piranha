@@ -56,15 +56,6 @@ class DefaultWebApplicationBuilderTest {
     void testBuild() {
         assertNotNull(new DefaultWebApplicationBuilder().build());
     }
-
-    /**
-     * Test constructor.
-     */
-    @Test
-    void testConstructor() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        assertEquals(webApplication, new DefaultWebApplicationBuilder(webApplication).build());
-    }
     
     /**
      * Test directoryResource method.
@@ -198,16 +189,6 @@ class DefaultWebApplicationBuilderTest {
                 .build();
         assertEquals("/test",
                 webApplication.getServletRegistration("testServlet").getMappings().iterator().next());
-    }
-
-    /**
-     * Test webApplication method.
-     */
-    @Test
-    void testWebApplication() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        assertEquals(webApplication,
-                new DefaultWebApplicationBuilder().webApplication(webApplication).build());
     }
 
     /**

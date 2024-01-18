@@ -28,6 +28,7 @@
 package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.WebApplication;
+import java.io.OutputStream;
 
 /**
  * The DefaultWebApplicationResponseBuilder.
@@ -40,6 +41,11 @@ public class DefaultWebApplicationResponseBuilder {
      * Stores the body only flag.
      */
     private boolean bodyOnly = false;
+    
+    /**
+     * Stores the underlying output stream.
+     */
+    private OutputStream underlyingOutputStream;
 
     /**
      * Stores the web application.
@@ -65,8 +71,24 @@ public class DefaultWebApplicationResponseBuilder {
     public DefaultWebApplicationResponse build() {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
         response.setBodyOnly(bodyOnly);
-        response.setWebApplication(webApplication);
+        if (underlyingOutputStream != null) {
+            response.getWebApplicationOutputStream().setOutputStream(underlyingOutputStream);
+        }
+        if (webApplication != null) {
+            response.setWebApplication(webApplication);
+        }
         return response;
+    }
+    
+    /**
+     * Set the underlying output stream.
+     * 
+     * @param underlyingOutputStream the underlying output stream.
+     * @return the builder.
+     */
+    public DefaultWebApplicationResponseBuilder underlyingOutputStream(OutputStream underlyingOutputStream) {
+        this.underlyingOutputStream = underlyingOutputStream;
+        return this;
     }
     
     /**

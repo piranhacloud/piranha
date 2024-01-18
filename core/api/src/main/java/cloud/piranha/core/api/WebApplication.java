@@ -136,8 +136,10 @@ public interface WebApplication extends ServletContext {
 
     /**
      * Destroy the web application.
+     * 
+     * @return the web application.
      */
-    void destroy();
+    WebApplication destroy();
 
     /**
      * Get the default servlet.
@@ -197,8 +199,10 @@ public interface WebApplication extends ServletContext {
 
     /**
      * Initialize the web application.
+     * 
+     * @return the web application.
      */
-    void initialize();
+    WebApplication initialize();
 
     /**
      * Marks the end of initializing declared (web.xml, annotations) artifacts
@@ -360,13 +364,17 @@ public interface WebApplication extends ServletContext {
 
     /**
      * Start servicing.
+     * 
+     * @return the web application.
      */
-    void start();
+    WebApplication start();
 
     /**
      * Stop servicing.
+     * 
+     * @return the web application.
      */
-    void stop();
+    WebApplication stop();
 
     /**
      * Unlink the request and response.
