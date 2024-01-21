@@ -524,12 +524,19 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
          */
         setHeader("sendErrorCalled", "true");
     }
-
+    
     @Override
     public void sendRedirect(String location) throws IOException {
+        sendRedirect(location, SC_FOUND, true);
+    }
+
+    @Override
+    public void sendRedirect(String location, int status, boolean resetBuffer) throws IOException {
         verifyNotCommitted("sendRedirect");
-        resetBuffer();
-        setStatus(SC_FOUND);
+        if (resetBuffer) {
+            resetBuffer();
+        }
+        setStatus(status);
         URL url;
         try {
             url = new URL(location);

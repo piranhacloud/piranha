@@ -192,10 +192,10 @@ class DefaultWebApplicationResponseTest {
             fail();
         }
     }
-    
+
     /**
      * Test flushBuffer method.
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -799,7 +799,7 @@ class DefaultWebApplicationResponseTest {
         String defaultEncoding = response.getCharacterEncoding();
         response.setCharacterEncoding("UTF-8");
         assertTrue("UTF-8".equalsIgnoreCase(response.getCharacterEncoding()));
-        response.setCharacterEncoding(null);
+        response.setCharacterEncoding((String) null);
         assertTrue((defaultEncoding == null && response.getCharacterEncoding() == null)
                 || (defaultEncoding != null && defaultEncoding.equalsIgnoreCase(response.getCharacterEncoding())));
     }
@@ -818,7 +818,7 @@ class DefaultWebApplicationResponseTest {
         String defaultEncoding = response.getCharacterEncoding();
         response.setCharacterEncoding("UTF-8");
         assertTrue("UTF-8".equalsIgnoreCase(response.getCharacterEncoding()));
-        response.setCharacterEncoding(null);
+        response.setCharacterEncoding((String) null);
         assertTrue((defaultEncoding == null && response.getCharacterEncoding() == null)
                 || (defaultEncoding != null && defaultEncoding.equalsIgnoreCase(response.getCharacterEncoding())));
     }
@@ -872,12 +872,12 @@ class DefaultWebApplicationResponseTest {
         String defaultCharacterEncoding = response.getCharacterEncoding();
         response.setCharacterEncoding("UTF-8");
         assertEquals("UTF-8", response.getCharacterEncoding());
-        response.setCharacterEncoding(null);
+        response.setCharacterEncoding((String) null);
         assertEquals(defaultCharacterEncoding, response.getCharacterEncoding());
         response.reset();
         response.setContentType("text/plain; charset=UTF-8");
         assertEquals("UTF-8", response.getCharacterEncoding());
-        response.setCharacterEncoding(null);
+        response.setCharacterEncoding((String) null);
         assertEquals(defaultCharacterEncoding, response.getCharacterEncoding());
         response.reset();
         response.setCharacterEncoding("does-not-exist");
@@ -888,7 +888,7 @@ class DefaultWebApplicationResponseTest {
         response.setCharacterEncoding("ISO-8859-7");
         assertEquals("text/html;charset=ISO-8859-7", response.getContentType());
     }
-    
+
     /**
      * Test setCharacterEncoding method.
      */
