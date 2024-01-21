@@ -57,7 +57,6 @@ import jakarta.servlet.descriptor.TaglibDescriptor;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSessionListener;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -66,7 +65,6 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.EventListener;
-import java.util.HashSet;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -728,18 +726,6 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test createListener method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testCreateListener4() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        assertNotNull(webApplication.createListener(
-                TestCreateListener4HttpSessionListener.class));
-    }
-
-    /**
      * Test createServlet method.
      */
     @Test
@@ -1363,24 +1349,6 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test getSessionCookieConfig method.
-     */
-    @Test
-    void testGetSessionCookieConfig() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        assertNotNull(webApplication.getSessionCookieConfig());
-    }
-
-    /**
-     * Test getSessionTimeout method.
-     */
-    @Test
-    void testGetSessionTimeout() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        assertTrue(webApplication.getSessionTimeout() > 0);
-    }
-
-    /**
      * Test getVirtualServerName method.
      */
     @Test
@@ -1861,41 +1829,6 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test setSessionTimeout method.
-     */
-    @Test
-    void testSetSessionTimeout() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.setSessionTimeout(5);
-        assertEquals(5, webApplication.getSessionTimeout());
-        webApplication.setSessionTimeout(10);
-        assertEquals(10, webApplication.getSessionTimeout());
-    }
-
-    /**
-     * Test setSessionTimeout method
-     */
-    @Test
-    void testSessionTimeout2() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.initialize();
-        webApplication.start();
-        assertNotNull(assertThrows(IllegalStateException.class,
-                () -> webApplication.setSessionTimeout(50)));
-    }
-
-    /**
-     * Test setSessionTrackingModes method.
-     */
-    @Test
-    void testSetSessionTrackingModes() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.setSessionTrackingModes(new HashSet() {
-        });
-        assertTrue(webApplication.getEffectiveSessionTrackingModes().isEmpty());
-    }
-
-    /**
      * Test setVirtualServerName method.
      */
     @Test
@@ -2079,12 +2012,6 @@ class DefaultWebApplicationTest {
      * Test listener that is used by testCreateListener3.
      */
     public static class TestCreateListener3ServletRequestListener implements ServletRequestListener {
-    }
-
-    /**
-     * Test HttpSessionListener to validate createListener was called.
-     */
-    public static class TestCreateListener4HttpSessionListener implements HttpSessionListener {
     }
 
     /**

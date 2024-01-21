@@ -33,10 +33,12 @@ import jakarta.servlet.Filter;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.SessionTrackingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * The DefaultWebApplication builder.
@@ -79,6 +81,11 @@ public class DefaultWebApplicationBuilder {
      * Stores the servlets.
      */
     private final Map<String, Object> servlets = new HashMap<>();
+    
+    /**
+     * Stores the session tracking modes.
+     */
+    private Set<SessionTrackingMode> sessionTrackingModes = null;
 
     /**
      * Constructor.
@@ -149,6 +156,9 @@ public class DefaultWebApplicationBuilder {
             String servletName = mappingEntry.getKey();
             String mapping = mappingEntry.getValue();
             webApplication.addServletMapping(servletName, mapping);
+        }
+        if (sessionTrackingModes != null) {
+            webApplication.setSessionTrackingModes(sessionTrackingModes);
         }
         return webApplication;
     }
@@ -293,6 +303,17 @@ public class DefaultWebApplicationBuilder {
      */
     public DefaultWebApplicationBuilder servletMapping(String servletName, String mapping) {
         servletMappings.put(servletName, mapping);
+        return this;
+    }
+
+    /**
+     * Set the session tracking modes.
+     * 
+     * @param sessionTrackingModes the session tracking modes.
+     * @return the web application builder.
+     */
+    public DefaultWebApplicationBuilder sessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes) {
+        this.sessionTrackingModes = sessionTrackingModes;
         return this;
     }
 }
