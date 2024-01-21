@@ -651,8 +651,8 @@ class RequestDispatcherTest {
     }
 
     /**
-     * Test include method using named RequestDispatcher and it throwing an
-     * IllegalStateException when the response is already committed.
+     * Test include method using named RequestDispatcher and validate it throws
+     * an IllegalStateException when the response is already committed.
      *
      * @jakarta.assertion Servlet:SPEC:192.3
      * @jakarta.assertion Servlet:SPEC:192.4
@@ -694,7 +694,7 @@ class RequestDispatcherTest {
 
     /**
      * Test include method using a named RequestDispatcher and a fixed buffer
-     * size to determine the response was committed after buffer overflow
+     * size to validate the response was committed after buffer overflow
      * happened.
      *
      * @jakarta.assertion Servlet:SPEC:192.2
