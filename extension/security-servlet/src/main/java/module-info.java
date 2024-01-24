@@ -43,6 +43,6 @@ module cloud.piranha.extension.security.servlet {
     requires cloud.piranha.extension.eleos;
     requires cloud.piranha.extension.exousia;
     requires java.naming;
-    requires org.glassfish.eleos;
+    requires org.glassfish.epicyro;
     requires org.glassfish.exousia;
 }

@@ -40,8 +40,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.glassfish.exousia.AuthorizationService;
-import org.omnifaces.eleos.config.helper.Caller;
-import org.omnifaces.eleos.services.DefaultAuthenticationService;
 
 import cloud.piranha.core.api.AuthenticatedIdentity;
 import cloud.piranha.core.api.SecurityManager;
@@ -54,6 +52,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.glassfish.epicyro.config.helper.Caller;
+import org.glassfish.epicyro.services.DefaultAuthenticationService;
 
 /**
  * SecurityManager implementation that uses Servlet Security semantics.

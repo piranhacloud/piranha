@@ -49,12 +49,12 @@ import java.security.Security;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import org.omnifaces.eleos.config.factory.ConfigParser;
-import org.omnifaces.eleos.config.factory.DefaultConfigFactory;
-import org.omnifaces.eleos.config.factory.DefaultConfigParser;
-import org.omnifaces.eleos.config.helper.Caller;
-import org.omnifaces.eleos.services.DefaultAuthenticationService;
-import org.omnifaces.eleos.services.InMemoryStore;
+import org.glassfish.epicyro.config.factory.ConfigParser;
+import org.glassfish.epicyro.config.factory.DefaultConfigFactory;
+import org.glassfish.epicyro.config.factory.DefaultConfigParser;
+import org.glassfish.epicyro.config.helper.Caller;
+import org.glassfish.epicyro.services.DefaultAuthenticationService;
+import org.glassfish.epicyro.services.InMemoryStore;
 
 /**
  * The Eleos initializer.
