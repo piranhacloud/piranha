@@ -22,6 +22,7 @@
         <module>bytesstreamhandler</module>
         <module>coreprofile</module>
         <module>default-datasource</module>
+        <module>eclipse-expressly</module>
         <module>eclipselink</module>
         <module>eleos</module>
         <module>exousia</module>
