@@ -44,6 +44,7 @@ module cloud.piranha.extension.micro {
     requires cloud.piranha.extension.datasource;
     requires cloud.piranha.extension.eclipselink;
     requires cloud.piranha.extension.exousia;
+    requires cloud.piranha.extension.expressly;
     requires cloud.piranha.extension.naming.cdi;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;

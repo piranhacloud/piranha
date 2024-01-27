@@ -27,42 +27,18 @@
  */
 
 /**
- * This module delivers the meta extension for a Servlet container.
+ * This module delivers the Eclipse Expressly integration extension.
  *
  * <p>
- *  The following extensions and/or dependencies are delivered as part of this
- *  meta extension:
+ *  This extension integrates Eclipse Exressly into Piranha. See 
+ *  https://github.com/eclipse-ee4j/expressly for more information about its
+ *  project.
  * </p>
- * <ul>
- *  <li>Annotation Scanning</li>
- *  <li>Apache Commons File Upload (Multipart)</li>
- *  <li>Naming (JNDI)</li>
- *  <li>Java Policy</li>
- *  <li>ServletContainerInitializer</li>
- *  <li>Servlet Security</li>
- *  <li>Servlet Annotations</li>
- *  <li>TEMPDIR</li>
- *  <li>WaSP (Pages)</li>
- *  <li>web.xml</li>
- *  <li>Welcome File</li>
- * </ul>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.servlet {
+module cloud.piranha.extension.expressly {
     
-    exports cloud.piranha.extension.servlet;
-    opens cloud.piranha.extension.servlet;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.annotationscan.classfile;
-    requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.expressly;
-    requires cloud.piranha.extension.naming;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
+    requires org.glassfish.expressly;
 }

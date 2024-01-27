@@ -25,44 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.expressly;
+
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.TRACE;
 
 /**
- * This module delivers the meta extension for a Servlet container.
+ * The extension that delivers Eclipse Expressly to Piranha.
  *
- * <p>
- *  The following extensions and/or dependencies are delivered as part of this
- *  meta extension:
- * </p>
- * <ul>
- *  <li>Annotation Scanning</li>
- *  <li>Apache Commons File Upload (Multipart)</li>
- *  <li>Naming (JNDI)</li>
- *  <li>Java Policy</li>
- *  <li>ServletContainerInitializer</li>
- *  <li>Servlet Security</li>
- *  <li>Servlet Annotations</li>
- *  <li>TEMPDIR</li>
- *  <li>WaSP (Pages)</li>
- *  <li>web.xml</li>
- *  <li>Welcome File</li>
- * </ul>
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.servlet {
+public class ExpresslyExtension implements WebApplicationExtension {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(ExpresslyExtension.class.getName());
     
-    exports cloud.piranha.extension.servlet;
-    opens cloud.piranha.extension.servlet;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.annotationscan.classfile;
-    requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.expressly;
-    requires cloud.piranha.extension.naming;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
+    /**
+     * Configure the extension.
+     * 
+     * @param webApplication the web application.
+     */
+    @Override
+    public void configure(WebApplication webApplication) {
+        LOGGER.log(TRACE, "Initializing Expressly extension");
+    }
 }
