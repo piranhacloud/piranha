@@ -36,6 +36,11 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-expressly</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-naming-cdi</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -231,18 +236,11 @@
             <artifactId>jakarta.faces</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
+
         <!-- Jakarta WebSocket implementation -->
         <dependency>
             <groupId>org.glassfish.tyrus</groupId>
             <artifactId>tyrus-container-servlet</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        
-        <!-- Jakarta Expression Language implementation -->
-        <dependency>
-            <groupId>org.glassfish.expressly</groupId>
-            <artifactId>expressly</artifactId>
             <scope>runtime</scope>
         </dependency>
         
