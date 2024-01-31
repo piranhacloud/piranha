@@ -38,6 +38,12 @@ import java.util.List;
 import java.util.Map;
 import static java.lang.System.Logger.Level.WARNING;
 import java.lang.System.Logger;
+import java.security.Principal;
+import java.security.PublicKey;
+import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
+import javax.net.ssl.SSLPeerUnverifiedException;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 
 /**
@@ -69,19 +75,39 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     private String method;
 
     /**
+     * Stores the protocol
+     */
+    private String protocol;
+
+    /**
      * Stores the request target.
      */
     private String requestTarget;
 
     /**
+     * Stores the SSL certificates.
+     */
+    private X509Certificate[] sslCertificates;
+
+    /**
+     * Stores the SSL cipher suite.
+     */
+    private String sslCipherSuite;
+
+    /**
+     * Stores the SSL key size.
+     */
+    private int sslKeySize;
+    
+    /**
+     * Stores the SSL principal.
+     */
+    private Principal sslPrincipal;
+
+    /**
      * Stores the socket.
      */
     private final Socket socket;
-
-    /**
-     * Stores the protocol
-     */
-    private String protocol;
 
     /**
      * Constructor.
@@ -135,7 +161,6 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     @Override
     public InputStream getInputStream() {
         InputStream result = inputStream;
-
         if (inputStream == null) {
             try {
                 inputStream = socket.getInputStream();
@@ -144,7 +169,6 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
                 LOGGER.log(WARNING, "An I/O error occurred while acquiring input stream", exception);
             }
         }
-
         return result;
     }
 
@@ -194,26 +218,28 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
     }
 
     @Override
+    public X509Certificate[] getSslCertificates() {
+        return sslCertificates;
+    }
+
+    @Override
+    public String getSslCipherSuite() {
+        return sslCipherSuite;
+    }
+
+    @Override
+    public int getSslKeySize() {
+        return sslKeySize;
+    }
+    
+    @Override
+    public Principal getSslPrincipal() {
+        return sslPrincipal;
+    }
+
+    @Override
     public boolean isSecure() {
         return socket instanceof SSLSocket;
-    }
-
-    /**
-     * Set the method.
-     *
-     * @param method the method.
-     */
-    public void setMethod(String method) {
-        this.method = method;
-    }
-
-    /**
-     * Set the request target.
-     *
-     * @param requestTarget the request target.
-     */
-    public void setRequestTarget(String requestTarget) {
-        this.requestTarget = requestTarget;
     }
 
     /**
@@ -249,8 +275,33 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
                         }
                     }
                 }
-            } catch (IOException exception) {
-                LOGGER.log(WARNING, "An I/O error occurred while parsing the request", exception);
+                if (isSecure()) {
+                    SSLSocket sslSocket = (SSLSocket) socket;
+                    SSLSession sslSession = sslSocket.getSession();
+                    if (sslSession.getCipherSuite() != null) {
+                        setSslCipherSuite(sslSession.getCipherSuite());
+                    }
+                    try {
+                        Certificate[] certificates = sslSession.getPeerCertificates();
+                        if (certificates != null && certificates.length > 0) {
+                            if (certificates[0] instanceof X509Certificate x509) {
+                                PublicKey publicKey = x509.getPublicKey();
+                                setSslKeySize(publicKey.getEncoded().length * 8);
+                            }
+                            ArrayList<X509Certificate> x509Certificates = new ArrayList<>();
+                            for (Certificate certificate : certificates) {
+                                if (certificate instanceof X509Certificate x509Certificate) {
+                                    x509Certificates.add(x509Certificate);
+                                }
+                            }
+                            setSslCertificates(x509Certificates.toArray(X509Certificate[]::new));
+                            setSslPrincipal(sslSession.getPeerPrincipal());
+                        }
+                    } catch (SSLPeerUnverifiedException e) {
+                    }
+                }
+            } catch (Exception exception) {
+                LOGGER.log(WARNING, "An exception occurred while parsing the request", exception);
             }
         }
     }
@@ -281,5 +332,59 @@ public class DefaultHttpServerRequest implements HttpServerRequest {
         if (!protocol.isEmpty()) {
             protocol = protocolRequestLine;
         }
+    }
+
+    /**
+     * Set the method.
+     *
+     * @param method the method.
+     */
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    /**
+     * Set the request target.
+     *
+     * @param requestTarget the request target.
+     */
+    public void setRequestTarget(String requestTarget) {
+        this.requestTarget = requestTarget;
+    }
+
+    /**
+     * Set the SSL certificates.
+     *
+     * @param sslCertificates the SSL certificates.
+     */
+    public void setSslCertificates(X509Certificate[] sslCertificates) {
+        this.sslCertificates = sslCertificates;
+    }
+
+    /**
+     * Set the SSL cipher suite.
+     *
+     * @param sslCipherSuite the cipher suite.
+     */
+    public void setSslCipherSuite(String sslCipherSuite) {
+        this.sslCipherSuite = sslCipherSuite;
+    }
+
+    /**
+     * Set the SSL key size.
+     *
+     * @param sslKeySize the SSL key size.
+     */
+    public void setSslKeySize(int sslKeySize) {
+        this.sslKeySize = sslKeySize;
+    }
+
+    /**
+     * Set the SSL principal.
+     * 
+     * @param sslPrincipal the SSL principal.
+     */
+    public void setSslPrincipal(Principal sslPrincipal) {
+        this.sslPrincipal = sslPrincipal;
     }
 }
