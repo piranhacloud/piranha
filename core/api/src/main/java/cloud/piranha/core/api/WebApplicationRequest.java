@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -32,6 +32,7 @@ import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpUpgradeHandler;
 import java.security.Principal;
+import java.util.Map;
 
 /**
  * The WebApplicationRequest API.
@@ -40,6 +41,13 @@ import java.security.Principal;
  */
 public interface WebApplicationRequest extends HttpServletRequest {
 
+    /**
+     * Get the modifiable parameter map.
+     * 
+     * @return the modifiable parameter map.
+     */
+    Map<String, String[]> getModifiableParameterMap();
+    
     /**
      * {@return the multipartConfig}
      */
@@ -126,6 +134,22 @@ public interface WebApplicationRequest extends HttpServletRequest {
      * @param webApplication the web application.
      */
     void setWebApplication(WebApplication webApplication);
+
+    /**
+     * Set the path info.
+     * 
+     * @param pathInfo the path info.
+     */
+    default void setPathInfo(String pathInfo) {
+    }
+
+    /**
+     * Set the query string.
+     * 
+     * @param queryString the query string.
+     */
+    default void setQueryString(String queryString) {
+    }
 
     /**
      * Set the web application input stream.

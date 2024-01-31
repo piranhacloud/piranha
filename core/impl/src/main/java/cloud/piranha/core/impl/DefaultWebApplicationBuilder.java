@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,20 +27,21 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.resource.api.Resource;
 import cloud.piranha.resource.impl.DirectoryResource;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.SessionTrackingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
- * The default WebApplication builder.
+ * The DefaultWebApplication builder.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -80,11 +81,11 @@ public class DefaultWebApplicationBuilder {
      * Stores the servlets.
      */
     private final Map<String, Object> servlets = new HashMap<>();
-
+    
     /**
-     * Stores the web application.
+     * Stores the session tracking modes.
      */
-    private WebApplication webApplication;
+    private Set<SessionTrackingMode> sessionTrackingModes = null;
 
     /**
      * Constructor.
@@ -93,23 +94,12 @@ public class DefaultWebApplicationBuilder {
     }
 
     /**
-     * Constructor.
-     *
-     * @param webApplication the web application.
-     */
-    public DefaultWebApplicationBuilder(WebApplication webApplication) {
-        this.webApplication = webApplication;
-    }
-
-    /**
      * Build the web application.
      *
      * @return the web application.
      */
-    public WebApplication build() {
-        if (webApplication == null) {
-            webApplication = new DefaultWebApplication();
-        }
+    public DefaultWebApplication build() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
         for (Resource resource : resources) {
             webApplication.addResource(resource);
         }
@@ -166,6 +156,9 @@ public class DefaultWebApplicationBuilder {
             String servletName = mappingEntry.getKey();
             String mapping = mappingEntry.getValue();
             webApplication.addServletMapping(servletName, mapping);
+        }
+        if (sessionTrackingModes != null) {
+            webApplication.setSessionTrackingModes(sessionTrackingModes);
         }
         return webApplication;
     }
@@ -314,13 +307,13 @@ public class DefaultWebApplicationBuilder {
     }
 
     /**
-     * Set the web application.
-     *
-     * @param webApplication the web application.
+     * Set the session tracking modes.
+     * 
+     * @param sessionTrackingModes the session tracking modes.
      * @return the web application builder.
      */
-    public DefaultWebApplicationBuilder webApplication(WebApplication webApplication) {
-        this.webApplication = webApplication;
+    public DefaultWebApplicationBuilder sessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes) {
+        this.sessionTrackingModes = sessionTrackingModes;
         return this;
     }
 }

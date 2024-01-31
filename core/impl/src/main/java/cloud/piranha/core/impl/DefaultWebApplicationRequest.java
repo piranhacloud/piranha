@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -601,6 +601,11 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
     }
 
     @Override
+    public Map<String, String[]> getModifiableParameterMap() {
+        return parameters;
+    }
+
+    @Override
     public MultipartConfigElement getMultipartConfig() {
         return multipartConfig;
     }
@@ -815,7 +820,8 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         if (!resolved.startsWith(rootContext)) {
             resolved = rootContext.resolveSibling(resolved);
         }
-        return webApplication.getRequestDispatcher(resolved.toString());
+        String servletPath = resolved.toString().replace('\\', '/');
+        return webApplication.getRequestDispatcher(servletPath);
     }
 
     @Override
@@ -1260,11 +1266,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         parameters.put(name, values);
     }
 
-    /**
-     * Set the path info.
-     *
-     * @param pathInfo the path info.
-     */
+    @Override
     public void setPathInfo(String pathInfo) {
         this.pathInfo = pathInfo;
     }
@@ -1278,11 +1280,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         this.protocol = protocol;
     }
 
-    /**
-     * Set the query string.
-     *
-     * @param queryString the query string.
-     */
+    @Override
     public void setQueryString(String queryString) {
         this.queryString = queryString;
     }
@@ -1435,11 +1433,6 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         }
 
         return asyncContext;
-    }
-
-    @Override
-    public String toString() {
-        return getRequestURIWithQueryString() + " " + super.toString();
     }
 
     /**

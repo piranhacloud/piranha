@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,26 +30,80 @@ package cloud.piranha.core.impl;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.WriteListener;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the WriteListener API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WriteListenerTest extends cloud.piranha.core.tests.WriteListenerTest {
+public class WriteListenerTest {
 
-    @Override
-    public WebApplication createWebApplication() {
+    private WebApplication createWebApplication() {
         return new DefaultWebApplication();
     }
 
-    @Override
-    public WebApplicationRequest createWebApplicationRequest() {
+    private WebApplicationRequest createWebApplicationRequest() {
         return new DefaultWebApplicationRequest();
     }
 
-    @Override
-    public WebApplicationResponse createWebApplicationResponse() {
+    private WebApplicationResponse createWebApplicationResponse() {
         return new DefaultWebApplicationResponse();
+    }
+
+    /**
+     * Test onWritePossible method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testOnWritePossible() throws Exception {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setAsyncSupported(true);
+        request.setWebApplication(webApplication);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        request.startAsync();
+        ServletOutputStream outputStream = response.getOutputStream();
+        response.getWebApplicationOutputStream().setOutputStream(new ByteArrayOutputStream());
+        outputStream.setWriteListener(new TestOnWritePossibleWriteListener(webApplication));
+        Thread.sleep(2000);
+        assertNotNull(webApplication.getAttribute("onWritePossible"));
+    }
+
+    /**
+     * A WriteListener for onWritePossible.
+     */
+    public static class TestOnWritePossibleWriteListener implements WriteListener {
+
+        /**
+         * Stores the web application.
+         */
+        private final WebApplication webApplication;
+        
+        /**
+         * Constructor.
+         * 
+         * @param webApplication the web application.
+         */
+        public TestOnWritePossibleWriteListener(WebApplication webApplication) {
+            this.webApplication = webApplication;
+        }
+
+        @Override
+        public void onWritePossible() throws IOException {
+            webApplication.setAttribute("onWritePossible", true);
+        }
+
+        @Override
+        public void onError(Throwable t) {
+        }
     }
 }

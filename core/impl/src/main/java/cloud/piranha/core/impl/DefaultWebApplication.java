@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -625,7 +625,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public void destroy() {
+    public WebApplication destroy() {
         verifyState(INITIALIZED, "Unable to destroy web application");
 
         servletEnvironments.values().stream().forEach(servletEnv -> servletEnv.getServlet().destroy());
@@ -639,6 +639,7 @@ public class DefaultWebApplication implements WebApplication {
         declaredContextListeners.stream().forEach(listener -> listener.contextDestroyed(new ServletContextEvent(this)));
         declaredContextListeners.clear();
         status = SETUP;
+        return this;
     }
 
     @Override
@@ -948,7 +949,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public void initialize() {
+    public WebApplication initialize() {
         LOGGER.log(DEBUG, "Initializing web application at {0}", contextPath);
         verifyState(SETUP, "Unable to initialize web application");
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
@@ -961,6 +962,7 @@ public class DefaultWebApplication implements WebApplication {
         } finally {
             Thread.currentThread().setContextClassLoader(oldClassLoader);
         }
+        return this;
     }
 
     @Override
@@ -1343,19 +1345,21 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
-    public void start() {
+    public WebApplication start() {
         LOGGER.log(DEBUG, "Starting web application at {0}", contextPath);
         verifyState(INITIALIZED, "Unable to start servicing");
         status = SERVICING;
         LOGGER.log(DEBUG, "Started web application at {0}", contextPath);
+        return this;
     }
 
     @Override
-    public void stop() {
+    public WebApplication stop() {
         LOGGER.log(DEBUG, "Stopping web application at {0}", contextPath);
         verifyState(SERVICING, "Unable to stop servicing");
         status = INITIALIZED;
         LOGGER.log(DEBUG, "Stopped web application at {0}", contextPath);
+        return this;
     }
 
     @Override

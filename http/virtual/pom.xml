@@ -7,7 +7,7 @@
     <parent>
         <groupId>cloud.piranha.http</groupId>
         <artifactId>project</artifactId>
-        <version>23.11.0-SNAPSHOT</version>
+        <version>24.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-http-virtual</artifactId>
@@ -33,45 +33,29 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <release>20</release>
-                    <compilerArgs>
-                        <arg>--enable-preview</arg>
-                    </compilerArgs>
+                    <release>${java.version}</release>
+                    <enablePreview>true</enablePreview>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <configuration>
+                            <additionalOptions>--enable-preview</additionalOptions>
+                            <release>${java.version}</release>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <argLine>${argLine} --enable-preview --add-modules=jdk.incubator.concurrent</argLine>
+                    <argLine>${argLine} --enable-preview</argLine>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>io.github.wiverson</groupId>
-                <artifactId>jtoolprovider-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>java-tool</goal>
-                        </goals>
-                        <configuration>
-                            <toolName>jar</toolName>
-                            <writeOutputToLog>true</writeOutputToLog>
-                            <writeErrorsToLog>true</writeErrorsToLog>
-                            <failOnError>true</failOnError>
-                            <args>
-                                <arg>--update</arg>
-                                <arg>--warn-if-resolved=incubating</arg>
-                                <arg>--do-not-resolve-by-default</arg>
-                                <arg>--file</arg>
-                                <arg>${project.build.directory}/${project.build.finalName}.jar</arg>
-                                <!-- It seems to be needed to include twice -->
-                                <arg>${project.build.directory}/${project.build.finalName}.jar</arg>
-                            </args>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

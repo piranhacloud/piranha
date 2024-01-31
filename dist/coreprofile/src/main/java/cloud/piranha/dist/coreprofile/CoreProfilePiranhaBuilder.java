@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -76,6 +76,17 @@ public class CoreProfilePiranhaBuilder {
      */
     public CoreProfilePiranhaBuilder contextPath(String contextPath) {
         piranha.getConfiguration().setString("contextPath", contextPath);
+        return this;
+    }
+    
+    /**
+     * Set the CRaC enabled flag.
+     *
+     * @param crac the CRaC enabled flag.
+     * @return the builder.
+     */
+    public CoreProfilePiranhaBuilder crac(boolean crac) {
+        piranha.getConfiguration().setBoolean("cracEnabled", crac);
         return this;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -62,7 +62,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 /**
  * The default ServletRequestDispatcher.
@@ -169,7 +168,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 }
             }
         }
-        
+
         /*
          * REFACTOR - We used a response header to signal that we are not 
          * listening to add/setHeader. In the block below we remove the header
@@ -236,7 +235,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
 
         // Regular (synchronous) forward
-        syncForward(servletRequest, servletResponse);
+        dispatchSyncForward(servletRequest, servletResponse);
     }
 
     /**
@@ -250,76 +249,98 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
      */
     @Override
     public void include(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-        DefaultWebApplicationRequest includedRequest = new DefaultWebApplicationRequest();
-        HttpServletRequest originalRequest = unwrap(servletRequest, HttpServletRequest.class);
-
-        // Change the underlying request if the request was wrapped
-        ServletRequestWrapper wrapper = (servletRequest instanceof ServletRequestWrapper wrapped)
-                ? getLastWrapper(wrapped)
-                : new HttpServletRequestWrapper(originalRequest);
-        wrapper.setRequest(includedRequest);
-
-        includedRequest.setWebApplication(servletEnvironment.getWebApplication());
-        includedRequest.setMultipartConfig(servletEnvironment.getMultipartConfig());
-        includedRequest.setContextPath(originalRequest.getContextPath());
-
-        includedRequest.setServletPath(path == null ? "/" + servletEnvironment.getServletName() : getServletPath(path));
-        includedRequest.setDispatcherType(INCLUDE);
-        includedRequest.setPathInfo(null);
-        includedRequest.setQueryString(originalRequest.getQueryString());
-        HttpSession session = originalRequest.getSession(false);
-        if (session != null) {
-            includedRequest.setCurrentSessionId(session.getId());
+        /*
+         * We only do includes for a HttpServletRequest/Response pair.
+         */
+        if (!(servletRequest instanceof HttpServletRequest)) {
+            throw new ServletException("Request is not a HttpServletRequest");
+        }
+        if (!(servletResponse instanceof HttpServletResponse)) {
+            throw new ServletException("Response is not a HttpServletResponse");
         }
 
-        copyAttributesFromRequest(originalRequest, includedRequest, attributeName -> true);
+        /*
+         * Unwrap the passed ServletRequest to the underlying WebApplicationRequest.
+         */
+        WebApplicationRequest request = unwrap(servletRequest, WebApplicationRequest.class);
 
+        /**
+         * Set the include attributes.
+         */
+        request.setAttribute(INCLUDE_CONTEXT_PATH, request.getContextPath());
+        request.setAttribute(INCLUDE_PATH_INFO, request.getPathInfo());
+        request.setAttribute(INCLUDE_QUERY_STRING, request.getQueryString());
+        request.setAttribute(INCLUDE_REQUEST_URI, request.getRequestURI());
+        request.setAttribute(INCLUDE_SERVLET_PATH, request.getServletPath());
+
+        /**
+         * Set the new dispatcher type.
+         */
+        request.setDispatcherType(INCLUDE);
+        request.setServletPath(path == null ? "/" + servletEnvironment.getServletName() : getServletPath(path));
+        request.setPathInfo(null);
+        
         if (path != null) {
-            includedRequest.setAttribute(INCLUDE_CONTEXT_PATH, includedRequest.getContextPath());
-            includedRequest.setAttribute(INCLUDE_SERVLET_PATH, includedRequest.getServletPath());
-            includedRequest.setAttribute(INCLUDE_PATH_INFO, includedRequest.getPathInfo());
-            includedRequest.setAttribute(INCLUDE_REQUEST_URI, includedRequest.getRequestURI());
-            includedRequest.setAttribute(INCLUDE_QUERY_STRING, getQueryString(path));
-        }
-        CurrentRequestHolder currentRequestHolder = updateCurrentRequest(originalRequest, includedRequest);
-
-        invocationFinder.addFilters(INCLUDE, servletInvocation, includedRequest.getServletPath(), "");
-
-        if (originalRequest instanceof DefaultWebApplicationRequest defaultRequest) {
-            // 12.3.1
-            // "the HttpServletMapping is not available for servlets that have been obtained with a call to
-            // ServletContext.getNamedDispatcher()."
-            //
-            // Although not spelled out, this means in practice the included Servlet uses the
-            // mapping of the forwarding servlet.
-            includedRequest.setHttpServletMapping(defaultRequest.getHttpServletMapping());
+            request.setQueryString(getQueryString(path));
         }
 
-        // After setting the include attributes and adding filters, reset the servlet path
-        includedRequest.setServletPath(originalRequest.getServletPath());
+        invocationFinder.addFilters(INCLUDE, servletInvocation, request.getServletPath(), "");
 
+        if (servletInvocation.getServletEnvironment() != null) {
+            request.setAsyncSupported(request.isAsyncSupported() && isAsyncSupportedInChain());
+        }
+
+        /*
+         * Aggregate the request parameters with giving the new parameter values
+         * precedence over the old ones.
+         */
+        if (request.getQueryString() != null) {
+            String queryString = request.getQueryString();
+            Map<String, String[]> parameters = request.getModifiableParameterMap();
+            for (String param : queryString.split("&")) {
+                String[] pair = param.split("=");
+                String key = URLDecoder.decode(pair[0], StandardCharsets.UTF_8);
+                String value = "";
+                if (pair.length > 1) {
+                    value = URLDecoder.decode(pair[1], StandardCharsets.UTF_8);
+                }
+                String[] values = parameters.get(key);
+                if (values == null) {
+                    values = new String[]{value};
+                    parameters.put(key, values);
+                } else {
+                    String[] newValues = new String[values.length + 1];
+                    System.arraycopy(values, 0, newValues, 1, values.length);
+                    newValues[0] = value;
+                    parameters.put(key, newValues);
+                }
+            }
+        }
+
+        /*
+         * Execute the filter chain.
+         */
         try {
-            servletEnvironment.getWebApplication().linkRequestAndResponse(includedRequest, servletResponse);
-
-            servletInvocation.getFilterChain().doFilter(wrapper, servletResponse);
-
-            // After the include, we need to copy the attributes that were set in the new request to the old one
-            // but not include the "INCLUDE_" attributes that were set previously
-            copyAttributesFromRequest(includedRequest, originalRequest, attributeName
-                    -> originalRequest.getAttribute(attributeName) == null && Stream.of(
-                    INCLUDE_QUERY_STRING,
-                    INCLUDE_CONTEXT_PATH,
-                    INCLUDE_MAPPING,
-                    INCLUDE_PATH_INFO,
-                    INCLUDE_REQUEST_URI,
-                    INCLUDE_SERVLET_PATH).noneMatch(attributeName::equals));
-
-            servletEnvironment.getWebApplication().unlinkRequestAndResponse(includedRequest, servletResponse);
+            servletEnvironment.getWebApplication().linkRequestAndResponse(servletRequest, servletResponse);
+            servletInvocation.getFilterChain().doFilter(servletRequest, servletResponse);
+            servletEnvironment.getWebApplication().unlinkRequestAndResponse(servletRequest, servletResponse);
         } catch (Exception e) {
             rethrow(e);
         } finally {
-            restoreCurrentRequest(currentRequestHolder, originalRequest);
-            wrapper.setRequest(originalRequest);
+            /*
+             * Set servlet path and path info back to original values.
+             */
+            request.setServletPath((String) request.getAttribute(INCLUDE_SERVLET_PATH));
+            request.setPathInfo((String) request.getAttribute(INCLUDE_PATH_INFO));
+
+            /*
+             * Remove include attributes.
+             */
+            request.removeAttribute(INCLUDE_CONTEXT_PATH);
+            request.removeAttribute(INCLUDE_PATH_INFO);
+            request.removeAttribute(INCLUDE_QUERY_STRING);
+            request.removeAttribute(INCLUDE_REQUEST_URI);
+            request.removeAttribute(INCLUDE_SERVLET_PATH);
         }
     }
 
@@ -404,80 +425,6 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
             servletInvocation.getFilterChain().doFilter(errorRequest, servletResponse);
 
             servletEnvironment.getWebApplication().unlinkRequestAndResponse(errorRequest, servletResponse);
-        } finally {
-            restoreCurrentRequest(currentRequestHolder, request);
-        }
-
-        response.flushBuffer();
-    }
-
-    // #### SYNC forward private methods
-    private void syncForward(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-        if (servletResponse.isCommitted()) {
-            throw new IllegalStateException("Response already committed");
-        }
-
-        DefaultWebApplicationRequest forwardedRequest = new DefaultWebApplicationRequest();
-
-        HttpServletRequest request = unwrap(servletRequest, HttpServletRequest.class);
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-
-        response.resetBuffer();
-
-        forwardedRequest.setWebApplication(servletEnvironment.getWebApplication());
-        forwardedRequest.setMultipartConfig(servletEnvironment.getMultipartConfig());
-        forwardedRequest.setContextPath(request.getContextPath());
-        forwardedRequest.setHttpServletMapping(servletInvocation.getHttpServletMapping());
-        forwardedRequest.setDispatcherType(FORWARD);
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            forwardedRequest.setCurrentSessionId(session.getId());
-        }
-
-        if (path != null) {
-            setForwardAttributes(request, forwardedRequest,
-                    FORWARD_CONTEXT_PATH,
-                    FORWARD_PATH_INFO,
-                    FORWARD_QUERY_STRING,
-                    FORWARD_REQUEST_URI,
-                    FORWARD_SERVLET_PATH);
-
-            forwardedRequest.setServletPath(getServletPath(path));
-            forwardedRequest.setQueryString(getQueryString(path));
-
-        } else {
-            forwardedRequest.setServletPath("/" + servletEnvironment.getServletName());
-            forwardedRequest.setQueryString(request.getQueryString());
-        }
-
-        CurrentRequestHolder currentRequestHolder = updateCurrentRequest(request, forwardedRequest);
-
-        copyAttributesFromRequest(request, forwardedRequest, attribute -> true);
-
-        invocationFinder.addFilters(FORWARD, servletInvocation, forwardedRequest.getServletPath(), "");
-
-        if (servletInvocation.getServletEnvironment() != null) {
-            forwardedRequest.setAsyncSupported(request.isAsyncSupported() && isAsyncSupportedInChain());
-        }
-
-        if (servletInvocation.isFromNamed() && request instanceof DefaultWebApplicationRequest defaultRequest) {
-            // 12.3.1
-            // "the HttpServletMapping is not available for servlets that have been obtained with a call to
-            // ServletContext.getNamedDispatcher()."
-            //
-            // Although not spelled out, this means in practice the forwarded Servlet uses the
-            // mapping of the forwarding servlet.
-            forwardedRequest.setHttpServletMapping(defaultRequest.getHttpServletMapping());
-        }
-
-        try {
-            servletEnvironment.getWebApplication().linkRequestAndResponse(forwardedRequest, servletResponse);
-
-            servletInvocation.getFilterChain().doFilter(forwardedRequest, servletResponse);
-
-            servletEnvironment.getWebApplication().unlinkRequestAndResponse(forwardedRequest, servletResponse);
-        } catch (Exception e) {
-            rethrow(e);
         } finally {
             restoreCurrentRequest(currentRequestHolder, request);
         }
@@ -768,5 +715,114 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
 
         throw new IllegalStateException(exception);
+    }
+
+    /**
+     * Execute a forward.
+     *
+     * @param servletRequest the Servlet request.
+     * @param servletResponse the Servlet response.
+     */
+    private void dispatchSyncForward(
+            ServletRequest servletRequest,
+            ServletResponse servletResponse)
+            throws ServletException, IOException {
+
+        /*
+         * If response is already committed we need to throw an IllegalStateException.
+         */
+        if (servletResponse.isCommitted()) {
+            throw new IllegalStateException("Response already committed");
+        }
+
+        /*
+         * We only do forwards for a HttpServletRequest/Response pair.
+         */
+        if (!(servletRequest instanceof HttpServletRequest)) {
+            throw new ServletException("Request is not a HttpServletRequest");
+        }
+        if (!(servletResponse instanceof HttpServletResponse)) {
+            throw new ServletException("Response is not a HttpServletResponse");
+        }
+
+        /*
+         * Reset the buffer if we haven't committed yet.
+         */
+        servletResponse.resetBuffer();
+
+        /*
+         * Unwrap the passed ServletRequest to the underlying WebApplicationRequest.
+         */
+        WebApplicationRequest request = unwrap(servletRequest, WebApplicationRequest.class);
+
+        /*
+         * Set the forward attributes.
+         */
+        request.setAttribute(FORWARD_CONTEXT_PATH, request.getContextPath());
+        request.setAttribute(FORWARD_PATH_INFO, request.getPathInfo());
+        request.setAttribute(FORWARD_QUERY_STRING, request.getQueryString());
+        request.setAttribute(FORWARD_REQUEST_URI, request.getRequestURI());
+        request.setAttribute(FORWARD_SERVLET_PATH, request.getServletPath());
+
+        /*
+         * Set the new dispatcher type.
+         */
+        request.setDispatcherType(FORWARD);
+
+        /*
+         * Set the new servlet path and the new query string.
+         */
+        if (path != null) {
+            request.setServletPath(getServletPath(path));
+            request.setQueryString(getQueryString(path));
+        } else {
+            request.setServletPath("/" + servletEnvironment.getServletName());
+            request.setQueryString(request.getQueryString());
+        }
+
+        /*
+         * Aggregate the request parameters with giving the new parameter values
+         * precedence over the old ones.
+         */
+        if (request.getQueryString() != null) {
+            String queryString = request.getQueryString();
+            Map<String, String[]> parameters = request.getModifiableParameterMap();
+            for (String param : queryString.split("&")) {
+                String[] pair = param.split("=");
+                String key = URLDecoder.decode(pair[0], StandardCharsets.UTF_8);
+                String value = "";
+                if (pair.length > 1) {
+                    value = URLDecoder.decode(pair[1], StandardCharsets.UTF_8);
+                }
+                String[] values = parameters.get(key);
+                if (values == null) {
+                    values = new String[]{value};
+                    parameters.put(key, values);
+                } else {
+                    String[] newValues = new String[values.length + 1];
+                    System.arraycopy(values, 0, newValues, 1, values.length);
+                    newValues[0] = value;
+                    parameters.put(key, newValues);
+                }
+            }
+        }
+
+        invocationFinder.addFilters(FORWARD, servletInvocation, request.getServletPath(), "");
+
+        if (servletInvocation.getServletEnvironment() != null) {
+            request.setAsyncSupported(request.isAsyncSupported() && isAsyncSupportedInChain());
+        }
+
+        /*
+         * Execute the filter chain.
+         */
+        servletEnvironment.getWebApplication().linkRequestAndResponse(servletRequest, servletResponse);
+        servletInvocation.getFilterChain().doFilter(servletRequest, servletResponse);
+        servletEnvironment.getWebApplication().unlinkRequestAndResponse(servletRequest, servletResponse);
+
+        /*
+         * Flush the response buffer.
+         */
+        servletResponse.flushBuffer();
     }
 }

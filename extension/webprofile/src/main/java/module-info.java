@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -37,6 +37,7 @@
  *  <li>Annotation Scanning</li>
  *  <li>Apache Commons File Upload (Multipart)</li>
  *  <li>Default DataSource</li>
+ *  <li>Eclipse Expressly (EL)</li>
  *  <li>Naming (JNDI)</li>
  *  <li>Java Policy</li>
  *  <li>ServletContainerInitializer</li>
@@ -57,6 +58,7 @@ module cloud.piranha.extension.webprofile {
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.annotationscan.classfile;
     requires cloud.piranha.extension.apache.fileupload;
+    requires cloud.piranha.extension.expressly;
     requires cloud.piranha.extension.datasource;
     requires cloud.piranha.extension.eclipselink;
     requires cloud.piranha.extension.naming;

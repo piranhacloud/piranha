@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -70,6 +70,9 @@ public class CoreProfilePiranhaMain {
         int httpsPort = 0;
         if (arguments != null) {
             for (int i = 0; i < arguments.length; i++) {
+                if (arguments[i].equals("--enable-crac")) {
+                    builder = builder.crac(true);
+                }
                 if (arguments[i].equals("--extension-class")) {
                     builder = builder.extensionClass(arguments[i + 1]);
                 }
@@ -145,6 +148,7 @@ public class CoreProfilePiranhaMain {
         LOGGER.log(Level.INFO, "");
         LOGGER.log(Level.INFO,
                 """
+  --enable-crac                        - Enable Project CRaC support
   --extension-class <className>        - Set the extension to use
   --context-path <string>              - Set the Servlet context path
   --help                               - Show this help

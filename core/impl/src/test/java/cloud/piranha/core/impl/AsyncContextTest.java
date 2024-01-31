@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,26 +31,299 @@ package cloud.piranha.core.impl;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.api.WebApplicationResponse;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.AsyncEvent;
+import jakarta.servlet.AsyncListener;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRegistration;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for testing everything related to the AsyncContext API.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class AsyncContextTest extends cloud.piranha.core.tests.AsyncContextTest {
+class AsyncContextTest {
 
-    @Override
-    public WebApplication createWebApplication() {
+    private WebApplication createWebApplication() {
         return new DefaultWebApplication();
     }
 
-    @Override
-    public WebApplicationRequest createWebApplicationRequest() {
+    private WebApplicationRequest createWebApplicationRequest() {
         return new DefaultWebApplicationRequest();
     }
 
-    @Override
-    public WebApplicationResponse createWebApplicationResponse() {
+    private WebApplicationResponse createWebApplicationResponse() {
         return new DefaultWebApplicationResponse();
+    }
+
+    /**
+     * Test addListener method.
+     */
+    @Test
+    void testAddListener() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        request.setAsyncSupported(true);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        AsyncContext context = request.startAsync();
+        context.addListener(new AsyncListener() {
+            @Override
+            public void onComplete(AsyncEvent event) throws IOException {
+                event.getSuppliedRequest().getServletContext().setAttribute("onComplete", "true");
+            }
+
+            @Override
+            public void onTimeout(AsyncEvent event) throws IOException {
+            }
+
+            @Override
+            public void onError(AsyncEvent event) throws IOException {
+            }
+
+            @Override
+            public void onStartAsync(AsyncEvent event) throws IOException {
+            }
+        });
+        context.complete();
+        assertNotNull(webApplication.getAttribute("onComplete"));
+    }
+
+    /**
+     * Test complete method.
+     */
+    @Test
+    void testComplete() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        request.setAsyncSupported(true);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        AsyncContext context = request.startAsync();
+        context.complete();
+        assertTrue(response.isCommitted());
+    }
+
+    /**
+     * Test createListener method.
+     *
+     * @throws ServletException when a serious error occurs.
+     */
+    @Test
+    void testCreateListener() throws ServletException {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        request.setAsyncSupported(true);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        AsyncContext context = request.startAsync();
+        assertNotNull(context.createListener(TestCreateListenerListener.class));
+    }
+
+    /**
+     * Test createListener method.
+     *
+     * @throws ServletException when a serious error occurs.
+     */
+    @Test
+    void testCreateListener2() throws ServletException {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        request.setAsyncSupported(true);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        AsyncContext context = request.startAsync();
+        assertThrows(ServletException.class,
+                () -> {
+                    context.createListener(TestCreateListener2Listener.class);
+                });
+    }
+
+    /**
+     * Test dispatch method.
+     */
+    @Test
+    void testDispatch() {
+        WebApplication webApplication = createWebApplication();
+        ServletRegistration.Dynamic registration = webApplication.addServlet("TestDispatchServlet", new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                AsyncContext context = request.startAsync();
+                context.dispatch("/testDispatchB");
+                context.dispatch("/testDispatchC");
+            }
+        });
+        registration.setAsyncSupported(true);
+        webApplication.addServletMapping("TestDispatchServlet", "/testDispatch");
+        webApplication.initialize();
+        webApplication.start();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setServletPath("/testDispatch");
+        request.setWebApplication(webApplication);
+        request.setAsyncSupported(true);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        assertThrows(IllegalStateException.class,
+                () -> webApplication.service(request, response));
+    }
+
+    /**
+     * Test getRequest method.
+     */
+    @Test
+    void testGetRequest() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        request.setAsyncSupported(true);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        AsyncContext context = request.startAsync();
+        assertNotNull(context.getRequest());
+    }
+
+    /**
+     * Test getResponse method.
+     */
+    @Test
+    void testGetResponse() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        request.setAsyncSupported(true);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        AsyncContext context = request.startAsync();
+        assertNotNull(context.getResponse());
+    }
+
+    /**
+     * Test getTimeout method.
+     */
+    @Test
+    void testGetTimeout() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        request.setAsyncSupported(true);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        AsyncContext context = request.startAsync();
+        assertEquals(30000, context.getTimeout());
+    }
+
+    /**
+     * Test hasOriginalRequestAndResponse method.
+     */
+    @Test
+    void testHasOriginalRequestAndResponse() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        request.setAsyncSupported(true);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        AsyncContext context = request.startAsync();
+        assertTrue(context.hasOriginalRequestAndResponse());
+        assertEquals(request, context.getRequest());
+        assertEquals(response, context.getResponse());
+    }
+
+    /**
+     * Test setTimeout method.
+     */
+    @Test
+    void testSetTimeout() {
+        WebApplication webApplication = createWebApplication();
+        WebApplicationRequest request = createWebApplicationRequest();
+        request.setWebApplication(webApplication);
+        request.setAsyncSupported(true);
+        WebApplicationResponse response = createWebApplicationResponse();
+        response.setWebApplication(webApplication);
+        webApplication.linkRequestAndResponse(request, response);
+        AsyncContext context = request.startAsync();
+        context.setTimeout(60000);
+        assertEquals(60000, context.getTimeout());
+    }
+
+    /**
+     * Listener that is used by testCreateListener.
+     */
+    public static class TestCreateListenerListener implements AsyncListener {
+
+        /**
+         * Default constructor.
+         */
+        public TestCreateListenerListener() {
+        }
+        
+        @Override
+        public void onComplete(AsyncEvent event) throws IOException {
+        }
+
+        @Override
+        public void onTimeout(AsyncEvent event) throws IOException {
+        }
+
+        @Override
+        public void onError(AsyncEvent event) throws IOException {
+        }
+
+        @Override
+        public void onStartAsync(AsyncEvent event) throws IOException {
+        }
+    }
+
+    /**
+     * Listener that is used by testCreateListener2.
+     */
+    public static class TestCreateListener2Listener implements AsyncListener {
+
+        /**
+         * Constructor.
+         *
+         * @throws ServletException when constructor is called.
+         */
+        public TestCreateListener2Listener() throws ServletException {
+            throw new ServletException();
+        }
+
+        @Override
+        public void onComplete(AsyncEvent event) throws IOException {
+        }
+
+        @Override
+        public void onTimeout(AsyncEvent event) throws IOException {
+        }
+
+        @Override
+        public void onError(AsyncEvent event) throws IOException {
+        }
+
+        @Override
+        public void onStartAsync(AsyncEvent event) throws IOException {
+        }
     }
 }

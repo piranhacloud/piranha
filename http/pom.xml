@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
-        <version>23.11.0-SNAPSHOT</version>
+        <version>24.2.0-SNAPSHOT</version>
     </parent>
 
     <groupId>cloud.piranha.http</groupId>
@@ -24,6 +24,7 @@
         <module>netty</module>
         <module>tests</module>
         <module>undertow</module>
+        <module>virtual</module>
         <module>webapp</module>
     </modules>
 
@@ -56,16 +57,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>jdk20</id>
-            <activation>
-                <jdk>20</jdk>
-            </activation>
-            <modules>
-                <module>virtual</module>
-            </modules>
-        </profile>
-    </profiles>
 </project>

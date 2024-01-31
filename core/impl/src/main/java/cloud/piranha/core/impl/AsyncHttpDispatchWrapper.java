@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -110,6 +110,11 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
     public AsyncHttpDispatchWrapper(HttpServletRequest request) {
         super(request);
         wrapperAttributes.add("piranha.response");
+    }
+
+    @Override
+    public Map<String, String[]> getModifiableParameterMap() {
+        return wrapperParameters;
     }
 
     @Override

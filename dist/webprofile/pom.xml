@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.dist</groupId>
         <artifactId>project</artifactId>
-        <version>23.11.0-SNAPSHOT</version>
+        <version>24.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-dist-webprofile</artifactId>
@@ -143,7 +143,6 @@
                                         <buildx>
                                             <platforms>
                                                 <platform>linux/amd64</platform>
-                                                <platform>linux/arm</platform>
                                                 <platform>linux/arm64</platform>
                                             </platforms>
                                         </buildx>

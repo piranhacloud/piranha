@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -44,6 +44,7 @@ module cloud.piranha.extension.micro {
     requires cloud.piranha.extension.datasource;
     requires cloud.piranha.extension.eclipselink;
     requires cloud.piranha.extension.exousia;
+    requires cloud.piranha.extension.expressly;
     requires cloud.piranha.extension.naming.cdi;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;

@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.extension</groupId>
         <artifactId>project</artifactId>
-        <version>23.11.0-SNAPSHOT</version>
+        <version>24.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-extension-webprofile</artifactId>
@@ -47,6 +47,18 @@
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-default-datasource</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-expressly</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-wasp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -100,12 +112,6 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-wasp</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-webxml</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -131,11 +137,6 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.faces</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.expressly</groupId>
-            <artifactId>expressly</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>

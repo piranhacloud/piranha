@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -39,13 +39,16 @@ import cloud.piranha.feature.https.HttpsFeature;
 import cloud.piranha.feature.impl.DefaultFeatureManager;
 import cloud.piranha.feature.logging.LoggingFeature;
 import cloud.piranha.feature.webapp.WebAppFeature;
+import cloud.piranha.http.api.HttpServer;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * The Piranha Web Profile runtime.
@@ -146,6 +149,27 @@ public class WebProfilePiranha implements Piranha, Runnable {
             httpFeature.setPort(configuration.getInteger("httpPort"));
             httpFeature.init();
             httpFeature.getHttpServer().setHttpServerProcessor(webAppFeature.getHttpServerProcessor());
+            
+            /*
+             * Enable Project CRaC.
+             */
+            if (configuration.getBoolean("cracEnabled", false)) {
+                HttpServer httpServer = httpFeature.getHttpServer();
+                try {
+                    HttpServer cracHttpServer = (HttpServer) Class
+                            .forName("cloud.piranha.http.crac.CracHttpServer")
+                            .getDeclaredConstructor(HttpServer.class)
+                            .newInstance(httpServer);
+                    httpServer = cracHttpServer;
+                } catch (ClassNotFoundException | IllegalAccessException
+                        | IllegalArgumentException | InstantiationException
+                        | NoSuchMethodException | SecurityException
+                        | InvocationTargetException t) {
+                    LOGGER.log(ERROR, "Unable to construct HTTP server", t);
+                }
+                httpFeature.setHttpServer(httpServer);
+            }
+            
             httpFeature.start();
         }
 
@@ -162,6 +186,27 @@ public class WebProfilePiranha implements Piranha, Runnable {
             httpsFeature.setPort(configuration.getInteger("httpsPort"));
             httpsFeature.init();
             httpsFeature.getHttpsServer().setHttpServerProcessor(webAppFeature.getHttpServerProcessor());
+
+            /*
+             * Enable Project CRaC.
+             */
+            if (configuration.getBoolean("cracEnabled", false)) {
+                HttpServer httpsServer = httpsFeature.getHttpsServer();
+                try {
+                    HttpServer cracHttpServer = (HttpServer) Class
+                            .forName("cloud.piranha.http.crac.CracHttpServer")
+                            .getDeclaredConstructor(HttpServer.class)
+                            .newInstance(httpsServer);
+                    httpsServer = cracHttpServer;
+                } catch (ClassNotFoundException | IllegalAccessException
+                        | IllegalArgumentException | InstantiationException
+                        | NoSuchMethodException | SecurityException
+                        | InvocationTargetException t) {
+                    LOGGER.log(ERROR, "Unable to construct HTTP server", t);
+                }
+                httpsFeature.setHttpsServer(httpsServer);
+            }
+
             httpsFeature.start();
         }
         

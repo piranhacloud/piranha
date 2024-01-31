@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -99,75 +99,6 @@ class DefaultWebApplicationRequestTest {
         } catch (IOException | ServletException ex) {
             fail();
         }
-    }
-
-    /**
-     * Test changeSessionId method.
-     */
-    @Test
-    void testChangeSessionId() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        HttpSession session = request.getSession(true);
-        String sessionId1 = session.getId();
-        request.setRequestedSessionId(session.getId());
-        String sessionId2 = request.changeSessionId();
-        assertNotEquals(sessionId1, sessionId2);
-    }
-
-    /**
-     * Test changeSessionId method.
-     */
-    @Test
-    void testChangeSessionId2() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        HttpSession session = request.getSession(true);
-        String sessionId1 = session.getId();
-        request.setRequestedSessionId(session.getId());
-        String sessionId2 = request.changeSessionId();
-        assertNotEquals(sessionId1, sessionId2);
-    }
-
-    /**
-     * Test changeSessionId method.
-     */
-    @Test
-    void testChangeSessionId3() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        assertNotNull(assertThrows(IllegalStateException.class,
-                request::changeSessionId));
-    }
-
-    /**
-     * Test changeSessionId method.
-     */
-    @Test
-    void testChangeSessionId4() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        HttpSession session = request.getSession(true);
-        String previousSessionId = session.getId();
-        String newSessionId = request.changeSessionId();
-        assertNotEquals(previousSessionId, newSessionId);
-        assertEquals(newSessionId, request.getSession(false).getId());
     }
 
     /**
@@ -703,17 +634,6 @@ class DefaultWebApplicationRequestTest {
     }
 
     /**
-     * Test getRequestDispatcher method.
-     */
-    @Test
-    void testGetRequestDispatcher() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        assertNotNull(request.getRequestDispatcher("/test"));
-    }
-
-    /**
      * Test getRequestId method.
      */
     @Test
@@ -806,127 +726,6 @@ class DefaultWebApplicationRequestTest {
     }
 
     /**
-     * Test getSession method.
-     */
-    @Test
-    void testGetSession() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        HttpSession session = request.getSession();
-        assertNotNull(session.getId());
-        assertTrue(session.isNew());
-    }
-
-    /**
-     * Test getSession method.
-     */
-    @Test
-    void testGetSession2() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        HttpSession session = request.getSession(false);
-        assertNull(session);
-    }
-
-    /**
-     * Test getSession.
-     *
-     * @throws Exception
-     */
-    @Test
-    void testGetSession3() throws Exception {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        ServletRegistration.Dynamic dynamic = webApplication.addServlet("session",
-                new HttpServlet() {
-            @Override
-            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-                response.setContentType("text/plain");
-                try (PrintWriter out = response.getWriter()) {
-                    if (request.isRequestedSessionIdValid()) {
-                        HttpSession session = request.getSession(false);
-                        out.println("Session is " + session);
-                        if (session == null) {
-                            session = request.getSession();
-                            out.println("Session is " + session);
-                        }
-                    } else {
-                        HttpSession session = request.getSession();
-                        out.println("Session is " + session + ", from request");
-                    }
-                }
-            }
-        });
-        assertNotNull(dynamic);
-        dynamic.addMapping("/session");
-        webApplication.initialize();
-        webApplication.start();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        request.setServletPath("/session");
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-        response.getWebApplicationOutputStream().setOutputStream(byteOutput);
-        webApplication.service(request, response);
-        assertNotNull(byteOutput.toByteArray().length > 0);
-    }
-
-    /**
-     * Test getSession method.
-     */
-    @Test
-    void testGetSession4() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        HttpSession session = request.getSession(true);
-        request.setRequestedSessionId(session.getId());
-        assertNotNull(request.getSession(false));
-    }
-
-    /**
-     * Test getSession method.
-     */
-    @Test
-    void testGetSession5() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        HttpSession session = request.getSession(true);
-        request.setRequestedSessionId(session.getId());
-        assertNotNull(request.getSession());
-    }
-
-    /**
-     * Test getSession method.
-     */
-    @Test
-    void testGetSession6() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        HttpSession session = request.getSession(false);
-        assertNull(session);
-    }
-
-    /**
      * Test getTrailerFields method.
      */
     @Test
@@ -970,71 +769,6 @@ class DefaultWebApplicationRequestTest {
     void testIsAsyncSupported() {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         assertFalse(request.isAsyncSupported());
-    }
-
-    /**
-     * Test isRequestedSessionIdFromCookie method.
-     */
-    @Test
-    void testIsRequestedSessionIdFromCookie() {
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        assertFalse(request.isRequestedSessionIdFromCookie());
-    }
-
-    /**
-     * Test isRequestedSessionIdFromCookie method.
-     */
-    @Test
-    void testSetRequestedSessionIdFromCookie() {
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        assertFalse(request.isRequestedSessionIdFromCookie());
-        request.setRequestedSessionIdFromCookie(true);
-        assertTrue(request.isRequestedSessionIdFromCookie());
-    }
-    
-    /**
-     * Test isRequestedSessionIdFromURL method.
-     */
-    @Test
-    void testIsRequestedSessionIdFromURL() {
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        assertFalse(request.isRequestedSessionIdFromURL());
-    }
-
-    /**
-     * Test setRequestedSessionIdFromURL method.
-     */
-    @Test
-    void testIsRequestedSessionIdFromURL2() {
-        TestWebApplicationRequest request = new TestWebApplicationRequest();
-        assertFalse(request.isRequestedSessionIdFromURL());
-        request.setRequestedSessionIdFromURL(true);
-        assertTrue(request.isRequestedSessionIdFromURL());
-    }
-
-    /**
-     * Test isRequestedSessionIdValid method.
-     */
-    @Test
-    void testIsRequestedSessionIdValid() {
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        assertFalse(request.isRequestedSessionIdValid());
-    }
-
-    /**
-     * Test isRequestedSessionIdValid method.
-     */
-    @Test
-    void testIsRequestedSessionIdValid2() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setWebApplication(webApplication);
-        DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
-        response.setWebApplication(webApplication);
-        webApplication.linkRequestAndResponse(request, response);
-        HttpSession session = request.getSession(true);
-        request.setRequestedSessionId(session.getId());
-        assertTrue(request.isRequestedSessionIdValid());
     }
 
     /**

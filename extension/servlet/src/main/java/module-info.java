@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -55,6 +55,7 @@ module cloud.piranha.extension.servlet {
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.annotationscan.classfile;
     requires cloud.piranha.extension.apache.fileupload;
+    requires cloud.piranha.extension.expressly;
     requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;

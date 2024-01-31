@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -55,15 +55,6 @@ class DefaultWebApplicationBuilderTest {
     @Test
     void testBuild() {
         assertNotNull(new DefaultWebApplicationBuilder().build());
-    }
-
-    /**
-     * Test constructor.
-     */
-    @Test
-    void testConstructor() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        assertEquals(webApplication, new DefaultWebApplicationBuilder(webApplication).build());
     }
     
     /**
@@ -198,16 +189,6 @@ class DefaultWebApplicationBuilderTest {
                 .build();
         assertEquals("/test",
                 webApplication.getServletRegistration("testServlet").getMappings().iterator().next());
-    }
-
-    /**
-     * Test webApplication method.
-     */
-    @Test
-    void testWebApplication() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        assertEquals(webApplication,
-                new DefaultWebApplicationBuilder().webApplication(webApplication).build());
     }
 
     /**

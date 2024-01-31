@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023 Manorrock.com. All Rights Reserved.
+ * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -136,8 +136,10 @@ public interface WebApplication extends ServletContext {
 
     /**
      * Destroy the web application.
+     * 
+     * @return the web application.
      */
-    void destroy();
+    WebApplication destroy();
 
     /**
      * Get the default servlet.
@@ -197,8 +199,10 @@ public interface WebApplication extends ServletContext {
 
     /**
      * Initialize the web application.
+     * 
+     * @return the web application.
      */
-    void initialize();
+    WebApplication initialize();
 
     /**
      * Marks the end of initializing declared (web.xml, annotations) artifacts
@@ -360,13 +364,17 @@ public interface WebApplication extends ServletContext {
 
     /**
      * Start servicing.
+     * 
+     * @return the web application.
      */
-    void start();
+    WebApplication start();
 
     /**
      * Stop servicing.
+     * 
+     * @return the web application.
      */
-    void stop();
+    WebApplication stop();
 
     /**
      * Unlink the request and response.
