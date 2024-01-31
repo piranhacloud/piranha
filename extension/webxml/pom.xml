@@ -59,7 +59,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-wasp</artifactId>
+            <artifactId>piranha-extension-eclipse-wasp</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

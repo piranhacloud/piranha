@@ -247,6 +247,12 @@
                 <artifactId>expressly</artifactId>
                 <version>${expressly.version}</version>
             </dependency>
+            <!-- Eclipse WaSP -->
+            <dependency>
+                <groupId>org.glassfish.wasp</groupId>
+                <artifactId>wasp</artifactId>
+                <version>${wasp.version}</version>
+            </dependency>
             
             <!-- Eclipse Exousia -->
             <dependency>
@@ -366,12 +372,6 @@
                 <version>${tyrus.version}</version>
             </dependency>
                     
-            <!-- Eclipse WaSP -->
-            <dependency>
-                <groupId>org.glassfish.wasp</groupId>
-                <artifactId>wasp</artifactId>
-                <version>${wasp.version}</version>
-            </dependency>
             
             <!-- Eclipse Yasson  -->
             <dependency>
