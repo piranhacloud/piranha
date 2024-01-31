@@ -51,6 +51,6 @@ public class ExpresslyExtension implements WebApplicationExtension {
      */
     @Override
     public void configure(WebApplication webApplication) {
-        LOGGER.log(TRACE, "Initializing Expressly extension");
+        LOGGER.log(TRACE, "Configuring Expressly extension");
     }
 }
