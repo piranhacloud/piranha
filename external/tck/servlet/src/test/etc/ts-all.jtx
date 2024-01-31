@@ -556,6 +556,8 @@ com/sun/ts/tests/servlet/api/jakarta_servlet_http/asynccontext/URLClient.java#ti
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/cookie/URLClient.java#cloneTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/cookie/URLClient.java#constructorIllegalArgumentExceptionTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/cookie/URLClient.java#constructorTest
+com/sun/ts/tests/servlet/api/jakarta_servlet_http/cookie/URLClient.java#getAttributesTest
+com/sun/ts/tests/servlet/api/jakarta_servlet_http/cookie/URLClient.java#setAttributeTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/cookie/URLClient.java#getCommentNullTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/cookie/URLClient.java#getCommentTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/cookie/URLClient.java#getDomainTest
@@ -585,6 +587,7 @@ com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpservlet/URLClient.java#get
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpservlet/URLClient.java#init_ServletConfigTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpservlet/URLClient.java#initTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpservlet/URLClient.java#serviceTest
+com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpservletrequest/URLClient.java#doHeadTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpservletrequest/URLClient.java#getAttributeNamesTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpservletrequest/URLClient.java#getAttributeTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/httpservletrequest/URLClient.java#getAuthTypeWithoutProtectionTest
@@ -888,6 +891,7 @@ com/sun/ts/tests/servlet/api/jakarta_servlet_http/servletcontext303/URLClient.ja
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/servletcontext304/URLClient.java#addListenerTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/servletcontext305/URLClient.java#addListenerTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/sessioncookieconfig/URLClient.java#constructortest1
+com/sun/ts/tests/servlet/api/jakarta_servlet_http/sessioncookieconfig/URLClient.java#setAttributeTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/sessioncookieconfig/URLClient.java#setCommentTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/sessioncookieconfig/URLClient.java#setDomainTest
 com/sun/ts/tests/servlet/api/jakarta_servlet_http/sessioncookieconfig/URLClient.java#setHttpOnlyTest
@@ -1236,6 +1240,7 @@ com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet/unavailableexception/U
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.java#cloneTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.java#constructorIllegalArgumentExceptionTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.java#constructorTest
+com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.java#getAttributesTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.java#getCommentNullTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.java#getCommentTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.java#getDomainTest
@@ -1245,6 +1250,7 @@ com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.java#getSecureTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.java#getValueTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.java#getVersionTest
+com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.java#setAttributeTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.java#setCommentTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.java#setDomainTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/cookie/URLClient.java#setMaxAgeNegativeTest
@@ -1517,6 +1523,7 @@ com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/httpsessionevent/
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/httpsessionlistener/URLClient.java#createdTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/httpsessionlistener/URLClient.java#destroyedTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/sessioncookieconfig/URLClient.java#constructortest1
+com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/sessioncookieconfig/URLClient.java#setAttributeTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/sessioncookieconfig/URLClient.java#setCommentTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/sessioncookieconfig/URLClient.java#setDomainTest
 com/sun/ts/tests/servlet/pluggability/api/jakarta_servlet_http/sessioncookieconfig/URLClient.java#setHttpOnlyTest
