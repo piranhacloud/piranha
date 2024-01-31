@@ -23,6 +23,7 @@
         <module>coreprofile</module>
         <module>default-datasource</module>
         <module>eclipse-expressly</module>
+        <module>eclipse-wasp</module>
         <module>eclipselink</module>
         <module>eleos</module>
         <module>exousia</module>
@@ -41,7 +42,6 @@
         <module>soteria</module>
         <module>tempdir</module>
         <module>transact</module>
-        <module>wasp</module>
         <module>webprofile</module>
         <module>webxml</module>
         <module>welcomefile</module>
