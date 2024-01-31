@@ -40,5 +40,5 @@
 module cloud.piranha.extension.expressly {
     
     requires cloud.piranha.core.api;
-    requires org.glassfish.expressly;
+    requires transitive org.glassfish.expressly;
 }
