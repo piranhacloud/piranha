@@ -240,26 +240,26 @@
                 <artifactId>org.eclipse.persistence.json</artifactId>
                 <version>${eclipselink.version}</version>
             </dependency>
-            
-            <!-- Eclipse EL -->
-            <dependency>
-                <groupId>org.glassfish.expressly</groupId>
-                <artifactId>expressly</artifactId>
-                <version>${expressly.version}</version>
-            </dependency>
-            <!-- Eclipse WaSP -->
-            <dependency>
-                <groupId>org.glassfish.wasp</groupId>
-                <artifactId>wasp</artifactId>
-                <version>${wasp.version}</version>
-            </dependency>
-            
+
             <!-- Eclipse Exousia -->
             <dependency>
                 <groupId>org.glassfish.exousia</groupId>
                 <artifactId>exousia</artifactId>
                 <version>${exousia.version}</version>
             </dependency>
+            <!-- Eclipse Expressly (EL) -->
+            <dependency>
+                <groupId>org.glassfish.expressly</groupId>
+                <artifactId>expressly</artifactId>
+                <version>${expressly.version}</version>
+            </dependency>
+            <!-- Eclipse WaSP (Pages) -->
+            <dependency>
+                <groupId>org.glassfish.wasp</groupId>
+                <artifactId>wasp</artifactId>
+                <version>${wasp.version}</version>
+            </dependency>
+            
             
             <!-- Eclipse Grizzly -->
             <dependency>
