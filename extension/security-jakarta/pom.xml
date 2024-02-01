@@ -24,7 +24,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-soteria</artifactId>
+            <artifactId>piranha-extension-eclipse-soteria</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

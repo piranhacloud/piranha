@@ -46,5 +46,5 @@ module cloud.piranha.extension.soteria {
     requires jakarta.cdi;
     requires jakarta.inject;
     requires jakarta.security;
-    requires org.glassfish.soteria;
+    requires transitive org.glassfish.soteria;
 }

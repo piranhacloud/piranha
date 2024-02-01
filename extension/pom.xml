@@ -24,6 +24,7 @@
         <module>default-datasource</module>
         <module>eclipse-exousia</module>
         <module>eclipse-expressly</module>
+        <module>eclipse-soteria</module>
         <module>eclipse-wasp</module>
         <module>eclipselink</module>
         <module>eleos</module>
@@ -39,7 +40,6 @@
         <module>security-jakarta</module>
         <module>servlet</module>
         <module>servletannotations</module>
-        <module>soteria</module>
         <module>tempdir</module>
         <module>transact</module>
         <module>webprofile</module>
