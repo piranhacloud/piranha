@@ -35,6 +35,7 @@
         <module>naming-cdi</module>
         <module>platform</module>
         <module>policy</module>
+        <module>redhat-weld</module>
         <module>scinitializer</module>
         <module>security-servlet</module>
         <module>security-jakarta</module>
@@ -45,7 +46,6 @@
         <module>webprofile</module>
         <module>webxml</module>
         <module>welcomefile</module>
-        <module>weld</module>
     </modules>
 
     <dependencyManagement>
