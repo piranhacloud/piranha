@@ -71,6 +71,13 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- RedHat Weld -->
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-redhat-weld</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-transact</artifactId>
@@ -219,13 +226,6 @@
             <artifactId>angus-activation</artifactId>
         </dependency>
         
-        <!-- Jakarta CDI implementation -->
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-weld</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
         
         <!-- Jakarta Faces implementation -->
         <dependency>
