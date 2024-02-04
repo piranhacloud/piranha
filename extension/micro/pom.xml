@@ -41,6 +41,11 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-mojarra</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-eclipse-soteria</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -226,13 +231,6 @@
             <artifactId>angus-activation</artifactId>
         </dependency>
         
-        
-        <!-- Jakarta Faces implementation -->
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.faces</artifactId>
-            <scope>runtime</scope>
-        </dependency>
 
         <!-- Jakarta WebSocket implementation -->
         <dependency>
