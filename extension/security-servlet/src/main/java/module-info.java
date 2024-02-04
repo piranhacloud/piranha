@@ -38,8 +38,7 @@ module cloud.piranha.extension.security.servlet {
     opens cloud.piranha.extension.security.servlet;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
-    requires cloud.piranha.extension.eleos;
+    requires cloud.piranha.extension.epicyro;
     requires transitive cloud.piranha.extension.exousia;
     requires java.naming;
-    requires org.glassfish.eleos;
 }

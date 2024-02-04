@@ -68,6 +68,11 @@
 
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-epicyro</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-eclipse-exousia</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -86,13 +91,6 @@
             <artifactId>piranha-extension-eclipse-wasp</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eleos</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
 
         <dependency>
             <groupId>cloud.piranha.extension</groupId>

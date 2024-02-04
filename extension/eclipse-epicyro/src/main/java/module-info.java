@@ -27,23 +27,21 @@
  */
 
 /**
- * This module delivers the OmniFaces Eleos integration extension.
+ * This module delivers the Eclipse Epicyro integration extension.
  *
  * <p>
- *  This extension integrates OmniFaces Eleos into Piranha. See 
- *  https://github.com/omnifaces/eleos for more information about its project.
+ *  This extension integrates Eclipse Epicyro into Piranha. See 
+ *  https://github.com/eclipse-ee4j/epicyro for more information about its project.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.eleos {
+module cloud.piranha.extension.epicyro {
 
-    exports cloud.piranha.extension.eleos;
-    
-    opens cloud.piranha.extension.eleos;
-    
+    exports cloud.piranha.extension.epicyro;
+    opens cloud.piranha.extension.epicyro;
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires jakarta.security.auth.message;
-    requires transitive org.glassfish.eleos;
+    requires transitive org.glassfish.epicyro;
 }

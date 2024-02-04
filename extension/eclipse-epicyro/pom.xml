@@ -9,16 +9,17 @@
         <version>24.2.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-extension-eleos</artifactId>
+    <artifactId>piranha-extension-eclipse-epicyro</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Extension - OmniFaces Eleos</name>
+    <name>Piranha - Extension - Eclipse Epicyro</name>
 
     <dependencies>
         <!-- compile -->
         <dependency>
-            <groupId>org.omnifaces</groupId>
-            <artifactId>eleos</artifactId>
+            <groupId>org.glassfish.epicyro</groupId>
+            <artifactId>epicyro</artifactId>
+            <version>3.0.0</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
