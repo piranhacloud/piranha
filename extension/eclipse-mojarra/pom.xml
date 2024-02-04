@@ -7,30 +7,26 @@
         <artifactId>project</artifactId>
         <version>24.2.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-extension-eclipse-soteria</artifactId>
+    <artifactId>piranha-extension-eclipse-mojarra</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Eclipse Soteria</name>
+    <name>Piranha - Extension - Eclipse Mojarra</name>
     <dependencies>
-        <!-- compile -->
         <dependency>
             <groupId>cloud.piranha.core</groupId>
-            <artifactId>piranha-core-impl</artifactId>
+            <artifactId>piranha-core-api</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>jakarta.enterprise</groupId>
-            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-scinitializer</artifactId>
+            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- see https://github.com/eclipse-ee4j/mojarra -->
         <dependency>
-            <groupId>org.glassfish.soteria</groupId>
-            <artifactId>soteria.spi.bean.decorator.weld</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.soteria</groupId>
-            <artifactId>jakarta.security.enterprise</artifactId>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.faces</artifactId>
             <scope>compile</scope>
         </dependency>
     </dependencies>
