@@ -24,13 +24,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-exousia</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eleos</artifactId>
+            <artifactId>piranha-extension-eclipse-epicyro</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
             <exclusions>
@@ -39,6 +33,12 @@
                     <artifactId>jakarta.servlet-api</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-exousia</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <!-- test -->
         <dependency>
