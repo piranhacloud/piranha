@@ -25,6 +25,7 @@
         <module>eclipse-epicyro</module>
         <module>eclipse-exousia</module>
         <module>eclipse-expressly</module>
+        <module>eclipse-jersey</module>
         <module>eclipse-mojarra</module>
         <module>eclipse-soteria</module>
         <module>eclipse-wasp</module>

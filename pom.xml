@@ -83,8 +83,6 @@
         <eclipselink.version>4.0.2</eclipselink.version>
         <eclipse.jaxb.version>4.0.4</eclipse.jaxb.version>
         <eleos.version>3.0.4</eleos.version>
-        <exousia.version>2.1.1</exousia.version>
-        <expressly.version>5.0.0</expressly.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
         <!-- kept at 4.0.0 because tyrus 2.1.4 requires it -->
         <grizzly.version>4.0.0</grizzly.version>
@@ -93,11 +91,9 @@
         <htmlunit.version>2.70.0</htmlunit.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <h2.version>2.2.224</h2.version>
-        <jakarta.faces.version>4.0.5</jakarta.faces.version>
         <jandex.version>3.1.6</jandex.version>
         <!-- Kept at 1.2.5.Final because 1.3.0.Final does not work with Arquillian -->
         <jboss-classfilewriter.version>1.2.5.Final</jboss-classfilewriter.version>
-        <jersey.version>3.1.5</jersey.version>
         <jstl.version>3.0.1</jstl.version>
         <junit-pioneer.version>2.2.0</junit-pioneer.version>
         <junit-platform-launcher.version>1.10.1</junit-platform-launcher.version>
@@ -115,13 +111,10 @@
         <shrinkwrap-impl-base.version>2.0.0-beta-1</shrinkwrap-impl-base.version>
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.1.4</shrinkwrap-resolver.version>
-        <soteria.version>3.0.3</soteria.version>
         <spring-boot.version>3.2.1</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.1.4</tyrus.version>
         <undertow.version>2.3.10.Final</undertow.version>
-        <!-- Kept at 3.2.0 because 3.2.1 fails our tests on Windows -->
-        <wasp.version>3.2.0</wasp.version>
         <weld.version>5.1.2.Final</weld.version>
         <yasson.version>3.0.3</yasson.version>
         <!-- plugins -->
@@ -240,26 +233,6 @@
                 <artifactId>org.eclipse.persistence.json</artifactId>
                 <version>${eclipselink.version}</version>
             </dependency>
-
-            <!-- Eclipse Exousia -->
-            <dependency>
-                <groupId>org.glassfish.exousia</groupId>
-                <artifactId>exousia</artifactId>
-                <version>${exousia.version}</version>
-            </dependency>
-            <!-- Eclipse Expressly (EL) -->
-            <dependency>
-                <groupId>org.glassfish.expressly</groupId>
-                <artifactId>expressly</artifactId>
-                <version>${expressly.version}</version>
-            </dependency>
-            <!-- Eclipse WaSP (Pages) -->
-            <dependency>
-                <groupId>org.glassfish.wasp</groupId>
-                <artifactId>wasp</artifactId>
-                <version>${wasp.version}</version>
-            </dependency>
-            
             
             <!-- Eclipse Grizzly -->
             <dependency>
@@ -284,75 +257,19 @@
                 <artifactId>jaxb-runtime</artifactId>
                 <version>${eclipse.jaxb.version}</version>
             </dependency>
-            
-            <!-- Eclipse Jersey -->
-            <dependency>
-                <groupId>org.glassfish.jersey.containers</groupId>
-                <artifactId>jersey-container-servlet</artifactId>
-                <version>${jersey.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.containers</groupId>
-                <artifactId>jersey-container-servlet-core</artifactId>
-                <version>${jersey.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.core</groupId>
-                <artifactId>jersey-common</artifactId>
-                <version>${jersey.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.ext.cdi</groupId>
-                <artifactId>jersey-cdi1x</artifactId>
-                <version>${jersey.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.inject</groupId>
-                <artifactId>jersey-hk2</artifactId>
-                <version>${jersey.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.media</groupId>
-                <artifactId>jersey-media-json-binding</artifactId>
-                <version>${jersey.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.jersey.media</groupId>
-                <artifactId>jersey-media-json-processing</artifactId>
-                <version>${jersey.version}</version>
-            </dependency>
-                     
+                                 
             <!-- Eclipse JSTL -->
             <dependency>
                 <groupId>org.glassfish.web</groupId>
                 <artifactId>jakarta.servlet.jsp.jstl</artifactId>
                 <version>${jstl.version}</version>
             </dependency>
-            
-            <!-- Eclipse Mojarra -->
-            <dependency>
-                <groupId>org.glassfish</groupId>
-                <artifactId>jakarta.faces</artifactId>
-                <version>${jakarta.faces.version}</version>
-            </dependency>
-            
+                        
             <!-- Eclipse Parsson -->
             <dependency>
                 <groupId>org.eclipse.parsson</groupId>
                 <artifactId>parsson</artifactId>
                 <version>${parsson.version}</version>
-            </dependency>
-            
-            <!-- Eclipse Soteria -->
-            <dependency>
-                <groupId>org.glassfish.soteria</groupId>
-                <artifactId>soteria.spi.bean.decorator.weld</artifactId>
-                <version>${soteria.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.soteria</groupId>
-                <artifactId>jakarta.security.enterprise</artifactId>
-                <version>${soteria.version}</version>
             </dependency>
             
             <!-- Eclipse Tyrus -->
@@ -372,7 +289,6 @@
                 <version>${tyrus.version}</version>
             </dependency>
                     
-            
             <!-- Eclipse Yasson  -->
             <dependency>
                 <groupId>org.eclipse</groupId>
