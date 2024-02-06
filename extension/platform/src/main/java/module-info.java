@@ -51,9 +51,9 @@ module cloud.piranha.extension.platform {
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.annotationscan.classfile;
     requires cloud.piranha.extension.expressly;
+    requires cloud.piranha.extension.jersey;
     requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.scinitializer;
-    requires jakarta.ws.rs;
     requires org.eclipse.parsson;
     requires org.eclipse.yasson;
 }
