@@ -45,6 +45,7 @@
         <module>arquillian</module>
         <module>bom</module>
         <module>classloader</module>
+        <module>cli</module>
         <module>core</module>
         <module>dist</module>
         <module>embedded</module>
