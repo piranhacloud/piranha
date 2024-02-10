@@ -83,6 +83,11 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-mojarra</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-eclipse-soteria</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -462,38 +467,16 @@
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
         </dependency>
 
-        <!-- Eclipse Mojarra -->
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.faces</artifactId>
-        </dependency>
-
         <!-- Eclipse Parsson -->
         <dependency>
             <groupId>org.eclipse.parsson</groupId>
             <artifactId>parsson</artifactId>
         </dependency>
 
-        <!-- Eclipse Soteria -->
-        <dependency>
-            <groupId>org.glassfish.soteria</groupId>
-            <artifactId>soteria.spi.bean.decorator.weld</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.soteria</groupId>
-            <artifactId>jakarta.security.enterprise</artifactId>
-        </dependency>
-
         <!-- Eclipse Tyrus -->
         <dependency>
             <groupId>org.glassfish.tyrus</groupId>
             <artifactId>tyrus-container-servlet</artifactId>
-        </dependency>
-
-        <!-- Eclipse WaSP -->
-        <dependency>
-            <groupId>org.glassfish.wasp</groupId>
-            <artifactId>wasp</artifactId>
         </dependency>
 
         <!-- Eclipse Yasson -->
