@@ -38,6 +38,7 @@
  *  <li>Apache Commons File Upload (Multipart)</li>
  *  <li>Default DataSource</li>
  *  <li>Eclipse Expressly (EL)</li>
+ *  <li>Eclipse Jersey (REST)</li>
  *  <li>Naming (JNDI)</li>
  *  <li>Java Policy</li>
  *  <li>ServletContainerInitializer</li>
@@ -61,6 +62,7 @@ module cloud.piranha.extension.webprofile {
     requires cloud.piranha.extension.expressly;
     requires cloud.piranha.extension.datasource;
     requires cloud.piranha.extension.eclipselink;
+    requires cloud.piranha.extension.jersey;
     requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;

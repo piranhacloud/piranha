@@ -27,31 +27,18 @@
  */
 
 /**
- * This module delivers the meta extension for MicroProfile.
+ * This module delivers the Eclipse Jersey integration extension.
  *
  * <p>
- *  The following extensions and/or dependencies are delivered as part of this
- *  meta extension:
+ *  This extension integrates Eclipse Jersey into Piranha. See 
+ *  https://github.com/eclipse-ee4j/jersey for more information about its
+ *  project.
  * </p>
- * <ul>
- *  <li>Annotation Scanning</li>
- *  <li>Eclipse Parsson (JSON)</li>
- *  <li>Eclipse Yasson (JSON-B)</li>
- *  <li>Eclipse Jersey (REST)</li>
- *  <li>Naming (JNDI)</li>
- *  <li>ServletContainerInitializer</li>
- * </ul>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.microprofile {
+module cloud.piranha.extension.jersey {
     
-    exports cloud.piranha.extension.microprofile;
-    opens cloud.piranha.extension.microprofile;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.annotationscan.classfile;
-    requires cloud.piranha.extension.jersey;
-    requires cloud.piranha.extension.naming;
-    requires cloud.piranha.extension.scinitializer;
-    requires org.eclipse.parsson;
-    requires org.eclipse.yasson;
+    requires static cloud.piranha.extension.scinitializer;
 }

@@ -45,11 +45,16 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-jersey</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-naming</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- RedHat Weld -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-redhat-weld</artifactId>
@@ -61,30 +66,10 @@
             <artifactId>piranha-extension-scinitializer</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
-        </dependency>       
+        </dependency>
         <dependency>
             <groupId>org.eclipse</groupId>
             <artifactId>yasson</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.ext.cdi</groupId>
-            <artifactId>jersey-cdi1x</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-json-binding</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.inject</groupId>
-            <artifactId>jersey-hk2</artifactId>
             <scope>compile</scope>
         </dependency>
     </dependencies>

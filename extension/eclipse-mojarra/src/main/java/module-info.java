@@ -40,5 +40,5 @@
 module cloud.piranha.extension.mojarra {
     
     requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.scinitializer;
+    requires static cloud.piranha.extension.scinitializer;
 }
