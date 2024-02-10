@@ -35,7 +35,7 @@ import java.util.Set;
 import org.glassfish.exousia.modules.def.DefaultPolicy;
 import org.glassfish.exousia.modules.def.DefaultPolicyConfigurationFactory;
 
-import cloud.piranha.extension.eleos.AuthenticationInitializer;
+import cloud.piranha.extension.epicyro.AuthenticationInitializer;
 import cloud.piranha.extension.exousia.AuthorizationInitializer;
 import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
 import cloud.piranha.extension.exousia.AuthorizationPreInitializer;

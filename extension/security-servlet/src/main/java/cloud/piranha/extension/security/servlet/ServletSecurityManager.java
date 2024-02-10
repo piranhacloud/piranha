@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.security.servlet;
 
-import static cloud.piranha.extension.eleos.AuthenticationInitializer.AUTH_SERVICE;
+import static cloud.piranha.extension.epicyro.AuthenticationInitializer.AUTH_SERVICE;
 import static cloud.piranha.extension.exousia.AuthorizationPreInitializer.AUTHZ_SERVICE;
 import static cloud.piranha.core.api.SecurityManager.AuthenticateSource.MID_REQUEST_USER;
 import static cloud.piranha.core.impl.DefaultAuthenticatedIdentity.getCurrentSubject;

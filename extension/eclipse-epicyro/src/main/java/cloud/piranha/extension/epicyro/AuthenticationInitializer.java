@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.eleos;
+package cloud.piranha.extension.epicyro;
 
 import cloud.piranha.core.api.AuthenticatedIdentity;
 import cloud.piranha.core.api.SecurityManager;
@@ -57,7 +57,7 @@ import org.glassfish.epicyro.services.DefaultAuthenticationService;
 import org.glassfish.epicyro.services.InMemoryStore;
 
 /**
- * The Eleos initializer.
+ * The Epicyro initializer.
  *
  * @author Arjan Tijms
  * @author Manfred Riem (mriem@manorrock.com)
@@ -80,7 +80,7 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
     public static final Logger LOGGER = System.getLogger(AuthenticationInitializer.class.getName());
 
     /**
-     * Initialize Eleos
+     * Initialize Epicyro.
      *
      * @param classes the classes.
      * @param servletContext the Servlet context.
@@ -89,7 +89,7 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
 
-        LOGGER.log(DEBUG, "Initializing Eleos");
+        LOGGER.log(DEBUG, "Initializing Epicyro");
 
         String appContextId = servletContext.getVirtualServerName() + " " + servletContext.getContextPath();
 

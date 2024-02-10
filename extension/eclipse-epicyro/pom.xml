@@ -9,7 +9,7 @@
         <version>24.1.99-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-extension-eleos</artifactId>
+    <artifactId>piranha-extension-eclipse-epicyro</artifactId>
     <packaging>jar</packaging>
 
     <name>Piranha - Extension - Epicyro</name>
@@ -19,6 +19,7 @@
         <dependency>
             <groupId>org.glassfish.epicyro</groupId>
             <artifactId>epicyro</artifactId>
+            <version>3.0.0</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
