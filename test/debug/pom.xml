@@ -68,6 +68,11 @@
 
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-exousia</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-eclipse-expressly</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -83,11 +88,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-exousia</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
@@ -411,18 +411,6 @@
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.jpa</artifactId>
-        </dependency>
-
-        <!-- Eclipse EL -->
-        <dependency>
-            <groupId>org.glassfish.expressly</groupId>
-            <artifactId>expressly</artifactId>
-        </dependency>
-
-        <!-- Eclipse Exousia -->
-        <dependency>
-            <groupId>org.glassfish.exousia</groupId>
-            <artifactId>exousia</artifactId>
         </dependency>
 
         <!-- Eclipse Grizzly -->

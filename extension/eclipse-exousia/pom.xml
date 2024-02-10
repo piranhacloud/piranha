@@ -9,7 +9,7 @@
         <version>24.1.99-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-extension-exousia</artifactId>
+    <artifactId>piranha-extension-eclipse-exousia</artifactId>
     <packaging>jar</packaging>
 
     <name>Piranha - Extension - Eclipse Exousia</name>

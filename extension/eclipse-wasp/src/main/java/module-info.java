@@ -43,5 +43,5 @@ module cloud.piranha.extension.wasp {
     opens cloud.piranha.extension.wasp;
     requires cloud.piranha.core.impl;
     requires jakarta.servlet.jsp;
-    requires org.glassfish.wasp;
+    requires transitive org.glassfish.wasp;
 }

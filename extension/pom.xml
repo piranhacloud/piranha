@@ -22,11 +22,11 @@
         <module>bytesstreamhandler</module>
         <module>coreprofile</module>
         <module>default-datasource</module>
+        <module>eclipse-exousia</module>
         <module>eclipse-expressly</module>
         <module>eclipse-wasp</module>
         <module>eclipselink</module>
         <module>eleos</module>
-        <module>exousia</module>
         <module>hazelcast</module>
         <module>micro</module>
         <module>microprofile</module>

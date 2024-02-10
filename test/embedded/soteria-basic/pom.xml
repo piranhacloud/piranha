@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-exousia</artifactId>
+            <artifactId>piranha-extension-eclipse-exousia</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

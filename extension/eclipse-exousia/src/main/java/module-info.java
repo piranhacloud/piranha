@@ -44,6 +44,6 @@ module cloud.piranha.extension.exousia {
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires jakarta.security.jacc;
-    requires org.glassfish.exousia;
     requires jakarta.servlet;
+    requires transitive org.glassfish.exousia;
 }

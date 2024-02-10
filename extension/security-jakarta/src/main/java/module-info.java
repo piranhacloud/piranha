@@ -40,7 +40,6 @@ module cloud.piranha.extension.security.jakarta {
     requires cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.eleos;
-    requires cloud.piranha.extension.exousia;
     requires cloud.piranha.extension.security.servlet;
     requires cloud.piranha.extension.soteria;
     requires cloud.piranha.extension.weld;
