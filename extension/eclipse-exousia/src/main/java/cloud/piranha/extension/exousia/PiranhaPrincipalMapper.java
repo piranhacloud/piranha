@@ -27,16 +27,13 @@
  */
 package cloud.piranha.extension.exousia;
 
-import static java.util.stream.StreamSupport.stream;
-
-import java.security.Principal;
-import java.util.List;
-
-import javax.security.auth.Subject;
-
-import org.glassfish.exousia.spi.PrincipalMapper;
-
 import cloud.piranha.core.api.AuthenticatedIdentity;
+import jakarta.security.jacc.PrincipalMapper;
+import java.security.Principal;
+import java.util.Set;
+import java.util.stream.Collectors;
+import static java.util.stream.StreamSupport.stream;
+import javax.security.auth.Subject;
 
 /**
  * The Piranha PrincipalMapper.
@@ -46,12 +43,21 @@ import cloud.piranha.core.api.AuthenticatedIdentity;
 public class PiranhaPrincipalMapper implements PrincipalMapper {
 
     @Override
-    public List<String> getMappedRoles(Iterable<Principal> principals, Subject subject) {
+    public Principal getCallerPrincipal(Subject sbjct) {
+        return null;
+    }
+    
+    @Override
+    public Set<String> getMappedRoles(Set<Principal> principals) {
         return stream(principals.spliterator(), false)
              .filter(AuthenticatedIdentity.class::isInstance)
              .map(AuthenticatedIdentity.class::cast)
              .flatMap(e -> e.getGroups().stream())
-             .toList();
+             .collect(Collectors.toSet());
     }
-    
+
+    @Override
+    public Set<String> getMappedRoles(Subject sbjct) {
+        return getMappedRoles(sbjct.getPrincipals());
+    }
 }

@@ -20,6 +20,7 @@
         <jakarta.annotation-api.version>3.0.0-M1</jakarta.annotation-api.version>
         <jakarta.authentication-api.version>3.1.0-M1</jakarta.authentication-api.version>
         <jakarta.authorization-api.version>3.0.0-M1</jakarta.authorization-api.version>
+        <jakarta.enterprise.concurrent-api.version>3.1.0-M1</jakarta.enterprise.concurrent-api.version>
         <jakarta.ejb-api.version>4.0.1</jakarta.ejb-api.version>
         <jakarta.el-api.version>6.0.0-M2</jakarta.el-api.version>
         <jakarta.enterprise.cdi-api.version>4.1.0-M1</jakarta.enterprise.cdi-api.version>
@@ -80,6 +81,13 @@
                 <groupId>jakarta.validation</groupId>
                 <artifactId>jakarta.validation-api</artifactId>
                 <version>${jakarta.validation-api.version}</version>
+            </dependency>
+            
+            <!-- Jakarta Concurrent -->
+            <dependency>
+                <groupId>jakarta.enterprise.concurrent</groupId>
+                <artifactId>jakarta.enterprise.concurrent-api</artifactId>
+                <version>${jakarta.enterprise.concurrent-api.version}</version>
             </dependency>
             
             <!-- Jakarta Contexts and Dependency Injection -->

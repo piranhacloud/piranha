@@ -37,5 +37,4 @@ module cloud.piranha.core.impl {
     opens cloud.piranha.core.impl;
     requires transitive cloud.piranha.core.api;
     requires transitive cloud.piranha.resource.impl;
-    requires java.base;
 }

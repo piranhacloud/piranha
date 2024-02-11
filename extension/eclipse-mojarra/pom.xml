@@ -10,6 +10,9 @@
     <artifactId>piranha-extension-eclipse-mojarra</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - Extension - Eclipse Mojarra</name>
+    <properties>
+        <mojarra.version>4.1.0-M1</mojarra.version>
+    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>
@@ -29,7 +32,7 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.faces</artifactId>
-            <version>4.1.0-M1</version>
+            <version>${mojarra.version}</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>

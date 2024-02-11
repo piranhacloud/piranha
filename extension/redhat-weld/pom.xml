@@ -2,20 +2,17 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cloud.piranha.extension</groupId>
         <artifactId>project</artifactId>
         <version>24.1.99-SNAPSHOT</version>
     </parent>
-
     <artifactId>piranha-extension-redhat-weld</artifactId>
     <packaging>jar</packaging>
-
     <name>Piranha - Extension - RedHat Weld</name>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <weld.version>6.0.0.Alpha1</weld.version>
     </properties>
 
     <dependencies>
@@ -23,6 +20,7 @@
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet-core</artifactId>
+            <version>${weld.version}</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
@@ -72,6 +70,7 @@
             <artifactId>jakarta.transaction-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- runtime -->
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-el-api</artifactId>

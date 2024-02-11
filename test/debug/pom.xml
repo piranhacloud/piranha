@@ -164,12 +164,6 @@
         </dependency>
 
         <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-redhat-weld</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>cloud.piranha.http</groupId>
             <artifactId>piranha-http-api</artifactId>
             <version>${project.version}</version>
@@ -287,12 +281,6 @@
         <dependency>
             <groupId>jakarta.el</groupId>
             <artifactId>jakarta.el-api</artifactId>
-        </dependency>
-
-        <!-- Jakarta Contexts Dependency Injection -->
-        <dependency>
-            <groupId>jakarta.enterprise</groupId>
-            <artifactId>jakarta.enterprise.cdi-api</artifactId>
         </dependency>
 
         <!-- Jakarta Faces -->
@@ -523,12 +511,6 @@
         <dependency>
             <groupId>io.undertow</groupId>
             <artifactId>undertow-core</artifactId>
-        </dependency>
-
-        <!-- JBoss Weld -->
-        <dependency>
-            <groupId>org.jboss.weld.servlet</groupId>
-            <artifactId>weld-servlet-core</artifactId>
         </dependency>
 
         <!-- JUnit -->
