@@ -2,18 +2,22 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cloud.piranha.external.tck</groupId>
         <artifactId>project</artifactId>
         <version>24.3.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>piranha-external-tck-expression-language</artifactId>
     <packaging>pom</packaging>
-
     <name>Piranha - External - TCK - Expression Language</name>
-
+    <properties>
+        <ant.home>${project.build.directory}/ant</ant.home>
+        <ant.java.home>${java.home}</ant.java.home>
+        <expressly.version>5.0.0</expressly.version>
+        <work.home>${project.build.directory}/work</work.home>
+        <tck.home>${project.build.directory}/tck</tck.home>
+        <test.home>${tck.home}/src/com/sun/ts/tests</test.home>
+    </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -147,12 +151,4 @@
             </plugin>
         </plugins>
     </build>
-    
-    <properties>
-        <ant.home>${project.build.directory}/ant</ant.home>
-        <ant.java.home>${java.home}</ant.java.home>
-        <work.home>${project.build.directory}/work</work.home>
-        <tck.home>${project.build.directory}/tck</tck.home>
-        <test.home>${tck.home}/src/com/sun/ts/tests</test.home>
-    </properties>
 </project>
