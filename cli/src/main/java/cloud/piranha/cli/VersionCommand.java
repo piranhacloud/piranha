@@ -27,62 +27,43 @@
  */
 package cloud.piranha.cli;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 /**
- * The Piranha CLI.
- * 
+ * The version command.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class Cli {
+public class VersionCommand implements Runnable {
 
     /**
      * Stores the arguments.
      */
-    private String[] arguments;
-    
-    /**
-     * Main method.
-     * 
-     * @param arguments the command-line arguments.
-     */
-    public static void main(String[] arguments) {
-        Cli cli = new Cli();
-        cli.arguments = arguments;
-        cli.run();
-    }
-    
-    /**
-     * Run method.
-     */
-    public void run() {
-        if (arguments.length == 0) {
-            usage();
-        } else {
-            switch (arguments[0]) {
-                case "help" -> usage();
-                case "version" -> new VersionCommand(arguments).run();
-            }
-        }
-    }
+    private final String[] arguments;
 
     /**
-     * Set the command-line arguments.
-     * 
-     * @param arguments the command-line arguments.
+     * Constructor.
+     *
+     * @param arguments the arguments.
      */
-    public void setArguments(String[] arguments) {
+    public VersionCommand(String[] arguments) {
         this.arguments = arguments;
     }
 
     /**
-     * Show the help.
+     * Run the command.
      */
-    private void usage() {
-        System.out.println();
-        System.out.println("usage: piranha [command]");
-        System.out.println();
-        System.out.println("Available commands:");
-        System.out.println();
-        System.out.println("    help        : Show help");
-        System.out.println();
+    @Override
+    public void run() {
+        try {
+            String version = Files.readAllLines(
+                    Path.of(getClass().getResource("/VERSION").toURI())).get(0);
+            System.out.println(version);
+        } catch (IOException | URISyntaxException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
