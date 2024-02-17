@@ -10,4 +10,15 @@
     <artifactId>piranha-cli</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - CLI</name>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>VERSION</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 </project>
