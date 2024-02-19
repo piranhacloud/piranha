@@ -22,6 +22,7 @@
         <module>bytesstreamhandler</module>
         <module>coreprofile</module>
         <module>default-datasource</module>
+        <module>eclipse-concurro</module>
         <module>eclipse-epicyro</module>
         <module>eclipse-exousia</module>
         <module>eclipse-expressly</module>
