@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.dist</groupId>
         <artifactId>project</artifactId>
-        <version>24.1.99-SNAPSHOT</version>
+        <version>24.2.99-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-dist-webprofile</artifactId>
