@@ -27,10 +27,7 @@
  */
 package cloud.piranha.cli;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import static cloud.piranha.cli.Util.version;
 
 /**
  * The version command.
@@ -40,17 +37,11 @@ import java.nio.file.Path;
 public class VersionCommand implements Runnable {
 
     /**
-     * Stores the arguments.
-     */
-    private final String[] arguments;
-
-    /**
      * Constructor.
      *
      * @param arguments the arguments.
      */
     public VersionCommand(String[] arguments) {
-        this.arguments = arguments;
     }
 
     /**
@@ -58,12 +49,6 @@ public class VersionCommand implements Runnable {
      */
     @Override
     public void run() {
-        try {
-            String version = Files.readAllLines(
-                    Path.of(getClass().getResource("/VERSION").toURI())).get(0);
-            System.out.println(version);
-        } catch (IOException | URISyntaxException e) {
-            System.out.println(e.getMessage());
-        }
+        System.out.println(version());
     }
 }
