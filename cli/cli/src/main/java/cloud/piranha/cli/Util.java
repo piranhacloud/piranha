@@ -27,67 +27,51 @@
  */
 package cloud.piranha.cli;
 
-import static cloud.piranha.cli.Util.stripFirstElement;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
- * The Piranha CLI.
- * 
+ * Utility class.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class Cli {
+public class Util {
 
     /**
-     * Stores the arguments.
+     * Private constructor.
      */
-    private String[] arguments;
-    
-    /**
-     * Main method.
-     * 
-     * @param arguments the command-line arguments.
-     */
-    public static void main(String[] arguments) {
-        Cli cli = new Cli();
-        cli.arguments = arguments;
-        cli.run();
+    private Util() {
     }
-    
+
     /**
-     * Run method.
+     * Strip first element and return a new array.
+     *
+     * @param array the array.
+     * @return the copied array minus the first element.
      */
-    public void run() {
-        if (arguments.length == 0) {
-            usage();
-        } else {
-            switch (arguments[0]) {
-                case "coreprofile" -> new CoreProfileCommand(stripFirstElement(arguments)).run();
-                case "help" -> usage();
-                case "version" -> new VersionCommand(stripFirstElement(arguments)).run();
-            }
+    public static String[] stripFirstElement(String[] array) {
+        String[] newArray = new String[array.length - 1];
+        for (int i = 1; i < array.length; i++) {
+            newArray[i - 1] = array[i];
         }
+        return newArray;
     }
 
     /**
-     * Set the command-line arguments.
-     * 
-     * @param arguments the command-line arguments.
+     * Get the Piranha version.
+     *
+     * @return the Piranha version.
      */
-    public void setArguments(String[] arguments) {
-        this.arguments = arguments;
-    }
-
-    /**
-     * Show the help.
-     */
-    private void usage() {
-        System.out.println();
-        System.out.println("usage: piranha [command] [subcommand]");
-        System.out.println();
-        System.out.println("Available commands:");
-        System.out.println();
-        System.out.println("    coreprofile : Piranha Core Profile commands");
-        System.out.println("    help        : Show help");
-        System.out.println("    version     : Show version");
-        System.out.println();
+    public static String version() {
+        String version;
+        try {
+            version = Files.readAllLines(
+                    Path.of(Util.class.getResource("/VERSION").toURI())).get(0);
+        } catch (IOException | URISyntaxException e) {
+            version = e.getMessage();
+        }
+        return version;
     }
 }

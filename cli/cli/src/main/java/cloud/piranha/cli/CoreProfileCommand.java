@@ -30,64 +30,60 @@ package cloud.piranha.cli;
 import static cloud.piranha.cli.Util.stripFirstElement;
 
 /**
- * The Piranha CLI.
- * 
+ * The version command.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class Cli {
+public class CoreProfileCommand implements Runnable {
 
     /**
      * Stores the arguments.
      */
-    private String[] arguments;
-    
+    private final String[] arguments;
+
     /**
-     * Main method.
-     * 
-     * @param arguments the command-line arguments.
+     * Constructor.
+     *
+     * @param arguments the arguments.
      */
-    public static void main(String[] arguments) {
-        Cli cli = new Cli();
-        cli.arguments = arguments;
-        cli.run();
+    public CoreProfileCommand(String[] arguments) {
+        this.arguments = arguments;
     }
-    
+
     /**
-     * Run method.
+     * Run the command.
      */
+    @Override
     public void run() {
         if (arguments.length == 0) {
             usage();
         } else {
             switch (arguments[0]) {
-                case "coreprofile" -> new CoreProfileCommand(stripFirstElement(arguments)).run();
+                case "download" -> new CoreProfileDownloadCommand(stripFirstElement(arguments)).run();
                 case "help" -> usage();
-                case "version" -> new VersionCommand(stripFirstElement(arguments)).run();
             }
         }
     }
 
-    /**
-     * Set the command-line arguments.
-     * 
-     * @param arguments the command-line arguments.
-     */
-    public void setArguments(String[] arguments) {
-        this.arguments = arguments;
-    }
 
     /**
      * Show the help.
      */
     private void usage() {
         System.out.println();
-        System.out.println("usage: piranha [command] [subcommand]");
+        System.out.println("usage: piranha coreprofile [command] <options>");
         System.out.println();
         System.out.println("Available commands:");
         System.out.println();
-        System.out.println("    coreprofile : Piranha Core Profile commands");
+        System.out.println("    download    : Download the Piranha Core Profile distribution");
         System.out.println("    help        : Show help");
-        System.out.println("    version     : Show version");
         System.out.println();
+        System.out.println();
+        System.out.println("Command: download");
+        System.out.println("-----------------");
+        System.out.println();
+        System.out.println("Available options:");
+        System.out.println();
+        System.out.println("  --outputDirectory <directory> : specify the output directory");
     }
 }
