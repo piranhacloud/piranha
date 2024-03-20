@@ -93,7 +93,7 @@
                         <phase>compile</phase>
                         <configuration>
                             <compilerArgs>
-                                <arg>--patch-module=shrinkwrap.resolver.api.maven=${settings.localRepository}/org/jboss/shrinkwrap/resolver/shrinkwrap-resolver-api/3.1.4/shrinkwrap-resolver-api-3.1.4.jar</arg>
+                                <arg>--patch-module=shrinkwrap.resolver.api.maven=${settings.localRepository}/org/jboss/shrinkwrap/resolver/shrinkwrap-resolver-api/3.3.0/shrinkwrap-resolver-api-3.3.0.jar</arg>
                             </compilerArgs>
                         </configuration>
                     </execution>
