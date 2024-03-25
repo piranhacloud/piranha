@@ -80,7 +80,7 @@ public class CoreProfileDownloadCommand implements Runnable {
     /**
      * Stores the version we are downloading.
      */
-    private String version = "24.2.0";
+    private String version = "24.3.0";
 
     /**
      * Constructor.
@@ -97,6 +97,7 @@ public class CoreProfileDownloadCommand implements Runnable {
     private void downloadRelease() {
         String urlString = MAVEN_CENTRAL_PREFIX + "piranha-dist-coreprofile/"
                 + version + "/piranha-dist-coreprofile-" + version + ".jar";
+        filename = "piranha-dist-coreprofile-" + version + ".jar";
 
         try {
             url = new URL(urlString);
@@ -114,6 +115,7 @@ public class CoreProfileDownloadCommand implements Runnable {
     private void downloadSnapshot() {
         String urlString = SONATYPE_SNAPSHOTS_PREFIX + "piranha-dist-coreprofile/"
                 + version + "/piranha-dist-coreprofile-" + version + ".jar";
+        filename = "piranha-dist-coreprofile-" + version + ".jar";
 
         try {
             url = new URL(urlString);
