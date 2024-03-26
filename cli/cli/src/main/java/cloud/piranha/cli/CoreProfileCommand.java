@@ -59,8 +59,9 @@ public class CoreProfileCommand implements Runnable {
             usage();
         } else {
             switch (arguments[0]) {
-                case "run" -> new CoreProfileRunCommand(stripFirstElement(arguments)).run();
                 case "download" -> new CoreProfileDownloadCommand(stripFirstElement(arguments)).run();
+                case "run" -> new CoreProfileRunCommand(stripFirstElement(arguments)).run();
+                case "start" -> new CoreProfileStartCommand(stripFirstElement(arguments)).run();
                 case "help" -> usage();
             }
         }
