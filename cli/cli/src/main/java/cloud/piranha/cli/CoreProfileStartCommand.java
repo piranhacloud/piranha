@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * The coreprofile run command.
+ * The coreprofile start command.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
