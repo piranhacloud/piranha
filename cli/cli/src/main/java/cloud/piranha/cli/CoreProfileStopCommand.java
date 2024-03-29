@@ -27,14 +27,15 @@
  */
 package cloud.piranha.cli;
 
-import static cloud.piranha.cli.Util.stripFirstElement;
+import static cloud.piranha.cli.Util.version;
+import java.io.File;
 
 /**
- * The version command.
+ * The coreprofile stop command.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class CoreProfileCommand implements Runnable {
+public class CoreProfileStopCommand implements Runnable {
 
     /**
      * Stores the arguments.
@@ -42,51 +43,55 @@ public class CoreProfileCommand implements Runnable {
     private final String[] arguments;
 
     /**
+     * Stores the distribution filename we are going use.
+     */
+    private String distributionFilename = "piranha-dist-coreprofile-" + version() + ".jar";
+
+    /**
+     * Stores the distribution directory.
+     */
+    private File distributionDirectory = new File(System.getProperty("user.home"),
+            ".piranha/coreprofile/download");
+
+    /**
+     * Stores the run arguments (--arguments).
+     */
+    private String runArguments;
+
+    /**
+     * Stores the version we are using.
+     */
+    private String version = "24.3.0";
+
+    /**
      * Constructor.
      *
      * @param arguments the arguments.
      */
-    public CoreProfileCommand(String[] arguments) {
+    public CoreProfileStopCommand(String[] arguments) {
         this.arguments = arguments;
     }
 
-    /**
-     * Run the command.
-     */
     @Override
     public void run() {
-        if (arguments.length == 0) {
-            usage();
-        } else {
-            switch (arguments[0]) {
-                case "download" -> new CoreProfileDownloadCommand(stripFirstElement(arguments)).run();
-                case "run" -> new CoreProfileRunCommand(stripFirstElement(arguments)).run();
-                case "start" -> new CoreProfileStartCommand(stripFirstElement(arguments)).run();
-                case "stop" -> new CoreProfileStopCommand(stripFirstElement(arguments)).run();
-                case "help" -> usage();
-            }
-        }
+        parseArguments();
+        stopPiranhaCoreProfile();
     }
 
+    /**
+     * Parse the command-line arguments.
+     */
+    private void parseArguments() {
+        System.out.println("Parse arguments");
+    }
 
     /**
-     * Show the help.
+     * Stop Piranha Core Profile.
      */
-    private void usage() {
-        System.out.println();
-        System.out.println("usage: piranha coreprofile [command] <options>");
-        System.out.println();
-        System.out.println("Available commands:");
-        System.out.println();
-        System.out.println("    download    : Download the Piranha Core Profile distribution");
-        System.out.println("    help        : Show help");
-        System.out.println();
-        System.out.println();
-        System.out.println("Command: download");
-        System.out.println("-----------------");
-        System.out.println();
-        System.out.println("Available options:");
-        System.out.println();
-        System.out.println("  --outputDirectory <directory> : specify the output directory");
+    private void stopPiranhaCoreProfile() {
+        File pidFile = new File("piranha.pid");
+        if (pidFile.exists()) {
+            pidFile.delete();
+        }
     }
 }
