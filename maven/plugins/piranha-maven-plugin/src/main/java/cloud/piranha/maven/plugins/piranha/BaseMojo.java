@@ -76,6 +76,12 @@ public abstract class BaseMojo extends AbstractMojo {
     protected Integer httpPort;
     
     /**
+     * Stores the HTTPS keystore file.
+     */
+    @Parameter(property = "piranha.httpsKeystoreFile", required = false)
+    protected String httpsKeystoreFile;
+    
+    /**
      * Stores the HTTPS port
      */
     @Parameter(defaultValue = "-1", property = "piranha.httpsPort", required = false)
