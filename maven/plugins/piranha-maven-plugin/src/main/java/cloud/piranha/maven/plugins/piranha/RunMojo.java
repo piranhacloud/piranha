@@ -85,6 +85,10 @@ public class RunMojo extends BaseMojo {
             commands.add("--https-port");
             commands.add(httpsPort.toString());
         }
+        if (httpsKeystoreFile != null) {
+            commands.add("--https-keystore-file");
+            commands.add(httpsKeystoreFile);
+        }
         commands.add("--war-file");
         commands.add(warName + ".war");
         commands.add("--write-pid");
