@@ -89,6 +89,10 @@ public class StartMojo extends BaseMojo {
             commands.add("--https-keystore-file");
             commands.add(httpsKeystoreFile);
         }
+        if (httpsKeystorePassword != null) {
+            commands.add("--https-keystore-password");
+            commands.add(httpsKeystorePassword);
+        }
         commands.add("--war-file");
         commands.add(warName + ".war");
         commands.add("--write-pid");
