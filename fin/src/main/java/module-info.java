@@ -26,56 +26,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package cloud.piranha.uber;
-
-import java.io.File;
-
 /**
- * The Uber version of Piranha.
- *
+ * This module delivers Piranha Fin.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class UberPiranha implements Runnable {
-    
-    /**
-     * Stores the temporary directory.
-     */
-    private File tempDirectory = new File(".piranhaUber");
+module cloud.piranha.fin {
 
-    /**
-     * Main method.
-     * 
-     * @param arguments the command-line arguments.
-     */
-    public static void main(String[] arguments) {
-        UberPiranha piranha = new UberPiranha();
-        piranha.parseArguments(arguments);
-        piranha.run();
-    }
-    
-    /**
-     * Parse the arguments.
-     * 
-     * @param arguments the arguments.
-     */
-    private void parseArguments(String[] arguments) {
-        for(int i=0; i<arguments.length; i++) {
-            if (arguments[i].equals("--uber-temp-directory")) {
-                tempDirectory = new File(arguments[i + 1]);
-            }
-        }
-    }
-    
-    /**
-     * Run method.
-     */
-    @Override
-    public void run() {
-        if (!tempDirectory.exists()) {
-            if (!tempDirectory.mkdirs()) {
-                System.err.println("Unable to create temporary directory, exiting");
-                System.exit(1);
-            }
-        }
-    }
+    exports cloud.piranha.fin;
+    opens cloud.piranha.fin;
 }
