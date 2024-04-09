@@ -56,7 +56,7 @@
         <module>micro</module>
         <module>resource</module>
         <module>spring</module>
-        <module>uber</module>
+        <module>shoal</module>
     </modules>
 
     <scm>

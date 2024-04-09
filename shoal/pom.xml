@@ -9,7 +9,7 @@
         <artifactId>project</artifactId>
         <version>24.4.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-uber</artifactId>
+    <artifactId>piranha-shoal</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Uber</name>
+    <name>Piranha - Shoal</name>
 </project>
