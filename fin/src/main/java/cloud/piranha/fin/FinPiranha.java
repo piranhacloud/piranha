@@ -25,10 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 package cloud.piranha.fin;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 /**
  * The Fin version of Piranha.
@@ -36,7 +43,12 @@ import java.io.File;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class FinPiranha implements Runnable {
-    
+
+    /**
+     * Stores the arguments to pass.
+     */
+    private List<String> arguments;
+
     /**
      * Stores the temporary directory.
      */
@@ -44,7 +56,7 @@ public class FinPiranha implements Runnable {
 
     /**
      * Main method.
-     * 
+     *
      * @param arguments the command-line arguments.
      */
     public static void main(String[] arguments) {
@@ -52,20 +64,25 @@ public class FinPiranha implements Runnable {
         piranha.parseArguments(arguments);
         piranha.run();
     }
-    
+
     /**
      * Parse the arguments.
-     * 
+     *
      * @param arguments the arguments.
      */
     private void parseArguments(String[] arguments) {
-        for(int i=0; i<arguments.length; i++) {
+        ArrayList<String> argumentList = new ArrayList<>();
+        for (int i = 0; i < arguments.length; i++) {
             if (arguments[i].equals("--fin-temp-directory")) {
                 tempDirectory = new File(arguments[i + 1]);
+                i++;
+            } else {
+                argumentList.add(arguments[i]);
             }
         }
+        this.arguments = argumentList;
     }
-    
+
     /**
      * Run method.
      */
@@ -76,6 +93,32 @@ public class FinPiranha implements Runnable {
                 System.err.println("Unable to create temporary directory, exiting");
                 System.exit(1);
             }
+        }
+
+        URL url = getClass().getResource("/META-INF/MANIFEST.MF");
+        System.out.println(url);
+        String filename = url.toExternalForm();
+        System.out.println(filename);
+        filename = filename.substring("jar:file:".length());
+        System.out.println(filename);
+        filename = filename.substring(0, filename.lastIndexOf("!"));
+        System.out.println(filename);
+
+        try (JarFile jarFile = new JarFile(filename)) {
+            Manifest manifest = jarFile.getManifest();
+            Attributes mainAttributes = manifest.getMainAttributes();
+            for (Map.Entry<Object, Object> entry : mainAttributes.entrySet()) {
+                Object key = entry.getKey();
+                Object val = entry.getValue();
+                System.out.println(key.toString() + ": " + val.toString());
+            }
+            Attributes piranhaAttributes = manifest.getAttributes("piranha");
+            if (piranhaAttributes != null) {
+                System.out.println("Piranha Distribution: " + piranhaAttributes.getValue("distribution"));
+                System.out.println("Piranha Version: " + piranhaAttributes.getValue("version"));
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
     }
 }
