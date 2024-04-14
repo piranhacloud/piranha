@@ -48,6 +48,7 @@
         <module>webprofile</module>
         <module>webxml</module>
         <module>welcomefile</module>
+        <module>compat-tomcat10x</module>
     </modules>
 
     <dependencyManagement>
