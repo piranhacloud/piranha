@@ -25,45 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.tomcat10x.tests;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.extension.tomcat10x.Tomcat10xExtension;
+import cloud.piranha.resource.impl.DirectoryResource;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * This module delivers the meta extension for a Servlet container.
- *
- * <p>
- *  The following extensions and/or dependencies are delivered as part of this
- *  meta extension:
- * </p>
- * <ul>
- *  <li>Annotation Scanning</li>
- *  <li>Apache Commons File Upload (Multipart)</li>
- *  <li>Naming (JNDI)</li>
- *  <li>Java Policy</li>
- *  <li>ServletContainerInitializer</li>
- *  <li>Servlet Security</li>
- *  <li>Servlet Annotations</li>
- *  <li>TEMPDIR</li>
- *  <li>WaSP (Pages)</li>
- *  <li>web.xml</li>
- *  <li>Welcome File</li>
- * </ul>
+ * The JUnit tests for the Tomcat10xExtension class.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.servlet {
+public class Tomcat10xExtensionTest {
     
-    exports cloud.piranha.extension.servlet;
-    opens cloud.piranha.extension.servlet;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.annotationscan.classfile;
-    requires cloud.piranha.extension.apache.fileupload;
-    requires cloud.piranha.extension.tomcat10x;
-    requires cloud.piranha.extension.expressly;
-    requires cloud.piranha.extension.naming;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
+    /**
+     * Test of configure method, of class Tomcat10xExtension.
+     */
+    @Test
+    public void testConfigure() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DirectoryResource("src/test/tomcat/contextpath"));
+        Tomcat10xExtension extension = new Tomcat10xExtension();
+        extension.configure(webApplication);
+        assertEquals("/mypath", webApplication.getContextPath());
+    }
 }
