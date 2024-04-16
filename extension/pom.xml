@@ -20,6 +20,8 @@
         <module>annotationscan-classfile</module>
         <module>apache-fileupload</module>
         <module>bytesstreamhandler</module>
+        <module>compat-glassfish7x</module>
+        <module>compat-tomcat10x</module>
         <module>coreprofile</module>
         <module>default-datasource</module>
         <module>eclipse-epicyro</module>
@@ -48,7 +50,6 @@
         <module>webprofile</module>
         <module>webxml</module>
         <module>welcomefile</module>
-        <module>compat-tomcat10x</module>
     </modules>
 
     <dependencyManagement>

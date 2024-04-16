@@ -34,6 +34,7 @@ import cloud.piranha.extension.annotationscan.classfile.ClassfileAnnotationScanE
 import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.datasource.DefaultDatasourceExtension;
 import cloud.piranha.extension.eclipselink.EclipseLinkExtension;
+import cloud.piranha.extension.glassfish7x.Glassfish7xExtension;
 import cloud.piranha.extension.naming.NamingExtension;
 import cloud.piranha.extension.policy.PolicyExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
@@ -49,7 +50,7 @@ import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
 import cloud.piranha.extension.weld.WeldExtension;
 
 /**
- * The extension that delivers the extensions for Piranha Micro/Server.
+ * The extension that delivers Web Profile support.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -65,15 +66,16 @@ public class WebProfileExtension implements WebApplicationExtension {
         context.add(WaspJspManagerExtension.class);                 // addJspFile
         context.add(NamingExtension.class);                         // Naming (JNDI)
         context.add(WebXmlExtension.class);                         // web.xml
-        context.add(getAnnotationScanExtensionClass());                 // Annotation scanning
+        context.add(getAnnotationScanExtensionClass());             // Annotation scanning
         context.add(ServletAnnotationsExtension.class);             // Servlet annotations
-        context.add(WeldExtension.class);
+        context.add(WeldExtension.class);                           // CDI / Weld
         context.add(DefaultDatasourceExtension.class);              // Default data source
         context.add(TransactExtension.class);                       // OmniFish Transaction
         context.add(ServletSecurityExtension.class);                // Security implementation
         context.add(WaspExtension.class);                           // WaSP
         context.add(EclipseLinkExtension.class);                    // Jakarta Persistence
         context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
+        context.add(Glassfish7xExtension.class);                    // Glassfish 7.x compatbility
     }
 
     private static Class<? extends WebApplicationExtension> getAnnotationScanExtensionClass() {
