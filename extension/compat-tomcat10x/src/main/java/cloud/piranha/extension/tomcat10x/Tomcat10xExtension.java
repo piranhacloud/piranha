@@ -51,29 +51,38 @@ import org.xml.sax.SAXException;
 public class Tomcat10xExtension implements WebApplicationExtension {
 
     /**
+     * Defines the constant for enabling the extension.
+     */
+    public static final String ENABLE_EXTENSION
+            = "cloud.piranha.extension.tomcat10x.Tomcat10xExtension.enable";
+
+    /**
      * Stores the logger.
      */
     private static final System.Logger LOGGER = System.getLogger(Tomcat10xExtension.class.getName());
-    
+
     @Override
     public void configure(WebApplication webApplication) {
 
-        InputStream inputStream = webApplication.getResourceAsStream("/META-INF/context.xml");
-        if (inputStream != null) {
-            try {
-                DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-                Document document = documentBuilder.parse(inputStream);
-                XPath xPath = XPathFactory.newInstance().newXPath();
-                
-                String contextPath = xPath.evaluate("//Context/@path", (Node) document);
-                if (contextPath != null) {
-                    LOGGER.log(INFO, "Found Tomcat 10.x Context path: {0}", contextPath);
-                    LOGGER.log(WARNING, "Found Tomcat 10.x Context path, please replace with command-line parameter", this);
-                    LOGGER.log(INFO, "Setting context path to: {0}", contextPath);
-                    webApplication.setContextPath(contextPath);
+        boolean enable = Boolean.parseBoolean(System.getProperty(ENABLE_EXTENSION));
+
+        if (enable) {
+            InputStream inputStream = webApplication.getResourceAsStream("/META-INF/context.xml");
+            if (inputStream != null) {
+                try {
+                    DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                    Document document = documentBuilder.parse(inputStream);
+                    XPath xPath = XPathFactory.newInstance().newXPath();
+
+                    String contextPath = xPath.evaluate("//Context/@path", (Node) document);
+                    if (contextPath != null) {
+                        LOGGER.log(WARNING, "Found Tomcat 10.x Context path, please replace with command-line parameter", this);
+                        LOGGER.log(INFO, "Setting context path to: {0}", contextPath);
+                        webApplication.setContextPath(contextPath);
+                    }
+
+                } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException e) {
                 }
-                
-            } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException e) {
             }
         }
     }
