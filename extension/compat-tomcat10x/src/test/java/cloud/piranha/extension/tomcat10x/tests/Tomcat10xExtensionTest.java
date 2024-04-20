@@ -41,10 +41,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class Tomcat10xExtensionTest {
     
     /**
-     * Test of configure method, of class Tomcat10xExtension.
+     * Test of configure method.
      */
     @Test
     public void testConfigure() {
+        System.setProperty(Tomcat10xExtension.ENABLE_EXTENSION, "true");
         DefaultWebApplication webApplication = new DefaultWebApplication();
         webApplication.addResource(new DirectoryResource("src/test/tomcat/contextpath"));
         Tomcat10xExtension extension = new Tomcat10xExtension();
