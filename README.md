@@ -3,7 +3,6 @@
 # Piranha Project
 
 ![build status](https://github.com/piranhacloud/piranha/workflows/build/badge.svg)
-[![Project Map](https://sourcespy.com/shield.svg)](https://sourcespy.com/github/piranhacloudpiranha/)
 
 The Piranha Project delivers you with Cloud ready containers and useful add-on / 
 integration modules.
