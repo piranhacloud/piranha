@@ -17,6 +17,7 @@
 
     <modules>
         <module>archetypes</module>
+        <module>plugin</module>
         <module>plugins</module>
     </modules>
 
