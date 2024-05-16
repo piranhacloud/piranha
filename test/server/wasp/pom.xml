@@ -44,7 +44,7 @@
         <finalName>piranha-test-server-wasp</finalName>
         <plugins>
             <plugin>
-                <groupId>cloud.piranha.maven.plugins</groupId>
+                <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
                 <version>${project.version}</version>
                 <executions>

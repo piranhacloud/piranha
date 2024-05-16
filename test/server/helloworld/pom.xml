@@ -37,7 +37,7 @@
         <finalName>piranha-test-server-helloworld</finalName>
         <plugins>
             <plugin>
-                <groupId>cloud.piranha.maven.plugins</groupId>
+                <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
                 <version>${project.version}</version>
                 <executions>
