@@ -13,7 +13,14 @@
     <packaging>pom</packaging>
 
     <name>Piranha - External - TCK - Expression Language</name>
-
+    <properties>
+        <ant.home>${project.build.directory}/ant</ant.home>
+        <ant.java.home>${java.home}</ant.java.home>
+        <expressly.version>5.0.0</expressly.version>
+        <work.home>${project.build.directory}/work</work.home>
+        <tck.home>${project.build.directory}/tck</tck.home>
+        <test.home>${tck.home}/src/com/sun/ts/tests</test.home>
+    </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -147,12 +154,4 @@
             </plugin>
         </plugins>
     </build>
-    
-    <properties>
-        <ant.home>${project.build.directory}/ant</ant.home>
-        <ant.java.home>${java.home}</ant.java.home>
-        <work.home>${project.build.directory}/work</work.home>
-        <tck.home>${project.build.directory}/tck</tck.home>
-        <test.home>${tck.home}/src/com/sun/ts/tests</test.home>
-    </properties>
 </project>

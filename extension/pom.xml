@@ -20,6 +20,8 @@
         <module>annotationscan-classfile</module>
         <module>apache-fileupload</module>
         <module>bytesstreamhandler</module>
+        <module>compat-glassfish7x</module>
+        <module>compat-tomcat10x</module>
         <module>coreprofile</module>
         <module>default-datasource</module>
         <module>eclipse-concurro</module>

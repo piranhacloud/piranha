@@ -2,12 +2,15 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
         <version>24.6.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>piranha-test-debug</artifactId>
+
     <name>Piranha - Test - Debug</name>
     <description>
         This project can be used as entry project in remote debugging, giving
@@ -160,6 +163,12 @@
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-welcomefile</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-redhat-weld</artifactId>
             <version>${project.version}</version>
         </dependency>
 

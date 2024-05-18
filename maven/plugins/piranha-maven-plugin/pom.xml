@@ -19,6 +19,12 @@
         facilitating an inner-loop development experience.
     </description>
 
+    <distributionManagement>
+        <relocation>
+            <groupId>cloud.piranha.maven</groupId>
+        </relocation>
+    </distributionManagement>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -80,7 +86,7 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-plugin-plugin</artifactId>
+                <artifactId>maven-plugin-report-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -14,16 +14,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        java: [ 21, 22 ]
         os: [ubuntu-latest, windows-latest]
     steps:
     - name: Checkout Sources
       uses: actions/checkout@v3
-    - name: Setup Java 21
+    - name: Setup Java
       uses: actions/setup-java@v3
       with:
         cache: 'maven'
         distribution: 'temurin'
-        java-version: 21
+        java-version: ${{ matrix.java }}
     - name: Build with Maven
       run: mvn --no-transfer-progress -B install
     - name: Publish Unit Test Results
