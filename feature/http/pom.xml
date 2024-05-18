@@ -4,7 +4,7 @@
     <parent>
         <groupId>cloud.piranha.feature</groupId>
         <artifactId>project</artifactId>
-        <version>24.2.99-SNAPSHOT</version>
+        <version>24.6.0-SNAPSHOT</version>
     </parent>
     <artifactId>piranha-feature-http</artifactId>
     <packaging>jar</packaging>
