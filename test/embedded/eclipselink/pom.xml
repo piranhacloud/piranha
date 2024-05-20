@@ -24,11 +24,6 @@
             <artifactId>jakarta.persistence-api</artifactId>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>eclipselink</artifactId>
-            <scope>compile</scope>
-        </dependency>
         <!-- provided -->
         <dependency>
             <groupId>jakarta.enterprise</groupId>
@@ -51,6 +46,12 @@
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-eclipse-expressly</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipselink</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -109,10 +110,6 @@
             <groupId>org.eclipse</groupId>
             <artifactId>yasson</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.json</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
