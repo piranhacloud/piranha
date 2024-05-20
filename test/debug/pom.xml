@@ -528,12 +528,6 @@
             <artifactId>undertow-core</artifactId>
         </dependency>
 
-        <!-- JBoss Weld -->
-        <dependency>
-            <groupId>org.jboss.weld.servlet</groupId>
-            <artifactId>weld-servlet-core</artifactId>
-        </dependency>
-
         <!-- JUnit -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
