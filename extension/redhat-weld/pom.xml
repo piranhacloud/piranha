@@ -15,6 +15,9 @@
     <name>Piranha - Extension - RedHat Weld</name>
 
     <properties>
+        <!-- dependencies -->
+        <weld.version>5.1.2.Final</weld.version>
+        <!-- other -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -23,6 +26,7 @@
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet-core</artifactId>
+            <version>${weld.version}</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
