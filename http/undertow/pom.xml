@@ -2,18 +2,17 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cloud.piranha.http</groupId>
         <artifactId>project</artifactId>
         <version>24.6.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>piranha-http-undertow</artifactId>
     <packaging>jar</packaging>
-
     <name>Piranha - HTTP - Undertow Integration</name>
-
+    <properties>
+        <undertow.version>2.3.12.Final</undertow.version>        
+    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>
@@ -25,6 +24,7 @@
         <dependency>
             <groupId>io.undertow</groupId>
             <artifactId>undertow-core</artifactId>
+            <version>${undertow.version}</version>
             <scope>compile</scope>
         </dependency>
         <!-- test -->
