@@ -205,11 +205,11 @@
             <scope>runtime</scope>
         </dependency>
         
-        <!-- Jakarta Persistence implementation -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-eclipselink</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         
         <!-- Jakarta XML Bind API -->
