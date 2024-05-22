@@ -82,7 +82,6 @@
         <commons-io.version>2.15.1</commons-io.version>
         <crac.version>0.1.3</crac.version>
         <eclipse.jaxb.version>4.0.5</eclipse.jaxb.version>
-        <eleos.version>3.0.4</eleos.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
         <grizzly.version>4.0.2</grizzly.version>
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
