@@ -398,20 +398,6 @@
             <artifactId>maven-plugin-annotations</artifactId>
         </dependency>
 
-        <!-- Eclipse EclipseLink -->
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>eclipselink</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.jpa</artifactId>
-        </dependency>
-
         <!-- Eclipse Grizzly -->
         <dependency>
             <groupId>org.glassfish.grizzly</groupId>

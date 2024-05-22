@@ -2,66 +2,72 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cloud.piranha.extension</groupId>
         <artifactId>project</artifactId>
         <version>24.6.99-SNAPSHOT</version>
     </parent>
-
     <artifactId>piranha-extension-eclipselink</artifactId>
     <packaging>jar</packaging>
-
     <name>Piranha - Extension - EclipseLink</name>
-
+    <properties>
+        <eclipselink.version>4.0.2</eclipselink.version>
+    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>
             <groupId>cloud.piranha.core</groupId>
             <artifactId>piranha-core-impl</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
-        
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-default-datasource</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
-        
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
+            <version>${eclipselink.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.core</artifactId>
+            <version>${eclipselink.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.jpa</artifactId>
+            <version>${eclipselink.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.json</artifactId>
+            <version>${eclipselink.version}</version>
         </dependency>
-        
-        
         <!-- provided -->
-        
-        <dependency>
-            <groupId>jakarta.transaction</groupId>
-            <artifactId>jakarta.transaction-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>jakarta.enterprise</groupId>
-            <artifactId>jakarta.enterprise.cdi-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        
         <dependency>
             <groupId>jakarta.activation</groupId>
             <artifactId>jakarta.activation-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.transaction</groupId>
+            <artifactId>jakarta.transaction-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <!-- test -->
         <dependency>
             <groupId>cloud.piranha</groupId>
