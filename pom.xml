@@ -111,7 +111,6 @@
         <spring-boot.version>3.2.3</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.1.5</tyrus.version>
-        <undertow.version>2.3.12.Final</undertow.version>
         <yasson.version>3.0.3</yasson.version>
         <!-- plugins -->
         <build-helper-maven-plugin.version>3.5.0</build-helper-maven-plugin.version>
@@ -368,13 +367,6 @@
                 <version>${shrinkwrap-resolver.version}</version>
             </dependency>
             
-            <!-- JBoss Undertow -->
-            <dependency>
-                <groupId>io.undertow</groupId>
-                <artifactId>undertow-core</artifactId>
-                <version>${undertow.version}</version>
-            </dependency>
-                                    
             <!-- JUnit -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
