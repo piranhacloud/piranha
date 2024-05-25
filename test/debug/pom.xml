@@ -404,20 +404,6 @@
             <artifactId>maven-plugin-annotations</artifactId>
         </dependency>
 
-        <!-- Eclipse Grizzly -->
-        <dependency>
-            <groupId>org.glassfish.grizzly</groupId>
-            <artifactId>grizzly-http-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.grizzly</groupId>
-            <artifactId>grizzly-http2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.grizzly</groupId>
-            <artifactId>grizzly-npn-api</artifactId>
-        </dependency>
-
         <!-- Eclipse JAXB -->
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
