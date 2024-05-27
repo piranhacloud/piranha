@@ -20,7 +20,7 @@
     </organization>
     <licenses>
         <license>
-            <name>Piranha License</name>
+            <name>BSD-3-Clause</name>
             <url>https://raw.githubusercontent.com/piranhacloud/piranha/current/LICENSE</url>
         </license>
     </licenses>
