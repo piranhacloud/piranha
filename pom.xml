@@ -80,7 +80,6 @@
         <checkstyle.version>10.14.2</checkstyle.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-io.version>2.15.1</commons-io.version>
-        <crac.version>0.1.3</crac.version>
         <eclipse.jaxb.version>4.0.5</eclipse.jaxb.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
         <hazelcast.version>5.3.6</hazelcast.version>
@@ -184,13 +183,6 @@
                 <groupId>org.apache.maven.plugin-tools</groupId>
                 <artifactId>maven-plugin-tools-annotations</artifactId>
                 <version>${maven-plugin-tools-annotations.version}</version>
-            </dependency>
-            
-            <!-- CRaC -->
-            <dependency>
-                <groupId>io.github.crac</groupId>
-                <artifactId>org-crac</artifactId>
-                <version>${crac.version}</version>
             </dependency>
             
             <!-- Eclipse Angus -->
