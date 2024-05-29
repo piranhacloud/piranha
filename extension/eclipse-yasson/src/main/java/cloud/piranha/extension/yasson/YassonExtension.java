@@ -25,34 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.yasson;
+
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.TRACE;
 
 /**
- * This module delivers the meta extension for the Jakarta EE platform.
+ * The extension that delivers Eclipse Yasson to Piranha.
  *
- * <p>
- *  The following extensions and/or dependencies are delivered as part of this
- *  meta extension:
- * </p>
- * <ul>
- *  <li>Annotation Scanning</li>
- *  <li>Eclipse Expressly (EL)</li>
- *  <li>Eclipse Parsson (JSON)</li>
- *  <li>Eclipse Yasson (JSON-B)</li>
- *  <li>Glassfish Jersey (REST)</li>
- *  <li>Naming (JNDI)</li>
- *  <li>ServletContainerInitializer</li>
- * </ul>
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.platform {
+public class YassonExtension implements WebApplicationExtension {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(YassonExtension.class.getName());
     
-    exports cloud.piranha.extension.platform;
-    opens cloud.piranha.extension.platform;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.annotationscan.classfile;
-    requires cloud.piranha.extension.expressly;
-    requires cloud.piranha.extension.jersey;
-    requires cloud.piranha.extension.naming;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.yasson;
+    /**
+     * Configure the extension.
+     * 
+     * @param webApplication the web application.
+     */
+    @Override
+    public void configure(WebApplication webApplication) {
+        LOGGER.log(TRACE, "Configuring Yasson extension");
+    }
 }

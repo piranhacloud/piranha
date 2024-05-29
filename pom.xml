@@ -107,7 +107,6 @@
         <spring-boot.version>3.2.3</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.1.5</tyrus.version>
-        <yasson.version>3.0.3</yasson.version>
         <!-- plugins -->
         <build-helper-maven-plugin.version>3.5.0</build-helper-maven-plugin.version>
         <clirr-maven-plugin.version>2.8</clirr-maven-plugin.version>
@@ -232,13 +231,6 @@
                 <groupId>org.glassfish.tyrus</groupId>
                 <artifactId>tyrus-container-servlet</artifactId>
                 <version>${tyrus.version}</version>
-            </dependency>
-                    
-            <!-- Eclipse Yasson  -->
-            <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>yasson</artifactId>
-                <version>${yasson.version}</version>
             </dependency>
             
             <!-- Freeport Finder -->

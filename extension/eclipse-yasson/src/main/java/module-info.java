@@ -27,32 +27,18 @@
  */
 
 /**
- * This module delivers the meta extension for the Jakarta EE platform.
+ * This module delivers the Eclipse Yasson integration extension.
  *
  * <p>
- *  The following extensions and/or dependencies are delivered as part of this
- *  meta extension:
+ *  This extension integrates Eclipse Yasson into Piranha. See 
+ *  https://github.com/eclipse-ee4j/yasson for more information about its
+ *  project.
  * </p>
- * <ul>
- *  <li>Annotation Scanning</li>
- *  <li>Eclipse Expressly (EL)</li>
- *  <li>Eclipse Parsson (JSON)</li>
- *  <li>Eclipse Yasson (JSON-B)</li>
- *  <li>Glassfish Jersey (REST)</li>
- *  <li>Naming (JNDI)</li>
- *  <li>ServletContainerInitializer</li>
- * </ul>
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.platform {
+module cloud.piranha.extension.yasson {
     
-    exports cloud.piranha.extension.platform;
-    opens cloud.piranha.extension.platform;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.annotationscan.classfile;
-    requires cloud.piranha.extension.expressly;
-    requires cloud.piranha.extension.jersey;
-    requires cloud.piranha.extension.naming;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.yasson;
+    requires static cloud.piranha.extension.scinitializer;
 }
