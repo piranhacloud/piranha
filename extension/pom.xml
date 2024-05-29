@@ -30,6 +30,7 @@
         <module>eclipse-jersey</module>
         <module>eclipse-mojarra</module>
         <module>eclipse-soteria</module>
+        <module>eclipse-yasson</module>
         <module>eclipse-wasp</module>
         <module>eclipselink</module>
         <module>hazelcast</module>

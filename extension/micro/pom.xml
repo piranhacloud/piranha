@@ -28,7 +28,6 @@
             <artifactId>piranha-core-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-apache-fileupload</artifactId>
@@ -73,6 +72,12 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-yasson</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency> 
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-policy</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -82,7 +87,6 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <!-- RedHat Weld -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-redhat-weld</artifactId>
@@ -111,7 +115,7 @@
             <artifactId>piranha-extension-tempdir</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-webxml</artifactId>
@@ -151,13 +155,6 @@
         <dependency>
             <groupId>jakarta.json.bind</groupId>
             <artifactId>jakarta.json.bind-api</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        
-        <!-- Jakarta JSON Binding implementation  -->
-        <dependency>
-            <groupId>org.eclipse</groupId>
-            <artifactId>yasson</artifactId>
             <scope>runtime</scope>
         </dependency>
         

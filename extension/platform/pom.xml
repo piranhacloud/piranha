@@ -49,6 +49,12 @@
             <artifactId>piranha-extension-eclipse-jersey</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
+        </dependency> 
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-yasson</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>       
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
@@ -68,10 +74,5 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>       
-        <dependency>
-            <groupId>org.eclipse</groupId>
-            <artifactId>yasson</artifactId>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 </project>

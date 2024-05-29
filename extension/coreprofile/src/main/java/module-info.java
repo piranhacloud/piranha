@@ -54,6 +54,5 @@ module cloud.piranha.extension.coreprofile {
     requires cloud.piranha.extension.jersey;
     requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.scinitializer;
-    requires org.eclipse.parsson;
-    requires org.eclipse.yasson;
+    requires cloud.piranha.extension.yasson;
 }
