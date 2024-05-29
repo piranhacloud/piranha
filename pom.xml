@@ -73,8 +73,6 @@
 
     <properties>
         <!-- dependencies -->
-        <angus.activation.version>2.0.2</angus.activation.version>
-        <angus.mail.version>2.0.3</angus.mail.version>
         <arquillian.version>1.8.0.Final</arquillian.version>
         <bcel.version>6.8.2</bcel.version>
         <checkstyle.version>10.14.2</checkstyle.version>
@@ -168,18 +166,6 @@
                 <version>${maven-plugin-tools-annotations.version}</version>
             </dependency>
             
-            <!-- Eclipse Angus -->
-            <dependency>
-                <groupId>org.eclipse.angus</groupId>
-                <artifactId>angus-mail</artifactId>
-                <version>${angus.mail.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.angus</groupId>
-                <artifactId>angus-activation</artifactId>
-                <version>${angus.activation.version}</version>
-            </dependency>
-
             <!-- Eclipse JAXB -->
             <dependency>
                 <groupId>org.glassfish.jaxb</groupId>
