@@ -78,8 +78,6 @@
         <arquillian.version>1.8.0.Final</arquillian.version>
         <bcel.version>6.8.2</bcel.version>
         <checkstyle.version>10.14.2</checkstyle.version>
-        <commons-fileupload.version>1.5</commons-fileupload.version>
-        <commons-io.version>2.15.1</commons-io.version>
         <eclipse.jaxb.version>4.0.5</eclipse.jaxb.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
         <hazelcast.version>5.3.6</hazelcast.version>
@@ -153,20 +151,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Apache Commons FileUpload -->
-            <dependency>
-                <groupId>commons-fileupload</groupId>
-                <artifactId>commons-fileupload</artifactId>
-                <version>${commons-fileupload.version}</version>
-            </dependency>
-            
-            <!-- Apache Commons IO -->
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
-            </dependency>
-            
             <!-- Apache Maven -->
             <dependency>
                 <groupId>org.apache.maven</groupId>
