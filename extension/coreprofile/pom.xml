@@ -51,6 +51,12 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-yasson</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-naming</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -65,11 +71,6 @@
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-scinitializer</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse</groupId>
-            <artifactId>yasson</artifactId>
             <scope>compile</scope>
         </dependency>
     </dependencies>
