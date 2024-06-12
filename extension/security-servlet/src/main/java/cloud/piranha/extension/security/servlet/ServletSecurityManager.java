@@ -227,7 +227,11 @@ public class ServletSecurityManager implements SecurityManager {
 
     @Override
     public boolean isRequestSecurityAsRequired(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        return getAuthorizationService(request).checkWebUserDataPermission(request);
+        if (getAuthorizationService(request) != null) {
+            return getAuthorizationService(request).checkWebUserDataPermission(request);
+        } else {
+            return false;
+        }
     }
 
     @Override
