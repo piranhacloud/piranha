@@ -16,6 +16,7 @@ for more information about each of them.
 | Eclipse JSTL              | 3.0.1         |
 | Eclipse Mojarra           | 4.0.7         |
 | Eclipse Parsson           | 1.1.5         |
+| Eclipse Tyrus             | 2.1.5         |
 | Eclipse Yasson            | 3.0.3         |
 | Netty                     | 4.1.108.Final |
 | Project CRaC              | 0.1.3         |
