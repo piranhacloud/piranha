@@ -29,7 +29,7 @@ package cloud.piranha.extension.apache.fileupload;
 
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
-import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
 
 /**
  * The WebApplicationExtension that is responsible for setting up the Apache
@@ -46,13 +46,14 @@ public class ApacheMultiPartExtension implements WebApplicationExtension {
             ApacheMultiPartExtension.class.getName());
 
     /**
-     * Configure the web application.
-     *
-     * @param webApplication the web application.
+     * Constructor.
      */
+    public ApacheMultiPartExtension() {
+    }
+    
     @Override
     public void configure(WebApplication webApplication) {
-        LOGGER.log(DEBUG, "Configuring webapplication");
+        LOGGER.log(TRACE, "Configuring Apache Commons FileUpload extension");
         webApplication.addInitializer(ApacheMultiPartInitializer.class.getName());
     }
 }

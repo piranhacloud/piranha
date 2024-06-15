@@ -32,7 +32,7 @@ import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
 import java.util.Set;
 
 /**
@@ -44,7 +44,7 @@ import java.util.Set;
  *
  * <ol>
  * <li>Sets the MultiPartManager to an instance of ApacheMultiPartManager.</li>
- * <li>Adds the FileCleanerCleanup listener that cleans up the temporary files.</li>
+ * <li>Adds the JakartaFileCleaner listener that cleans up the temporary files.</li>
  * </ol>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -58,9 +58,9 @@ public class ApacheMultiPartInitializer implements ServletContainerInitializer {
 
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        LOGGER.log(DEBUG, "Setting ApacheMultiPartManager");
+        LOGGER.log(TRACE, "Setting ApacheMultiPartManager");
         WebApplication webApplication = (WebApplication) servletContext;
         webApplication.getManager().setMultiPartManager(new ApacheMultiPartManager());
-        webApplication.addListener("org.apache.commons.fileupload.servlet.FileCleanerCleanup");
+        webApplication.addListener("org.apache.commons.fileupload2.jakarta.servlet6.JakartaFileCleaner");
     }
 }

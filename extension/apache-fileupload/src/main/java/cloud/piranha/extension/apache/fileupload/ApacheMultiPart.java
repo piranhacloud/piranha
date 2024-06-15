@@ -27,21 +27,20 @@
  */
 package cloud.piranha.extension.apache.fileupload;
 
+import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import org.apache.commons.fileupload.FileItem;
-
-import jakarta.servlet.http.Part;
+import org.apache.commons.fileupload2.core.FileItem;
 
 /**
  * The Part for the ApacheMultiPartManager.
  *
  * <p>
- * This class implements the Servlet Part API and delegates to an Apache Commons FileItem for its functionality.
+ * This class implements the Servlet Part API and delegates to an Apache Commons
+ * FileItem for its functionality.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -62,33 +61,21 @@ public class ApacheMultiPart implements Part {
         this.item = item;
     }
 
-    /**
-     * @see Part#delete()
-     */
     @Override
     public void delete() throws IOException {
         item.delete();
     }
 
-    /**
-     * @see Part#getContentType()
-     */
     @Override
     public String getContentType() {
         return item.getContentType();
     }
 
-    /**
-     * @see Part#getHeader(java.lang.String)
-     */
     @Override
     public String getHeader(String name) {
         return item.getHeaders().getHeader(name);
     }
 
-    /**
-     * @see Part#getHeaderNames()
-     */
     @Override
     public Collection<String> getHeaderNames() {
         Collection<String> result = new ArrayList<>();
@@ -96,9 +83,6 @@ public class ApacheMultiPart implements Part {
         return result;
     }
 
-    /**
-     * @see Part#getHeaders(java.lang.String)
-     */
     @Override
     public Collection<String> getHeaders(String name) {
         Collection<String> result = new ArrayList<>();
@@ -106,45 +90,30 @@ public class ApacheMultiPart implements Part {
         return result;
     }
 
-    /**
-     * @see Part#getInputStream()
-     */
     @Override
     public InputStream getInputStream() throws IOException {
         return item.getInputStream();
     }
 
-    /**
-     * @see Part#getName()
-     */
     @Override
     public String getName() {
         return item.getFieldName();
     }
 
-    /**
-     * @see Part#getSize()
-     */
     @Override
     public long getSize() {
         return item.getSize();
     }
 
-    /**
-     * @see Part#getSubmittedFileName()
-     */
     @Override
     public String getSubmittedFileName() {
         return item.getName();
     }
 
-    /**
-     * @see Part#write(java.lang.String)
-     */
     @Override
     public void write(String filename) throws IOException {
         try {
-            item.write(new File(filename));
+            item.write(new File(filename).toPath());
         } catch (Exception e) {
             throw new IOException(e);
         }

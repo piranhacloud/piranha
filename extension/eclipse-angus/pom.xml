@@ -12,7 +12,7 @@
     <name>Piranha - Extension - Eclipse Angus</name>
     <properties>
         <angus.activation.version>2.0.2</angus.activation.version>
-        <angus.mail.version>2.0.3</angus.mail.version>        
+        <angus.mail.version>2.0.3</angus.mail.version>
     </properties>
     <dependencies>
         <!-- compile -->
