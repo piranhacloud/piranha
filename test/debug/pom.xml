@@ -409,12 +409,6 @@
             <artifactId>maven-plugin-annotations</artifactId>
         </dependency>
 
-        <!-- Eclipse Parsson -->
-        <dependency>
-            <groupId>org.eclipse.parsson</groupId>
-            <artifactId>parsson</artifactId>
-        </dependency>
-
         <!-- Eclipse Tyrus -->
         <dependency>
             <groupId>org.glassfish.tyrus</groupId>
