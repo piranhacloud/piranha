@@ -13,7 +13,10 @@
     <packaging>jar</packaging>
 
     <name>Piranha - Extension - Apache Commons FileUpload</name>
-
+    <properties>
+        <commons-fileupload.version>1.5</commons-fileupload.version>
+        <commons-io.version>2.15.1</commons-io.version>
+    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>
