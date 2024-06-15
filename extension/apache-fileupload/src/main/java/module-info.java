@@ -41,4 +41,7 @@ module cloud.piranha.extension.apache.fileupload {
     exports cloud.piranha.extension.apache.fileupload;
     opens cloud.piranha.extension.apache.fileupload;
     requires cloud.piranha.core.api;
+    requires org.apache.commons.fileupload2.core;
+    requires org.apache.commons.fileupload2.jakarta.servlet6;
+    requires org.apache.commons.io;
 }

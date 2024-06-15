@@ -14,8 +14,7 @@
 
     <name>Piranha - Extension - Apache Commons FileUpload</name>
     <properties>
-        <commons-fileupload.version>1.5</commons-fileupload.version>
-        <commons-io.version>2.15.1</commons-io.version>
+        <commons-fileupload2-jakarta-servlet6.version>2.0.0-M2</commons-fileupload2-jakarta-servlet6.version>
     </properties>
     <dependencies>
         <!-- compile -->
@@ -23,6 +22,12 @@
             <groupId>cloud.piranha.core</groupId>
             <artifactId>piranha-core-impl</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-fileupload2-jakarta-servlet6</artifactId>
+            <version>${commons-fileupload2-jakarta-servlet6.version}</version>
             <scope>compile</scope>
         </dependency>
         <!-- test -->
@@ -37,170 +42,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>get-commons-fileupload-sources</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>commons-fileupload</groupId>
-                                    <artifactId>commons-fileupload</artifactId>
-                                    <version>${commons-fileupload.version}</version>
-                                    <classifier>sources</classifier>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/fileupload-source</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>commons-io</groupId>
-                                    <artifactId>commons-io</artifactId>
-                                    <version>${commons-io.version}</version>
-                                    <classifier>sources</classifier>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/fileupload-source</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                            <excludes>org/apache/commons/fileupload/portlet/*</excludes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-commons-fileupload-sources</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>${project.build.directory}/fileupload-source</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>replacer</artifactId>
-                <executions>
-                    <execution>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <includes>
-                        <include>${project.build.directory}/fileupload-source/**/*.java</include>
-                    </includes>
-                    <replacements>
-                        <replacement>
-                            <token>javax.servlet</token>
-                            <value>jakarta.servlet</value>
-                        </replacement>
-                    </replacements>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <shadedArtifactAttached>false</shadedArtifactAttached>
-                            <shadedClassifierName>shaded</shadedClassifierName>
-                            <createSourcesJar>true</createSourcesJar>
-                            <artifactSet>
-                                <excludes>
-                                    <exclude>cloud.piranha.core:piranha-core-api</exclude>
-                                    <exclude>cloud.piranha.core:piranha-core-impl</exclude>
-                                    <exclude>cloud.piranha.resource:piranha-resource-api</exclude>
-                                    <exclude>cloud.piranha.resource:piranha-resource-impl</exclude>
-                                    <exclude>jakarta.servlet:jakarta.servlet-api</exclude>
-                                </excludes>
-                            </artifactSet>
-                            <relocations>
-                                <relocation>
-                                    <pattern>org.apache.commons.fileupload</pattern>
-                                    <shadedPattern>cloud.piranha.extension.apache.fileupload.shaded.fileupload</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.apache.commons.io</pattern>
-                                    <shadedPattern>cloud.piranha.extension.apache.fileupload.shaded.io</shadedPattern>
-                                </relocation>
-                            </relocations>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.moditect</groupId>
-                <artifactId>moditect-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-module-infos</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>add-module-info</goal>
-                        </goals>
-                        <configuration>
-                            <overwriteExistingFiles>true</overwriteExistingFiles>
-                            <module>
-                                <moduleInfoFile>src/main/java/module-info.java</moduleInfoFile>
-                            </module>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <excludePackageNames>org.apache.*</excludePackageNames>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <configuration>
-                    <excludes>**/org/apache/**,**/module-info*</excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

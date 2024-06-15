@@ -27,33 +27,32 @@
  */
 package cloud.piranha.extension.apache.fileupload;
 
-import static jakarta.servlet.ServletContext.TEMPDIR;
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.WARNING;
-import static org.apache.commons.fileupload.servlet.ServletFileUpload.isMultipartContent;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.lang.System.Logger;
-
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
 import cloud.piranha.core.api.MultiPartManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import jakarta.servlet.MultipartConfigElement;
+import static jakarta.servlet.ServletContext.TEMPDIR;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
+import java.io.File;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.TRACE;
+import static java.lang.System.Logger.Level.WARNING;
+import java.util.ArrayList;
+import java.util.Collection;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload;
 
 /**
  * The ApacheMultiPartManager.
  *
  * <p>
- * The ApacheMultiPartManager implements the MultiPartManager API that delivers file upload functionality to a web
- * application by delegating to Apache Commons File Upload.
+ * The ApacheMultiPartManager implements the MultiPartManager API that delivers
+ * file upload functionality to a web application by delegating to Apache
+ * Commons File Upload.
  * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -66,85 +65,83 @@ public class ApacheMultiPartManager implements MultiPartManager {
     private static final Logger LOGGER = System.getLogger(ApacheMultiPartManager.class.getName());
 
     /**
-     * @see MultiPartManager#getParts(cloud.piranha.core.api.WebApplication,
-     * cloud.piranha.core.api.WebApplicationRequest)
+     * Constructor.
      */
+    public ApacheMultiPartManager() {
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public Collection<Part> getParts(WebApplication webApplication, WebApplicationRequest request) throws ServletException {
-        LOGGER.log(DEBUG, "Getting parts for request: {0}", request);
-        
-        if (!isMultipartContent(request)) {
+        LOGGER.log(TRACE, "Getting parts for request: {0}", request);
+
+        if (!JakartaServletFileUpload.isMultipartContent(request)) {
             throw new ServletException("Not a multipart/form-data request");
         }
-        
+
         Collection<Part> parts = (Collection<Part>) request.getAttribute(Part.class.getName());
         if (parts == null) {
             Collection<Part> newParts = new ArrayList<>();
             try {
                 setupFileUpload(webApplication, request.getMultipartConfig())
-                    .parseRequest(request)
-                    .forEach(item -> newParts.add(new ApacheMultiPart(item)));
+                        .parseRequest((HttpServletRequest) request)
+                        .forEach(item -> newParts.add(new ApacheMultiPart((FileItem) item)));
             } catch (FileUploadException fue) {
                 LOGGER.log(WARNING, "Error getting part", fue);
             }
             request.setAttribute(Part.class.getName(), newParts);
             parts = newParts;
         }
-        
+
         return parts;
     }
 
-    /**
-     * @see MultiPartManager#getPart(cloud.piranha.core.api.WebApplication,
-     * cloud.piranha.core.api.WebApplicationRequest, java.lang.String)
-     */
     @Override
     public Part getPart(WebApplication webApplication, WebApplicationRequest request, String name) throws ServletException {
-        LOGGER.log(DEBUG, "Getting part: {0} for request: {1}", name, request);
-        
-        if (!isMultipartContent(request)) {
+        LOGGER.log(TRACE, "Getting part: {0} for request: {1}", name, request);
+        if (!JakartaServletFileUpload.isMultipartContent(request)) {
             throw new ServletException("Not a multipart/form-data request");
         }
-        
         for (Part part : getParts(webApplication, request)) {
             if (part.getName().equals(name)) {
                 return part;
             }
         }
-        
         return null;
     }
 
     /**
-     * Setup the ServletFileUpload.
+     * Setup the JakartaServletFileUpload instance.
      *
      * @param webApplication the web application.
      * @param multipartConfig the multi-part config element.
+     * @return the JakartServletFileUpload instance.
      */
-    private synchronized ServletFileUpload setupFileUpload(WebApplication webApplication, MultipartConfigElement multipartConfig) {
-        ServletFileUpload upload = (ServletFileUpload) webApplication.getAttribute(ApacheMultiPartManager.class.getName());
-
+    private synchronized JakartaServletFileUpload setupFileUpload(WebApplication webApplication, MultipartConfigElement multipartConfig) {
+        JakartaServletFileUpload upload = (JakartaServletFileUpload) webApplication.getAttribute(ApacheMultiPartManager.class.getName());
         if (upload == null) {
-            DiskFileItemFactory factory = new DiskFileItemFactory();
+            File outputDirectory;
             if (multipartConfig.getLocation() == null || multipartConfig.getLocation().isEmpty()) {
-                factory.setRepository((File) webApplication.getAttribute(TEMPDIR));
+                outputDirectory = (File) webApplication.getAttribute(TEMPDIR);
             } else {
                 File location = new File(multipartConfig.getLocation());
                 if (!location.isAbsolute()) {
                     location = ((File) webApplication.getAttribute(TEMPDIR)).toPath().resolve(location.toPath()).toFile();
                 }
-                
-                factory.setRepository(location);
+                outputDirectory = location;
             }
-            if (multipartConfig.getFileSizeThreshold() != 0) { // correct?
-                factory.setSizeThreshold(multipartConfig.getFileSizeThreshold());
+            int sizeThreshold = 10240;
+            if (multipartConfig.getFileSizeThreshold() != 0) {
+                sizeThreshold = multipartConfig.getFileSizeThreshold();
             }
-            factory.setRepository((File) webApplication.getAttribute(TEMPDIR));
-            upload = new ServletFileUpload(factory);
+            DiskFileItemFactory factory = DiskFileItemFactory
+                    .builder()
+                    .setBufferSize(sizeThreshold)
+                    .setFile(outputDirectory)
+                    .get();
+            upload = new JakartaServletFileUpload(factory);
             webApplication.setAttribute(ApacheMultiPartManager.class.getName(), upload);
         }
-        
         return upload;
     }
 }

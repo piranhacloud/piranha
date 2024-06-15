@@ -30,6 +30,7 @@ package cloud.piranha.extension.apache.fileupload;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.core.impl.DefaultWebApplicationRequest;
 import jakarta.servlet.MultipartConfigElement;
+import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 
@@ -49,7 +50,7 @@ class ApacheMultiPartManagerTest {
     void testGetPart() throws Exception {
         DefaultWebApplication application = new DefaultWebApplication();
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setMultipartConfig(new MultipartConfigElement(""));
+        request.setMultipartConfig(new MultipartConfigElement(new File("target").getAbsolutePath()));
         request.setContentType("multipart/form-data");
         request.setMethod("POST");
         ApacheMultiPartManager manager = new ApacheMultiPartManager();
