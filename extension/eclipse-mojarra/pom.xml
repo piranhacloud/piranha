@@ -2,18 +2,17 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cloud.piranha.extension</groupId>
         <artifactId>project</artifactId>
         <version>24.6.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>piranha-extension-eclipse-mojarra</artifactId>
     <packaging>jar</packaging>
-
     <name>Piranha - Extension - Eclipse Mojarra</name>
-
+    <properties>
+        <mojarra.version>4.0.7</mojarra.version>
+    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>
@@ -33,7 +32,7 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.faces</artifactId>
-            <version>4.0.5</version>
+            <version>${mojarra.version}</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
