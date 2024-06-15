@@ -99,7 +99,6 @@
         <shrinkwrap-resolver.version>3.3.0</shrinkwrap-resolver.version>
         <spring-boot.version>3.2.3</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
-        <tyrus.version>2.1.5</tyrus.version>
         <!-- plugins -->
         <build-helper-maven-plugin.version>3.5.0</build-helper-maven-plugin.version>
         <clirr-maven-plugin.version>2.8</clirr-maven-plugin.version>
@@ -161,24 +160,7 @@
                 <artifactId>maven-plugin-tools-annotations</artifactId>
                 <version>${maven-plugin-tools-annotations.version}</version>
             </dependency>
-                                    
-            <!-- Eclipse Tyrus -->
-            <dependency>
-                <groupId>org.glassfish.tyrus</groupId>
-                <artifactId>tyrus-client</artifactId>
-                <version>${tyrus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.tyrus</groupId>
-                <artifactId>tyrus-container-grizzly-client</artifactId>
-                <version>${tyrus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.tyrus</groupId>
-                <artifactId>tyrus-container-servlet</artifactId>
-                <version>${tyrus.version}</version>
-            </dependency>
-            
+                                                
             <!-- Freeport Finder -->
             <dependency>
                 <groupId>me.alexpanov</groupId>

@@ -403,12 +403,6 @@
             <artifactId>maven-plugin-annotations</artifactId>
         </dependency>
 
-        <!-- Eclipse Tyrus -->
-        <dependency>
-            <groupId>org.glassfish.tyrus</groupId>
-            <artifactId>tyrus-container-servlet</artifactId>
-        </dependency>
-
         <!-- Freeport Finder -->
         <dependency>
             <groupId>me.alexpanov</groupId>
