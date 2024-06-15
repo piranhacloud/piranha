@@ -82,6 +82,12 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-jstl</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-eclipse-yasson</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -213,19 +219,6 @@
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
             <scope>runtime</scope>
-        </dependency>
-        
-        <!-- Jakarta Standard Tags implementation -->
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-            <scope>runtime</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>jakarta.servlet</groupId>
-                    <artifactId>jakarta.servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         
         <!-- Jakarta Annotation API -->
