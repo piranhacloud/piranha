@@ -24,6 +24,7 @@
         <module>compat-tomcat10x</module>
         <module>coreprofile</module>
         <module>default-datasource</module>
+        <module>eclipse-angus</module>
         <module>eclipse-concurro</module>
         <module>eclipse-epicyro</module>
         <module>eclipse-exousia</module>
