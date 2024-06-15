@@ -15,6 +15,7 @@ for more information about each of them.
 | Eclipse JAXB              | 4.0.5         |
 | Eclipse JSTL              | 3.0.1         |
 | Eclipse Mojarra           | 4.1.0         |
+| Eclipse Parsson           | 1.1.5         |
 | Eclipse Yasson            | 3.0.3         |
 | Netty                     | 4.1.108.Final |
 | Project CRaC              | 0.1.3         |

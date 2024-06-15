@@ -7,11 +7,11 @@
         <artifactId>project</artifactId>
         <version>24.7.99-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-extension-eclipse-jstl</artifactId>
+    <artifactId>piranha-extension-eclipse-parsson</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Eclipse JSTL</name>
+    <name>Piranha - Extension - Eclipse Parsson</name>
     <properties>
-        <jstl.version>3.0.1</jstl.version>
+        <parsson.version>1.1.5</parsson.version>
     </properties>
     <dependencies>
         <!-- compile -->
@@ -30,9 +30,9 @@
         </dependency>
         <!-- runtime -->
         <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-            <version>${jstl.version}</version>
+            <groupId>org.eclipse.parsson</groupId>
+            <artifactId>parsson</artifactId>
+            <version>${parsson.version}</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>

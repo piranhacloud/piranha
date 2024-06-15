@@ -94,7 +94,6 @@
         <omniservices.version>0.4</omniservices.version>
         <omniutils.version>0.13</omniutils.version>
         <omni-mp-config.version>3.0.0</omni-mp-config.version>
-        <parsson.version>1.1.5</parsson.version>
         <shrinkwrap-impl-base.version>2.0.0-beta-1</shrinkwrap-impl-base.version>
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.3.0</shrinkwrap-resolver.version>
@@ -163,13 +162,6 @@
                 <version>${maven-plugin-tools-annotations.version}</version>
             </dependency>
                                     
-            <!-- Eclipse Parsson -->
-            <dependency>
-                <groupId>org.eclipse.parsson</groupId>
-                <artifactId>parsson</artifactId>
-                <version>${parsson.version}</version>
-            </dependency>
-            
             <!-- Eclipse Tyrus -->
             <dependency>
                 <groupId>org.glassfish.tyrus</groupId>

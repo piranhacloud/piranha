@@ -88,6 +88,12 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-parsson</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency> 
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-eclipse-yasson</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -152,20 +158,6 @@
         </dependency>
         
         <!-- runtime -->
-        
-        <!-- Jakarta JSON Processing API -->
-        <dependency>
-            <groupId>jakarta.json</groupId>
-            <artifactId>jakarta.json-api</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        
-        <!-- Eclipse JSON Processing implementation -->
-        <dependency>
-            <groupId>org.eclipse.parsson</groupId>
-            <artifactId>parsson</artifactId>
-            <scope>runtime</scope>
-        </dependency>
 
         <!-- Jakarta JSON Binding API -->
         <dependency>
