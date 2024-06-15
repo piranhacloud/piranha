@@ -31,6 +31,7 @@
         <module>eclipse-expressly</module>
         <module>eclipse-jaxb</module>
         <module>eclipse-jersey</module>
+        <module>eclipse-jstl</module>
         <module>eclipse-mojarra</module>
         <module>eclipse-soteria</module>
         <module>eclipse-yasson</module>

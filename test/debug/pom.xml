@@ -403,12 +403,6 @@
             <artifactId>maven-plugin-annotations</artifactId>
         </dependency>
 
-        <!-- Eclipse JSTL -->
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-        </dependency>
-
         <!-- Eclipse Parsson -->
         <dependency>
             <groupId>org.eclipse.parsson</groupId>
