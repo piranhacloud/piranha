@@ -6,12 +6,12 @@
     <parent>
         <groupId>cloud.piranha.test.embedded</groupId>
         <artifactId>project</artifactId>
-        <version>24.6.99-SNAPSHOT</version>
+        <version>24.7.99-SNAPSHOT</version>
     </parent>
 
     <groupId>cloud.piranha.test.embedded</groupId>
     <artifactId>piranha-test-embedded-springboot-virtualthreads</artifactId>
-    <version>24.6.99-SNAPSHOT</version>
+    <version>24.7.99-SNAPSHOT</version>
     <name>Piranha - Test - Embedded - Spring Boot Virtual Threads</name>
 
     <dependencyManagement>
