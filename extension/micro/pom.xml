@@ -60,6 +60,12 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-tyrus</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-eclipse-wasp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -192,13 +198,6 @@
             <artifactId>jakarta.activation-api</artifactId>
         </dependency>
                 
-        <!-- Jakarta WebSocket implementation -->
-        <dependency>
-            <groupId>org.glassfish.tyrus</groupId>
-            <artifactId>tyrus-container-servlet</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-eclipselink</artifactId>
