@@ -403,12 +403,6 @@
             <artifactId>maven-plugin-annotations</artifactId>
         </dependency>
 
-        <!-- Eclipse JAXB -->
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-        </dependency>
-
         <!-- Eclipse JSTL -->
         <dependency>
             <groupId>org.glassfish.web</groupId>
