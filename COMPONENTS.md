@@ -1,6 +1,6 @@
 # Components
 
-The table below lists all the 3-rd party components that are used by Piranha to
+The table below lists all the 3rd party components that are used by Piranha to
 deliver various bits and pieces of functionality. See their respective projects
 for more information about each of them.
 
