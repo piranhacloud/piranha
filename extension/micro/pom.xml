@@ -35,6 +35,11 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-angus</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-eclipse-expressly</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -183,18 +188,7 @@
             <groupId>jakarta.activation</groupId>
             <artifactId>jakarta.activation-api</artifactId>
         </dependency>
-        
-        <!-- Jakarta Mail implementation -->
-        <dependency>
-            <groupId>org.eclipse.angus</groupId>
-            <artifactId>angus-mail</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.angus</groupId>
-            <artifactId>angus-activation</artifactId>
-        </dependency>
-        
-
+                
         <!-- Jakarta WebSocket implementation -->
         <dependency>
             <groupId>org.glassfish.tyrus</groupId>
