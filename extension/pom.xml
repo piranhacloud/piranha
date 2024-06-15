@@ -34,6 +34,7 @@
         <module>eclipse-mojarra</module>
         <module>eclipse-parsson</module>
         <module>eclipse-soteria</module>
+        <module>eclipse-tyrus</module>
         <module>eclipse-yasson</module>
         <module>eclipse-wasp</module>
         <module>eclipselink</module>

@@ -1,6 +1,6 @@
 # Components
 
-The table below lists all the 3-rd party components that are used by Piranha to
+The table below lists all the 3rd party components that are used by Piranha to
 deliver various bits and pieces of functionality. See their respective projects
 for more information about each of them.
 
@@ -16,6 +16,7 @@ for more information about each of them.
 | Eclipse JSTL              | 3.0.1         |
 | Eclipse Mojarra           | 4.0.7         |
 | Eclipse Parsson           | 1.1.5         |
+| Eclipse Tyrus             | 2.1.5         |
 | Eclipse Yasson            | 3.0.3         |
 | Netty                     | 4.1.108.Final |
 | Project CRaC              | 0.1.3         |
