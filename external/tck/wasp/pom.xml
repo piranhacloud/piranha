@@ -5,7 +5,7 @@
     <parent>
         <groupId>cloud.piranha.external.tck</groupId>
         <artifactId>project</artifactId>
-        <version>24.6.0-SNAPSHOT</version>
+        <version>24.7.0-SNAPSHOT</version>
     </parent>
     <artifactId>piranha-external-tck-wasp</artifactId>
     <packaging>pom</packaging>
