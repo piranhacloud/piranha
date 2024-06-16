@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
     <name>Piranha - Extension - Eclipse Soteria</name>
     <properties>
-        <soteria.version>4.0.0-M1</soteria.version>
+        <soteria.version>4.0.0-M3</soteria.version>
     </properties>
     <dependencies>
         <!-- compile -->

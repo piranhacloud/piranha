@@ -14,7 +14,7 @@
 
     <name>Piranha - Extension - Eclipse Yasson</name>
     <properties>
-        <yasson.version>3.0.3</yasson.version>
+        <yasson.version>3.0.4</yasson.version>
     </properties>
     <dependencies>
         <!-- compile -->

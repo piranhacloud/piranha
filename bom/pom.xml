@@ -17,28 +17,28 @@
     <properties>
         <!-- dependencies -->
         <jakarta.activation-api.version>2.1.3</jakarta.activation-api.version>
-        <jakarta.annotation-api.version>3.0.0-M1</jakarta.annotation-api.version>
-        <jakarta.authentication-api.version>3.1.0-M1</jakarta.authentication-api.version>
-        <jakarta.authorization-api.version>3.0.0-M1</jakarta.authorization-api.version>
-        <jakarta.enterprise.concurrent-api.version>3.1.0-M1</jakarta.enterprise.concurrent-api.version>
+        <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
+        <jakarta.authentication-api.version>3.1.0</jakarta.authentication-api.version>
+        <jakarta.authorization-api.version>3.0.0</jakarta.authorization-api.version>
+        <jakarta.enterprise.concurrent-api.version>3.1.1</jakarta.enterprise.concurrent-api.version>
         <jakarta.ejb-api.version>4.0.1</jakarta.ejb-api.version>
-        <jakarta.el-api.version>6.0.0-M2</jakarta.el-api.version>
-        <jakarta.enterprise.cdi-api.version>4.1.0-M1</jakarta.enterprise.cdi-api.version>
-        <jakarta.faces-api.version>4.1.0-M1</jakarta.faces-api.version>
-        <jakarta.jakartaee-core-api.version>11.0.0-M1</jakarta.jakartaee-core-api.version>
-        <jakarta.jakartaee-web-api.version>11.0.0-M1</jakarta.jakartaee-web-api.version>
+        <jakarta.el-api.version>6.0.0</jakarta.el-api.version>
+        <jakarta.enterprise.cdi-api.version>4.1.0</jakarta.enterprise.cdi-api.version>
+        <jakarta.faces-api.version>4.1.0</jakarta.faces-api.version>
+        <jakarta.jakartaee-core-api.version>11.0.0-M4</jakarta.jakartaee-core-api.version>
+        <jakarta.jakartaee-web-api.version>11.0.0-M4</jakarta.jakartaee-web-api.version>
         <jakarta.json-api.version>2.1.3</jakarta.json-api.version>
         <jakarta.mail-api.version>2.1.3</jakarta.mail-api.version>
-        <jakarta.json.bind-api.version>3.0.0</jakarta.json.bind-api.version>
-        <jakarta.persistence-api.version>3.2.0-M1</jakarta.persistence-api.version>
-        <jakarta.security.enterprise-api.version>4.0.0-M1</jakarta.security.enterprise-api.version>
-        <jakarta.servlet-api.version>6.1.0-M1</jakarta.servlet-api.version>
-        <jakarta.servlet.jsp-api.version>4.0.0-M1</jakarta.servlet.jsp-api.version>
+        <jakarta.json.bind-api.version>3.0.1</jakarta.json.bind-api.version>
+        <jakarta.persistence-api.version>3.2.0</jakarta.persistence-api.version>
+        <jakarta.security.enterprise-api.version>4.0.0</jakarta.security.enterprise-api.version>
+        <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
+        <jakarta.servlet.jsp-api.version>4.0.0</jakarta.servlet.jsp-api.version>
         <jakarta.servlet.jsp.jstl-api.version>3.0.0</jakarta.servlet.jsp.jstl-api.version>
         <jakarta.transaction-api.version>2.0.1</jakarta.transaction-api.version>
-        <jakarta.validation-api.version>3.1.0-M1</jakarta.validation-api.version>
-        <jakarta.websocket-api.version>2.2.0-M1</jakarta.websocket-api.version>
-        <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
+        <jakarta.validation-api.version>3.1.0</jakarta.validation-api.version>
+        <jakarta.websocket-api.version>2.2.0</jakarta.websocket-api.version>
+        <jakarta.ws.rs-api.version>4.0.0</jakarta.ws.rs-api.version>
         <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
         <microprofile-config-api.version>3.1</microprofile-config-api.version>
         <microprofile-jwt-auth-api.version>2.1</microprofile-jwt-auth-api.version>
