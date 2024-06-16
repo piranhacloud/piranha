@@ -1,8 +1,7 @@
 # Components
 
 The table below lists all the 3rd party components that are used by Piranha to
-deliver various bits and pieces of functionality. See their respective projects
-for more information about each of them.
+deliver various bits and pieces of functionality.
 
 | Name                      | Version       |
 |---------------------------|---------------|
@@ -21,6 +20,7 @@ for more information about each of them.
 | Eclipse Tyrus             | 2.2.0-M1      |
 | Eclipse Yasson            | 3.0.4         |
 | EclipseLink               | 5.0.0-B02     |
+| Hazelcast                 | 5.3.6         |
 | Netty                     | 4.1.108.Final |
 | Project CRaC              | 0.1.3         |
 | RedHat Undertow           | 2.3.13.Final  |
