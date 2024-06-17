@@ -19,6 +19,7 @@ deliver various bits and pieces of functionality.
 | Eclipse Yasson            | 3.0.3         |
 | Hazelcast                 | 5.3.6         |
 | Netty                     | 4.1.108.Final |
+| OmniFish Transact         | 1.0.1         |
 | Project CRaC              | 0.1.3         |
 | RedHat Undertow           | 2.3.12.Final  |
 | RedHat Weld               | 5.1.2.Final   |
