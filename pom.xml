@@ -96,7 +96,6 @@
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.3.0</shrinkwrap-resolver.version>
         <spring-boot.version>3.2.3</spring-boot.version>
-        <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <!-- plugins -->
         <build-helper-maven-plugin.version>3.5.0</build-helper-maven-plugin.version>
         <clirr-maven-plugin.version>2.8</clirr-maven-plugin.version>
@@ -307,13 +306,6 @@
                 <groupId>org.omnifaces</groupId>
                 <artifactId>omniservices</artifactId>
                 <version>${omniservices.version}</version>
-            </dependency>
-
-            <!-- OmniFish Transact -->
-            <dependency>
-                <groupId>ee.omnifish</groupId>
-                <artifactId>transact-cdi-beans</artifactId>
-                <version>${transact-cdi-beans.version}</version>
             </dependency>
 
             <!-- OmniFaces Utils -->
