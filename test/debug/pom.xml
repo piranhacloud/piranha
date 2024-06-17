@@ -421,16 +421,6 @@
             <artifactId>jboss-classfilewriter</artifactId>
         </dependency>
 
-        <!-- JBoss Hibernate Validator -->
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator-cdi</artifactId>
-        </dependency>
-
         <!-- SmallRye Jandex -->
         <dependency>
             <groupId>io.smallrye</groupId>

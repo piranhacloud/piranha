@@ -46,6 +46,7 @@
         <module>naming-cdi</module>
         <module>platform</module>
         <module>policy</module>
+        <module>redhat-hibernate-validator</module>
         <module>redhat-weld</module>
         <module>scinitializer</module>
         <module>security-servlet</module>
