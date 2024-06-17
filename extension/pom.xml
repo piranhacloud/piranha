@@ -44,6 +44,7 @@
         <module>microprofile</module>
         <module>naming</module>
         <module>naming-cdi</module>
+        <module>omnifish-transact</module>
         <module>platform</module>
         <module>policy</module>
         <module>redhat-hibernate-validator</module>
@@ -54,7 +55,6 @@
         <module>servlet</module>
         <module>servletannotations</module>
         <module>tempdir</module>
-        <module>transact</module>
         <module>webprofile</module>
         <module>webxml</module>
         <module>welcomefile</module>
