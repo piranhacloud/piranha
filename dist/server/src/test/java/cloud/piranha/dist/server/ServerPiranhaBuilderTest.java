@@ -54,11 +54,11 @@ class ServerPiranhaBuilderTest {
     void testHttpPort() throws Exception {
         ServerPiranha piranha = new ServerPiranhaBuilder()
                 .extensionClass(ServletExtension.class)
-                .httpPort(8118)
+                .httpPort(Integer.parseInt(System.getProperty("httpPort")))
                 .build();
         piranha.start();
         Thread.sleep(5000);
-        try ( Socket socket = new Socket("localhost", 8118)) {
+        try ( Socket socket = new Socket("localhost", Integer.parseInt(System.getProperty("httpPort")))) {
             assertNotNull(socket.getOutputStream());
         }
         piranha.stop();
@@ -75,11 +75,11 @@ class ServerPiranhaBuilderTest {
         ServerPiranha piranha = new ServerPiranhaBuilder()
                 .extensionClass(ServletExtension.class)
                 .httpPort(-1)
-                .httpsPort(8043)
+                .httpsPort(Integer.parseInt(System.getProperty("httpsPort2")))
                 .build();
         piranha.start();
         Thread.sleep(5000);
-        try ( Socket socket = new Socket("localhost", 8080)) {
+        try ( Socket socket = new Socket("localhost", Integer.parseInt(System.getProperty("httpPort2")))) {
             fail();
         } catch (ConnectException e) {
         }
