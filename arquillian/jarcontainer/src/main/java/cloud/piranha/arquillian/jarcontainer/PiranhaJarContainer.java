@@ -91,7 +91,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
      */
     public PiranhaJarContainer() {
     }
-    
+
     @Override
     public Class<PiranhaJarContainerConfiguration> getConfigurationClass() {
         return PiranhaJarContainerConfiguration.class;
@@ -119,7 +119,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
         if (pidFile.exists()) {
             try {
                 Files.delete(pidFile.toPath());
-            } catch(IOException ioe) {
+            } catch (IOException ioe) {
                 LOGGER.log(WARNING, "Unable to delete PID file", ioe);
             }
         }
@@ -185,11 +185,11 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
         if (pidFile.exists()) {
             try {
                 Files.delete(pidFile.toPath());
-            } catch(IOException ioe) {
+            } catch (IOException ioe) {
                 LOGGER.log(WARNING, "Error deleting PID file", ioe);
             }
         }
-        
+
         /*
          * Wait for 5 seconds.
          */
@@ -320,7 +320,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
 
     /**
      * Start and wait for Piranha Core Profile.
-     * 
+     *
      * @param runtimeDirectory the runtime directory.
      * @param warFilename the WAR filename.
      */
@@ -335,7 +335,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
                         "-jar",
                         "piranha-dist-coreprofile.jar",
                         "--http-port",
-                        "8080",
+                        Integer.toString(configuration.getHttpPort()),
                         "--war-file",
                         warFilename.getName(),
                         "--write-pid")
@@ -359,7 +359,9 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
         LOGGER.log(Level.INFO, "");
 
         LOGGER.log(Level.INFO, "Running application from directory: " + runtimeDirectory);
-        LOGGER.log(Level.INFO, "Application is available at: http://localhost:" + "8080" + "/" + warFilename.getName().substring(0, warFilename.getName().lastIndexOf(".")));
+        LOGGER.log(Level.INFO, "Application is available at: http://localhost:"
+                + Integer.toString(configuration.getHttpPort()) 
+                + "/" + warFilename.getName().substring(0, warFilename.getName().lastIndexOf(".")));
     }
 
     /**
