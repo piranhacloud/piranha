@@ -14,7 +14,9 @@
     <packaging>pom</packaging>
 
     <name>Piranha - Spring - Project</name>
-
+    <properties>
+        <spring-boot.version>3.3.0</spring-boot.version>
+    </properties>
     <modules>
         <module>spring-boot-starter-piranha-embedded</module>
     </modules>
@@ -25,6 +27,13 @@
                 <groupId>cloud.piranha</groupId>
                 <artifactId>bom</artifactId>
                 <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+             <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
