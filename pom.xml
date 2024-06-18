@@ -314,13 +314,6 @@
                 <artifactId>omniutils</artifactId>
                 <version>${omniutils.version}</version>
             </dependency>
-            
-            <!-- Spring Boot -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
