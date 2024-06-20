@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
     <name>Piranha - HTTP - Undertow Integration</name>
     <properties>
-        <undertow.version>2.3.13.Final</undertow.version>        
+        <undertow.version>2.3.14.Final</undertow.version>        
     </properties>
     <dependencies>
         <!-- compile -->
