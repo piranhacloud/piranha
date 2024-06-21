@@ -22,5 +22,5 @@ deliver various bits and pieces of functionality.
 | OmniFish OmniBeans        | 0.3           |
 | OmniFish Transact         | 1.0.1         |
 | Project CRaC              | 0.1.3         |
-| RedHat Undertow           | 2.3.12.Final  |
+| RedHat Undertow           | 2.3.14.Final  |
 | RedHat Weld               | 5.1.2.Final   |
