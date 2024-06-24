@@ -106,7 +106,19 @@
         </dependency> 
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-omnifish-omnibeans</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-omnifish-transact</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-omnifaces-omniservices</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -222,15 +234,6 @@
             <scope>runtime</scope>
         </dependency>
         
-        <!-- Jakarta Enterprise Beans (Lite) implementation -->
-        <dependency>
-            <groupId>ee.omnifish</groupId>
-            <artifactId>omnibeans</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.omnifaces</groupId>
-            <artifactId>omniservices</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>omniutils</artifactId>
