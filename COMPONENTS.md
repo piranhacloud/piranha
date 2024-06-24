@@ -22,6 +22,7 @@ deliver various bits and pieces of functionality.
 | EclipseLink               | 5.0.0-B02     |
 | Hazelcast                 | 5.3.6         |
 | Netty                     | 4.1.108.Final |
+| OmniFaces Services        | 0.4           |
 | OmniFish OmniBeans        | 0.3           |
 | OmniFish Transact         | 1.0.1         |
 | Project CRaC              | 0.1.3         |

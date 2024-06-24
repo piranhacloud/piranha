@@ -44,6 +44,7 @@
         <module>microprofile</module>
         <module>naming</module>
         <module>naming-cdi</module>
+        <module>omnifaces-omniservices</module>
         <module>omnifish-omnibeans</module>
         <module>omnifish-transact</module>
         <module>platform</module>
