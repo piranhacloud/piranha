@@ -79,7 +79,8 @@ class ServerPiranhaBuilderTest {
                 .build();
         piranha.start();
         Thread.sleep(5000);
-        try ( Socket socket = new Socket("localhost", Integer.parseInt(System.getProperty("httpPort2")))) {
+        try ( Socket socket = new Socket("localhost", 
+                Integer.parseInt(System.getProperty("httpPort2")))) {
             fail();
         } catch (ConnectException e) {
         }
