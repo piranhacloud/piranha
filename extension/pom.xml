@@ -44,6 +44,7 @@
         <module>naming</module>
         <module>naming-cdi</module>
         <module>omnifaces-omniservices</module>
+        <module>omnifaces-omniutils</module>
         <module>omnifish-omnibeans</module>
         <module>omnifish-transact</module>
         <module>platform</module>
