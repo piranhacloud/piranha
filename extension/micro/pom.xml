@@ -124,6 +124,12 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-omnifaces-omniutils</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-policy</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -232,11 +238,6 @@
             <groupId>jakarta.ejb</groupId>
             <artifactId>jakarta.ejb-api</artifactId>
             <scope>runtime</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.omnifaces</groupId>
-            <artifactId>omniutils</artifactId>
         </dependency>
         
         <!-- MicroProfile JWT API -->
