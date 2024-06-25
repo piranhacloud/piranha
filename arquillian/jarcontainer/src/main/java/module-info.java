@@ -43,4 +43,5 @@ module cloud.piranha.arquillian.jarcontainer {
     requires arquillian.core.spi;
     requires shrinkwrap.api;
     requires shrinkwrap.descriptors.api.base;
+    requires free.port.finder;
 }

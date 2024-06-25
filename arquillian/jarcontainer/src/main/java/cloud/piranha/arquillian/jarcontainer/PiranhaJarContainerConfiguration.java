@@ -27,6 +27,7 @@
  */
 package cloud.piranha.arquillian.jarcontainer;
 
+import me.alexpanov.net.FreePortFinder;
 import org.jboss.arquillian.container.spi.ConfigurationException;
 import org.jboss.arquillian.container.spi.client.container.ContainerConfiguration;
 
@@ -43,12 +44,20 @@ public class PiranhaJarContainerConfiguration implements ContainerConfiguration 
     private String protocol = "Servlet 6.0";
     
     /**
+     * Stores the HTTP port.
+     */
+    private Integer httpPort;
+    
+    /**
      * Get the HTTP port.
      * 
      * @return the HTTP port.
      */
     public int getHttpPort() {
-        return 8080;
+        if (httpPort == null) {
+            httpPort = FreePortFinder.findFreeLocalPort();
+        }
+        return httpPort;
     }
 
     /**
