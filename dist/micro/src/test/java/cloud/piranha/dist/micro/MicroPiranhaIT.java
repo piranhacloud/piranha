@@ -50,11 +50,11 @@ class MicroPiranhaIT {
     @Test
     void testCommandLine() throws Exception {
         ProcessBuilder builder = new ProcessBuilder();
-        builder.command("java", "-jar", "target/piranha-dist-micro.jar");
+        builder.command("java", "-jar", "target/piranha-dist-micro.jar", "--http-port", System.getProperty("httpPort"));
         Process process = builder.start();
         Thread.sleep(60000);
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:8080/")).build();
+        HttpRequest request = HttpRequest.newBuilder(new URI("http://localhost:" + System.getProperty("httpPort") + "/")).build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         process.destroyForcibly();
         assertEquals(200, response.statusCode());

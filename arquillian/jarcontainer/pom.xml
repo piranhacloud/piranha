@@ -20,5 +20,10 @@
             <artifactId>arquillian-container-spi</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>me.alexpanov</groupId>
+            <artifactId>free-port-finder</artifactId>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

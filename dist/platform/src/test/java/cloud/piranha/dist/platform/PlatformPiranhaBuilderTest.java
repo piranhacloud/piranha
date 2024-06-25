@@ -54,11 +54,11 @@ class PlatformPiranhaBuilderTest {
     void testHttpPort() throws Exception {
         PlatformPiranha piranha = new PlatformPiranhaBuilder()
                 .extensionClass(PlatformExtension.class)
-                .httpPort(8118)
+                .httpPort(Integer.parseInt(System.getProperty("httpPort")))
                 .build();
         piranha.start();
         Thread.sleep(5000);
-        try ( Socket socket = new Socket("localhost", 8118)) {
+        try (Socket socket = new Socket("localhost", Integer.parseInt(System.getProperty("httpPort")))) {
             assertNotNull(socket.getOutputStream());
         }
         piranha.stop();
@@ -75,11 +75,12 @@ class PlatformPiranhaBuilderTest {
         PlatformPiranha piranha = new PlatformPiranhaBuilder()
                 .extensionClass(PlatformExtension.class)
                 .httpPort(-1)
-                .httpsPort(8043)
+                .httpsPort(Integer.parseInt(System.getProperty("httpsPort2")))
                 .build();
         piranha.start();
         Thread.sleep(5000);
-        try ( Socket socket = new Socket("localhost", 8080)) {
+        try ( Socket socket = new Socket("localhost", 
+                Integer.parseInt(System.getProperty("httpPort2")))) {
             fail();
         } catch (ConnectException e) {
         }
@@ -104,7 +105,7 @@ class PlatformPiranhaBuilderTest {
         piranha.start();
         Thread.sleep(5000);
         SocketFactory factory = SSLSocketFactory.getDefault();
-        try ( SSLSocket socket = (SSLSocket) factory.createSocket("localhost", 8338)) {
+        try (SSLSocket socket = (SSLSocket) factory.createSocket("localhost", 8338)) {
             assertNotNull(socket.getOutputStream());
             assertNotNull(socket.getSSLParameters());
             assertEquals("TLSv1.3", socket.getSSLParameters().getProtocols()[0]);
@@ -127,7 +128,7 @@ class PlatformPiranhaBuilderTest {
                 .build();
         piranha.start();
         Thread.sleep(5000);
-        try ( Socket socket = new Socket("localhost", 8080)) {
+        try (Socket socket = new Socket("localhost", 8080)) {
             assertNotNull(socket.getOutputStream());
         } catch (ConnectException e) {
         }

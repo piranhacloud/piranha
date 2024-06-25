@@ -28,3 +28,4 @@ deliver various bits and pieces of functionality.
 | Project CRaC              | 0.1.3         |
 | RedHat Undertow           | 2.3.14.Final  |
 | RedHat Weld               | 6.0.0.Beta1   |
+| Spring Boot               | 3.3.0         |
