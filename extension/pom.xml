@@ -43,6 +43,7 @@
         <module>microprofile</module>
         <module>naming</module>
         <module>naming-cdi</module>
+        <module>omnifaces-config</module>
         <module>omnifaces-omniservices</module>
         <module>omnifaces-omniutils</module>
         <module>omnifish-omnibeans</module>
