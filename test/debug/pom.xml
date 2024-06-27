@@ -479,12 +479,6 @@
             <artifactId>junit-vintage-engine</artifactId>
         </dependency>
 
-        <!-- OmniFaces Config -->
-        <dependency>
-            <groupId>org.omnifaces</groupId>
-            <artifactId>omni-mp-config</artifactId>
-        </dependency>
-
         <!-- OmniFaces JWT Auth -->
         <dependency>
             <groupId>org.omnifaces</groupId>

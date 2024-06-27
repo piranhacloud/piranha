@@ -118,6 +118,12 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-omnifaces-config</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-omnifaces-omniservices</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -258,13 +264,6 @@
         <dependency>
             <groupId>org.eclipse.microprofile.config</groupId>
             <artifactId>microprofile-config-api</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- MicroProfile Config implementation -->
-        <dependency>
-            <groupId>org.omnifaces</groupId>
-            <artifactId>omni-mp-config</artifactId>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
