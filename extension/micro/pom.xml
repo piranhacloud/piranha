@@ -20,65 +20,39 @@
         <!-- compile -->
         <dependency>
             <groupId>cloud.piranha.core</groupId>
-            <artifactId>piranha-core-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.core</groupId>
             <artifactId>piranha-core-impl</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-apache-fileupload</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-angus</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-expressly</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-jaxb</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-mojarra</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-soteria</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-tyrus</artifactId>
-            <version>${project.version}</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-wasp</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-naming-cdi</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-default-datasource</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-angus</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-expressly</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-jaxb</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
@@ -94,10 +68,34 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-mojarra</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-eclipse-parsson</artifactId>
             <version>${project.version}</version>
-            <scope>runtime</scope>
+            <scope>compile</scope>
         </dependency> 
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-soteria</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-tyrus</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-eclipse-wasp</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-eclipse-yasson</artifactId>
@@ -106,19 +104,25 @@
         </dependency> 
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-omnifish-omnibeans</artifactId>
+            <artifactId>piranha-extension-eclipselink</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-omnifish-transact</artifactId>
+            <artifactId>piranha-extension-naming-cdi</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-omnifaces-config</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-omnifaces-microprofile-jwt-auth</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -136,14 +140,20 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-policy</artifactId>
+            <artifactId>piranha-extension-omnifish-omnibeans</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-scinitializer</artifactId>
+            <artifactId>piranha-extension-omnifish-transact</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-policy</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
@@ -156,6 +166,12 @@
             <artifactId>piranha-extension-redhat-weld</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>cloud.piranha.extension</groupId>
+            <artifactId>piranha-extension-scinitializer</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
@@ -186,81 +202,14 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
-        <dependency>
-            <groupId>cloud.piranha.resource</groupId>
-            <artifactId>piranha-resource-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
         <!-- runtime -->
-
-        <!-- Jakarta JSON Binding API -->
-        <dependency>
-            <groupId>jakarta.json.bind</groupId>
-            <artifactId>jakarta.json.bind-api</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        
-        <!-- Jakarta Validation API -->
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-        </dependency>
-        
-        <!-- Jakarta Mail -->
-        <dependency>
-            <groupId>jakarta.mail</groupId>
-            <artifactId>jakarta.mail-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.activation</groupId>
-            <artifactId>jakarta.activation-api</artifactId>
-        </dependency>
-                
-        <dependency>
-            <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipselink</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        
-        <!-- Jakarta XML Bind API -->
-        <dependency>
-            <groupId>jakarta.xml.bind</groupId>
-            <artifactId>jakarta.xml.bind-api</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        
-        <!-- Jakarta Annotation API -->
-        <dependency>
-            <groupId>jakarta.annotation</groupId>
-            <artifactId>jakarta.annotation-api</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        
-        <!-- Jakarta Enterprise Beans API -->
+        <!-- TODO - this should be coming in through an extension -->
         <dependency>
             <groupId>jakarta.ejb</groupId>
             <artifactId>jakarta.ejb-api</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
-        <!-- MicroProfile JWT API -->
-        <dependency>
-            <groupId>org.eclipse.microprofile.jwt</groupId>
-            <artifactId>microprofile-jwt-auth-api</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        
-        <!-- MicroProfile JWT implementation -->
-        <dependency>
-            <groupId>org.omnifaces</groupId>
-            <artifactId>microprofile-jwt-auth</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        
-        <!-- MicroProfile Config API -->
+        <!-- TODO - this should be coming in through an extension -->
         <dependency>
             <groupId>org.eclipse.microprofile.config</groupId>
             <artifactId>microprofile-config-api</artifactId>
