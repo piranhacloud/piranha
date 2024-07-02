@@ -484,11 +484,5 @@
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
         </dependency>
-
-        <!-- OmniFaces JWT Auth -->
-        <dependency>
-            <groupId>org.omnifaces</groupId>
-            <artifactId>microprofile-jwt-auth</artifactId>
-        </dependency>
     </dependencies>
 </project>
