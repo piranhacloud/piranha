@@ -27,6 +27,7 @@
  */
 package cloud.piranha.micro.builder;
 
+import cloud.piranha.core.api.PiranhaBuilder;
 import org.jboss.shrinkwrap.api.Archive;
 import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
@@ -36,7 +37,7 @@ import cloud.piranha.micro.loader.MicroOuterDeployer;
  *
  * @author Arjan Tijms
  */
-public class MicroEmbeddedPiranhaBuilder {
+public class MicroEmbeddedPiranhaBuilder implements PiranhaBuilder<MicroEmbeddedPiranha> {
 
     /**
      * Object containing all configuration settings for Piranha Micro
@@ -71,13 +72,8 @@ public class MicroEmbeddedPiranhaBuilder {
         return this;
     }
 
-    /**
-     * Builds an embedded Piranha Micro instance and deploys the archive set by
-     * this builder to it.
-     *
-     * @return the newly created Piranha Micro instance
-     */
-    public MicroEmbeddedPiranha buildAndStart() {
+    @Override
+    public MicroEmbeddedPiranha build() {
         MicroEmbeddedPiranha microEmbeddedPiranha = new MicroEmbeddedPiranha();
         MicroWebApplication microWebApplication = microEmbeddedPiranha.getWebApplication();
         if (configuration == null) {
@@ -86,7 +82,7 @@ public class MicroEmbeddedPiranhaBuilder {
             configuration.setHttpStart(false);
         }
 
-        if (configuration.getContextPath()!= null) {
+        if (configuration.getContextPath() != null) {
             // If an explicit root is set, use it. Otherwise use the default.
             microWebApplication.setContextPath(configuration.getContextPath());
         }
@@ -94,9 +90,21 @@ public class MicroEmbeddedPiranhaBuilder {
         microWebApplication.setDeployedApplication(
                 new MicroOuterDeployer(configuration.postConstruct()).deploy(archive).getDeployedApplication());
 
+        return microEmbeddedPiranha;
+    }
+
+    /**
+     * Builds an embedded Piranha Micro instance and deploys the archive set by
+     * this builder to it.
+     *
+     * @return the newly created Piranha Micro instance
+     */
+    public MicroEmbeddedPiranha buildAndStart() {
+        MicroEmbeddedPiranha microEmbeddedPiranha = build();
         if (!configuration.isHttpStart()) {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
+                MicroWebApplication microWebApplication = microEmbeddedPiranha.getWebApplication();
                 Thread.currentThread().setContextClassLoader(microWebApplication.getClassLoader());
                 microWebApplication.initialize();
                 microWebApplication.start();
@@ -104,7 +112,6 @@ public class MicroEmbeddedPiranhaBuilder {
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         }
-
         return microEmbeddedPiranha;
     }
 }

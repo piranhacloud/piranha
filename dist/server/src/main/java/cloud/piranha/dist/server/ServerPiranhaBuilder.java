@@ -27,6 +27,7 @@
  */
 package cloud.piranha.dist.server;
 
+import cloud.piranha.core.api.PiranhaBuilder;
 import java.lang.System.Logger.Level;
 
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
@@ -41,7 +42,7 @@ import static java.lang.System.Logger.Level.WARNING;
  * @author Manfred Riem (mriem@manorrock.com)
  * @see cloud.piranha.dist.server.ServerPiranha
  */
-public class ServerPiranhaBuilder {
+public class ServerPiranhaBuilder implements PiranhaBuilder<ServerPiranha> {
 
     /**
      * Stores the logger.
