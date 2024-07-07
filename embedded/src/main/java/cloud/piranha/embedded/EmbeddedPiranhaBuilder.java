@@ -28,6 +28,7 @@
 package cloud.piranha.embedded;
 
 import cloud.piranha.core.api.HttpSessionManager;
+import cloud.piranha.core.api.PiranhaBuilder;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
@@ -52,7 +53,7 @@ import java.util.Map;
  * @author Manfred Riem (mriem@manorrock.com)
  * @see cloud.piranha.embedded.EmbeddedPiranha
  */
-public class EmbeddedPiranhaBuilder {
+public class EmbeddedPiranhaBuilder implements PiranhaBuilder<EmbeddedPiranha> {
 
     /**
      * Stores the async supported flags.
