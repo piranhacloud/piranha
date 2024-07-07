@@ -27,6 +27,7 @@
  */
 package cloud.piranha.dist.platform;
 
+import cloud.piranha.core.api.PiranhaBuilder;
 import java.io.File;
 import java.lang.System.Logger.Level;
 
@@ -41,7 +42,7 @@ import static java.lang.System.Logger.Level.WARNING;
  * @author Manfred Riem (mriem@manorrock.com)
  * @see cloud.piranha.dist.platform.PlatformPiranha
  */
-public class PlatformPiranhaBuilder {
+public class PlatformPiranhaBuilder implements PiranhaBuilder<PlatformPiranha> {
 
     /**
      * Stores the logger.
