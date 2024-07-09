@@ -25,62 +25,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.dist.servlet;
+package cloud.piranha.single;
 
-import cloud.piranha.extension.servlet.ServletExtension;
-import java.net.ConnectException;
-import java.net.Socket;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import cloud.piranha.single.SinglePiranha;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * The JUnit tests for the WebProfilePiranhaBuilder class.
- *
+ * The JUnit tests for the SinglePiranha class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ServletPiranhaBuilderTest {
-
+class SinglePiranhaTest {
+    
     /**
-     * Test extensionClass method.
-     *
-     * @throws Exception when a serious error occurs.
+     * Test getConfiguration method.
      */
     @Test
-    void testExtensionClass() throws Exception {
-        ServletPiranha piranha = new ServletPiranhaBuilder()
-                .extensionClass("cloud.piranha.extension.servlet.ServletExtension")
-                .httpPort(8080)
-                .verbose(true)
-                .build();
-        piranha.start();
-        Thread.sleep(5000);
-        try ( Socket socket = new Socket("localhost", 8080)) {
-            assertNotNull(socket.getOutputStream());
-        } catch (ConnectException e) {
-        }
-        piranha.stop();
-        Thread.sleep(5000);
-    }
-
-    /**
-     * Test extensionClass method.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testExtensionClass2() throws Exception {
-        ServletPiranha piranha = new ServletPiranhaBuilder()
-                .extensionClass(ServletExtension.class)
-                .httpPort(8081)
-                .verbose(true)
-                .build();
-        piranha.start();
-        Thread.sleep(5000);
-        try ( Socket socket = new Socket("localhost", 8081)) {
-            assertNotNull(socket.getOutputStream());
-        } catch (ConnectException e) {
-        }
-        piranha.stop();
-        Thread.sleep(5000);
+    void testGetConfiguration() {
+        SinglePiranha piranha = new SinglePiranha();
+        assertNotNull(piranha.getConfiguration());
     }
 }

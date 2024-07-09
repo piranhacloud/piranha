@@ -25,44 +25,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.dist.webprofile;
+package cloud.piranha.single;
 
 import cloud.piranha.core.api.PiranhaBuilder;
 import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationExtension;
 import java.io.File;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import static java.lang.System.Logger.Level.WARNING;
 
 /**
- * The Builder for Piranha Web Profile.
- *
+ * The Solo version of PiranhaBuilder.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranha> {
+public class SinglePiranhaBuilder implements PiranhaBuilder<SinglePiranha> {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(WebProfilePiranhaBuilder.class.getName());
+    private static final System.Logger LOGGER = System.getLogger(SinglePiranhaBuilder.class.getName());
 
     /**
-     * Stores the Piranha Web Profile instance.
+     * Stores the SinglePiranha instance.
      */
-    private final WebProfilePiranha piranha = new WebProfilePiranha();
-
+    private SinglePiranha piranha;
+    
     /**
      * Stores the verbose flag.
      */
     private boolean verbose = false;
-
+    
     /**
-     * Build the Piranha instance.
-     *
-     * @return the Piranha instance.
+     * Constructor.
      */
-    public WebProfilePiranha build() {
+    public SinglePiranhaBuilder() {
+        piranha = new SinglePiranha();
+    }
+
+    @Override
+    public SinglePiranha build() {
         if (verbose) {
             showArguments();
         }
@@ -75,8 +76,19 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param contextPath the context path.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder contextPath(String contextPath) {
+    public SinglePiranhaBuilder contextPath(String contextPath) {
         piranha.getConfiguration().setString("contextPath", contextPath);
+        return this;
+    }
+    
+    /**
+     * Set the CRaC enabled flag.
+     *
+     * @param crac the CRaC enabled flag.
+     * @return the builder.
+     */
+    public SinglePiranhaBuilder crac(boolean crac) {
+        piranha.getConfiguration().setBoolean("cracEnabled", crac);
         return this;
     }
 
@@ -86,7 +98,7 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param exitOnStop the exit on stop flag.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder exitOnStop(boolean exitOnStop) {
+    public SinglePiranhaBuilder exitOnStop(boolean exitOnStop) {
         piranha.getConfiguration().setBoolean("exitOnStop", exitOnStop);
         return this;
     }
@@ -97,7 +109,7 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param extensionClass the extension class.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder extensionClass(
+    public SinglePiranhaBuilder extensionClass(
             Class<? extends WebApplicationExtension> extensionClass) {
         piranha.getConfiguration().setClass("extensionClass", extensionClass);
         return this;
@@ -109,10 +121,10 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param extensionClassName the default extension class name.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder extensionClass(String extensionClassName) {
+    public SinglePiranhaBuilder extensionClass(String extensionClassName) {
         try {
-            extensionClass(Class.forName(extensionClassName)
-                    .asSubclass(WebApplicationExtension.class));
+            piranha.getConfiguration().setClass("extensionClass",
+                    (Class<?>) Class.forName(extensionClassName));
         } catch (ClassNotFoundException cnfe) {
             LOGGER.log(WARNING, "Unable to load extension class", cnfe);
         }
@@ -125,7 +137,7 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param httpPort the HTTP server port.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder httpPort(int httpPort) {
+    public SinglePiranhaBuilder httpPort(int httpPort) {
         piranha.getConfiguration().setInteger("httpPort", httpPort);
         return this;
     }
@@ -136,7 +148,7 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param httpServerClass the HTTP server class.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder httpServerClass(String httpServerClass) {
+    public SinglePiranhaBuilder httpServerClass(String httpServerClass) {
         piranha.getConfiguration().setString("httpServerClass", httpServerClass);
         return this;
     }
@@ -147,7 +159,7 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param httpsKeystoreFile the HTTPS keystore file.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder httpsKeystoreFile(String httpsKeystoreFile) {
+    public SinglePiranhaBuilder httpsKeystoreFile(String httpsKeystoreFile) {
         piranha.getConfiguration().setString("httpsKeystoreFile", httpsKeystoreFile);
         return this;
     }
@@ -158,7 +170,7 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param httpsKeystorePassword the HTTPS keystore password.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder httpsKeystorePassword(String httpsKeystorePassword) {
+    public SinglePiranhaBuilder httpsKeystorePassword(String httpsKeystorePassword) {
         piranha.getConfiguration().setString("httpsKeystorePassword", httpsKeystorePassword);
         return this;
     }
@@ -169,7 +181,7 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param httpsPort the HTTPS server port.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder httpsPort(int httpsPort) {
+    public SinglePiranhaBuilder httpsPort(int httpsPort) {
         piranha.getConfiguration().setInteger("httpsPort", httpsPort);
         return this;
     }
@@ -180,7 +192,7 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param httpsServerClass the HTTPS server class.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder httpsServerClass(String httpsServerClass) {
+    public SinglePiranhaBuilder httpsServerClass(String httpsServerClass) {
         piranha.getConfiguration().setString("httpsServerClass", httpsServerClass);
         return this;
     }
@@ -191,7 +203,7 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param httpsTruststoreFile the HTTPS truststore file.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder httpsTruststoreFile(String httpsTruststoreFile) {
+    public SinglePiranhaBuilder httpsTruststoreFile(String httpsTruststoreFile) {
         piranha.getConfiguration().setString("httpsTruststoreFile", httpsTruststoreFile);
         return this;
     }
@@ -202,7 +214,7 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param httpsTruststorePassword the HTTPS truststore password.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder httpsTruststorePassword(String httpsTruststorePassword) {
+    public SinglePiranhaBuilder httpsTruststorePassword(String httpsTruststorePassword) {
         piranha.getConfiguration().setString("httpsTruststorePassword", httpsTruststorePassword);
         return this;
     }
@@ -213,18 +225,18 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param jpms the JPMS flag.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder jpms(boolean jpms) {
+    public SinglePiranhaBuilder jpms(boolean jpms) {
         piranha.getConfiguration().setBoolean("jpmsEnabled", jpms);
         return this;
     }
 
     /**
      * Set the logging level.
-     *
+     * 
      * @param loggingLevel the logging level.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder loggingLevel(String loggingLevel) {
+    public SinglePiranhaBuilder loggingLevel(String loggingLevel) {
         piranha.getConfiguration().setString("loggingLevel", loggingLevel);
         return this;
     }
@@ -235,7 +247,7 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param pid the PID.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder pid(Long pid) {
+    public SinglePiranhaBuilder pid(Long pid) {
         piranha.getConfiguration().setLong("pid", pid);
         return this;
     }
@@ -245,8 +257,8 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      */
     private void showArguments() {
         PiranhaConfiguration configuration = piranha.getConfiguration();
-
-        LOGGER.log(Level.INFO,
+        
+        LOGGER.log(System.Logger.Level.INFO,
                 """
                 
                 PIRANHA
@@ -289,14 +301,14 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
                 )
         );
     }
-
+    
     /**
      * Set the verbose flag.
      *
      * @param verbose the verbose flag.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder verbose(boolean verbose) {
+    public SinglePiranhaBuilder verbose(boolean verbose) {
         this.verbose = verbose;
         return this;
     }
@@ -307,7 +319,7 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param warFile the WAR file.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder warFile(String warFile) {
+    public SinglePiranhaBuilder warFile(String warFile) {
         piranha.getConfiguration().setFile("warFile", new File(warFile));
         return this;
     }
@@ -318,7 +330,7 @@ public class WebProfilePiranhaBuilder implements PiranhaBuilder<WebProfilePiranh
      * @param webAppDir the web application directory.
      * @return the builder.
      */
-    public WebProfilePiranhaBuilder webAppDir(String webAppDir) {
+    public SinglePiranhaBuilder webAppDir(String webAppDir) {
         piranha.getConfiguration().setFile("webAppDir", new File(webAppDir));
         return this;
     }

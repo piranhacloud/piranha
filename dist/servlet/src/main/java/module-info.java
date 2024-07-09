@@ -36,12 +36,6 @@ module cloud.piranha.dist.servlet {
     exports cloud.piranha.dist.servlet;
     opens cloud.piranha.dist.servlet;
     requires cloud.piranha.extension.servlet;
-    requires cloud.piranha.feature.exitonstop;
-    requires cloud.piranha.feature.http;
-    requires cloud.piranha.feature.https;
-    requires cloud.piranha.feature.logging;
-    requires cloud.piranha.feature.webapp;
-    requires cloud.piranha.http.crac;
-    requires cloud.piranha.http.webapp;
+    requires cloud.piranha.single;
     requires java.logging;
 }
