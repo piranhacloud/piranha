@@ -25,20 +25,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.dist.webprofile;
+package cloud.piranha.single;
 
-import cloud.piranha.extension.webprofile.WebProfileExtension;
+import cloud.piranha.single.SinglePiranha;
+import cloud.piranha.single.SinglePiranhaBuilder;
 import java.net.ConnectException;
 import java.net.Socket;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the WebProfilePiranhaBuilder class.
+ * The JUnit tests for the SinglePiranhaBuilder class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class WebProfilePiranhaBuilderTest {
+class SinglePiranhaBuilderTest {
 
     /**
      * Test extensionClass method.
@@ -47,8 +48,7 @@ class WebProfilePiranhaBuilderTest {
      */
     @Test
     void testExtensionClass() throws Exception {
-        WebProfilePiranha piranha = new WebProfilePiranhaBuilder()
-                .extensionClass("cloud.piranha.extension.webprofile.WebProfileExtension")
+        SinglePiranha piranha = new SinglePiranhaBuilder()
                 .httpPort(8080)
                 .verbose(true)
                 .build();
@@ -69,8 +69,7 @@ class WebProfilePiranhaBuilderTest {
      */
     @Test
     void testExtensionClass2() throws Exception {
-        WebProfilePiranha piranha = new WebProfilePiranhaBuilder()
-                .extensionClass(WebProfileExtension.class)
+        SinglePiranha piranha = new SinglePiranhaBuilder()
                 .httpPort(8081)
                 .verbose(true)
                 .build();

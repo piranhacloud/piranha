@@ -28,6 +28,7 @@
 package cloud.piranha.dist.microprofile;
 
 import cloud.piranha.extension.microprofile.MicroProfileExtension;
+import cloud.piranha.single.SinglePiranhaBuilder;
 import static java.lang.System.Logger.Level.WARNING;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
@@ -50,7 +51,7 @@ public class MicroProfilePiranhaMain {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        MicroProfilePiranhaBuilder builder = new MicroProfilePiranhaMain().processArguments(arguments);
+        SinglePiranhaBuilder builder = new MicroProfilePiranhaMain().processArguments(arguments);
         if (builder != null) {
             builder.build().start();
         } else {
@@ -63,9 +64,9 @@ public class MicroProfilePiranhaMain {
      *
      * @param arguments the arguments.
      */
-    private MicroProfilePiranhaBuilder processArguments(String[] arguments) {
+    private SinglePiranhaBuilder processArguments(String[] arguments) {
         
-        MicroProfilePiranhaBuilder builder = new MicroProfilePiranhaBuilder()
+        SinglePiranhaBuilder builder = new SinglePiranhaBuilder()
                 .extensionClass(MicroProfileExtension.class)
                 .exitOnStop(true);
         int httpPort = 0;

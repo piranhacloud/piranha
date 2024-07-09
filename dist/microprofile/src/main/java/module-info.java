@@ -36,10 +36,6 @@ module cloud.piranha.dist.microprofile {
     exports cloud.piranha.dist.microprofile;
     opens cloud.piranha.dist.microprofile;
     requires cloud.piranha.extension.microprofile;
-    requires cloud.piranha.feature.exitonstop;
-    requires cloud.piranha.feature.http;
-    requires cloud.piranha.feature.https;
-    requires cloud.piranha.feature.logging;
-    requires cloud.piranha.feature.webapp;
+    requires cloud.piranha.single;
     requires java.logging;
 }

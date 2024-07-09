@@ -27,15 +27,22 @@
  */
 
 /**
- * This module delivers the Piranha Core Profile distribution.
+ * This module delivers Piranha Single.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.dist.coreprofile {
+module cloud.piranha.single {
     
-    exports cloud.piranha.dist.coreprofile;
-    opens cloud.piranha.dist.coreprofile;
-    requires cloud.piranha.extension.coreprofile;
-    requires cloud.piranha.single;
-    requires java.logging;
+    exports cloud.piranha.single;
+    opens cloud.piranha.single;
+    requires transitive cloud.piranha.core.impl;
+    requires cloud.piranha.feature.exitonstop;
+    requires cloud.piranha.feature.http;
+    requires cloud.piranha.feature.https;
+    requires cloud.piranha.feature.impl;
+    requires cloud.piranha.feature.logging;
+    requires cloud.piranha.feature.webapp;
+    requires cloud.piranha.http.crac;
+    requires cloud.piranha.http.webapp;
+    requires jakarta.servlet;
 }

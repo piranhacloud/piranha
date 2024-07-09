@@ -17,38 +17,14 @@
     <dependencies>
         <!-- compile -->
         <dependency>
+            <groupId>cloud.piranha</groupId>
+            <artifactId>piranha-single</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>cloud.piranha.extension</groupId>
             <artifactId>piranha-extension-webprofile</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.feature</groupId>
-            <artifactId>piranha-feature-exitonstop</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.feature</groupId>
-            <artifactId>piranha-feature-http</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.feature</groupId>
-            <artifactId>piranha-feature-https</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.feature</groupId>
-            <artifactId>piranha-feature-logging</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cloud.piranha.feature</groupId>
-            <artifactId>piranha-feature-webapp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

@@ -25,13 +25,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.dist.servlet;
+package cloud.piranha.single;
 
 import cloud.piranha.core.api.Piranha;
 import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.impl.DefaultPiranhaConfiguration;
-import cloud.piranha.extension.servlet.ServletExtension;
 import cloud.piranha.feature.api.FeatureManager;
 import cloud.piranha.feature.exitonstop.ExitOnStopFeature;
 import cloud.piranha.feature.http.HttpFeature;
@@ -44,67 +43,64 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * The Piranha Servlet runtime.
+ * The Solo version of Piranha.
+ *
+ * <p>
+ * This version of Piranha supports the following:
+ * </p>
+ * <ol>
+ * <li>Enabling use of Project CRaC</li>
+ * <li>Running with Java modules</li>
+ * <li>Exiting on stop</li>
+ * <li>Exposing a HTTP endpoint</li>
+ * <li>Exposing a HTTPS endpoint</li>
+ * <li>Setting the logging level</li>
+ * <li>Hosting a single web application</li>
+ * </ol>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ServletPiranha implements Piranha, Runnable {
+public class SinglePiranha implements Piranha, Runnable {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(ServletPiranha.class.getName());
+    private static final System.Logger LOGGER = System.getLogger(SinglePiranha.class.getName());
 
     /**
      * Stores the configuration.
      */
-    private final PiranhaConfiguration configuration;
+    protected final PiranhaConfiguration configuration;
 
     /**
      * Stores the feature manager.
      */
-    private final FeatureManager featureManager;
-
-    /**
-     * Stores the HTTP feature.
-     */
-    private HttpFeature httpFeature;
-
-    /**
-     * Stores the HTTP feature.
-     */
-    private HttpsFeature httpsFeature;
+    protected final FeatureManager featureManager;
 
     /**
      * Stores the stop flag.
      */
-    private boolean stop = false;
+    protected boolean stop = false;
 
     /**
      * Stores the thread we use.
      */
-    private Thread thread;
-    
-    /**
-     * Stores the web application feature.
-     */
-    private WebAppFeature webAppFeature;
+    protected Thread thread;
 
     /**
      * Constructor.
      */
-    public ServletPiranha() {
+    public SinglePiranha() {
         configuration = new DefaultPiranhaConfiguration();
-        configuration.setBoolean("cracEnabled", false);
+        configuration.setClass("extensionClass", SingleExtension.class);
         configuration.setBoolean("exitOnStop", false);
-        configuration.setClass("extensionClass", ServletExtension.class);
+        configuration.setBoolean("cracEnabled", false);
         configuration.setInteger("httpPort", 8080);
         configuration.setInteger("httpsPort", -1);
         configuration.setBoolean("jpmsEnabled", false);
@@ -116,19 +112,22 @@ public class ServletPiranha implements Piranha, Runnable {
         return configuration;
     }
 
+    /**
+     * Run method.
+     */
     @Override
     public void run() {
         long startTime = System.currentTimeMillis();
-        
+
         LoggingFeature loggingFeature = new LoggingFeature();
-        featureManager.addFeature(loggingFeature);
         loggingFeature.setLevel(configuration.getString("loggingLevel"));
         loggingFeature.init();
         loggingFeature.start();
-        
+        featureManager.addFeature(loggingFeature);
+
         LOGGER.log(INFO, () -> "Starting Piranha");
-        
-        webAppFeature = new WebAppFeature();
+
+        WebAppFeature webAppFeature = new WebAppFeature();
         featureManager.addFeature(webAppFeature);
         webAppFeature.setContextPath(configuration.getString("contextPath"));
         webAppFeature.setExtensionClass((Class<? extends WebApplicationExtension>) configuration.getClass("extensionClass"));
@@ -137,12 +136,13 @@ public class ServletPiranha implements Piranha, Runnable {
         webAppFeature.setWebAppDir(configuration.getFile("webAppDir"));
         webAppFeature.init();
         webAppFeature.start();
+        featureManager.addFeature(webAppFeature);
 
         /*
          * Construct, initialize and start HTTP endpoint (if applicable).
          */
         if (configuration.getInteger("httpPort") > 0) {
-            httpFeature = new HttpFeature();
+            HttpFeature httpFeature = new HttpFeature();
             httpFeature.setHttpServerClass(configuration.getString("httpServerClass"));
             httpFeature.setPort(configuration.getInteger("httpPort"));
             httpFeature.init();
@@ -167,14 +167,16 @@ public class ServletPiranha implements Piranha, Runnable {
                 }
                 httpFeature.setHttpServer(httpServer);
             }
+
             httpFeature.start();
+            featureManager.addFeature(httpFeature);
         }
 
         /*
-         * Construct, initialize and start HTTP endpoint (if applicable).
+         * Construct, initialize and start HTTPS endpoint (if applicable).
          */
         if (configuration.getInteger("httpsPort") > 0) {
-            httpsFeature = new HttpsFeature();
+            HttpsFeature httpsFeature = new HttpsFeature();
             httpsFeature.setHttpsKeystoreFile(configuration.getString("httpsKeystoreFile"));
             httpsFeature.setHttpsKeystorePassword(configuration.getString("httpsKeystorePassword"));
             httpsFeature.setHttpsServerClass(configuration.getString("httpsServerClass"));
@@ -188,22 +190,24 @@ public class ServletPiranha implements Piranha, Runnable {
              * Enable Project CRaC.
              */
             if (configuration.getBoolean("cracEnabled", false)) {
-                HttpServer httpServer = httpsFeature.getHttpsServer();
+                HttpServer httpsServer = httpsFeature.getHttpsServer();
                 try {
                     HttpServer cracHttpServer = (HttpServer) Class
                             .forName("cloud.piranha.http.crac.CracHttpServer")
                             .getDeclaredConstructor(HttpServer.class)
-                            .newInstance(httpServer);
-                    httpServer = cracHttpServer;
+                            .newInstance(httpsServer);
+                    httpsServer = cracHttpServer;
                 } catch (ClassNotFoundException | IllegalAccessException
                         | IllegalArgumentException | InstantiationException
                         | NoSuchMethodException | SecurityException
                         | InvocationTargetException t) {
-                    LOGGER.log(ERROR, "Unable to construct HTTP server", t);
+                    LOGGER.log(ERROR, "Unable to construct HTTPS server", t);
                 }
-                httpsFeature.setHttpsServer(httpServer);
+                httpsFeature.setHttpsServer(httpsServer);
             }
+
             httpsFeature.start();
+            featureManager.addFeature(httpsFeature);
         }
 
         if (configuration.getBoolean("exitOnStop", false)) {

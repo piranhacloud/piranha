@@ -25,17 +25,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.single;
+
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
 
 /**
- * This module delivers the Piranha Core Profile distribution.
+ * The "Solo" WebApplicationExtension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.dist.coreprofile {
-    
-    exports cloud.piranha.dist.coreprofile;
-    opens cloud.piranha.dist.coreprofile;
-    requires cloud.piranha.extension.coreprofile;
-    requires cloud.piranha.single;
-    requires java.logging;
+public class SingleExtension implements WebApplicationExtension {
+
+    @Override
+    public void configure(WebApplication webApplication) {
+        webApplication.addServlet("Solo", SingleServlet.class);
+        webApplication.addServletMapping("Solo", "/*");
+    }
 }
