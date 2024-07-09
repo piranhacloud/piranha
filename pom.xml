@@ -54,6 +54,7 @@
         <module>maven</module>
         <module>micro</module>
         <module>resource</module>
+        <module>single</module>
         <module>spring</module>
     </modules>
 

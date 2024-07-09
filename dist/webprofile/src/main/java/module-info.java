@@ -36,10 +36,6 @@ module cloud.piranha.dist.webprofile {
     exports cloud.piranha.dist.webprofile;
     opens cloud.piranha.dist.webprofile;
     requires cloud.piranha.extension.webprofile;
-    requires cloud.piranha.feature.exitonstop;
-    requires cloud.piranha.feature.http;
-    requires cloud.piranha.feature.https;
-    requires cloud.piranha.feature.logging;
-    requires cloud.piranha.feature.webapp;
+    requires cloud.piranha.single;
     requires java.logging;
 }

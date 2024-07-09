@@ -27,6 +27,8 @@
  */
 package cloud.piranha.dist.coreprofile;
 
+import cloud.piranha.extension.coreprofile.CoreProfileExtension;
+import cloud.piranha.single.SinglePiranhaBuilder;
 import static java.lang.System.Logger.Level.WARNING;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
@@ -49,7 +51,7 @@ public class CoreProfilePiranhaMain {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        CoreProfilePiranhaBuilder builder = new CoreProfilePiranhaMain().processArguments(arguments);
+        SinglePiranhaBuilder builder = new CoreProfilePiranhaMain().processArguments(arguments);
         if (builder != null) {
             builder.build().start();
         } else {
@@ -62,9 +64,10 @@ public class CoreProfilePiranhaMain {
      *
      * @param arguments the arguments.
      */
-    private CoreProfilePiranhaBuilder processArguments(String[] arguments) {
+    private SinglePiranhaBuilder processArguments(String[] arguments) {
         
-        CoreProfilePiranhaBuilder builder = new CoreProfilePiranhaBuilder()
+        SinglePiranhaBuilder builder = new SinglePiranhaBuilder()
+                .extensionClass(CoreProfileExtension.class)
                 .exitOnStop(true);
         int httpPort = 0;
         int httpsPort = 0;

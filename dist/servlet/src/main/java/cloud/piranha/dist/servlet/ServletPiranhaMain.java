@@ -28,6 +28,7 @@
 package cloud.piranha.dist.servlet;
 
 import cloud.piranha.extension.servlet.ServletExtension;
+import cloud.piranha.single.SinglePiranhaBuilder;
 import static java.lang.System.Logger.Level.WARNING;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
@@ -50,7 +51,7 @@ public class ServletPiranhaMain {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        ServletPiranhaBuilder builder = new ServletPiranhaMain().processArguments(arguments);
+        SinglePiranhaBuilder builder = new ServletPiranhaMain().processArguments(arguments);
         if (builder != null) {
             builder.build().start();
         } else {
@@ -63,9 +64,9 @@ public class ServletPiranhaMain {
      *
      * @param arguments the arguments.
      */
-    private ServletPiranhaBuilder processArguments(String[] arguments) {
+    private SinglePiranhaBuilder processArguments(String[] arguments) {
         
-        ServletPiranhaBuilder builder = new ServletPiranhaBuilder()
+        SinglePiranhaBuilder builder = new SinglePiranhaBuilder()
                 .extensionClass(ServletExtension.class)
                 .exitOnStop(true);
         int httpPort = 0;
