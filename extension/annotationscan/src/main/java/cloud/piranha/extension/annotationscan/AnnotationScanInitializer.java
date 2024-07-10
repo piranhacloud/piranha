@@ -42,6 +42,7 @@ import jakarta.servlet.annotation.WebInitParam;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.annotation.WebServlet;
 import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.TRACE;
 import static java.lang.System.Logger.Level.WARNING;
 import java.lang.annotation.Annotation;
 import static java.util.Arrays.stream;
@@ -130,7 +131,9 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
             return classLoader.loadClass(
                     className.replace("/", ".")
                             .substring(1, className.length() - ".class".length()));
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | NoClassDefFoundError e) {
+            LOGGER.log(TRACE,"Unable to load class {0}, because of {1}", 
+                    className, e.getMessage());
         }
         return Object.class;
     }
