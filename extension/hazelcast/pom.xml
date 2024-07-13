@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
     <name>Piranha - Extension - Hazelcast</name>
     <properties>
-        <hazelcast.version>5.3.6</hazelcast.version>
+        <hazelcast.version>5.4.0</hazelcast.version>
     </properties>
     <dependencies>
         <!-- compile -->

@@ -13,6 +13,7 @@ deliver various bits and pieces of functionality.
 | Eclipse Grizzly           | 4.1.0-M1      |
 | Eclipse Grizzly NPN       | 2.0.0         |
 | Eclipse JAXB              | 4.0.5         |
+| Eclipse Jersey            | 3.1.7         |
 | Eclipse JSTL              | 3.0.1         |
 | Eclipse Mojarra           | 4.1.0         |
 | Eclipse Parsson           | 1.1.7         |
