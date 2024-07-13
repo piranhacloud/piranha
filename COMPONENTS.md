@@ -12,13 +12,15 @@ deliver various bits and pieces of functionality.
 | Eclipse Grizzly           | 4.0.2         |
 | Eclipse Grizzly NPN       | 2.0.0         |
 | Eclipse JAXB              | 4.0.5         |
+| Eclipse Jersey            | 3.1.7         |
 | Eclipse JSTL              | 3.0.1         |
 | Eclipse Mojarra           | 4.0.7         |
-| Eclipse Parsson           | 1.1.5         |
+| Eclipse Parsson           | 1.1.6         |
 | Eclipse Tyrus             | 2.1.5         |
 | Eclipse Yasson            | 3.0.3         |
-| Hazelcast                 | 5.3.6         |
-| Netty                     | 4.1.108.Final |
+| EclipseLink               | 4.0.3         |
+| Hazelcast                 | 5.4.0         |
+| Netty                     | 4.1.111.Final |
 | OmniFaces Services        | 0.4           |
 | OmniFish OmniBeans        | 0.3           |
 | OmniFish Transact         | 1.0.1         |
