@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
     <name>Piranha - Extension - Eclipse Parsson</name>
     <properties>
-        <parsson.version>1.1.5</parsson.version>
+        <parsson.version>1.1.6</parsson.version>
     </properties>
     <dependencies>
         <!-- compile -->
