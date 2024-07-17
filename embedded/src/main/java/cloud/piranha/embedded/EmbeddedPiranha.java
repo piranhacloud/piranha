@@ -90,9 +90,7 @@ public class EmbeddedPiranha implements Piranha {
     }
 
     /**
-     * {
-     *
-     * @return the web application}
+     * {@return the web application}
      */
     public WebApplication getWebApplication() {
         return webApplication;
