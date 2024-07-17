@@ -49,13 +49,13 @@ import static java.lang.System.Logger.Level.WARNING;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * The Solo version of Piranha.
+ * The Single version of Piranha.
  *
  * <p>
  * This version of Piranha supports the following:
  * </p>
  * <ol>
- * <li>Enabling use of Project CRaC</li>
+ * <li>Enabling Project CRaC</li>
  * <li>Running with Java modules</li>
  * <li>Exiting on stop</li>
  * <li>Exposing a HTTP endpoint</li>

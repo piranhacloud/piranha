@@ -34,7 +34,7 @@ import java.io.File;
 import static java.lang.System.Logger.Level.WARNING;
 
 /**
- * The Solo version of PiranhaBuilder.
+ * The Single version of PiranhaBuilder.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -48,7 +48,7 @@ public class SinglePiranhaBuilder implements PiranhaBuilder<SinglePiranha> {
     /**
      * Stores the SinglePiranha instance.
      */
-    private SinglePiranha piranha;
+    private final SinglePiranha piranha;
     
     /**
      * Stores the verbose flag.

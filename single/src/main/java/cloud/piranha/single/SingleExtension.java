@@ -27,19 +27,12 @@
  */
 package cloud.piranha.single;
 
-import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 
 /**
- * The "Solo" WebApplicationExtension.
+ * The "Single" WebApplicationExtension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class SingleExtension implements WebApplicationExtension {
-
-    @Override
-    public void configure(WebApplication webApplication) {
-        webApplication.addServlet("Solo", SingleServlet.class);
-        webApplication.addServletMapping("Solo", "/*");
-    }
 }
