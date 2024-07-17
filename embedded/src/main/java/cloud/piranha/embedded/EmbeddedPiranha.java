@@ -57,6 +57,9 @@ public class EmbeddedPiranha implements Piranha {
      */
     private final WebApplication webApplication;
 
+    /**
+     * Constructor.
+     */
     public EmbeddedPiranha() {
         configuration = new DefaultPiranhaConfiguration();
         webApplication = new DefaultWebApplication();
@@ -87,9 +90,7 @@ public class EmbeddedPiranha implements Piranha {
     }
 
     /**
-     * {
-     *
-     * @return the web application}
+     * {@return the web application}
      */
     public WebApplication getWebApplication() {
         return webApplication;
