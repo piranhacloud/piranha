@@ -130,7 +130,16 @@ public class SinglePiranhaBuilder implements PiranhaBuilder<SinglePiranha> {
         }
         return this;
     }
-
+    
+    /**
+     * Get the configuration.
+     * 
+     * @return the configuration.
+     */
+    public PiranhaConfiguration getConfiguration() {
+        return piranha.getConfiguration();
+    }
+    
     /**
      * Set the HTTP server port.
      *

@@ -37,5 +37,4 @@ module cloud.piranha.dist.coreprofile {
     opens cloud.piranha.dist.coreprofile;
     requires cloud.piranha.extension.coreprofile;
     requires cloud.piranha.single;
-    requires java.logging;
 }
