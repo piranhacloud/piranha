@@ -98,7 +98,6 @@ public class SinglePiranha implements Piranha, Runnable {
      */
     public SinglePiranha() {
         configuration = new DefaultPiranhaConfiguration();
-        configuration.setClass("extensionClass", SingleExtension.class);
         configuration.setBoolean("exitOnStop", false);
         configuration.setBoolean("cracEnabled", false);
         configuration.setInteger("httpPort", 8080);
