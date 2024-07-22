@@ -27,7 +27,7 @@
  */
 
 /**
- * This module delivers the Piranha MicroProfile distribution.
+ * This module delivers the Piranha Micro Profile distribution.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -37,5 +37,4 @@ module cloud.piranha.dist.microprofile {
     opens cloud.piranha.dist.microprofile;
     requires cloud.piranha.extension.microprofile;
     requires cloud.piranha.single;
-    requires java.logging;
 }
