@@ -27,7 +27,7 @@
  */
 
 /**
- * This module delivers the Piranha WebProfile distribution.
+ * This module delivers the Piranha Web Profile distribution.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -37,5 +37,4 @@ module cloud.piranha.dist.webprofile {
     opens cloud.piranha.dist.webprofile;
     requires cloud.piranha.extension.webprofile;
     requires cloud.piranha.single;
-    requires java.logging;
 }

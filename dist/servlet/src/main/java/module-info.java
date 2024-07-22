@@ -37,5 +37,4 @@ module cloud.piranha.dist.servlet {
     opens cloud.piranha.dist.servlet;
     requires cloud.piranha.extension.servlet;
     requires cloud.piranha.single;
-    requires java.logging;
 }
