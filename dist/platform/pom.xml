@@ -72,7 +72,11 @@
                             <portNames>
                                 <portName>httpPort</portName>
                                 <portName>httpPort2</portName>
-                                <portName>httpsPort2</portName>
+                                <portName>httpPort2b</portName>
+                                <portName>httpPort3</portName>
+                                <portName>httpPort3b</portName>
+                                <portName>httpPort4</portName>
+                                <portName>httpPort4b</portName>
                             </portNames>
                         </configuration>
                     </execution>
@@ -115,7 +119,11 @@
                     <systemPropertyVariables>
                         <httpPort>${httpPort}</httpPort>
                         <httpPort2>${httpPort2}</httpPort2>
-                        <httpsPort2>${httpsPort2}</httpsPort2>
+                        <httpPort2b>${httpPort2b}</httpPort2b>
+                        <httpPort3>${httpPort2}</httpPort3>
+                        <httpPort3b>${httpPort2b}</httpPort3b>
+                        <httpPort4>${httpPort2}</httpPort4>
+                        <httpPort4b>${httpPort2b}</httpPort4b>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

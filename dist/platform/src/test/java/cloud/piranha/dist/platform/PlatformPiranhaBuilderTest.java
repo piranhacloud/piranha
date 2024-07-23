@@ -75,7 +75,7 @@ class PlatformPiranhaBuilderTest {
         PlatformPiranha piranha = new PlatformPiranhaBuilder()
                 .extensionClass(PlatformExtension.class)
                 .httpPort(-1)
-                .httpsPort(Integer.parseInt(System.getProperty("httpsPort2")))
+                .httpsPort(Integer.parseInt(System.getProperty("httpPort2b")))
                 .build();
         piranha.start();
         Thread.sleep(5000);
@@ -99,13 +99,13 @@ class PlatformPiranhaBuilderTest {
                 .extensionClass(PlatformExtension.class)
                 .httpsKeystoreFile("src/main/zip/etc/keystore.jks")
                 .httpsKeystorePassword("password")
-                .httpPort(8228)
-                .httpsPort(8338)
+                .httpPort(Integer.parseInt(System.getProperty("httpPort3")))
+                .httpsPort(Integer.parseInt(System.getProperty("httpPort3b")))
                 .build();
         piranha.start();
         Thread.sleep(5000);
         SocketFactory factory = SSLSocketFactory.getDefault();
-        try (SSLSocket socket = (SSLSocket) factory.createSocket("localhost", 8338)) {
+        try (SSLSocket socket = (SSLSocket) factory.createSocket("localhost", Integer.parseInt(System.getProperty("httpPort3b")))) {
             assertNotNull(socket.getOutputStream());
             assertNotNull(socket.getSSLParameters());
             assertEquals("TLSv1.3", socket.getSSLParameters().getProtocols()[0]);
@@ -123,12 +123,12 @@ class PlatformPiranhaBuilderTest {
     void testDefaultExtensionClass() throws Exception {
         PlatformPiranha piranha = new PlatformPiranhaBuilder()
                 .extensionClass(PlatformExtension.class.getName())
-                .httpPort(8080)
+                .httpPort(Integer.parseInt(System.getProperty("httpPort4")))
                 .verbose(true)
                 .build();
         piranha.start();
         Thread.sleep(5000);
-        try (Socket socket = new Socket("localhost", 8080)) {
+        try (Socket socket = new Socket("localhost", Integer.parseInt(System.getProperty("httpPort4")))) {
             assertNotNull(socket.getOutputStream());
         } catch (ConnectException e) {
         }
