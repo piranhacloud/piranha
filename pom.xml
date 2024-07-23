@@ -52,6 +52,7 @@
         <module>feature</module>
         <module>http</module>
         <module>maven</module>
+        <module>multi</module>
         <module>micro</module>
         <module>resource</module>
         <module>single</module>
