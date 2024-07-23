@@ -25,9 +25,8 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.dist.platform;
+package cloud.piranha.multi;
 
-import cloud.piranha.extension.platform.PlatformExtension;
 import java.net.ConnectException;
 import java.net.Socket;
 import javax.net.SocketFactory;
@@ -39,11 +38,11 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the PlatformPiranhaBuilder class.
+ * The JUnit tests for the MultiPiranhaBuilder class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class PlatformPiranhaBuilderTest {
+class MultiPiranhaBuilderTest {
 
     /**
      * Test httpPort method.
@@ -52,13 +51,12 @@ class PlatformPiranhaBuilderTest {
      */
     @Test
     void testHttpPort() throws Exception {
-        PlatformPiranha piranha = new PlatformPiranhaBuilder()
-                .extensionClass(PlatformExtension.class)
+        MultiPiranha piranha = new MultiPiranhaBuilder()
                 .httpPort(Integer.parseInt(System.getProperty("httpPort")))
                 .build();
         piranha.start();
         Thread.sleep(5000);
-        try (Socket socket = new Socket("localhost", Integer.parseInt(System.getProperty("httpPort")))) {
+        try ( Socket socket = new Socket("localhost", Integer.parseInt(System.getProperty("httpPort")))) {
             assertNotNull(socket.getOutputStream());
         }
         piranha.stop();
@@ -72,10 +70,9 @@ class PlatformPiranhaBuilderTest {
      */
     @Test
     void testHttpPort2() throws Exception {
-        PlatformPiranha piranha = new PlatformPiranhaBuilder()
-                .extensionClass(PlatformExtension.class)
+        MultiPiranha piranha = new MultiPiranhaBuilder()
                 .httpPort(-1)
-                .httpsPort(Integer.parseInt(System.getProperty("httpPort2b")))
+                .httpsPort(Integer.parseInt(System.getProperty("httpsPort2")))
                 .build();
         piranha.start();
         Thread.sleep(5000);
@@ -95,17 +92,16 @@ class PlatformPiranhaBuilderTest {
      */
     @Test
     void testHttpsPort2() throws Exception {
-        PlatformPiranha piranha = new PlatformPiranhaBuilder()
-                .extensionClass(PlatformExtension.class)
+        MultiPiranha piranha = new MultiPiranhaBuilder()
                 .httpsKeystoreFile("src/main/zip/etc/keystore.jks")
                 .httpsKeystorePassword("password")
-                .httpPort(Integer.parseInt(System.getProperty("httpPort3")))
-                .httpsPort(Integer.parseInt(System.getProperty("httpPort3b")))
+                .httpPort(8228)
+                .httpsPort(8338)
                 .build();
         piranha.start();
         Thread.sleep(5000);
         SocketFactory factory = SSLSocketFactory.getDefault();
-        try (SSLSocket socket = (SSLSocket) factory.createSocket("localhost", Integer.parseInt(System.getProperty("httpPort3b")))) {
+        try ( SSLSocket socket = (SSLSocket) factory.createSocket("localhost", 8338)) {
             assertNotNull(socket.getOutputStream());
             assertNotNull(socket.getSSLParameters());
             assertEquals("TLSv1.3", socket.getSSLParameters().getProtocols()[0]);
@@ -115,20 +111,19 @@ class PlatformPiranhaBuilderTest {
     }
 
     /**
-     * Test extensionClass method.
+     * Test defaultExtensionClass method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
     void testDefaultExtensionClass() throws Exception {
-        PlatformPiranha piranha = new PlatformPiranhaBuilder()
-                .extensionClass(PlatformExtension.class.getName())
-                .httpPort(Integer.parseInt(System.getProperty("httpPort4")))
+        MultiPiranha piranha = new MultiPiranhaBuilder()
+                .httpPort(8080)
                 .verbose(true)
                 .build();
         piranha.start();
         Thread.sleep(5000);
-        try (Socket socket = new Socket("localhost", Integer.parseInt(System.getProperty("httpPort4")))) {
+        try ( Socket socket = new Socket("localhost", 8080)) {
             assertNotNull(socket.getOutputStream());
         } catch (ConnectException e) {
         }
