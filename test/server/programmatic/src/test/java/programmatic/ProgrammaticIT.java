@@ -28,8 +28,8 @@
 package programmatic;
 
 import cloud.piranha.extension.servlet.ServletExtension;
-import cloud.piranha.dist.server.ServerPiranha;
-import cloud.piranha.dist.server.ServerPiranhaBuilder;
+import cloud.piranha.multi.MultiPiranha;
+import cloud.piranha.multi.MultiPiranhaBuilder;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -50,7 +50,7 @@ class ProgrammaticIT {
     /**
      * Stores the Piranha Server instance.
      */
-    private ServerPiranha piranha;
+    private MultiPiranha piranha;
     
     /**
      * After each test.
@@ -65,7 +65,7 @@ class ProgrammaticIT {
      */
     @BeforeEach
     void beforeEach() {
-        piranha = new ServerPiranhaBuilder()
+        piranha = new MultiPiranhaBuilder()
                 .extensionClass(ServletExtension.class)
                 .httpPort(8200)
                 .webAppsDir("target/webapps")
