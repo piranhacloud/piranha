@@ -63,12 +63,12 @@ class RequestDispatcherTest {
     /**
      * Test forward method with a named RequestDispatcher.
      *
-     * @jakarta.assertion Servlet:SPEC:181
-     * @jakarta.assertion Servlet:SPEC:181.1
-     * @jakarta.assertion Servlet:SPEC:181.2
-     * @jakarta.assertion Servlet:SPEC:181.3
-     * @jakarta.assertion Servlet:SPEC:181.4
-     * @jakarta.assertion Servlet:SPEC:181.5
+     * <p>
+     *  This test validates Servlet:SPEC:181, Servlet:SPEC:181.1, 
+     *  Servlet:SPEC:181.2, Servlet:SPEC:181.3, Servlet:SPEC:181.4 and
+     *  Servlet:SPEC:181.5
+     * </p>
+     * 
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -122,7 +122,10 @@ class RequestDispatcherTest {
     /**
      * Test forward method on a named RequestDispatcher.
      *
-     * @jakarta.assertion Servlet:SPEC:79
+     * <p>
+     *  This test validates Servlet:SPEC:79
+     * </p>
+     * 
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -160,7 +163,10 @@ class RequestDispatcherTest {
     /**
      * Test forward method on a named RequestDispatcher.
      *
-     * @jakarta.assertion Servlet:SPEC:80
+     * <p>
+     *  This test validates Servlet:SPEC:80
+     * </p>
+     * 
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -236,7 +242,10 @@ class RequestDispatcherTest {
     /**
      * Test include method on a named RequestDispatcher.
      *
-     * @jakarta.assertion Servlet:SPEC:192.1
+     * <p>
+     *  This test validates Servlet:SPEC:192.1
+     * </p>
+     * 
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -654,8 +663,10 @@ class RequestDispatcherTest {
      * Test include method using named RequestDispatcher and validate it throws
      * an IllegalStateException when the response is already committed.
      *
-     * @jakarta.assertion Servlet:SPEC:192.3
-     * @jakarta.assertion Servlet:SPEC:192.4
+     * <p>
+     *  This test validates Servlet:SPEC:192.3 and Servlet:SPEC:192.4
+     * </p>
+     * 
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -697,7 +708,10 @@ class RequestDispatcherTest {
      * size to validate the response was committed after buffer overflow
      * happened.
      *
-     * @jakarta.assertion Servlet:SPEC:192.2
+     * <p>
+     *  This test validates Servlet:SPEC:192.2
+     * </p>
+     * 
      * @throws Exception when a serious error occurs.
      */
     @Test

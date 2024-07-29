@@ -583,13 +583,6 @@
                         <configuration>
                             <additionalOptions>-html5</additionalOptions>
                             <docfilessubdirs>true</docfilessubdirs>
-                            <tags>
-                                <tag>
-                                    <name>jakarta.assertion</name>
-                                    <placement>a</placement>
-                                    <head>Assertion: </head>
-                                </tag>
-                            </tags>
                         </configuration>
                     </execution>
                 </executions>
