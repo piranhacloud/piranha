@@ -28,6 +28,8 @@
 package cloud.piranha.dist.platform;
 
 import cloud.piranha.extension.platform.PlatformExtension;
+import cloud.piranha.multi.MultiPiranha;
+import cloud.piranha.multi.MultiPiranhaBuilder;
 import java.net.ConnectException;
 import java.net.Socket;
 import javax.net.SocketFactory;
@@ -52,7 +54,7 @@ class PlatformPiranhaBuilderTest {
      */
     @Test
     void testHttpPort() throws Exception {
-        PlatformPiranha piranha = new PlatformPiranhaBuilder()
+        MultiPiranha piranha = new MultiPiranhaBuilder()
                 .extensionClass(PlatformExtension.class)
                 .httpPort(Integer.parseInt(System.getProperty("httpPort")))
                 .build();
@@ -72,7 +74,7 @@ class PlatformPiranhaBuilderTest {
      */
     @Test
     void testHttpPort2() throws Exception {
-        PlatformPiranha piranha = new PlatformPiranhaBuilder()
+        MultiPiranha piranha = new MultiPiranhaBuilder()
                 .extensionClass(PlatformExtension.class)
                 .httpPort(-1)
                 .httpsPort(Integer.parseInt(System.getProperty("httpPort2b")))
@@ -95,7 +97,7 @@ class PlatformPiranhaBuilderTest {
      */
     @Test
     void testHttpsPort2() throws Exception {
-        PlatformPiranha piranha = new PlatformPiranhaBuilder()
+        MultiPiranha piranha = new MultiPiranhaBuilder()
                 .extensionClass(PlatformExtension.class)
                 .httpsKeystoreFile("src/main/zip/etc/keystore.jks")
                 .httpsKeystorePassword("password")
@@ -121,7 +123,7 @@ class PlatformPiranhaBuilderTest {
      */
     @Test
     void testDefaultExtensionClass() throws Exception {
-        PlatformPiranha piranha = new PlatformPiranhaBuilder()
+        MultiPiranha piranha = new MultiPiranhaBuilder()
                 .extensionClass(PlatformExtension.class.getName())
                 .httpPort(Integer.parseInt(System.getProperty("httpPort4")))
                 .verbose(true)

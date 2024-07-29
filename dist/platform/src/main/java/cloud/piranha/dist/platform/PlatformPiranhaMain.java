@@ -27,31 +27,16 @@
  */
 package cloud.piranha.dist.platform;
 
-import java.lang.System.Logger.Level;
-
-import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.extension.platform.PlatformExtension;
+import cloud.piranha.multi.MultiPiranhaBuilder;
+import cloud.piranha.multi.MultiPiranhaMain;
 
 /**
  * The Main for Piranha Platform.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PlatformPiranhaMain {
-
-    /**
-     * Stores the logger
-     */
-    private static final System.Logger LOGGER = System.getLogger(PlatformPiranhaMain.class.getName());
-
-    /**
-     * Get the default extension.
-     *
-     * @return the default extension.
-     */
-    protected Class<? extends WebApplicationExtension> getDefaultExtension() {
-        return PlatformExtension.class;
-    }
+public class PlatformPiranhaMain extends MultiPiranhaMain {
 
     /**
      * Main method.
@@ -59,100 +44,11 @@ public class PlatformPiranhaMain {
      * @param arguments the arguments.
      */
     public static void main(String[] arguments) {
-        PlatformPiranhaBuilder builder = new PlatformPiranhaMain().processArguments(arguments);
+        MultiPiranhaBuilder builder = new PlatformPiranhaMain().processArguments(arguments);
         if (builder != null) {
-            builder.build().start();
+            builder.extensionClass(PlatformExtension.class).build().start();
         } else {
             showHelp();
         }
-    }
-
-    /**
-     * Process the arguments.
-     *
-     * @param arguments the arguments.
-     * @return the builder.
-     */
-    protected PlatformPiranhaBuilder processArguments(String[] arguments) {
-        PlatformPiranhaBuilder builder = new PlatformPiranhaBuilder()
-                .extensionClass(getDefaultExtension())
-                .exitOnStop(true);
-
-        if (arguments != null) {
-            for (int i = 0; i < arguments.length; i++) {
-                if (arguments[i].equals("--extension-class")) {
-                    builder = builder.extensionClass(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--help")) {
-                    return null;
-                }
-                if (arguments[i].equals("--http-port")) {
-                    builder = builder.httpPort(Integer.parseInt(arguments[i + 1]));
-                }
-                if (arguments[i].equals("--http-server-class")) {
-                    builder = builder.httpServerClass(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--https-keystore-file")) {
-                    builder = builder.httpsKeystoreFile(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--https-keystore-password")) {
-                    builder = builder.httpsKeystorePassword(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--https-port")) {
-                    builder = builder.httpsPort(Integer.parseInt(arguments[i + 1]));
-                }
-                if (arguments[i].equals("--https-server-class")) {
-                    builder = builder.httpsServerClass(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--https-truststore-file")) {
-                    builder = builder.httpsTruststoreFile(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--https-truststore-password")) {
-                    builder = builder.httpsTruststorePassword(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--jpms")) {
-                    builder = builder.jpms(true);
-                }
-                if (arguments[i].equals("--logging-level")) {
-                    builder = builder.loggingLevel(arguments[i + 1]);
-                }
-                if (arguments[i].equals("--verbose")) {
-                    builder = builder.verbose(true);
-                }
-                if (arguments[i].equals("--webapps-dir")) {
-                    builder = builder.webAppsDir(arguments[i + 1]);
-                }
-            }
-        }
-        return builder;
-    }
-
-    /**
-     * Show help.
-     */
-    protected static void showHelp() {
-        LOGGER.log(Level.INFO, "");
-        LOGGER.log(Level.INFO,
-                """
-  --extension-class <className>        - Set the extension to use
-  --help                               - Show this help
-  --http-port <integer>                - Set the HTTP port (use -1 to disable)
-  --http-server-class <className>      - Set the HTTP server class to use
-  --https-keystore-file <file>         - Set the HTTPS keystore file (applies to
-                                         the whole JVM)
-  --https-keystore-password <string>   - Set the HTTPS keystore password 
-                                         (applies to the whole JVM)
-  --https-port <integer>               - Set the HTTPS port (disabled by 
-                                         default)
-  --https-server-class <className>     - Set the HTTPS server class to use
-  --https-truststore-file <file>       - Set the HTTPS keystore file (applies to
-                                         the whole JVM)
-  --https-truststore-password <string> - Set the HTTPS keystore password 
-                                         (applies to the whole JVM)
-  --jpms                               - Enable Java Platform Module System
-  --logging-level <string>             - Set the logging level
-  --verbose                            - Shows the runtime parameters
-  --webapps-dir <directory>            - Set the web applications directory
-                """);
     }
 }
