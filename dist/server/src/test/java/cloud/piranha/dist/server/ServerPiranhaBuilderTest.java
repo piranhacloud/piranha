@@ -28,6 +28,8 @@
 package cloud.piranha.dist.server;
 
 import cloud.piranha.extension.servlet.ServletExtension;
+import cloud.piranha.multi.MultiPiranha;
+import cloud.piranha.multi.MultiPiranhaBuilder;
 import java.net.ConnectException;
 import java.net.Socket;
 import javax.net.SocketFactory;
@@ -52,7 +54,7 @@ class ServerPiranhaBuilderTest {
      */
     @Test
     void testHttpPort() throws Exception {
-        ServerPiranha piranha = new ServerPiranhaBuilder()
+        MultiPiranha piranha = new MultiPiranhaBuilder()
                 .extensionClass(ServletExtension.class)
                 .httpPort(Integer.parseInt(System.getProperty("httpPort")))
                 .build();
@@ -72,7 +74,7 @@ class ServerPiranhaBuilderTest {
      */
     @Test
     void testHttpPort2() throws Exception {
-        ServerPiranha piranha = new ServerPiranhaBuilder()
+        MultiPiranha piranha = new MultiPiranhaBuilder()
                 .extensionClass(ServletExtension.class)
                 .httpPort(-1)
                 .httpsPort(Integer.parseInt(System.getProperty("httpsPort2")))
@@ -95,7 +97,7 @@ class ServerPiranhaBuilderTest {
      */
     @Test
     void testHttpsPort2() throws Exception {
-        ServerPiranha piranha = new ServerPiranhaBuilder()
+        MultiPiranha piranha = new MultiPiranhaBuilder()
                 .extensionClass(ServletExtension.class)
                 .httpsKeystoreFile("src/main/zip/etc/keystore.jks")
                 .httpsKeystorePassword("password")
@@ -115,13 +117,13 @@ class ServerPiranhaBuilderTest {
     }
 
     /**
-     * Test defaultExtensionClass method.
+     * Test extensionClass method.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
     void testDefaultExtensionClass() throws Exception {
-        ServerPiranha piranha = new ServerPiranhaBuilder()
+        MultiPiranha piranha = new MultiPiranhaBuilder()
                 .extensionClass(ServletExtension.class.getName())
                 .httpPort(8080)
                 .verbose(true)
