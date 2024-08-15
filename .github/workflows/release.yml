@@ -50,6 +50,11 @@ jobs:
         mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
         cd dist/microprofile
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
+    - name: Build Piranha Platform image
+      run: |
+        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
+        cd dist/platform
+        mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
     - name: Build Piranha Server image
       run: |
         mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
