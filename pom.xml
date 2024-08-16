@@ -50,7 +50,6 @@
         <module>embedded</module>
         <module>extension</module>
         <module>feature</module>
-        <module>fin</module>
         <module>http</module>
         <module>maven</module>
         <module>micro</module>
