@@ -19,5 +19,6 @@
         <module>annotations</module>
         <module>atinject</module>
         <module>jsonb</module>
+        <module>jsonp</module>
     </modules>
 </project>
