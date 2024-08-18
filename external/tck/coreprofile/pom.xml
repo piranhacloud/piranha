@@ -17,5 +17,6 @@
     <name>Piranha - External - TCK - CoreProfile - Project</name>
     <modules>
         <module>annotations</module>
+        <module>atinject</module>
     </modules>
 </project>
