@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cloud.piranha.external.tck.coreprofile</groupId>
+        <artifactId>project</artifactId>
+        <version>24.9.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>piranha-external-tck-coreprofile-jakarta-jsonb-tck</artifactId>
+    <packaging>pom</packaging>
+    <name>Piranha - External - TCK - CoreProfile - Jakarta JSON Binding TCK</name>
+    <properties>
+        <ant.home>${project.build.directory}/ant</ant.home>
+        <signature.home>${project.build.directory}/signature</signature.home>
+        <tck.home>${project.build.directory}/tck</tck.home>
+        <test.home>${tck.home}/src/com/sun/ts/tests</test.home>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cloud.piranha</groupId>
+                <artifactId>bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>    
+    <profiles>
+        <profile>
+            <id>unix</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>validate</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                        <echo>Executing UNIX profile</echo>
+                                        
+                                        <!-- Download, unzip and rename TCK -->
+                                        <get src="https://download.eclipse.org/jakartaee/jsonb/3.0/jakarta-jsonb-tck-3.0.0.zip"
+                                             dest="${project.build.directory}/tck.zip"
+                                             skipexisting="true"/>
+                                        <unzip src="${project.build.directory}/tck.zip"
+                                               dest="${project.build.directory}"/>
+                                        <move file="${project.build.directory}/jsonb-tck"
+                                              tofile="${project.build.directory}/tck"/>
+                                        
+                                        <!-- Install the TCK JAR into local Maven repository -->
+                                        <chmod dir="${project.build.directory}/tck/artifacts"
+                                               perm="ugo+rx"
+                                               includes="*"/>
+                                        <exec dir="${project.build.directory}/tck/artifacts"
+                                              executable="./artifact-install.sh"/>
+                                        
+                                        <!-- Setup bin/pom.xml for correct Yasson version -->
+                                        <replaceregexp file="${tck.home}/example/pom.xml"
+                                                       match="&lt;jsonb-impl.version>(.*)&lt;/jsonb-impl.version>"
+                                                       replace="&lt;jsonb-impl.version>3.0.4&lt;/jsonb-impl.version>"
+                                                       byline="true"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>integration-test</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <!-- Run the tests -->
+                                        <exec dir="${tck.home}/bin"
+                                              executable="mvn">
+                                            <arg value="-Djava.locale.providers=COMPAT"/>
+                                            <arg value="verify"/>
+                                        </exec>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
