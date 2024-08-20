@@ -5,7 +5,7 @@
     <groupId>tck</groupId>
     <artifactId>cdi-runner</artifactId>
     <version>1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <name>Piranha - External - TCK - CoreProfile - Jakarta CDI TCK - Runner</name>
     <properties>
         <piranha.version>24.9.0-SNAPSHOT</piranha.version>
@@ -20,7 +20,7 @@
                 <type>pom</type>
             </dependency>
         </dependencies>
-    </dependencyManagement> 
+    </dependencyManagement>
     <profiles>
         <profile>
             <id>unix</id>
@@ -29,9 +29,6 @@
                     <family>unix</family>
                 </os>
             </activation>
-            <properties>
-                <excluded.groups>se</excluded.groups>
-            </properties>
             <dependencies>
                 <dependency>
                     <groupId>cloud.piranha.arquillian</groupId>
@@ -65,26 +62,44 @@
                     </exclusions>
                 </dependency>
                 <dependency>
-                    <groupId>jakarta.enterprise</groupId>
-                    <artifactId>cdi-tck-web-impl</artifactId>
-                    <version>4.0.13</version>
-                    <scope>test</scope>
-                    <exclusions>
-                        <exclusion>
-                            <groupId>*</groupId>
-                            <artifactId>*</artifactId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-                <dependency>
                     <groupId>org.jboss.arquillian.protocol</groupId>
                     <artifactId>arquillian-protocol-servlet-jakarta</artifactId>
                     <version>1.7.0.Alpha10</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
-            <build>            
+            <build>
                 <plugins>
+                    <!--
+                       
+                      Create a JAR file for the test resources and stick it in
+                      ${project.build.directory}/dependency/lib so it can be
+                      referred to by org.jboss.cdi.tck.libraryDirectory
+                      property when the time comes. Needed for 
+                      META-INF/cdi-tck.properties resolution.
+                                                                                                      
+                    -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.4.2</version>
+                        <executions>
+                            <execution>
+                                <phase>process-test-classes</phase>
+                                <goals>
+                                    <goal>test-jar</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/dependency/lib</outputDirectory>
+                                    <archive>
+                                        <manifest>
+                                            <addClasspath>false</addClasspath>
+                                        </manifest>
+                                    </archive>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
@@ -101,6 +116,9 @@
                             <dependenciesToScan>
                                 <dependency>jakarta.enterprise:cdi-tck-core-impl</dependency>
                             </dependenciesToScan>
+                            <systemPropertyVariables>
+                                <org.jboss.cdi.tck.libraryDirectory>${project.build.directory}/dependency/lib</org.jboss.cdi.tck.libraryDirectory>
+                            </systemPropertyVariables>
                         </configuration>
                     </plugin>                    
                     <plugin>
