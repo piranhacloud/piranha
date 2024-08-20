@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
     <name>Piranha - Extension - Eclipse Mojarra</name>
     <properties>
-        <mojarra.version>4.1.0</mojarra.version>
+        <mojarra.version>4.1.1</mojarra.version>
     </properties>
     <dependencies>
         <!-- compile -->
