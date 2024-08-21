@@ -15,7 +15,7 @@
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.7.0.Alpha10</version>
+                <version>1.8.0.Final</version>
                 <scope>test</scope>
                 <type>pom</type>
             </dependency>
@@ -64,7 +64,7 @@
                 <dependency>
                     <groupId>org.jboss.arquillian.protocol</groupId>
                     <artifactId>arquillian-protocol-servlet-jakarta</artifactId>
-                    <version>1.7.0.Alpha10</version>
+                    <version>1.8.0.Final</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -116,7 +116,7 @@
                                 <dependency>jakarta.enterprise:cdi-tck-core-impl</dependency>
                             </dependenciesToScan>
                             <excludedGroups>cdi-full,se</excludedGroups>
-                            <forkCount>8</forkCount>
+                            <forkCount>16</forkCount>
                             <properties>
                                 <property>
                                     <name>surefire.testng.verbose</name>
