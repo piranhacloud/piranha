@@ -47,7 +47,6 @@ import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaD
 import org.jboss.arquillian.container.spi.client.protocol.metadata.Servlet;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
-import org.jboss.shrinkwrap.descriptor.api.Descriptor;
 
 /**
  * The Piranha JAR container.
@@ -85,6 +84,11 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
      * Stores the local repository directory.
      */
     private File localRepositoryDir = new File(System.getProperty("user.home"), ".m2/repository");
+
+    /**
+     * Stores the process.
+     */
+    private Process process;
 
     /**
      * Default constructor.
@@ -169,11 +173,6 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
     }
 
     @Override
-    public void deploy(Descriptor descriptor) throws DeploymentException {
-        // not supporting deployment by descriptor.
-    }
-
-    @Override
     public void undeploy(Archive<?> archive) throws DeploymentException {
         LOGGER.log(Level.INFO, "Undeploying - " + archive.getName());
 
@@ -199,15 +198,23 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
         }
 
         /*
+         * Destroy the process forcibly if it is still running.
+         */
+        try {
+            if (process.isAlive()) {
+                LOGGER.log(Level.WARNING, 
+                        "Process for {0} still alive, destroying forcibly", 
+                        archive.getName());
+                process.destroyForcibly().waitFor();
+            }
+        } catch (InterruptedException ie) {
+        }
+
+        /*
          * Delete the WAR file.
          */
         File warFile = new File(runtimeDirectory, toWarFilename(archive));
         warFile.delete();
-    }
-
-    @Override
-    public void undeploy(Descriptor d) throws DeploymentException {
-        // not supporting undeployment by descriptor.
     }
 
     /**
@@ -329,7 +336,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
             File warFilename)
             throws IOException {
 
-        new ProcessBuilder()
+        process = new ProcessBuilder()
                 .directory(runtimeDirectory)
                 .command("java",
                         "-jar",
@@ -360,7 +367,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
 
         LOGGER.log(Level.INFO, "Running application from directory: " + runtimeDirectory);
         LOGGER.log(Level.INFO, "Application is available at: http://localhost:"
-                + Integer.toString(configuration.getHttpPort()) 
+                + Integer.toString(configuration.getHttpPort())
                 + "/" + warFilename.getName().substring(0, warFilename.getName().lastIndexOf(".")));
     }
 
