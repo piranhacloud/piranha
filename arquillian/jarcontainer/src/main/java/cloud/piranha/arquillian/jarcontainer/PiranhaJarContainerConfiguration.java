@@ -27,6 +27,7 @@
  */
 package cloud.piranha.arquillian.jarcontainer;
 
+import static java.lang.System.Logger.Level.INFO;
 import me.alexpanov.net.FreePortFinder;
 import org.jboss.arquillian.container.spi.ConfigurationException;
 import org.jboss.arquillian.container.spi.client.container.ContainerConfiguration;
@@ -37,6 +38,11 @@ import org.jboss.arquillian.container.spi.client.container.ContainerConfiguratio
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class PiranhaJarContainerConfiguration implements ContainerConfiguration {
+    
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(PiranhaJarContainerConfiguration.class.getName());
     
     /**
      * Stores the protocol.
@@ -68,6 +74,15 @@ public class PiranhaJarContainerConfiguration implements ContainerConfiguration 
     public String getProtocol() {
         return protocol;
     }
+    
+    /**
+     * Set the HTTP port.
+     * 
+     * @param httpPort the HTTP port.
+     */
+    public void setHttpPort(int httpPort) {
+        this.httpPort = httpPort;
+    }
 
     /**
      * Set the protocol.
@@ -80,5 +95,7 @@ public class PiranhaJarContainerConfiguration implements ContainerConfiguration 
 
     @Override
     public void validate() throws ConfigurationException {
+        LOGGER.log(INFO, "Using protocol: {0}", getProtocol());
+        LOGGER.log(INFO, "Using port: {0}", getHttpPort());
     }
 }
