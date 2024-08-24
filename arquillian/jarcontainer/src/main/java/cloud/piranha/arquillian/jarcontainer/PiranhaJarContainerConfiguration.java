@@ -27,6 +27,7 @@
  */
 package cloud.piranha.arquillian.jarcontainer;
 
+import static java.lang.System.Logger.Level.INFO;
 import me.alexpanov.net.FreePortFinder;
 import org.jboss.arquillian.container.spi.ConfigurationException;
 import org.jboss.arquillian.container.spi.client.container.ContainerConfiguration;
@@ -39,14 +40,24 @@ import org.jboss.arquillian.container.spi.client.container.ContainerConfiguratio
 public class PiranhaJarContainerConfiguration implements ContainerConfiguration {
     
     /**
-     * Stores the protocol.
+     * Stores the logger.
      */
-    private String protocol = "Servlet 6.0";
+    private static final System.Logger LOGGER = System.getLogger(PiranhaJarContainerConfiguration.class.getName());
     
     /**
      * Stores the HTTP port.
      */
     private Integer httpPort;
+    
+    /**
+     * Stores the JVM arguments.
+     */
+    private String jvmArguments = "";
+
+    /**
+     * Stores the protocol.
+     */
+    private String protocol = "Servlet 6.0";
     
     /**
      * Get the HTTP port.
@@ -59,6 +70,15 @@ public class PiranhaJarContainerConfiguration implements ContainerConfiguration 
         }
         return httpPort;
     }
+    
+    /**
+     * Get the JVM arguments.
+     * 
+     * @return the JVM arguments.
+     */
+    public String getJvmArguments() {
+        return jvmArguments;
+    }
 
     /**
      * Get the protocol.
@@ -67,6 +87,24 @@ public class PiranhaJarContainerConfiguration implements ContainerConfiguration 
      */
     public String getProtocol() {
         return protocol;
+    }
+    
+    /**
+     * Set the HTTP port.
+     * 
+     * @param httpPort the HTTP port.
+     */
+    public void setHttpPort(int httpPort) {
+        this.httpPort = httpPort;
+    }
+    
+    /**
+     * Set the JVM arguments.
+     * 
+     * @param jvmArguments the JVM arguments.
+     */
+    public void setJvmArguments(String jvmArguments) {
+        this.jvmArguments = jvmArguments;
     }
 
     /**
@@ -80,5 +118,8 @@ public class PiranhaJarContainerConfiguration implements ContainerConfiguration 
 
     @Override
     public void validate() throws ConfigurationException {
+        LOGGER.log(INFO, "Using HTTP Port: {0}", getHttpPort());
+        LOGGER.log(INFO, "Using JVM arguments: {0}", getJvmArguments());
+        LOGGER.log(INFO, "Using protocol: {0}", getProtocol());
     }
 }
