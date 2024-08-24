@@ -41,16 +41,15 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
 import org.jboss.arquillian.container.spi.client.container.DeploymentException;
-import org.jboss.arquillian.container.spi.client.container.LifecycleException;
 import org.jboss.arquillian.container.spi.client.protocol.ProtocolDescription;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.HTTPContext;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaData;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.Servlet;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
-import org.jboss.shrinkwrap.descriptor.api.Descriptor;
 
 /**
  * The Piranha JAR container.
@@ -90,6 +89,11 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
     private File localRepositoryDir = new File(System.getProperty("user.home"), ".m2/repository");
 
     /**
+     * Stores the Piranha process.
+     */
+    private Process process;
+
+    /**
      * Default constructor.
      */
     public PiranhaJarContainer() {
@@ -106,36 +110,13 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
     }
 
     @Override
-    public void start() throws LifecycleException {
-        LOGGER.log(Level.INFO, "Starting server");
-    }
-
-    @Override
-    public void stop() throws LifecycleException {
-        LOGGER.log(Level.INFO, "Stopping server");
-
-        /*
-         * Delete the PID file.
-         */
-        File runtimeDirectory = new File(System.getProperty(TMP_DIR));
-        File pidFile = new File(runtimeDirectory, PID_FILENAME);
-        if (pidFile.exists()) {
-            try {
-                Files.delete(pidFile.toPath());
-            } catch (IOException ioe) {
-                LOGGER.log(WARNING, "Unable to delete PID file", ioe);
-            }
-        }
-    }
-
-    @Override
     public ProtocolDescription getDefaultProtocol() {
         return new ProtocolDescription(configuration.getProtocol());
     }
 
     @Override
     public ProtocolMetaData deploy(Archive<?> archive) throws DeploymentException {
-        LOGGER.log(Level.INFO, "Deploying - " + archive.getName());
+        LOGGER.log(Level.INFO, "Deploying " + archive.getName());
 
         ProtocolMetaData metadata = new ProtocolMetaData();
 
@@ -152,12 +133,12 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
              */
             String version = determineVersionToUse();
             File piranhaJarFile = getPiranhaJarFile(version);
-            copyPiranhaCoreProfileJarFile(runtimeDirectory, piranhaJarFile);
+            copyPiranhaJarFile(runtimeDirectory, piranhaJarFile);
 
             /*
              * Start Piranha.
              */
-            startPiranhaCoreProfile(runtimeDirectory, warFile);
+            startPiranha(runtimeDirectory, warFile);
         } catch (IOException ioe) {
             ioe.printStackTrace();
             return null;
@@ -172,13 +153,8 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
     }
 
     @Override
-    public void deploy(Descriptor descriptor) throws DeploymentException {
-        // not supporting deployment by descriptor.
-    }
-
-    @Override
     public void undeploy(Archive<?> archive) throws DeploymentException {
-        LOGGER.log(Level.INFO, "Undeploying - " + archive.getName());
+        LOGGER.log(Level.INFO, "Undeploying " + archive.getName());
 
         /*
          * Delete the PID file.
@@ -194,11 +170,17 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
         }
 
         /*
-         * Wait for 5 seconds.
+         * Wait for 5 minutes at the most.
          */
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException ie) {
+        if (process != null && process.isAlive()) {
+            try {
+                LOGGER.log(Level.INFO, "Waiting for Piranha to be shutdown");
+                process.waitFor(5, TimeUnit.MINUTES);
+            } catch (InterruptedException ie) {
+                LOGGER.log(Level.WARNING, "Piranha did not shutdown within time alloted");
+                LOGGER.log(Level.WARNING, "Destroying Piranha process forcibly");
+                process.destroyForcibly();
+            }
         }
 
         /*
@@ -206,11 +188,6 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
          */
         File warFile = new File(runtimeDirectory, toWarFilename(archive));
         warFile.delete();
-    }
-
-    @Override
-    public void undeploy(Descriptor d) throws DeploymentException {
-        // not supporting undeployment by descriptor.
     }
 
     /**
@@ -322,12 +299,12 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
     }
 
     /**
-     * Start and wait for Piranha Core Profile.
+     * Start Piranha.
      *
      * @param runtimeDirectory the runtime directory.
      * @param warFilename the WAR filename.
      */
-    private void startPiranhaCoreProfile(
+    private void startPiranha(
             File runtimeDirectory,
             File warFilename)
             throws IOException {
@@ -350,22 +327,21 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
         commands.add(warFilename.getName());
         commands.add("--write-pid");
 
-        new ProcessBuilder()
+        process = new ProcessBuilder()
                 .directory(runtimeDirectory)
                 .command(commands)
                 .start();
 
         File pidFile = new File(runtimeDirectory, PID_FILENAME);
         int count = 0;
-        LOGGER.log(Level.INFO, "Waiting for Piranha to be ready ");
+        LOGGER.log(Level.INFO, "Waiting for Piranha to be ready");
         while (!pidFile.exists()) {
             try {
                 Thread.sleep(500);
                 count++;
-                LOGGER.log(Level.INFO, ".");
             } catch (InterruptedException ie) {
             }
-            if (count == 80) {
+            if (count == 600) {
                 LOGGER.log(Level.WARNING, "Warning, PID file not seen!");
                 break;
             }
@@ -379,12 +355,12 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
     }
 
     /**
-     * Copy the Piranha Core Profile JAR file.
+     * Copy the Piranha JAR file.
      *
      * @param runtimeDirectory the runtime directory.
      * @param zipFile the zip file.
      */
-    private void copyPiranhaCoreProfileJarFile(File runtimeDirectory, File zipFile) throws IOException {
+    private void copyPiranhaJarFile(File runtimeDirectory, File zipFile) throws IOException {
         if (!runtimeDirectory.exists() && !runtimeDirectory.mkdirs()) {
             System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
         }
