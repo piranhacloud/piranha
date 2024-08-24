@@ -38,6 +38,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
 import org.jboss.arquillian.container.spi.client.container.DeploymentException;
 import org.jboss.arquillian.container.spi.client.container.LifecycleException;
@@ -336,16 +339,27 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
             File warFilename)
             throws IOException {
 
+        List<String> commands = new ArrayList<>();
+        commands.add("java");
+        List<String> jvmARgs = Arrays.asList(configuration.getJvmArguments().split("\\s+"));
+        if (!jvmARgs.isEmpty()) {
+            jvmARgs.forEach(s -> {
+                if (s != null && !s.trim().equals("")) {
+                    commands.add(s);
+                }
+            });
+        }
+        commands.add("-jar");
+        commands.add("piranha-dist-coreprofile.jar");
+        commands.add("--http-port");
+        commands.add(Integer.toString(configuration.getHttpPort()));
+        commands.add("--war-file");
+        commands.add(warFilename.getName());
+        commands.add("--write-pid");
+
         process = new ProcessBuilder()
                 .directory(runtimeDirectory)
-                .command("java",
-                        "-jar",
-                        "piranha-dist-coreprofile.jar",
-                        "--http-port",
-                        Integer.toString(configuration.getHttpPort()),
-                        "--war-file",
-                        warFilename.getName(),
-                        "--write-pid")
+                .command(commands)
                 .start();
 
         File pidFile = new File(runtimeDirectory, PID_FILENAME);
