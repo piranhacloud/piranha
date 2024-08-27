@@ -1,5 +1,6 @@
 name: docs-release
-workflow_dispatch:
+on: 
+  workflow_dispatch:
     inputs:
       version:
         description: 'Release version'
