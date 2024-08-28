@@ -1,0 +1,90 @@
+name: tck-core-profile
+on:
+  schedule:
+  - cron: "0 0 * * *"
+  workflow_dispatch:
+jobs:
+  annotations:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        java: [ '21' ]
+        os: [ubuntu-latest]
+    steps:
+    - name: Checkout Sources
+      uses: actions/checkout@v3
+    - name: Set up Java ${{ matrix.java }}
+      uses: actions/setup-java@v3
+      with:
+        cache: 'maven'
+        distribution: 'temurin'
+        java-version: ${{ matrix.java }}
+    - name: Setup for TCK
+      run: mvn -B -DskipTests=true -ntp install
+    - name: Run TCK
+      run: |
+        cd external/tck/coreprofile/annotations
+        mvn -B -ntp verify
+  atinject:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        java: [ '21' ]
+        os: [ubuntu-latest]
+    steps:
+    - name: Checkout Sources
+      uses: actions/checkout@v3
+    - name: Set up Java ${{ matrix.java }}
+      uses: actions/setup-java@v3
+      with:
+        cache: 'maven'
+        distribution: 'temurin'
+        java-version: ${{ matrix.java }}
+    - name: Setup for TCK
+      run: mvn -B -DskipTests=true -ntp install
+    - name: Run TCK
+      run: |
+        cd external/tck/coreprofile/atinject
+        mvn -B -ntp verify
+  jsonb:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        java: [ '21' ]
+        os: [ubuntu-latest]
+    steps:
+    - name: Checkout Sources
+      uses: actions/checkout@v3
+    - name: Set up Java ${{ matrix.java }}
+      uses: actions/setup-java@v3
+      with:
+        cache: 'maven'
+        distribution: 'temurin'
+        java-version: ${{ matrix.java }}
+    - name: Setup for TCK
+      run: mvn -B -DskipTests=true -ntp install
+    - name: Run TCK
+      run: |
+        cd external/tck/coreprofile/jsonb
+        mvn -B -ntp verify
+  jsonp:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        java: [ '21' ]
+        os: [ubuntu-latest]
+    steps:
+    - name: Checkout Sources
+      uses: actions/checkout@v3
+    - name: Set up Java ${{ matrix.java }}
+      uses: actions/setup-java@v3
+      with:
+        cache: 'maven'
+        distribution: 'temurin'
+        java-version: ${{ matrix.java }}
+    - name: Setup for TCK
+      run: mvn -B -DskipTests=true -ntp install
+    - name: Run TCK
+      run: |
+        cd external/tck/coreprofile/jsonp
+        mvn -B -ntp verify

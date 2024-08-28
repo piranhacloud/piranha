@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Piranha">
+    <body>
+        <menu name="Overview">
+            <item name="Getting Started" href="getting-started.html"/>
+        </menu>
+    </body>
+    <custom>
+        <fluidoSkin>
+            <copyrightClass>pull-right</copyrightClass>
+            <gitHub>
+                <projectId>piranhacloud/piranha</projectId>
+                <ribbonOrientation>right-bottom</ribbonOrientation>
+                <ribbonColor>black</ribbonColor>
+            </gitHub>
+            <twitter>
+                <user>piranha_cloud</user>
+            </twitter>
+        </fluidoSkin>
+    </custom>
+    <publishDate position="right"/>
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>2.0.0-M10</version>
+    </skin>
+    <version position="left"/>
+</project>
