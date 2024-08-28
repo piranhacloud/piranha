@@ -18,6 +18,7 @@
     <modules>
         <module>annotations</module>
         <module>atinject</module>
+        <module>cdi</module>
         <module>coreprofile</module>
         <module>jsonb</module>
         <module>jsonp</module>
