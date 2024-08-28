@@ -1,0 +1,41 @@
+name: docs-release
+on: 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version'
+        required: true
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Piranha
+      uses: actions/checkout@v3
+    - name: Checkout Piranha Website
+      uses: actions/checkout@v3
+      with:
+        repository: piranhacloud/piranha-website
+        token: ${{ secrets.GIT_PASSWORD }}
+        path: piranha-website
+        ref: 'gh-pages'
+    - name: Set up Java 21
+      uses: actions/setup-java@v3
+      with:
+        cache: 'maven'
+        distribution: 'temurin'
+        java-version: 21
+    - name: Build with Maven
+      run: |
+        git checkout v${{ github.event.inputs.version }}
+        cd docs
+        mvn -B -DskipTests -DskipITs -ntp site
+        cd ../
+        rm -rf piranha-website/release || true
+        mkdir -p piranha-website/release || true
+        cp -R docs/target/site/* piranha-website/release/
+        cd piranha-website
+        git config --global user.email "noreply@piranha.cloud"
+        git config --global user.name "Automated publish"
+        git add .
+        git commit -a -m "Publishing documentation" || true
+        git push

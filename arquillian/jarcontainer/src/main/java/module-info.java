@@ -41,6 +41,6 @@ module cloud.piranha.arquillian.jarcontainer {
     provides LoadableExtension with PiranhaJarContainerExtension;
     requires arquillian.container.spi;
     requires arquillian.core.spi;
-    requires shrinkwrap.api;
     requires free.port.finder;
+    requires shrinkwrap.api;
 }

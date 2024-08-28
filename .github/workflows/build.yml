@@ -177,3 +177,4 @@ jobs:
         git add .
         git commit -a -m "Publishing Maven plugin documentation" || true
         git push
+
