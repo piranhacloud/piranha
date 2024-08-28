@@ -19,6 +19,12 @@
             <groupId>org.jboss.arquillian.container</groupId>
             <artifactId>arquillian-container-spi</artifactId>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jboss.shrinkwrap.descriptors</groupId>
+                    <artifactId>shrinkwrap-descriptors-api-base</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>me.alexpanov</groupId>
