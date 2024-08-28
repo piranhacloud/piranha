@@ -46,6 +46,48 @@ jobs:
       run: |
         cd external/tck/coreprofile/atinject
         mvn -B -ntp verify
+  cdi:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        java: [ '21' ]
+        os: [ubuntu-latest]
+    steps:
+    - name: Checkout Sources
+      uses: actions/checkout@v3
+    - name: Set up Java ${{ matrix.java }}
+      uses: actions/setup-java@v3
+      with:
+        cache: 'maven'
+        distribution: 'temurin'
+        java-version: ${{ matrix.java }}
+    - name: Setup for TCK
+      run: mvn -B -DskipTests=true -ntp install
+    - name: Run TCK
+      run: |
+        cd external/tck/coreprofile/cdi
+        mvn -B -ntp verify
+  coreprofile:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        java: [ '21' ]
+        os: [ubuntu-latest]
+    steps:
+    - name: Checkout Sources
+      uses: actions/checkout@v3
+    - name: Set up Java ${{ matrix.java }}
+      uses: actions/setup-java@v3
+      with:
+        cache: 'maven'
+        distribution: 'temurin'
+        java-version: ${{ matrix.java }}
+    - name: Setup for TCK
+      run: mvn -B -DskipTests=true -ntp install
+    - name: Run TCK
+      run: |
+        cd external/tck/coreprofile/coreprofile
+        mvn -B -ntp verify        
   jsonb:
     runs-on: ${{ matrix.os }}
     strategy:
