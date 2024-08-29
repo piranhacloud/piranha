@@ -32,16 +32,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.System.Logger.Level;
-import static java.lang.System.Logger.Level.WARNING;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
 import org.jboss.arquillian.container.spi.client.container.DeploymentException;
 import org.jboss.arquillian.container.spi.client.protocol.ProtocolDescription;
@@ -50,6 +50,10 @@ import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaD
 import org.jboss.arquillian.container.spi.client.protocol.metadata.Servlet;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
+
+import static java.lang.System.Logger.Level.INFO;
+import static java.lang.System.Logger.Level.WARNING;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 /**
  * The Piranha JAR container.
@@ -184,19 +188,6 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
         }
 
         /*
-         * Destroy the process forcibly if it is still running.
-         */
-        try {
-            if (process.isAlive()) {
-                LOGGER.log(Level.WARNING, 
-                        "Process for {0} still alive, destroying forcibly", 
-                        archive.getName());
-                process.destroyForcibly().waitFor();
-            }
-        } catch (InterruptedException ie) {
-        }
-
-        /*
          * Delete the WAR file.
          */
         File warFile = new File(runtimeDirectory, toWarFilename(archive));
@@ -317,10 +308,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
      * @param runtimeDirectory the runtime directory.
      * @param warFilename the WAR filename.
      */
-    private void startPiranha(
-            File runtimeDirectory,
-            File warFilename)
-            throws IOException {
+    private void startPiranha(File runtimeDirectory, File warFilename) throws IOException, DeploymentException {
 
         List<String> commands = new ArrayList<>();
         commands.add("java");
@@ -348,17 +336,34 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
         File pidFile = new File(runtimeDirectory, PID_FILENAME);
         int count = 0;
         LOGGER.log(Level.INFO, "Waiting for Piranha to be ready");
-        while (!pidFile.exists()) {
+        while (!pidFile.exists() && process.isAlive()) {
             try {
-                Thread.sleep(500);
+                Thread.sleep(100);
                 count++;
             } catch (InterruptedException ie) {
             }
-            if (count == 600) {
+
+            if (count % 20 == 0) {
+                LOGGER.log(INFO, "Still waiting... ({0} of {1})", (count / 20), (1200 / 20));
+            }
+
+            if (count == 1200) {
                 LOGGER.log(Level.WARNING, "Warning, PID file not seen!");
                 break;
             }
         }
+
+        if (!process.isAlive()) {
+            LOGGER.log(Level.WARNING, "Piranha terminated during startup.");
+
+            String msg = "Cannot start Piranha.";
+            if (process.getOutputStream() != null) {
+                msg += "\n log: \n" + new Scanner(process.getErrorStream()).useDelimiter("\\A").next();
+            }
+
+            throw new DeploymentException(msg);
+        }
+
         LOGGER.log(Level.INFO, "");
 
         LOGGER.log(Level.INFO, "Running application from directory: " + runtimeDirectory);
