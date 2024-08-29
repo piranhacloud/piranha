@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'docs/**'
+      - 'maven/**'
     branches:
       - 'current'
     tags-ignore:
@@ -40,3 +41,38 @@ jobs:
         git add .
         git commit -a -m "Publishing documentation" || true
         git push
+  maven-plugin:
+    needs: docs
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Piranha
+      uses: actions/checkout@v3
+    - name: Checkout Piranha Website
+      uses: actions/checkout@v3
+      with:
+        repository: piranhacloud/piranha-website
+        token: ${{ secrets.GIT_PASSWORD }}
+        path: piranha-website
+        ref: 'gh-pages'
+    - name: Set up Java 21
+      uses: actions/setup-java@v3
+      with:
+        cache: 'maven'
+        distribution: 'temurin'
+        java-version: 21
+    - name: Build with Maven
+      run: |
+        mvn -B -DskipTests -DskipITs -ntp install
+        cd maven/plugins/piranha-maven-plugin
+        mvn -B -DskipTests -DskipITs -ntp site
+        cd ../../..
+        rm -rf piranha-website/snapshot/maven-plugin || true
+        mkdir -p piranha-website/snapshot/maven-plugin || true
+        cp -R maven/plugins/piranha-maven-plugin/target/site/* piranha-website/snapshot/maven-plugin/
+        cd piranha-website
+        git config --global user.email "noreply@piranha.cloud"
+        git config --global user.name "Automated publish"
+        git add .
+        git commit -a -m "Publishing Maven plugin documentation" || true
+        git push
+        
