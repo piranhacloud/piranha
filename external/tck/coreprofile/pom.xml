@@ -22,5 +22,6 @@
         <module>coreprofile</module>
         <module>jsonb</module>
         <module>jsonp</module>
+        <module>rest</module>
     </modules>
 </project>
