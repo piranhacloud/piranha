@@ -184,6 +184,19 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
         }
 
         /*
+         * Destroy the process forcibly if it is still running.
+         */
+        try {
+            if (process.isAlive()) {
+                LOGGER.log(Level.WARNING, 
+                        "Process for {0} still alive, destroying forcibly", 
+                        archive.getName());
+                process.destroyForcibly().waitFor();
+            }
+        } catch (InterruptedException ie) {
+        }
+
+        /*
          * Delete the WAR file.
          */
         File warFile = new File(runtimeDirectory, toWarFilename(archive));
