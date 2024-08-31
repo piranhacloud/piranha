@@ -63,12 +63,12 @@ jobs:
     - name: Build with Maven
       run: |
         mvn -B -DskipTests -DskipITs -ntp install
-        cd maven/plugins/piranha-maven-plugin
+        cd maven/plugin
         mvn -B -DskipTests -DskipITs -ntp site
-        cd ../../..
+        cd ../..
         rm -rf piranha-website/snapshot/maven-plugin || true
         mkdir -p piranha-website/snapshot/maven-plugin || true
-        cp -R maven/plugins/piranha-maven-plugin/target/site/* piranha-website/snapshot/maven-plugin/
+        cp -R maven/plugin/target/site/* piranha-website/snapshot/maven-plugin/
         cd piranha-website
         git config --global user.email "noreply@piranha.cloud"
         git config --global user.name "Automated publish"
