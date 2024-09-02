@@ -45,7 +45,7 @@ public class ExitOnStopFeature extends DefaultFeature {
     /**
      * Stores the exiting flag.
      */
-    private boolean exiting = false;
+    private volatile boolean exiting;
 
     /**
      * Are we in the process of exiting?
