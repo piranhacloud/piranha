@@ -41,6 +41,7 @@
  *  <li>Eclipse Jersey (REST)</li>
  *  <li>Naming (JNDI)</li>
  *  <li>ServletContainerInitializer</li>
+ *  <li>web.xml support</li>
  * </ul>
  */
 module cloud.piranha.extension.coreprofile {
@@ -54,5 +55,6 @@ module cloud.piranha.extension.coreprofile {
     requires cloud.piranha.extension.jersey;
     requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.scinitializer;
+    requires cloud.piranha.extension.webxml;
     requires cloud.piranha.extension.yasson;
 }

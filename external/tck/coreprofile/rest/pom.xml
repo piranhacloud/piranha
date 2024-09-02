@@ -75,6 +75,10 @@
                                 <configuration>
                                     <target>
                                         <!-- Run the tests -->
+                                         <exec dir="${project.build.directory}/../rest-tck"
+                                              executable="mvn">
+                                            <arg value="verify"/>
+                                        </exec>
                                     </target>
                                 </configuration>
                             </execution>
