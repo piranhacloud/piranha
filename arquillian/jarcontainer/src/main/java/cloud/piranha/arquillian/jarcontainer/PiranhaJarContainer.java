@@ -28,18 +28,14 @@
 package cloud.piranha.arquillian.jarcontainer;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.System.Logger.Level;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
@@ -120,7 +116,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
 
     @Override
     public ProtocolMetaData deploy(Archive<?> archive) throws DeploymentException {
-        LOGGER.log(Level.INFO, "Deploying " + archive.getName());
+        LOGGER.log(INFO, "Deploying " + archive.getName());
 
         ProtocolMetaData metadata = new ProtocolMetaData();
 
@@ -128,8 +124,13 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
             /*
              * Export the Archive into a WAR file.
              */
-            File runtimeDirectory = new File(System.getProperty(TMP_DIR));
-            File warFile = new File(runtimeDirectory, toWarFilename(archive));
+            String warFileName = toWarFilename(archive);
+
+            File runtimeDirectory = new File(System.getProperty(TMP_DIR), toAppName(warFileName));
+            runtimeDirectory.mkdirs();
+
+            File warFile = new File(runtimeDirectory, warFileName);
+
             archive.as(ZipExporter.class).exportTo(warFile, true);
 
             /*
@@ -158,12 +159,12 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
 
     @Override
     public void undeploy(Archive<?> archive) throws DeploymentException {
-        LOGGER.log(Level.INFO, "Undeploying " + archive.getName());
+        LOGGER.log(INFO, "Undeploying " + archive.getName());
 
         /*
          * Delete the PID file.
          */
-        File runtimeDirectory = new File(System.getProperty(TMP_DIR));
+        File runtimeDirectory = new File(System.getProperty(TMP_DIR), toAppName(archive));
         File pidFile = new File(runtimeDirectory, PID_FILENAME);
         if (pidFile.exists()) {
             try {
@@ -178,11 +179,16 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
          */
         if (process != null && process.isAlive()) {
             try {
-                LOGGER.log(Level.INFO, "Waiting for Piranha to be shutdown");
+                LOGGER.log(INFO, "Waiting for Piranha to be shutdown");
+
+                long startTime = System.currentTimeMillis();
                 process.waitFor(5, TimeUnit.MINUTES);
+                Long finishTime = System.currentTimeMillis();
+
+                LOGGER.log(INFO, "Piranha has shutdown\n It took {0} milliseconds", finishTime - startTime);
             } catch (InterruptedException ie) {
-                LOGGER.log(Level.WARNING, "Piranha did not shutdown within time alloted");
-                LOGGER.log(Level.WARNING, "Destroying Piranha process forcibly");
+                LOGGER.log(WARNING, "Piranha did not shutdown within time alloted");
+                LOGGER.log(WARNING, "Destroying Piranha process forcibly");
                 process.destroyForcibly();
             }
         }
@@ -203,11 +209,19 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
     private String toWarFilename(Archive<?> archive) {
         String warFilename = archive.getName();
 
-        if (archive.getName() == null || archive.getName().equals("")) {
+        if (isEmpty(archive.getName())) {
             warFilename = "ROOT.war";
         }
 
         return warFilename;
+    }
+
+    private String toAppName(String warFileName) {
+        return warFileName.substring(0, warFileName.lastIndexOf("."));
+    }
+
+    private String toAppName(Archive<?> archive) {
+        return toAppName(toWarFilename(archive));
     }
 
     /**
@@ -234,15 +248,15 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
 
         File zipFile = new File(localRepositoryDir, artifactPath);
         if (!zipFile.exists() && !zipFile.getParentFile().mkdirs()) {
-            LOGGER.log(Level.WARNING, UNABLE_TO_CREATE_DIRECTORIES);
+            LOGGER.log(WARNING, UNABLE_TO_CREATE_DIRECTORIES);
         }
 
         try (InputStream inputStream = downloadUrl.openStream()) {
             Files.copy(inputStream,
                     zipFile.toPath(),
-                    StandardCopyOption.REPLACE_EXISTING);
-        } catch (FileNotFoundException fnfe) {
-            LOGGER.log(Level.WARNING, "Could not download JAR file, defaulting back to local Maven repository");
+                    REPLACE_EXISTING);
+        } catch (IOException fnfe) {
+            LOGGER.log(WARNING, "Could not download JAR file, defaulting back to local Maven repository");
         }
 
         return new File(localRepositoryDir, artifactPath);
@@ -256,8 +270,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
      * @param version the version
      * @param type the type.
      */
-    private String createArtifactPath(String groupId, String artifactId,
-            String version, String type) {
+    private String createArtifactPath(String groupId, String artifactId, String version, String type) {
         String artifactPathFormat = "%s/%s/%s/%s-%s.%s";
         return String.format(artifactPathFormat,
                 convertGroupIdToPath(groupId),
@@ -288,8 +301,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
      * @return the URL.
      * @throws IOException when an I/O error occurs.
      */
-    private URL createMavenCentralArtifactUrl(String groupId, String artifactId,
-            String version, String type) throws IOException {
+    private URL createMavenCentralArtifactUrl(String groupId, String artifactId, String version, String type) throws IOException {
         return new URL("https://repo1.maven.org/maven2/" + createArtifactPath(groupId, artifactId, version, type));
     }
 
@@ -306,10 +318,9 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
      * Start Piranha.
      *
      * @param runtimeDirectory the runtime directory.
-     * @param warFilename the WAR filename.
+     * @param warFile the WAR filename.
      */
-    private void startPiranha(File runtimeDirectory, File warFilename) throws IOException, DeploymentException {
-
+    private void startPiranha(File runtimeDirectory, File warFile) throws IOException, DeploymentException {
         List<String> commands = new ArrayList<>();
         commands.add("java");
         List<String> jvmARgs = Arrays.asList(configuration.getJvmArguments().split("\\s+"));
@@ -320,22 +331,54 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
                 }
             });
         }
+
+        if (configuration.isDebug()) {
+            commands.add("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=localhost:9009");
+        }
+
+        if (configuration.isSuspend()) {
+            commands.add("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:9009");
+        }
+
         commands.add("-jar");
         commands.add("piranha-dist-coreprofile.jar");
         commands.add("--http-port");
         commands.add(Integer.toString(configuration.getHttpPort()));
         commands.add("--war-file");
-        commands.add(warFilename.getName());
+        commands.add(warFile.getName());
         commands.add("--write-pid");
+
+        String appName = toAppName(warFile.getName());
+        String appURL = "http://localhost:" + Integer.toString(configuration.getHttpPort()) + "/" + appName;
+        File logFile = new File(runtimeDirectory, appName + ".log");
+
+        LOGGER.log(INFO,
+            """
+
+
+            Starting Piranha
+
+            Directory:  {0}
+            Log:        {1}
+            URL:        {2}
+
+
+            """,
+
+            runtimeDirectory,
+            logFile.getAbsolutePath(),
+            appURL);
 
         process = new ProcessBuilder()
                 .directory(runtimeDirectory)
                 .command(commands)
+                .redirectErrorStream(true)
+                .redirectOutput(logFile)
                 .start();
 
         File pidFile = new File(runtimeDirectory, PID_FILENAME);
         int count = 0;
-        LOGGER.log(Level.INFO, "Waiting for Piranha to be ready");
+        LOGGER.log(INFO, "Waiting for Piranha to be ready");
         while (!pidFile.exists() && process.isAlive()) {
             try {
                 Thread.sleep(100);
@@ -343,33 +386,37 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
             } catch (InterruptedException ie) {
             }
 
+            if (configuration.isSuspend()) {
+                if (count % 500 == 0) {
+                    LOGGER.log(INFO, "Still waiting (infinite, because suspend on port 9009)");
+                }
+                continue;
+            }
+
             if (count % 20 == 0) {
                 LOGGER.log(INFO, "Still waiting... ({0} of {1})", (count / 20), (1200 / 20));
             }
 
             if (count == 1200) {
-                LOGGER.log(Level.WARNING, "Warning, PID file not seen!");
+                LOGGER.log(WARNING, "Warning, PID file not seen!");
                 break;
             }
         }
 
         if (!process.isAlive()) {
-            LOGGER.log(Level.WARNING, "Piranha terminated during startup.");
+            LOGGER.log(WARNING, "Piranha terminated during startup.");
 
-            String msg = "Cannot start Piranha.";
-            if (process.getOutputStream() != null) {
-                msg += "\n log: \n" + new Scanner(process.getErrorStream()).useDelimiter("\\A").next();
+            String msg = "Cannot start Piranha. \n";
+            if (process.getErrorStream() != null) {
+                msg += Files.readString(logFile.toPath());
             }
 
             throw new DeploymentException(msg);
         }
 
-        LOGGER.log(Level.INFO, "");
-
-        LOGGER.log(Level.INFO, "Running application from directory: " + runtimeDirectory);
-        LOGGER.log(Level.INFO, "Application is available at: http://localhost:"
-                + Integer.toString(configuration.getHttpPort())
-                + "/" + warFilename.getName().substring(0, warFilename.getName().lastIndexOf(".")));
+        LOGGER.log(INFO,
+            "\n" +
+            "Application is available at: " + appURL);
     }
 
     /**
@@ -382,8 +429,19 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
         if (!runtimeDirectory.exists() && !runtimeDirectory.mkdirs()) {
             System.err.println(UNABLE_TO_CREATE_DIRECTORIES);
         }
+
         Files.copy(zipFile.toPath(),
                 Path.of(runtimeDirectory + "/piranha-dist-coreprofile.jar"),
                 REPLACE_EXISTING);
+    }
+
+    /**
+     * Is the string null or empty.
+     *
+     * @param string the string
+     * @return true if it is, false otherwise.
+     */
+    private boolean isEmpty(String string) {
+        return string == null || string.isEmpty();
     }
 }

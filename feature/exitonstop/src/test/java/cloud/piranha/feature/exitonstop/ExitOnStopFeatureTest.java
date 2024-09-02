@@ -46,7 +46,7 @@ class ExitOnStopFeatureTest {
     void testStop() throws Exception {
         ExitOnStopFeature feature = new ExitOnStopFeature();
         feature.stop();
-        Thread.sleep(500);
+        Thread.sleep(50);
         assertTrue(feature.isExiting());
     }
 }

@@ -27,6 +27,12 @@
  */
 package cloud.piranha.single;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
+
 import cloud.piranha.core.api.Piranha;
 import cloud.piranha.core.api.PiranhaConfiguration;
 import cloud.piranha.core.api.WebApplicationExtension;
@@ -39,14 +45,10 @@ import cloud.piranha.feature.impl.DefaultFeatureManager;
 import cloud.piranha.feature.logging.LoggingFeature;
 import cloud.piranha.feature.webapp.WebAppFeature;
 import cloud.piranha.http.api.HttpServer;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+
 import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * The Single version of Piranha.
@@ -235,11 +237,18 @@ public class SinglePiranha implements Piranha, Runnable {
             if (configuration.getLong("pid") != null) {
                 File pidFile = new File("tmp", "piranha.pid");
                 if (!pidFile.exists()) {
+                    LOGGER.log(INFO, "Stopping Piranha");
+                    startTime = System.currentTimeMillis();
                     stop();
+                    finishTime = System.currentTimeMillis();
+
+                    LOGGER.log(INFO, "Stopped Piranha\n It took {0} milliseconds", finishTime - startTime);
+                    break;
                 }
             }
+
             try {
-                Thread.sleep(2000);
+                Thread.sleep(100);
             } catch (InterruptedException ie) {
                 Thread.currentThread().interrupt();
             }
