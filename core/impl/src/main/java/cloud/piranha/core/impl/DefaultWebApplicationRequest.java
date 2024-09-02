@@ -311,12 +311,12 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
      * Stores the servlet connection.
      */
     protected ServletConnection servletConnection;
-    
+
     /**
      * Stores the servlet path.
      */
     protected String servletPath;
-    
+
     /**
      * Stores the upgrade handler.
      */
@@ -367,7 +367,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         this.parameters = new HashMap<>();
         this.upgraded = false;
     }
-    
+
     /**
      * Add the header.
      *
@@ -977,7 +977,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
             return false;
         }
     }
-    
+
     @Override
     public boolean isUpgraded() {
         return upgraded;
@@ -1195,7 +1195,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
 
     /**
      * Set the HTTP servlet mapping.
-     * 
+     *
      * @param httpServletMapping the HTTP servlet mapping.
      */
     public void setHttpServletMapping(HttpServletMapping httpServletMapping) {
@@ -1240,7 +1240,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
 
     /**
      * Set the multipart config.
-     * 
+     *
      * @param multipartConfig the multipartConfig.
      */
     public void setMultipartConfig(MultipartConfigElement multipartConfig) {
@@ -1472,5 +1472,10 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         if (contentType == null || !contentType.startsWith(MULTIPART_FORM_DATA)) {
             throw new ServletException("Request not of type multipart/form-data");
         }
+    }
+
+    @Override
+    public String toString() {
+        return getRequestURIWithQueryString();
     }
 }
