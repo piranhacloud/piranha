@@ -31,25 +31,25 @@ import cloud.piranha.feature.impl.DefaultFeature;
 
 /**
  * The Exit on Stop feature.
- * 
+ *
  * <p>
- *  The Exit on Stop feature will exit the JVM after all the features have 
+ *  The Exit on Stop feature will exit the JVM after all the features have
  *  asked to be stopped. It waits for a predefined amount of time before it
  *  calls System.exit.
  * </p>
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class ExitOnStopFeature extends DefaultFeature {
-    
+
     /**
      * Stores the exiting flag.
      */
-    private boolean exiting = false;
-    
+    private volatile boolean exiting;
+
     /**
      * Are we in the process of exiting?
-     * 
+     *
      * @return true if we are, false otherwise.
      */
     public boolean isExiting() {
@@ -70,6 +70,7 @@ public class ExitOnStopFeature extends DefaultFeature {
                 System.exit(0);
             }
         };
+        thread.setDaemon(true);
         thread.start();
     }
 }

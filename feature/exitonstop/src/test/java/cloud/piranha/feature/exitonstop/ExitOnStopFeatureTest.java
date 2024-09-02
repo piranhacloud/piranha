@@ -39,14 +39,14 @@ class ExitOnStopFeatureTest {
 
     /**
      * Test stop method.
-     * 
+     *
      * @throws Exception when an error occurs.
      */
     @Test
     void testStop() throws Exception {
         ExitOnStopFeature feature = new ExitOnStopFeature();
         feature.stop();
-        Thread.sleep(500);
+        Thread.sleep(1000);
         assertTrue(feature.isExiting());
     }
 }

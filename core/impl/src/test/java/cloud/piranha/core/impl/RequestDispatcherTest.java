@@ -27,23 +27,28 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.UnavailableException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+
+import org.junit.jupiter.api.Test;
+
+import cloud.piranha.core.api.WebApplication;
+
 import static jakarta.servlet.RequestDispatcher.FORWARD_CONTEXT_PATH;
 import static jakarta.servlet.RequestDispatcher.FORWARD_MAPPING;
 import static jakarta.servlet.RequestDispatcher.FORWARD_PATH_INFO;
 import static jakarta.servlet.RequestDispatcher.FORWARD_QUERY_STRING;
 import static jakarta.servlet.RequestDispatcher.FORWARD_REQUEST_URI;
 import static jakarta.servlet.RequestDispatcher.FORWARD_SERVLET_PATH;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.UnavailableException;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -51,7 +56,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import org.junit.jupiter.api.Test;
 
 /**
  * The JUnit tests for the RequestDispatcher API.
@@ -64,11 +68,11 @@ class RequestDispatcherTest {
      * Test forward method with a named RequestDispatcher.
      *
      * <p>
-     *  This test validates Servlet:SPEC:181, Servlet:SPEC:181.1, 
+     *  This test validates Servlet:SPEC:181, Servlet:SPEC:181.1,
      *  Servlet:SPEC:181.2, Servlet:SPEC:181.3, Servlet:SPEC:181.4 and
      *  Servlet:SPEC:181.5
      * </p>
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -125,7 +129,7 @@ class RequestDispatcherTest {
      * <p>
      *  This test validates Servlet:SPEC:79
      * </p>
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -166,7 +170,7 @@ class RequestDispatcherTest {
      * <p>
      *  This test validates Servlet:SPEC:80
      * </p>
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -245,7 +249,7 @@ class RequestDispatcherTest {
      * <p>
      *  This test validates Servlet:SPEC:192.1
      * </p>
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -635,7 +639,7 @@ class RequestDispatcherTest {
                 .servlet("NoWrapping2", new HttpServlet() {
                     @Override
                     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-                        resp.getWriter().print(req.toString());
+                        resp.getWriter().print(req.hashCode());
                     }
                 })
                 .servletMapping("NoWrapping2", "/nowrapping2")
@@ -656,7 +660,7 @@ class RequestDispatcherTest {
 
         RequestDispatcher dispatcher = webApplication.getRequestDispatcher("/nowrapping");
         dispatcher.forward(request, response);
-        assertEquals(request.toString(), byteOutput.toString("UTF-8"));
+        assertEquals(request.hashCode() + "", byteOutput.toString("UTF-8"));
     }
 
     /**
@@ -666,7 +670,7 @@ class RequestDispatcherTest {
      * <p>
      *  This test validates Servlet:SPEC:192.3 and Servlet:SPEC:192.4
      * </p>
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
@@ -711,7 +715,7 @@ class RequestDispatcherTest {
      * <p>
      *  This test validates Servlet:SPEC:192.2
      * </p>
-     * 
+     *
      * @throws Exception when a serious error occurs.
      */
     @Test
