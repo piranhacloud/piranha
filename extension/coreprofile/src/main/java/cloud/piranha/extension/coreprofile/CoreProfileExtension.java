@@ -34,6 +34,7 @@ import cloud.piranha.extension.annotationscan.classfile.ClassfileAnnotationScanE
 import cloud.piranha.extension.naming.NamingExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
+import cloud.piranha.extension.weld.WeldExtension;
 
 /**
  * The extension that delivers the extensions for Jakarta Core Profile.
@@ -45,8 +46,9 @@ public class CoreProfileExtension implements WebApplicationExtension {
     @Override
     public void extend(WebApplicationExtensionContext context) {
         context.add(NamingExtension.class);                         // Naming (JNDI)
-        context.add(getAnnotationScanExtensionClass());
         context.add(WebXmlExtension.class);
+        context.add(getAnnotationScanExtensionClass());
+        context.add(WeldExtension.class);                           // CDI / Weld
         context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
     }
 
