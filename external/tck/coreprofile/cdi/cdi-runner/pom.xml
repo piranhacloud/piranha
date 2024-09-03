@@ -12,36 +12,55 @@
     <properties>
         <piranha.version>24.9.0-SNAPSHOT</piranha.version>
     </properties>
+    
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
                 <version>1.8.0.Final</version>
-                <scope>test</scope>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
+        <!-- Jakarta EE APIs -->
         <dependency>
-            <groupId>cloud.piranha.arquillian</groupId>
-            <artifactId>piranha-arquillian-jarcontainer</artifactId>
-            <version>${piranha.version}</version>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>4.0.0</version>
         </dependency>
+
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.9.8</version>
+            <groupId>jakarta.faces</groupId>
+            <artifactId>jakarta.faces-api</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+    
+        <!--
+            The TCK API is quite small and mostly contains the org.jboss.cdi.tck.api.Configuration interface
+            for programmatically configuring the TCK with things such as "org.jboss.cdi.tck.testDataSource" which
+            are set below using a system property.
+        -->
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>cdi-tck-api</artifactId>
+            <version>4.0.13</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.14.0</version>
-            <scope>test</scope>
-        </dependency>
+
+        <!--
+            The TCK Core implementation contains test helper code such as the Configuration implementation
+            and the ArchiveBuilder, as well as a large amount of tests.
+         -->
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>cdi-tck-core-impl</artifactId>
@@ -49,26 +68,67 @@
             <scope>test</scope>
             <exclusions>
                 <exclusion>
-                    <groupId>jakarta.el</groupId>
-                    <artifactId>jakarta.el-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>jakarta.faces</groupId>
-                    <artifactId>jakarta.faces-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>container-se-api</artifactId>
-                    <groupId>org.jboss.arquillian.container</groupId>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>cdi-tck-core-impl</artifactId>
+            <version>4.0.13</version>
+            <classifier>suite</classifier>
+            <type>xml</type>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.4.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.testng</groupId>
+            <artifactId>arquillian-testng-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.descriptors</groupId>
+            <artifactId>shrinkwrap-descriptors-impl-javaee</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.protocol</groupId>
             <artifactId>arquillian-protocol-servlet-jakarta</artifactId>
-            <version>1.8.0.Final</version>
+            <scope>test</scope>
+        </dependency>
+
+    
+        <!--
+            The Arquillian connector that starts Piranha and deploys archives to it.
+        -->
+        <dependency>
+            <groupId>cloud.piranha.arquillian</groupId>
+            <artifactId>piranha-arquillian-jarcontainer</artifactId>
+            <version>${piranha.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+    
     <build>
         <plugins>
             <!--
