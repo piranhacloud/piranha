@@ -2,11 +2,11 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>tck</groupId>
+    <groupId>cloud.piranha.external.tck.coreprofile</groupId>
     <artifactId>rest-runner</artifactId>
     <version>1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Piranha - External - TCK - CoreProfile - Jakarta REST TCK - Runner</name>
+    <name>Piranha Core Profile - Jakarta REST TCK - Runner</name>
     <properties>
         <piranha.version>24.9.0-SNAPSHOT</piranha.version>
     </properties>
