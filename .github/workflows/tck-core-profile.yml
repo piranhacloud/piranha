@@ -76,7 +76,7 @@ jobs:
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "external/tck/coreprofile/cdi/runner/target/surefire-reports/TEST-*.xml"
+        paths: "external/tck/coreprofile/cdi/runner/target/surefire-reports/junitreports/TEST-*.xml"
       if: always()
   coreprofile:
     runs-on: ${{ matrix.os }}
