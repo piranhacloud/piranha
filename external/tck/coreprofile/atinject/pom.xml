@@ -7,9 +7,9 @@
         <artifactId>project</artifactId>
         <version>24.9.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-external-tck-coreprofile-jakarta-inject-tck</artifactId>
+    <artifactId>inject-tck</artifactId>
     <packaging>pom</packaging>
-    <name>Piranha - External - TCK - CoreProfile - Jakarta Inject TCK</name>
+    <name>Piranha Core Profile - Jakarta Inject TCK</name>
     <properties>
         <ant.home>${project.build.directory}/ant</ant.home>
         <signature.home>${project.build.directory}/signature</signature.home>
@@ -42,8 +42,8 @@
                         <artifactId>maven-antrun-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>validate</id>
-                                <phase>validate</phase>
+                                <id>pre-integration-test</id>
+                                <phase>pre-integration-test</phase>
                                 <goals>
                                     <goal>run</goal>
                                 </goals>
@@ -85,7 +85,7 @@
                                         <!-- Run the tests -->
                                         <exec dir="${project.build.directory}/tck/example"
                                               executable="mvn">
-                                            <arg value="test"/>
+                                            <arg value="verify"/>
                                         </exec>
                                     </target>
                                 </configuration>

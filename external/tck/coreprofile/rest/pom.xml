@@ -7,9 +7,9 @@
         <artifactId>project</artifactId>
         <version>24.9.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-external-tck-coreprofile-jakarta-coreprofile-tck</artifactId>
+    <artifactId>rest-tck</artifactId>
     <packaging>pom</packaging>
-    <name>Piranha - External - TCK - CoreProfile - Jakarta CoreProfile TCK</name>
+    <name>Piranha Core Profile - Jakarta REST TCK</name>
     <properties>
         <ant.home>${project.build.directory}/ant</ant.home>
         <signature.home>${project.build.directory}/signature</signature.home>
@@ -42,8 +42,8 @@
                         <artifactId>maven-antrun-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>validate</id>
-                                <phase>validate</phase>
+                                <id>pre-integration-test</id>
+                                <phase>pre-integration-test</phase>
                                 <goals>
                                     <goal>run</goal>
                                 </goals>
@@ -75,7 +75,7 @@
                                 <configuration>
                                     <target>
                                         <!-- Run the tests -->
-                                         <exec dir="${project.build.directory}/../rest-tck"
+                                         <exec dir="${project.build.directory}/../runner"
                                               executable="mvn">
                                             <arg value="verify"/>
                                         </exec>

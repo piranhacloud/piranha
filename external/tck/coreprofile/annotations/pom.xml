@@ -7,9 +7,9 @@
         <artifactId>project</artifactId>
         <version>24.9.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-external-tck-coreprofile-jakarta-annotations-tck</artifactId>
+    <artifactId>annotations-tck</artifactId>
     <packaging>pom</packaging>
-    <name>Piranha - External - TCK - CoreProfile - Jakarta Annotations TCK</name>
+    <name>Piranha Core Profile - Jakarta Annotations TCK</name>
     <properties>
         <ant.home>${project.build.directory}/ant</ant.home>
         <signature.home>${project.build.directory}/signature</signature.home>
@@ -42,8 +42,8 @@
                         <artifactId>maven-antrun-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>validate</id>
-                                <phase>validate</phase>
+                                <id>pre-integration-test</id>
+                                <phase>pre-integration-test</phase>
                                 <goals>
                                     <goal>run</goal>
                                 </goals>
@@ -89,8 +89,8 @@
                                     <target>
                                         <!-- Run all the tests -->
                                         <exec executable="${ant.home}/bin/ant" dir="${test.home}">
-                                            <arg value="-Dwork.dir=${piranha.home}/work"/>
-                                            <arg value="-Dreport.dir=${piranha.home}/report"/>
+                                            <arg value="-Dwork.dir=${tck.home}/work"/>
+                                            <arg value="-Dreport.dir=${tck.home}/report"/>
                                             <arg value="runclient"/>
                                         </exec>
                                     </target>
@@ -103,8 +103,8 @@
                         <artifactId>maven-dependency-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>copy</id>
-                                <phase>initialize</phase>
+                                <id>pre-integration-test</id>
+                                <phase>pre-integration-test</phase>
                                 <goals>
                                     <goal>copy</goal>
                                 </goals>
