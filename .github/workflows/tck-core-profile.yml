@@ -50,7 +50,7 @@ jobs:
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "target/tck/example/target/surefire-reports/TEST-*.xml"
+        paths: "external/tck/coreprofile/atinject/target/tck/example/target/surefire-reports/TEST-*.xml"
       if: always()
   cdi:
     runs-on: ${{ matrix.os }}
@@ -76,7 +76,7 @@ jobs:
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "runner/target/surefire-reports/**/TEST-*.xml"
+        paths: "external/tck/coreprofile/cdi/runner/target/surefire-reports/**/TEST-*.xml"
       if: always()
   coreprofile:
     runs-on: ${{ matrix.os }}
@@ -102,7 +102,7 @@ jobs:
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "runner/target/failsafe-reports/**/TEST-*.xml"
+        paths: "external/tck/coreprofile/coreprofile/runner/target/failsafe-reports/**/TEST-*.xml"
       if: always()
   jsonb:
     runs-on: ${{ matrix.os }}
@@ -128,7 +128,7 @@ jobs:
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "target/tck/bin/target/surefire-reports/TEST-*.xml"
+        paths: "external/tck/coreprofile/jsonb/target/tck/bin/target/surefire-reports/TEST-*.xml"
       if: always()
   jsonp:
     runs-on: ${{ matrix.os }}
@@ -155,8 +155,8 @@ jobs:
       uses: test-summary/action@v2
       with:
         paths: |
-          target/tck/bin/tck-tests/target/surefire-reports/TEST-*.xml
-          target/tck/bin/tck-tests-pluggability/target/surefire-reports/TEST-*.xml
+          external/tck/coreprofile/jsonp/target/tck/bin/tck-tests/target/surefire-reports/TEST-*.xml
+          external/tck/coreprofile/jsonp/target/tck/bin/tck-tests-pluggability/target/surefire-reports/TEST-*.xml
       if: always()
   rest:
     runs-on: ${{ matrix.os }}
@@ -182,5 +182,5 @@ jobs:
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "runner/target/failsafe-reports/**/TEST-*.xml"
+        paths: "external/tck/coreprofile/rest/runner/target/failsafe-reports/**/TEST-*.xml"
       if: always()
