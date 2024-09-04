@@ -7,9 +7,9 @@
         <artifactId>project</artifactId>
         <version>24.9.99-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-external-tck-coreprofile-jakarta-jsonp-tck</artifactId>
+    <artifactId>jsonp-tck</artifactId>
     <packaging>pom</packaging>
-    <name>Piranha - External - TCK - CoreProfile - Jakarta JSON Processing TCK</name>
+    <name>Piranha Core Profile - Jakarta JSON Processing TCK</name>
     <properties>
         <ant.home>${project.build.directory}/ant</ant.home>
         <signature.home>${project.build.directory}/signature</signature.home>
@@ -42,8 +42,8 @@
                         <artifactId>maven-antrun-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>validate</id>
-                                <phase>validate</phase>
+                                <id>pre-integration-test</id>
+                                <phase>pre-integration-test</phase>
                                 <goals>
                                     <goal>run</goal>
                                 </goals>

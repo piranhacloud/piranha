@@ -7,9 +7,9 @@
         <artifactId>project</artifactId>
         <version>24.9.99-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-external-tck-coreprofile-jakarta-coreprofile-tck</artifactId>
+    <artifactId>coreprofile-tck</artifactId>
     <packaging>pom</packaging>
-    <name>Piranha - External - TCK - CoreProfile - Jakarta CoreProfile TCK</name>
+    <name>Piranha Core Profile - Jakarta Core Profile TCK</name>
     <properties>
         <ant.home>${project.build.directory}/ant</ant.home>
         <signature.home>${project.build.directory}/signature</signature.home>
@@ -77,7 +77,7 @@
                                 <configuration>
                                     <target>
                                         <!-- Run the tests -->
-                                        <exec dir="${project.build.directory}/../core-tck"
+                                        <exec dir="${project.build.directory}/../runner"
                                               executable="mvn">
                                             <arg value="verify"/>
                                         </exec>

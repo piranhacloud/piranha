@@ -7,10 +7,9 @@
         <artifactId>project</artifactId>
         <version>24.9.99-SNAPSHOT</version>
     </parent>
-    <groupId>cloud.piranha.external.tck.coreprofile.cdi</groupId>
-    <artifactId>project</artifactId>
+    <artifactId>cdi-tck</artifactId>
     <packaging>pom</packaging>
-    <name>Piranha - External - TCK - CoreProfile - Jakarta CDI TCK</name>
+    <name>Piranha Core Profile - Jakarta CDI TCK</name>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -37,8 +36,8 @@
                         <artifactId>maven-antrun-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>validate</id>
-                                <phase>validate</phase>
+                                <id>pre-integration-test</id>
+                                <phase>pre-integration-test</phase>
                                 <goals>
                                     <goal>run</goal>
                                 </goals>
@@ -74,9 +73,9 @@
                                 <configuration>
                                     <target>
                                         <!-- Run the tests -->
-                                        <exec dir="${project.build.directory}/../cdi-runner"
+                                        <exec dir="${project.build.directory}/../runner"
                                               executable="mvn">
-                                            <arg value="test"/>
+                                            <arg value="verify"/>
                                         </exec>
                                     </target>
                                 </configuration>
