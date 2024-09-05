@@ -16,7 +16,7 @@
 
     <properties>
         <!-- dependencies -->
-        <weld.version>5.1.2.Final</weld.version>
+        <weld.version>5.1.3.Final</weld.version>
         <!-- other -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

@@ -27,102 +27,92 @@
             </dependency>
         </dependencies>
     </dependencyManagement>    
-    <profiles>
-        <profile>
-            <id>unix</id>
-            <activation>
-                <os>
-                    <family>unix</family>
-                </os>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>pre-integration-test</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target xmlns:if="ant:if" xmlns:unless="ant:unless">
-                                        <echo>Executing UNIX profile</echo>
-                                        
-                                        <!-- Download, unzip and rename TCK -->
-                                        <get src="https://download.eclipse.org/jakartaee/annotations/2.1/jakarta-annotations-tck-2.1.1.zip"
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- Download, unzip and rename TCK -->
+                                <get src="https://download.eclipse.org/jakartaee/annotations/2.1/jakarta-annotations-tck-${annotations.tck.version}.zip"
                                              dest="${project.build.directory}/tck.zip"
                                              skipexisting="true"/>
-                                        <unzip src="${project.build.directory}/tck.zip"
+                                <unzip src="${project.build.directory}/tck.zip"
                                                dest="${project.build.directory}"/>
-                                        <move file="${project.build.directory}/annotations-tck"
+                                <move file="${project.build.directory}/annotations-tck"
                                               tofile="${project.build.directory}/tck"/>
                                         
-                                        <!-- Download, unzip, rename and chmod Ant 1.10.9 -->
-                                        <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.zip"
+                                <!-- Download, unzip, rename and chmod Ant 1.10.9 -->
+                                <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.zip"
                                              dest="${project.build.directory}/ant.zip" skipexisting="true"/>
-                                        <unzip src="${project.build.directory}/ant.zip"
+                                <unzip src="${project.build.directory}/ant.zip"
                                                dest="${project.build.directory}"/>
-                                        <move file="${project.build.directory}/apache-ant-1.10.9"
+                                <move file="${project.build.directory}/apache-ant-1.10.9"
                                               tofile="${project.build.directory}/ant"/>
-                                        <chmod dir="${ant.home}/bin"
+                                <chmod dir="${ant.home}/bin"
                                                perm="ugo+rx"
                                                includes="*"/>
                                         
-                                        <!-- Setup ts.jte for signature tests -->
-                                        <replaceregexp file="${tck.home}/bin/ts.jte"
+                                <!-- Setup ts.jte for signature tests -->
+                                <replaceregexp file="${tck.home}/bin/ts.jte"
                                                        match="local\.classes=(.*)"
                                                        replace="local\.classes=${signature.home}/jakarta.annotation-api.jar"
                                                        byline="true"/>
-                                    </target>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>integration-test</id>
-                                <phase>integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <!-- Run all the tests -->
-                                        <exec executable="${ant.home}/bin/ant" dir="${test.home}">
-                                            <arg value="-Dwork.dir=${tck.home}/work"/>
-                                            <arg value="-Dreport.dir=${tck.home}/report"/>
-                                            <arg value="runclient"/>
-                                        </exec>
-                                    </target>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>pre-integration-test</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>copy</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>jakarta.annotation</groupId>
-                                            <artifactId>jakarta.annotation-api</artifactId>
-                                            <outputDirectory>${signature.home}</outputDirectory>
-                                            <destFileName>jakarta.annotation-api.jar</destFileName>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>integration-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- Run all the tests -->
+                                <exec dir="${test.home}"
+                                      executable="${ant.home}/bin/ant" 
+                                      failonerror="true">
+                                    <arg value="-Dwork.dir=${tck.home}/work"/>
+                                    <arg value="-Dreport.dir=${tck.home}/report"/>
+                                    <arg value="runclient"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>jakarta.annotation</groupId>
+                                    <artifactId>jakarta.annotation-api</artifactId>
+                                    <outputDirectory>${signature.home}</outputDirectory>
+                                    <destFileName>jakarta.annotation-api.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
