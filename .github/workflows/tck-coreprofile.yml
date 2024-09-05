@@ -1,4 +1,4 @@
-name: tck-core-profile
+name: tck-coreprofile
 on:
   schedule:
   - cron: "0 0 * * *"
@@ -16,7 +16,6 @@ jobs:
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
@@ -38,7 +37,6 @@ jobs:
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
@@ -64,7 +62,6 @@ jobs:
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
@@ -90,7 +87,6 @@ jobs:
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
@@ -116,7 +112,6 @@ jobs:
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
@@ -142,7 +137,6 @@ jobs:
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
@@ -170,7 +164,6 @@ jobs:
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
