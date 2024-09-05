@@ -17,5 +17,6 @@
     <name>Piranha - External - TCK - Web Profile - Project</name>
     <modules>
         <module>jsonb</module>
+        <module>jsonp</module>
     </modules>
 </project>
