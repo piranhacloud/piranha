@@ -1,4 +1,4 @@
-name: tck-core-profile
+name: tck-coreprofile
 on:
   schedule:
   - cron: "0 0 * * *"
@@ -12,11 +12,10 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Set up Java ${{ matrix.java }}
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
@@ -34,11 +33,10 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Set up Java ${{ matrix.java }}
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
@@ -60,11 +58,10 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Set up Java ${{ matrix.java }}
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
@@ -76,7 +73,7 @@ jobs:
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "external/tck/coreprofile/cdi/runner/target/surefire-reports/TEST-*.xml"
+        paths: "external/tck/coreprofile/cdi/runner/target/surefire-reports/junitreports/TEST-*.xml"
       if: always()
   coreprofile:
     runs-on: ${{ matrix.os }}
@@ -86,11 +83,10 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Set up Java ${{ matrix.java }}
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
@@ -112,11 +108,10 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Set up Java ${{ matrix.java }}
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
@@ -138,11 +133,10 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Set up Java ${{ matrix.java }}
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
@@ -166,11 +160,10 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Set up Java ${{ matrix.java }}
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
