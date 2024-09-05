@@ -15,6 +15,20 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
     <name>Piranha - External - TCK - CoreProfile - Project</name>
+    <properties>
+        <!-- TCK versions -->
+        <annotations.tck.version>2.1.1</annotations.tck.version>
+        <cdi.tck.version>4.0.13</cdi.tck.version>
+        <coreprofile.tck.version>10.0.3</coreprofile.tck.version>
+        <inject.tck.version>2.0.2</inject.tck.version>
+        <jsonb.tck.version>3.0.0</jsonb.tck.version>
+        <jsonp.tck.version>2.1.1</jsonp.tck.version>
+        <rest.tck.version>3.1.5</rest.tck.version>
+        <!-- Implementation versions -->
+        <parsson.version>1.1.7</parsson.version>
+        <weld.version>5.1.3.Final</weld.version>
+        <yasson.version>3.0.4</yasson.version>
+    </properties>
     <modules>
         <module>annotations</module>
         <module>atinject</module>

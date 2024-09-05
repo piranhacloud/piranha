@@ -11,10 +11,7 @@
     <packaging>pom</packaging>
     <name>Piranha Core Profile - Jakarta JSON Processing TCK</name>
     <properties>
-        <ant.home>${project.build.directory}/ant</ant.home>
-        <signature.home>${project.build.directory}/signature</signature.home>
         <tck.home>${project.build.directory}/tck</tck.home>
-        <test.home>${tck.home}/src/com/sun/ts/tests</test.home>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -27,76 +24,66 @@
             </dependency>
         </dependencies>
     </dependencyManagement>    
-    <profiles>
-        <profile>
-            <id>unix</id>
-            <activation>
-                <os>
-                    <family>unix</family>
-                </os>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>pre-integration-test</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target xmlns:if="ant:if" xmlns:unless="ant:unless">
-                                        <echo>Executing UNIX profile</echo>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
                                         
-                                        <!-- Download, unzip and rename TCK -->
-                                        <get src="https://download.eclipse.org/jakartaee/jsonp/2.1/jakarta-jsonp-tck-2.1.1.zip"
-                                             dest="${project.build.directory}/tck.zip"
-                                             skipexisting="true"/>
-                                        <unzip src="${project.build.directory}/tck.zip"
-                                               dest="${project.build.directory}"/>
-                                        <move file="${project.build.directory}/jsonp-tck"
-                                              tofile="${project.build.directory}/tck"/>
+                                <!-- Download, unzip and rename TCK -->
+                                <get src="https://download.eclipse.org/jakartaee/jsonp/2.1/jakarta-jsonp-tck-${jsonp.tck.version}.zip"
+                                     dest="${project.build.directory}/tck.zip"
+                                     skipexisting="true"/>
+                                <unzip src="${project.build.directory}/tck.zip"
+                                       dest="${project.build.directory}"/>
+                                <move file="${project.build.directory}/jsonp-tck"
+                                      tofile="${project.build.directory}/tck"/>
 
-                                        <!-- Install the TCK JAR into local Maven repository -->
-                                        <chmod dir="${project.build.directory}/tck/artifacts"
-                                               perm="ugo+rx"
-                                               includes="*"/>
-                                        <exec dir="${project.build.directory}/tck/artifacts"
-                                              executable="./artifact-install.sh">
-                                            <arg line="2.1.1"/>
-                                        </exec>
+                                <!-- Install the TCK JAR into local Maven repository -->
+                                <chmod dir="${project.build.directory}/tck/artifacts"
+                                       perm="ugo+rx"
+                                       includes="*"/>
+                                <exec dir="${project.build.directory}/tck/artifacts"
+                                      executable="./artifact-install.sh">
+                                    <arg line="2.1.1"/>
+                                </exec>
 
-                                        <!-- Setup bin/pom.xml for correct Yasson version -->
-                                        <replaceregexp file="${tck.home}/example/pom.xml"
-                                                       match="&lt;jsonp-impl.version>(.*)&lt;/jsonp-impl.version>"
-                                                       replace="&lt;jsonp-impl.version>1.1.7&lt;/jsonp-impl.version>"
-                                                       byline="true"/>
-                                    </target>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>integration-test</id>
-                                <phase>integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <!-- Run the tests -->
-                                        <exec dir="${tck.home}/bin"
-                                              executable="mvn">
-                                            <arg value="verify"/>
-                                        </exec>
-                                    </target>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+                                <!-- Setup bin/pom.xml for correct Parsson version -->
+                                <replaceregexp file="${tck.home}/example/pom.xml"
+                                               match="&lt;jsonp-impl.version>(.*)&lt;/jsonp-impl.version>"
+                                               replace="&lt;jsonp-impl.version>${parsson.version}&lt;/jsonp-impl.version>"
+                                               byline="true"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>integration-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- Run the tests -->
+                                <exec dir="${tck.home}/bin"
+                                      executable="mvn"
+                                      failonerror="true">
+                                    <arg value="verify"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
