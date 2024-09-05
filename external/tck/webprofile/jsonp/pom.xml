@@ -7,13 +7,13 @@
         <artifactId>project</artifactId>
         <version>24.9.0-SNAPSHOT</version>
     </parent>
-    <artifactId>jsonb-tck</artifactId>
+    <artifactId>jsonp-tck</artifactId>
     <packaging>pom</packaging>
-    <name>Piranha Web Profile - Jakarta JSON Binding TCK</name>
+    <name>Piranha Web Profile - Jakarta JSON Processing TCK</name>
     <properties>
-        <jsonb.tck.version>3.0.0</jsonb.tck.version>
+        <jsonp.tck.version>2.1.1</jsonp.tck.version>
+        <parsson.version>1.1.7</parsson.version>
         <tck.home>${project.build.directory}/tck</tck.home>
-        <yasson.version>3.0.4</yasson.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -39,27 +39,31 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <target>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
+                                <echo>Executing UNIX profile</echo>
+                                        
                                 <!-- Download, unzip and rename TCK -->
-                                <get src="https://download.eclipse.org/jakartaee/jsonb/3.0/jakarta-jsonb-tck-${jsonb.tck.version}.zip"
+                                <get src="https://download.eclipse.org/jakartaee/jsonp/2.1/jakarta-jsonp-tck-${jsonp.tck.version}.zip"
                                      dest="${project.build.directory}/tck.zip"
                                      skipexisting="true"/>
                                 <unzip src="${project.build.directory}/tck.zip"
                                        dest="${project.build.directory}"/>
-                                <move file="${project.build.directory}/jsonb-tck"
+                                <move file="${project.build.directory}/jsonp-tck"
                                       tofile="${project.build.directory}/tck"/>
-                                        
-                                <!-- Install the TCK artifacts into the local Maven repository -->
+
+                                <!-- Install the TCK artifacts into local Maven repository -->
                                 <chmod dir="${project.build.directory}/tck/artifacts"
                                        perm="ugo+rx"
                                        includes="*"/>
                                 <exec dir="${project.build.directory}/tck/artifacts"
-                                      executable="./artifact-install.sh"/>
-                                        
-                                <!-- Setup bin/pom.xml for correct Yasson version -->
-                                <replaceregexp file="${tck.home}/bin/pom.xml"
-                                               match="&lt;jsonb-impl.version>(.*)&lt;/jsonb-impl.version>"
-                                               replace="&lt;jsonb-impl.version>${yasson.version}&lt;/jsonb-impl.version>"
+                                      executable="./artifact-install.sh">
+                                    <arg line="${jsonp.tck.version}"/>
+                                </exec>
+
+                                <!-- Setup bin/pom.xml for correct Parsson version -->
+                                <replaceregexp file="${tck.home}/example/pom.xml"
+                                               match="&lt;jsonp-impl.version>(.*)&lt;/jsonp-impl.version>"
+                                               replace="&lt;jsonp-impl.version>${parsson.version}&lt;/jsonp-impl.version>"
                                                byline="true"/>
                             </target>
                         </configuration>
@@ -76,7 +80,6 @@
                                 <exec dir="${tck.home}/bin"
                                       executable="mvn"
                                       failonerror="true">
-                                    <arg value="-Djava.locale.providers=COMPAT"/>
                                     <arg value="verify"/>
                                 </exec>
                             </target>
