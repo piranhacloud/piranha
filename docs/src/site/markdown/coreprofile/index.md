@@ -16,6 +16,7 @@ The following components are available in the Piranha Core Profile distribution:
 
 ## Documentation
 
+1. [Create a REST service](create_a_rest_service.html)
 1. [Create a JSON REST service](create_a_json_rest_service.html)
 1. [Jakarta EE 10 Core Profile Specification](https://jakarta.ee/specifications/coreprofile/10/jakarta-coreprofile-spec-10.0.pdf)
 1. [Jakarta EE 10 Core Profile API documentation](https://jakarta.ee/specifications/coreprofile/10/apidocs/)
