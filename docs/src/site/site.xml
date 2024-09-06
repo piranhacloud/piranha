@@ -3,7 +3,11 @@
 <project name="Piranha">
     <body>
         <menu name="Overview">
-            <item name="Getting Started" href="getting-started.html"/>
+            <item name="Getting Started" href="index.html"/>
+        </menu>
+        <menu name="Piranha Core Profile">
+            <item name="Overview" href="coreprofile/index.html"/>
+            <item name="Create a JSON REST service" href="coreprofile/create_a_json_rest_service.html"/>
         </menu>
     </body>
     <custom>
@@ -11,7 +15,7 @@
             <copyrightClass>pull-right</copyrightClass>
             <gitHub>
                 <projectId>piranhacloud/piranha</projectId>
-                <ribbonOrientation>right-bottom</ribbonOrientation>
+                <ribbonOrientation>left-bottom</ribbonOrientation>
                 <ribbonColor>black</ribbonColor>
             </gitHub>
             <twitter>
