@@ -13,7 +13,7 @@ jobs:
     steps:
     - name: Checkout Sources
       uses: actions/checkout@v4
-    - name: Set up Java ${{ matrix.java }}
+    - name: Setup Java
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
@@ -38,10 +38,9 @@ jobs:
     steps:
     - name: Checkout Sources
       uses: actions/checkout@v4
-    - name: Set up Java ${{ matrix.java }}
+    - name: Setup Java
       uses: actions/setup-java@v4
       with:
-        cache: 'maven'
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Setup for TCK
