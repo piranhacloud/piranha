@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.external.tck.coreprofile</groupId>
     <artifactId>cdi-runner</artifactId>
@@ -102,9 +102,9 @@
         </dependency>
 
         <!--
-            The TCK Core implementation contains test helper code such as the Configuration implementation
-            and the ArchiveBuilder, as well as a large amount of tests.
-         -->
+           The TCK Core implementation contains test helper code such as the Configuration implementation
+           and the ArchiveBuilder, as well as a large amount of tests.
+        -->
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>cdi-tck-core-impl</artifactId>
@@ -194,7 +194,17 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <release>21</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.8.0</version>
                 <executions>
                     <!-- Copy the TestNG suite file -->
                     <execution>
@@ -231,14 +241,14 @@
 
         
             <!--
-                       
-                      Create a JAR file for the test resources and stick it in
-                      ${project.build.directory}/dependency/lib so it can be
-                      referred to by org.jboss.cdi.tck.libraryDirectory
-                      property when the time comes. Needed for 
-                      META-INF/cdi-tck.properties resolution.
-                                                                                                      
-                    -->
+               
+              Create a JAR file for the test resources and stick it in
+              ${project.build.directory}/dependency/lib so it can be
+              referred to by org.jboss.cdi.tck.libraryDirectory
+              property when the time comes. Needed for 
+              META-INF/cdi-tck.properties resolution.
+                                                                                              
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -298,7 +308,6 @@
                         <org.jboss.cdi.tck.libraryDirectory>
                             ${project.build.directory}/dependency/lib</org.jboss.cdi.tck.libraryDirectory>
                     </systemPropertyVariables>
-                    <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
             </plugin>
             <plugin>
