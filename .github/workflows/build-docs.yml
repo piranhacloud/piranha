@@ -1,4 +1,4 @@
-name: docs-snapshot
+name: build-docs
 on: 
   push:
     paths:
