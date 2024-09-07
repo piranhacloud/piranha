@@ -28,7 +28,7 @@ distribution supports see our [Jakarta EE / Micro Profile matrix](https://piranh
 
 ## Distribution specific documentation
 
-* [Piranha Core Profile](https://piranha.cloud/core-profile/index.html)
+* [Piranha Core Profile](coreprofile/index.html)
 * [Piranha Embedded](https://piranha.cloud/embedded/index.html)
 * [Piranha Servlet](https://piranha.cloud/servlet/index.html)
 * [Piranha Server](https://piranha.cloud/server/index.html)
