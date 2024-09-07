@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - '*'
-    paths-ignore:
-      - 'docs/**'
     tags-ignore:
       - 'v*'
   pull_request:
@@ -12,6 +10,7 @@ on:
       - '*'  
     paths-ignore:
       - 'docs/**'
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ${{ matrix.os }}

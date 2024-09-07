@@ -8,6 +8,7 @@ on:
       - 'current'
     tags-ignore:
       - 'v*'
+  workflow_dispatch:
 jobs:
   docs:
     runs-on: ubuntu-latest
