@@ -1,4 +1,4 @@
-name: docs-release
+name: release-docs
 on: 
   workflow_dispatch:
     inputs:

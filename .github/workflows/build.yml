@@ -3,11 +3,15 @@ on:
   push:
     branches:
       - '*'
+    paths-ignore:
+      - 'docs/**'
     tags-ignore:
       - 'v*'
   pull_request:
     branches:
       - '*'  
+    paths-ignore:
+      - 'docs/**'
 jobs:
   build:
     runs-on: ${{ matrix.os }}
