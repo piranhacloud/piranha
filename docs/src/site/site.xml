@@ -16,8 +16,9 @@
         <links>
             <item name="Core Profile" href="coreprofile/index.html" />
             <item name="Embedded" href="embedded/index.html" />
+            <item name="Server" href="server/index.html" />
             <item name="Servlet" href="servlet/index.html" />
-            <item name="Web Profile" href="coreprofile/index.html" />
+            <item name="Web Profile" href="webprofile/index.html" />
         </links>
         <menu name="Overview">
             <item name="Getting Started" href="index.html"/>
@@ -40,6 +41,12 @@
                 <item name="Create a Hello World web application" href="embedded/create_a_hello_world_web_application.html"/>
                 <item name="Create an embedded JLink application" href="embedded/create_an_embedded_jlink_application.html"/>
                 <item name="Running Piranha Embedded with Spring Boot" href="embedded/running_piranha_embedded_with_spring_boot.html"/>
+            </item>
+        </menu>
+        <menu name="Piranha Server">
+            <item name="Overview" href="server/index.html"/>
+            <item name="Guides">
+                <item name="Create a Hello World web application" href="server/create_a_hello_world_web_application.html"/>
             </item>
         </menu>
         <menu name="Piranha Servlet">
