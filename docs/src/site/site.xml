@@ -7,6 +7,7 @@
     name="Piranha">
     <bannerLeft>
         <name>Piranha</name>
+        <href>https://piranha.cloud/</href>
     </bannerLeft>
     <bannerRight>
         <name>A cloud native extensible runtime</name>
@@ -16,20 +17,35 @@
             <item name="Getting Started" href="index.html"/>
         </menu>
         <menu name="Piranha Core Profile">
-            <item name="Overview" href="coreprofile/index.html"/>
-            <item name="Create a REST service" href="coreprofile/create_a_rest_service.html"/>
-            <item name="Create a JSON REST service" href="coreprofile/create_a_json_rest_service.html"/>
-            <item name="Debugging a REST service with NetBeans" href="coreprofile/debugging_a_rest_service_with_netbeans.html"/>
-            <item name="Debugging a REST service with VSCode" href="coreprofile/debugging_a_rest_service_with_vscode.html"/>
-            <item name="Testing with JUnit 5 and Arquillian" href="coreprofile/testing_with_junit5_and_arquillian.html"/>
-            <item name="Using Project CRaC" href="coreprofile/using_project_crac.html"/>
+            <item name="Overview" href="coreprofile/index.html" />
+            <item name="Guides">
+                <item name="Create a REST service" href="coreprofile/create_a_rest_service.html"/>
+                <item name="Create a JSON REST service" href="coreprofile/create_a_json_rest_service.html"/>
+                <item name="Debugging a REST service with NetBeans" href="coreprofile/debugging_a_rest_service_with_netbeans.html"/>
+                <item name="Debugging a REST service with VSCode" href="coreprofile/debugging_a_rest_service_with_vscode.html"/>
+                <item name="Testing with JUnit 5 and Arquillian" href="coreprofile/testing_with_junit5_and_arquillian.html"/>
+                <item name="Using Project CRaC" href="coreprofile/using_project_crac.html"/>
+            </item>
         </menu>
         <menu name="Piranha Embedded">
             <item name="Overview" href="embedded/index.html"/>
-            <item name="Create a Piranha Embedded GraalVM application" href="embedded/create_a_piranha_embedded_graalvm_application.html"/>
-            <item name="Create a Hello World web application" href="embedded/create_a_hello_world_web_application.html"/>
-            <item name="Create an embedded JLink application" href="embedded/create_an_embedded_jlink_application.html"/>
-            <item name="Running Piranha Embedded with Spring Boot" href="embedded/running_piranha_embedded_with_spring_boot.html"/>
+            <item name="Guides">
+                <item name="Create a Piranha Embedded GraalVM application" href="embedded/create_a_piranha_embedded_graalvm_application.html"/>
+                <item name="Create a Hello World web application" href="embedded/create_a_hello_world_web_application.html"/>
+                <item name="Create an embedded JLink application" href="embedded/create_an_embedded_jlink_application.html"/>
+                <item name="Running Piranha Embedded with Spring Boot" href="embedded/running_piranha_embedded_with_spring_boot.html"/>
+            </item>
+        </menu>
+        <menu name="Piranha Web Profile">
+            <item name="Overview" href="webprofile/index.html"/>
+            <item name="Guides">
+                <item name="Create a Faces application" href="webprofile/create_a_faces_application.html"/>
+                <item name="Create a Hello World application" href="webprofile/create_a_hello_world_application.html"/>
+                <item name="Create a Jakarta REST service" href="webprofile/create_a_jakarta_rest_service.html"/>
+                <item name="Create a Pages application" href="webprofile/create_a_pages_application.html"/>
+                <item name="Testing with JUnit 5 and Playwright" href="webprofile/testing_with_junit5_and_playwright.html"/>
+                <item name="Testing with our container image" href="webprofile/testing_with_our_container_image.html"/>
+            </item>
         </menu>
     </body>
     <custom>
