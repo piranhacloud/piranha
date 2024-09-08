@@ -30,8 +30,8 @@ distribution supports see our [Jakarta EE / Micro Profile matrix](https://piranh
 
 * [Piranha Core Profile](coreprofile/index.html)
 * [Piranha Embedded](embedded/index.html)
-* [Piranha Servlet](https://piranha.cloud/servlet/index.html)
-* [Piranha Server](https://piranha.cloud/server/index.html)
+* [Piranha Servlet](servlet/index.html)
+* [Piranha Server](server/index.html)
 * [Piranha Web Profile](webprofile/index.html)
 
 ## Maven Plugin documentation
