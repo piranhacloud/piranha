@@ -62,9 +62,9 @@ jobs:
         cd maven/plugin
         mvn -B -DskipTests -DskipITs -ntp site
         cd ../../
-        rm -rf piranha-website/release/maven-plugin || true
-        mkdir -p piranha-website/release/maven-plugin || true
-        cp -R maven/plugin/target/site/* piranha-website/release/maven-plugin/
+        rm -rf piranha-website/release/maven/plugin || true
+        mkdir -p piranha-website/release/maven/plugin || true
+        cp -R maven/plugin/target/site/* piranha-website/release/maven/plugin/
         cd piranha-website
         git config --global user.email "noreply@piranha.cloud"
         git config --global user.name "Automated publish"
