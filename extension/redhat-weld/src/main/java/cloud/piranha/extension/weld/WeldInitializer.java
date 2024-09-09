@@ -27,13 +27,14 @@
  */
 package cloud.piranha.extension.weld;
 
-import java.util.Set;
-
-import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletException;
+
+import java.util.Set;
+
+import cloud.piranha.core.api.WebApplication;
 
 /**
  * The Weld Integration ServletContainerInitializer.
@@ -52,7 +53,12 @@ public class WeldInitializer implements ServletContainerInitializer {
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         servletContext.setInitParameter("WELD_CONTEXT_ID_KEY", servletContext.toString());
-        servletContext.setInitParameter("org.jboss.weld.environment.servlet.emptyBeansXmlModeAll", "true");
+
+        if (Boolean.valueOf(System.getProperty("piranha.emptyBeansXmlModeAll", "false"))) {
+            servletContext.setInitParameter("org.jboss.weld.environment.servlet.emptyBeansXmlModeAll", "true");
+        }
+
+        servletContext.setInitParameter("org.jboss.weld.environment.servlet.archive.isolation", "false");
 
         WebApplication webApplication = (WebApplication) servletContext;
         WeldInitListener weldInitListener = webApplication.createListener(WeldInitListener.class);
