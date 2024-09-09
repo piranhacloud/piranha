@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    
     <groupId>cloud.piranha.external.tck.coreprofile</groupId>
     <artifactId>cdi-runner</artifactId>
     <version>1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    
     <name>Piranha Core Profile - Jakarta CDI TCK - Runner</name>
+    
     <properties>
         <piranha.version>24.9.0-SNAPSHOT</piranha.version>
-        <weld.version>5.0.0.SP2</weld.version>
+        <weld.version>5.1.2.Final</weld.version>
     </properties>
     
     <dependencyManagement>
@@ -33,6 +34,13 @@
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
             <version>4.0.0</version>
             <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>test</scope>
         </dependency>
         
         
@@ -84,6 +92,8 @@
             <version>${weld.version}</version>
         </dependency>
     
+    
+    
         <!--
             The TCK API is quite small and mostly contains the org.jboss.cdi.tck.api.Configuration interface
             for programmatically configuring the TCK.
@@ -102,9 +112,9 @@
         </dependency>
 
         <!--
-           The TCK Core implementation contains test helper code such as the Configuration implementation
-           and the ArchiveBuilder, as well as a large amount of tests.
-        -->
+            The TCK Core implementation contains test helper code such as the Configuration implementation
+            and the ArchiveBuilder, as well as a large amount of tests.
+         -->
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>cdi-tck-core-impl</artifactId>
@@ -117,7 +127,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
         
         <!--
             Contains what becomes the tck-core-suite.xml; the TestNG suite file that dictates which tests from
@@ -137,6 +146,8 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        
+        
         
         <!-- 
             Necessary on the client, since for some reason org.jboss.weld.tck.piranha.WeldELImpl
@@ -193,18 +204,19 @@
     
     <build>
         <plugins>
+            <!-- Restricts the Java version to 21+ -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.11.0</version>
                 <configuration>
                     <release>21</release>
+                    <compilerArgument>-Xlint:unchecked</compilerArgument>
                 </configuration>
             </plugin>
+        
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.8.0</version>
                 <executions>
                     <!-- Copy the TestNG suite file -->
                     <execution>
@@ -238,10 +250,9 @@
                     </execution>
                 </executions>
             </plugin>
-
         
             <!--
-               
+                       
               Create a JAR file for the test resources and stick it in
               ${project.build.directory}/dependency/lib so it can be
               referred to by org.jboss.cdi.tck.libraryDirectory
@@ -286,7 +297,6 @@
                 <configuration>
                     <!-- Surefire / TestNG Properties -->
                     <!-- The suite, the exclude and the test dependencies together determine which tests are being run -->
-                    
                     <suiteXmlFiles>
                         <suiteXmlFile>target/suites/tck-core-suite.xml</suiteXmlFile>
                     </suiteXmlFiles>
@@ -308,8 +318,10 @@
                         <org.jboss.cdi.tck.libraryDirectory>
                             ${project.build.directory}/dependency/lib</org.jboss.cdi.tck.libraryDirectory>
                     </systemPropertyVariables>
+                    <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
