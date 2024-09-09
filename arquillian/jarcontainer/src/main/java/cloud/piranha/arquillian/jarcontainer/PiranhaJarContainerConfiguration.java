@@ -54,7 +54,7 @@ public class PiranhaJarContainerConfiguration implements ContainerConfiguration 
     /**
      * Stores the JVM arguments.
      */
-    private String jvmArguments = "";
+    private String jvmArguments = System.getProperty("piranha.jvmArguments", "");
 
     /**
      * Stores the protocol.

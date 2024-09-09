@@ -315,6 +315,7 @@
                     </properties>
                     <reuseForks>false</reuseForks>
                     <systemPropertyVariables>
+                        <piranha.jvmArguments>-ea</piranha.jvmArguments>
                         <org.jboss.cdi.tck.libraryDirectory>
                             ${project.build.directory}/dependency/lib</org.jboss.cdi.tck.libraryDirectory>
                     </systemPropertyVariables>
