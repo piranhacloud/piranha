@@ -34,7 +34,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -322,14 +321,21 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
      */
     private void startPiranha(File runtimeDirectory, File warFile) throws IOException, DeploymentException {
         List<String> commands = new ArrayList<>();
+        StringBuilder classpath = new StringBuilder();
         commands.add("java");
-        List<String> jvmARgs = Arrays.asList(configuration.getJvmArguments().split("\\s+"));
-        if (!jvmARgs.isEmpty()) {
-            jvmARgs.forEach(s -> {
-                if (s != null && !s.trim().equals("")) {
-                    commands.add(s);
+        String[] jvmArgs = configuration.getJvmArguments().split("\\s+");
+        if (jvmArgs.length > 0) {
+            for(int i=0; i<jvmArgs.length; i++) {
+                if (jvmArgs[i] != null && !jvmArgs[i].trim().equals("")) {
+                    commands.add(jvmArgs[i]);
                 }
-            });
+                if (jvmArgs[i] != null && jvmArgs[i].trim().equals("-cp")) {
+                    // ignore this one.
+                }
+                if (i > 0 && jvmArgs[i] != null && jvmArgs[i-1].trim().equals("-cp")) {
+                    classpath.append(jvmArgs[i].trim()).append(File.pathSeparatorChar);
+                }
+            }
         }
 
         if (configuration.isDebug()) {
@@ -340,8 +346,14 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
             commands.add("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:9009");
         }
 
-        commands.add("-jar");
-        commands.add("piranha-dist-coreprofile.jar");
+        if (classpath.isEmpty()) {
+            commands.add("-jar");
+            commands.add("piranha-dist-coreprofile.jar");
+        } else {
+            commands.add("-cp");
+            commands.add(classpath.toString() + "piranha-dist-coreprofile.jar");
+            commands.add("cloud.piranha.dist.coreprofile.CoreProfilePiranhaMain");
+        }
         commands.add("--http-port");
         commands.add(Integer.toString(configuration.getHttpPort()));
         commands.add("--war-file");
