@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
     <name>Piranha Core Profile - Jakarta REST TCK - Runner</name>
     <properties>
-        <piranha.version>24.9.0-SNAPSHOT</piranha.version>
+        <piranha.version>24.10.0-SNAPSHOT</piranha.version>
     </properties>
     <dependencyManagement>
         <dependencies>
