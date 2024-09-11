@@ -15,8 +15,6 @@
     <name>Piranha - Extension - RedHat Weld</name>
 
     <properties>
-        <!-- dependencies -->
-        <weld.version>5.1.3.Final</weld.version>
         <!-- other -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

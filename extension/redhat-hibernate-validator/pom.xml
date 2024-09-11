@@ -15,8 +15,6 @@
     <name>Piranha - Extension - RedHat Hibernate Validator</name>
 
     <properties>
-        <!-- dependencies -->
-        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <!-- other -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

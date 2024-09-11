@@ -14,10 +14,6 @@
 
     <name>Piranha - Extension - Eclipse Expressly</name>
 
-    <properties>
-        <expressly.version>5.0.0</expressly.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.core</groupId>

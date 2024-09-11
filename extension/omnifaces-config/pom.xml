@@ -13,9 +13,6 @@
     <packaging>jar</packaging>
 
     <name>Piranha - Extension - OmniFaces Config</name>
-    <properties>
-        <omni-mp-config.version>3.0.0</omni-mp-config.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>

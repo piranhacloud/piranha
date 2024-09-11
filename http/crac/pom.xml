@@ -9,9 +9,6 @@
     </parent>
     <artifactId>piranha-http-crac</artifactId>
     <name>Piranha - HTTP - CRaC integration</name>
-    <properties>
-        <crac.version>0.1.3</crac.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.http</groupId>

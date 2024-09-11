@@ -10,9 +10,6 @@
     <artifactId>piranha-extension-eclipselink</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - Extension - EclipseLink</name>
-    <properties>
-        <eclipselink.version>4.0.4</eclipselink.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>
