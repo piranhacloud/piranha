@@ -13,9 +13,6 @@
     <packaging>jar</packaging>
 
     <name>Piranha - Extension - Eclipse Yasson</name>
-    <properties>
-        <yasson.version>3.0.4</yasson.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>

@@ -13,9 +13,6 @@
     <packaging>jar</packaging>
 
     <name>Piranha - Extension - OmniFaces OmniServices</name>
-    <properties>
-        <omniservices.version>0.4</omniservices.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>

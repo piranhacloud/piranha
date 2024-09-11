@@ -10,9 +10,6 @@
     <artifactId>piranha-extension-eclipse-tyrus</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - Extension - Eclipse Tyrus</name>
-    <properties>
-        <tyrus.version>2.1.5</tyrus.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>

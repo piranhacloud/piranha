@@ -74,24 +74,76 @@
 
     <properties>
         <!-- dependencies -->
+        <angus.activation.version>2.0.2</angus.activation.version>
+        <angus.mail.version>2.0.3</angus.mail.version>
         <arquillian.version>1.8.0.Final</arquillian.version>
         <bcel.version>6.10.0</bcel.version>
-        <checkstyle.version>10.17.0</checkstyle.version>
+        <checkstyle.version>10.18.1</checkstyle.version>
+        <commons-fileupload2-jakarta-servlet6.version>2.0.0-M2</commons-fileupload2-jakarta-servlet6.version>
+        <crac.version>0.1.3</crac.version>
+        <eclipselink.version>4.0.4</eclipselink.version>
+        <expressly.version>5.0.0</expressly.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
-        <htmlunit.version>2.70.0</htmlunit.version>
+        <grizzly.version>4.0.2</grizzly.version>
+        <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
         <h2.version>2.3.232</h2.version>
-        <jandex.version>3.1.8</jandex.version>
+        <!-- kept at 5.4.0 because 5.5.0 adds remote repositories -->
+        <hazelcast.version>5.4.0</hazelcast.version>
+        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+        <htmlunit.version>2.70.0</htmlunit.version>
+        <jakarta.activation-api.version>2.1.3</jakarta.activation-api.version>
+        <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
+        <jakarta.authentication-api.version>3.0.0</jakarta.authentication-api.version>
+        <jakarta.authorization-api.version>2.1.0</jakarta.authorization-api.version>
+        <jakarta.ejb-api.version>4.0.1</jakarta.ejb-api.version>
+        <jakarta.el-api.version>5.0.1</jakarta.el-api.version>
+        <jakarta.enterprise.cdi-api.version>4.0.1</jakarta.enterprise.cdi-api.version>
+        <jakarta.faces-api.version>4.0.1</jakarta.faces-api.version>
+        <jakarta.jakartaee-core-api.version>10.0.0</jakarta.jakartaee-core-api.version>
+        <jakarta.jakartaee-web-api.version>10.0.0</jakarta.jakartaee-web-api.version>
+        <jakarta.json-api.version>2.1.3</jakarta.json-api.version>
+        <jakarta.mail-api.version>2.1.3</jakarta.mail-api.version>
+        <jakarta.json.bind-api.version>3.0.1</jakarta.json.bind-api.version>
+        <jakarta.persistence-api.version>3.1.0</jakarta.persistence-api.version>
+        <jakarta.security.enterprise-api.version>3.0.0</jakarta.security.enterprise-api.version>
+        <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
+        <jakarta.servlet.jsp-api.version>3.1.1</jakarta.servlet.jsp-api.version>
+        <jakarta.servlet.jsp.jstl-api.version>3.0.1</jakarta.servlet.jsp.jstl-api.version>
+        <jakarta.transaction-api.version>2.0.1</jakarta.transaction-api.version>
+        <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
+        <jakarta.websocket-api.version>2.1.1</jakarta.websocket-api.version>
+        <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
+        <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
+        <jandex.version>3.2.2</jandex.version>
+        <jaxb-runtime.version>4.0.5</jaxb-runtime.version>
         <jboss-classfilewriter.version>1.3.1.Final</jboss-classfilewriter.version>
+        <jersey.version>3.1.8</jersey.version>
+        <jstl.version>3.0.1</jstl.version>
         <junit-pioneer.version>2.2.0</junit-pioneer.version>
         <junit-platform-launcher.version>1.11.0</junit-platform-launcher.version>
         <junit.version>5.11.0</junit.version>
-        <maven-plugin-annotations.version>3.13.1</maven-plugin-annotations.version>
-        <maven-plugin-api.version>4.0.0-beta-3</maven-plugin-api.version>
-        <maven-plugin-tools-annotations.version>3.13.1</maven-plugin-tools-annotations.version>
+        <maven-plugin-annotations.version>3.15.0</maven-plugin-annotations.version>
+        <maven-plugin-api.version>3.9.9</maven-plugin-api.version>
+        <maven-plugin-tools-annotations.version>3.15.0</maven-plugin-tools-annotations.version>
+        <microprofile-config-api.version>3.1</microprofile-config-api.version>
+        <microprofile-jwt-auth-api.version>2.1</microprofile-jwt-auth-api.version>
+        <microprofile-jwt-auth.version>2.0.2</microprofile-jwt-auth.version>
+        <mojarra.version>4.0.7</mojarra.version>
+        <netty.version>4.1.112.Final</netty.version>
+        <omni-mp-config.version>3.0.0</omni-mp-config.version>
+        <omnibeans.version>0.3</omnibeans.version>
+        <omniservices.version>0.4</omniservices.version>
+        <omniutils.version>0.13</omniutils.version>
+        <parsson.version>1.1.7</parsson.version>
         <shrinkwrap-impl-base.version>2.0.0-beta-1</shrinkwrap-impl-base.version>
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.3.0</shrinkwrap-resolver.version>
         <spring-boot.version>3.2.3</spring-boot.version>
+        <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
+        <tyrus.version>2.1.5</tyrus.version>
+        <undertow.version>2.3.15.Final</undertow.version>
+        <weld.version>5.1.3.Final</weld.version>
+        <yasson.version>3.0.4</yasson.version>
         <!-- plugins -->
         <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
         <clirr-maven-plugin.version>2.8</clirr-maven-plugin.version>

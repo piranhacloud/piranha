@@ -13,9 +13,6 @@
     <packaging>jar</packaging>
 
     <name>Piranha - Extension - OmniFish OmniBeans</name>
-    <properties>
-        <omnibeans.version>0.3</omnibeans.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>

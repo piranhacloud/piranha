@@ -10,9 +10,6 @@
     <artifactId>piranha-extension-eclipse-mojarra</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - Extension - Eclipse Mojarra</name>
-    <properties>
-        <mojarra.version>4.0.7</mojarra.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>

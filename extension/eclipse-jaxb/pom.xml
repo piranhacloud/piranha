@@ -10,9 +10,6 @@
     <artifactId>piranha-extension-eclipse-jaxb</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - Extension - Eclipse JAXB</name>
-    <properties>
-        <eclipse.jaxb.version>4.0.5</eclipse.jaxb.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>
@@ -39,7 +36,7 @@
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>${eclipse.jaxb.version}</version>
+            <version>${jaxb-runtime.version}</version>
         </dependency>
     </dependencies>
 </project>
