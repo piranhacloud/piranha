@@ -188,6 +188,12 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Apache Commons File Upload -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-jakarta-servlet6</artifactId>
+                <version>${commons-fileupload2-jakarta-servlet6.version}</version>
+            </dependency>
             <!-- Apache Maven -->
             <dependency>
                 <groupId>org.apache.maven</groupId>
@@ -204,28 +210,102 @@
                 <artifactId>maven-plugin-tools-annotations</artifactId>
                 <version>${maven-plugin-tools-annotations.version}</version>
             </dependency>
-                                                
+            <!-- Eclipse Angus -->
+            <dependency>
+                <groupId>org.eclipse.angus</groupId>
+                <artifactId>angus-mail</artifactId>
+                <version>${angus.mail.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.angus</groupId>
+                <artifactId>angus-activation</artifactId>
+                <version>${angus.activation.version}</version>
+            </dependency>
+            <!-- Eclipse Expressly -->
+            <dependency>
+                <groupId>org.glassfish.expressly</groupId>
+                <artifactId>expressly</artifactId>
+                <version>${expressly.version}</version>
+            </dependency>
+            <!-- Eclipse Grizzly -->
+            <dependency>
+                <groupId>org.glassfish.grizzly</groupId>
+                <artifactId>grizzly-http-server</artifactId>
+                <version>${grizzly.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.grizzly</groupId>
+                <artifactId>grizzly-http2</artifactId>
+                <version>${grizzly.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.grizzly</groupId>
+                <artifactId>grizzly-npn-api</artifactId>
+                <version>${grizzly-npn-api.version}</version>
+            </dependency>
+            <!-- EclipseLink -->
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>eclipselink</artifactId>
+                <version>${eclipselink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>org.eclipse.persistence.core</artifactId>
+                <version>${eclipselink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>org.eclipse.persistence.jpa</artifactId>
+                <version>${eclipselink.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.persistence</groupId>
+                <artifactId>org.eclipse.persistence.json</artifactId>
+                <version>${eclipselink.version}</version>
+            </dependency>
             <!-- Freeport Finder -->
             <dependency>
                 <groupId>me.alexpanov</groupId>
                 <artifactId>free-port-finder</artifactId>
                 <version>${free-port-finder.version}</version>
             </dependency>
-            
             <!-- H2 database -->
             <dependency>
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
                 <version>${h2.version}</version>
             </dependency>
-
+            <!-- Hazelcast -->
+            <dependency>
+                <groupId>com.hazelcast</groupId>
+                <artifactId>hazelcast</artifactId>
+                <version>${hazelcast.version}</version>
+            </dependency>
+            <!-- Hibernate Validator -->
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator-cdi</artifactId>
+                <version>${hibernate-validator.version}</version>
+            </dependency>
             <!-- HtmlUnit -->
             <dependency>
                 <groupId>net.sourceforge.htmlunit</groupId>
                 <artifactId>htmlunit</artifactId>
                 <version>${htmlunit.version}</version>
             </dependency>
-
+            <!-- Project CRaC -->
+            <dependency>
+                <groupId>io.github.crac</groupId>
+                <artifactId>org-crac</artifactId>
+                <version>${crac.version}</version>
+            </dependency>
+                        
             <!-- JBoss Arquillian -->
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
@@ -638,6 +718,58 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <configuration>
+                    <ruleSet>
+                        <rules>
+                            <!-- keep Eclipse Mojarra at EE 10 compliant version -->
+                            <rule>
+                                <groupId>org.glassfish</groupId>
+                                <artifactId>jakarta.faces</artifactId>
+                                <ignoreVersions>
+                                    <ignoreVersion>
+                                        <type>range</type>
+                                        <version>[4.1.0,)</version>
+                                    </ignoreVersion>
+                                </ignoreVersions>
+                            </rule>
+                            <!-- keep Eclipse Expressly at EE 10 compliant version -->
+                            <rule>
+                                <groupId>org.glassfish.expressly</groupId>
+                                <artifactId>expressly</artifactId>
+                                <ignoreVersions>
+                                    <ignoreVersion>
+                                        <type>range</type>
+                                        <version>[6.0.0-M1,)</version>
+                                    </ignoreVersion>
+                                </ignoreVersions>
+                            </rule>
+                            <!-- keep EclipseLink at EE 10 compliant version -->
+                            <rule>
+                                <groupId>org.eclipse.persistence</groupId>
+                                <ignoreVersions>
+                                    <ignoreVersion>
+                                        <type>range</type>
+                                        <version>[5.0.0-B01,)</version>
+                                    </ignoreVersion>
+                                </ignoreVersions>
+                            </rule>
+                            <!-- keep Hibernate Validator at EE 10 compliant version -->
+                            <rule>
+                                <groupId>org.hibernate.validator</groupId>
+                                <ignoreVersions>
+                                    <ignoreVersion>
+                                        <type>range</type>
+                                        <version>[9.0.0-Beta2,)</version>
+                                    </ignoreVersion>
+                                </ignoreVersions>
+                            </rule>
+                        </rules>
+                    </ruleSet>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
