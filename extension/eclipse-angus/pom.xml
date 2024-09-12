@@ -29,13 +29,11 @@
         <dependency>
             <groupId>org.eclipse.angus</groupId>
             <artifactId>angus-mail</artifactId>
-            <version>${angus.mail.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.angus</groupId>
             <artifactId>angus-activation</artifactId>
-            <version>${angus.activation.version}</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
