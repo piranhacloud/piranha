@@ -19,7 +19,6 @@
         <dependency>
             <groupId>com.hazelcast</groupId>
             <artifactId>hazelcast</artifactId>
-            <version>${hazelcast.version}</version>
             <scope>compile</scope>
         </dependency>
         <!-- provided -->

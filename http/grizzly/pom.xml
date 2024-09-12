@@ -25,20 +25,17 @@
         <dependency>
             <groupId>org.glassfish.grizzly</groupId>
             <artifactId>grizzly-http-server</artifactId>
-            <version>${grizzly.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.grizzly</groupId>
             <artifactId>grizzly-http2</artifactId>
-            <version>${grizzly.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.grizzly</groupId>
             <artifactId>grizzly-npn-api</artifactId>
             <scope>compile</scope>
-            <version>${grizzly-npn-api.version}</version>
         </dependency>
         <!-- test -->
         <dependency>

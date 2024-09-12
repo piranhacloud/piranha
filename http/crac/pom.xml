@@ -21,7 +21,6 @@
         <dependency>
             <groupId>io.github.crac</groupId>
             <artifactId>org-crac</artifactId>
-            <version>${crac.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
