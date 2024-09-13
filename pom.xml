@@ -47,7 +47,6 @@
         <module>cli</module>
         <module>core</module>
         <module>dist</module>
-        <module>docs</module>
         <module>embedded</module>
         <module>extension</module>
         <module>feature</module>
@@ -130,8 +129,8 @@
         <maven-replacer-plugin.version>1.5.3</maven-replacer-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
-        <!-- Kept at 4.0.0-M3 because 4.0.0-M[4-16] do not work -->
-        <maven-site-plugin.version>4.0.0-M3</maven-site-plugin.version>
+        <!-- Kept at 3.20.0 because of Doxia requirement -->
+        <maven-site-plugin.version>3.20.0</maven-site-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.5.0</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
@@ -815,36 +814,16 @@
     </build>
 
     <profiles>
-        <!-- 
-
-        This profile is used when releasing to Maven central.
-
+        <!--
+        
+        This profile is used for generating our docs.
+        
         -->
         <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                                <configuration>
-                                    <gpgArguments>
-                                        <arg>--pinentry-mode</arg>
-                                        <arg>loopback</arg>
-                                    </gpgArguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
+            <id>docs</id>
+            <modules>
+                <module>docs</module>
+            </modules>
         </profile>
         <!-- 
 
@@ -951,6 +930,37 @@
             <modules>
                 <module>external</module>
             </modules>
+        </profile>
+        <!-- 
+
+        This profile is used when releasing to Maven central.
+
+        -->
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <!--
 
