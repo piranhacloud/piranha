@@ -11,6 +11,8 @@ jobs:
     steps:
     - name: Checkout Piranha
       uses: actions/checkout@v4
+      with:
+        ref: v${{ github.event.inputs.version }}
     - name: Checkout Piranha Website
       uses: actions/checkout@v4
       with:
@@ -25,7 +27,6 @@ jobs:
         java-version: 21
     - name: Build with Maven
       run: |
-        git checkout v${{ github.event.inputs.version }}
         cd docs
         mvn -B -DskipTests -DskipITs -ntp site
         cd ../
