@@ -2,8 +2,12 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+     <parent>
+        <groupId>cloud.piranha</groupId>
+        <artifactId>project</artifactId>
+        <version>24.10.0-SNAPSHOT</version>
+    </parent>
     <groupId>cloud.piranha.docs</groupId>
-    <version>24.10.0-SNAPSHOT</version>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
     <name>Piranha</name>
@@ -17,12 +21,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.20.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.1.3</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
@@ -34,7 +36,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.6.2</version>
                 <reportSets>
                     <reportSet/>
                 </reportSets>
