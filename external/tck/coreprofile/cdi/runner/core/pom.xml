@@ -6,7 +6,7 @@
     
     <groupId>cloud.piranha.external.tck.coreprofile</groupId>
     <artifactId>cdi-tck</artifactId>
-    <version>1-SNAPSHOT</version>
+    <version>24.9.0</version>
     
     <name>Piranha Core Profile - Jakarta CDI TCK - Runner - Core</name>
     
