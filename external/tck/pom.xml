@@ -16,7 +16,6 @@
     <name>Piranha - External - TCK - Project</name>
 
     <modules>
-        <module>coreprofile</module>
         <module>el</module>
         <module>servlet</module>
         <module>jwt</module>
