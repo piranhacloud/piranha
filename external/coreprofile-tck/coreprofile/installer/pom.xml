@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cloud.piranha.external.coreprofiletck.coreprofiletck</groupId>
+        <artifactId>project</artifactId>
+        <version>24.10.99-SNAPSHOT</version>
+    </parent>
+    <artifactId>installer</artifactId>
+    <packaging>pom</packaging>
+    <name>Piranha Core Profile - Core Profile TCK - Installer</name>
+    <properties>
+        <tck.home>${project.build.directory}/tck</tck.home>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- Download, unzip and rename TCK -->
+                                <get src="https://download.eclipse.org/jakartaee/coreprofile/10.0/jakarta-core-profile-tck-${coreprofile.tck.version}.zip"
+                                     dest="${project.build.directory}/tck.zip"
+                                     skipexisting="true"/>
+                                <unzip src="${project.build.directory}/tck.zip"
+                                       dest="${project.build.directory}"/>
+                                <move file="${project.build.directory}/core-profile-tck-${coreprofile.tck.version}"
+                                      tofile="${project.build.directory}/tck"/>
+                                        
+                                <!-- Install the TCK artifacts into local repository -->
+                                <exec dir="${project.build.directory}/tck/artifacts"
+                                      executable="mvn">
+                                    <arg value="install"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

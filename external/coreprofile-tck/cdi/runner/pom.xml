@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cloud.piranha.external.coreprofiletck.cditck</groupId>
+        <artifactId>project</artifactId>
+        <version>24.10.99-SNAPSHOT</version>
+    </parent>
+
+    <groupId>cloud.piranha.external.coreprofiletck.cditck.runner</groupId>
+    <artifactId>project</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Piranha Core Profile - CDI TCK - Runner - Project</name>
+
+    <modules>
+        <module>core</module>
+        <module>signature</module>
+        <module>model</module>
+    </modules>
+</project>

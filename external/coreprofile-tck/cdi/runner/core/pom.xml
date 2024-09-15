@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cloud.piranha.external.coreprofiletck.cditck.runner</groupId>
+        <artifactId>project</artifactId>
+        <version>24.10.99-SNAPSHOT</version>
+    </parent>
+    <artifactId>core</artifactId>
+    
+    <name>Piranha Core Profile - CDI TCK - Runner - Core</name>
+    
+    <properties>
+        <piranha.version>24.10.99-SNAPSHOT</piranha.version>
+        <weld.version>5.1.2.Final</weld.version>
+    </properties>
+    
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>1.8.0.Final</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Jakarta EE APIs -->
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>4.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        
+        
+        
+        <!-- Weld (CDI implementation) -->
+        
+        <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-core-impl</artifactId>
+            <version>${weld.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.testng</groupId>
+                    <artifactId>testng</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>jakarta.el</groupId>
+                    <artifactId>jakarta.el-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-lite-extension-translator</artifactId>
+            <version>${weld.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.weld.module</groupId>
+            <artifactId>weld-jsf</artifactId>
+            <version>${weld.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.testng</groupId>
+                    <artifactId>testng</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.weld.module</groupId>
+            <artifactId>weld-ejb</artifactId>
+            <version>${weld.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld.module</groupId>
+            <artifactId>weld-web</artifactId>
+            <version>${weld.version}</version>
+        </dependency>
+    
+    
+    
+        <!--
+            The TCK API is quite small and mostly contains the org.jboss.cdi.tck.api.Configuration interface
+            for programmatically configuring the TCK.
+        -->
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>cdi-tck-api</artifactId>
+            <version>4.0.13</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--
+            The TCK Core implementation contains test helper code such as the Configuration implementation
+            and the ArchiveBuilder, as well as a large amount of tests.
+         -->
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>cdi-tck-core-impl</artifactId>
+            <version>4.0.13</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <!--
+            Contains what becomes the tck-core-suite.xml; the TestNG suite file that dictates which tests from
+            the TCK Web implementation are executed and which are excluded.
+        -->
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>cdi-tck-core-impl</artifactId>
+            <version>4.0.13</version>
+            <type>xml</type>
+            <classifier>suite</classifier>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        
+        
+        <!-- 
+            Necessary on the client, since for some reason org.jboss.weld.tck.piranha.WeldELImpl
+            is needed even for CDI lite. 
+        -->
+        <dependency>
+            <groupId>org.glassfish.expressly</groupId>
+            <artifactId>expressly</artifactId>
+            <version>5.0.0</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.4.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.testng</groupId>
+            <artifactId>arquillian-testng-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.descriptors</groupId>
+            <artifactId>shrinkwrap-descriptors-impl-javaee</artifactId>
+            <scope>test</scope>
+        </dependency>
+   
+
+    
+        <!--
+            The Arquillian connector that starts Piranha and deploys archives to it.
+        -->
+        <dependency>
+            <groupId>cloud.piranha.arquillian</groupId>
+            <artifactId>piranha-arquillian-jarcontainer</artifactId>
+            <version>${piranha.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <!-- Restricts the Java version to 21+ -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <release>21</release>
+                    <compilerArgument>-Xlint:unchecked</compilerArgument>
+                </configuration>
+            </plugin>
+        
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <!-- Copy the TestNG suite file -->
+                    <execution>
+                        <id>copy-test-suites</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <!--
+                                    Contains what becomes the tck-core-suite.xml; the TestNG suite file that dictates
+                                    which tests from the TCK Web implementation are executed and which are excluded.
+                                    Note that this file is essentially a superset of the suite file from the TCK Core,
+                                    so we don't need that one separately here.
+                                -->
+                                <artifactItem>
+                                    <groupId>jakarta.enterprise</groupId>
+                                    <artifactId>cdi-tck-core-impl</artifactId>
+                                    <version>4.0.13</version>
+                                    <type>xml</type>
+                                    <classifier>suite</classifier>
+                                    <overWrite>false</overWrite>
+                                    <destFileName>tck-core-suite.xml</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>target/suites</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        
+            <!--
+                       
+              Create a JAR file for the test resources and stick it in
+              ${project.build.directory}/dependency/lib so it can be
+              referred to by org.jboss.cdi.tck.libraryDirectory
+              property when the time comes. Needed for 
+              META-INF/cdi-tck.properties resolution.
+                                                                                              
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <executions>
+                    <execution>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/dependency/lib</outputDirectory>
+                            <archive>
+                                <manifest>
+                                    <addClasspath>false</addClasspath>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- Surefire / TestNG Properties -->
+                    <!-- The suite, the exclude and the test dependencies together determine which tests are being run -->
+                    <suiteXmlFiles>
+                        <suiteXmlFile>target/suites/tck-core-suite.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                    <excludedGroups>cdi-full,integration,javaee-full,se</excludedGroups>
+                    <dependenciesToScan>
+                        <dependency>jakarta.enterprise:cdi-tck-core-impl</dependency>
+                    </dependenciesToScan>
+                    
+                    <forkCount>1</forkCount>
+                    
+                    <properties>
+                        <property>
+                            <name>surefire.testng.verbose</name>
+                            <value>1</value>
+                        </property>
+                    </properties>
+                    <reuseForks>false</reuseForks>
+                    <systemPropertyVariables>
+                        <piranha.jvmArguments>-ea</piranha.jvmArguments>
+                        <org.jboss.cdi.tck.libraryDirectory>
+                            ${project.build.directory}/dependency/lib</org.jboss.cdi.tck.libraryDirectory>
+                    </systemPropertyVariables>
+                    <testFailureIgnore>true</testFailureIgnore>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>generate-test-report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report-only</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outputDirectory>target/surefire-reports</outputDirectory>
+                    <outputName>test-report</outputName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

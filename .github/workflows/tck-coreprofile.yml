@@ -22,7 +22,7 @@ jobs:
       run: mvn -B -DskipTests=true -ntp install
     - name: Run TCK
       run: |
-        cd external/tck/coreprofile/annotations
+        cd external/coreprofile-tck/annotations
         mvn -B -ntp verify
         cat target/tck/report/text/summary.txt >> $GITHUB_STEP_SUMMARY
   atinject:
@@ -43,12 +43,12 @@ jobs:
       run: mvn -B -DskipTests=true -ntp install
     - name: Run TCK
       run: |
-        cd external/tck/coreprofile/atinject
+        cd external/coreprofile-tck/atinject
         mvn -B -ntp verify
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "external/tck/coreprofile/atinject/target/tck/example/target/surefire-reports/TEST-*.xml"
+        paths: "external/coreprofile-tck/atinject/target/tck/example/target/surefire-reports/TEST-*.xml"
       if: always()
   cdi:
     runs-on: ${{ matrix.os }}
@@ -68,12 +68,12 @@ jobs:
       run: mvn -B -DskipTests=true -ntp install
     - name: Run TCK
       run: |
-        cd external/tck/coreprofile/cdi
+        cd external/coreprofile-tck/cdi
         mvn -B -ntp verify
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "external/tck/coreprofile/cdi/runner/target/surefire-reports/junitreports/TEST-*.xml"
+        paths: "external/coreprofile-tck/cdi/runner/target/surefire-reports/junitreports/TEST-*.xml"
       if: always()
   coreprofile:
     runs-on: ${{ matrix.os }}
@@ -93,12 +93,12 @@ jobs:
       run: mvn -B -DskipTests=true -ntp install
     - name: Run TCK
       run: |
-        cd external/tck/coreprofile/coreprofile
+        cd external/coreprofile-tck/coreprofile
         mvn -B -ntp verify        
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "external/tck/coreprofile/coreprofile/runner/target/failsafe-reports/**/TEST-*.xml"
+        paths: "external/coreprofile-tck/coreprofile/runner/target/failsafe-reports/**/TEST-*.xml"
       if: always()
   jsonb:
     runs-on: ${{ matrix.os }}
@@ -118,12 +118,12 @@ jobs:
       run: mvn -B -DskipTests=true -ntp install
     - name: Run TCK
       run: |
-        cd external/tck/coreprofile/jsonb
+        cd external/coreprofile-tck/jsonb
         mvn -B -ntp verify
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "external/tck/coreprofile/jsonb/target/tck/bin/target/surefire-reports/TEST-*.xml"
+        paths: "external/coreprofile-tck/jsonb/target/tck/bin/target/surefire-reports/TEST-*.xml"
       if: always()
   jsonp:
     runs-on: ${{ matrix.os }}
@@ -143,14 +143,14 @@ jobs:
       run: mvn -B -DskipTests=true -ntp install
     - name: Run TCK
       run: |
-        cd external/tck/coreprofile/jsonp
+        cd external/coreprofile-tck/jsonp
         mvn -B -ntp verify
     - name: Test Summary
       uses: test-summary/action@v2
       with:
         paths: |
-          external/tck/coreprofile/jsonp/target/tck/bin/tck-tests/target/surefire-reports/TEST-*.xml
-          external/tck/coreprofile/jsonp/target/tck/bin/tck-tests-pluggability/target/surefire-reports/TEST-*.xml
+          external/coreprofile-tck/jsonp/target/tck/bin/tck-tests/target/surefire-reports/TEST-*.xml
+          external/coreprofile-tck/jsonp/target/tck/bin/tck-tests-pluggability/target/surefire-reports/TEST-*.xml
       if: always()
   rest:
     runs-on: ${{ matrix.os }}
@@ -175,5 +175,5 @@ jobs:
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "external/tck/coreprofile/rest/runner/target/failsafe-reports/**/TEST-*.xml"
+        paths: "external/coreprofile-tck/rest/runner/target/failsafe-reports/**/TEST-*.xml"
       if: always()
