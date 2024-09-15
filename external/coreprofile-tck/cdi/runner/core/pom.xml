@@ -13,7 +13,7 @@
     <name>Piranha Core Profile - CDI TCK - Runner - Core</name>
     
     <properties>
-        <piranha.version>24.10.99-SNAPSHOT</piranha.version>
+        <piranha.version>${project.version}</piranha.version>
         <weld.version>5.1.2.Final</weld.version>
     </properties>
     
