@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project 
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns:if="ant:if">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cloud.piranha.external</groupId>
+        <artifactId>project</artifactId>
+        <version>24.10.0-SNAPSHOT</version>
+    </parent>
+    <groupId>cloud.piranha.external.coreprofiletck</groupId>
+    <artifactId>project</artifactId>
+    <packaging>pom</packaging>
+    <name>Piranha Core Profile - Core Profile TCK project</name>
+    <properties>
+        <!-- TCK versions -->
+        <annotations.tck.version>2.1.1</annotations.tck.version>
+        <cdi.tck.version>4.0.13</cdi.tck.version>
+        <coreprofile.tck.version>10.0.3</coreprofile.tck.version>
+        <inject.tck.version>2.0.2</inject.tck.version>
+        <jsonb.tck.version>3.0.0</jsonb.tck.version>
+        <jsonp.tck.version>2.1.1</jsonp.tck.version>
+        <rest.tck.version>3.1.5</rest.tck.version>
+        <!-- Implementation versions -->
+        <parsson.version>1.1.7</parsson.version>
+        <weld.version>5.1.3.Final</weld.version>
+        <yasson.version>3.0.4</yasson.version>
+    </properties>
+    <modules>
+        <module>annotations</module>
+        <module>atinject</module>
+        <module>cdi</module>
+        <module>coreprofile</module>
+        <module>jsonb</module>
+        <module>jsonp</module>
+        <module>rest</module>
+    </modules>
+</project>
