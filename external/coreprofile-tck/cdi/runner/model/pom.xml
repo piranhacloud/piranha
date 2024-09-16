@@ -38,7 +38,7 @@
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.8.0.Final</version>
+                <version>${arquillian.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -48,7 +48,6 @@
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
-            <version>4.0.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -68,7 +67,6 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -89,7 +87,6 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
                 <configuration>
                     <!-- Disable annotation processor for test sources -->
                     <testCompilerArgument>-proc:none</testCompilerArgument>
@@ -97,7 +94,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.4.2</version>
                 <executions>
                     <execution>
                         <goals>
@@ -118,7 +114,6 @@
            
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.0</version>
                 <configuration>
                     <argLine>-Xmx768m</argLine>
                     <forkCount>1</forkCount>
@@ -136,7 +131,6 @@
 
             <plugin>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <id>generate-test-report</id>

@@ -26,7 +26,7 @@ create the ```pom.xml``` file with the content as below.
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.guides.servlet</groupId>
     <artifactId>pages</artifactId>
-    <version>24.5.0-SNAPSHOT</version>
+    <version>24.10.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Create a Jakarta Pages application on Piranha Servlet</name>
     <properties>

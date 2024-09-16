@@ -29,7 +29,6 @@
         <dependency>
             <groupId>org.eclipse.parsson</groupId>
             <artifactId>parsson</artifactId>
-            <version>${parsson.version}</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>

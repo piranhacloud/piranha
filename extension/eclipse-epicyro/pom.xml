@@ -19,7 +19,6 @@
         <dependency>
             <groupId>org.glassfish.epicyro</groupId>
             <artifactId>epicyro</artifactId>
-            <version>3.0.0</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>

@@ -24,7 +24,7 @@
         <dependency>
             <groupId>ee.omnifish</groupId>
             <artifactId>omnibeans</artifactId>
-            <version>${omnibeans.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

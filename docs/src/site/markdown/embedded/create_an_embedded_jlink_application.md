@@ -25,7 +25,7 @@ Create an empty directory to store your Maven project. Inside of that directory 
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.guides.embedded</groupId>
     <artifactId>jlink</artifactId>
-    <version>24.3.0-SNAPSHOT</version>
+    <version>24.10.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Piranha Embedded - JLink application</name>
     <properties>
