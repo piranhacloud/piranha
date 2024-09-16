@@ -25,13 +25,11 @@
         <dependency>
             <groupId>com.manorrock.herring</groupId>
             <artifactId>herring</artifactId>
-            <version>23.5.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.manorrock.herring</groupId>
             <artifactId>herring-thread</artifactId>
-            <version>23.5.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -43,7 +41,6 @@
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
         </dependency>
-        
         <!-- test -->
         <dependency>
             <groupId>cloud.piranha</groupId>

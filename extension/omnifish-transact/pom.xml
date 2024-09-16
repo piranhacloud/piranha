@@ -13,9 +13,6 @@
     <packaging>jar</packaging>
 
     <name>Piranha - Extension - OmniFish Transact</name>
-    <properties>
-        <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>
@@ -24,13 +21,11 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        
         <dependency>
             <groupId>ee.omnifish</groupId>
             <artifactId>transact-cdi-beans</artifactId>
-                <version>${transact-cdi-beans.version}</version>
+            <scope>compile</scope>
         </dependency>
-        
         <!-- provided -->
         <dependency>
             <groupId>jakarta.el</groupId>

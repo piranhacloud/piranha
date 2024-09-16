@@ -10,9 +10,6 @@
     <artifactId>piranha-extension-eclipse-wasp</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - Extension - Eclipse WaSP</name>
-    <properties>
-        <wasp.version>4.0.0-M1</wasp.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>
@@ -29,7 +26,6 @@
         <dependency>
             <groupId>org.glassfish.wasp</groupId>
             <artifactId>wasp</artifactId>
-            <version>${wasp.version}</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>

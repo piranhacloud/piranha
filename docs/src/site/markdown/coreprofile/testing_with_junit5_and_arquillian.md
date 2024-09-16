@@ -26,7 +26,7 @@ Create an empty directory to store your Maven project. Inside of that directory 
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.guides.coreprofile</groupId>
     <artifactId>arquillian</artifactId>
-    <version>1-SNAPSHOT</version>
+    <version>24.10.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Piranha Core Profile - Testing with JUnit 5 and Arquillian</name>
     <properties>

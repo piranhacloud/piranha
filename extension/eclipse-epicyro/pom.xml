@@ -10,15 +10,11 @@
     <artifactId>piranha-extension-eclipse-epicyro</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - Extension - Eclipse Epicyro</name>
-    <properties>
-        <epicyro.version>3.1.0</epicyro.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>
             <groupId>org.glassfish.epicyro</groupId>
             <artifactId>epicyro</artifactId>
-            <version>${epicyro.version}</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>

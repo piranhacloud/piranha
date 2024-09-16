@@ -27,7 +27,7 @@ create the ```pom.xml``` file with the content as below.
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.guides.webprofile</groupId>
     <artifactId>pages</artifactId>
-    <version>1-SNAPSHOT</version>
+    <version>24.10.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Jakarta Pages webapplication</name>
     <properties>

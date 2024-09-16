@@ -13,9 +13,6 @@
     <packaging>jar</packaging>
 
     <name>Piranha - Extension - OmniFaces Micro Profile JWT Auth</name>
-    <properties>
-        <microprofile-jwt-auth.version>2.0.2</microprofile-jwt-auth.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>
@@ -27,7 +24,7 @@
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>microprofile-jwt-auth</artifactId>
-            <version>${microprofile-jwt-auth.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

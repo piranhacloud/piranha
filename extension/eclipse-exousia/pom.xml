@@ -10,9 +10,6 @@
     <artifactId>piranha-extension-eclipse-exousia</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - Extension - Eclipse Exousia</name>
-    <properties>
-        <exousia.version>3.0.0-M1.1</exousia.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>
@@ -35,7 +32,6 @@
         <dependency>
             <groupId>org.glassfish.exousia</groupId>
             <artifactId>exousia</artifactId>
-            <version>${exousia.version}</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
