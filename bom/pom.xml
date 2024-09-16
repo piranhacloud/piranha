@@ -97,7 +97,12 @@
                 <artifactId>jakarta.faces-api</artifactId>
                 <version>${jakarta.faces-api.version}</version>
             </dependency>
-
+            <!-- Jakarta Inject API -->            
+            <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>${jakarta.inject-api.version}</version>
+            </dependency>
             <!-- Jakarta JSON Binding -->
             <dependency>
                 <groupId>jakarta.json.bind</groupId>
