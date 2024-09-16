@@ -27,11 +27,33 @@
  */
 package cloud.piranha.core.impl;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletRequestWrapper;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.UnavailableException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+
 import cloud.piranha.core.api.CurrentRequestHolder;
-import static cloud.piranha.core.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
 import cloud.piranha.core.api.FilterEnvironment;
 import cloud.piranha.core.api.ServletEnvironment;
 import cloud.piranha.core.api.WebApplicationRequest;
+
+import static cloud.piranha.core.api.CurrentRequestHolder.CURRENT_REQUEST_ATTRIBUTE;
 import static cloud.piranha.core.impl.DefaultWebApplicationRequest.unwrap;
 import static jakarta.servlet.AsyncContext.ASYNC_CONTEXT_PATH;
 import static jakarta.servlet.AsyncContext.ASYNC_PATH_INFO;
@@ -42,26 +64,8 @@ import static jakarta.servlet.DispatcherType.ASYNC;
 import static jakarta.servlet.DispatcherType.ERROR;
 import static jakarta.servlet.DispatcherType.FORWARD;
 import static jakarta.servlet.DispatcherType.INCLUDE;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletRequestWrapper;
-import jakarta.servlet.ServletResponse;
-import jakarta.servlet.UnavailableException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletRequestWrapper;
-import jakarta.servlet.http.HttpServletResponse;
 import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
-import jakarta.servlet.http.HttpSession;
-import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
 
 /**
  * The default ServletRequestDispatcher.
@@ -170,10 +174,10 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
 
         /*
-         * REFACTOR - We used a response header to signal that we are not 
+         * REFACTOR - We used a response header to signal that we are not
          * listening to add/setHeader. In the block below we remove the header
          * and reset the buffer as we need the code below do its work. However
-         * we  really need to refactor this and move the code below to the 
+         * we  really need to refactor this and move the code below to the
          * DefaultWebApplicationResponse, because it should be handled in the
          * sendError call.
          */
@@ -199,7 +203,11 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 rethrow(e);
             }
         } else if (exception != null) {
-            exception.printStackTrace(webappResponse.getWriter());
+            if (webappResponse.gotWriter) {
+                exception.printStackTrace(webappResponse.getWriter());
+            } else {
+                exception.printStackTrace(new PrintStream(webappResponse.getOutputStream()));
+            }
             webappResponse.flushBuffer();
             rethrow(exception);
         } else if (webappRequest.getAttribute(ERROR_MESSAGE) != null) {
@@ -279,7 +287,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         request.setDispatcherType(INCLUDE);
         request.setServletPath(path == null ? "/" + servletEnvironment.getServletName() : getServletPath(path));
         request.setPathInfo(null);
-        
+
         if (path != null) {
             request.setQueryString(getQueryString(path));
         }
