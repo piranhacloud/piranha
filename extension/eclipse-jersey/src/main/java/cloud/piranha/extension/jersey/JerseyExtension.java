@@ -27,9 +27,16 @@
  */
 package cloud.piranha.extension.jersey;
 
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.spi.BeanManager;
+import jakarta.enterprise.inject.spi.BeforeBeanDiscovery;
+import jakarta.enterprise.inject.spi.Extension;
+
+import java.lang.System.Logger;
+
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
-import java.lang.System.Logger;
+
 import static java.lang.System.Logger.Level.TRACE;
 
 /**
@@ -37,20 +44,46 @@ import static java.lang.System.Logger.Level.TRACE;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class JerseyExtension implements WebApplicationExtension {
+public class JerseyExtension implements WebApplicationExtension, Extension {
 
     /**
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(JerseyExtension.class.getName());
-    
+
     /**
      * Configure the extension.
-     * 
+     *
      * @param webApplication the web application.
      */
     @Override
     public void configure(WebApplication webApplication) {
         LOGGER.log(TRACE, "Configuring Jersey extension");
     }
+
+    /**
+     *
+     * @param beforeBean
+     * @param beanManager
+     */
+    public void register(@Observes BeforeBeanDiscovery beforeBean, BeanManager beanManager) {
+        // Force a class analyzer to be added that makes sure a REST resource is not attempted
+        // to be injected by both CDI and HK2.
+        //
+        // See https://github.com/eclipse-ee4j/jersey/issues/5745 on why this is needed
+        addAnnotatedTypes(beforeBean, beanManager, JerseyTargetBean.class, JerseySourceBean.class);
+    }
+
+    /**
+     *
+     * @param beforeBean
+     * @param beanManager
+     * @param types
+     */
+    public static void addAnnotatedTypes(BeforeBeanDiscovery beforeBean, BeanManager beanManager, Class<?>... types) {
+        for (Class<?> type : types) {
+            beforeBean.addAnnotatedType(beanManager.createAnnotatedType(type), "JerseyExtension " + type.getName());
+        }
+    }
+
 }
