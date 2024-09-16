@@ -405,6 +405,17 @@
                 <artifactId>htmlunit</artifactId>
                 <version>${htmlunit.version}</version>
             </dependency>
+            <!-- JBoss Arquillian -->
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>${arquillian.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-build</artifactId>
+                <version>${arquillian.version}</version>
+            </dependency>
             <!-- JBoss Weld -->
             <dependency>
                 <groupId>org.jboss.weld.servlet</groupId>
@@ -493,17 +504,6 @@
             </dependency>
 
                         
-            <!-- JBoss Arquillian -->
-            <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>${arquillian.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-build</artifactId>
-                <version>${arquillian.version}</version>
-            </dependency>
 
             <!-- JBoss Classfile writer -->            
             <dependency>
