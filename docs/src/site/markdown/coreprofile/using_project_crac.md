@@ -32,7 +32,7 @@ create the ```pom.xml``` file with the content as below.
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.guides.crac</groupId>
     <artifactId>crac</artifactId>
-    <version>24.8.0-SNAPSHOT</version>
+    <version>24.10.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Piranha Core Profile on Project CRaC</name>
     <properties>

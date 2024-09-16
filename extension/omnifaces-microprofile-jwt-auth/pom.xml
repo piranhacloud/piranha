@@ -24,7 +24,7 @@
         <dependency>
             <groupId>org.omnifaces</groupId>
             <artifactId>microprofile-jwt-auth</artifactId>
-            <version>${microprofile-jwt-auth.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
