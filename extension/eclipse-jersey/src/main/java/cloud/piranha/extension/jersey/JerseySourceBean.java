@@ -25,21 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.jersey;
 
-/**
- * This module delivers the Eclipse Jersey integration extension.
- *
- * <p>
- *  This extension integrates Eclipse Jersey into Piranha. See
- *  https://github.com/eclipse-ee4j/jersey for more information about its
- *  project.
- * </p>
- *
- * @author Manfred Riem (mriem@manorrock.com)
- */
-module cloud.piranha.extension.jersey {
+import jakarta.enterprise.context.Dependent;
 
-    requires cloud.piranha.core.api;
-    requires static cloud.piranha.extension.scinitializer;
-    requires jakarta.cdi;
+@Dependent
+public class JerseySourceBean {
+
 }
