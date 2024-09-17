@@ -8,6 +8,7 @@
         <artifactId>project</artifactId>
         <version>24.10.99-SNAPSHOT</version>
     </parent>
+
     <groupId>cloud.piranha.external.coreprofiletck.coreprofiletck</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>

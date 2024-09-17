@@ -85,6 +85,7 @@
         <epicyro.version>3.1.0</epicyro.version>
         <exousia.version>3.0.0-M1.1</exousia.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
+        <glassfish-client-ee10.version>1.6</glassfish-client-ee10.version>
         <grizzly.version>4.1.0-M1</grizzly.version>
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
         <!-- kept at 5.4.0 because 5.5.0 adds remote repositories -->
