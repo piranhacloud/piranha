@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>cloud.piranha.external.coreprofiletck.coreprofiletck</groupId>
         <artifactId>project</artifactId>
         <version>24.10.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>runner</artifactId>
     <packaging>jar</packaging>
+
     <name>Piranha Core Profile - Core Profile TCK - Runner</name>
+
     <properties>
         <piranha.version>${project.version}</piranha.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -26,7 +29,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
         <!-- Run the installer first. Matters when executing in parallel  -->
         <dependency>
@@ -62,16 +64,19 @@
         <dependency>
             <groupId>org.omnifaces.arquillian</groupId>
             <artifactId>glassfish-client-ee10</artifactId>
+            <version>${glassfish-client-ee10.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.junit5</groupId>
             <artifactId>arquillian-junit5-container</artifactId>
+            <version>${arquillian.version}</version>
             <scope>test</scope>
         </dependency>
 
