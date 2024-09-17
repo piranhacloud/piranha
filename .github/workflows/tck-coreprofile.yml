@@ -170,7 +170,7 @@ jobs:
       run: mvn -B -DskipTests=true -ntp install
     - name: Run TCK
       run: |
-        cd external/tck/coreprofile/rest
+        cd external/coreprofile-tck/rest
         mvn -B -ntp verify        
     - name: Test Summary
       uses: test-summary/action@v2
