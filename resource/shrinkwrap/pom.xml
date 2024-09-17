@@ -16,6 +16,12 @@
 
     <dependencies>
         <!-- compile -->
+        <!-- declared as a direct dependency to deal with CVEs -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.jboss.shrinkwrap</groupId>
             <artifactId>shrinkwrap-impl-base</artifactId>
