@@ -1,5 +1,17 @@
 name: tck-coreprofile
-on:
+on: 
+  push:
+    paths:
+      - 'external/coreprofile-tck/**'
+    branches:
+      - '*'
+    tags-ignore:
+      - 'v*'
+  pull_request:
+    paths:
+      - 'external/coreprofile-tck/**'
+    branches:
+      - '*'  
   schedule:
   - cron: "0 0 * * *"
   workflow_dispatch:
