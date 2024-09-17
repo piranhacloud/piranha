@@ -14,7 +14,6 @@
     
     <properties>
         <piranha.version>${project.version}</piranha.version>
-        <weld.version>5.1.2.Final</weld.version>
     </properties>
     
     <dependencyManagement>
@@ -34,12 +33,14 @@
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>${jakarta.enterprise.cdi-api.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet-api.version}</version>
             <scope>test</scope>
         </dependency>
         
@@ -50,6 +51,7 @@
         <dependency>
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-core-impl</artifactId>
+            <version>${weld.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.testng</groupId>
@@ -65,11 +67,13 @@
         <dependency>
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-lite-extension-translator</artifactId>
+            <version>${weld.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.jboss.weld.module</groupId>
             <artifactId>weld-jsf</artifactId>
+            <version>${weld.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.testng</groupId>
@@ -81,10 +85,12 @@
         <dependency>
             <groupId>org.jboss.weld.module</groupId>
             <artifactId>weld-ejb</artifactId>
+            <version>${weld.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.weld.module</groupId>
             <artifactId>weld-web</artifactId>
+            <version>${weld.version}</version>
         </dependency>
     
     
@@ -163,11 +169,13 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
+            <version>7.4.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
