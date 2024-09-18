@@ -29,7 +29,17 @@ package cloud.piranha.extension.jersey;
 
 import jakarta.enterprise.context.Dependent;
 
+/**
+ * A simple source bean to force the addition of the class analyzer.
+ * 
+ * @author Arjan Tijms
+ */
 @Dependent
 public class JerseySourceBean {
 
+    /**
+     * Constructor.
+     */
+    public JerseySourceBean() {
+    }
 }
