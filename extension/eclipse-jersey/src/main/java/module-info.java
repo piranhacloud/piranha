@@ -41,5 +41,5 @@ module cloud.piranha.extension.jersey {
 
     requires cloud.piranha.core.api;
     requires static cloud.piranha.extension.scinitializer;
-    requires jakarta.cdi;
+    requires static jakarta.cdi;
 }

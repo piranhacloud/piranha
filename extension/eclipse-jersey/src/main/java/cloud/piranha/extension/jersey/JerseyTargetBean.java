@@ -30,13 +30,23 @@ package cloud.piranha.extension.jersey;
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 
+/**
+ * A simple target bean to force the addition of the class analyzer.
+ * 
+ * @author Arjan Tijms
+ */
 @Dependent
 public class JerseyTargetBean {
 
     /**
-     *dd
+     * Store the source bean.
      */
     @Inject
     JerseySourceBean bean;
-
+    
+    /**
+     * Constructor.
+     */
+    public JerseyTargetBean() {
+    }
 }
