@@ -89,6 +89,7 @@
         <glassfish-client-ee10.version>1.6</glassfish-client-ee10.version>
         <grizzly.version>4.0.2</grizzly.version>
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
+        <guava.version>32.0.0-jre</guava.version>
         <h2.version>2.3.232</h2.version>
         <!-- kept at 5.4.0 because 5.5.0 adds remote repositories -->
         <hazelcast.version>5.4.0</hazelcast.version>
@@ -127,7 +128,6 @@
         <wasp.version>3.2.2</wasp.version>
         <weld.version>5.1.3.Final</weld.version>
         <yasson.version>3.0.4</yasson.version>
-        
         <!-- plugins -->
         <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
         <clirr-maven-plugin.version>2.8</clirr-maven-plugin.version>
@@ -166,7 +166,6 @@
         <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
         <tidy-maven-plugin.version>1.3.0</tidy-maven-plugin.version>
         <versions-maven-plugin.version>2.17.1</versions-maven-plugin.version>
-        
         <!-- other -->
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -362,6 +361,12 @@
                 <groupId>me.alexpanov</groupId>
                 <artifactId>free-port-finder</artifactId>
                 <version>${free-port-finder.version}</version>
+            </dependency>
+            <!-- Guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
             <!-- H2 database -->
             <dependency>
