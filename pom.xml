@@ -89,8 +89,9 @@
         <glassfish-client-ee10.version>1.6</glassfish-client-ee10.version>
         <grizzly.version>4.1.0-M1</grizzly.version>
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
-        <!-- kept at 5.4.0 because 5.5.0 adds remote repositories -->
+        <guava.version>32.0.0-jre</guava.version>
         <h2.version>2.3.232</h2.version>
+        <!-- kept at 5.4.0 because 5.5.0 adds remote repositories -->
         <hazelcast.version>5.4.0</hazelcast.version>
         <herring.version>23.12.0</herring.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
@@ -358,6 +359,12 @@
                 <groupId>me.alexpanov</groupId>
                 <artifactId>free-port-finder</artifactId>
                 <version>${free-port-finder.version}</version>
+            </dependency>
+            <!-- Guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
             <!-- H2 database -->
             <dependency>
