@@ -5,6 +5,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <!--
+
+    WARNING - Do not remove the versions in the properties section as this
+    particular project is used as a basis for the guide content at 
+    docs/src/site/markdown/micro/create_a_hello_world_web_application.md.
+  
+    When updating the guide drop the parent part below and change the name to
+    read 'Create a Hello World application'.
+
+    -->
     <parent>
         <groupId>cloud.piranha.test.micro</groupId>
         <artifactId>project</artifactId>
@@ -14,7 +24,7 @@
     <artifactId>helloworld</artifactId>
     <version>24.10.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Create a Hello World application</name>
+    <name>Piranha - Test - Micro - Hello World application</name>
     <properties>
         <!-- dependencies -->
         <jakarta.jakartaee-web-api.version>10.0.0</jakarta.jakartaee-web-api.version>
