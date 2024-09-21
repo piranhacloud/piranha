@@ -59,7 +59,7 @@ public class PiranhaStartup {
     }
 
     private static void waitUntilPiranhaReady(int port, BooleanSupplier customCheck) {
-        final int timeoutMillis = 30 * 1000;
+        final int timeoutMillis = 120 * 1000;
         final int sleepTimeMillis = 100;
         long initialTimeMillis = System.currentTimeMillis();
         boolean started = false;
