@@ -14,21 +14,22 @@
     <properties>
         <piranha.version>${project.version}</piranha.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>${arquillian.version}</version>
-                <scope>test</scope>
+                <version>1.8.0.Final</version>
                 <type>pom</type>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.arquillian</groupId>
-            <artifactId>piranha-arquillian-jarcontainer</artifactId>
+            <artifactId>piranha-arquillian-managed</artifactId>
             <version>${piranha.version}</version>
             <scope>test</scope>
         </dependency>
@@ -39,13 +40,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.arquillian.protocol</groupId>
-            <artifactId>arquillian-protocol-servlet-jakarta</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.jboss.arquillian.junit5</groupId>
             <artifactId>arquillian-junit5-container</artifactId>
+            <version>1.8.0.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -67,7 +64,7 @@
         <dependency>
             <groupId>org.omnifaces.arquillian</groupId>
             <artifactId>glassfish-client-ee10</artifactId>
-            <version>1.4</version>
+            <version>1.6</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -100,6 +97,7 @@
                     <systemPropertyVariables>
                         <arquillian.launch>piranha</arquillian.launch>
                         <cts.harness.debug>true</cts.harness.debug>
+                        <junit.log.traceflag>true</junit.log.traceflag>
                         <optional.tech.packages.to.ignore>jakarta.xml.bind</optional.tech.packages.to.ignore>
                         <porting.ts.url.class.1>ee.jakarta.tck.ws.rs.lib.implementation.sun.common.SunRIURL</porting.ts.url.class.1>
                         <servlet_adaptor>org.glassfish.jersey.servlet.ServletContainer</servlet_adaptor>
