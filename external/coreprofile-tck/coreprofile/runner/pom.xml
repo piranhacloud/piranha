@@ -36,6 +36,7 @@
             <artifactId>installer</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
+            <scope>provided</scope>
         </dependency>
 
         <!-- The actual TCK jar containing the tests -->
@@ -84,7 +85,7 @@
             to it. -->
         <dependency>
             <groupId>cloud.piranha.arquillian</groupId>
-            <artifactId>piranha-arquillian-jarcontainer</artifactId>
+            <artifactId>piranha-arquillian-managed</artifactId>
             <version>${piranha.version}</version>
             <scope>test</scope>
         </dependency>
