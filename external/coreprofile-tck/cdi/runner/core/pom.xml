@@ -194,7 +194,7 @@
         -->
         <dependency>
             <groupId>cloud.piranha.arquillian</groupId>
-            <artifactId>piranha-arquillian-jarcontainer</artifactId>
+            <artifactId>piranha-arquillian-managed</artifactId>
             <version>${piranha.version}</version>
             <scope>test</scope>
         </dependency>
