@@ -14,7 +14,22 @@
     <packaging>pom</packaging>
 
     <name>Piranha - Test - Core Profile - Project</name>
-
+    <dependencies>
+        <!--
+         
+          Make sure the Piranha Core Profile distribution is available before 
+          attempting to build any of the modules. 
+              
+        -->
+        <dependency>
+            <groupId>cloud.piranha.dist</groupId>
+            <artifactId>piranha-dist-coreprofile</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+            <type>jar</type>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
     <modules>
         <module>helloarquillian</module>
         <module>hello</module>

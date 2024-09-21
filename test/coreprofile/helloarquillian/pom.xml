@@ -36,25 +36,10 @@
             <artifactId>jakarta.jakartaee-core-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        
-        <!-- 
-      
-            This dependency is here to make sure piranha-dist-coreprofile.jar
-            exists prior to executing the tests when building in parallel.
-      
-          -->
-        <dependency>
-            <groupId>cloud.piranha.dist</groupId>
-            <artifactId>piranha-dist-coreprofile</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-            <type>jar</type>
-            <optional>true</optional>
-        </dependency>
         <!-- test -->
         <dependency>
             <groupId>cloud.piranha.arquillian</groupId>
-            <artifactId>piranha-arquillian-jarcontainer</artifactId>
+            <artifactId>piranha-arquillian-managed</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -81,7 +66,7 @@
     </dependencies>
 
     <build>
-        <finalName>piranha-test-arquillian-jarcontainer</finalName>
+        <finalName>piranha-test-coreprofile-helloarquillian</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -1,65 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cloud.piranha.arquillian</groupId>
         <artifactId>project</artifactId>
         <version>24.10.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>piranha-arquillian-jarcontainer</artifactId>
-    <packaging>jar</packaging>
-
-    <name>Piranha - Arquillian - JAR DeployableContainer</name>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.jboss.arquillian.container</groupId>
-            <artifactId>arquillian-container-spi</artifactId>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jboss.shrinkwrap.descriptors</groupId>
-                    <artifactId>shrinkwrap-descriptors-api-base</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>me.alexpanov</groupId>
-            <artifactId>free-port-finder</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.jboss.arquillian.container</groupId>
-            <artifactId>arquillian-container-test-spi</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.arquillian.protocol</groupId>
-            <artifactId>arquillian-protocol-servlet-jakarta</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.arquillian.testenricher</groupId>
-            <artifactId>arquillian-testenricher-cdi-jakarta</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.arquillian.testenricher</groupId>
-            <artifactId>arquillian-testenricher-ejb-jakarta</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.arquillian.testenricher</groupId>
-            <artifactId>arquillian-testenricher-resource-jakarta</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.arquillian.testenricher</groupId>
-            <artifactId>arquillian-testenricher-initialcontext</artifactId>
-        </dependency>
-    </dependencies>
+    <distributionManagement>
+        <relocation>
+            <groupId>cloud.piranha.arquillian</groupId>
+            <artifactId>piranha-arquillian-managed</artifactId>
+            <version>${project.version}</version>
+        </relocation>
+    </distributionManagement>
 </project>

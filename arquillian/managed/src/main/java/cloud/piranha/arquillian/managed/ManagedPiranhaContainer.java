@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.arquillian.jarcontainer;
+package cloud.piranha.arquillian.managed;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,16 +51,16 @@ import static java.lang.System.Logger.Level.WARNING;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 /**
- * The Piranha JAR container.
+ * The Managed Piranha container.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContainerConfiguration> {
+public class ManagedPiranhaContainer implements DeployableContainer<ManagedPiranhaContainerConfiguration> {
 
     /**
      * Stores the logger.
      */
-    private static final System.Logger LOGGER = System.getLogger(PiranhaJarContainer.class.getName());
+    private static final System.Logger LOGGER = System.getLogger(ManagedPiranhaContainer.class.getName());
 
     /**
      * Stores the PID filename.
@@ -80,7 +80,7 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
     /**
      * Stores the configuration.
      */
-    private PiranhaJarContainerConfiguration configuration;
+    private ManagedPiranhaContainerConfiguration configuration;
 
     /**
      * Stores the local repository directory.
@@ -95,16 +95,16 @@ public class PiranhaJarContainer implements DeployableContainer<PiranhaJarContai
     /**
      * Default constructor.
      */
-    public PiranhaJarContainer() {
+    public ManagedPiranhaContainer() {
     }
 
     @Override
-    public Class<PiranhaJarContainerConfiguration> getConfigurationClass() {
-        return PiranhaJarContainerConfiguration.class;
+    public Class<ManagedPiranhaContainerConfiguration> getConfigurationClass() {
+        return ManagedPiranhaContainerConfiguration.class;
     }
 
     @Override
-    public void setup(PiranhaJarContainerConfiguration configuration) {
+    public void setup(ManagedPiranhaContainerConfiguration configuration) {
         this.configuration = configuration;
     }
 
