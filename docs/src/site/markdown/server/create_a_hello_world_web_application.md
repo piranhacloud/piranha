@@ -25,18 +25,21 @@ Create an empty directory to store your Maven project. Inside of that directory 
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.guides.server</groupId>
     <artifactId>helloworld</artifactId>
-    <version>24.10.0-SNAPSHOT</version>
+    <version>24.9.0</version>
     <packaging>war</packaging>
-    <name>Piranha Server - HelloWorld web application</name>
+    <name>Create a Hello World application</name>
     <properties>
-        <java.version>17</java.version>
-        <junit.version>5.10.0-M1</junit.version>
-        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>3.0.0</maven-failsafe-plugin.version>
-        <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
+        <!-- dependencies -->
+        <junit.version>5.11.0</junit.version>
+        <!-- other -->
+        <java.version>21</java.version>
         <piranha.distribution>server</piranha.distribution>
-        <piranha.version>23.6.0</piranha.version>
+        <piranha.version>${project.version}</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- plugins -->
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>3.5.0</maven-failsafe-plugin.version>
+        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
     </properties>
     <dependencies>
         <dependency>
@@ -62,7 +65,7 @@ Create an empty directory to store your Maven project. Inside of that directory 
         <finalName>helloworld</finalName>
         <plugins>
             <plugin>
-                <groupId>cloud.piranha.maven.plugins</groupId>
+                <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
                 <version>${piranha.version}</version>
                 <executions>
