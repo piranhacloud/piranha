@@ -2,23 +2,34 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
         <version>24.10.0-SNAPSHOT</version>
     </parent>
-
     <groupId>cloud.piranha.test.server</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
-
     <name>Piranha - Test - Server - Project</name>
-
     <modules>
         <module>helloworld</module>
         <module>programmatic</module>
         <module>wasp</module>
         <module>wasp2</module>
     </modules>
+    <!--
+     
+      Make sure the Piranha Server distribution is available before 
+      attempting to build any of the modules. 
+          
+    -->
+    <dependencies>
+        <dependency>
+            <groupId>cloud.piranha.dist</groupId>
+            <artifactId>piranha-dist-server</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>
