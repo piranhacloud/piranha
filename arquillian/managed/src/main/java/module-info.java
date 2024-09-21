@@ -26,19 +26,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.arquillian.jarcontainer.PiranhaJarContainerExtension;
+import cloud.piranha.arquillian.managed.ManagedPiranhaContainerExtension;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 
 /**
- * This module delivers the JAR based distribution support for Arquillian.
+ * This module delivers the managed Piranha container support for Arquillian.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.arquillian.jarcontainer {
+module cloud.piranha.arquillian.managed {
 
-    exports cloud.piranha.arquillian.jarcontainer;
-    opens cloud.piranha.arquillian.jarcontainer;
-    provides LoadableExtension with PiranhaJarContainerExtension;
+    exports cloud.piranha.arquillian.managed;
+    opens cloud.piranha.arquillian.managed;
+    provides LoadableExtension with ManagedPiranhaContainerExtension;
     requires arquillian.container.spi;
     requires arquillian.core.spi;
     requires free.port.finder;

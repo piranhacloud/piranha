@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.arquillian.jarcontainer;
+package cloud.piranha.arquillian.managed;
 
 import org.jboss.arquillian.container.spi.ConfigurationException;
 import org.jboss.arquillian.container.spi.client.container.ContainerConfiguration;
@@ -35,16 +35,16 @@ import me.alexpanov.net.FreePortFinder;
 import static java.lang.System.Logger.Level.INFO;
 
 /**
- * The Piranha JAR container configuration.
+ * The Managed Piranha container configuration.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PiranhaJarContainerConfiguration implements ContainerConfiguration {
+public class ManagedPiranhaContainerConfiguration implements ContainerConfiguration {
 
     /**
      * Stores the logger.
      */
-    private static final System.Logger LOGGER = System.getLogger(PiranhaJarContainerConfiguration.class.getName());
+    private static final System.Logger LOGGER = System.getLogger(ManagedPiranhaContainerConfiguration.class.getName());
 
     /**
      * Stores the HTTP port.

@@ -25,26 +25,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.arquillian.jarcontainer;
+package cloud.piranha.arquillian.managed;
 
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
 import org.jboss.arquillian.core.spi.LoadableExtension;
 
 /**
- * The Piranha JAR container extension.
+ * The Managed Piranha container extension.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class PiranhaJarContainerExtension implements LoadableExtension {
+public class ManagedPiranhaContainerExtension implements LoadableExtension {
 
     /**
      * Default constructor.
      */
-    public PiranhaJarContainerExtension() {
+    public ManagedPiranhaContainerExtension() {
     }
 
     @Override
     public void register(ExtensionBuilder extensionBuilder) {
-        extensionBuilder.service(DeployableContainer.class, PiranhaJarContainer.class);
+        extensionBuilder.service(DeployableContainer.class, ManagedPiranhaContainer.class);
     }
 }
