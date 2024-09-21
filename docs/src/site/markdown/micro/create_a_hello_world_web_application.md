@@ -30,15 +30,24 @@ Create an empty directory to store your Maven project. Inside of that directory 
     <packaging>war</packaging>
     <name>Piranha Micro - Create a Hello World application</name>
     <properties>
+        <!-- dependencies -->
+        <jakarta.jakartaee-web-api.version>10.0.0</jakarta.jakartaee-web-api.version>
+        <junit.version>5.9.1</junit.version>
+        <!-- other -->
+        <java.version>21</java.version>
         <piranha.distribution>micro</piranha.distribution>
-        <piranha.version>23.9.0</piranha.version>
+        <piranha.version>24.9.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- plugins -->
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>3.0.0-M7</maven-failsafe-plugin.version>
+        <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
     </properties>
     <build>
         <finalName>piranha-micro-helloworld</finalName>
         <plugins>
             <plugin>
-                <groupId>cloud.piranha.maven.plugins</groupId>
+                <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
                 <version>${piranha.version}</version>
                 <executions>
@@ -64,15 +73,15 @@ Create an empty directory to store your Maven project. Inside of that directory 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <release>17</release>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M7</version>
+                <version>${maven-failsafe-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -85,7 +94,7 @@ Create an empty directory to store your Maven project. Inside of that directory 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
+                <version>${maven-war-plugin.version}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
@@ -96,13 +105,13 @@ Create an empty directory to store your Maven project. Inside of that directory 
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>
-            <version>10.0.0</version>
+            <version>${jakarta.jakartaee-web-api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.9.1</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
