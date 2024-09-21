@@ -1,77 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <!--
 
+    WARNING - Do not remove the versions in the properties section as this
+    particular project is used as a basis for the guide content at 
+    docs/src/site/markdown/server/create_a_hello_world_web_application.md.
+  
+    When updating the guide drop the parent part below and change the name to
+    read 'Create a Hello World application'.
+
+    -->
     <parent>
         <groupId>cloud.piranha.test.server</groupId>
         <artifactId>project</artifactId>
         <version>24.10.0-SNAPSHOT</version>
     </parent>
-
-    <artifactId>piranha-test-server-helloworld</artifactId>
+    <groupId>cloud.piranha.guides.server</groupId>
+    <artifactId>helloworld</artifactId>
+    <version>24.10.0-SNAPSHOT</version>
     <packaging>war</packaging>
-
-    <name>Piranha - Test - Server - Hello World</name>
-
+    <name>Piranha - Test - Server - Hello World application</name>
     <properties>
+        <!-- dependencies -->
+        <junit.version>5.11.0</junit.version>
+        <!-- other -->
+        <java.version>21</java.version>
+        <piranha.distribution>server</piranha.distribution>
+        <piranha.version>${project.version}</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- plugins -->
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>3.5.0</maven-failsafe-plugin.version>
+        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
     </properties>
-
     <dependencies>
-        <!-- provided -->
-        <dependency>
-            <groupId>jakarta.platform</groupId>
-            <artifactId>jakarta.jakartaee-web-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <!-- 
-      
-            This dependency is here to make sure piranha-dist-server.zip exists
-            prior to executing the tests when building in parallel.
-      
-          -->
-        <dependency>
-            <groupId>cloud.piranha.dist</groupId>
-            <artifactId>piranha-dist-server</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-            <type>zip</type>
-            <optional>true</optional>
-        </dependency>
-        <!-- test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
-        <finalName>piranha-test-server-helloworld</finalName>
+        <finalName>helloworld</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>reserve-network-port</id>
-                        <goals>
-                            <goal>reserve-network-port</goal>
-                        </goals>
-                        <phase>pre-integration-test</phase>
-                        <configuration>
-                            <portNames>
-                                <portName>httpPort</portName>
-                            </portNames>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
-                <version>${project.version}</version>
+                <version>${piranha.version}</version>
                 <executions>
                     <execution>
                         <id>pre-integration-test</id>
@@ -89,23 +82,34 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <distribution>server</distribution>
-                    <httpPort>${httpPort}</httpPort>
+                    <distribution>${piranha.distribution}</distribution>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <forkCount>1</forkCount>
-                    <systemPropertyVariables>
-                        <httpPort>${httpPort}</httpPort>
-                    </systemPropertyVariables>
-                </configuration>
+                <version>${maven-failsafe-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>${maven-war-plugin.version}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>

@@ -35,38 +35,13 @@ import java.net.http.HttpResponse.BodyHandlers;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
-/**
- * The 'Hello World!' integration tests.
- *
- * @author Manfred Riem (mriem@manorrock.com)
- */
 class HelloWorldIT {
-    
-    /**
-     * Test the 'helloworld.jsp' page.
-     *
-     * @throws Exception when a serious error occurs.
-     */
+ 
     @Test
-    void testHelloWorldJsp() throws Exception {
+    void testHelloWorldHtml() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:" + System.getProperty("httpPort") + "/piranha-test-server-helloworld/helloworld.jsp"))
-                .build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("Hello World!"));
-    }
-
-    /**
-     * Test the HelloWorldServlet.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testHelloWorldServlet() throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:" + System.getProperty("httpPort") + "/piranha-test-server-helloworld/HelloWorldServlet"))
+                .newBuilder(new URI("http://localhost:8080/helloworld/helloworld.html"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello World!"));
