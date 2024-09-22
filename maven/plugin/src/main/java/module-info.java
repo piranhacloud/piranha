@@ -31,10 +31,10 @@
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.maven.plugins.piranha {
+module cloud.piranha.maven.plugin {
 
-    exports cloud.piranha.maven.plugins.piranha;
-    opens cloud.piranha.maven.plugins.piranha;
+    exports cloud.piranha.maven.plugin;
+    opens cloud.piranha.maven.plugin;
     requires maven.plugin.annotations;
     requires maven.plugin.api;
     requires java.xml;
