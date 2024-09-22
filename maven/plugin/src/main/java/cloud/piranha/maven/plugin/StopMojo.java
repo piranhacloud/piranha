@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.maven.plugins.piranha;
+package cloud.piranha.maven.plugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,6 +57,12 @@ public class StopMojo extends AbstractMojo {
      */
     @Parameter(defaultValue= "false", property="piranha.skip")
     private boolean skip;
+
+    /**
+     * Default constructor.
+     */
+    public StopMojo() {
+    }
 
     @Override
     public void execute() throws MojoExecutionException {

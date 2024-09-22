@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.maven.plugins.piranha;
+package cloud.piranha.maven.plugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,14 +36,20 @@ import static org.apache.maven.plugins.annotations.LifecyclePhase.NONE;
 import org.apache.maven.plugins.annotations.Mojo;
 
 /**
- * This goal will deploy your web application and start Piranha in a separate
- * process.
+ * This goal will deploy your web application, start Piranha and wait for it. It
+ * echoes the Piranha console back to you for your convenience.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Mojo(name = "start", defaultPhase = NONE)
-public class StartMojo extends BaseMojo {
+@Mojo(name = "run", defaultPhase = NONE)
+public class RunMojo extends BaseMojo {
 
+    /**
+     * Default constructor.
+     */
+    public RunMojo() {
+    }
+    
     @Override
     public void execute() throws MojoExecutionException {
         if (!skip) {
@@ -52,7 +58,7 @@ public class StartMojo extends BaseMojo {
                 downloadDistribution();
                 extractDistribution();
                 copyWarFile();
-                startPiranha();
+                startPiranhaAndWait();
             } catch (IOException ioe) {
                 throw new MojoExecutionException(ioe);
             }
@@ -96,10 +102,19 @@ public class StartMojo extends BaseMojo {
         commands.add("--war-file");
         commands.add(warName + ".war");
         commands.add("--write-pid");
-        new ProcessBuilder()
+        Process process = new ProcessBuilder()
                 .directory(new File(runtimeDirectory))
                 .command(commands)
+                .inheritIO()
                 .start();
+        System.out.println("Application is available at: http://localhost:"
+                + httpPort + "/" + (contextPath != null ? contextPath : warName));
+        try {
+            process.waitFor();
+        } catch (InterruptedException ie) {
+            ie.printStackTrace(System.err);
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**
@@ -107,16 +122,10 @@ public class StartMojo extends BaseMojo {
      */
     private void startZipPiranha() throws IOException {
         ArrayList<String> commands = new ArrayList<>();
+        commands.add("/bin/bash");
+        commands.add("-c");
         StringBuilder arguments = new StringBuilder();
-        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-            commands.add("cmd");
-            commands.add("/c");
-            arguments.append("start.cmd");
-        } else {
-            commands.add("/bin/bash");
-            commands.add("-c");
-            arguments.append("./start.sh");
-        }
+        arguments.append("./run.sh");
         arguments.append(" --http-port ").append(httpPort.toString());
         if (contextPath != null) {
             arguments.append(" --context-path ");
@@ -127,42 +136,30 @@ public class StartMojo extends BaseMojo {
         }
         arguments.append(" --verbose --write-pid");
         commands.add(arguments.toString());
-        new ProcessBuilder()
+        Process process = new ProcessBuilder()
                 .directory(new File(runtimeDirectory + File.separator + "bin"))
                 .command(commands)
+                .inheritIO()
                 .start();
+        System.out.println("Application is available at: http://localhost:"
+                + httpPort + "/" + (contextPath != null ? contextPath : warName));
+        try {
+            process.waitFor();
+        } catch (InterruptedException ie) {
+            ie.printStackTrace(System.err);
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**
      * Start Piranha.
      */
-    private void startPiranha() throws IOException {
+    private void startPiranhaAndWait() throws IOException {
         switch (piranhaType) {
             case "jar" ->
                 startJarPiranha();
             case "zip" ->
                 startZipPiranha();
-            default ->
-                throw new IOException("Unable to determine distribution");
         }
-        File pidFile = new File(runtimeDirectory + "/tmp/piranha.pid");
-        int count = 0;
-        System.out.print("Waiting for Piranha to be ready ");
-        while (!pidFile.exists()) {
-            try {
-                Thread.sleep(500);
-                count++;
-                System.out.print(".");
-            } catch (InterruptedException ie) {
-            }
-            if (count == 100) {
-                System.out.println();
-                System.out.println("Warning, PID file not seen!");
-                break;
-            }
-        }
-        System.out.println();
-        System.out.println("Application is available at: http://localhost:" + httpPort + "/"
-                + (contextPath != null ? contextPath : warName));
     }
 }
