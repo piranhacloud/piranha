@@ -35,7 +35,44 @@ import me.alexpanov.net.FreePortFinder;
 import static java.lang.System.Logger.Level.INFO;
 
 /**
- * The Managed Piranha container configuration.
+ * The managed Piranha container configuration.
+ *
+ * The following system properties can be used to configure the Piranha
+ * container from the command-line.
+ * <table>
+ * <caption>System properties</caption>
+ * <tr>
+ * <th>name</th>
+ * <th>value</th>
+ * <th>notes</th>
+ * </tr>
+ * <tr>
+ * <td>piranha.debug</td>
+ * <td>The boolean to start the Piranha process in debugging mode</td>
+ * <td>not enabled by default</td>
+ * </tr>
+ * <tr>
+ * <td>piranha.httpPort</td>
+ * <td>The integer to select the HTTP port to use for the Piranha process</td>
+ * <td>if not set an unused port will be automatically chosen</td>
+ * </tr>
+ * <tr>
+ * <td>piranha.jvmArguments</td>
+ * <td>The string with JVM arguments to pass to the Piranha process</td>
+ * <td>no additional JVM arguments are passed by default</td>
+ * </tr>
+ * <tr>
+ * <td>piranha.protocol</td>
+ * <td>The string with the Arquillian protocol to use when talking to the
+ * Piranha process</td>
+ * <td>set to 'Servlet 6.0' by default</td>
+ * </tr>
+ * <tr>
+ * <td>piranha.suspend</td>
+ * <td>the boolean to start the Piranha process in suspend mode</td>
+ * <td>not enabled by default</td>
+ * </tr>
+ * </table>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -47,9 +84,14 @@ public class ManagedPiranhaContainerConfiguration implements ContainerConfigurat
     private static final System.Logger LOGGER = System.getLogger(ManagedPiranhaContainerConfiguration.class.getName());
 
     /**
+     * Stores the debug flag.
+     */
+    private boolean debug = Boolean.parseBoolean(System.getProperty("piranha.debug", "false"));
+
+    /**
      * Stores the HTTP port.
      */
-    private Integer httpPort =  System.getProperty("piranha.httpPort") != null? Integer.valueOf(System.getProperty("piranha.httpPort")) : null;
+    private Integer httpPort = System.getProperty("piranha.httpPort") != null ? Integer.valueOf(System.getProperty("piranha.httpPort")) : null;
 
     /**
      * Stores the JVM arguments.
@@ -57,19 +99,14 @@ public class ManagedPiranhaContainerConfiguration implements ContainerConfigurat
     private String jvmArguments = System.getProperty("piranha.jvmArguments", "");
 
     /**
-     * Stores the protocol.
+     * Stores the Arquillian protocol.
      */
     private String protocol = System.getProperty("piranha.protocol", "Servlet 6.0");
 
     /**
-     * Stores the debug.
+     * Stores the suspend flag.
      */
-    private boolean debug = Boolean.valueOf(System.getProperty("piranha.debug", "false"));
-
-    /**
-     * Stores the [guess what?].
-     */
-    private boolean suspend = Boolean.valueOf(System.getProperty("piranha.suspend", "false"));
+    private boolean suspend = Boolean.parseBoolean(System.getProperty("piranha.suspend", "false"));
 
     /**
      * Get the HTTP port.
@@ -129,28 +166,36 @@ public class ManagedPiranhaContainerConfiguration implements ContainerConfigurat
     }
 
     /**
-     * @return the debug
+     * Is the debug flag set?
+     *
+     * @return true if the debug flag is set, false otherwise.
      */
     public boolean isDebug() {
         return debug;
     }
 
     /**
-     * @param debug the debug to set
+     * Set the debug flag.
+     *
+     * @param debug the debug flag.
      */
     public void setDebug(boolean debug) {
         this.debug = debug;
     }
 
     /**
-     * @return the suspend
+     * Is the suspend flag set?
+     *
+     * @return true if the suspend flag is set, false otherwise.
      */
     public boolean isSuspend() {
         return suspend;
     }
 
     /**
-     * @param suspend the suspend to set [yes we know, this comment does not make much sense]
+     * Set the suspend flag.
+     *
+     * @param suspend the suspend flag.
      */
     public void setSuspend(boolean suspend) {
         this.suspend = suspend;
@@ -167,11 +212,10 @@ public class ManagedPiranhaContainerConfiguration implements ContainerConfigurat
             Using suspend:       {4}
 
             """,
-
-            getHttpPort() + "",
-            getJvmArguments(),
-            getProtocol(),
-            isDebug(),
-            isSuspend());
+                getHttpPort() + "",
+                getJvmArguments(),
+                getProtocol(),
+                isDebug(),
+                isSuspend());
     }
 }

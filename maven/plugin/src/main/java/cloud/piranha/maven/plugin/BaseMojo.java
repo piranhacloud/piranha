@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.maven.plugins.piranha;
+package cloud.piranha.maven.plugin;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -137,6 +137,12 @@ public abstract class BaseMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${project.build.finalName}", property="piranha.warName", required = true, readonly = true)
     protected String warName;
+
+    /**
+     * Default constructor.
+     */
+    public BaseMojo() {
+    }
 
     /**
      * Convert a Maven groupId to a path snippet.

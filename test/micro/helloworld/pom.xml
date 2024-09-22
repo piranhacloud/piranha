@@ -11,8 +11,11 @@
     particular project is used as a basis for the guide content at 
     docs/src/site/markdown/micro/create_a_hello_world_web_application.md.
   
-    When updating the guide drop the parent part below and change the name to
-    read 'Create a Hello World application'.
+    When updating the guide do the following:
+
+    1. Drop the parent part below
+    2. Change the name of the project to read 'Create a Hello World application'
+    3. Change the version to the latest released version of Piranha
 
     -->
     <parent>
@@ -35,6 +38,7 @@
         <piranha.version>${project.version}</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- plugins -->
+        <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M7</maven-failsafe-plugin.version>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
@@ -64,7 +68,7 @@
                 </executions>
                 <configuration>
                     <distribution>${piranha.distribution}</distribution>
-                    <httpPort>6001</httpPort>
+                    <httpPort>${httpPort}</httpPort>
                 </configuration>
             </plugin>
             <plugin>
@@ -87,6 +91,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <systemPropertyVariables>
+                        <httpPort>${httpPort}</httpPort>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -95,6 +104,25 @@
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${build-helper-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>reserve-network-port</id>
+                        <goals>
+                            <goal>reserve-network-port</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <portNames>
+                                <portName>httpPort</portName>
+                            </portNames>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
