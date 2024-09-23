@@ -43,10 +43,10 @@ jobs:
       contents: read
       security-events: write
     steps:
-    - name: Checkout repository
+    - name: Checkout sources
       uses: actions/checkout@v4
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
         languages: 'java'
     - name: Setup Java
@@ -57,7 +57,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B -DskipTests=true -DskipITs=true --ntp install
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v3
   dockerhub:
     if: github.repository == 'piranhacloud/piranha' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
