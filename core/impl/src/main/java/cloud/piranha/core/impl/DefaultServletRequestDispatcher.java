@@ -203,7 +203,7 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
                 rethrow(e);
             }
         } else if (exception != null) {
-            if (webappResponse.gotWriter) {
+            if (webappResponse.isWriterAcquired()) {
                 exception.printStackTrace(webappResponse.getWriter());
             } else {
                 exception.printStackTrace(new PrintStream(webappResponse.getOutputStream()));

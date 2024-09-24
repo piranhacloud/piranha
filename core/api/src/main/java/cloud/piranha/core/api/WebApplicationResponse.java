@@ -99,6 +99,13 @@ public interface WebApplicationResponse extends HttpServletResponse {
     boolean isBufferResetting();
     
     /**
+     * Is the writer acquired.
+     * 
+     * @return true if it is, false otherwise.
+     */
+    boolean isWriterAcquired();
+    
+    /**
      * Set the committed flag.
      * 
      * @param committed the committed flag.
