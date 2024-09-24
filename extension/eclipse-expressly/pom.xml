@@ -10,9 +10,6 @@
     <artifactId>piranha-extension-eclipse-expressly</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - Extension - Eclipse Expressly</name>
-    <properties>
-        <expressly.version>6.0.0-M2</expressly.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>cloud.piranha.core</groupId>

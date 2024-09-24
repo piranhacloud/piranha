@@ -10,10 +10,6 @@
     <artifactId>piranha-http-grizzly</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - HTTP - Grizzly Integration</name>
-    <properties>
-        <grizzly.version>4.1.0-M1</grizzly.version>
-        <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>

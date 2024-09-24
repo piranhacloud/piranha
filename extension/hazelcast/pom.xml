@@ -10,10 +10,6 @@
     <artifactId>piranha-extension-hazelcast</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - Extension - Hazelcast</name>
-    <properties>
-        <!-- kept at 5.4.0 because 5.5.0 adds remote repositories -->
-        <hazelcast.version>5.4.0</hazelcast.version>
-    </properties>
     <dependencies>
         <!-- compile -->
         <dependency>
