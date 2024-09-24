@@ -452,6 +452,11 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
     }
 
     @Override
+    public boolean isWriterAcquired() {
+        return gotWriter;
+    }
+
+    @Override
     public void reset() {
         verifyNotCommitted("reset");
         characterEncoding = ISO_8859_1;
