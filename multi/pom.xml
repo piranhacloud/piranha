@@ -134,6 +134,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
+                    <workingDirectory>${project.build.directory}</workingDirectory>
                     <systemPropertyVariables>
                         <httpPort>${httpPort}</httpPort>
                         <httpPort2>${httpPort2}</httpPort2>
