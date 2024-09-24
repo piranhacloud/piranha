@@ -34,6 +34,7 @@ import java.util.Arrays;
 import org.apache.maven.plugin.MojoExecutionException;
 import static org.apache.maven.plugins.annotations.LifecyclePhase.NONE;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * This goal will deploy your web application and start Piranha in a separate
@@ -44,6 +45,12 @@ import org.apache.maven.plugins.annotations.Mojo;
 @Mojo(name = "start", defaultPhase = NONE)
 public class StartMojo extends BaseMojo {
 
+    /**
+     * Stores the start timeout (in seconds).
+     */
+    @Parameter(defaultValue = "600", property = "piranha.startTimeout", required = false)
+    protected Integer startTimeout;
+    
     /**
      * Default constructor.
      */
@@ -161,7 +168,7 @@ public class StartMojo extends BaseMojo {
                 System.out.print(".");
             } catch (InterruptedException ie) {
             }
-            if (count == 600) {
+            if (count == startTimeout) {
                 System.out.println();
                 System.out.println("Warning, PID file not seen!");
                 break;

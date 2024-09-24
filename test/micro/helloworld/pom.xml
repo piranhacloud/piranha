@@ -69,6 +69,7 @@
                 <configuration>
                     <distribution>${piranha.distribution}</distribution>
                     <httpPort>${httpPort}</httpPort>
+                    <startTimeout>30</startTimeout>
                 </configuration>
             </plugin>
             <plugin>
