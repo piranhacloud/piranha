@@ -30,6 +30,7 @@
  * This module delivers the Eclipse Epicyro integration extension.
  *
  * <p>
+
  *  This extension integrates Eclipse Epicyro into Piranha. See 
  *  https://github.com/eclipse-ee4j/epicyro for more information about its project.
  * </p>
