@@ -27,28 +27,6 @@ jobs:
       run: mvn -B -DskipTests=true install
     - name: Run TCK
       run: mvn -amd -B -P external -pl external/tck/el verify
-  jakarta-servlet:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        java: [ '21' ]
-        os: [ubuntu-latest]
-    steps:
-    - name: Checkout sources
-      uses: actions/checkout@v4
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: ${{ matrix.java }}
-    - name: Setup for TCK
-      run: mvn -B -DskipTests=true install -P${{ github.event.inputs.httpImplementation }}
-      if: ${{ github.event.inputs.httpImplementation }}
-    - name: Setup for TCK
-      run: mvn -B -DskipTests=true install
-      if: ${{ !github.event.inputs.httpImplementation }}
-    - name: Run TCK
-      run: mvn -amd -B -P external -pl external/tck/servlet verify
   jakarta-pages:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -67,3 +45,27 @@ jobs:
       run: mvn -B -DskipTests=true install
     - name: Run TCK
       run: mvn -amd -B -P external -pl external/tck/wasp verify
+  servlet:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        java: [ '21' ]
+        os: [ubuntu-latest]
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v4
+    - name: Set up Java ${{ matrix.java }}
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: ${{ matrix.java }}
+    - name: Setup for TCK
+      run: mvn -B -DskipTests=true install -P${{ github.event.inputs.httpImplementation }}
+      if: ${{ github.event.inputs.httpImplementation }}
+    - name: Setup for TCK
+      run: mvn -B -DskipTests=true install
+      if: ${{ !github.event.inputs.httpImplementation }}
+    - name: Run TCK
+      run: |
+        mvn -amd -B -P external -pl external/tck/server/servlet verify
+        cat external/tck/server/servlet/target/piranha/report/text/summary.txt >> $GITHUB_STEP_SUMMARY
