@@ -55,7 +55,7 @@ public class StopMojo extends AbstractMojo {
     /**
      * Stores the skip property.
      */
-    @Parameter(defaultValue= "false", property="piranha.skip")
+    @Parameter(defaultValue = "false", property = "piranha.skip")
     private boolean skip;
 
     /**
@@ -68,6 +68,15 @@ public class StopMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         if (!skip) {
             try {
+                /*
+                 * Get the PID from the PID file.
+                 */
+                String pid = Files.readString((new File(
+                        runtimeDirectory, "tmp/piranha.pid").toPath()));
+
+                /*
+                 * Delete the PID file.
+                 */
                 if (!Files.deleteIfExists(new File(
                         runtimeDirectory, "tmp/piranha.pid").toPath())) {
                     try {
@@ -79,6 +88,18 @@ public class StopMojo extends AbstractMojo {
                             runtimeDirectory, "tmp/piranha.pid").toPath())) {
                         System.err.println("Unable to delete PID file");
                     }
+                }
+
+                if (!pid.trim().equals("")) {
+                    /*
+                     * If the process is still active destroy it forcibly.
+                     */
+                    ProcessHandle.of(Long.parseLong(pid.trim())).ifPresent(p -> {
+                        if (p.isAlive()) {
+                            System.err.println("Process still alive, destroying forcibly");
+                            p.destroyForcibly();
+                        }
+                    });
                 }
             } catch (IOException ioe) {
                 throw new MojoExecutionException(ioe);
