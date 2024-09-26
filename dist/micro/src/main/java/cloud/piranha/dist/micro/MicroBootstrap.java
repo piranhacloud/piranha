@@ -37,6 +37,10 @@ import org.jboss.shrinkwrap.api.importer.ZipImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import cloud.piranha.micro.loader.MicroConfiguration;
 import cloud.piranha.micro.loader.MicroOuterDeployer;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The micro version of Piranha.
@@ -129,6 +133,9 @@ public class MicroBootstrap implements Runnable {
                 if (arguments[i].equals("--ssl")) {
                     System.setProperty("piranha.http.ssl", "true");
                 }
+                if (arguments[i].equals("--write-pid")) {
+                    configuration.setBoolean("writePid", Boolean.TRUE);
+                }
             }
         }
 
@@ -153,6 +160,19 @@ public class MicroBootstrap implements Runnable {
 
         outerDeployer = new MicroOuterDeployer(microConfiguration.postConstruct());
         outerDeployer.deploy(archive);
+
+        if (configuration.getBoolean("writePid", false)) {
+            File pidFile = new File("tmp", "piranha.pid");
+            if (!pidFile.getParentFile().exists() && !pidFile.getParentFile().mkdirs()) {
+                LOGGER.log(WARNING, "Unable to create tmp directory for PID file");
+            }
+            try (PrintWriter writer = new PrintWriter(new FileWriter(pidFile))) {
+                writer.print(ProcessHandle.current().pid());
+                writer.flush();
+            } catch (IOException ioe) {
+                LOGGER.log(WARNING, "Unable to write PID file", ioe);
+            }
+        }
     }
 
     /**
