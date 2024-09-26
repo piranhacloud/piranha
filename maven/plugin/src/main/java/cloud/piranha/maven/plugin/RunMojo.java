@@ -45,11 +45,11 @@ import org.apache.maven.plugins.annotations.Mojo;
 public class RunMojo extends BaseMojo {
 
     /**
-     * Default constructor.
+     * Constructor.
      */
     public RunMojo() {
     }
-    
+
     @Override
     public void execute() throws MojoExecutionException {
         if (!skip) {

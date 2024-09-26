@@ -52,6 +52,8 @@ public interface WebApplicationResponse extends HttpServletResponse {
     
     /**
      * Get the content length.
+     * 
+     * @return the content length.
      */
     long getContentLength();
 

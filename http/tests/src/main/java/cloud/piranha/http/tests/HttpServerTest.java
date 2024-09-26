@@ -85,6 +85,12 @@ public abstract class HttpServerTest {
     private static final String TEXT_PLAIN = "text/plain";
 
     /**
+     * Constructor.
+     */
+    public HttpServerTest() {
+    }
+
+    /**
      * Create server with a port.
      *
      * @param portNumber the port number.

@@ -59,11 +59,11 @@ public class StopMojo extends AbstractMojo {
     private boolean skip;
 
     /**
-     * Default constructor.
+     * Constructor.
      */
     public StopMojo() {
     }
-
+    
     @Override
     public void execute() throws MojoExecutionException {
         if (!skip) {

@@ -69,6 +69,12 @@ public class TestHttpServerProcessor implements HttpServerProcessor {
     private static final String IO_ERROR_WRITING_RESPONSE = 
             "An I/O error occurred while writing the response";
 
+    /**
+     * Constructor.
+     */
+    public TestHttpServerProcessor() {
+    }
+
     @Override
     public HttpServerProcessorEndState process(HttpServerRequest request, HttpServerResponse response) {
         response.setStatus(200);

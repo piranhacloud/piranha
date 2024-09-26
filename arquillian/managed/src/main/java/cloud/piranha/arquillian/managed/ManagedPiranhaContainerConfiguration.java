@@ -109,6 +109,12 @@ public class ManagedPiranhaContainerConfiguration implements ContainerConfigurat
     private boolean suspend = Boolean.parseBoolean(System.getProperty("piranha.suspend", "false"));
 
     /**
+     * Constructor.
+     */
+    public ManagedPiranhaContainerConfiguration() {
+    }
+    
+    /**
      * Get the HTTP port.
      *
      * @return the HTTP port.
@@ -139,6 +145,33 @@ public class ManagedPiranhaContainerConfiguration implements ContainerConfigurat
     }
 
     /**
+     * Is the debug flag set.
+     * 
+     * @return true if it is, false otherwise.
+     */
+    public boolean isDebug() {
+        return debug;
+    }
+    
+    /**
+     * Is the suspend flag set.
+     * 
+     * @return the suspend flag.
+     */
+    public boolean isSuspend() {
+        return suspend;
+    }
+
+    /**
+     * Set the debug flag.
+     * 
+     * @param debug the debug flag.
+     */
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
+
+    /**
      * Set the HTTP port.
      *
      * @param httpPort the HTTP port.
@@ -166,35 +199,8 @@ public class ManagedPiranhaContainerConfiguration implements ContainerConfigurat
     }
 
     /**
-     * Is the debug flag set?
-     *
-     * @return true if the debug flag is set, false otherwise.
-     */
-    public boolean isDebug() {
-        return debug;
-    }
-
-    /**
-     * Set the debug flag.
-     *
-     * @param debug the debug flag.
-     */
-    public void setDebug(boolean debug) {
-        this.debug = debug;
-    }
-
-    /**
-     * Is the suspend flag set?
-     *
-     * @return true if the suspend flag is set, false otherwise.
-     */
-    public boolean isSuspend() {
-        return suspend;
-    }
-
-    /**
      * Set the suspend flag.
-     *
+     * 
      * @param suspend the suspend flag.
      */
     public void setSuspend(boolean suspend) {
