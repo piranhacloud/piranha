@@ -109,6 +109,7 @@
         <maven-plugin-tools-annotations.version>3.13.1</maven-plugin-tools-annotations.version>
         <microprofile-jwt-auth.version>2.0.2</microprofile-jwt-auth.version>
         <mojarra.version>4.1.1</mojarra.version>
+        <nimbus-jose-jwt.version>9.40</nimbus-jose-jwt.version>
         <netty.version>4.1.112.Final</netty.version>
         <omni-mp-config.version>3.0.0</omni-mp-config.version>
         <omnibeans.version>0.3</omnibeans.version>
@@ -500,6 +501,12 @@
                 <groupId>com.manorrock.herring</groupId>
                 <artifactId>herring-thread</artifactId>
                 <version>${herring.version}</version>
+            </dependency>
+            <!-- Nimbus Jose JWT -->
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${nimbus-jose-jwt.version}</version>
             </dependency>
             <!-- Netty -->
             <dependency>

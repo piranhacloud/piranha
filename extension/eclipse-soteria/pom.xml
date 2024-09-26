@@ -18,6 +18,12 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- declared as direct dependency to fix CVE -->
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>jakarta.authentication</groupId>
             <artifactId>jakarta.authentication-api</artifactId>
