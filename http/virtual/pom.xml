@@ -72,9 +72,9 @@
             </build>
         </profile>
         <profile>
-            <id>jdk22</id>
+            <id>jdk23</id>
             <activation>
-                <jdk>22</jdk>
+                <jdk>23</jdk>
             </activation>
             <build>
                 <plugins>
@@ -94,7 +94,7 @@
                                 <id>attach-javadocs</id>
                                 <configuration>
                                     <additionalOptions>--enable-preview</additionalOptions>
-                                    <release>22</release>
+                                    <release>23</release>
                                 </configuration>
                             </execution>
                         </executions>
