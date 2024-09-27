@@ -63,6 +63,12 @@ public class WebXmlFilter {
     private String servletName;
 
     /**
+     * Constructor.
+     */
+    public WebXmlFilter() {
+    }
+
+    /**
      * Add init param.
      *
      * @param initParam the init param.

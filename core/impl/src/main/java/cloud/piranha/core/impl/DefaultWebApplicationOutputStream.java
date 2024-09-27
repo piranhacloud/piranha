@@ -328,6 +328,7 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
      * @param cookie the cookie.
      * @throws IOException when an I/O error occurs.
      */
+    @SuppressWarnings({"deprecation", "removal"})
     private void writeCookie(Cookie cookie) throws IOException {
         outputStream.write("Set-Cookie: ".getBytes());
         outputStream.write(cookie.getName().getBytes());

@@ -139,11 +139,11 @@ public abstract class BaseMojo extends AbstractMojo {
     protected String warName;
 
     /**
-     * Default constructor.
+     * Constructor.
      */
     public BaseMojo() {
     }
-
+    
     /**
      * Convert a Maven groupId to a path snippet.
      *

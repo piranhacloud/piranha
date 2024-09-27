@@ -38,7 +38,7 @@ class CookieParserTest {
 
     /*
      
-      REVIEW FOR SERVLET 6
+      TODO - REVIEW FOR SERVLET 6
      
     @Nested
     class RFC2109 {
@@ -75,6 +75,7 @@ class CookieParserTest {
     */
 
     @Nested
+    @SuppressWarnings({"deprecation", "removal"})
     class Netscape {
         @Test
         void parseSingleCookie() {
