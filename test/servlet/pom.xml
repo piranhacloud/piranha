@@ -16,6 +16,7 @@
     <name>Piranha - Test - Servlet - Project</name>
 
     <modules>
+        <module>faces</module>
         <module>hello</module>
     </modules>
 </project>

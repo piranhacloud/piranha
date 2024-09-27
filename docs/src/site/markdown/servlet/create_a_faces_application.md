@@ -31,18 +31,18 @@ create the ```pom.xml``` file with the content as below.
     <artifactId>faces</artifactId>
     <version>24.10.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Piranha Servlet - Jakarta Faces application</name>
+    <name>Create a Jakarta Faces application</name>
     <properties>
-        <java.version>17</java.version>
-        <junit.version>5.10.0-M1</junit.version>
-        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>3.0.0</maven-failsafe-plugin.version>
-        <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
-        <mojarra.version>4.0.2</mojarra.version>
+        <java.version>21</java.version>
+        <junit.version>5.11.0</junit.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>3.5.0</maven-failsafe-plugin.version>
+        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
+        <mojarra.version>4.0.7</mojarra.version>
         <piranha.distribution>servlet</piranha.distribution>
-        <piranha.version>23.6.0</piranha.version>
+        <piranha.version>24.9.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <weld.version>5.1.0.Final</weld.version>
+        <weld.version>5.1.3.Final</weld.version>
     </properties>
     <dependencies>
         <dependency>
@@ -59,7 +59,7 @@ create the ```pom.xml``` file with the content as below.
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-weld</artifactId>
+            <artifactId>piranha-extension-redhat-weld</artifactId>
             <version>${piranha.version}</version>
             <scope>runtime</scope>
         </dependency>
@@ -86,7 +86,7 @@ create the ```pom.xml``` file with the content as below.
         <finalName>faces</finalName>
         <plugins>
             <plugin>
-                <groupId>cloud.piranha.maven.plugins</groupId>
+                <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
                 <version>${piranha.version}</version>
                 <executions>
