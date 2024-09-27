@@ -59,7 +59,7 @@ jobs:
       run: mvn -B -DskipTests=true -ntp install
     - name: Run TCK
       run: |
-        cd external/tck/webprofile-tck/jsonp
+        cd external/webprofile-tck/jsonp
         mvn -B -ntp verify
     - name: Test Summary
       uses: test-summary/action@v2
