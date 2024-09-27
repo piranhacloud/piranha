@@ -75,6 +75,12 @@ public class WebXmlSecurityConstraint {
     private List<WebResourceCollection> webResourceCollections = new ArrayList<>();
 
     /**
+     * Constructor.
+     */
+    public WebXmlSecurityConstraint() {
+    }
+    
+    /**
      * Get the role names.
      *
      * @return the role names.

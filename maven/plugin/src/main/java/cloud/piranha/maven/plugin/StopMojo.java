@@ -59,11 +59,11 @@ public class StopMojo extends AbstractMojo {
     private boolean skip;
 
     /**
-     * Default constructor.
+     * Constructor.
      */
     public StopMojo() {
     }
-
+    
     @Override
     public void execute() throws MojoExecutionException {
         if (!skip) {
@@ -71,14 +71,17 @@ public class StopMojo extends AbstractMojo {
                 /*
                  * Get the PID from the PID file.
                  */
-                String pid = Files.readString((new File(
-                        runtimeDirectory, "tmp/piranha.pid").toPath()));
+                File pidFile = new File(runtimeDirectory, "tmp/piranha.pid");
+                String pid = "";
+                
+                if (pidFile.exists()) {
+                    pid = Files.readString(pidFile.toPath());
+                }
 
                 /*
                  * Delete the PID file.
                  */
-                if (!Files.deleteIfExists(new File(
-                        runtimeDirectory, "tmp/piranha.pid").toPath())) {
+                if (!Files.deleteIfExists(pidFile.toPath())) {
                     try {
                         TimeUnit.SECONDS.sleep(5);
                     } catch (InterruptedException ex) {

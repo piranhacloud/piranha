@@ -42,14 +42,17 @@ public class CookieParser {
      */
     private static final String VERSION = "$Version=";
 
-    private CookieParser() {}
+    private CookieParser() {
+    }
 
     /**
      * Parse the Cookie header
+     *
      * @param cookieValues the Cookie header, without "Cookie:"
      * @return the {@link Cookie} array
      * @throws NullPointerException if cookieValues is null
-     * @throws IllegalArgumentException if some cookie contains a illegal character
+     * @throws IllegalArgumentException if some cookie contains a illegal
+     * character
      */
     public static Cookie[] parse(String cookieValues) {
         Objects.requireNonNull(cookieValues);
@@ -77,6 +80,7 @@ public class CookieParser {
         return cookieList.toArray(new Cookie[0]);
     }
 
+    @SuppressWarnings({"deprecation", "removal"})
     private static Cookie[] parseRFC2109(String cookiesValue) {
         List<Cookie> cookieList = new ArrayList<>();
         String[] cookieCandidates = cookiesValue.split("[;,]");
@@ -87,10 +91,10 @@ public class CookieParser {
             String name = removeQuotes(values[0].trim());
             String value = values.length == 2 ? removeQuotes(values[1].trim()) : null;
 
-
             if (name.startsWith("$")) {
-                if (currentCookie == null)
+                if (currentCookie == null) {
                     throw new IllegalArgumentException("Invalid Cookie");
+                }
 
                 if ("$Domain".equals(name)) {
                     currentCookie.setDomain(value);

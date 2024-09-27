@@ -40,6 +40,12 @@ public class Cli {
      * Stores the arguments.
      */
     private String[] arguments;
+
+    /**
+     * Constructor.
+     */
+    public Cli() {
+    }
     
     /**
      * Main method.
