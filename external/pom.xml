@@ -34,5 +34,6 @@
         <module>kickoff</module>
         <module>quicklook</module>
         <module>tck</module>
+        <module>webprofile-tck</module>
     </modules>
 </project>

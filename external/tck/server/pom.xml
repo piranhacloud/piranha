@@ -10,6 +10,7 @@
         <groupId>cloud.piranha.external.tck</groupId>
         <artifactId>project</artifactId>
         <version>24.10.99-SNAPSHOT</version>
+        <version>24.10.0-SNAPSHOT</version>
     </parent>
     <groupId>cloud.piranha.external.tck.server</groupId>
     <artifactId>project</artifactId>
