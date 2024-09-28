@@ -17,9 +17,11 @@
     <name>Piranha - External - Web Profile TCK - Project</name>
     <properties>
         <inject.tck.version>2.0.2</inject.tck.version>
+        <cdi.tck.version>4.0.13</cdi.tck.version>
     </properties>
     <modules>
         <module>atinject</module>
+        <module>cdi</module>
         <module>jsonb</module>
         <module>jsonp</module>
     </modules>
