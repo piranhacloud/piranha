@@ -16,6 +16,31 @@ on:
   - cron: "0 0 * * *"
   workflow_dispatch:
 jobs:
+  atinject:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        java: [ '21' ]
+        os: [ubuntu-latest]
+    steps:
+    - name: Checkout Sources
+      uses: actions/checkout@v4
+    - name: Set up Java ${{ matrix.java }}
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: ${{ matrix.java }}
+    - name: Setup for TCK
+      run: mvn -B -DskipTests=true -ntp install
+    - name: Run TCK
+      run: |
+        cd external/webprofile-tck/atinject
+        mvn -B -ntp verify
+    - name: Test Summary
+      uses: test-summary/action@v2
+      with:
+        paths: "external/webprofile-tck/atinject/target/tck/example/target/surefire-reports/TEST-*.xml"
+      if: always()
   jsonb:
     runs-on: ${{ matrix.os }}
     strategy:
