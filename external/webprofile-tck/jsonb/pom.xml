@@ -3,16 +3,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>cloud.piranha.external.tck.webprofile</groupId>
+        <groupId>cloud.piranha.external.webprofiletck</groupId>
         <artifactId>project</artifactId>
         <version>24.10.0-SNAPSHOT</version>
     </parent>
-    <artifactId>jsonp-tck</artifactId>
+    <artifactId>jsonb-tck</artifactId>
     <packaging>pom</packaging>
-    <name>Piranha Web Profile - Jakarta JSON Processing TCK</name>
+    <name>Piranha Web Profile - JSON Binding TCK</name>
     <properties>
-        <jsonp.tck.version>2.1.1</jsonp.tck.version>
-        <parsson.version>1.1.7</parsson.version>
+        <jsonb.tck.version>3.0.0</jsonb.tck.version>
         <tck.home>${project.build.directory}/tck</tck.home>
     </properties>
     <dependencyManagement>
@@ -39,31 +38,27 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
-                                <echo>Executing UNIX profile</echo>
-                                        
+                            <target>
                                 <!-- Download, unzip and rename TCK -->
-                                <get src="https://download.eclipse.org/jakartaee/jsonp/2.1/jakarta-jsonp-tck-${jsonp.tck.version}.zip"
+                                <get src="https://download.eclipse.org/jakartaee/jsonb/3.0/jakarta-jsonb-tck-${jsonb.tck.version}.zip"
                                      dest="${project.build.directory}/tck.zip"
                                      skipexisting="true"/>
                                 <unzip src="${project.build.directory}/tck.zip"
                                        dest="${project.build.directory}"/>
-                                <move file="${project.build.directory}/jsonp-tck"
+                                <move file="${project.build.directory}/jsonb-tck"
                                       tofile="${project.build.directory}/tck"/>
-
-                                <!-- Install the TCK artifacts into local Maven repository -->
+                                        
+                                <!-- Install the TCK artifacts into the local Maven repository -->
                                 <chmod dir="${project.build.directory}/tck/artifacts"
                                        perm="ugo+rx"
                                        includes="*"/>
                                 <exec dir="${project.build.directory}/tck/artifacts"
-                                      executable="./artifact-install.sh">
-                                    <arg line="${jsonp.tck.version}"/>
-                                </exec>
-
-                                <!-- Setup bin/pom.xml for correct Parsson version -->
-                                <replaceregexp file="${tck.home}/example/pom.xml"
-                                               match="&lt;jsonp-impl.version>(.*)&lt;/jsonp-impl.version>"
-                                               replace="&lt;jsonp-impl.version>${parsson.version}&lt;/jsonp-impl.version>"
+                                      executable="./artifact-install.sh"/>
+                                        
+                                <!-- Setup bin/pom.xml for correct Yasson version -->
+                                <replaceregexp file="${tck.home}/bin/pom.xml"
+                                               match="&lt;jsonb-impl.version>(.*)&lt;/jsonb-impl.version>"
+                                               replace="&lt;jsonb-impl.version>${yasson.version}&lt;/jsonb-impl.version>"
                                                byline="true"/>
                             </target>
                         </configuration>
@@ -80,6 +75,7 @@
                                 <exec dir="${tck.home}/bin"
                                       executable="mvn"
                                       failonerror="true">
+                                    <arg value="-Djava.locale.providers=COMPAT"/>
                                     <arg value="verify"/>
                                 </exec>
                             </target>
