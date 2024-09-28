@@ -60,7 +60,7 @@ jobs:
     - name: Run TCK
       run: |
         cd external/webprofile-tck/cdi
-        mvn -B -fae -ntpverify
+        mvn -B -fae -ntp verify
     - name: Test Summary
       uses: test-summary/action@v2
       with:
