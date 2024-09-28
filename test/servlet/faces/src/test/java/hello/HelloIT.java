@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 public class HelloIT {
+    
+    private String portNumber = System.getProperty("httpPort");
 
     @Test
     public void testHelloFacesXhtml() throws Exception {
@@ -20,7 +22,7 @@ public class HelloIT {
                 .followRedirects(ALWAYS)
                 .build();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/faces/hellofaces.xhtml"))
+                .newBuilder(new URI("http://localhost:" + portNumber + "/faces/hellofaces.xhtml"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello from Jakarta Faces!"));
