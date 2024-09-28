@@ -13,7 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Core Profile - CDI TCK - Runner - Project</name>
+    <name>Piranha Web Profile - CDI TCK - Runner - Project</name>
 
     <modules>
         <module>core</module>
