@@ -63,7 +63,7 @@ public class StopMojo extends AbstractMojo {
      */
     public StopMojo() {
     }
-    
+
     @Override
     public void execute() throws MojoExecutionException {
         if (!skip) {
@@ -73,7 +73,7 @@ public class StopMojo extends AbstractMojo {
                  */
                 File pidFile = new File(runtimeDirectory, "tmp/piranha.pid");
                 String pid = "";
-                
+
                 if (pidFile.exists()) {
                     pid = Files.readString(pidFile.toPath());
                 }
@@ -98,6 +98,21 @@ public class StopMojo extends AbstractMojo {
                      * If the process is still active destroy it forcibly.
                      */
                     ProcessHandle.of(Long.parseLong(pid.trim())).ifPresent(p -> {
+                        int count = 0;
+                        System.out.print("Waiting for Piranha to stop ");
+                        while (p.isAlive()) {
+                            try {
+                                Thread.sleep(1000);
+                                count++;
+                                System.out.print(".");
+                            } catch (InterruptedException ie) {
+                            }
+                            if (count == 60) {
+                                break;
+                            }
+                        }
+                        System.out.println();
+
                         if (p.isAlive()) {
                             System.err.println("Process still alive, destroying forcibly");
                             p.destroyForcibly();
