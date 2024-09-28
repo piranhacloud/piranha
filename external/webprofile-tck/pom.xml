@@ -15,7 +15,11 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
     <name>Piranha - External - Web Profile TCK - Project</name>
+    <properties>
+        <inject.tck.version>2.0.2</inject.tck.version>
+    </properties>
     <modules>
+        <module>atinject</module>
         <module>jsonb</module>
         <module>jsonp</module>
     </modules>
