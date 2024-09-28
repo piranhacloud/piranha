@@ -17,12 +17,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [ 21, 22 ]
+        java: [ 21, 23 ]
         os: [ubuntu-latest, windows-latest]
     steps:
     - name: Checkout Sources
       uses: actions/checkout@v4
-    - name: Setup Java
+    - name: Setup Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
