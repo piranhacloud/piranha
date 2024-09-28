@@ -27,22 +27,26 @@ create the ```pom.xml``` file with the content as below.
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>cloud.piranha.guides.servlet</groupId>
+    <groupId>cloud.piranha.test.servlet</groupId>
     <artifactId>faces</artifactId>
     <version>24.10.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Create a Jakarta Faces application</name>
     <properties>
-        <java.version>21</java.version>
+        <!-- dependencies -->
         <junit.version>5.11.0</junit.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>3.5.0</maven-failsafe-plugin.version>
-        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <mojarra.version>4.0.7</mojarra.version>
+        <weld.version>5.1.3.Final</weld.version>
+        <!-- other -->
+        <java.version>21</java.version>
         <piranha.distribution>servlet</piranha.distribution>
         <piranha.version>24.9.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <weld.version>5.1.3.Final</weld.version>
+        <!-- plugins -->
+        <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>3.5.0</maven-failsafe-plugin.version>
+        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
     </properties>
     <dependencies>
         <dependency>
@@ -107,6 +111,7 @@ create the ```pom.xml``` file with the content as below.
                 </executions>
                 <configuration>
                     <distribution>servlet</distribution>
+                    <httpPort>${httpPort}</httpPort>
                 </configuration>
             </plugin>
             <plugin>
@@ -129,6 +134,12 @@ create the ```pom.xml``` file with the content as below.
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <forkCount>1</forkCount>
+                    <systemPropertyVariables>
+                        <httpPort>${httpPort}</httpPort>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -137,6 +148,25 @@ create the ```pom.xml``` file with the content as below.
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${build-helper-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>reserve-network-port</id>
+                        <goals>
+                            <goal>reserve-network-port</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <portNames>
+                                <portName>httpPort</portName>
+                            </portNames>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -254,6 +284,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 public class HelloIT {
+    
+    private String portNumber = System.getProperty("httpPort");
 
     @Test
     public void testHelloFacesXhtml() throws Exception {
@@ -263,7 +295,7 @@ public class HelloIT {
                 .followRedirects(ALWAYS)
                 .build();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/faces/hellofaces.xhtml"))
+                .newBuilder(new URI("http://localhost:" + portNumber + "/faces/hellofaces.xhtml"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello from Jakarta Faces!"));
