@@ -15,6 +15,21 @@
 
     <name>Piranha - Test - Servlet - Project</name>
 
+    <!--
+     
+      Make sure the Piranha Servlet distribution is available before 
+      attempting to build any of the modules. 
+          
+    -->
+    <dependencies>
+        <dependency>
+            <groupId>cloud.piranha.dist</groupId>
+            <artifactId>piranha-dist-servlet</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
     <modules>
         <module>faces</module>
         <module>hello</module>
