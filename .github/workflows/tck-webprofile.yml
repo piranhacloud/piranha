@@ -64,7 +64,7 @@ jobs:
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "external/webprofile-tck/cdi/runner/target/surefire-reports/junitreports/TEST-*.xml"
+        paths: "external/webprofile-tck/cdi/runner/core/target/surefire-reports/junitreports/TEST-*.xml"
       if: always()
   jsonb:
     runs-on: ${{ matrix.os }}
