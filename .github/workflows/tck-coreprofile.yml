@@ -81,7 +81,7 @@ jobs:
     - name: Run TCK
       run: |
         cd external/coreprofile-tck/cdi
-        mvn -B -ntp verify
+        mvn -B -ntp -T 1 verify
     - name: Test Summary
       uses: test-summary/action@v2
       with:
