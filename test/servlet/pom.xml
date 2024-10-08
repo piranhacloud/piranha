@@ -33,5 +33,6 @@
     <modules>
         <module>faces</module>
         <module>hello</module>
+        <module>helloworld</module>
     </modules>
 </project>
