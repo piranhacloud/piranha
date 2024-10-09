@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!--
+
+    WARNING - Do not remove the versions in the properties section as this
+    particular project is used as a basis for the guide content at 
+    docs/src/site/markdown/servlet/create_a_jakarta_pages_application.md.
+  
+    When updating the guide do the following:
+
+    1. Drop the parent part below
+    2. Change the name of the project to read 'Create a Jakara Pages application'
+    3. Change the piranha.version to the latest released version of Piranha
+
+    -->
+    <parent>
+        <groupId>cloud.piranha.test.servlet</groupId>
+        <artifactId>project</artifactId>
+        <version>24.10.0-SNAPSHOT</version>
+    </parent>
+    <groupId>cloud.piranha.test.servlet</groupId>
+    <artifactId>pages</artifactId>
+    <version>24.10.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>Piranha - Test - Servlet - Jakarta Pages application</name>
+    <properties>
+        <!-- dependencies -->
+        <junit.version>5.10.2</junit.version>
+        <piranha.version>24.4.0</piranha.version>
+        <!-- other -->
+        <java.version>21</java.version>
+        <piranha.distribution>servlet</piranha.distribution>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- plugins -->
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
+        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>pages</finalName>
+        <plugins>
+            <plugin>
+                <groupId>cloud.piranha.maven.plugins</groupId>
+                <artifactId>piranha-maven-plugin</artifactId>
+                <version>${piranha.version}</version>
+                <executions>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>post-integration-test</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <distribution>servlet</distribution>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <release>${java.version}</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven-war-plugin.version}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
