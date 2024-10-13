@@ -5,7 +5,7 @@
     <parent>
         <groupId>cloud.piranha.extension</groupId>
         <artifactId>project</artifactId>
-        <version>24.10.0-SNAPSHOT</version>
+        <version>24.11.0-SNAPSHOT</version>
     </parent>
     <artifactId>piranha-extension-eclipse-wasp</artifactId>
     <packaging>jar</packaging>

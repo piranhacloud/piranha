@@ -23,7 +23,7 @@ Create an empty directory to store your Maven project. Inside of that directory 
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.guides.embedded</groupId>
     <artifactId>helloworld</artifactId>
-    <version>24.10.0-SNAPSHOT</version>
+    <version>24.11.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Piranha Embedded - Create a Hello World web application</name>
     <properties>

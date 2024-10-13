@@ -25,7 +25,7 @@ create the ```pom.xml``` file with the content as below.
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.guides.coreprofile</groupId>
     <artifactId>netbeans-debug</artifactId>
-    <version>24.10.0-SNAPSHOT</version>
+    <version>24.11.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Piranha Core Profile - Debugging a REST service with NetBeans</name>
     <properties>
