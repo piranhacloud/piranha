@@ -22,7 +22,7 @@
     <parent>
         <groupId>cloud.piranha.external.coreprofiletck.cditck.runner</groupId>
         <artifactId>project</artifactId>
-        <version>24.10.0-SNAPSHOT</version>
+        <version>24.10.0</version>
     </parent>
 
     <artifactId>signature</artifactId>
