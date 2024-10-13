@@ -29,7 +29,7 @@ create the ```pom.xml``` file with the content as below.
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.guides.webprofile</groupId>
     <artifactId>faces</artifactId>
-    <version>24.10.0-SNAPSHOT</version>
+    <version>24.11.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Piranha Web Profile - Jakarta Faces application</name>
     <properties>

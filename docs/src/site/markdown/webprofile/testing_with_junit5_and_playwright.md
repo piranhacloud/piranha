@@ -29,7 +29,7 @@ create the ```pom.xml``` file with the content as below.
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.guides.webprofile</groupId>
     <artifactId>playwright</artifactId>
-    <version>24.10.0-SNAPSHOT</version>
+    <version>24.11.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Testing with JUnit 5 and Playwright</name>
     <properties>

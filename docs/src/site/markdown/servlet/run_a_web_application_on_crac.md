@@ -33,7 +33,7 @@ create the ```pom.xml``` file with the content as below.
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.guides.servlet</groupId>
     <artifactId>crac</artifactId>
-    <version>24.10.0-SNAPSHOT</version>
+    <version>24.11.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Run a web application on Piranha Servlet with CRaC</name>
     <properties>
