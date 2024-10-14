@@ -21,10 +21,10 @@
     <parent>
         <groupId>cloud.piranha.test.servlet</groupId>
         <artifactId>project</artifactId>
-        <version>24.10.99-SNAPSHOT</version>
+        <version>24.11.99-SNAPSHOT</version>
     </parent>
     <artifactId>helloworld</artifactId>
-    <version>24.10.99-SNAPSHOT</version>
+    <version>24.11.99-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Piranha - Test - Servlet - HelloWorld web application</name>
     <properties>

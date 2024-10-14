@@ -6,7 +6,7 @@
     <parent>
         <groupId>cloud.piranha.feature</groupId>
         <artifactId>project</artifactId>
-        <version>24.10.99-SNAPSHOT</version>
+        <version>24.11.99-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-feature-crac</artifactId>
