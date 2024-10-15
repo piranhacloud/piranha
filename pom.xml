@@ -77,19 +77,19 @@
         <angus.mail.version>2.0.3</angus.mail.version>
         <arquillian.version>1.8.0.Final</arquillian.version>
         <bcel.version>6.10.0</bcel.version>
-        <checkstyle.version>10.18.1</checkstyle.version>
-        <commons-compress.version>1.26.2</commons-compress.version>
+        <checkstyle.version>10.18.2</checkstyle.version>
+        <commons-compress.version>1.27.1</commons-compress.version>
         <commons-fileupload2-jakarta-servlet6.version>2.0.0-M2</commons-fileupload2-jakarta-servlet6.version>
         <crac.version>0.1.3</crac.version>
         <eclipselink.version>5.0.0-B02</eclipselink.version>
-        <expressly.version>6.0.0-M2</expressly.version>
         <epicyro.version>3.1.0</epicyro.version>
         <exousia.version>3.0.0-M1.1</exousia.version>
+        <expressly.version>6.0.0-M2</expressly.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
         <glassfish-client-ee10.version>1.6</glassfish-client-ee10.version>
         <grizzly.version>4.1.0-M1</grizzly.version>
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
-        <guava.version>32.0.0-jre</guava.version>
+        <guava.version>33.3.1-jre</guava.version>
         <h2.version>2.3.232</h2.version>
         <!-- kept at 5.4.0 because 5.5.0 adds remote repositories -->
         <hazelcast.version>5.4.0</hazelcast.version>
@@ -101,16 +101,18 @@
         <jboss-classfilewriter.version>1.3.1.Final</jboss-classfilewriter.version>
         <jersey.version>4.0-M1-GF1</jersey.version>
         <jstl.version>3.0.1</jstl.version>
-        <junit-pioneer.version>2.2.0</junit-pioneer.version>
-        <junit-platform-launcher.version>1.11.0</junit-platform-launcher.version>
-        <junit.version>5.11.0</junit.version>
-        <maven-plugin-annotations.version>3.13.1</maven-plugin-annotations.version>
-        <maven-plugin-api.version>4.0.0-beta-3</maven-plugin-api.version>
-        <maven-plugin-tools-annotations.version>3.13.1</maven-plugin-tools-annotations.version>
+        <junit-pioneer.version>2.3.0</junit-pioneer.version>
+        <junit-platform-launcher.version>1.11.2</junit-platform-launcher.version>
+        <junit.version>5.11.2</junit.version>
+        <maven-plugin-annotations.version>3.15.0</maven-plugin-annotations.version>
+        <maven-plugin-api.version>3.9.9</maven-plugin-api.version>
+        <maven-plugin-tools-annotations.version>3.15.0</maven-plugin-tools-annotations.version>
+        <microprofile-config-api.version>3.1</microprofile-config-api.version>
+        <microprofile-jwt-auth-api.version>2.1</microprofile-jwt-auth-api.version>
         <microprofile-jwt-auth.version>2.0.2</microprofile-jwt-auth.version>
         <mojarra.version>4.1.1</mojarra.version>
-        <nimbus-jose-jwt.version>9.40</nimbus-jose-jwt.version>
-        <netty.version>4.1.112.Final</netty.version>
+        <nimbus-jose-jwt.version>9.41.2</nimbus-jose-jwt.version>
+        <netty.version>4.1.114.Final</netty.version>
         <omni-mp-config.version>3.0.0</omni-mp-config.version>
         <omnibeans.version>0.3</omnibeans.version>
         <omniservices.version>0.4</omniservices.version>
@@ -119,6 +121,8 @@
         <shrinkwrap-impl-base.version>2.0.0-beta-1</shrinkwrap-impl-base.version>
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.3.0</shrinkwrap-resolver.version>
+        <soteria.version>4.0.0-M3</soteria.version>
+        <spring-boot.version>3.3.4</spring-boot.version>
         <soteria.version>4.0.0-M3</soteria.version>
         <spring-boot.version>3.3.3</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>

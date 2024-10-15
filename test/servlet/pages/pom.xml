@@ -30,8 +30,8 @@
     <name>Piranha - Test - Servlet - Jakarta Pages application</name>
     <properties>
         <!-- dependencies -->
-        <junit.version>5.10.2</junit.version>
-        <piranha.version>24.4.0</piranha.version>
+        <junit.version>5.11.2</junit.version>
+        <piranha.version>${project.version}</piranha.version>
         <!-- other -->
         <java.version>21</java.version>
         <piranha.distribution>servlet</piranha.distribution>
@@ -65,7 +65,7 @@
         <finalName>pages</finalName>
         <plugins>
             <plugin>
-                <groupId>cloud.piranha.maven.plugins</groupId>
+                <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
                 <version>${piranha.version}</version>
                 <executions>
