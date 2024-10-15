@@ -27,7 +27,7 @@
     <name>Piranha - Test - Server - Hello World application</name>
     <properties>
         <!-- dependencies -->
-        <junit.version>5.11.0</junit.version>
+        <junit.version>5.11.2</junit.version>
         <!-- other -->
         <java.version>21</java.version>
         <piranha.distribution>server</piranha.distribution>
