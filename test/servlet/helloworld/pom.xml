@@ -29,7 +29,7 @@
     <name>Piranha - Test - Servlet - HelloWorld web application</name>
     <properties>
         <java.version>21</java.version>
-        <junit.version>5.11.1</junit.version>
+        <junit.version>5.11.2</junit.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>3.5.1</maven-failsafe-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
@@ -82,6 +82,7 @@
                 </executions>
                 <configuration>
                     <distribution>${piranha.distribution}</distribution>
+                    <httpPort>${httpPort}</httpPort>
                 </configuration>
             </plugin>
             <plugin>
@@ -104,6 +105,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <systemPropertyVariables>
+                        <httpPort>${httpPort}</httpPort>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -112,6 +118,25 @@
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${build-helper-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>reserve-network-port</id>
+                        <goals>
+                            <goal>reserve-network-port</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <portNames>
+                                <portName>httpPort</portName>
+                            </portNames>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
