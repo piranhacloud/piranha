@@ -17,6 +17,7 @@ on:
   workflow_dispatch:
 jobs:
   atinject:
+    if: github.repository == 'piranhacloud/piranha'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -42,6 +43,7 @@ jobs:
         paths: "external/webprofile-tck/atinject/target/tck/example/target/surefire-reports/TEST-*.xml"
       if: always()
   cdi:
+    if: github.repository == 'piranhacloud/piranha'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -67,6 +69,7 @@ jobs:
         paths: "external/webprofile-tck/cdi/runner/core/target/surefire-reports/junitreports/TEST-*.xml"
       if: always()
   jsonb:
+    if: github.repository == 'piranhacloud/piranha'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -92,6 +95,7 @@ jobs:
         paths: "external/webprofile-tck/jsonb/target/tck/bin/target/surefire-reports/TEST-*.xml"
       if: always()
   jsonp:
+    if: github.repository == 'piranhacloud/piranha'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
