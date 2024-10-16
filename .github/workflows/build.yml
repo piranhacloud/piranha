@@ -57,7 +57,7 @@ jobs:
       run: mvn -B -DskipTests=true -DskipITs=true --ntp install
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
-  dockerhub:
+  ghcr:
     if: github.repository == 'piranhacloud/piranha' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
