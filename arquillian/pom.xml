@@ -19,7 +19,6 @@
     </description>
 
     <modules>
-        <module>jarcontainer</module>
         <module>managed</module>
         <module>server</module>
     </modules>
