@@ -35,5 +35,6 @@
         <module>hello</module>
         <module>helloworld</module>
         <module>pages</module>
+        <module>websocket</module>
     </modules>
 </project>

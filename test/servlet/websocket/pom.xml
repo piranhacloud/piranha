@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!--
+
+    WARNING - Do not remove the versions in the properties section as this
+    particular project is used as a basis for the guide content at 
+    docs/src/site/markdown/servlet/create_a_websocket_application.md.
+  
+    When updating the guide do the following:
+
+    1. Change the name of the project to read 'Create a WebSocket Chat application on Piranha Servlet'
+    2. Add groupId 'guide'
+    3. Add version '1-SNAPSHOT'
+    4. Drop the parent section below
+    5. Change the piranha.version to the latest released version of Piranha
+
+    -->
+    <parent>
+        <groupId>cloud.piranha.test.servlet</groupId>
+        <artifactId>project</artifactId>
+        <version>24.11.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>websocket</artifactId>
+    <packaging>war</packaging>
+    <name>Piranha - Test - Servlet - WebSocket application</name>
+    <properties>
+        <!-- dependencies -->
+        <jakarta.websocket.version>2.1.1</jakarta.websocket.version>
+        <piranha.version>${project.version}</piranha.version>
+        <!-- other -->
+        <java.version>21</java.version>
+        <piranha.distribution>servlet</piranha.distribution>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- plugins -->
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.websocket</groupId>
+            <artifactId>jakarta.websocket-api</artifactId>
+            <version>${jakarta.websocket.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.websocket</groupId>
+            <artifactId>jakarta.websocket-client-api</artifactId>
+            <version>${jakarta.websocket.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>websocket</finalName>
+        <plugins>
+            <plugin>
+                <groupId>cloud.piranha.maven.plugins</groupId>
+                <artifactId>piranha-maven-plugin</artifactId>
+                <version>${piranha.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <release>${java.version}</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven-war-plugin.version}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
