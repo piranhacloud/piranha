@@ -26,6 +26,7 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Hazelcast                 | 5.4.0         |
 | Jakarta CDI               | 4.1.0         |
 | Jakarta REST              | 4.0.0         |
+| Jakarta Servlet           | 6.1.0         |
 | Jersey                    | 4.0.0-M1      |
 | Netty                     | 4.1.112.Final |
 | OmniFaces Services        | 0.4           |
