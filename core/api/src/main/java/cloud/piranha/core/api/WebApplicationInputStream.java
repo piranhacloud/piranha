@@ -120,10 +120,12 @@ public abstract class WebApplicationInputStream extends ServletInputStream imple
             if (finished || webApplicationRequest.getContentLength() == 0) {
                 return -1;
             }
-            read = inputStream.read();
-            index++;
-            if (index == webApplicationRequest.getContentLength() || read == -1) {
-                finished = true;
+            if (inputStream.available() > 0) {
+                read = inputStream.read();
+                index++;
+                if (index == webApplicationRequest.getContentLength() || read == -1) {
+                    finished = true;
+                }
             }
         } else {
             if (inputStream.available() > 0) {
