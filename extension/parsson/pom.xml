@@ -7,9 +7,9 @@
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-extension-eclipse-parsson</artifactId>
+    <artifactId>piranha-extension-parsson</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Eclipse Parsson</name>
+    <name>Piranha - Extension - Parsson</name>
     <dependencies>
         <!-- compile -->
         <dependency>

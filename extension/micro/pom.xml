@@ -74,7 +74,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-parsson</artifactId>
+            <artifactId>piranha-extension-parsson</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency> 
@@ -98,7 +98,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-yasson</artifactId>
+            <artifactId>piranha-extension-yasson</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency> 
