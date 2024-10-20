@@ -7,10 +7,10 @@
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-extension-redhat-weld</artifactId>
+    <artifactId>piranha-extension-weld</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Extension - RedHat Weld</name>
+    <name>Piranha - Extension - Weld</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
