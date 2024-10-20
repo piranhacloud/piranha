@@ -9,9 +9,9 @@
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-extension-eclipse-jersey</artifactId>
+    <artifactId>piranha-extension-jersey</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Eclipse Jersey</name>
+    <name>Piranha - Extension - Jersey</name>
     <dependencies>
         <!-- compile -->
         <dependency>
