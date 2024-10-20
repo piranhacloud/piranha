@@ -73,6 +73,7 @@ class DefaultHttpServerAcceptorThread implements Runnable {
         while (!server.serverStopRequest) {
             try {
                 Socket socket = server.serverSocket.accept();
+                socket.setSoTimeout(60000);
                 server.executorService.execute(new DefaultHttpServerProcessingThread(server, socket));
             } catch (IOException exception) {
                 // not interesting to do anything with this here as the client probably just hung up.

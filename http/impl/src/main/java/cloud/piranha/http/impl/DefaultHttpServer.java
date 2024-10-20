@@ -99,7 +99,7 @@ public class DefaultHttpServer implements HttpServer {
     /**
      * Stores the SO_TIMEOUT.
      */
-    protected int soTimeout;
+    protected int soTimeout = 60000;
 
     /**
      * Stores the SSL flag.
