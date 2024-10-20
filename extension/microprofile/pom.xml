@@ -45,7 +45,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-yasson</artifactId>
+            <artifactId>piranha-extension-yasson</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
