@@ -24,6 +24,7 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Eclipse Yasson            | 3.0.4         |
 | EclipseLink               | 5.0.0-B02     |
 | Hazelcast                 | 5.4.0         |
+| Jakarta Annotations       | 3.0.0         |
 | Jakarta CDI               | 4.1.0         |
 | Jakarta REST              | 4.0.0         |
 | Jersey                    | 4.0.0-M1      |
