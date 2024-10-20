@@ -26,6 +26,7 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Jakarta JSON Processing   | 2.1.3         |
 | Jakarta JSON Binding      | 3.0.1         |
 | Jakarta REST              | 4.0.0         |
+| Jakarta Servlet           | 6.1.0         |
 | Jersey                    | 4.0.0-M1      |
 | Netty                     | 4.1.112.Final |
 | OmniFaces Services        | 0.4           |
