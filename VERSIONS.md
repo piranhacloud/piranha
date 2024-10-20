@@ -24,6 +24,7 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Eclipse Yasson            | 3.0.4         |
 | EclipseLink               | 5.0.0-B02     |
 | Hazelcast                 | 5.4.0         |
+| Jakarta CDI               | 4.1.0         |
 | Jakarta REST              | 4.0.0         |
 | Jersey                    | 4.0.0-M1      |
 | Netty                     | 4.1.112.Final |
@@ -33,4 +34,4 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Project CRaC              | 0.1.3         |
 | Spring Boot               | 3.3.0         |
 | Undertow                  | 2.3.14.Final  |
-| Weld                      | 6.0.0.Beta1   |
+| Weld                      | 6.0.0.Beta4   |

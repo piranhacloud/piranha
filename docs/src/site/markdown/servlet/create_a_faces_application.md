@@ -36,7 +36,7 @@ create the ```pom.xml``` file with the content as below.
         <!-- dependencies -->
         <junit.version>5.11.0</junit.version>
         <mojarra.version>4.0.7</mojarra.version>
-        <weld.version>5.1.3.Final</weld.version>
+        <weld.version>6.0.0.Beta4</weld.version>
         <!-- other -->
         <java.version>21</java.version>
         <piranha.distribution>servlet</piranha.distribution>
@@ -63,7 +63,7 @@ create the ```pom.xml``` file with the content as below.
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-redhat-weld</artifactId>
+            <artifactId>piranha-extension-weld</artifactId>
             <version>${piranha.version}</version>
             <scope>runtime</scope>
         </dependency>

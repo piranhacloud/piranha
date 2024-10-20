@@ -39,6 +39,7 @@
         <module>eclipse-wasp</module>
         <module>eclipselink</module>
         <module>hazelcast</module>
+        <module>jersey</module>
         <module>micro</module>
         <module>microprofile</module>
         <module>naming</module>
@@ -52,7 +53,6 @@
         <module>platform</module>
         <module>policy</module>
         <module>redhat-hibernate-validator</module>
-        <module>redhat-weld</module>
         <module>scinitializer</module>
         <module>security-servlet</module>
         <module>security-jakarta</module>
@@ -62,7 +62,7 @@
         <module>webprofile</module>
         <module>webxml</module>
         <module>welcomefile</module>
-        <module>jersey</module>
+        <module>weld</module>
     </modules>
 
     <dependencyManagement>
