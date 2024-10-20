@@ -34,7 +34,6 @@
         <module>eclipse-mojarra</module>
         <module>eclipse-soteria</module>
         <module>eclipse-tyrus</module>
-        <module>eclipse-yasson</module>
         <module>eclipse-wasp</module>
         <module>eclipselink</module>
         <module>hazelcast</module>
@@ -49,6 +48,7 @@
         <module>omnifaces-omniutils</module>
         <module>omnifish-omnibeans</module>
         <module>omnifish-transact</module>
+        <module>parsson</module>
         <module>platform</module>
         <module>policy</module>
         <module>redhat-hibernate-validator</module>
@@ -62,7 +62,7 @@
         <module>webxml</module>
         <module>welcomefile</module>
         <module>weld</module>
-        <module>parsson</module>
+        <module>yasson</module>
     </modules>
 
     <dependencyManagement>

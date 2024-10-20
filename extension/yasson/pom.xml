@@ -9,10 +9,10 @@
         <version>24.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-extension-eclipse-yasson</artifactId>
+    <artifactId>piranha-extension-yasson</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Extension - Eclipse Yasson</name>
+    <name>Piranha - Extension - Yasson</name>
     <dependencies>
         <!-- compile -->
         <dependency>
