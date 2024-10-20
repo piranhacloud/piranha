@@ -40,5 +40,17 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- 
+        
+            TODO - module info for Exousia does not use requires static so it is 
+            a required dependency for now. File issue at Exousia to get this 
+            resolved.
+        
+            -->
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.29.2-GA</version>
+        </dependency>
     </dependencies>
 </project>

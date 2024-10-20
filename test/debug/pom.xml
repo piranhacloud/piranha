@@ -297,12 +297,6 @@
             <artifactId>jakarta.el-api</artifactId>
         </dependency>
 
-        <!-- Jakarta Contexts Dependency Injection -->
-        <dependency>
-            <groupId>jakarta.enterprise</groupId>
-            <artifactId>jakarta.enterprise.cdi-api</artifactId>
-        </dependency>
-
         <!-- Jakarta Faces -->
         <dependency>
             <groupId>jakarta.faces</groupId>

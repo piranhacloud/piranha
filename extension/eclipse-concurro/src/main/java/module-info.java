@@ -25,75 +25,20 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.cli;
-
-import static cloud.piranha.cli.Util.stripFirstElement;
 
 /**
- * The Piranha CLI.
+ * This module delivers the Eclipse Concurro integration extension.
+ *
+ * <p>
+ *  This extension integrates Eclipse Conccuro into Piranha. See 
+ *  https://github.com/eclipse-ee4j/concurro for more information about its
+ *  project.
+ * </p>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class Cli {
-
-    /**
-     * Stores the arguments.
-     */
-    private String[] arguments;
-
-    /**
-     * Constructor.
-     */
-    public Cli() {
-    }
+module cloud.piranha.extension.concurro {
     
-    /**
-     * Main method.
-     * 
-     * @param arguments the command-line arguments.
-     */
-    public static void main(String[] arguments) {
-        Cli cli = new Cli();
-        cli.arguments = arguments;
-        cli.run();
-    }
-    
-    /**
-     * Run method.
-     */
-    public void run() {
-        if (arguments.length == 0) {
-            usage();
-        } else {
-            switch (arguments[0]) {
-                case "coreprofile" -> new CoreProfileCommand(stripFirstElement(arguments)).run();
-                case "help" -> usage();
-                case "version" -> new VersionCommand(stripFirstElement(arguments)).run();
-            }
-        }
-    }
-
-    /**
-     * Set the command-line arguments.
-     * 
-     * @param arguments the command-line arguments.
-     */
-    public void setArguments(String[] arguments) {
-        this.arguments = arguments;
-    }
-
-    /**
-     * Show the help.
-     */
-    private void usage() {
-        System.out.println();
-        System.out.println("usage: piranha [command] [subcommand]");
-        System.out.println();
-        System.out.println("Available commands:");
-        System.out.println();
-        System.out.println("    coreprofile : Piranha Core Profile commands");
-        System.out.println("    help        : Show help");
-        System.out.println("    version     : Show version");
-        System.out.println();
-    }
+    requires cloud.piranha.core.api;
+    requires static cloud.piranha.extension.scinitializer;
 }

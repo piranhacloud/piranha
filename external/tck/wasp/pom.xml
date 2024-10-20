@@ -192,14 +192,14 @@
                                 <artifactItem>
                                     <groupId>jakarta.servlet</groupId>
                                     <artifactId>jakarta.servlet-api</artifactId>
-                                    <version>${jakarta.servlet-api.version}</version>
+                                    <version>6.1.0-M1</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
                                     <destFileName>jakarta.servlet-api.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.glassfish.wasp</groupId>
                                     <artifactId>wasp</artifactId>
-                                    <version>${wasp.version}</version>
+                                    <version>4.0.0-M1</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
                                     <destFileName>wasp.jar</destFileName>
                                 </artifactItem>
@@ -220,7 +220,7 @@
                                 <artifactItem>
                                     <groupId>org.glassfish.expressly</groupId>
                                     <artifactId>expressly</artifactId>
-                                    <version>${expressly.version}</version>
+                                    <version>6.0.0-M1</version>
                                     <outputDirectory>${signature.home}</outputDirectory>
                                     <destFileName>expressly.jar</destFileName>
                                 </artifactItem>

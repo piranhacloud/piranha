@@ -25,73 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.cli;
+package cloud.piranha.extension.concurro;
 
-import static cloud.piranha.cli.Util.version;
-import java.io.File;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.TRACE;
 
 /**
- * The coreprofile stop command.
+ * The extension that delivers Eclipse Concurro to Piranha.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class CoreProfileStopCommand implements Runnable {
+public class ConcurroExtension implements WebApplicationExtension {
 
     /**
-     * Stores the arguments.
+     * Stores the logger.
      */
-    private final String[] arguments;
+    private static final Logger LOGGER = System.getLogger(
+            ConcurroExtension.class.getName());
 
     /**
-     * Stores the distribution filename we are going use.
-     */
-    private String distributionFilename = "piranha-dist-coreprofile-" + version() + ".jar";
-
-    /**
-     * Stores the distribution directory.
-     */
-    private File distributionDirectory = new File(System.getProperty("user.home"),
-            ".piranha/coreprofile/download");
-
-    /**
-     * Stores the run arguments (--arguments).
-     */
-    private String runArguments;
-
-    /**
-     * Stores the version we are using.
-     */
-    private String version = "24.3.0";
-
-    /**
-     * Constructor.
+     * Configure the extension.
      *
-     * @param arguments the arguments.
+     * @param webApplication the web application.
      */
-    public CoreProfileStopCommand(String[] arguments) {
-        this.arguments = arguments;
-    }
-
     @Override
-    public void run() {
-        parseArguments();
-        stopPiranhaCoreProfile();
-    }
-
-    /**
-     * Parse the command-line arguments.
-     */
-    private void parseArguments() {
-        System.out.println("Parse arguments");
-    }
-
-    /**
-     * Stop Piranha Core Profile.
-     */
-    private void stopPiranhaCoreProfile() {
-        File pidFile = new File("piranha.pid");
-        if (pidFile.exists()) {
-            pidFile.delete();
-        }
+    public void configure(WebApplication webApplication) {
+        LOGGER.log(TRACE, "Configuring Eclipse Concurro extension");
     }
 }

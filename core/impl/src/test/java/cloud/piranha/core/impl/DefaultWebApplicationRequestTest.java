@@ -945,7 +945,7 @@ class DefaultWebApplicationRequestTest {
     void testSetCharacterEncoding4() {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
         assertNotNull(assertThrows(UnsupportedEncodingException.class,
-                () -> request.setCharacterEncoding(null)));
+                () -> request.setCharacterEncoding((String) null)));
     }
 
     /**

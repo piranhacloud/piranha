@@ -27,6 +27,10 @@
  */
 package cloud.piranha.extension.eclipselink.wrappers;
 
+import jakarta.persistence.CacheRetrieveMode;
+import jakarta.persistence.CacheStoreMode;
+import jakarta.persistence.ConnectionConsumer;
+import jakarta.persistence.ConnectionFunction;
 import java.util.List;
 import java.util.Map;
 
@@ -34,26 +38,31 @@ import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.FindOption;
 import jakarta.persistence.FlushModeType;
 import jakarta.persistence.LockModeType;
+import jakarta.persistence.LockOption;
 import jakarta.persistence.Query;
+import jakarta.persistence.RefreshOption;
 import jakarta.persistence.StoredProcedureQuery;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.TypedQueryReference;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.CriteriaSelect;
 import jakarta.persistence.criteria.CriteriaUpdate;
 import jakarta.persistence.metamodel.Metamodel;
 
 /**
-* Provides a convenient implementation of the EntityManager interface that can be subclassed by developers wishing
-* to adapt the entity manager.
-*
-* <p>
-* This class implements the Wrapper or Decorator pattern. Methods default to calling through to the wrapped request
-* object.
-*
-*/
+ * Provides a convenient implementation of the EntityManager interface that can
+ * be subclassed by developers wishing to adapt the entity manager.
+ *
+ * <p>
+ * This class implements the Wrapper or Decorator pattern. Methods default to
+ * calling through to the wrapped request object.
+ *
+ */
 public class EntityManagerWrapper implements EntityManager {
 
     /**
@@ -76,7 +85,8 @@ public class EntityManagerWrapper implements EntityManager {
 
     /**
      * The underlying wrapped EntityManager
-     * @return underlying wrapped EntityManager 
+     *
+     * @return underlying wrapped EntityManager
      */
     public EntityManager getWrapped() {
         return wrappedEntityManager;
@@ -118,6 +128,16 @@ public class EntityManagerWrapper implements EntityManager {
     }
 
     @Override
+    public <T> T find(Class<T> type, Object o, FindOption... fos) {
+        return getWrapped().find(type, o, fos);
+    }
+
+    @Override
+    public <T> T find(EntityGraph<T> eg, Object o, FindOption... fos) {
+        return getWrapped().find(eg, o, fos);
+    }
+
+    @Override
     public void flush() {
         getWrapped().flush();
     }
@@ -145,6 +165,16 @@ public class EntityManagerWrapper implements EntityManager {
     @Override
     public <T> TypedQuery<T> createQuery(CriteriaQuery<T> criteriaQuery) {
         return getWrapped().createQuery(criteriaQuery);
+    }
+
+    @Override
+    public <T> TypedQuery<T> createQuery(CriteriaSelect<T> cs) {
+        return getWrapped().createQuery(cs);
+    }
+
+    @Override
+    public <T> TypedQuery<T> createQuery(TypedQueryReference<T> tqr) {
+        return getWrapped().createQuery(tqr);
     }
 
     @Override
@@ -190,6 +220,11 @@ public class EntityManagerWrapper implements EntityManager {
     @Override
     public void refresh(Object entity, LockModeType lockMode, Map<String, Object> properties) {
         getWrapped().refresh(entity, lockMode, properties);
+    }
+
+    @Override
+    public void refresh(Object o, RefreshOption... ros) {
+        getWrapped().refresh(o, ros);
     }
 
     @Override
@@ -248,6 +283,11 @@ public class EntityManagerWrapper implements EntityManager {
     }
 
     @Override
+    public <T> T getReference(T t) {
+        return getWrapped().getReference(t);
+    }
+
+    @Override
     public void setProperty(String propertyName, Object value) {
         getWrapped().setProperty(propertyName, value);
     }
@@ -285,6 +325,11 @@ public class EntityManagerWrapper implements EntityManager {
     @Override
     public void lock(Object entity, LockModeType lockMode, Map<String, Object> properties) {
         getWrapped().lock(entity, lockMode, properties);
+    }
+
+    @Override
+    public void lock(Object o, LockModeType lmt, LockOption... los) {
+        getWrapped().lock(o, lmt, los);
     }
 
     @Override
@@ -337,4 +382,33 @@ public class EntityManagerWrapper implements EntityManager {
         return getWrapped().getEntityGraphs(entityClass);
     }
 
+    @Override
+    public void setCacheRetrieveMode(CacheRetrieveMode crm) {
+        getWrapped().setCacheRetrieveMode(crm);
+    }
+
+    @Override
+    public void setCacheStoreMode(CacheStoreMode csm) {
+        getWrapped().setCacheStoreMode(csm);
+    }
+
+    @Override
+    public CacheRetrieveMode getCacheRetrieveMode() {
+        return getWrapped().getCacheRetrieveMode();
+    }
+
+    @Override
+    public CacheStoreMode getCacheStoreMode() {
+        return getWrapped().getCacheStoreMode();
+    }
+
+    @Override
+    public <C> void runWithConnection(ConnectionConsumer<C> cc) {
+        getWrapped().runWithConnection(cc);
+    }
+
+    @Override
+    public <C, T> T callWithConnection(ConnectionFunction<C, T> cf) {
+        return getWrapped().callWithConnection(cf);
+    }
 }

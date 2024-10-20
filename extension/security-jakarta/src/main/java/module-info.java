@@ -42,4 +42,6 @@ module cloud.piranha.extension.security.jakarta {
     requires transitive cloud.piranha.extension.soteria;
     requires cloud.piranha.extension.weld;
     requires java.naming;
+    requires org.glassfish.epicyro;
+    requires org.glassfish.exousia;
 }

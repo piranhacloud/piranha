@@ -27,16 +27,16 @@
  */
 package cloud.piranha.extension.exousia;
 
-import java.security.Policy;
-import java.util.Set;
-
-import org.glassfish.exousia.AuthorizationService;
-
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.impl.DefaultAuthenticatedIdentity;
+import jakarta.security.jacc.Policy;
+import jakarta.security.jacc.PolicyFactory;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+import java.util.Set;
+import org.glassfish.exousia.AuthorizationService;
+import org.glassfish.exousia.modules.def.DefaultPolicyFactory;
 
 /**
  * The Exousia initializer.
@@ -117,19 +117,23 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         Class<?> factoryClass = getAttribute(context, AUTHZ_FACTORY_CLASS);
         Class<? extends Policy> policyClass = getAttribute(context, AUTHZ_POLICY_CLASS);
 
+        PolicyFactory.setPolicyFactory(new DefaultPolicyFactory());
+        
         // No need for the previous policy (likely the Java SE "JavaPolicy") to be consulted.
-        Policy.setPolicy(null);
+//        Policy.setPolicy(null);
 
         // Create the main Exousia authorization service, which implements the various entry points (an SPI)
         // for a runtime to make use of Jakarta Authorization
         AuthorizationService authorizationService = new AuthorizationService(
-                factoryClass, policyClass,
+                factoryClass, 
+                policyClass,
                 context.getServletContextId(),
                 DefaultAuthenticatedIdentity::getCurrentSubject,
-                new PiranhaPrincipalMapper());
+                () -> new PiranhaPrincipalMapper());
 
         authorizationService.setRequestSupplier(
-            () -> AuthorizationPreFilter.getLocalServletRequest().get());
+                context.getServletContextId(),
+                () -> AuthorizationPreFilter.getLocalServletRequest().get());
 
         context.setAttribute(AUTHZ_SERVICE, authorizationService);
     }

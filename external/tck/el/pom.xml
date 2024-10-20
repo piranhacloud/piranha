@@ -136,14 +136,14 @@
                                 <artifactItem>
                                     <groupId>org.glassfish.expressly</groupId>
                                     <artifactId>expressly</artifactId>
-                                    <version>${expressly.version}</version>
+                                    <version>6.0.0-M1</version>
                                     <outputDirectory>${work.home}/jars</outputDirectory>
                                     <destFileName>expressly.jar</destFileName>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>jakarta.el</groupId>
                                     <artifactId>jakarta.el-api</artifactId>
-                                    <version>${jakarta.el-api.version}</version>
+                                    <version>6.0.0-M2</version>
                                     <outputDirectory>${work.home}/jars</outputDirectory>
                                     <destFileName>jakarta.el-api.jar</destFileName>
                                 </artifactItem>
