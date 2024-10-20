@@ -181,7 +181,7 @@ public class ManagedPiranhaContainer implements DeployableContainer<ManagedPiran
                 LOGGER.log(INFO, "Waiting for Piranha to be shutdown");
 
                 long startTime = System.currentTimeMillis();
-                process.waitFor(5, TimeUnit.MINUTES);
+                process.waitFor(30, TimeUnit.SECONDS);
                 Long finishTime = System.currentTimeMillis();
 
                 LOGGER.log(INFO, "Piranha has shutdown\n It took {0} milliseconds", finishTime - startTime);
