@@ -13,21 +13,21 @@ mvn -Dit.test=TestName verify
 To run a single test in debug mode, use the following command:
 
 ```
-mvn -Dmaven.surefire.debug -Dit.test=TestName verify 
+mvn -Dmaven.failsafe.debug -Dit.test=TestName verify 
 ```
 
 To run a single test in debug mode with a specific port, use the following 
 command:
 
 ```
-mvn -Dmaven.surefire.debug -Dmaven.surefire.debug.port=5005 -Dit.test=TestName verify
+mvn -Dmaven.failsafe.debug -Dmaven.failsafe.debug.port=5005 -Dit.test=TestName verify
 ```
 
 To run a single test in debug mode with a specific port and suspend, use the 
 following command:
 
 ```
-mvn -Dmaven.surefire.debug -Dmaven.surefire.debug.port=5005 -Dmaven.surefire.debug.suspend=y -Dit.test=TestName verify
+mvn -Dmaven.failsafe.debug -Dmaven.failsafe.debug.port=5005 -Dmaven.failsafe.debug.suspend=y -Dit.test=TestName verify
 ```
 
 To run a single test and put Piranha in debug and susspend mode use the 
