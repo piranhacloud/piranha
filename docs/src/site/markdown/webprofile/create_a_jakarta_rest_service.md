@@ -26,7 +26,7 @@ Create an empty directory to store your Maven project. Inside of that directory 
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.guides.webprofile</groupId>
     <artifactId>rest</artifactId>
-    <version>24.10.0-SNAPSHOT</version>
+    <version>24.11.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Piranha Web Profile - HelloREST service</name>
     <properties>

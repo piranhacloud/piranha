@@ -5,7 +5,7 @@
     <parent>
         <groupId>cloud.piranha.external.coreprofiletck</groupId>
         <artifactId>project</artifactId>
-        <version>24.10.99-SNAPSHOT</version>
+        <version>24.11.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <artifactId>rest-tck-runner</artifactId>

@@ -40,8 +40,6 @@
         <jakarta.websocket-api.version>2.2.0</jakarta.websocket-api.version>
         <jakarta.ws.rs-api.version>4.0.0</jakarta.ws.rs-api.version>
         <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
-        <microprofile-config-api.version>3.1</microprofile-config-api.version>
-        <microprofile-jwt-auth-api.version>2.1</microprofile-jwt-auth-api.version>
         <!-- other -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
