@@ -30,7 +30,6 @@
         <module>eclipse-exousia</module>
         <module>eclipse-expressly</module>
         <module>eclipse-jaxb</module>
-        <module>eclipse-jersey</module>
         <module>eclipse-jstl</module>
         <module>eclipse-mojarra</module>
         <module>eclipse-parsson</module>
@@ -40,6 +39,7 @@
         <module>eclipse-wasp</module>
         <module>eclipselink</module>
         <module>hazelcast</module>
+        <module>jersey</module>
         <module>micro</module>
         <module>microprofile</module>
         <module>naming</module>

@@ -16,7 +16,6 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Eclipse Grizzly           | 4.1.0-M1      |
 | Eclipse Grizzly NPN       | 2.0.0         |
 | Eclipse JAXB              | 4.0.5         |
-| Eclipse Jersey            | 3.1.7         |
 | Eclipse JSTL              | 3.0.1         |
 | Eclipse Mojarra           | 4.1.0         |
 | Eclipse Parsson           | 1.1.7         |
@@ -26,6 +25,8 @@ used by Piranha to deliver various bits and pieces of functionality.
 | EclipseLink               | 5.0.0-B02     |
 | Hazelcast                 | 5.4.0         |
 | Jakarta CDI               | 4.1.0         |
+| Jakarta REST              | 4.0.0         |
+| Jersey                    | 4.0.0-M1      |
 | Netty                     | 4.1.112.Final |
 | OmniFaces Services        | 0.4           |
 | OmniFish OmniBeans        | 0.3           |
