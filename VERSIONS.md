@@ -25,6 +25,7 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Eclipse Yasson            | 3.0.4         |
 | EclipseLink               | 5.0.0-B02     |
 | Hazelcast                 | 5.4.0         |
+| Jakarta CDI               | 4.1.0         |
 | Netty                     | 4.1.112.Final |
 | OmniFaces Services        | 0.4           |
 | OmniFish OmniBeans        | 0.3           |
@@ -32,4 +33,4 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Project CRaC              | 0.1.3         |
 | Spring Boot               | 3.3.0         |
 | Undertow                  | 2.3.14.Final  |
-| Weld                      | 6.0.0.Beta1   |
+| Weld                      | 6.0.0.Beta4   |
