@@ -36,7 +36,6 @@
         <module>eclipse-parsson</module>
         <module>eclipse-soteria</module>
         <module>eclipse-tyrus</module>
-        <module>eclipse-yasson</module>
         <module>eclipse-wasp</module>
         <module>eclipselink</module>
         <module>hazelcast</module>
@@ -63,6 +62,7 @@
         <module>webxml</module>
         <module>welcomefile</module>
         <module>weld</module>
+        <module>yasson</module>
     </modules>
 
     <dependencyManagement>
