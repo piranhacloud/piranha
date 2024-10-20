@@ -30,7 +30,6 @@
         <module>eclipse-exousia</module>
         <module>eclipse-expressly</module>
         <module>eclipse-jaxb</module>
-        <module>eclipse-jersey</module>
         <module>eclipse-jstl</module>
         <module>eclipse-mojarra</module>
         <module>eclipse-parsson</module>
@@ -63,6 +62,7 @@
         <module>webprofile</module>
         <module>webxml</module>
         <module>welcomefile</module>
+        <module>jersey</module>
     </modules>
 
     <dependencyManagement>

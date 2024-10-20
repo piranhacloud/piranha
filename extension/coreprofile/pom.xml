@@ -45,7 +45,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-jersey</artifactId>
+            <artifactId>piranha-extension-jersey</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
