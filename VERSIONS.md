@@ -21,10 +21,10 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Eclipse Parsson           | 1.1.7         |
 | Eclipse Soteria           | 4.0.0-M3      |
 | Eclipse Tyrus             | 2.2.0-M1      |
-| Eclipse Yasson            | 3.0.4         |
 | EclipseLink               | 5.0.0-B02     |
 | Hazelcast                 | 5.4.0         |
 | Jakarta CDI               | 4.1.0         |
+| Jakarta JSON Binding      | 3.0.1         |
 | Jakarta REST              | 4.0.0         |
 | Jersey                    | 4.0.0-M1      |
 | Netty                     | 4.1.112.Final |
@@ -35,3 +35,4 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Spring Boot               | 3.3.0         |
 | Undertow                  | 2.3.14.Final  |
 | Weld                      | 6.0.0.Beta4   |
+| Yasson                    | 3.0.4         |
