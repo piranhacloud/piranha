@@ -32,7 +32,6 @@
         <module>eclipse-jaxb</module>
         <module>eclipse-jstl</module>
         <module>eclipse-mojarra</module>
-        <module>eclipse-parsson</module>
         <module>eclipse-soteria</module>
         <module>eclipse-tyrus</module>
         <module>eclipse-wasp</module>
@@ -49,6 +48,7 @@
         <module>omnifaces-omniutils</module>
         <module>omnifish-omnibeans</module>
         <module>omnifish-transact</module>
+        <module>parsson</module>
         <module>platform</module>
         <module>policy</module>
         <module>redhat-hibernate-validator</module>
