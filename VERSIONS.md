@@ -26,6 +26,7 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Jakarta CDI               | 4.1.0         |  X  |
 | Jakarta EL                |               |     |
 | Jakarta Inject            | 2.0.1         |  X  |
+| Jakarta Interceptors      | 2.2.0         |  X  |
 | Jakarta JSON Binding      | 3.0.1         |  X  |
 | Jakarta JSON Processing   | 2.1.3         |  X  |
 | Jakarta REST              | 4.0.0         |  X  |
