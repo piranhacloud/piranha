@@ -24,10 +24,7 @@
         <jakarta.el-api.version>6.0.0</jakarta.el-api.version>
         <jakarta.enterprise.cdi-api.version>4.1.0</jakarta.enterprise.cdi-api.version>
         <jakarta.faces-api.version>4.1.0</jakarta.faces-api.version>
-<<<<<<< HEAD
-=======
         <jakarta.inject-api.version>2.0.1</jakarta.inject-api.version>
->>>>>>> cbf13ebb8 (Fixes #4093 - Update Jakarta Interceptors)
         <jakarta.interceptor-api.version>2.2.0</jakarta.interceptor-api.version>
         <jakarta.jakartaee-core-api.version>11.0.0-M4</jakarta.jakartaee-core-api.version>
         <jakarta.jakartaee-web-api.version>11.0.0-M4</jakarta.jakartaee-web-api.version>
