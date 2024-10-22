@@ -23,6 +23,7 @@ used by Piranha to deliver various bits and pieces of functionality.
 | EclipseLink               | 5.0.0-B02     |
 | Hazelcast                 | 5.4.0         |
 | Jakarta CDI               | 4.1.0         |
+| Jakarta Inject            | 2.0.1         |
 | Jakarta JSON Processing   | 2.1.3         |
 | Jakarta JSON Binding      | 3.0.1         |
 | Jakarta REST              | 4.0.0         |
