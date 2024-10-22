@@ -27,7 +27,6 @@
 
     <properties>
         <!-- TCK versions -->
-        <annotations.tck.version>2.1.1</annotations.tck.version>
         <cdi.tck.version>4.0.13</cdi.tck.version>
         <coreprofile.tck.version>10.0.3</coreprofile.tck.version>
         <inject.tck.version>2.0.2</inject.tck.version>

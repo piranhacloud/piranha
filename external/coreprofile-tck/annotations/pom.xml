@@ -15,10 +15,9 @@
     <name>Piranha Core Profile - Annotations TCK</name>
 
     <properties>
-        <ant.home>${project.build.directory}/ant</ant.home>
+        <annotations.tck.version>3.0.0</annotations.tck.version>
+        <jimage.dir>${project.build.directory}/jimage</jimage.dir>
         <signature.home>${project.build.directory}/signature</signature.home>
-        <tck.home>${project.build.directory}/tck</tck.home>
-        <test.home>${tck.home}/src/com/sun/ts/tests</test.home>
     </properties>
 
     <dependencyManagement>
@@ -30,9 +29,32 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>jakarta.tck</groupId>
+                <artifactId>sigtest-maven-plugin</artifactId>
+                <version>2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.annotation</groupId>
+                <artifactId>jakarta-annotations-tck</artifactId>
+                <version>${annotations.tck.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta-annotations-tck</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>sigtest-maven-plugin</artifactId>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
@@ -48,49 +70,20 @@
                         <configuration>
                             <target>
                                 <!-- Download, unzip and rename TCK -->
-                                <get src="https://download.eclipse.org/jakartaee/annotations/2.1/jakarta-annotations-tck-${annotations.tck.version}.zip"
-                                             dest="${project.build.directory}/tck.zip"
-                                             skipexisting="true"/>
+                                <get src="https://download.eclipse.org/jakartaee/annotations/3.0/jakarta-annotations-tck-${annotations.tck.version}.zip"
+                                     dest="${project.build.directory}/tck.zip"
+                                     skipexisting="true"/>
                                 <unzip src="${project.build.directory}/tck.zip"
-                                               dest="${project.build.directory}"/>
+                                       dest="${project.build.directory}"/>
                                 <move file="${project.build.directory}/annotations-tck"
-                                              tofile="${project.build.directory}/tck"/>
-                                        
-                                <!-- Download, unzip, rename and chmod Ant 1.10.9 -->
-                                <get src="https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.zip"
-                                             dest="${project.build.directory}/ant.zip" skipexisting="true"/>
-                                <unzip src="${project.build.directory}/ant.zip"
-                                               dest="${project.build.directory}"/>
-                                <move file="${project.build.directory}/apache-ant-1.10.9"
-                                              tofile="${project.build.directory}/ant"/>
-                                <chmod dir="${ant.home}/bin"
-                                               perm="ugo+rx"
-                                               includes="*"/>
-                                        
-                                <!-- Setup ts.jte for signature tests -->
-                                <replaceregexp file="${tck.home}/bin/ts.jte"
-                                                       match="local\.classes=(.*)"
-                                                       replace="local\.classes=${signature.home}/jakarta.annotation-api.jar"
-                                                       byline="true"/>
-                            </target>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>integration-test</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <!-- Run all the tests -->
-                                <exec dir="${test.home}"
-                                      executable="${ant.home}/bin/ant" 
-                                      failonerror="true">
-                                    <arg value="-Dwork.dir=${tck.home}/work"/>
-                                    <arg value="-Dreport.dir=${tck.home}/report"/>
-                                    <arg value="runclient"/>
-                                </exec>
+                                      tofile="${project.build.directory}/tck"/>
+                                
+                                <!-- Install the TCK artifacts into local Maven repository -->
+                                <chmod dir="${project.build.directory}/tck/artifacts"
+                                       perm="ugo+rx"
+                                       includes="*"/>
+                                <exec dir="${project.build.directory}/tck/artifacts"
+                                      executable="./artifact-install.sh"/>
                             </target>
                         </configuration>
                     </execution>
@@ -115,6 +108,39 @@
                                     <destFileName>jakarta.annotation-api.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sig-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <dependenciesToScan>jakarta.annotation:jakarta-annotations-tck</dependenciesToScan>
+                            <systemPropertyVariables>
+                                <jimage.dir>${jimage.dir}</jimage.dir>
+                                <sigTestClasspath>${signature.home}/jakarta.annotation-api.jar:${jimage.dir}/java.base:${jimage.dir}/java.rmi:${jimage.dir}/java.sql:${jimage.dir}/java.naming</sigTestClasspath>
+                                <ca.sig.generated>true</ca.sig.generated>
+                                <ca.sig.postconstruct>true</ca.sig.postconstruct>
+                                <ca.sig.priority>true</ca.sig.priority>
+                                <ca.sig.predestroy>true</ca.sig.predestroy>
+                                <ca.sig.resource>true</ca.sig.resource>
+                                <ca.sig.resources>true</ca.sig.resources>
+                                <ca.sig.securitydeclareroles>true</ca.sig.securitydeclareroles>
+                                <ca.sig.securitydenyall>true</ca.sig.securitydenyall>
+                                <ca.sig.securitypermitall>true</ca.sig.securitypermitall>
+                                <ca.sig.securityrolesallowed>true</ca.sig.securityrolesallowed>
+                                <ca.sig.securityrunas>true</ca.sig.securityrunas>
+                                <ca.sig.sqldatasourcedefinition>true</ca.sig.sqldatasourcedefinition>
+                                <ca.sig.sqldatasourcedefinitions>true</ca.sig.sqldatasourcedefinitions>
+                            </systemPropertyVariables>
                         </configuration>
                     </execution>
                 </executions>
