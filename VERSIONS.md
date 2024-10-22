@@ -3,7 +3,7 @@
 The table below lists all the versions of the 3rd party components that are
 used by Piranha to deliver various bits and pieces of functionality.
 
-| Name                      | Version       | PCP |
+| Name                      | Version       |  CP |
 |---------------------------|---------------|-----|
 | Apache Commons FileUpload | 2.0.0-M2      |     |
 | Apache Commons IO         | 2.15.1        |     |
@@ -12,7 +12,6 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Eclipse Angus Mail        | 2.0.3         |     |
 | Eclipse Epicyro           | 3.1.0         |     |
 | Eclipse Exousia           | 3.0.0-M1.1    |     |
-| Eclipse Expressly         | 6.0.0-M2      |     |
 | Eclipse Grizzly           | 4.1.0-M1      |     |
 | Eclipse Grizzly NPN       | 2.0.0         |     |
 | Eclipse JAXB              | 4.0.5         |     |
@@ -21,17 +20,16 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Eclipse Soteria           | 4.0.0-M3      |     |
 | Eclipse Tyrus             | 2.2.0-M1      |     |
 | EclipseLink               | 5.0.0-B02     |     |
-| Expressly                 |               |  X  |
+| Expressly                 | 6.0.0-M2      |     |
 | Hazelcast                 | 5.4.0         |     |
-| Jakarta Annotations       |               |  X  |
+| Jakarta Annotations       | 3.0.0         |  X  |
 | Jakarta CDI               | 4.1.0         |  X  |
-| Jakarta EL                |               |  X  |
-| Jakarta Inject            |               |  X  |
+| Jakarta EL                |               |     |
+| Jakarta Inject            | 2.0.1         |  X  |
 | Jakarta JSON Binding      | 3.0.1         |  X  |
-| Jakarta JSON Processing   |               |  X  |
+| Jakarta JSON Processing   | 2.1.3         |  X  |
 | Jakarta REST              | 4.0.0         |  X  |
-| Jakarta Jersey            |               |  X  |
-| Jakarta Servlet           |               |  X  |
+| Jakarta Servlet           | 6.1.0         |  X  |
 | Jersey                    | 4.0.0-M1      |  X  |
 | Netty                     | 4.1.112.Final |     |
 | OmniFaces Services        | 0.4           |     |
@@ -44,5 +42,4 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Weld                      | 6.0.0.Beta4   |  X  |
 | Yasson                    | 3.0.4         |  X  |
 
-
-PCP = Piranha Core Profile
+CP = Piranha Core Profile
