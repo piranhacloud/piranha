@@ -16,6 +16,7 @@
     <name>Piranha - External - TCK - Project</name>
 
     <modules>
+        <module>annotations</module>
         <module>el</module>
         <module>jwt</module>
         <module>server</module>
