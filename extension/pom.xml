@@ -31,7 +31,6 @@
         <module>eclipse-expressly</module>
         <module>eclipse-jaxb</module>
         <module>eclipse-jstl</module>
-        <module>eclipse-mojarra</module>
         <module>eclipse-soteria</module>
         <module>eclipse-tyrus</module>
         <module>eclipse-wasp</module>
@@ -40,6 +39,7 @@
         <module>jersey</module>
         <module>micro</module>
         <module>microprofile</module>
+        <module>mojarra</module>
         <module>naming</module>
         <module>naming-cdi</module>
         <module>omnifaces-config</module>

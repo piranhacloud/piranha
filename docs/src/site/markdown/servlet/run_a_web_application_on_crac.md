@@ -39,7 +39,7 @@ create the ```pom.xml``` file with the content as below.
     <properties>
         <!-- dependencies -->
         <junit.version>5.11.0-M1</junit.version>
-        <mojarra.version>4.0.6</mojarra.version>
+        <mojarra.version>4.1.1</mojarra.version>
         <piranha.version>24.4.0</piranha.version>
         <weld.version>6.0.0.Beta4</weld.version>
         <!-- other -->

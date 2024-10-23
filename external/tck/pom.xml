@@ -18,6 +18,7 @@
     <modules>
         <module>annotations</module>
         <module>el</module>
+        <module>inject</module>
         <module>jwt</module>
         <module>server</module>
         <module>wasp</module>

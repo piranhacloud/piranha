@@ -30,32 +30,6 @@ jobs:
       with:
         paths: "external/tck/annotations/runner/target/failsafe-reports/*IT.xml"
       if: always()
-  atinject:
-    if: github.repository == 'piranhacloud/piranha'
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        java: [ '21' ]
-        os: [ubuntu-latest]
-    steps:
-    - name: Checkout Sources
-      uses: actions/checkout@v4
-    - name: Set up Java ${{ matrix.java }}
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: ${{ matrix.java }}
-    - name: Setup for TCK
-      run: mvn -B -DskipTests=true -ntp install
-    - name: Run TCK
-      run: |
-        cd external/coreprofile-tck/atinject
-        mvn -B -ntp verify
-    - name: Test Summary
-      uses: test-summary/action@v2
-      with:
-        paths: "external/coreprofile-tck/atinject/target/tck/example/target/surefire-reports/TEST-*.xml"
-      if: always()
   cdi:
     if: github.repository == 'piranhacloud/piranha'
     runs-on: ${{ matrix.os }}
@@ -107,6 +81,32 @@ jobs:
       uses: test-summary/action@v2
       with:
         paths: "external/coreprofile-tck/coreprofile/runner/target/failsafe-reports/**/TEST-*.xml"
+      if: always()
+  inject:
+    if: github.repository == 'piranhacloud/piranha'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        java: [ '21' ]
+        os: [ubuntu-latest]
+    steps:
+    - name: Checkout Sources
+      uses: actions/checkout@v4
+    - name: Set up Java ${{ matrix.java }}
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: ${{ matrix.java }}
+    - name: Setup for TCK
+      run: mvn -B -DskipTests=true -ntp install
+    - name: Run TCK
+      run: |
+        cd external/tck/inject
+        mvn -B -ntp verify
+    - name: Test Summary
+      uses: test-summary/action@v2
+      with:
+        paths: "external/tck//inject/installer/target/tck/example/target/surefire-reports/TEST-*.xml"
       if: always()
   jsonb:
     if: github.repository == 'piranhacloud/piranha'

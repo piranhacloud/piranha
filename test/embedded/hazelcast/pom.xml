@@ -45,7 +45,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-mojarra</artifactId>
+            <artifactId>piranha-extension-mojarra</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

@@ -35,7 +35,7 @@ create the ```pom.xml``` file with the content as below.
     <properties>
         <!-- dependencies -->
         <junit.version>5.11.0</junit.version>
-        <mojarra.version>4.0.7</mojarra.version>
+        <mojarra.version>4.1.1</mojarra.version>
         <weld.version>6.0.0.Beta4</weld.version>
         <!-- other -->
         <java.version>21</java.version>
