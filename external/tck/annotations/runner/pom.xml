@@ -19,6 +19,12 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>cloud.piranha.external.tck.annotations</groupId>
+            <artifactId>piranha-external-tck-annotations-installer</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta-annotations-tck</artifactId>
             <scope>test</scope>
