@@ -16,7 +16,6 @@
     <name>Piranha Core Profile - Core Profile TCK project</name>
 
     <modules>
-        <module>annotations</module>
         <module>atinject</module>
         <module>cdi</module>
         <module>coreprofile</module>
