@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cloud.piranha.external.tck</groupId>
+        <artifactId>project</artifactId>
+        <version>24.11.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>cloud.piranha.external.tck.annotations</groupId>
+    <artifactId>project</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Piranha - External - TCK - Annotations - Project</name>
+
+    <properties>
+        <annotations.tck.version>3.0.0</annotations.tck.version>
+        <sigtest-maven-plugin.version>2.2</sigtest-maven-plugin.version>
+    </properties>
+
+    <modules>
+        <module>installer</module>
+        <module>runner</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cloud.piranha</groupId>
+                <artifactId>bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.tck</groupId>
+                <artifactId>sigtest-maven-plugin</artifactId>
+                <version>${sigtest-maven-plugin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.annotation</groupId>
+                <artifactId>jakarta-annotations-tck</artifactId>
+                <version>${annotations.tck.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

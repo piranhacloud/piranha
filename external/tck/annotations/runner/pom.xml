@@ -4,91 +4,38 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.external.coreprofiletck</groupId>
+        <groupId>cloud.piranha.external.tck.annotations</groupId>
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>annotations-tck</artifactId>
+    <artifactId>piranha-external-tck-annotations-runner</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Core Profile - Annotations TCK</name>
+    <name>Piranha - External - TCK - Annotations - Runner</name>
 
     <properties>
-        <annotations.tck.version>3.0.0</annotations.tck.version>
         <jimage.dir>${project.build.directory}/jimage</jimage.dir>
-        <signature.home>${project.build.directory}/signature</signature.home>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>cloud.piranha</groupId>
-                <artifactId>bom</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.tck</groupId>
-                <artifactId>sigtest-maven-plugin</artifactId>
-                <version>2.2</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.annotation</groupId>
-                <artifactId>jakarta-annotations-tck</artifactId>
-                <version>${annotations.tck.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <dependencies>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-        </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta-annotations-tck</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.tck</groupId>
             <artifactId>sigtest-maven-plugin</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>pre-integration-test</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <!-- Download, unzip and rename TCK -->
-                                <get src="https://download.eclipse.org/jakartaee/annotations/3.0/jakarta-annotations-tck-${annotations.tck.version}.zip"
-                                     dest="${project.build.directory}/tck.zip"
-                                     skipexisting="true"/>
-                                <unzip src="${project.build.directory}/tck.zip"
-                                       dest="${project.build.directory}"/>
-                                <move file="${project.build.directory}/annotations-tck"
-                                      tofile="${project.build.directory}/tck"/>
-                                
-                                <!-- Install the TCK artifacts into local Maven repository -->
-                                <chmod dir="${project.build.directory}/tck/artifacts"
-                                       perm="ugo+rx"
-                                       includes="*"/>
-                                <exec dir="${project.build.directory}/tck/artifacts"
-                                      executable="./artifact-install.sh"/>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -102,16 +49,17 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
+                                    <!-- version comes from the BOM import in parent project -->
                                     <groupId>jakarta.annotation</groupId>
                                     <artifactId>jakarta.annotation-api</artifactId>
-                                    <outputDirectory>${signature.home}</outputDirectory>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
                                     <destFileName>jakarta.annotation-api.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -126,7 +74,7 @@
                             <dependenciesToScan>jakarta.annotation:jakarta-annotations-tck</dependenciesToScan>
                             <systemPropertyVariables>
                                 <jimage.dir>${jimage.dir}</jimage.dir>
-                                <sigTestClasspath>${signature.home}/jakarta.annotation-api.jar:${jimage.dir}/java.base:${jimage.dir}/java.rmi:${jimage.dir}/java.sql:${jimage.dir}/java.naming</sigTestClasspath>
+                                <sigTestClasspath>${project.build.directory}/jakarta.annotation-api.jar:${jimage.dir}/java.base:${jimage.dir}/java.rmi:${jimage.dir}/java.sql:${jimage.dir}/java.naming</sigTestClasspath>
                                 <ca.sig.generated>true</ca.sig.generated>
                                 <ca.sig.postconstruct>true</ca.sig.postconstruct>
                                 <ca.sig.priority>true</ca.sig.priority>

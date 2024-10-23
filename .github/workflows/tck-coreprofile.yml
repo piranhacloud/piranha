@@ -1,17 +1,5 @@
 name: tck-coreprofile
 on: 
-  push:
-    paths:
-      - 'external/coreprofile-tck/**'
-    branches:
-      - '*'
-    tags-ignore:
-      - 'v*'
-  pull_request:
-    paths:
-      - 'external/coreprofile-tck/**'
-    branches:
-      - '*'  
   schedule:
   - cron: "0 0 * * *"
   workflow_dispatch:
@@ -35,9 +23,13 @@ jobs:
       run: mvn -B -DskipTests=true -ntp install
     - name: Run TCK
       run: |
-        cd external/coreprofile-tck/annotations
+        cd external/tck/annotations
         mvn -B -ntp verify
-        cat target/tck/report/text/summary.txt >> $GITHUB_STEP_SUMMARY
+    - name: Test Summary
+      uses: test-summary/action@v2
+      with:
+        paths: "external/tck/annotations/runner/target/failsafe-reports/*IT.xml"
+      if: always()
   atinject:
     if: github.repository == 'piranhacloud/piranha'
     runs-on: ${{ matrix.os }}
