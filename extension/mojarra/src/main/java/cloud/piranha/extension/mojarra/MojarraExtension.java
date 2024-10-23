@@ -25,20 +25,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.mojarra;
+
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationExtension;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.TRACE;
 
 /**
- * This module delivers the Eclipse Mojarra integration extension.
+ * The extension that delivers Mojarra to Piranha.
  *
- * <p>
- *  This extension integrates Eclipse Mojarra into Piranha. See 
- *  https://github.com/eclipse-ee4j/mojarra for more information about its
- *  project.
- * </p>
- * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.mojarra {
+public class MojarraExtension implements WebApplicationExtension {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(MojarraExtension.class.getName());
     
-    requires cloud.piranha.core.api;
-    requires static cloud.piranha.extension.scinitializer;
+    /**
+     * Configure the extension.
+     * 
+     * @param webApplication the web application.
+     */
+    @Override
+    public void configure(WebApplication webApplication) {
+        LOGGER.log(TRACE, "Configuring Mojarra extension");
+    }
 }

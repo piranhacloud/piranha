@@ -7,9 +7,9 @@
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-extension-eclipse-mojarra</artifactId>
+    <artifactId>piranha-extension-mojarra</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Eclipse Mojarra</name>
+    <name>Piranha - Extension - Mojarra</name>
     <dependencies>
         <!-- compile -->
         <dependency>
