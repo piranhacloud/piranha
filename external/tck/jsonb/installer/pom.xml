@@ -4,31 +4,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.external.coreprofiletck</groupId>
+        <groupId>cloud.piranha.external.tck.jsonb</groupId>
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jsonb-tck</artifactId>
+    <artifactId>piranha-external-tck-jsonb-installer</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Core Profile - JSON Binding TCK</name>
+    <name>Piranha - External - TCK - JSON Binding - Installer</name>
 
     <properties>
         <tck.home>${project.build.directory}/tck</tck.home>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>cloud.piranha</groupId>
-                <artifactId>bom</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
@@ -61,27 +49,10 @@
                                               executable="./artifact-install.sh"/>
                                         
                                 <!-- Setup bin/pom.xml for correct Yasson version -->
-                                <replaceregexp file="${tck.home}/example/pom.xml"
+                                <replaceregexp file="${tck.home}/bin/pom.xml"
                                                        match="&lt;jsonb-impl.version>(.*)&lt;/jsonb-impl.version>"
                                                        replace="&lt;jsonb-impl.version>${yasson.version}&lt;/jsonb-impl.version>"
                                                        byline="true"/>
-                            </target>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>integration-test</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <!-- Run the tests -->
-                                <exec dir="${tck.home}/bin"
-                                              executable="mvn">
-                                    <arg value="-Djava.locale.providers=COMPAT"/>
-                                    <arg value="verify"/>
-                                </exec>
                             </target>
                         </configuration>
                     </execution>
