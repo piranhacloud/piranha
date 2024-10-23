@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cloud.piranha.external.tck.annotations</groupId>
+        <artifactId>project</artifactId>
+        <version>24.11.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>piranha-external-tck-annotations-runner</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Piranha - External - TCK - Annotations - Runner</name>
+
+    <properties>
+        <jimage.dir>${project.build.directory}/jimage</jimage.dir>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta-annotations-tck</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>sigtest-maven-plugin</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <!-- version comes from the BOM import in parent project -->
+                                    <groupId>jakarta.annotation</groupId>
+                                    <artifactId>jakarta.annotation-api</artifactId>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <destFileName>jakarta.annotation-api.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sig-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <dependenciesToScan>jakarta.annotation:jakarta-annotations-tck</dependenciesToScan>
+                            <systemPropertyVariables>
+                                <jimage.dir>${jimage.dir}</jimage.dir>
+                                <sigTestClasspath>${project.build.directory}/jakarta.annotation-api.jar:${jimage.dir}/java.base:${jimage.dir}/java.rmi:${jimage.dir}/java.sql:${jimage.dir}/java.naming</sigTestClasspath>
+                                <ca.sig.generated>true</ca.sig.generated>
+                                <ca.sig.postconstruct>true</ca.sig.postconstruct>
+                                <ca.sig.priority>true</ca.sig.priority>
+                                <ca.sig.predestroy>true</ca.sig.predestroy>
+                                <ca.sig.resource>true</ca.sig.resource>
+                                <ca.sig.resources>true</ca.sig.resources>
+                                <ca.sig.securitydeclareroles>true</ca.sig.securitydeclareroles>
+                                <ca.sig.securitydenyall>true</ca.sig.securitydenyall>
+                                <ca.sig.securitypermitall>true</ca.sig.securitypermitall>
+                                <ca.sig.securityrolesallowed>true</ca.sig.securityrolesallowed>
+                                <ca.sig.securityrunas>true</ca.sig.securityrunas>
+                                <ca.sig.sqldatasourcedefinition>true</ca.sig.sqldatasourcedefinition>
+                                <ca.sig.sqldatasourcedefinitions>true</ca.sig.sqldatasourcedefinitions>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
