@@ -18,7 +18,6 @@
     <modules>
         <module>cdi</module>
         <module>coreprofile</module>
-        <module>jsonb</module>
         <module>jsonp</module>
         <module>rest</module>
     </modules>
@@ -27,7 +26,11 @@
         <!-- TCK versions -->
         <cdi.tck.version>4.0.13</cdi.tck.version>
         <coreprofile.tck.version>10.0.3</coreprofile.tck.version>
+<<<<<<< Updated upstream
         <jsonb.tck.version>3.0.0</jsonb.tck.version>
+=======
+        <inject.tck.version>2.0.2</inject.tck.version>
+>>>>>>> Stashed changes
         <jsonp.tck.version>2.1.1</jsonp.tck.version>
         <rest.tck.version>3.1.5</rest.tck.version>
         <!-- Implementation versions -->

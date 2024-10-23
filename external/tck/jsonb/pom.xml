@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cloud.piranha.external.tck</groupId>
+        <artifactId>project</artifactId>
+        <version>24.11.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>cloud.piranha.external.tck.jsonb</groupId>
+    <artifactId>project</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Piranha - External - TCK - JSON Binding - Project</name>
+
+    <properties>
+        <jsonb.tck.version>3.0.0</jsonb.tck.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cloud.piranha</groupId>
+                <artifactId>bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
+    <modules>
+        <module>installer</module>
+        <module>runner</module>
+    </modules>
+</project>
