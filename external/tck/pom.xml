@@ -18,11 +18,8 @@
     <modules>
         <module>annotations</module>
         <module>el</module>
-<<<<<<< Updated upstream
         <module>inject</module>
-=======
         <module>jsonb</module>
->>>>>>> Stashed changes
         <module>jwt</module>
         <module>server</module>
         <module>wasp</module>
