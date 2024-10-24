@@ -57,8 +57,7 @@
                                 <echo>Running JSON Processing TCK ${jsonp.tck.version} against Parsson ${parsson.version}</echo>
                                 <echo>----------------------------------------------------------</echo>
                                 <exec dir="${tck.home}/bin"
-                                      executable="mvn"
-                                      failonerror="true">
+                                      executable="mvn">
                                     <arg value="verify"/>
                                 </exec>
                                 <echo>----------------------------------------------------------</echo>

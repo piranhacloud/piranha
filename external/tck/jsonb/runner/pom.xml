@@ -29,6 +29,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>cloud.piranha.external.tck.jsonb</groupId>
+            <artifactId>piranha-external-tck-jsonb-installer</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

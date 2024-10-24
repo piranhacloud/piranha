@@ -20,14 +20,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.external.coreprofiletck.cditck.runner</groupId>
+        <groupId>cloud.piranha.external.tck.cdi.runner</groupId>
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>signature</artifactId>
+    <artifactId>piranha-external-tck-cdi-runner-signature</artifactId>
 
-    <name>Piranha Core Profile - CDI TCK - Runner - Signature</name>
+    <name>Piranha - External - TCK - CDI - Runner - Signature</name>
     <description>Aggregates dependencies and runs the CDI Signature TCK on Piranha</description>
 
     <properties>
@@ -53,9 +53,9 @@
                                 <artifactItem>
                                     <groupId>jakarta.enterprise</groupId>
                                     <artifactId>cdi-tck-core-impl</artifactId>
-                                    <version>4.0.13</version>
+                                    <version>${cdi.tck.version}</version>
                                     <type>sig</type>
-                                    <classifier>sigtest-jdk11</classifier>
+                                    <classifier>sigtest-jdk17</classifier>
                                     <outputDirectory>${project.build.directory}/sigtest</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
@@ -79,7 +79,7 @@
                                     <version>${piranha.version}</version>
                                     <type>jar</type>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>target/cdi-sigtest-classes</outputDirectory>
+                                    <outputDirectory>target/classes</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -100,9 +100,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <sigfile>target/sigtest/cdi-tck-core-impl-sigtest-jdk11.sig</sigfile>
+                    <sigfile>target/sigtest/cdi-tck-core-impl-sigtest-jdk17.sig</sigfile>
                     <packages>jakarta.decorator,jakarta.enterprise.**,jakarta.interceptor</packages>
-                    <classes>target/cdi-sigtest-classes</classes>
+                    <classes>target/classes</classes>
                     <report>target/cdi-sig-report.txt</report>
                 </configuration>
             </plugin>

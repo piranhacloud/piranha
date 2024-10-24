@@ -16,17 +16,13 @@
     <name>Piranha Core Profile - Core Profile TCK project</name>
 
     <modules>
-        <module>cdi</module>
         <module>coreprofile</module>
         <module>rest</module>
     </modules>
 
     <properties>
         <!-- TCK versions -->
-        <cdi.tck.version>4.0.13</cdi.tck.version>
         <coreprofile.tck.version>10.0.3</coreprofile.tck.version>
         <rest.tck.version>3.1.5</rest.tck.version>
-        <!-- Implementation versions -->
-        <weld.version>6.0.0.Beta4</weld.version>
     </properties>
 </project>

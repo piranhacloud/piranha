@@ -20,14 +20,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.external.coreprofiletck.cditck.runner</groupId>
+        <groupId>cloud.piranha.external.tck.cdi.runner</groupId>
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>lang-model</artifactId>
+    <artifactId>piranha-external-tck-cdi-runner-langmodel</artifactId>
 
-    <name>Piranha Core Profile - CDI TCK - Runner - Lang Model</name>
+    <name>Piranha - External - TCK - CDI - Runner - Lang Model</name>
     <description>Aggregates dependencies and runs the CDI Lang Model TCK on Piranha</description>
 
     <properties>

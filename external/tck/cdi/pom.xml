@@ -4,20 +4,23 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.external.coreprofiletck.cditck</groupId>
+        <groupId>cloud.piranha.external.tck</groupId>
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cloud.piranha.external.coreprofiletck.cditck.runner</groupId>
+    <groupId>cloud.piranha.external.tck.cdi</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Core Profile - CDI TCK - Runner - Project</name>
+    <name>Piranha - External - TCK - CDI - Project</name>
+    
+    <properties>
+        <cdi.tck.version>4.1.0</cdi.tck.version>
+    </properties>
 
     <modules>
-        <module>core</module>
-        <module>signature</module>
-        <module>model</module>
+        <module>installer</module>
+        <module>runner</module>
     </modules>
 </project>

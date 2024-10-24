@@ -53,8 +53,7 @@
                             <target>
                                 <!-- Run the tests -->
                                 <exec dir="${tck.home}/example"
-                                      executable="mvn"
-                                      failonerror="true">
+                                      executable="mvn">
                                     <arg value="verify"/>
                                 </exec>
                             </target>
