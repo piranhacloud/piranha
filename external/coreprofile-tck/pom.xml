@@ -18,7 +18,6 @@
     <modules>
         <module>cdi</module>
         <module>coreprofile</module>
-        <module>jsonp</module>
         <module>rest</module>
     </modules>
 
@@ -26,11 +25,8 @@
         <!-- TCK versions -->
         <cdi.tck.version>4.0.13</cdi.tck.version>
         <coreprofile.tck.version>10.0.3</coreprofile.tck.version>
-        <jsonp.tck.version>2.1.1</jsonp.tck.version>
         <rest.tck.version>3.1.5</rest.tck.version>
         <!-- Implementation versions -->
-        <parsson.version>1.1.7</parsson.version>
         <weld.version>6.0.0.Beta4</weld.version>
-        <yasson.version>3.0.4</yasson.version>
     </properties>
 </project>

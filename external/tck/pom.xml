@@ -20,6 +20,7 @@
         <module>el</module>
         <module>inject</module>
         <module>jsonb</module>
+        <module>jsonp</module>
         <module>jwt</module>
         <module>server</module>
         <module>wasp</module>

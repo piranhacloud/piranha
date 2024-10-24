@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cloud.piranha.external.tck.jsonp</groupId>
+        <artifactId>project</artifactId>
+        <version>24.11.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>cloud-piranha-external-tck-jsonp-runner</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Piranha - External - TCK - JSON Processing - Runner</name>
+
+    <properties>
+        <tck.home>${project.build.directory}/../../installer/target/tck</tck.home>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cloud.piranha</groupId>
+                <artifactId>bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>cloud.piranha.external.tck.jsonp</groupId>
+            <artifactId>piranha-external-tck-jsonp-installer</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <!-- Run the tests -->
+                                <echo>----------------------------------------------------------</echo>
+                                <echo>Running JSON Processing TCK ${jsonp.tck.version} against Parsson ${parsson.version}</echo>
+                                <echo>----------------------------------------------------------</echo>
+                                <exec dir="${tck.home}/bin"
+                                      executable="mvn"
+                                      failonerror="true">
+                                    <arg value="verify"/>
+                                </exec>
+                                <echo>----------------------------------------------------------</echo>
+                                <echo>Ran JSON Processing TCK ${jsonp.tck.version} against Parsson ${parsson.version}</echo>
+                                <echo>----------------------------------------------------------</echo>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
