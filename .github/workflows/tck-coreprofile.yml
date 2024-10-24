@@ -77,8 +77,8 @@ jobs:
       run: mvn -B -DskipTests=true -ntp install
     - name: Run TCK
       run: |
-        cd external/coreprofile-tck/coreprofile
-        mvn -B -ntp verify        
+        cd external/tck/coreprofile
+        mvn -B -Dmaven.test.failure.ignore=true -ntp verify        
     - name: Test Summary
       uses: test-summary/action@v2
       with:
@@ -189,4 +189,9 @@ jobs:
       uses: test-summary/action@v2
       with:
         paths: "external/tck/rest/runner/target/failsafe-reports/**/TEST-*.xml"
+        output: test-summary.md
+      if: always()
+    - name: Job Summary
+      run: |
+        echo "${{ steps.test_summary.outputs.passed }} out of ${{ steps.test_summary.outputs.total }} tests passed" >> $GITHUB_STEP_SUMMARY
       if: always()

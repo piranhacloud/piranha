@@ -28,7 +28,6 @@
     </dependencyManagement>
 
     <modules>
-        <module>coreprofile-tck</module>
         <module>ejblite</module>
         <module>jakartaee-samples</module>
         <module>kickoff</module>

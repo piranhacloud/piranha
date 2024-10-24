@@ -13,7 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha - External - TCK - Inject TCK - Project</name>
+    <name>Piranha - External - TCK - Inject - Project</name>
 
     <properties>
         <inject.tck.version>2.0.2</inject.tck.version>
