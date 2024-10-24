@@ -12,7 +12,7 @@
     <artifactId>piranha-external-tck-inject-installer</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha - External - TCK - Inject TCK - Installer</name>
+    <name>Piranha - External - TCK - Inject - Installer</name>
 
     <properties>
         <tck.home>${project.build.directory}/tck</tck.home>

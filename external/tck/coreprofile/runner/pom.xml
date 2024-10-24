@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.external.coreprofiletck.coreprofiletck</groupId>
+        <groupId>cloud.piranha.external.tck.coreprofile</groupId>
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>runner</artifactId>
+    <artifactId>piranha-external-tck-coreprofile-runner</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha Core Profile - Core Profile TCK - Runner</name>
+    <name>Piranha - External - TCK - Core Profile - Runner</name>
 
     <properties>
         <piranha.version>${project.version}</piranha.version>
@@ -30,20 +30,18 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <!-- Run the installer first. Matters when executing in parallel  -->
         <dependency>
-            <groupId>cloud.piranha.external.coreprofiletck.coreprofiletck</groupId>
-            <artifactId>installer</artifactId>
+            <groupId>cloud.piranha.external.tck.coreprofile</groupId>
+            <artifactId>piranha-external-tck-coreprofile-installer</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
-            <scope>provided</scope>
         </dependency>
 
         <!-- The actual TCK jar containing the tests -->
         <dependency>
-            <groupId>jakarta.ee.tck.coreprofile</groupId>
+            <groupId>jakarta.tck.coreprofile</groupId>
             <artifactId>core-profile-tck-impl</artifactId>
-            <version>10.0.3</version>
+            <version>${coreprofile.tck.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -107,7 +105,7 @@
                 </executions>
                 <configuration>
                     <dependenciesToScan>
-                        <dependency>jakarta.ee.tck.coreprofile:core-profile-tck-impl</dependency>
+                        <dependency>jakarta.tck.coreprofile:core-profile-tck-impl</dependency>
                     </dependenciesToScan>
                     <forkCount>1</forkCount>
                     <reuseForks>false</reuseForks>

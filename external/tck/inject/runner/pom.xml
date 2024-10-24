@@ -12,7 +12,7 @@
     <artifactId>piranha-external-tck-inject-runner</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha - External - TCK - Inject TCK - Runner</name>
+    <name>Piranha - External - TCK - Inject - Runner</name>
 
     <properties>
         <tck.home>${project.build.directory}/../../installer/target/tck</tck.home>

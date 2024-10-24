@@ -4,23 +4,23 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.external</groupId>
+        <groupId>cloud.piranha.external.tck</groupId>
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cloud.piranha.external.coreprofiletck</groupId>
+    <groupId>cloud.piranha.external.tck.coreprofile</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha Core Profile - Core Profile TCK project</name>
-
-    <modules>
-        <module>coreprofile</module>
-    </modules>
+    <name>Piranha - External - TCK - Core Profile - Project</name>
 
     <properties>
-        <!-- TCK versions -->
-        <coreprofile.tck.version>10.0.3</coreprofile.tck.version>
+        <coreprofile.tck.version>11.0.0</coreprofile.tck.version>
     </properties>
+
+    <modules>
+        <module>installer</module>
+        <module>runner</module>
+    </modules>
 </project>
