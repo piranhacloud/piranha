@@ -55,7 +55,7 @@ jobs:
       uses: test-summary/action@v2
       with:
         paths: |
-          external/tck/cdi/runner/core/target/surefire-reports/junit-reports/TEST-*.xml
+          external/tck/cdi/runner/core/target/surefire-reports/junitreports/TEST-*.xml
           external/tck/cdi/runner/model/target/surefire-reports/TEST-*.xml
       if: always()
   coreprofile:
@@ -184,7 +184,7 @@ jobs:
     - name: Run TCK
       run: |
         cd external/coreprofile-tck/rest
-        mvn -B -ntp verify        
+        mvn -B -ntp -T 1 verify        
     - name: Test Summary
       uses: test-summary/action@v2
       with:

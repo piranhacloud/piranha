@@ -3,14 +3,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>cloud.piranha.external.coreprofiletck</groupId>
+        <groupId>cloud.piranha.external.tck.rest</groupId>
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
-    <artifactId>rest-tck-runner</artifactId>
+
+    <artifactId>piranha-external-tck-rest-runner</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha Core Profile - REST TCK - Runner</name>
+    <name>Piranha - External - TCK - REST - Runner</name>
+
     <properties>
         <piranha.version>${project.version}</piranha.version>
     </properties>
@@ -36,7 +37,7 @@
         <dependency>
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta-restful-ws-tck</artifactId>
-            <version>3.1.5</version>
+            <version>${rest.tck.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
