@@ -17,6 +17,7 @@
 
     <modules>
         <module>annotations</module>
+        <module>cdi</module>
         <module>el</module>
         <module>inject</module>
         <module>jsonb</module>

@@ -49,12 +49,14 @@ jobs:
       run: mvn -B -DskipTests=true -ntp install
     - name: Run TCK
       run: |
-        cd external/coreprofile-tck/cdi
+        cd external/tck/cdi
         mvn -B -ntp -T 1 verify
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "external/coreprofile-tck/cdi/runner/target/surefire-reports/junitreports/TEST-*.xml"
+        paths: |
+          external/tck/cdi/runner/core/target/surefire-reports/junit-reports/TEST-*.xml
+          external/tck/cdi/runner/model/target/surefire-reports/TEST-*.xml
       if: always()
   coreprofile:
     if: github.repository == 'piranhacloud/piranha'
@@ -159,8 +161,8 @@ jobs:
       uses: test-summary/action@v2
       with:
         paths: |
-          external/tck/jsonb/installer/target/tck/bin/tck-tests/target/surefire-reports/TEST-*.xml
-          external/tck/jsonb/installer/target/tck/bin/tck-tests-pluggability/target/surefire-reports/TEST-*.xml
+          external/tck/jsonp/installer/target/tck/bin/tck-tests/target/surefire-reports/TEST-*.xml
+          external/tck/jsonp/installer/target/tck/bin/tck-tests-pluggability/target/surefire-reports/TEST-*.xml
       if: always()
   rest:
     if: github.repository == 'piranhacloud/piranha'
