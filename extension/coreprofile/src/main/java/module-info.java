@@ -35,7 +35,6 @@
  * </p>
  * <ul>
  *  <li>Annotation Scanning</li>
- *  <li>Eclipse Expressly (EL)</li>
  *  <li>Eclipse Parsson (JSON)</li>
  *  <li>Eclipse Yasson (JSON-B)</li>
  *  <li>Eclipse Jersey (REST)</li>
@@ -51,7 +50,6 @@ module cloud.piranha.extension.coreprofile {
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.annotationscan.classfile;
-    requires cloud.piranha.extension.expressly;
     requires cloud.piranha.extension.jersey;
     requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.scinitializer;
