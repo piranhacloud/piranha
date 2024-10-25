@@ -155,8 +155,8 @@
         <maven-replacer-plugin.version>1.5.3</maven-replacer-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
-        <!-- Kept at 3.20.0 because of Doxia requirement -->
-        <maven-site-plugin.version>3.20.0</maven-site-plugin.version>
+        <!-- Kept at 3.12.1 because of 3.20.0 is broken -->
+        <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.5.1</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
