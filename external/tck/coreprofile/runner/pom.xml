@@ -62,8 +62,8 @@
         </dependency>
         <dependency>
             <groupId>org.omnifaces.arquillian</groupId>
-            <artifactId>glassfish-client-ee10</artifactId>
-            <version>${glassfish-client-ee10.version}</version>
+            <artifactId>glassfish-client-ee11</artifactId>
+            <version>${glassfish-client-ee11.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
