@@ -82,7 +82,7 @@ jobs:
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "external/coreprofile-tck/coreprofile/runner/target/failsafe-reports/**/TEST-*.xml"
+        paths: "external/tck/coreprofile/runner/target/failsafe-reports/**/TEST-*.xml"
       if: always()
   inject:
     if: github.repository == 'piranhacloud/piranha'
@@ -187,6 +187,7 @@ jobs:
         mvn -B -ntp -T 1 verify        
     - name: Test Summary
       uses: test-summary/action@v2
+      id: test_summary
       with:
         paths: "external/tck/rest/runner/target/failsafe-reports/**/TEST-*.xml"
         output: test-summary.md
