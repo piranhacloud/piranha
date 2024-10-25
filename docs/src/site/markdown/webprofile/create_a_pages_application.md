@@ -37,7 +37,7 @@ create the ```pom.xml``` file with the content as below.
         <maven-failsafe-plugin.version>3.2.1</maven-failsafe-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <piranha.distribution>webprofile</piranha.distribution>
-        <piranha.version>23.10.0</piranha.version>
+        <piranha.version>24.10.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -209,7 +209,4 @@ deploy your application:
 
 As you can see using Jakarta Pages on Piranha Web Profile is very easy!
 
-## External References
-
-1. [Jakarta Pages 3.1 specification](https://jakarta.ee/specifications/pages/3.1/)
 

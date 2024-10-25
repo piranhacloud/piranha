@@ -30,7 +30,7 @@ Create an empty directory to store your Maven project. Inside of that directory 
     <name>Testing with our container image</name>
     <properties>
         <!-- dependencies -->
-        <jakartaee.version>10.0.0</jakartaee.version>
+        <jakartaee.version>11.0.0-M4</jakartaee.version>
         <junit.version>5.10.0-M1</junit.version>
         <!-- plugins -->
         <docker-maven-plugin.version>0.43.4</docker-maven-plugin.version>

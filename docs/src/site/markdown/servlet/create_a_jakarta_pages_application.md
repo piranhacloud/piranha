@@ -211,7 +211,3 @@ deploy your application:
 
 As you can see using Jakarta Pages on Piranha Servlet is very easy!
 
-## References
-
-1. [Jakarta Pages 3.1 specification](https://jakarta.ee/specifications/pages/3.1/)
-

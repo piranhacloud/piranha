@@ -37,8 +37,3 @@ distribution:
 1. [Create a Pages application](create_a_pages_application.html)
 1. [Testing with JUnit5 and Playwright](testing_with_junit5_and_playwright.html)
 1. [Testing with our container image](testing_with_our_container_image.html)
-
-## External Documentation
-
-1. [Jakarta EE 10 Web Profile Specification](https://jakarta.ee/specifications/webprofile/10/jakarta-webprofile-spec-10.0.pdf)
-1. [Jakarta EE 10 Web Profile API documentation](https://jakarta.ee/specifications/webprofile/10/apidocs/)

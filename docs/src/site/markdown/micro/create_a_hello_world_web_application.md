@@ -31,7 +31,7 @@ Create an empty directory to store your Maven project. Inside of that directory 
     <name>Piranha Micro - Create a Hello World application</name>
     <properties>
         <!-- dependencies -->
-        <jakarta.jakartaee-web-api.version>10.0.0</jakarta.jakartaee-web-api.version>
+        <jakarta.jakartaee-web-api.version>11.0.0-M4</jakarta.jakartaee-web-api.version>
         <junit.version>5.9.1</junit.version>
         <!-- other -->
         <java.version>21</java.version>

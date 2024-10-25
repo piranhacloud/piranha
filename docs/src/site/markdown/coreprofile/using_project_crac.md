@@ -37,7 +37,7 @@ create the ```pom.xml``` file with the content as below.
     <name>Piranha Core Profile on Project CRaC</name>
     <properties>
         <!-- dependencies -->
-        <jakartaee.version>10.0.0</jakartaee.version>
+        <jakartaee.version>11.0.0-M4</jakartaee.version>
         <junit.version>5.11.0-M2</junit.version>
         <piranha.version>24.7.0</piranha.version>
         <!-- other -->

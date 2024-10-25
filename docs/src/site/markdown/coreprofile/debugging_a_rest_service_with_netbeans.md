@@ -29,7 +29,7 @@ create the ```pom.xml``` file with the content as below.
     <packaging>war</packaging>
     <name>Piranha Core Profile - Debugging a REST service with NetBeans</name>
     <properties>
-        <jakartaee.version>10.0.0</jakartaee.version>
+        <jakartaee.version>11.0.0-M4</jakartaee.version>
         <java.version>17</java.version>
         <junit.version>5.10.0-M1</junit.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
