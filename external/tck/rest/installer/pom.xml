@@ -52,7 +52,7 @@
                                        dest="${project.build.directory}/tck"/>
                                         
                                 <!-- Install the TCK artifact into local repository -->
-                                <exec dir="${project.build.directory}/tck"
+                                <exec dir="${project.build.directory}/tck/restful-ws-tck/artifacts"
                                       executable="mvn">
                                     <arg line="install:install-file -Dfile=jakarta-restful-ws-tck-${rest.tck.version}.jar -DgroupId=jakarta.ws.rs -DartifactId=jakarta-restful-ws-tck -Dversion=${rest.tck.version} -Dpackaging=jar"/>
                                 </exec>

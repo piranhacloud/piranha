@@ -70,8 +70,8 @@
         
         <dependency>
             <groupId>org.omnifaces.arquillian</groupId>
-            <artifactId>glassfish-client-ee10</artifactId>
-            <version>1.6</version>
+            <artifactId>glassfish-client-ee11</artifactId>
+            <version>1.6.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
