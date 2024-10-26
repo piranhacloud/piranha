@@ -74,7 +74,6 @@
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>jakarta.enterprise.cdi-el-api</artifactId>
-            <version>4.1.0-M1</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>

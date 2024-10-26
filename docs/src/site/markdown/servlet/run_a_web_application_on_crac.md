@@ -33,14 +33,14 @@ create the ```pom.xml``` file with the content as below.
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.piranha.guides.servlet</groupId>
     <artifactId>crac</artifactId>
-    <version>24.11.0-SNAPSHOT</version>
+    <version>1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Run a web application on Piranha Servlet with CRaC</name>
     <properties>
         <!-- dependencies -->
         <junit.version>5.11.0-M1</junit.version>
         <mojarra.version>4.1.1</mojarra.version>
-        <piranha.version>24.4.0</piranha.version>
+        <piranha.version>24.11.0</piranha.version>
         <weld.version>6.0.0.Beta4</weld.version>
         <!-- other -->
         <java.version>21</java.version>
@@ -338,6 +338,3 @@ the right command line switch.
 ## References
 
 1. [CRaC Project](https://wiki.openjdk.org/display/crac/Main)
-
-[Up](../)
-
