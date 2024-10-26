@@ -5,29 +5,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!--
-
-    WARNING - Do not remove the versions in the properties section as this
-    particular project is used as a basis for the guide content at 
-    docs/src/site/markdown/servlet/create_a_jakarta_pages_application.md.
-  
-    When updating the guide do the following:
-
-    1. Drop the parent part below
-    2. Change the name of the project to read 'Create a Jakara Pages application'
-    3. Change the piranha.version to the latest released version of Piranha
-
-    -->
     <parent>
         <groupId>cloud.piranha.test.servlet</groupId>
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
-    <groupId>cloud.piranha.test.servlet</groupId>
     <artifactId>pages</artifactId>
-    <version>24.11.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Piranha - Test - Servlet - Jakarta Pages application</name>
+    <name>Piranha - Test - Servlet - Pages application</name>
     <properties>
         <!-- dependencies -->
         <junit.version>5.11.2</junit.version>
@@ -37,6 +22,7 @@
         <piranha.distribution>servlet</piranha.distribution>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- plugins -->
+        <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>3.5.1</maven-failsafe-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
@@ -86,6 +72,7 @@
                 </executions>
                 <configuration>
                     <distribution>servlet</distribution>
+                    <httpPort>${httpPort}</httpPort>
                 </configuration>
             </plugin>
             <plugin>
@@ -108,6 +95,12 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <forkCount>1</forkCount>
+                    <systemPropertyVariables>
+                        <httpPort>${httpPort}</httpPort>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -116,6 +109,25 @@
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${build-helper-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>reserve-network-port</id>
+                        <goals>
+                            <goal>reserve-network-port</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <portNames>
+                                <portName>httpPort</portName>
+                            </portNames>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
