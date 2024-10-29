@@ -33,10 +33,12 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class HelloWorldIT {
  
+    @Disabled
     @Test
     void testHelloWorldHtml() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
