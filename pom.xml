@@ -125,7 +125,7 @@
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.2.0</tyrus.version>
         <undertow.version>2.3.17.Final</undertow.version>
-        <wasp.version>4.0.0-M1</wasp.version>
+        <wasp.version>4.0.0-M2</wasp.version>
         <weld.version>6.0.0.Beta4</weld.version>
         <yasson.version>3.0.4</yasson.version>
         <!-- plugins -->

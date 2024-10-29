@@ -27,10 +27,10 @@
  */
 
 /**
- * This module delivers the Eclipse WaSP integration extension.
+ * This module delivers the WaSP integration extension.
  *
  * <p>
- *  This extension integrates Eclipse WaSP into Piranha. See 
+ *  This extension integrates WaSP into Piranha. See 
  *  https://github.com/eclipse-ee4j/wasp for more information about its
  *  project.
  * </p>

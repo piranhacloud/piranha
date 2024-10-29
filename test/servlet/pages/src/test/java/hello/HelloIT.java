@@ -12,15 +12,17 @@ import org.junit.jupiter.api.Test;
 
 public class HelloIT {
 
+    private final String portNumber = System.getProperty("httpPort");
+
     @Test
-    public void testHelloPagesJsp() throws Exception {
+    public void testPagesHelloJsp() throws Exception {
         HttpClient client = HttpClient
                 .newBuilder()
                 .connectTimeout(Duration.ofSeconds(60))
                 .followRedirects(ALWAYS)
                 .build();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:8080/pages/hellopages.jsp"))
+                .newBuilder(new URI("http://localhost:" + portNumber + "/pages/hello.jsp"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Hello from Jakarta Pages!"));
