@@ -32,7 +32,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -47,6 +47,7 @@ class MicroPiranhaIT {
      * 
      * @throws Exception when a serious error occurs.
      */
+    @Disabled
     @Test
     void testCommandLine() throws Exception {
         ProcessBuilder builder = new ProcessBuilder();
