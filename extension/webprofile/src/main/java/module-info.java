@@ -39,7 +39,7 @@
  *  <li>Default DataSource</li>
  *  <li>Eclipse Expressly (EL)</li>
  *  <li>Eclipse Jersey (REST)</li>
- *  <li>Naming (JNDI)</li>
+ *  <li>Herring (JNDI)</li>
  *  <li>Java Policy</li>
  *  <li>ServletContainerInitializer</li>
  *  <li>Servlet Security</li>
@@ -63,8 +63,8 @@ module cloud.piranha.extension.webprofile {
     requires cloud.piranha.extension.datasource;
     requires cloud.piranha.extension.eclipselink;
     requires cloud.piranha.extension.glassfish7x;
+    requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.jersey;
-    requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.security.servlet;

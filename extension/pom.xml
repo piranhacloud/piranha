@@ -35,11 +35,11 @@
         <module>eclipse-tyrus</module>
         <module>eclipselink</module>
         <module>hazelcast</module>
+        <module>herring</module>
         <module>jersey</module>
         <module>micro</module>
         <module>microprofile</module>
         <module>mojarra</module>
-        <module>naming</module>
         <module>naming-cdi</module>
         <module>omnifaces-config</module>
         <module>omnifaces-microprofile-jwt-auth</module>

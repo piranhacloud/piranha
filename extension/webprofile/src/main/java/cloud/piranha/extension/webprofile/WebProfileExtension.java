@@ -35,7 +35,7 @@ import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.datasource.DefaultDatasourceExtension;
 import cloud.piranha.extension.eclipselink.EclipseLinkExtension;
 import cloud.piranha.extension.glassfish7x.Glassfish7xExtension;
-import cloud.piranha.extension.naming.NamingExtension;
+import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.policy.PolicyExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
@@ -64,7 +64,7 @@ public class WebProfileExtension implements WebApplicationExtension {
         context.add(ServletSecurityManagerExtension.class);         // SecurityManager
         context.add(ApacheMultiPartExtension.class);                // Servlet Part API support
         context.add(WaspJspManagerExtension.class);                 // addJspFile
-        context.add(NamingExtension.class);                         // Naming (JNDI)
+        context.add(HerringExtension.class);                        // Herring (JNDI)
         context.add(WebXmlExtension.class);                         // web.xml
         context.add(getAnnotationScanExtensionClass());             // Annotation scanning
         context.add(ServletAnnotationsExtension.class);             // Servlet annotations

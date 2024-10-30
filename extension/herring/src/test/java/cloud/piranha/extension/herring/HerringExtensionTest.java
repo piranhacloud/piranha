@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.naming;
+package cloud.piranha.extension.herring;
 
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,11 +44,11 @@ import jakarta.servlet.ServletRequestEvent;
 import jakarta.servlet.ServletRequestListener;
 
 /**
- * The JUnit tests for the NamingExtension class.
+ * The JUnit tests for the HerringExtension class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class NamingExtensionTest {
+class HerringExtensionTest {
 
     /**
      * Test configure method.
@@ -57,9 +57,9 @@ class NamingExtensionTest {
      */
     @Test
     void testConfigure() throws Exception {
-        System.setProperty(INITIAL_CONTEXT_FACTORY, NamingInitialContextFactory.class.getName());
+        System.setProperty(INITIAL_CONTEXT_FACTORY, HerringInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .extension(NamingExtension.class)
+                .extension(HerringExtension.class)
                 .listener(TestServletRequestListener.class.getName())
                 .build()
                 .start();
@@ -81,12 +81,12 @@ class NamingExtensionTest {
     @Test
     void testConfigure2() throws Exception {
         new EmbeddedPiranhaBuilder()
-                .extension(NamingExtension.class)
+                .extension(HerringExtension.class)
                 .listener(TestServletRequestListener.class.getName())
                 .build()
                 .start();
         assertEquals(System.getProperty(INITIAL_CONTEXT_FACTORY),
-                NamingInitialContextFactory.class.getName());
+                HerringInitialContextFactory.class.getName());
     }
 
     /**

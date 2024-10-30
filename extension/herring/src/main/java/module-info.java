@@ -25,44 +25,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.naming;
-
-import com.manorrock.herring.DefaultInitialContext;
-import java.util.Hashtable;
-import javax.naming.Context;
-import javax.naming.NamingException;
-import javax.naming.spi.InitialContextFactory;
 
 /**
- * The Naming InitialContextFactory.
+ * This module integrates Manorrock Herring into Piranha.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NamingInitialContextFactory implements InitialContextFactory {
+module cloud.piranha.extension.herring {
 
-    /**
-     * Stores the initial context.
-     */
-    private static Context theOneAndOnlyInstance = new DefaultInitialContext();
-
-    /**
-     * Sets the initial context
-     * 
-     * @param context the initial context
-     */
-    public static void setInitialContext(Context context) {
-        theOneAndOnlyInstance = context;
-    }
-
-    /**
-     * Get the initial context.
-     *
-     * @return the initial context.
-     * @param environment the environment.
-     * @throws NamingException when a naming error occurs.
-     */
-    @Override
-    public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
-        return theOneAndOnlyInstance;
-    }
+    exports cloud.piranha.extension.herring;
+    opens cloud.piranha.extension.herring;
+    requires cloud.piranha.core.api;
+    requires transitive com.manorrock.herring;
+    requires transitive com.manorrock.herring.thread;
+    requires jakarta.annotation;
+    requires transitive java.naming;
 }

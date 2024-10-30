@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.naming;
+package cloud.piranha.extension.herring;
 
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
@@ -55,12 +55,12 @@ import javax.naming.spi.NamingManager;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class NamingExtension implements WebApplicationExtension {
+public class HerringExtension implements WebApplicationExtension {
 
     /**
      * Stores the logger.
      */
-    private static final System.Logger LOGGER = System.getLogger(NamingExtension.class.getName());
+    private static final System.Logger LOGGER = System.getLogger(HerringExtension.class.getName());
 
     /**
      * Configure the web application.
@@ -69,13 +69,13 @@ public class NamingExtension implements WebApplicationExtension {
      */
     @Override
     public void configure(WebApplication webApplication) {
-        LOGGER.log(DEBUG, "Configuring NamingExtension");
+        LOGGER.log(DEBUG, "Configuring HerringExtension");
         if (System.getProperty(INITIAL_CONTEXT_FACTORY) == null) {
-            LOGGER.log(DEBUG, "Setting " + INITIAL_CONTEXT_FACTORY + " to " + NamingInitialContextFactory.class.getName());
-            System.setProperty(INITIAL_CONTEXT_FACTORY, NamingInitialContextFactory.class.getName());
+            LOGGER.log(DEBUG, "Setting " + INITIAL_CONTEXT_FACTORY + " to " + HerringInitialContextFactory.class.getName());
+            System.setProperty(INITIAL_CONTEXT_FACTORY, HerringInitialContextFactory.class.getName());
         }
-        if (!System.getProperty(INITIAL_CONTEXT_FACTORY).equals(NamingInitialContextFactory.class.getName())) {
-            LOGGER.log(WARNING, INITIAL_CONTEXT_FACTORY + " is not set to " + NamingInitialContextFactory.class.getName());
+        if (!System.getProperty(INITIAL_CONTEXT_FACTORY).equals(HerringInitialContextFactory.class.getName())) {
+            LOGGER.log(WARNING, INITIAL_CONTEXT_FACTORY + " is not set to " + HerringInitialContextFactory.class.getName());
         }
 
         Context context = new DefaultInitialContext();
@@ -170,7 +170,7 @@ public class NamingExtension implements WebApplicationExtension {
                 }
             });
 
-        NamingInitialContextFactory.setInitialContext(proxyContext);
+        HerringInitialContextFactory.setInitialContext(proxyContext);
         webApplication.setAttribute(Context.class.getName(), proxyContext);
     }
 }

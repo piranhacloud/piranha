@@ -36,7 +36,7 @@
  * <ul>
  *  <li>Annotation Scanning</li>
  *  <li>Apache Commons File Upload (Multipart)</li>
- *  <li>Naming (JNDI)</li>
+ *  <li>Herring (JNDI)</li>
  *  <li>Java Policy</li>
  *  <li>ServletContainerInitializer</li>
  *  <li>Servlet Security</li>
@@ -55,9 +55,9 @@ module cloud.piranha.extension.servlet {
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.annotationscan.classfile;
     requires cloud.piranha.extension.apache.fileupload;
+    requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.tomcat10x;
     requires cloud.piranha.extension.expressly;
-    requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.security.servlet;

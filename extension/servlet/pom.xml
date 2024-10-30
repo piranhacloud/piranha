@@ -64,13 +64,13 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-wasp</artifactId>
+            <artifactId>piranha-extension-herring</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-naming</artifactId>
+            <artifactId>piranha-extension-wasp</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
