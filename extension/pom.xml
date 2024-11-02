@@ -28,12 +28,12 @@
         <module>eclipse-concurro</module>
         <module>eclipse-epicyro</module>
         <module>eclipse-exousia</module>
-        <module>eclipse-expressly</module>
         <module>eclipse-jaxb</module>
         <module>eclipse-jstl</module>
         <module>eclipse-soteria</module>
         <module>eclipse-tyrus</module>
         <module>eclipselink</module>
+        <module>expressly</module>
         <module>hazelcast</module>
         <module>herring</module>
         <module>jersey</module>
