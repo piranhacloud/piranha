@@ -26,12 +26,12 @@
             <artifactId>piranha-dist-coreprofile</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
-            <type>jar</type>
-            <optional>true</optional>
+            <type>pom</type>
         </dependency>
     </dependencies>
     <modules>
         <module>helloarquillian</module>
         <module>hello</module>
+        <module>json</module>
     </modules>
 </project>
