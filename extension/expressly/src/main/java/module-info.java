@@ -25,32 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.expressly;
-
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationExtension;
-import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.TRACE;
 
 /**
- * The extension that delivers Eclipse Expressly to Piranha.
- *
+ * This module integrates Exressly into Piranha. See 
+ * https://github.com/eclipse-ee4j/expressly for more information.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ExpresslyExtension implements WebApplicationExtension {
-
-    /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = System.getLogger(ExpresslyExtension.class.getName());
+module cloud.piranha.extension.expressly {
     
-    /**
-     * Configure the extension.
-     * 
-     * @param webApplication the web application.
-     */
-    @Override
-    public void configure(WebApplication webApplication) {
-        LOGGER.log(TRACE, "Configuring Expressly extension");
-    }
+    requires cloud.piranha.core.api;
+    requires transitive org.glassfish.expressly;
 }
