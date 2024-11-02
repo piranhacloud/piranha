@@ -82,7 +82,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-tyrus</artifactId>
+            <artifactId>piranha-extension-tyrus</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

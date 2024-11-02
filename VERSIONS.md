@@ -17,7 +17,6 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Eclipse JAXB              | 4.0.5         |     |     |     |
 | Eclipse JSTL              | 3.0.1         |     |     |     |
 | Eclipse Soteria           | 4.0.0-M3      |     |     |     |
-| Eclipse Tyrus             | 2.2.0-M1      |     |     |     |
 | EclipseLink               | 5.0.0-B02     |     |     |     |
 | Expressly                 | 6.0.0-M2      |     |  X  |  X  |
 | Hazelcast                 | 5.4.0         |     |     |     |
@@ -40,6 +39,7 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Parsson                   | 1.1.7         |  X  |  X  |     |
 | Project CRaC              | 0.1.3         |     |     |     |
 | Spring Boot               | 3.3.0         |     |     |     |
+| Tyrus                     | 2.2.0-M1      |     |  X  |  X  |
 | Undertow                  | 2.3.14.Final  |     |     |     |
 | Weld                      | 6.0.0.Beta4   |  X  |  X  |     |
 | Yasson                    | 3.0.4         |  X  |  X  |     |

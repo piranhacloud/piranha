@@ -7,9 +7,9 @@
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-extension-eclipse-tyrus</artifactId>
+    <artifactId>piranha-extension-tyrus</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Eclipse Tyrus</name>
+    <name>Piranha - Extension - Tyrus</name>
     <dependencies>
         <!-- compile -->
         <dependency>

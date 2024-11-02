@@ -25,32 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.tyrus;
-
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationExtension;
-import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.TRACE;
 
 /**
- * The extension that delivers Eclipse Tyrus to Piranha.
- *
+ * This module integrates Eclipse Tyrus into Piranha.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TyrusExtension implements WebApplicationExtension {
-
-    /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = System.getLogger(TyrusExtension.class.getName());
+module cloud.piranha.extension.tyrus {
     
-    /**
-     * Configure the extension.
-     * 
-     * @param webApplication the web application.
-     */
-    @Override
-    public void configure(WebApplication webApplication) {
-        LOGGER.log(TRACE, "Configuring Eclipse Tyrus extension");
-    }
+    requires cloud.piranha.core.api;
+    requires static cloud.piranha.extension.scinitializer;
 }
