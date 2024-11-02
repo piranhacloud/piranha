@@ -25,19 +25,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.epicyro;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
- * This module integrates Epicyro into Piranha. See 
- * https://github.com/eclipse-ee4j/epicyro for more information.
- *
+ * The JUnit test for the AuthenticationInitializer class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.epicyro {
-
-    exports cloud.piranha.extension.epicyro;
-    opens cloud.piranha.extension.epicyro;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.security.auth.message;
-    requires transitive org.glassfish.epicyro;
+public class AuthenticationInitializerTest {
+    
+    /**
+     * Test onStartup method.
+     */
+    @Disabled
+    @Test
+    public void testOnStartup() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        AuthenticationInitializer initializer = new AuthenticationInitializer();
+        initializer.onStartup(null, webApplication);
+    }
 }
