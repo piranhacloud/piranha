@@ -32,8 +32,8 @@ import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedRequestBuilder;
 import cloud.piranha.embedded.EmbeddedResponse;
-import cloud.piranha.extension.naming.NamingExtension;
-import cloud.piranha.extension.naming.NamingInitialContextFactory;
+import cloud.piranha.extension.herring.HerringExtension;
+import cloud.piranha.extension.herring.HerringInitialContextFactory;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
 import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
@@ -56,11 +56,11 @@ class WeldTest {
      */
     @Test
     void testIndexHtml() throws Exception {
-        System.getProperties().put(INITIAL_CONTEXT_FACTORY, NamingInitialContextFactory.class.getName());
+        System.getProperties().put(INITIAL_CONTEXT_FACTORY, HerringInitialContextFactory.class.getName());
         EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
                 .directoryResource("src/main/webapp")
                 .aliasedDirectoryResource("target/classes", "/WEB-INF/classes")
-                .extension(NamingExtension.class)
+                .extension(HerringExtension.class)
                 .extension(WebXmlExtension.class)
                 .extension(ServletContainerInitializerExtension.class)
                 .build()

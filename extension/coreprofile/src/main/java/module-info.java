@@ -38,7 +38,7 @@
  *  <li>Eclipse Parsson (JSON)</li>
  *  <li>Eclipse Yasson (JSON-B)</li>
  *  <li>Eclipse Jersey (REST)</li>
- *  <li>Naming (JNDI)</li>
+ *  <li>Herring (JNDI)</li>
  *  <li>ServletContainerInitializer</li>
  *  <li>web.xml support</li>
  * </ul>
@@ -50,8 +50,8 @@ module cloud.piranha.extension.coreprofile {
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.annotationscan.classfile;
+    requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.jersey;
-    requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.webxml;
     requires cloud.piranha.extension.weld;

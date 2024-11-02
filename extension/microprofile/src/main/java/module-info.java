@@ -49,8 +49,8 @@ module cloud.piranha.extension.microprofile {
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.annotationscan.classfile;
+    requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.jersey;
-    requires cloud.piranha.extension.naming;
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.yasson;
 }

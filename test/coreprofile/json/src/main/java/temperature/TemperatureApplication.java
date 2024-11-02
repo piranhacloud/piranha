@@ -25,19 +25,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package temperature;
 
-/**
- *  This module delivers the JNDI integration extension.
- *
- * @author Manfred Riem (mriem@manorrock.com)
- */
-module cloud.piranha.extension.naming {
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
-    exports cloud.piranha.extension.naming;
-    opens cloud.piranha.extension.naming;
-    requires cloud.piranha.core.api;
-    requires transitive com.manorrock.herring;
-    requires transitive com.manorrock.herring.thread;
-    requires jakarta.annotation;
-    requires transitive java.naming;
+@ApplicationPath("")
+public class TemperatureApplication extends Application {
 }

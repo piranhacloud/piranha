@@ -25,34 +25,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.herring;
+
+import cloud.piranha.core.api.WebApplication;
+import com.manorrock.herring.thread.ThreadInitialContextFactory;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
+import static java.lang.System.Logger.Level.DEBUG;
+import javax.naming.Context;
 
 /**
- * This module delivers the meta extension for the Jakarta EE platform.
+ * The ServletRequestListener that sets the Context instance on the current
+ * thread just before request processing and removes the Context instance from
+ * the current after the request has been processed.
  *
- * <p>
- *  The following extensions and/or dependencies are delivered as part of this
- *  meta extension:
- * </p>
- * <ul>
- *  <li>Annotation Scanning</li>
- *  <li>Eclipse Expressly (EL)</li>
- *  <li>Eclipse Parsson (JSON)</li>
- *  <li>Eclipse Yasson (JSON-B)</li>
- *  <li>Glassfish Jersey (REST)</li>
- *  <li>Herring (JNDI)</li>
- *  <li>ServletContainerInitializer</li>
- * </ul>
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.platform {
-    
-    exports cloud.piranha.extension.platform;
-    opens cloud.piranha.extension.platform;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.annotationscan.classfile;
-    requires cloud.piranha.extension.expressly;
-    requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.jersey;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.yasson;
+public class HerringServletRequestListener implements ServletRequestListener {
+
+    /**
+     * Stores the logger.
+     */
+    private static final System.Logger LOGGER = System.getLogger(HerringServletRequestListener.class.getName());
+
+    @Override
+    public void requestDestroyed(ServletRequestEvent event) {
+        LOGGER.log(DEBUG, "Removing InitialContext");
+        ThreadInitialContextFactory.removeInitialContext();
+    }
+
+    @Override
+    public void requestInitialized(ServletRequestEvent event) {
+        LOGGER.log(DEBUG, "Setting InitialContext");
+        WebApplication webApplication = (WebApplication) event.getServletContext();
+        Context context = (Context) webApplication.getAttribute(Context.class.getName());
+        ThreadInitialContextFactory.setInitialContext(context);
+    }
 }

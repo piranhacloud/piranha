@@ -25,34 +25,67 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package temperature;
 
-/**
- * This module delivers the meta extension for the Jakarta EE platform.
- *
- * <p>
- *  The following extensions and/or dependencies are delivered as part of this
- *  meta extension:
- * </p>
- * <ul>
- *  <li>Annotation Scanning</li>
- *  <li>Eclipse Expressly (EL)</li>
- *  <li>Eclipse Parsson (JSON)</li>
- *  <li>Eclipse Yasson (JSON-B)</li>
- *  <li>Glassfish Jersey (REST)</li>
- *  <li>Herring (JNDI)</li>
- *  <li>ServletContainerInitializer</li>
- * </ul>
- */
-module cloud.piranha.extension.platform {
-    
-    exports cloud.piranha.extension.platform;
-    opens cloud.piranha.extension.platform;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.annotationscan.classfile;
-    requires cloud.piranha.extension.expressly;
-    requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.jersey;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.yasson;
+public class Temperature {
+
+    /**
+     * Defines the temperature scale enum.
+     */
+    public enum TemperatureScale {
+        /**
+         * Celsius constant.
+         */
+        CELSIUS,
+        /**
+         * Fahrenheit constant.
+         */
+        FAHRENHEIT
+    }
+
+    /**
+     * Stores the temperature scale.
+     */
+    private TemperatureScale scale;
+
+    /**
+     * Stores the temperature.
+     */
+    private double temperature;
+
+    /**
+     * Get the temperature scale.
+     * 
+     * @return the temperature scale.
+     */
+    public TemperatureScale getScale() {
+        return scale;
+    }
+
+    /**
+     * Get the temperature.
+     * 
+     * @return the temperature.
+     */
+    public double getTemperature() {
+        return temperature;
+    }
+
+    /**
+     * Set the temperature scale.
+     * 
+     * @param scale the temperature scale.
+     */
+    public void setScale(TemperatureScale scale) {
+        this.scale = scale;
+    }
+
+    /**
+     * Set the temperature.
+     * 
+     * @param temperature the temperature.
+     */
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
 }
