@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package hello;
+package integration;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -36,93 +36,98 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * The Hello integration tests.
+ * The Piranha Core Profile distribution integration tests.
  *
  * <ol>
- *   <li>testHelloInject validates Jakarta Dependency Injection works</li>
- *   <li>testHelloIntercept validates Jakarta Interceptors works</li>
- *   <li>testHelloJsonB validates Jakarta JSON binding works</li>
- *   <li>testHelloJsonP validates Jakarta JSON processing works</li>
- *   <li>testHelloWorld validates Jakarta REST works</li>
+ *   <li>testDependencyInjection validates Jakarta Dependency Injection works</li>
+ *   <li>testInterceptor validates Jakarta Interceptors works</li>
+ *   <li>testJsonBinding validates Jakarta JSON binding works</li>
+ *   <li>testJsonProcessing validates Jakarta JSON processing works</li>
+ *   <li>testREST validates Jakarta REST works</li>
  * </ol>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class HelloIT {
+class IntegrationIT {
  
     /**
-     * Test the 'Hello Inject!' endpoint.
+     * Stores the HTTP port used for testing.
+     */
+    private final String httpPort = System.getProperty("httpPort");
+    
+    /**
+     * Test dependency injection.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testHelloInject() throws Exception {
+    void testDependencyInjection() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:9000/say/helloInject"))
+                .newBuilder(new URI("http://localhost:" + httpPort + "/integration/dependencyInjection"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("Hello Inject!"));
+        assertTrue(response.body().contains("Dependency Injection works!"));
     }
  
     /**
-     * Test the 'Hello Intercepted!' endpoint.
+     * Test interceptors.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testHelloIntercept() throws Exception {
+    void testInterceptor() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:9000/say/helloIntercept"))
+                .newBuilder(new URI("http://localhost:" + httpPort + "/integration/intercept"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("Hello Intercepted!"));
+        assertTrue(response.body().contains("Interceptor works!"));
     }
  
     /**
-     * Test the 'Hello World!' in JSON endpoint.
+     * Test JSON binding.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testHelloJsonB() throws Exception {
+    void testJsonBinding() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:9000/say/helloJsonB"))
+                .newBuilder(new URI("http://localhost:" + httpPort + "/integration/jsonb"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("{\"helloWorld\":\"Hello World!\"}"));
+        assertTrue(response.body().contains("{\"string\":\"JSON Binding works!\"}"));
     }
  
     /**
-     * Test the 'Hello World!' POST endpoint.
+     * Test JSON Processing.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testHelloJsonP() throws Exception {
+    void testJsonProcessing() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:9000/say/helloJsonP"))
-                .POST(HttpRequest.BodyPublishers.ofString("\"Hello World from POST!\""))
+                .newBuilder(new URI("http://localhost:" + httpPort + "/integration/jsonp"))
+                .POST(HttpRequest.BodyPublishers.ofString("\"JSON Processing works!\""))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("{\"helloWorld\":\"Hello World from POST!\"}"));
+        assertTrue(response.body().contains("{\"string\":\"JSON Processing works!\"}"));
     }
  
     /**
-     * Test the 'Hello World!' endpoint.
+     * Test REST.
      *
      * @throws Exception when a serious error occurs.
      */
     @Test
-    void testHelloWorld() throws Exception {
+    void testREST() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:9000/say/helloWorld"))
+                .newBuilder(new URI("http://localhost:" + httpPort + "/integration/rest"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("Hello World!"));
+        assertTrue(response.body().contains("REST works!"));
     }
 }

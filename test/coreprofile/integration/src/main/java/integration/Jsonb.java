@@ -25,35 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package hello;
+package integration;
 
 /**
- * The 'Hello World' POJO.
+ * The JSON Binding POJO.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class HelloJson {
+public class Jsonb {
 
     /**
      * Stores the string.
      */
-    private String string = "Hello World!";
+    private String string = "JSON Binding works!";
 
     /**
      * Get the string.
      * 
      * @return the string.
      */
-    public String getHelloWorld() {
+    public String getString() {
         return string;
     }
 
     /**
-     * Set the 'Hello World!' string.
+     * Set the string.
      * 
      * @param string the string.
      */
-    public void setHelloWorld(String string) {
+    public void setString(String string) {
         this.string = string;
     }
 }

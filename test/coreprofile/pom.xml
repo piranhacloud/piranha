@@ -32,7 +32,7 @@
     <modules>
         <module>arquillian</module>
         <module>helloarquillian</module>
-        <module>hello</module>
+        <module>integration</module>
         <module>json</module>
     </modules>
 </project>

@@ -25,16 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package hello;
+package integration;
 
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
+import jakarta.interceptor.AroundInvoke;
+import jakarta.interceptor.Interceptor;
+import jakarta.interceptor.InvocationContext;
 
 /**
- * The HelloWorld application.
- * 
+ * The intercept interceptor.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@ApplicationPath("")
-public class HelloApplication extends Application {
+@Interceptor
+public class InterceptInterceptor {
+
+    /**
+     * Intercept the call and return 'Interceptor works!'.
+     * 
+     * @param context the invocation context.
+     * @return 'Interceptor works!'.
+     */
+    @AroundInvoke
+    public Object intercepted(InvocationContext context) {
+        return "Interceptor works!";
+    }
 }
