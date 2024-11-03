@@ -17,5 +17,6 @@
 
     <modules>
         <module>helloworld</module>
+        <module>integration</module>
     </modules>
 </project>
