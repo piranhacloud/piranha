@@ -31,7 +31,6 @@
     </dependencies>
     <modules>
         <module>arquillian</module>
-        <module>helloarquillian</module>
         <module>hello</module>
         <module>json</module>
     </modules>
