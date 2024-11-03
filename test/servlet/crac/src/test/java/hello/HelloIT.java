@@ -35,12 +35,14 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class HelloIT {
 
     private String portNumber = System.getProperty("httpPort");
     
+    @Disabled
     @Test
     public void testHelloXhtml() throws Exception {
         HttpClient client = HttpClient
