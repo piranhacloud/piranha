@@ -48,7 +48,6 @@ class HelloWorldIT {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Disabled
     @Test
     void testIndexHtml() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
@@ -64,7 +63,6 @@ class HelloWorldIT {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Disabled
     @Test
     void testHelloWorldJsp() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
