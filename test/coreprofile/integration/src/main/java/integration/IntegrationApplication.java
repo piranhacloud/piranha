@@ -25,26 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package hello;
+package integration;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.interceptor.Interceptors;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
 /**
- * The HelloIntercept bean.
+ * The HelloWorld application.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@ApplicationScoped
-@Interceptors(HelloInterceptor.class)
-public class HelloInterceptBean {
-    
-    /**
-     * Say 'Hello Intercept'.
-     * 
-     * @return 'Hello Intercept!'
-     */
-    public String helloIntercept() {
-        return "Hello Intercept!";
-    }
+@ApplicationPath("")
+public class IntegrationApplication extends Application {
 }

@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package hello;
+package integration;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -39,88 +39,89 @@ import jakarta.ws.rs.Produces;
 import java.io.StringReader;
 
 /**
- * The HelloJson bean.
+ * The Jsonb bean.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @Path("")
 @RequestScoped
-public class HelloBean {
+public class IntegrationBean {
 
     /**
-     * Stores the injected 'Hello Inject!'.
+     * Stores the DependencyInjectionBean.
      */
     @Inject
-    private HelloInject injected;
+    private DependencyInjectionBean dependencyInjection;
 
     /**
      * Stores the intercept bean.
      */
     @Inject
-    private HelloInterceptBean interceptBean;
+    private InterceptBean interceptBean;
 
     /**
-     * Say 'Hello Inject!' using the Inject annotation.
+     * Validate the correct string is returned using the bean injected using the
+     * Inject annotation.
      *
-     * @return 'Hello Inject!'.
+     * @return 'Dependency Injection works!'.
      */
     @GET
-    @Path("/helloInject")
-    public String helloInject() {
-        return injected.helloInject();
+    @Path("/dependencyInjection")
+    public String dependencyInjection() {
+        return dependencyInjection.dependencyInjection();
     }
 
     /**
-     * Say 'Hello Intercepted!' using an Interceptor.
+     * Validate the correct string is returned using an interceptor.
      *
-     * @return 'Hello Intercepted!'.
+     * @return 'Interceptor work!'.
      */
     @GET
-    @Path("/helloIntercept")
-    public String helloIntercept() {
-        return interceptBean.helloIntercept();
+    @Path("/intercept")
+    public String intercept() {
+        return interceptBean.intercept();
     }
 
     /**
-     * Say 'Hello World!' in JSON format which gets generated using JSON-B.
+     * Validate JSON Binding works.
      *
-     * @return 'Hello World!' in JSON format.
+     * @return 'JSON Binding works!' in JSON format.
      */
     @GET
     @Produces("application/json")
-    @Path("/helloJsonB")
-    public HelloJson helloJsonB() {
-        return new HelloJson();
+    @Path("/jsonb")
+    public Jsonb jsonb() {
+        return new Jsonb();
     }
 
     /**
      * Post 'Hello Json-P!' in JSON format which gets parsed using JSON-P.
      *
      * @param jsonString a JSON string.
-     * @return 'Hello Json-P!' in JSON format.
+     * @return 'JSON Processing works!' in JSON format.
      */
     @POST
     @Produces("application/json")
     @Consumes("application/json")
-    @Path("/helloJsonP")
-    public HelloJson helloJsonP(String jsonString) {
-        HelloJson helloWorld = new HelloJson();
+    @Path("/jsonp")
+    public Jsonb helloJsonP(String jsonString) {
+        Jsonb jsonb = new Jsonb();
         try ( JsonParser parser = Json.createParser(new StringReader(jsonString));) {
             parser.next();
             String string = parser.getString();
-            helloWorld.setHelloWorld(string);
+            jsonb.setString(string);
         }
-        return helloWorld;
+        return jsonb;
     }
 
     /**
-     * Say 'Hello World!'.
+     * Say 'REST works!'.
      *
      * @return 'Hello World!'.
      */
     @GET
-    @Path("/helloWorld")
-    public String helloWorld() {
-        return "Hello World!";
+    @Path("/rest")
+    public String rest() {
+        return "REST works!";
     }
 }

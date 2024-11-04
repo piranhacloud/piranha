@@ -25,24 +25,26 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package hello;
+package integration;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.interceptor.Interceptors;
 
 /**
- * The one and only 'Hello Inject!'.
+ * The Intercept bean.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @ApplicationScoped
-public class HelloInject {
-
+@Interceptors(InterceptInterceptor.class)
+public class InterceptBean {
+    
     /**
-     * Say 'Hello Inject!'.
+     * Get the string to validate the interceptor works.
      * 
-     * @return 'Hello Inject!'.
+     * @return the string.
      */
-    public String helloInject() {
-        return "Hello Inject!";
+    public String intercept() {
+        return "Inceptor does NOT work!";
     }
 }
