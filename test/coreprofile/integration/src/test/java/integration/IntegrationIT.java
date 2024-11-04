@@ -27,13 +27,22 @@
  */
 package integration;
 
+import java.io.File;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit5.ArquillianExtension;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * The Piranha Core Profile distribution integration tests.
@@ -48,12 +57,23 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
+@ExtendWith(ArquillianExtension.class)
 class IntegrationIT {
  
-    /**
-     * Stores the HTTP port used for testing.
-     */
-    private final String httpPort = System.getProperty("httpPort");
+    @ArquillianResource
+    private URL baseUrl;
+    
+    @Deployment(testable = false)
+    public static WebArchive createDeployment() {
+        return create(WebArchive.class)
+                .addClass(DependencyInjectionBean.class)
+                .addClass(IntegrationApplication.class)
+                .addClass(IntegrationBean.class)
+                .addClass(InterceptBean.class)
+                .addClass(InterceptInterceptor.class)
+                .addClass(Jsonb.class)
+                .addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"));
+    }    
     
     /**
      * Test dependency injection.
@@ -61,10 +81,11 @@ class IntegrationIT {
      * @throws Exception when a serious error occurs.
      */
     @Test
+    @RunAsClient
     void testDependencyInjection() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:" + httpPort + "/integration/dependencyInjection"))
+                .newBuilder(new URI(baseUrl + "/dependencyInjection"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Dependency Injection works!"));
@@ -76,10 +97,11 @@ class IntegrationIT {
      * @throws Exception when a serious error occurs.
      */
     @Test
+    @RunAsClient
     void testInterceptor() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:" + httpPort + "/integration/intercept"))
+                .newBuilder(new URI(baseUrl + "/intercept"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Interceptor works!"));
@@ -91,10 +113,11 @@ class IntegrationIT {
      * @throws Exception when a serious error occurs.
      */
     @Test
+    @RunAsClient
     void testJsonBinding() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:" + httpPort + "/integration/jsonb"))
+                .newBuilder(new URI(baseUrl + "jsonb"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("{\"string\":\"JSON Binding works!\"}"));
@@ -106,10 +129,11 @@ class IntegrationIT {
      * @throws Exception when a serious error occurs.
      */
     @Test
+    @RunAsClient
     void testJsonProcessing() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:" + httpPort + "/integration/jsonp"))
+                .newBuilder(new URI(baseUrl + "/jsonp"))
                 .POST(HttpRequest.BodyPublishers.ofString("\"JSON Processing works!\""))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
@@ -125,7 +149,7 @@ class IntegrationIT {
     void testREST() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("http://localhost:" + httpPort + "/integration/rest"))
+                .newBuilder(new URI(baseUrl + "/rest"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("REST works!"));

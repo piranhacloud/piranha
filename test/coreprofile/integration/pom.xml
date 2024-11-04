@@ -25,6 +25,18 @@
         </dependency>
         <!-- test -->
         <dependency>
+            <groupId>cloud.piranha.arquillian</groupId>
+            <artifactId>piranha-arquillian-managed</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.junit5</groupId>
+            <artifactId>arquillian-junit5-container</artifactId>
+            <version>${arquillian.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
@@ -44,31 +56,6 @@
         <finalName>piranha-test-coreprofile-integration</finalName>
         <plugins>
             <plugin>
-                <groupId>cloud.piranha.maven</groupId>
-                <artifactId>piranha-maven-plugin</artifactId>
-                <version>${project.version}</version>
-                <executions>
-                    <execution>
-                        <id>pre-integration-test</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>start</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>post-integration-test</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <contextPath>/integration</contextPath>
-                    <httpPort>${httpPort}</httpPort>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <executions>
@@ -79,12 +66,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <rerunFailingTestsCount>10</rerunFailingTestsCount>
-                    <systemPropertyVariables>
-                        <httpPort>${httpPort}</httpPort>
-                    </systemPropertyVariables>
-                </configuration>
             </plugin>            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -92,24 +73,6 @@
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>reserve-network-port</id>
-                        <goals>
-                            <goal>reserve-network-port</goal>
-                        </goals>
-                        <phase>package</phase>
-                        <configuration>
-                            <portNames>
-                                <portName>httpPort</portName>
-                            </portNames>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
