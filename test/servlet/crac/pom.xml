@@ -96,7 +96,6 @@
                 <configuration>
                     <distribution>servlet</distribution>
                     <httpPort>${httpPort}</httpPort>
-                    <skip>true</skip>
                 </configuration>
             </plugin>
             <plugin>
