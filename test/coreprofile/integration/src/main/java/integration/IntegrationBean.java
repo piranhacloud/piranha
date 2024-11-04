@@ -98,7 +98,7 @@ public class IntegrationBean {
      * Post 'Hello Json-P!' in JSON format which gets parsed using JSON-P.
      *
      * @param jsonString a JSON string.
-     * @return 'Hello Json-P!' in JSON format.
+     * @return 'JSON Processing works!' in JSON format.
      */
     @POST
     @Produces("application/json")
