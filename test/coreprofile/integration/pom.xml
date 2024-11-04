@@ -80,7 +80,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <forkCount>1</forkCount>
                     <rerunFailingTestsCount>10</rerunFailingTestsCount>
                     <systemPropertyVariables>
                         <httpPort>${httpPort}</httpPort>
