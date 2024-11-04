@@ -19,12 +19,6 @@
     <dependencies>
         <!-- provided -->
         <dependency>
-            <groupId>cloud.piranha.dist</groupId>
-            <artifactId>piranha-dist-coreprofile</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-core-api</artifactId>
             <scope>provided</scope>
@@ -47,7 +41,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>piranha-test-coreprofile-helloworld</finalName>
+        <finalName>piranha-test-coreprofile-integration</finalName>
         <plugins>
             <plugin>
                 <groupId>cloud.piranha.maven</groupId>
@@ -60,10 +54,6 @@
                         <goals>
                             <goal>start</goal>
                         </goals>
-                        <configuration>
-                            <contextPath>/integration</contextPath>
-                            <httpPort>${httpPort}</httpPort>
-                        </configuration>
                     </execution>
                     <execution>
                         <id>post-integration-test</id>
@@ -73,6 +63,10 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <contextPath>/integration</contextPath>
+                    <httpPort>${httpPort}</httpPort>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
