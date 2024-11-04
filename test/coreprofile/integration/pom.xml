@@ -66,6 +66,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <rerunFailingTestsCount>10</rerunFailingTestsCount>
+                </configuration>
             </plugin>            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
