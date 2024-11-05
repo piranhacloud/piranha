@@ -67,6 +67,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <rerunFailingTestsCount>10</rerunFailingTestsCount>
                     <systemPropertyVariables>
                         <piranha.distribution>webprofile</piranha.distribution>
                     </systemPropertyVariables>
