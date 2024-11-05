@@ -7,9 +7,9 @@
         <artifactId>project</artifactId>
         <version>24.12.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-extension-eclipse-epicyro</artifactId>
+    <artifactId>piranha-extension-epicyro</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Eclipse Epicyro</name>
+    <name>Piranha - Extension - Epicyro</name>
     <dependencies>
         <!-- compile -->
         <dependency>
