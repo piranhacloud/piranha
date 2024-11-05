@@ -233,14 +233,14 @@ public class ManagedPiranhaContainer implements DeployableContainer<ManagedPiran
     private File getPiranhaJarFile(String version) throws IOException {
         URL downloadUrl = createMavenCentralArtifactUrl(
                 "cloud.piranha.dist",
-                "piranha-dist-coreprofile",
+                "piranha-dist-" + configuration.getDistribution(),
                 version,
                 "jar"
         );
 
         String artifactPath = createArtifactPath(
                 "cloud.piranha.dist",
-                "piranha-dist-coreprofile",
+                "piranha-dist-" + configuration.getDistribution(),
                 version,
                 "jar"
         );
@@ -348,11 +348,16 @@ public class ManagedPiranhaContainer implements DeployableContainer<ManagedPiran
 
         if (classpath.isEmpty()) {
             commands.add("-jar");
-            commands.add("piranha-dist-coreprofile.jar");
+            commands.add("piranha-" + configuration.getDistribution() + ".jar");
         } else {
             commands.add("-cp");
-            commands.add(classpath.toString() + "piranha-dist-coreprofile.jar");
-            commands.add("cloud.piranha.dist.coreprofile.CoreProfilePiranhaMain");
+            commands.add(classpath.toString() + "piranha-" + configuration.getDistribution() + ".jar");
+            if (configuration.getDistribution().equals("coreprofile")) {
+                commands.add("cloud.piranha.dist.coreprofile.CoreProfilePiranhaMain");
+            }
+            if (configuration.getDistribution().equals("webprofile")) {
+                commands.add("cloud.piranha.dist.webprofile.WebProfilePiranhaMain");
+            }
         }
         commands.add("--http-port");
         commands.add(Integer.toString(configuration.getHttpPort()));
@@ -370,13 +375,15 @@ public class ManagedPiranhaContainer implements DeployableContainer<ManagedPiran
 
             Starting Piranha
 
-            Directory:  {0}
-            Log:        {1}
-            URL:        {2}
+            Classpath:  {0}
+            Directory:  {1}
+            Log:        {2}
+            URL:        {3}
 
 
             """,
 
+            classpath.toString(),
             runtimeDirectory,
             logFile.getAbsolutePath(),
             appURL);
@@ -443,7 +450,7 @@ public class ManagedPiranhaContainer implements DeployableContainer<ManagedPiran
         }
 
         Files.copy(zipFile.toPath(),
-                Path.of(runtimeDirectory + "/piranha-dist-coreprofile.jar"),
+                Path.of(runtimeDirectory + "/piranha-" + configuration.getDistribution() + ".jar"),
                 REPLACE_EXISTING);
     }
 

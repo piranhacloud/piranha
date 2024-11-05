@@ -52,6 +52,11 @@ import static java.lang.System.Logger.Level.INFO;
  * <td>not enabled by default</td>
  * </tr>
  * <tr>
+ * <td>piranha.distribution</td>
+ * <td>The Piranha distribution to use</td>
+ * <td>coreprofile by default</td>
+ * </tr>
+ * <tr>
  * <td>piranha.httpPort</td>
  * <td>The integer to select the HTTP port to use for the Piranha process</td>
  * <td>if not set an unused port will be automatically chosen</td>
@@ -84,6 +89,11 @@ public class ManagedPiranhaContainerConfiguration implements ContainerConfigurat
     private static final System.Logger LOGGER = System.getLogger(ManagedPiranhaContainerConfiguration.class.getName());
 
     /**
+     * Stores the distribution to use.
+     */
+    private String distribution = System.getProperty("piranha.distribution", "coreprofile");
+    
+    /**
      * Stores the debug flag.
      */
     private boolean debug = Boolean.parseBoolean(System.getProperty("piranha.debug", "false"));
@@ -112,6 +122,15 @@ public class ManagedPiranhaContainerConfiguration implements ContainerConfigurat
      * Constructor.
      */
     public ManagedPiranhaContainerConfiguration() {
+    }
+
+    /**
+     * Get the distribution.
+     * 
+     * @return the distribution.
+     */
+    public String getDistribution() {
+        return distribution;
     }
     
     /**
@@ -169,6 +188,15 @@ public class ManagedPiranhaContainerConfiguration implements ContainerConfigurat
      */
     public void setDebug(boolean debug) {
         this.debug = debug;
+    }
+
+    /**
+     * Set the distribution.
+     * 
+     * @param distribution the distribution.
+     */
+    public void setDistribution(String distribution) {
+        this.distribution = distribution;
     }
 
     /**
