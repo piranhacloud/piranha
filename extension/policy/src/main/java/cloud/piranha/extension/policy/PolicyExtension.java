@@ -59,15 +59,22 @@ public class PolicyExtension implements WebApplicationExtension {
      */
     @Override
     public void configure(WebApplication webApplication) {
-        try {
-            LOGGER.log(TRACE, "Configuring webapplication");
-            Policy policy = Policy.getInstance("JavaPolicy", null);
-            webApplication.setAttribute(Policy.class.getName(), policy);
-            InternalPolicyThreadLocal.setPolicy(policy);
-            webApplication.addListener(InternalPolicyServletContextListener.class.getName());
-            webApplication.addListener(InternalPolicyServletRequestListener.class.getName());
-        } catch (NoSuchAlgorithmException ex) {
-            LOGGER.log(WARNING, "Error setting up Policy", ex);
+
+        Boolean disabled = Boolean.valueOf((String) webApplication.getAttribute(PolicyExtension.class.getName() + ".disable"));
+
+        if (!disabled) {
+            try {
+                LOGGER.log(TRACE, "Configuring Policy extension");
+                Policy policy = Policy.getInstance("JavaPolicy", null);
+                webApplication.setAttribute(Policy.class.getName(), policy);
+                InternalPolicyThreadLocal.setPolicy(policy);
+                webApplication.addListener(InternalPolicyServletContextListener.class.getName());
+                webApplication.addListener(InternalPolicyServletRequestListener.class.getName());
+            } catch (NoSuchAlgorithmException ex) {
+                LOGGER.log(WARNING, "Error setting up Policy", ex);
+            }
+        } else {
+            LOGGER.log(TRACE, "Policy extension is disabled");
         }
     }
 }
