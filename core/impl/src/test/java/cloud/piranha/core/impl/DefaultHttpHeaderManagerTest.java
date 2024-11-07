@@ -30,6 +30,8 @@ package cloud.piranha.core.impl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.Locale;
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
@@ -82,7 +84,7 @@ class DefaultHttpHeaderManagerTest {
     @Test
     void testGetDateHeader() {
         DefaultHttpHeaderManager manager = new DefaultHttpHeaderManager();
-        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US);
         manager.addHeader("NAME", format.format(new Date()));
         assertTrue(manager.getDateHeader("NAME") > 0);
     }
