@@ -30,7 +30,12 @@ package cloud.piranha.extension.policy;
 import cloud.piranha.core.impl.DefaultWebApplication;
 import cloud.piranha.embedded.EmbeddedRequest;
 import cloud.piranha.embedded.EmbeddedResponse;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
+import java.security.Policy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -50,6 +55,60 @@ class PolicyExtensionTest {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         PolicyExtension extension = new PolicyExtension();
         extension.configure(webApplication);
+        webApplication.initialize();
+        webApplication.start();
+        EmbeddedRequest request = new EmbeddedRequest();
+        request.setWebApplication(webApplication);
+        EmbeddedResponse response = new EmbeddedResponse();
+        response.setWebApplication(webApplication);
+        webApplication.service(request, response);
+        assertEquals(200, response.getStatus());
+    }
+
+    /**
+     * Test to validate Policy was not set when PolicyExtension is disabled.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testValidatePolicyNotSet() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.setAttribute(PolicyExtension.class.getName() + ".disable", "true");
+        PolicyExtension extension = new PolicyExtension();
+        extension.configure(webApplication);
+        webApplication.addListener(new ServletRequestListener() {
+            @Override
+            public void requestInitialized(ServletRequestEvent sre) {
+                assertNull(webApplication.getAttribute(Policy.class.getName()));
+            };
+        });
+        webApplication.initialize();
+        webApplication.start();
+        EmbeddedRequest request = new EmbeddedRequest();
+        request.setWebApplication(webApplication);
+        EmbeddedResponse response = new EmbeddedResponse();
+        response.setWebApplication(webApplication);
+        webApplication.service(request, response);
+        assertEquals(200, response.getStatus());
+    }
+
+
+    /**
+     * Test to validate Policy was set when PolicyExtension is enabled.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testValidatePolicySet() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        PolicyExtension extension = new PolicyExtension();
+        extension.configure(webApplication);
+        webApplication.addListener(new ServletRequestListener() {
+            @Override
+            public void requestInitialized(ServletRequestEvent sre) {
+                assertNotNull(webApplication.getAttribute(Policy.class.getName()));
+            };
+        });
         webApplication.initialize();
         webApplication.start();
         EmbeddedRequest request = new EmbeddedRequest();
