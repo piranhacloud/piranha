@@ -40,7 +40,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-concurro</artifactId>
+            <artifactId>piranha-extension-concurro</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

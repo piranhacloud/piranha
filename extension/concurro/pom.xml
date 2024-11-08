@@ -7,12 +7,9 @@
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-extension-eclipse-concurro</artifactId>
+    <artifactId>piranha-extension-concurro</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Eclipse Concurro</name>
-    <properties>
-        <concurro.version>3.1.0-M1</concurro.version>
-    </properties>
+    <name>Piranha - Extension - Concurro</name>
     <dependencies>
         <!-- compile -->
         <dependency>
@@ -37,7 +34,6 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.enterprise.concurrent</artifactId>
-            <version>${concurro.version}</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>

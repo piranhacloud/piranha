@@ -33,7 +33,7 @@ import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.TRACE;
 
 /**
- * The extension that delivers Eclipse Concurro to Piranha.
+ * The extension that delivers Concurro to Piranha.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -52,6 +52,6 @@ public class ConcurroExtension implements WebApplicationExtension {
      */
     @Override
     public void configure(WebApplication webApplication) {
-        LOGGER.log(TRACE, "Configuring Eclipse Concurro extension");
+        LOGGER.log(TRACE, "Configuring Concurro extension");
     }
 }

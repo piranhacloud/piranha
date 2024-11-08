@@ -27,13 +27,8 @@
  */
 
 /**
- * This module delivers the Eclipse Concurro integration extension.
- *
- * <p>
- *  This extension integrates Eclipse Conccuro into Piranha. See 
- *  https://github.com/eclipse-ee4j/concurro for more information about its
- *  project.
- * </p>
+ * This module integrates Conccuro into Piranha. See 
+ *  https://github.com/eclipse-ee4j/concurro for more information.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
