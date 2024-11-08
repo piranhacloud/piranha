@@ -84,7 +84,7 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
             DefaultHttpHeader header = headers.get(name.toUpperCase(locale));
             try {
                 String value = header.getValue();
-                SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+                SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", locale);
                 result = format.parse(value).getTime();
             } catch (ParseException exception) {
                 throw new IllegalArgumentException(
