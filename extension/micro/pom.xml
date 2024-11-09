@@ -157,7 +157,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-redhat-hibernate-validator</artifactId>
+            <artifactId>piranha-extension-hibernate-validator</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>

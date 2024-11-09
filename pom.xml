@@ -94,7 +94,7 @@
         <!-- kept at 5.4.0 because 5.5.0 adds remote repositories -->
         <hazelcast.version>5.4.0</hazelcast.version>
         <herring.version>23.12.0</herring.version>
-        <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+        <hibernate-validator.version>9.0.0.Beta3</hibernate-validator.version>
         <htmlunit.version>2.70.0</htmlunit.version>
         <jandex.version>3.2.2</jandex.version>
         <jaxb-runtime.version>4.0.5</jaxb-runtime.version>

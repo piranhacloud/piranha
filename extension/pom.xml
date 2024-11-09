@@ -35,6 +35,7 @@
         <module>expressly</module>
         <module>hazelcast</module>
         <module>herring</module>
+        <module>hibernate-validator</module>
         <module>jersey</module>
         <module>micro</module>
         <module>microprofile</module>
@@ -49,7 +50,6 @@
         <module>parsson</module>
         <module>platform</module>
         <module>policy</module>
-        <module>redhat-hibernate-validator</module>
         <module>scinitializer</module>
         <module>security-servlet</module>
         <module>security-jakarta</module>

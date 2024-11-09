@@ -9,10 +9,10 @@
         <version>24.11.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-extension-redhat-hibernate-validator</artifactId>
+    <artifactId>piranha-extension-hibernate-validator</artifactId>
     <packaging>jar</packaging>
 
-    <name>Piranha - Extension - RedHat Hibernate Validator</name>
+    <name>Piranha - Extension - Hibernate Validator</name>
 
     <properties>
         <!-- other -->
