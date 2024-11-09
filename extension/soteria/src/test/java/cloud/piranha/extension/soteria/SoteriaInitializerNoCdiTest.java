@@ -27,62 +27,37 @@
  */
 package cloud.piranha.extension.soteria;
 
-import static java.lang.System.Logger.Level.DEBUG;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 
-import java.lang.System.Logger;
-import java.util.Set;
-
-import org.glassfish.soteria.servlet.SamRegistrationInstaller;
-
-import cloud.piranha.core.api.WebApplication;
-import jakarta.enterprise.inject.spi.CDI;
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
 
 /**
- * The Soteria initializer.
- *
- * @author Arjan Tijms
+ * The JUnit tests for the SoteriaInitializer class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class SoteriaInitializer implements ServletContainerInitializer {
+public class SoteriaInitializerNoCdiTest {
 
     /**
-     * Stores the logger.
+     * Test onStartup method.
      */
-    private static final Logger LOGGER = System.getLogger(SoteriaInitializer.class.getName());
-
-    /**
-     * Initialize Soteria.
-     *
-     * @param classes the classes.
-     * @param servletContext the Servlet context.
-     * @throws ServletException when a Servlet error occurs.
-     */
-    @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        LOGGER.log(DEBUG, "Initializing Soteria");
-
-        if (!isCDIEnabled()) {
-            return;
-        }
-
-        WebApplication webApplication = (WebApplication) servletContext;
-        webApplication.getManager().getSecurityManager().setUsernamePasswordLoginHandler(new IdentityStoreLoginHandler());
-
-        SamRegistrationInstaller installer = new SamRegistrationInstaller();
-
-        installer.onStartup(classes, servletContext);
-        LOGGER.log(DEBUG, "Initialized Soteria");
-    }
-
-    private boolean isCDIEnabled() {
-        try {
-            CDI.current();
-            return true;
-        } catch (IllegalStateException e) {
-            return false;
-        }
+    @Test
+    public void testOnStartup() throws Exception {
+        /**
+         * Setup web application without CDI
+         */
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        
+        /*
+         * Initializer is still called but nothing is setup.
+         */
+        SoteriaInitializer initializer = new SoteriaInitializer();
+        initializer.onStartup(null, webApplication);
+        
+        /*
+         * No UsernamePasswordLoginHandler should be set.
+         */
+        assertNull(webApplication.getManager().getSecurityManager().getUsernamePasswordLoginHandler());
     }
 }

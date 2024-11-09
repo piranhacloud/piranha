@@ -276,6 +276,11 @@ public class ServletSecurityManager implements SecurityManager {
     }
 
     @Override
+    public UsernamePasswordLoginHandler getUsernamePasswordLoginHandler() {
+        return usernamePasswordLoginHandler;
+    }
+
+    @Override
     public WebApplication getWebApplication() {
         return webApplication;
     }

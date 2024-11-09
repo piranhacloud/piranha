@@ -52,6 +52,12 @@ public class SoteriaPreCDIInitializer implements ServletContainerInitializer {
     private static final Logger LOGGER = System.getLogger(SoteriaPreCDIInitializer.class.getName());
 
     /**
+     * Constructor.
+     */
+    public SoteriaPreCDIInitializer() {
+    }
+    
+    /**
      * Initialize Soteria.
      *
      * @param classes the classes.

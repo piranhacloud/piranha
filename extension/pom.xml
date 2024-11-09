@@ -30,7 +30,6 @@
         <module>eclipse-exousia</module>
         <module>eclipse-jaxb</module>
         <module>eclipse-jstl</module>
-        <module>eclipse-soteria</module>
         <module>eclipselink</module>
         <module>expressly</module>
         <module>hazelcast</module>
@@ -55,6 +54,7 @@
         <module>security-jakarta</module>
         <module>servlet</module>
         <module>servletannotations</module>
+        <module>soteria</module>
         <module>tempdir</module>
         <module>tyrus</module>
         <module>webprofile</module>

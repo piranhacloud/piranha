@@ -25,26 +25,31 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.soteria;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.security.enterprise.credential.UsernamePasswordCredential;
+import jakarta.security.enterprise.identitystore.CredentialValidationResult;
+import static jakarta.security.enterprise.identitystore.CredentialValidationResult.INVALID_RESULT;
+import jakarta.security.enterprise.identitystore.IdentityStore;
+import static java.util.Arrays.asList;
+import java.util.HashSet;
 
 /**
- * This module delivers the Eclipse Soteria integration extension.
- *
- * <p>
- *  This extension integrates Eclipse Soteria into Piranha. See 
- *  https://github.com/eclipse-ee4j/soteria for more information about its
- *  project.
- * </p>
- *
+ * A test IdentityStore.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.soteria {
+@ApplicationScoped
+public class TestIdentityStore implements IdentityStore {
 
-    exports cloud.piranha.extension.soteria;
-    opens cloud.piranha.extension.soteria;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.core.impl;
-    requires jakarta.cdi;
-    requires jakarta.inject;
-    requires jakarta.security;
-    requires transitive org.glassfish.soteria;
+    public CredentialValidationResult validate(
+            UsernamePasswordCredential usernamePasswordCredential) {
+
+        if (usernamePasswordCredential.compareTo("test_user", "test_password")) {
+            return new CredentialValidationResult("test_user", 
+                    new HashSet<>(asList("test_group")));
+        }
+        return INVALID_RESULT;
+    }
 }

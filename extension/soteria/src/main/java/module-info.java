@@ -25,40 +25,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.soteria;
-
-import static jakarta.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
-
-import jakarta.enterprise.inject.spi.CDI;
-import jakarta.security.enterprise.credential.Password;
-import jakarta.security.enterprise.credential.UsernamePasswordCredential;
-import jakarta.security.enterprise.identitystore.CredentialValidationResult;
-import jakarta.security.enterprise.identitystore.IdentityStoreHandler;
-import jakarta.servlet.http.HttpServletRequest;
-import cloud.piranha.core.impl.DefaultAuthenticatedIdentity;
-import cloud.piranha.core.api.AuthenticatedIdentity;
-import cloud.piranha.core.api.SecurityManager.UsernamePasswordLoginHandler;
 
 /**
- * The IdentityStore username/password login handler.
- * 
- * @author Arjan Tijms
+ * This module integrates Soteria into Piranha. See 
+ *  https://github.com/eclipse-ee4j/soteria for more information.
+ *
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-public class IdentityStoreLoginHandler implements UsernamePasswordLoginHandler {
+module cloud.piranha.extension.soteria {
 
-    @Override
-    public AuthenticatedIdentity login(HttpServletRequest request, String username, String password) {
-
-        CredentialValidationResult result = CDI.current()
-           .select(IdentityStoreHandler.class)
-           .get()
-           .validate(new UsernamePasswordCredential(username, new Password(password)));
-
-        if (result.getStatus() == VALID) {
-            return new DefaultAuthenticatedIdentity(result.getCallerPrincipal(), result.getCallerGroups());
-        }
-        
-        return null;
-    }
-
+    exports cloud.piranha.extension.soteria;
+    opens cloud.piranha.extension.soteria;
+    requires cloud.piranha.core.api;
+    requires cloud.piranha.core.impl;
+    requires jakarta.cdi;
+    requires jakarta.inject;
+    requires jakarta.security;
+    requires transitive org.glassfish.soteria;
 }

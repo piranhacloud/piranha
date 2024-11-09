@@ -167,10 +167,10 @@ public interface SecurityManager {
     default boolean getDenyUncoveredHttpMethods() {
         return false;
     }
-    
+
     /**
      * Get the form error page.
-     * 
+     *
      * @return the form error page.
      */
     default String getFormErrorPage() {
@@ -203,6 +203,42 @@ public interface SecurityManager {
     Set<String> getRoles();
 
     /**
+     * Get the handler that may be used by the login method to contact an
+     * identity store.
+     *
+     * @return the UsernamePasswordLoginHandler or null if not set.
+     */
+    default UsernamePasswordLoginHandler getUsernamePasswordLoginHandler() {
+        return null;
+    }
+
+    /**
+     * Get the web application.
+     *
+     * @return the web application.
+     */
+    WebApplication getWebApplication();
+
+    /**
+     * Check if the current caller (which can be the anonymous caller) is
+     * authorized to access the requested resource.
+     *
+     * <p>
+     * If the unauthenticated caller is authorized, then this means the resource
+     * is public (aka unconstrained, aka unchecked), and the outcome of this
+     * method MUST be consistent with
+     * {@link #isRequestedResourcePublic(HttpServletRequest)}.
+     *
+     *
+     * @param request the request.
+     * @return true if the current caller is allowed to access the requested
+     * resource, false otherwise
+     */
+    default boolean isCallerAuthorizedForResource(HttpServletRequest request) {
+        return true;
+    }
+
+    /**
      * Check if the current request adheres to the user data constraint, if any.
      *
      * <p>
@@ -230,48 +266,6 @@ public interface SecurityManager {
     default boolean isRequestedResourcePublic(HttpServletRequest request) {
         return true;
     }
-
-    /**
-     * Check if the current caller (which can be the anonymous caller) is
-     * authorized to access the requested resource.
-     *
-     * <p>
-     * If the unauthenticated caller is authorized, then this means the resource
-     * is public (aka unconstrained, aka unchecked), and the outcome of this
-     * method MUST be consistent with
-     * {@link #isRequestedResourcePublic(HttpServletRequest)}.
-     *
-     *
-     * @param request the request.
-     * @return true if the current caller is allowed to access the requested
-     * resource, false otherwise
-     */
-    default boolean isCallerAuthorizedForResource(HttpServletRequest request) {
-        return true;
-    }
-
-    /**
-     * Gives the security system the opportunity to process the response after
-     * the request (after the target resource has been invoked).
-     *
-     * <p>
-     * Although this may be rare to used in practice, it allows for encryption
-     * of the response, inserting security tokens, signing the response, etc.
-     *
-     * @param request the request.
-     * @param response the response.
-     * @throws IOException when an I/O error occurs.
-     * @throws ServletException when a servlet error occurs.
-     */
-    default void postRequestProcess(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-    }
-
-    /**
-     * Get the web application.
-     *
-     * @return the web application.
-     */
-    WebApplication getWebApplication();
 
     /**
      * Is the user in the specific role.
@@ -302,6 +296,22 @@ public interface SecurityManager {
     void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException;
 
     /**
+     * Gives the security system the opportunity to process the response after
+     * the request (after the target resource has been invoked).
+     *
+     * <p>
+     * Although this may be rare to used in practice, it allows for encryption
+     * of the response, inserting security tokens, signing the response, etc.
+     *
+     * @param request the request.
+     * @param response the response.
+     * @throws IOException when an I/O error occurs.
+     * @throws ServletException when a servlet error occurs.
+     */
+    default void postRequestProcess(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    }
+
+    /**
      * Set the auth method.
      *
      * @param authMethod the auth method.
@@ -316,10 +326,10 @@ public interface SecurityManager {
      */
     default void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
     }
-    
+
     /**
      * Set the form error page.
-     * 
+     *
      * @param formErrorPage the form error page.
      */
     default void setFormErrorPage(String formErrorPage) {
@@ -342,13 +352,6 @@ public interface SecurityManager {
     }
 
     /**
-     * Set the web application.
-     *
-     * @param webApplication the web application.
-     */
-    void setWebApplication(WebApplication webApplication);
-
-    /**
      * Set the handler that may be used by the login method to contact an
      * identity store.
      *
@@ -357,4 +360,11 @@ public interface SecurityManager {
     default void setUsernamePasswordLoginHandler(UsernamePasswordLoginHandler usernamePasswordLoginHandler) {
         // do nothing, optional method
     }
+
+    /**
+     * Set the web application.
+     *
+     * @param webApplication the web application.
+     */
+    void setWebApplication(WebApplication webApplication);
 }

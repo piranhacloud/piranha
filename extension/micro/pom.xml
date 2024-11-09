@@ -80,7 +80,7 @@
         </dependency> 
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-soteria</artifactId>
+            <artifactId>piranha-extension-soteria</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
