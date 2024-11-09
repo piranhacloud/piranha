@@ -7,9 +7,9 @@
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-extension-eclipse-jaxb</artifactId>
+    <artifactId>piranha-extension-jaxb</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Eclipse JAXB</name>
+    <name>Piranha - Extension - JAXB</name>
     <dependencies>
         <!-- compile -->
         <dependency>

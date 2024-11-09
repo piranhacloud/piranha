@@ -50,7 +50,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-jaxb</artifactId>
+            <artifactId>piranha-extension-jaxb</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
