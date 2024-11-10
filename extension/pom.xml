@@ -27,7 +27,6 @@
         <module>default-datasource</module>
         <module>eclipse-angus</module>
         <module>eclipse-epicyro</module>
-        <module>eclipse-exousia</module>
         <module>eclipse-jstl</module>
         <module>eclipselink</module>
         <module>expressly</module>
@@ -63,6 +62,7 @@
         <module>yasson</module>
         <module>wasp</module>
         <module>jaxb</module>
+        <module>exousia</module>
     </modules>
 
     <dependencyManagement>

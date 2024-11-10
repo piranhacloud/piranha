@@ -83,7 +83,7 @@
         <crac.version>0.1.3</crac.version>
         <eclipselink.version>5.0.0-B02</eclipselink.version>
         <epicyro.version>3.0.0</epicyro.version>
-        <exousia.version>3.0.0-M1.1</exousia.version>
+        <exousia.version>3.0.0-M2</exousia.version>
         <expressly.version>6.0.0-M2</expressly.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
         <glassfish-client-ee11.version>1.6.1</glassfish-client-ee11.version>

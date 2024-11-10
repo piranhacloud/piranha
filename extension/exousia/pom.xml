@@ -7,9 +7,9 @@
         <artifactId>project</artifactId>
         <version>24.11.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-extension-eclipse-exousia</artifactId>
+    <artifactId>piranha-extension-exousia</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Eclipse Exousia</name>
+    <name>Piranha - Extension - Exousia</name>
     <dependencies>
         <!-- compile -->
         <dependency>

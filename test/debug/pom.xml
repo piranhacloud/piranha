@@ -76,7 +76,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-exousia</artifactId>
+            <artifactId>piranha-extension-exousia</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
