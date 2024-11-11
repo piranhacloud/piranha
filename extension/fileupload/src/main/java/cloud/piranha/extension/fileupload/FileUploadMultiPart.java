@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.apache.fileupload;
+package cloud.piranha.extension.fileupload;
 
 import jakarta.servlet.http.Part;
 import java.io.File;
@@ -45,7 +45,7 @@ import org.apache.commons.fileupload2.core.FileItem;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ApacheMultiPart implements Part {
+public class FileUploadMultiPart implements Part {
 
     /**
      * Stores the item.
@@ -57,7 +57,7 @@ public class ApacheMultiPart implements Part {
      *
      * @param item the file item.
      */
-    public ApacheMultiPart(FileItem item) {
+    public FileUploadMultiPart(FileItem item) {
         this.item = item;
     }
 

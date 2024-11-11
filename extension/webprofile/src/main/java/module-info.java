@@ -35,7 +35,7 @@
  * </p>
  * <ul>
  *  <li>Annotation Scanning</li>
- *  <li>Apache Commons File Upload (Multipart)</li>
+ *  <li>File Upload</li>
  *  <li>Default DataSource</li>
  *  <li>Eclipse Expressly (EL)</li>
  *  <li>Eclipse Jersey (REST)</li>
@@ -58,7 +58,7 @@ module cloud.piranha.extension.webprofile {
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.annotationscan.classfile;
-    requires cloud.piranha.extension.apache.fileupload;
+    requires cloud.piranha.extension.fileupload;
     requires cloud.piranha.extension.expressly;
     requires cloud.piranha.extension.datasource;
     requires cloud.piranha.extension.eclipselink;

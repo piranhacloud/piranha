@@ -32,10 +32,10 @@ import static java.util.Arrays.asList;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
-import cloud.piranha.extension.apache.fileupload.ApacheMultiPartExtension;
 import cloud.piranha.extension.datasource.DefaultDatasourceExtension;
 import cloud.piranha.extension.eclipselink.EclipseLinkExtension;
 import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
+import cloud.piranha.extension.fileupload.FileUploadExtension;
 import cloud.piranha.extension.naming.cdi.NamingExtension;
 import cloud.piranha.extension.policy.PolicyExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
@@ -63,7 +63,7 @@ public class MicroExtension implements WebApplicationExtension {
         context.add(TempDirExtension.class);                    // TEMPDIR
         context.add(WelcomeFileExtension.class);                // welcome-file
         context.add(ServletSecurityManagerExtension.class);     // Servlet security
-        context.add(ApacheMultiPartExtension.class);            // Upload
+        context.add(FileUploadExtension.class);                 // Upload
         context.add(WebXmlExtension.class);                     // web.xml
         context.add(ServletAnnotationsExtension.class);         // Servlet annotations
         context.add(NamingExtension.class);                     // Naming (JNDI)

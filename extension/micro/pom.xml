@@ -26,7 +26,7 @@
         </dependency>
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-apache-fileupload</artifactId>
+            <artifactId>piranha-extension-fileupload</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

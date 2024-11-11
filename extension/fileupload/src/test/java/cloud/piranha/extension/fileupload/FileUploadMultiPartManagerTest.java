@@ -25,19 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.fileupload;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplicationRequest;
+import jakarta.servlet.MultipartConfigElement;
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 
 /**
- * <p>
- * This package delivers a MultiPartManager that is backed by Apache Commons
- * File Upload.
- * </p>
- *
- * <p>
- * For more information about Apache Commons File Upload, see the
- * <a href="http://commons.apache.org/proper/commons-fileupload/">Apache Commons
- * File Upload website</a>.
- * </p>
+ * The JUnit tests for the FileUploadMultiPartManager class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-package cloud.piranha.extension.apache.fileupload;
+class FileUploadMultiPartManagerTest {
+
+    /**
+     * Test getPart method.
+     * 
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testGetPart() throws Exception {
+        DefaultWebApplication application = new DefaultWebApplication();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setMultipartConfig(new MultipartConfigElement(new File("target").getAbsolutePath()));
+        request.setContentType("multipart/form-data");
+        request.setMethod("POST");
+        FileUploadMultiPartManager manager = new FileUploadMultiPartManager();
+        assertNull(manager.getPart(application, request, "part_test"));
+    }
+}

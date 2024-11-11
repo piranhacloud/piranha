@@ -25,35 +25,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.apache.fileupload;
+package cloud.piranha.extension.fileupload;
 
-import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.core.impl.DefaultWebApplicationRequest;
-import jakarta.servlet.MultipartConfigElement;
-import java.io.File;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import org.junit.jupiter.api.Test;
+import cloud.piranha.core.api.WebApplication;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.TRACE;
+import java.util.Set;
 
 /**
- * The JUnit tests for the ApacheMultiPartManager class.
+ * The ServletContainerInitializer for the ApacheMultiPartManager.
+ *
+ * <p>
+ * The ServletContainerInitializer performs the following steps:
+ * </p>
+ *
+ * <ol>
+ * <li>Sets the MultiPartManager to an instance of FileUploadMultiPartManager.</li>
+ * <li>Adds the JakartaFileCleaner listener that cleans up the temporary files.</li>
+ * </ol>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class ApacheMultiPartManagerTest {
+public class FileUploadMultiPartInitializer implements ServletContainerInitializer {
 
     /**
-     * Test getPart method.
-     * 
-     * @throws Exception when a serious error occurs.
+     * Stores the logger.
      */
-    @Test
-    void testGetPart() throws Exception {
-        DefaultWebApplication application = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setMultipartConfig(new MultipartConfigElement(new File("target").getAbsolutePath()));
-        request.setContentType("multipart/form-data");
-        request.setMethod("POST");
-        ApacheMultiPartManager manager = new ApacheMultiPartManager();
-        assertNull(manager.getPart(application, request, "part_test"));
+    private static final Logger LOGGER = System.getLogger(FileUploadMultiPartInitializer.class.getName());
+
+    @Override
+    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
+        LOGGER.log(TRACE, "Setting ApacheMultiPartManager");
+        WebApplication webApplication = (WebApplication) servletContext;
+        webApplication.getManager().setMultiPartManager(new FileUploadMultiPartManager());
+        webApplication.addListener("org.apache.commons.fileupload2.jakarta.servlet6.JakartaFileCleaner");
     }
 }

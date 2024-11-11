@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.apache.fileupload;
+package cloud.piranha.extension.fileupload;
 
 import cloud.piranha.core.api.MultiPartManager;
 import cloud.piranha.core.api.WebApplication;
@@ -50,24 +50,24 @@ import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload;
  * The ApacheMultiPartManager.
  *
  * <p>
- * The ApacheMultiPartManager implements the MultiPartManager API that delivers
- * file upload functionality to a web application by delegating to Apache
- * Commons File Upload.
- * </p>
+ The FileUploadMultiPartManager implements the MultiPartManager API that delivers
+ file upload functionality to a web application by delegating to Apache
+ Commons File Upload.
+ </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ApacheMultiPartManager implements MultiPartManager {
+public class FileUploadMultiPartManager implements MultiPartManager {
 
     /**
      * Stores the logger.
      */
-    private static final Logger LOGGER = System.getLogger(ApacheMultiPartManager.class.getName());
+    private static final Logger LOGGER = System.getLogger(FileUploadMultiPartManager.class.getName());
 
     /**
      * Constructor.
      */
-    public ApacheMultiPartManager() {
+    public FileUploadMultiPartManager() {
     }
 
     @SuppressWarnings("unchecked")
@@ -85,7 +85,7 @@ public class ApacheMultiPartManager implements MultiPartManager {
             try {
                 setupFileUpload(webApplication, request.getMultipartConfig())
                         .parseRequest((HttpServletRequest) request)
-                        .forEach(item -> newParts.add(new ApacheMultiPart((FileItem) item)));
+                        .forEach(item -> newParts.add(new FileUploadMultiPart((FileItem) item)));
             } catch (FileUploadException fue) {
                 LOGGER.log(WARNING, "Error getting part", fue);
             }
@@ -118,7 +118,7 @@ public class ApacheMultiPartManager implements MultiPartManager {
      * @return the JakartServletFileUpload instance.
      */
     private synchronized JakartaServletFileUpload setupFileUpload(WebApplication webApplication, MultipartConfigElement multipartConfig) {
-        JakartaServletFileUpload upload = (JakartaServletFileUpload) webApplication.getAttribute(ApacheMultiPartManager.class.getName());
+        JakartaServletFileUpload upload = (JakartaServletFileUpload) webApplication.getAttribute(FileUploadMultiPartManager.class.getName());
         if (upload == null) {
             File outputDirectory;
             if (multipartConfig.getLocation() == null || multipartConfig.getLocation().isEmpty()) {
@@ -140,7 +140,7 @@ public class ApacheMultiPartManager implements MultiPartManager {
                     .setFile(outputDirectory)
                     .get();
             upload = new JakartaServletFileUpload(factory);
-            webApplication.setAttribute(ApacheMultiPartManager.class.getName(), upload);
+            webApplication.setAttribute(FileUploadMultiPartManager.class.getName(), upload);
         }
         return upload;
     }

@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.apache.fileupload;
+package cloud.piranha.extension.fileupload;
 
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
@@ -37,23 +37,22 @@ import static java.lang.System.Logger.Level.TRACE;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class ApacheMultiPartExtension implements WebApplicationExtension {
+public class FileUploadExtension implements WebApplicationExtension {
 
     /**
      * Stores the logger.
      */
-    private static final System.Logger LOGGER = System.getLogger(
-            ApacheMultiPartExtension.class.getName());
+    private static final System.Logger LOGGER = System.getLogger(FileUploadExtension.class.getName());
 
     /**
      * Constructor.
      */
-    public ApacheMultiPartExtension() {
+    public FileUploadExtension() {
     }
     
     @Override
     public void configure(WebApplication webApplication) {
         LOGGER.log(TRACE, "Configuring Apache Commons FileUpload extension");
-        webApplication.addInitializer(ApacheMultiPartInitializer.class.getName());
+        webApplication.addInitializer(FileUploadMultiPartInitializer.class.getName());
     }
 }

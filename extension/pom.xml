@@ -18,7 +18,6 @@
     <modules>
         <module>annotationscan</module>
         <module>annotationscan-classfile</module>
-        <module>apache-fileupload</module>
         <module>bytesstreamhandler</module>
         <module>compat-glassfish7x</module>
         <module>compat-tomcat10x</module>
@@ -30,6 +29,7 @@
         <module>eclipse-jstl</module>
         <module>eclipselink</module>
         <module>expressly</module>
+        <module>fileupload</module>
         <module>hazelcast</module>
         <module>herring</module>
         <module>hibernate-validator</module>
