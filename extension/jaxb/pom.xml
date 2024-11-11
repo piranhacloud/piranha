@@ -21,7 +21,7 @@
         <!-- provided -->
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-angus</artifactId>
+            <artifactId>piranha-extension-angus</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
