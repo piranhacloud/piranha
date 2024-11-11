@@ -21,7 +21,7 @@
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.8.0.Final</version>
+                <version>${arquillian.version}</version>
                 <type>pom</type>
                 <scope>test</scope>
             </dependency>
@@ -67,17 +67,16 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
-        
         <dependency>
             <groupId>org.omnifaces.arquillian</groupId>
             <artifactId>glassfish-client-ee11</artifactId>
-            <version>1.6.1</version>
+            <version>${glassfish-client-ee11.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
+            <version>${commons-httpclient.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
