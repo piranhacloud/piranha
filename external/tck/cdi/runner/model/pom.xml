@@ -22,7 +22,7 @@
     <parent>
         <groupId>cloud.piranha.external.tck.cdi.runner</groupId>
         <artifactId>project</artifactId>
-        <version>24.11.0-SNAPSHOT</version>
+        <version>24.12.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>piranha-external-tck-cdi-runner-langmodel</artifactId>
