@@ -14,36 +14,25 @@
     <packaging>war</packaging>
     <name>Piranha - Test - Servlet - Pages application</name>
     <properties>
-        <!-- dependencies -->
-        <junit.version>5.11.2</junit.version>
-        <piranha.version>${project.version}</piranha.version>
         <!-- other -->
         <java.version>21</java.version>
         <piranha.distribution>servlet</piranha.distribution>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- plugins -->
-        <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>3.5.1</maven-failsafe-plugin.version>
-        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -53,7 +42,7 @@
             <plugin>
                 <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
-                <version>${piranha.version}</version>
+                <version>${project.version}</version>
                 <executions>
                     <execution>
                         <id>pre-integration-test</id>
@@ -78,7 +67,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <release>${java.version}</release>
                 </configuration>
@@ -86,7 +74,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${maven-failsafe-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -113,7 +100,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>${build-helper-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>reserve-network-port</id>

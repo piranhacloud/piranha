@@ -76,12 +76,12 @@
         <angus.mail.version>2.0.3</angus.mail.version>
         <arquillian.version>1.8.0.Final</arquillian.version>
         <bcel.version>6.10.0</bcel.version>
-        <checkstyle.version>10.18.2</checkstyle.version>
+        <checkstyle.version>10.20.1</checkstyle.version>
         <commons-compress.version>1.27.1</commons-compress.version>
         <commons-fileupload2-jakarta-servlet6.version>2.0.0-M2</commons-fileupload2-jakarta-servlet6.version>
         <concurro.version>3.1.0-M1</concurro.version>
         <crac.version>0.1.3</crac.version>
-        <eclipselink.version>5.0.0-B02</eclipselink.version>
+        <eclipselink.version>5.0.0-B03</eclipselink.version>
         <epicyro.version>3.0.0</epicyro.version>
         <exousia.version>3.0.0-M2</exousia.version>
         <expressly.version>6.0.0-M2</expressly.version>
@@ -96,23 +96,23 @@
         <herring.version>23.12.0</herring.version>
         <hibernate-validator.version>9.0.0.Beta3</hibernate-validator.version>
         <htmlunit.version>2.70.0</htmlunit.version>
-        <jandex.version>3.2.2</jandex.version>
+        <jandex.version>3.2.3</jandex.version>
         <jaxb-runtime.version>4.0.5</jaxb-runtime.version>
         <jboss-classfilewriter.version>1.3.1.Final</jboss-classfilewriter.version>
         <jersey.version>4.0.0-M1</jersey.version>
         <jstl.version>3.0.1</jstl.version>
         <junit-pioneer.version>2.3.0</junit-pioneer.version>
-        <junit-platform-launcher.version>1.11.2</junit-platform-launcher.version>
-        <junit.version>5.11.2</junit.version>
+        <junit-platform-launcher.version>1.11.3</junit-platform-launcher.version>
+        <junit.version>5.11.3</junit.version>
         <maven-plugin-annotations.version>3.15.0</maven-plugin-annotations.version>
         <maven-plugin-api.version>3.9.9</maven-plugin-api.version>
         <maven-plugin-tools-annotations.version>3.15.0</maven-plugin-tools-annotations.version>
         <microprofile-config-api.version>3.1</microprofile-config-api.version>
         <microprofile-jwt-auth-api.version>2.1</microprofile-jwt-auth-api.version>
-        <microprofile-jwt-auth.version>2.0.2</microprofile-jwt-auth.version>
-        <mojarra.version>4.1.1</mojarra.version>
+        <microprofile-jwt-auth.version>3.0.0</microprofile-jwt-auth.version>
+        <mojarra.version>4.1.2</mojarra.version>
         <netty.version>4.1.114.Final</netty.version>
-        <nimbus-jose-jwt.version>9.41.2</nimbus-jose-jwt.version>
+        <nimbus-jose-jwt.version>9.46</nimbus-jose-jwt.version>
         <omni-mp-config.version>3.0.0</omni-mp-config.version>
         <omnibeans.version>0.3</omnibeans.version>
         <omniservices.version>0.4</omniservices.version>
@@ -122,10 +122,10 @@
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.3.0</shrinkwrap-resolver.version>
         <soteria.version>4.0.0-M3</soteria.version>
-        <spring-boot.version>3.3.4</spring-boot.version>
+        <spring-boot.version>3.3.5</spring-boot.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.2.0</tyrus.version>
-        <undertow.version>2.3.17.Final</undertow.version>
+        <undertow.version>2.3.18.Final</undertow.version>
         <wasp.version>4.0.0-M2</wasp.version>
         <weld.version>6.0.0.Beta4</weld.version>
         <yasson.version>3.0.4</yasson.version>
