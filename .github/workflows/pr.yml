@@ -1,0 +1,36 @@
+name: build-docs
+on: 
+  pull_request:
+    branches:
+      - '*'  
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Piranha
+      uses: actions/checkout@v4
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: 21
+    - name: Build with Maven
+      run: |
+        cd docs
+        mvn -B -DskipTests -DskipITs -ntp -P docs site
+  maven-plugin:
+    needs: docs
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Piranha
+      uses: actions/checkout@v4
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: 21
+    - name: Build with Maven
+      run: |
+        mvn -B -DskipTests -DskipITs -ntp install
+        cd maven/plugin
+        mvn -B -DskipTests -DskipITs -ntp site
