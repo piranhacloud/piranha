@@ -15,7 +15,7 @@ used by Piranha to deliver various bits and pieces of functionality.
 | Eclipse Grizzly           | 4.1.0-M1      |     |     |     |
 | Eclipse Grizzly NPN       | 2.0.0         |     |     |     |
 | Eclipse JAXB              | 4.0.5         |     |     |     |
-| Eclipse JSTL              | 3.0.1         |     |     |     |
+| Eclipse JSTL              | 3.0.2         |     |  X  |  X  |
 | Eclipse Soteria           | 4.0.0-M3      |     |     |     |
 | EclipseLink               | 5.0.0-B02     |     |     |     |
 | Expressly                 | 6.0.0-M2      |     |  X  |  X  |

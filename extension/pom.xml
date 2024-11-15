@@ -26,7 +26,6 @@
         <module>coreprofile</module>
         <module>default-datasource</module>
         <module>eclipse-epicyro</module>
-        <module>eclipse-jstl</module>
         <module>eclipselink</module>
         <module>exousia</module>
         <module>expressly</module>
@@ -36,6 +35,7 @@
         <module>hibernate-validator</module>
         <module>jaxb</module>
         <module>jersey</module>
+        <module>jstl</module>
         <module>micro</module>
         <module>microprofile</module>
         <module>mojarra</module>

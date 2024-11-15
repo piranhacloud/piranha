@@ -27,11 +27,7 @@
  */
 
 /**
- * This module delivers the Eclipse JSTL integration extension.
- *
- * <p>
- *  This extension integrates Eclipse JSTL into Piranha.
- * </p>
+ * This module integrates JSTL into Piranha.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
