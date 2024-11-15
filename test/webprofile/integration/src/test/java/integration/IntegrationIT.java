@@ -40,6 +40,7 @@ import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import static org.jboss.shrinkwrap.api.ShrinkWrap.create;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -55,6 +56,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * <li>testInterceptor validates Jakarta Interceptors works</li>
  * <li>testJsonBinding validates Jakarta JSON binding works</li>
  * <li>testJsonProcessing validates Jakarta JSON processing works</li>
+ * <li>testJstl validates Jakarta Standard Tag Library works</li>
  * <li>testPages validates Jakarta Pages works</li>
  * <li>testServlet validates Jakarta Servlet works</li>
  * <li>testREST validates Jakarta REST works</li>
@@ -185,6 +187,24 @@ class IntegrationIT {
         assertTrue(response.body().contains("{\"string\":\"JSON Processing works!\"}"));
     }
 
+    /**
+     * Test JSTL.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Disabled
+    @Test
+    void testJstl() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI(baseUrl + "/jstl.jsp"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        System.out.println(response.body());
+        assertTrue(response.body().contains("JSTL works!"));
+        assertFalse(response.body().contains("c:out"));
+    }
+ 
     /**
      * Test Pages.
      *

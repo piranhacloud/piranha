@@ -7,9 +7,9 @@
         <artifactId>project</artifactId>
         <version>24.12.0-SNAPSHOT</version>
     </parent>
-    <artifactId>piranha-extension-eclipse-jstl</artifactId>
+    <artifactId>piranha-extension-jstl</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - Extension - Eclipse JSTL</name>
+    <name>Piranha - Extension - JSTL</name>
     <dependencies>
         <!-- compile -->
         <dependency>

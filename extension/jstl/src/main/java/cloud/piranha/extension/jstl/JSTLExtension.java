@@ -33,7 +33,7 @@ import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.TRACE;
 
 /**
- * The extension that delivers Eclipse JSTL to Piranha.
+ * The extension that delivers JSTL to Piranha.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -43,6 +43,12 @@ public class JSTLExtension implements WebApplicationExtension {
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(JSTLExtension.class.getName());
+
+    /**
+     * Default constructor.
+     */
+    public JSTLExtension() {
+    }
     
     /**
      * Configure the extension.
@@ -51,6 +57,6 @@ public class JSTLExtension implements WebApplicationExtension {
      */
     @Override
     public void configure(WebApplication webApplication) {
-        LOGGER.log(TRACE, "Configuring Eclipse JSTL extension");
+        LOGGER.log(TRACE, "Configuring JSTL extension");
     }
 }
