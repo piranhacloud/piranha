@@ -5,11 +5,6 @@ on:
       - '*'
     tags-ignore:
       - 'v*'
-  pull_request:
-    branches:
-      - '*'  
-    paths-ignore:
-      - 'docs/**'
   workflow_dispatch:
 jobs:
   build:
@@ -28,37 +23,8 @@ jobs:
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
     - name: Build with Maven
-      run: mvn --no-transfer-progress -B -T 1 install
-    - name: Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v1
-      if: ${{ runner.os != 'Windows' }}
-      with:
-        files: '**/target/surefire-reports/*.xml'     
-  codeql:
-    name: codeql
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-    steps:
-    - name: Checkout sources
-      uses: actions/checkout@v4
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: 'java'
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '21'
-    - name: Build with Maven
-      run: mvn -B -DskipTests=true -DskipITs=true --ntp install
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
+      run: mvn -B -ntp -T 1 install
   ghcr:
-    if: github.repository == 'piranhacloud/piranha' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
@@ -124,7 +90,6 @@ jobs:
         cd dist/webprofile
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
   sonatype:
-    if: github.repository == 'piranhacloud/piranha' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
