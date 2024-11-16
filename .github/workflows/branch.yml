@@ -7,23 +7,6 @@ on:
       - 'v*'
   workflow_dispatch:
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        java: [ 21, 23 ]
-        os: [ubuntu-latest, windows-latest]
-    steps:
-    - name: Checkout Sources
-      uses: actions/checkout@v4
-    - name: Setup Java ${{ matrix.java }}
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: ${{ matrix.java }}
-    - name: Build with Maven
-      run: mvn -B -ntp -T 1 install
   ghcr:
     runs-on: ubuntu-latest
     steps:
@@ -37,15 +20,15 @@ jobs:
     - name: Build with Maven
       run: mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' verify
     - name: Login to GHCR
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
+      uses: docker/setup-qemu-action@v3
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      uses: docker/setup-buildx-action@v3
       with:
         version: v0.10.0
     - run: docker buildx inspect
