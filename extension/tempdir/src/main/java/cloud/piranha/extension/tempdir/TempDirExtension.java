@@ -30,10 +30,10 @@ package cloud.piranha.extension.tempdir;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
 
 /**
- * The WebApplicationExtension that adds the TempDirServletContainerInitializer.
+ * The WebApplicationExtension that configures the TEMPDIR functionality.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -44,9 +44,18 @@ public class TempDirExtension implements WebApplicationExtension {
      */
     private static final Logger LOGGER = System.getLogger(TempDirExtension.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public TempDirExtension() {
+    }
+    
     @Override
     public void configure(WebApplication webApplication) {
-        LOGGER.log(DEBUG, "Adding the TempDirServletContainerInitializer");
-        webApplication.addInitializer(new TempDirServletContainerInitializer());
+        LOGGER.log(TRACE, "Configuring the TEMPDIR extension");
+        
+        if (Boolean.parseBoolean(System.getProperty("cloud.piranha.extension.tempdir.TempDirExtension.enabled", "true"))) {
+            webApplication.addInitializer(new TempDirServletContainerInitializer());
+        }
     }
 }
