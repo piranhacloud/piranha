@@ -27,13 +27,6 @@
  */
 package cloud.piranha.extension.webxml;
 
-import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.extension.security.servlet.ServletSecurityManagerInitializer;
-import cloud.piranha.resource.impl.DirectoryResource;
-import java.io.File;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
-
 /**
  * The JUnit tests testing web.xml &lt;context-param&gt;.
  * 
@@ -41,11 +34,13 @@ import org.junit.jupiter.api.Test;
  */
 class DenyUncoveredMethodsTest {
 
+    // TODO - move this test to security-servlet extension.
     /**
      * Test getDenyUncoveredMethods method.
      *
      * @throws Exception when a serious error occurs.
      */
+    /*
     @Test
     void testGetDenyUncoveredMethods() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
@@ -55,4 +50,5 @@ class DenyUncoveredMethodsTest {
         webApplication.initialize();
         assertTrue(webApplication.getManager().getSecurityManager().getDenyUncoveredHttpMethods());
     }
+    */
 }

@@ -28,8 +28,8 @@
 package cloud.piranha.extension.webxml.internal;
 
 import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.core.api.WebXml;
-import cloud.piranha.core.api.WebXmlServletMapping;
+import cloud.piranha.extension.webxml.WebXml;
+import cloud.piranha.extension.webxml.WebXmlServletMapping;
 import cloud.piranha.resource.impl.DirectoryResource;
 import java.io.File;
 import java.io.InputStream;

@@ -27,9 +27,9 @@
  */
 package cloud.piranha.extension.webxml.internal;
 
-import cloud.piranha.core.api.WebXml;
-import static cloud.piranha.core.api.WebXml.OTHERS_TAG;
-import cloud.piranha.core.api.WebXmlManager;
+import cloud.piranha.extension.webxml.WebXml;
+import static cloud.piranha.extension.webxml.WebXml.OTHERS_TAG;
+import cloud.piranha.extension.webxml.WebXmlManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

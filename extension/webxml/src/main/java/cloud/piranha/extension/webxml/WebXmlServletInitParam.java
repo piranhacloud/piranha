@@ -25,64 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.extension.webxml;
 
 /**
- * A session-config inside of web.xml or web-fragment.xml.
+ * A servlet init-param inside of web.xml/web-fragment.xml.
  *
+ * @param name the name.
+ * @param value the value.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlSessionConfig {
+public record WebXmlServletInitParam(String name, String value) {
 
-    /**
-     * Stores the cookie config.
-     */
-    private WebXmlSessionConfigCookieConfig cookieConfig;
-
-    /**
-     * Stores the timeout.
-     */
-    private int sessionTimeout;
-
-    /**
-     * Default constructor.
-     */
-    public WebXmlSessionConfig() {
-    }
-    
-    /**
-     * Get the cookie config.
-     *
-     * @return the cookie config.
-     */
-    public WebXmlSessionConfigCookieConfig getCookieConfig() {
-        return cookieConfig;
-    }
-
-    /**
-     * Get the session timeout.
-     *
-     * @return the session timeout.
-     */
-    public int getSessionTimeout() {
-        return sessionTimeout;
-    }
-
-    /**
-     * Set the cookie config.
-     * 
-     * @param cookieConfig the cookie config.
-     */
-    public void setCookieConfig(WebXmlSessionConfigCookieConfig cookieConfig) {
-        this.cookieConfig = cookieConfig;
-    }
-
-    /**
-     * Set the session timeout.
-     *
-     * @param sessionTimeout the session timeout.
-     */
-    public void setSessionTimeout(int sessionTimeout) {
-        this.sessionTimeout = sessionTimeout;
-    }
 }

@@ -25,35 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
-
-import java.util.ArrayList;
-import java.util.List;
+package cloud.piranha.extension.webxml;
 
 /**
- * A jsp-config inside web.xml/web-fragment.xml.
+ * A filter init-param inside of web.xml/web-fragment.xml.
  *
+ * @param name the name.
+ * @param value the value.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlJspConfig {
-    
-    /**
-     * Stores the list of taglib.
-     */
-    private List<WebXmlJspConfigTaglib> taglibs = new ArrayList<>();
-    
-    /**
-     * Default constructor.
-     */
-    public WebXmlJspConfig() {
-    }
-
-    /**
-     * Get the list of taglib.
-     * 
-     * @return the list.
-     */
-    public List<WebXmlJspConfigTaglib> getTaglibs() {
-        return taglibs;
-    }
+public record WebXmlFilterInitParam(String name, String value) {
 }

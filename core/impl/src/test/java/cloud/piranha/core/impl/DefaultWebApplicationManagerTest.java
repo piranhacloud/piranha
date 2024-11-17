@@ -27,8 +27,6 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.WebXml;
-import cloud.piranha.core.api.WebXmlManager;
 import cloud.piranha.core.api.WelcomeFileManager;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -177,21 +175,6 @@ class DefaultWebApplicationManagerTest {
         assertNotNull(manager.getServletRequestManager());
         manager.setServletRequestManager(null);
         assertNull(manager.getServletRequestManager());
-    }
-
-    /**
-     * Test getWebXmlManager method.
-     */
-    @Test
-    void testGetWebXmlManager() {
-        DefaultWebApplicationManager manager = new DefaultWebApplicationManager();
-        assertNull(manager.getWebXmlManager());
-        manager.setWebXmlManager(new WebXmlManager() {
-            @Override
-            public WebXml getWebXml() {
-                return null;
-            }
-        });
     }
 
     /**

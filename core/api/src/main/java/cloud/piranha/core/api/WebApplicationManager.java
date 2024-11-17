@@ -126,13 +126,6 @@ public interface WebApplicationManager {
     ServletRequestManager getServletRequestManager();
     
     /**
-     * Get the web.xml manager.
-     * 
-     * @return the web.xml manager.
-     */
-    WebXmlManager getWebXmlManager();
-    
-    /**
      * Get the welcome file manager.
      * 
      * @return the welcome file manager.
@@ -215,13 +208,6 @@ public interface WebApplicationManager {
      * @param servletRequestManager the servlet request manager.
      */
     void setServletRequestManager(ServletRequestManager servletRequestManager);
-    
-    /**
-     * Set the web.xml manager.
-     * 
-     * @param webXmlManager the web.xml manager.
-     */
-    void setWebXmlManager(WebXmlManager webXmlManager);
     
     /**
      * Set the welcome file manager.

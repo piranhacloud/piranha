@@ -25,22 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.extension.webxml;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * A filter inside of web.xml/web-fragment.xml.
+ * A data-source inside of web.xml.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlFilter {
-
-    /**
-     * Stores if async is supported.
-     */
-    private boolean asyncSupported;
+public class WebXmlDataSource {
 
     /**
      * Stores the class name.
@@ -48,35 +43,37 @@ public class WebXmlFilter {
     private String className;
 
     /**
-     * Stores the filter name.
+     * Stores the name.
      */
-    private String filterName;
+    private String name;
 
     /**
-     * Stores the init parameters.
+     * Stores the password.
      */
-    private final List<WebXmlFilterInitParam> initParams = new ArrayList<>();
+    private String password;
 
     /**
-     * Stores the servlet name.
+     * Stores the URL.
      */
-    private String servletName;
+    private String url;
 
     /**
-     * Constructor.
+     * Stores the user.
      */
-    public WebXmlFilter() {
+    private String user;
+
+
+    /**
+     * Stores the properties.
+     */
+    private Map<String, Object> properties = new HashMap<>();
+
+    /**
+     * Default constructor.
+     */
+    public WebXmlDataSource() {
     }
-
-    /**
-     * Add init param.
-     *
-     * @param initParam the init param.
-     */
-    public void addInitParam(WebXmlFilterInitParam initParam) {
-        this.initParams.add(initParam);
-    }
-
+    
     /**
      * Get the class name.
      *
@@ -87,48 +84,48 @@ public class WebXmlFilter {
     }
 
     /**
-     * Get the filter name.
+     * Get the name.
      *
-     * @return the filter name.
+     * @return the name.
      */
-    public String getFilterName() {
-        return filterName;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Get the init parameters.
+     * Get the password.
      *
-     * @return the init parameters.
+     * @return the password.
      */
-    public List<WebXmlFilterInitParam> getInitParams() {
-        return initParams;
+    public String getPassword() {
+        return password;
     }
 
     /**
-     * Get the servlet name.
+     * Get the URL.
      *
-     * @return the servlet name.
+     * @return the URL.
      */
-    public String getServletName() {
-        return servletName;
+    public String getUrl() {
+        return url;
     }
 
     /**
-     * Is async supported.
+     * Get the user.
      *
-     * @return true if it is, false otherwise.
+     * @return the user.
      */
-    public boolean isAsyncSupported() {
-        return asyncSupported;
+    public String getUser() {
+        return user;
     }
 
     /**
-     * Set if async is supported.
+     * Set the user.
      *
-     * @param asyncSupported the boolean value.
+     * @param user the user.
      */
-    public void setAsyncSupported(boolean asyncSupported) {
-        this.asyncSupported = asyncSupported;
+    public void setUser(String user) {
+        this.user = user;
     }
 
     /**
@@ -141,20 +138,47 @@ public class WebXmlFilter {
     }
 
     /**
-     * Set the filter name.
+     * Set the name.
      *
-     * @param filterName the filter name.
+     * @param name the name.
      */
-    public void setFilterName(String filterName) {
-        this.filterName = filterName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
-     * Set the servlet name.
+     * Set the password.
      *
-     * @param servletName the servlet name.
+     * @param password the password.
      */
-    public void setServletName(String servletName) {
-        this.servletName = servletName;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * Set the URL.
+     *
+     * @param url the URL.
+     */
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    /**
+     * Get the properties
+     *
+     * @return the properties
+     */
+    public Map<String, Object> getProperties() {
+        return properties;
+    }
+
+    /**
+     * Set the properties
+     *
+     * @param properties the properties
+     */
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = properties;
     }
 }

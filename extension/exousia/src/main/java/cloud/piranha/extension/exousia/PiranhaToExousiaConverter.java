@@ -27,10 +27,10 @@
  */
 package cloud.piranha.extension.exousia;
 
-import cloud.piranha.core.api.WebXmlServletSecurityRoleRef;
-import cloud.piranha.core.api.WebXml;
-import cloud.piranha.core.api.WebXmlSecurityConstraint;
-import cloud.piranha.core.api.WebXmlServlet;
+import cloud.piranha.extension.webxml.WebXmlServletSecurityRoleRef;
+import cloud.piranha.extension.webxml.WebXml;
+import cloud.piranha.extension.webxml.WebXmlSecurityConstraint;
+import cloud.piranha.extension.webxml.WebXmlServlet;
 import jakarta.servlet.ServletSecurityElement;
 import jakarta.servlet.annotation.ServletSecurity;
 import static jakarta.servlet.annotation.ServletSecurity.TransportGuarantee.CONFIDENTIAL;

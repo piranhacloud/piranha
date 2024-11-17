@@ -25,17 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.extension.webxml;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A servlet inside of web.xml/web-fragment.xml.
+ * A filter inside of web.xml/web-fragment.xml.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlServlet {
+public class WebXmlFilter {
 
     /**
      * Stores if async is supported.
@@ -48,24 +48,14 @@ public class WebXmlServlet {
     private String className;
 
     /**
-     * Stores the init params.
+     * Stores the filter name.
      */
-    private final List<WebXmlServletInitParam> initParams = new ArrayList<>();
+    private String filterName;
 
     /**
-     * Stores the JSP file
+     * Stores the init parameters.
      */
-    private String jspFile;
-
-    /**
-     * Stores the MultipartConfig
-     */
-    private WebXmlServletMultipartConfig multipartConfig;
-
-    /**
-     * Stores the security role refs.
-     */
-    private final List<WebXmlServletSecurityRoleRef> securityRoleRefs = new ArrayList<>();
+    private final List<WebXmlFilterInitParam> initParams = new ArrayList<>();
 
     /**
      * Stores the servlet name.
@@ -73,17 +63,17 @@ public class WebXmlServlet {
     private String servletName;
 
     /**
-     * Default constructor.
+     * Constructor.
      */
-    public WebXmlServlet() {
+    public WebXmlFilter() {
     }
-    
+
     /**
      * Add init param.
      *
      * @param initParam the init param.
      */
-    public void addInitParam(WebXmlServletInitParam initParam) {
+    public void addInitParam(WebXmlFilterInitParam initParam) {
         this.initParams.add(initParam);
     }
 
@@ -97,39 +87,21 @@ public class WebXmlServlet {
     }
 
     /**
+     * Get the filter name.
+     *
+     * @return the filter name.
+     */
+    public String getFilterName() {
+        return filterName;
+    }
+
+    /**
      * Get the init parameters.
      *
      * @return the init parameters.
      */
-    public List<WebXmlServletInitParam> getInitParams() {
+    public List<WebXmlFilterInitParam> getInitParams() {
         return initParams;
-    }
-
-    /**
-     * Get the JSP file.
-     *
-     * @return the JSP file.
-     */
-    public String getJspFile() {
-        return jspFile;
-    }
-
-    /**
-     * Get the multipart config.
-     *
-     * @return the multipart config.
-     */
-    public WebXmlServletMultipartConfig getMultipartConfig() {
-        return multipartConfig;
-    }
-
-    /**
-     * Get the security role refs.
-     *
-     * @return the security role refs.
-     */
-    public List<WebXmlServletSecurityRoleRef> getSecurityRoleRefs() {
-        return securityRoleRefs;
     }
 
     /**
@@ -169,21 +141,12 @@ public class WebXmlServlet {
     }
 
     /**
-     * Set the JSP file.
+     * Set the filter name.
      *
-     * @param jspFile the JSP file.
+     * @param filterName the filter name.
      */
-    public void setJspFile(String jspFile) {
-        this.jspFile = jspFile;
-    }
-
-    /**
-     * Set the multipart config.
-     *
-     * @param multipartConfig the multipart config.
-     */
-    public void setMultipartConfig(WebXmlServletMultipartConfig multipartConfig) {
-        this.multipartConfig = multipartConfig;
+    public void setFilterName(String filterName) {
+        this.filterName = filterName;
     }
 
     /**
@@ -193,21 +156,5 @@ public class WebXmlServlet {
      */
     public void setServletName(String servletName) {
         this.servletName = servletName;
-    }
-
-    /**
-     * Get the string representation.
-     *
-     * @return the string representation.
-     */
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Servlet[");
-        builder.append("servletName=").append(servletName).append(",");
-        builder.append("className=").append(className).append(",");
-        builder.append("jspFile=").append(jspFile).append(",");
-        builder.append("asyncSupported=").append(asyncSupported).append("]");
-        return builder.toString();
     }
 }

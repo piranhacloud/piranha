@@ -25,16 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.extension.webxml;
 
 /**
- * An error-page inside of web.xml/web-fragment.xml.
+ * A servlet-mapping inside of web.xml/web-fragment.xml.
  *
- * @param errorCode the error code.
- * @param exceptionType the exception type.
- * @param location the location.
+ * @param servletName the servlet name.
+ * @param urlPattern the URL pattern.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public record WebXmlErrorPage(String errorCode, String exceptionType, String location) {
+public record WebXmlServletMapping(String servletName, String urlPattern) {
 
 }

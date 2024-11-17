@@ -25,15 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.extension.webxml;
 
 /**
- * A servlet-mapping inside of web.xml/web-fragment.xml.
+ * A taglib inside jsp-config of web.xml/web-fragment.xml.
  *
- * @param servletName the servlet name.
- * @param urlPattern the URL pattern.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public record WebXmlServletMapping(String servletName, String urlPattern) {
+public class WebXmlJspConfigTaglib {
 
+    /**
+     * Stores the location.
+     */
+    private final String location;
+    
+    /**
+     * Stores the URI.
+     */
+    private final String uri;
+    
+    /**
+     * Constructor.
+     * 
+     * @param location the location.
+     * @param uri the URI.
+     */
+    public WebXmlJspConfigTaglib(String location, String uri) {
+        this.location = location;
+        this.uri = uri;
+    }
+
+    /**
+     * Get the location.
+     * 
+     * @return the location.
+     */
+    public String getLocation() {
+        return location;
+    }
+
+    /**
+     * Get the URI.
+     * 
+     * @return the URI.
+     */
+    public String getUri() {
+        return uri;
+    }
 }

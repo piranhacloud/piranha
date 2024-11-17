@@ -27,7 +27,7 @@
  */
 package cloud.piranha.extension.webxml.internal;
 
-import static cloud.piranha.core.api.WebXml.OTHERS_TAG;
+import static cloud.piranha.extension.webxml.WebXml.OTHERS_TAG;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.WARNING;
 import static java.util.regex.Pattern.quote;
@@ -55,24 +55,24 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import cloud.piranha.core.api.WebXml;
-import cloud.piranha.core.api.WebXmlContextParam;
-import cloud.piranha.core.api.WebXmlDataSource;
-import cloud.piranha.core.api.WebXmlErrorPage;
-import cloud.piranha.core.api.WebXmlFilter;
-import cloud.piranha.core.api.WebXmlFilterInitParam;
-import cloud.piranha.core.api.WebXmlFilterMapping;
-import cloud.piranha.core.api.WebXmlJspConfigTaglib;
-import cloud.piranha.core.api.WebXmlListener;
-import cloud.piranha.core.api.WebXmlLoginConfig;
-import cloud.piranha.core.api.WebXmlMimeMapping;
-import cloud.piranha.core.api.WebXmlSecurityConstraint;
-import cloud.piranha.core.api.WebXmlServlet;
-import cloud.piranha.core.api.WebXmlServletInitParam;
-import cloud.piranha.core.api.WebXmlServletMapping;
-import cloud.piranha.core.api.WebXmlServletMultipartConfig;
-import cloud.piranha.core.api.WebXmlServletSecurityRoleRef;
-import cloud.piranha.core.api.WebXmlSessionConfig;
+import cloud.piranha.extension.webxml.WebXml;
+import cloud.piranha.extension.webxml.WebXmlContextParam;
+import cloud.piranha.extension.webxml.WebXmlDataSource;
+import cloud.piranha.extension.webxml.WebXmlErrorPage;
+import cloud.piranha.extension.webxml.WebXmlFilter;
+import cloud.piranha.extension.webxml.WebXmlFilterInitParam;
+import cloud.piranha.extension.webxml.WebXmlFilterMapping;
+import cloud.piranha.extension.webxml.WebXmlJspConfigTaglib;
+import cloud.piranha.extension.webxml.WebXmlListener;
+import cloud.piranha.extension.webxml.WebXmlLoginConfig;
+import cloud.piranha.extension.webxml.WebXmlMimeMapping;
+import cloud.piranha.extension.webxml.WebXmlSecurityConstraint;
+import cloud.piranha.extension.webxml.WebXmlServlet;
+import cloud.piranha.extension.webxml.WebXmlServletInitParam;
+import cloud.piranha.extension.webxml.WebXmlServletMapping;
+import cloud.piranha.extension.webxml.WebXmlServletMultipartConfig;
+import cloud.piranha.extension.webxml.WebXmlServletSecurityRoleRef;
+import cloud.piranha.extension.webxml.WebXmlSessionConfig;
 
 /**
  * The web.xml / web-fragment.xml parser.

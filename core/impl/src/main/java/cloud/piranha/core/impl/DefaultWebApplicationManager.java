@@ -39,7 +39,6 @@ import cloud.piranha.core.api.ObjectInstanceManager;
 import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WelcomeFileManager;
 import cloud.piranha.core.api.WebApplicationManager;
-import cloud.piranha.core.api.WebXmlManager;
 import cloud.piranha.resource.api.ResourceManager;
 import cloud.piranha.resource.impl.DefaultResourceManager;
 import cloud.piranha.core.api.ServletRequestManager;
@@ -112,11 +111,6 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     protected ServletRequestManager servletRequestManager = new DefaultServletRequestManager();
 
     /**
-     * Stores the web.xml manager.
-     */
-    protected WebXmlManager webXmlManager;
-
-    /**
      * Stores the welcome file manager.
      */
     protected WelcomeFileManager welcomeFileManager;
@@ -187,11 +181,6 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     }
 
     @Override
-    public WebXmlManager getWebXmlManager() {
-        return webXmlManager;
-    }
-
-    @Override
     public WelcomeFileManager getWelcomeFileManager() {
         return welcomeFileManager;
     }
@@ -249,11 +238,6 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     @Override
     public void setSecurityManager(SecurityManager securityManager) {
         this.securityManager = securityManager;
-    }
-
-    @Override
-    public void setWebXmlManager(WebXmlManager webXmlManager) {
-        this.webXmlManager = webXmlManager;
     }
 
     @Override

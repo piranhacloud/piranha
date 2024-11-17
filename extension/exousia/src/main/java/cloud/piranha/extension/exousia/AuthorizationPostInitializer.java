@@ -51,7 +51,7 @@ import org.glassfish.exousia.constraints.WebResourceCollection;
 import org.glassfish.exousia.mapping.SecurityRoleRef;
 
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebXmlManager;
+import cloud.piranha.extension.webxml.WebXmlManager;
 import jakarta.security.jacc.PolicyConfiguration;
 import jakarta.security.jacc.PolicyContextException;
 import jakarta.servlet.FilterRegistration;
@@ -220,7 +220,7 @@ public class AuthorizationPostInitializer implements ServletContainerInitializer
      * @return the list of security constraints.
      */
     private List<SecurityConstraint> getConstraintsFromWebXml(WebApplication webApplication) {
-        WebXmlManager manager = webApplication.getManager().getWebXmlManager();
+        WebXmlManager manager = (WebXmlManager) webApplication.getAttribute("cloud.piranha.extension.webxml.WebXmlManager");
         return piranhaToExousiaConverter.getConstraintsFromWebXml(manager.getWebXml());
     }
 
@@ -232,7 +232,7 @@ public class AuthorizationPostInitializer implements ServletContainerInitializer
      * @throws ServletException when a Servlet error occurs.
      */
     public Map<String, List<SecurityRoleRef>> getSecurityRoleRefsFromWebXml(WebApplication webApplication) throws ServletException {
-        WebXmlManager manager = webApplication.getManager().getWebXmlManager();
+        WebXmlManager manager = (WebXmlManager) webApplication.getAttribute("cloud.piranha.extension.webxml.WebXmlManager");
         return piranhaToExousiaConverter.getSecurityRoleRefsFromWebXml(webApplication.getServletRegistrations().keySet(), manager.getWebXml());
     }
 

@@ -31,8 +31,6 @@ import cloud.piranha.extension.webxml.internal.InternalWebXmlParser;
 import cloud.piranha.extension.webxml.internal.InternalWebXmlProcessor;
 import cloud.piranha.extension.webxml.internal.InternalWebXmlManager;
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebXml;
-import cloud.piranha.core.api.WebXmlServletMapping;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -73,7 +71,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
         try {
             WebApplication webApplication = (WebApplication) servletContext;
             InternalWebXmlManager manager = new InternalWebXmlManager();
-            webApplication.getManager().setWebXmlManager(manager);
+            webApplication.setAttribute("cloud.piranha.extension.webxml.WebXmlManager", manager);
 
             InternalWebXmlParser parser = new InternalWebXmlParser();
             InputStream inputStream = servletContext.getResourceAsStream("WEB-INF/web.xml");

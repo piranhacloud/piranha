@@ -25,15 +25,14 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.extension.webxml;
 
 /**
- * A servlet init-param inside of web.xml/web-fragment.xml.
+ * A listener inside of web.xml/web-fragment.xml.
  *
- * @param name the name.
- * @param value the value.
+ * @param className the class name.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public record WebXmlServletInitParam(String name, String value) {
+public record WebXmlListener(String className) {
 
 }

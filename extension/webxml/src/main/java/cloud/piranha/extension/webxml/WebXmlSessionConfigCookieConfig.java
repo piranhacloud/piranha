@@ -25,19 +25,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.extension.webxml;
 
 /**
- * The WebXmlManager API.
- * 
+ * A session-config cookie-config inside of web.xml/web-fragment.xml.
+ *
+ * @param name the name.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public interface WebXmlManager {
-
-    /**
-     * Get the web.xml.
-     * 
-     * @return the web.xml
-     */
-    WebXml getWebXml();
+public record WebXmlSessionConfigCookieConfig(String name) {
 }

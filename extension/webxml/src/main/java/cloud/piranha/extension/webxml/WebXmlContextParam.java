@@ -25,13 +25,15 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.core.api;
+package cloud.piranha.extension.webxml;
 
 /**
- * A session-config cookie-config inside of web.xml/web-fragment.xml.
+ * A context-param inside of web.xml/web-fragment.xml.
  *
  * @param name the name.
+ * @param value the value.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public record WebXmlSessionConfigCookieConfig(String name) {
+public record WebXmlContextParam(String name, String value) {
+
 }
