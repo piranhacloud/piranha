@@ -49,6 +49,12 @@ public class TempDirServletContainerInitializer implements ServletContainerIniti
      */
     private static final Logger LOGGER = System.getLogger(TempDirServletContainerInitializer.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public TempDirServletContainerInitializer() {
+    }
+
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         File baseDir = new File("tmp");
