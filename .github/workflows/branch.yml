@@ -26,7 +26,7 @@ jobs:
         java-version: 21
     - name: Build with Maven
       run: |
-        mvn -B -DskipTests -DskipITs -ntp site
+        mvn -B -DskipTests -DskipITs -ntp -T 1 site
         rm -rf piranha-website/snapshot || true
         mkdir -p piranha-website/snapshot || true
         cp -R target/site/* piranha-website/snapshot/
