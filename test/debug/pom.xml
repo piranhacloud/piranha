@@ -71,7 +71,7 @@
 
         <dependency>
             <groupId>cloud.piranha.extension</groupId>
-            <artifactId>piranha-extension-eclipse-epicyro</artifactId>
+            <artifactId>piranha-extension-epicyro</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

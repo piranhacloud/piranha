@@ -25,8 +25,8 @@
         <module>concurro</module>
         <module>coreprofile</module>
         <module>default-datasource</module>
-        <module>eclipse-epicyro</module>
         <module>eclipselink</module>
+        <module>epicyro</module>
         <module>exousia</module>
         <module>expressly</module>
         <module>fileupload</module>
