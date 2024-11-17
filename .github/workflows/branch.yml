@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
 jobs:
   ghcr:
+    if: github.repository == 'piranhacloud/piranha'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
@@ -73,6 +74,7 @@ jobs:
         cd dist/webprofile
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
   sonatype:
+    if: github.repository == 'piranhacloud/piranha'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
