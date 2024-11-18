@@ -56,7 +56,7 @@ jobs:
         java-version: 21
     - name: Build with Maven
       run: |
-        mvn -B -DskipTests -DskipITs -ntp -T 1 site
+        mvn -B -DskipTests -DskipITs -ntp -T 1 install site
   maven-plugin:
     needs: docs
     runs-on: ubuntu-latest
