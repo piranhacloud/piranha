@@ -13,7 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha - Extension - Project</name>
+    <name>Piranha - Extension</name>
 
     <modules>
         <module>annotationscan</module>
@@ -94,4 +94,12 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/extension/</url>
+        </site>
+    </distributionManagement>
+    
 </project>

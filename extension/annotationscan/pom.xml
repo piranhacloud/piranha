@@ -41,6 +41,13 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/extension/annotationscan/</url>
+        </site>
+    </distributionManagement>
+
     <build>
         <plugins>
             <plugin>

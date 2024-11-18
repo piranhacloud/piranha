@@ -8,7 +8,7 @@
     <version>24.12.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Piranha - Project</name>
+    <name>Piranha</name>
     <description>
         The Piranha Project delivers you with a variety of cloud containers
         and several useful add-on modules
@@ -63,7 +63,11 @@
         <developerConnection>scm:git:git@github.com:piranhacloud/piranha.git</developerConnection>
         <url>https://github.com/piranhacloud/piranha</url>
     </scm>
-    <distributionManagement>    
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/</url>
+        </site>
         <snapshotRepository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -1051,17 +1055,7 @@
     </build>
 
     <profiles>
-        <!--
-        
-        This profile is used for generating our docs.
-        
-        -->
-        <profile>
-            <id>docs</id>
-            <modules>
-                <module>docs</module>
-            </modules>
-        </profile>
+
         <!-- 
 
         This profile is for Eclipse m2e users.

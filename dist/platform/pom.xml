@@ -124,6 +124,13 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/dist/platform/</url>
+        </site>
+    </distributionManagement>
+
     <profiles>
         <profile>
             <id>docker</id>

@@ -13,5 +13,12 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha - Maven - Archetypes - Project</name>
+    <name>Piranha - Maven - Archetypes</name>
+
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/maven/archetypes/</url>
+        </site>
+    </distributionManagement>    
 </project>

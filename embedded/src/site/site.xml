@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project 
+    xmlns="http://maven.apache.org/DECORATION/1.8.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 https://maven.apache.org/xsd/decoration-1.8.0.xsd">
+    <body>
+        <menu name="Embedded">
+            <item name="Introduction" href="index.html"/>
+            <item name="Maven Coordinates" href="dependency-info.html"/>
+            <item name="Create a Piranha Embedded GraalVM application" href="create_a_piranha_embedded_graalvm_application.html"/>
+            <item name="Create a Hello World web application" href="create_a_hello_world_web_application.html"/>
+            <item name="Create an embedded JLink application" href="create_an_embedded_jlink_application.html"/>
+            <item name="Running Piranha Embedded with Spring Boot" href="running_piranha_embedded_with_spring_boot.html"/>
+        </menu>
+    </body>
+    <custom>
+        <fluidoSkin>
+            <copyrightClass>pull-right</copyrightClass>
+            <gitHub>
+                <projectId>piranhacloud/piranha</projectId>
+                <ribbonOrientation>left-bottom</ribbonOrientation>
+                <ribbonColor>black</ribbonColor>
+            </gitHub>
+            <twitter>
+                <user>piranha_cloud</user>
+            </twitter>
+        </fluidoSkin>
+    </custom>
+    <poweredBy>
+        <logo/>
+    </poweredBy>
+    <publishDate position="right"/>
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>2.0.0</version>
+    </skin>
+    <version position="left"/>
+</project>

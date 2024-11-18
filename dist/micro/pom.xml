@@ -230,6 +230,13 @@
             </plugin>
         </plugins>
     </build>
+    
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/dist/micro/</url>
+        </site>
+    </distributionManagement>
 
     <profiles>
         <profile>

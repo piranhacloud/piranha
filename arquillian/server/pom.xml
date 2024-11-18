@@ -117,7 +117,12 @@
             </plugin>
         </plugins>
     </build>
-
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/arquillian/server/</url>
+        </site>
+    </distributionManagement>   
     <profiles>
         <profile>
             <id>release</id>

@@ -28,4 +28,11 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/core/api/</url>
+        </site>
+    </distributionManagement>       
 </project>

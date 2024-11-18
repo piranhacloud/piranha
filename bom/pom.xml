@@ -226,4 +226,10 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/bom/</url>
+        </site>
+    </distributionManagement>       
 </project>

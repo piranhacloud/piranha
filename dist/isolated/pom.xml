@@ -184,6 +184,13 @@
         </plugins>
     </build>
 
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/dist/isolated/</url>
+        </site>
+    </distributionManagement>
+
     <profiles>
         <profile>
             <id>docker</id>

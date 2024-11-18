@@ -36,7 +36,7 @@ distribution supports see our [Jakarta EE / Micro Profile matrix](https://piranh
 
 ## Maven Plugin documentation
 
-If you are using Maven and want to use our convenient Maven plugin for a quick iterative development cycle, see the [Piranha Maven plugin documentation](../maven/piranha-maven-plugin/index.html).
+If you are using Maven and want to use our convenient Maven plugin for a quick iterative development cycle, see the [Piranha Maven plugin documentation](maven/plugin/index.html).
 
 ## Extending Piranha
 
@@ -44,6 +44,9 @@ You can extend the capability of a Piranha distribution by means of extensions.
 
 ## How do you run Piranha in a container
 
-Piranha images are available from the [GitHub container registry](https://github.com/orgs/piranhacloud/packages), on a best effort basis. If you desire commercially supported images we suggest you contact our commercial partner [OmniFish](https://omnifish.ee/contact-us/).
+Piranha images are available from the [GitHub container registry](https://github.com/orgs/piranhacloud/packages), on a best effort basis.
 
-[Up](../)
+## Commercial support
+
+If you desire commercial support we suggest you contact our commercial partner 
+[OmniFish](https://omnifish.ee/contact-us/).

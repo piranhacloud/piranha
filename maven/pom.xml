@@ -13,7 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha - Maven - Project</name>
+    <name>Piranha - Maven</name>
 
     <modules>
         <module>archetypes</module>
@@ -31,4 +31,10 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/maven/</url>
+        </site>
+    </distributionManagement>    
 </project>

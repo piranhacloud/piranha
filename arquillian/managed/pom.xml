@@ -74,4 +74,10 @@
             <artifactId>arquillian-testenricher-initialcontext</artifactId>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/arquillian/managed/</url>
+        </site>
+    </distributionManagement>   
 </project>

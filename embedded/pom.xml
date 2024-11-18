@@ -99,4 +99,25 @@
             </plugin>
         </plugins>
     </build>
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/embedded/</url>
+        </site>
+    </distributionManagement>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>dependency-info</report>                        
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>

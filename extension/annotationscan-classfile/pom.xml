@@ -36,6 +36,13 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/extension/annotationscanclassfile/</url>
+        </site>
+    </distributionManagement>
+
     <build>
         <plugins>
             <plugin>

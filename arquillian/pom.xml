@@ -13,7 +13,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha - Arquillian - Project</name>
+    <name>Piranha - Arquillian</name>
     <description>
         The Piranha Arquillian Project delivers you with Arquillian support.
     </description>
@@ -52,4 +52,10 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/arquillian/</url>
+        </site>
+    </distributionManagement>   
 </project>
