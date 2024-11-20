@@ -26,10 +26,10 @@ jobs:
         java-version: 21
     - name: Build with Maven
       run: |
-        mvn -B -DskipTests -DskipITs -ntp -T 1 install site
+        mvn -B -DskipTests -DskipITs -DstagingDirectory=$PWD/target/staging -ntp -T 1 install site site:stage
         rm -rf piranha-website/snapshot || true
         mkdir -p piranha-website/snapshot || true
-        cp -R target/site/* piranha-website/snapshot/
+        cp -R target/staging/* piranha-website/snapshot/
         cd piranha-website
         git config --global user.email "noreply@piranha.cloud"
         git config --global user.name "Automated publish"

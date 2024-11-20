@@ -7,6 +7,8 @@
     <body>
         <menu name="Core Profile">
             <item name="Introduction" href="index.html"/>
+        </menu>
+        <menu name="Guides">
             <item name="Create a REST service" href="create_a_rest_service.html"/>
             <item name="Create a JSON REST service" href="create_a_json_rest_service.html"/>
             <item name="Debugging a REST service with NetBeans" href="debugging_a_rest_service_with_netbeans.html"/>
