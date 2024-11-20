@@ -69,21 +69,23 @@ public class HerringExtension implements WebApplicationExtension {
      */
     @Override
     public void configure(WebApplication webApplication) {
-        LOGGER.log(DEBUG, "Configuring HerringExtension");
-        if (System.getProperty(INITIAL_CONTEXT_FACTORY) == null) {
-            LOGGER.log(DEBUG, "Setting " + INITIAL_CONTEXT_FACTORY + " to " + HerringInitialContextFactory.class.getName());
-            System.setProperty(INITIAL_CONTEXT_FACTORY, HerringInitialContextFactory.class.getName());
-        }
-        if (!System.getProperty(INITIAL_CONTEXT_FACTORY).equals(HerringInitialContextFactory.class.getName())) {
-            LOGGER.log(WARNING, INITIAL_CONTEXT_FACTORY + " is not set to " + HerringInitialContextFactory.class.getName());
-        }
+        LOGGER.log(DEBUG, "Configuring the HerringExtension");
+        if (Boolean.parseBoolean(System.getProperty("cloud.piranha.extension.herring.HerringExtension.enabled", "true"))) {
 
-        Context context = new DefaultInitialContext();
+            if (System.getProperty(INITIAL_CONTEXT_FACTORY) == null) {
+                LOGGER.log(DEBUG, "Setting " + INITIAL_CONTEXT_FACTORY + " to " + HerringInitialContextFactory.class.getName());
+                System.setProperty(INITIAL_CONTEXT_FACTORY, HerringInitialContextFactory.class.getName());
+            }
+            if (!System.getProperty(INITIAL_CONTEXT_FACTORY).equals(HerringInitialContextFactory.class.getName())) {
+                LOGGER.log(WARNING, INITIAL_CONTEXT_FACTORY + " is not set to " + HerringInitialContextFactory.class.getName());
+            }
 
-        Context proxyContext = (Context) Proxy.newProxyInstance(
-            Thread.currentThread().getContextClassLoader(),
-            new Class[] { Context.class },
-            new InvocationHandler() {
+            Context context = new DefaultInitialContext();
+
+            Context proxyContext = (Context) Proxy.newProxyInstance(
+                    Thread.currentThread().getContextClassLoader(),
+                    new Class[]{Context.class},
+                    new InvocationHandler() {
                 @Override
                 public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                     try {
@@ -98,7 +100,7 @@ public class HerringExtension implements WebApplicationExtension {
 
                                     if (jndiName.startsWith("java:comp/env/")) {
                                         String classNameWithField = jndiName.substring("java:comp/env/".length());
-                                        String[] classNameAndField =  classNameWithField.split("/");
+                                        String[] classNameAndField = classNameWithField.split("/");
                                         if (classNameAndField.length == 2) {
                                             String className = classNameAndField[0];
                                             String fieldName = classNameAndField[1];
@@ -118,10 +120,10 @@ public class HerringExtension implements WebApplicationExtension {
                                                 String methodName = "set" + new String(chars);
 
                                                 Optional<Method> optionalMethod = Arrays.stream(beanClass.getDeclaredMethods())
-                                                      .filter(m -> m.getName().equals(methodName))
-                                                      .filter(m -> m.getParameterCount() == 1)
-                                                      .filter(m -> m.getAnnotationsByType(Resource.class) != null)
-                                                      .findFirst(); // ignore overloaded for now
+                                                        .filter(m -> m.getName().equals(methodName))
+                                                        .filter(m -> m.getParameterCount() == 1)
+                                                        .filter(m -> m.getAnnotationsByType(Resource.class) != null)
+                                                        .findFirst(); // ignore overloaded for now
 
                                                 if (optionalMethod.isPresent()) {
                                                     resources = optionalMethod.get().getAnnotationsByType(Resource.class);
@@ -134,8 +136,8 @@ public class HerringExtension implements WebApplicationExtension {
 
                                                 String lookup = resourceAnnnotation.lookup();
                                                 if (!"".equals(lookup)) {
-                                                    returnValue = method.invoke(context, new Object[] {lookup});
-                                                    args = new Object[] {lookup};
+                                                    returnValue = method.invoke(context, new Object[]{lookup});
+                                                    args = new Object[]{lookup};
                                                     invoked = true;
                                                 } else {
                                                     throw new IllegalStateException("Cannot find " + type);
@@ -145,9 +147,9 @@ public class HerringExtension implements WebApplicationExtension {
                                     }
                                 }
                             } catch (Throwable t) {
-                                if (t instanceof InvocationTargetException invocationException &&
-                                    invocationException.getTargetException() instanceof NamingException namingException) {
-                                   throw namingException;
+                                if (t instanceof InvocationTargetException invocationException
+                                        && invocationException.getTargetException() instanceof NamingException namingException) {
+                                    throw namingException;
                                 }
                                 e.addSuppressed(t);
                             }
@@ -160,7 +162,7 @@ public class HerringExtension implements WebApplicationExtension {
                         // De-referencing can eventually be moved to DefaultInitialContext
                         if (method.getName().equals("lookup") && returnValue instanceof Reference) {
                             returnValue = NamingManager.getObjectInstance(
-                                returnValue, new CompositeName(args[0].toString()), null, null);
+                                    returnValue, new CompositeName(args[0].toString()), null, null);
                         }
 
                         return returnValue;
@@ -170,7 +172,8 @@ public class HerringExtension implements WebApplicationExtension {
                 }
             });
 
-        HerringInitialContextFactory.setInitialContext(proxyContext);
-        webApplication.setAttribute(Context.class.getName(), proxyContext);
+            HerringInitialContextFactory.setInitialContext(proxyContext);
+            webApplication.setAttribute(Context.class.getName(), proxyContext);
+        }
     }
 }
