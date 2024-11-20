@@ -28,11 +28,11 @@ distribution supports see our [Jakarta EE / Micro Profile matrix](https://piranh
 
 ## Distribution specific documentation
 
-* [Piranha Core Profile](coreprofile/index.html)
-* [Piranha Embedded](embedded/index.html)
-* [Piranha Servlet](servlet/index.html)
-* [Piranha Server](server/index.html)
-* [Piranha Web Profile](webprofile/index.html)
+* [Piranha Core Profile](dist/coreprofile/index.html)
+* [Piranha Embedded](dist/embedded/index.html)
+* [Piranha Servlet](dist/servlet/index.html)
+* [Piranha Server](dist/server/index.html)
+* [Piranha Web Profile](dist/webprofile/index.html)
 
 ## Maven Plugin documentation
 

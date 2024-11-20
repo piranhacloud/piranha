@@ -58,7 +58,7 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
      * Stores the exclude existing initializers flag.
      */
     private final boolean excludeExistingInitializers;
-    
+
     /**
      * Stores the initializers to be ignored.
      */
@@ -73,8 +73,9 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
 
     /**
      * Constructor.
-     * 
-     * @param excludeExistingInitializers the exclude existing initializers flag.
+     *
+     * @param excludeExistingInitializers the exclude existing initializers
+     * flag.
      * @param ignoreInitializers ignore the given initializers.
      */
     public ServletContainerInitializerExtension(boolean excludeExistingInitializers, List<String> ignoreInitializers) {
@@ -89,23 +90,15 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
      */
     @Override
     public void configure(WebApplication webApplication) {
-        LOGGER.log(DEBUG, "Starting ServletContainerInitializer processing");
-        ServiceLoader<ServletContainerInitializer> serviceLoader = ServiceLoader.load(
-                ServletContainerInitializer.class, webApplication.getClassLoader());
+        LOGGER.log(TRACE, "Configuring the ServletContainerInitializer extension");
 
-        for (ServletContainerInitializer initializer : serviceLoader) {
-            LOGGER.log(DEBUG, () -> "Adding initializer: " + initializer.getClass().getName());
+        if (Boolean.parseBoolean(System.getProperty(
+                "cloud.piranha.extension.scinitializer.ServletContainerInitializerExtensionp.enabled",
+                "true"))) {
 
-            if (shouldAdd(webApplication, initializer)) {
-                webApplication.addInitializer(initializer);
-            }
-        }
+            ServiceLoader<ServletContainerInitializer> serviceLoader = ServiceLoader.load(
+                    ServletContainerInitializer.class, webApplication.getClassLoader());
 
-        if (getClass().getModule().isNamed()) {
-            // We are running in a modular environment,
-            // the providers from modules aren't available in the webApplication classloader
-            serviceLoader = ServiceLoader.load(ServletContainerInitializer.class);
-            
             for (ServletContainerInitializer initializer : serviceLoader) {
                 LOGGER.log(DEBUG, () -> "Adding initializer: " + initializer.getClass().getName());
 
@@ -113,9 +106,21 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
                     webApplication.addInitializer(initializer);
                 }
             }
+
+            if (getClass().getModule().isNamed()) {
+                // We are running in a modular environment,
+                // the providers from modules aren't available in the webApplication classloader
+                serviceLoader = ServiceLoader.load(ServletContainerInitializer.class);
+
+                for (ServletContainerInitializer initializer : serviceLoader) {
+                    LOGGER.log(DEBUG, () -> "Adding initializer: " + initializer.getClass().getName());
+
+                    if (shouldAdd(webApplication, initializer)) {
+                        webApplication.addInitializer(initializer);
+                    }
+                }
+            }
         }
-        
-        LOGGER.log(TRACE, "Finished ServletContainerInitializer processing");
     }
 
     private boolean shouldAdd(WebApplication webApplication, ServletContainerInitializer initializer) {
@@ -132,15 +137,13 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
 
     private boolean containsInstance(WebApplication webApplication, ServletContainerInitializer initializer) {
         return webApplication.getInitializers()
-                             .stream()
-                             .anyMatch(e -> e.getClass().equals(initializer.getClass()));
+                .stream()
+                .anyMatch(e -> e.getClass().equals(initializer.getClass()));
     }
 
     private boolean isIgnored(ServletContainerInitializer initializer) {
         return ignoreInitializers
-                             .stream()
-                             .anyMatch(e -> e.equals(initializer.getClass().getName()));
+                .stream()
+                .anyMatch(e -> e.equals(initializer.getClass().getName()));
     }
-
-
 }
