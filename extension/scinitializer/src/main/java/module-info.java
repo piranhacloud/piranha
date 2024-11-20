@@ -29,6 +29,22 @@
 /**
  * This module delivers the ServletContainerInitializer extension.
  * 
+ * 
+ * <p>
+ * The following property can be used to influence the workings of this module.
+ * </p>
+ * <table>
+ *  <tr>
+ *   <th>Property</th>
+ *   <th>Notes</th>
+ *  </tr>
+ *  <tr>
+ *   <td>cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension.enabled</td>
+ *   <td>true to enable (default), false to disable</td>
+ *  </tr>
+ *  <caption>Configurable properties</caption>
+ * </table>
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.scinitializer {

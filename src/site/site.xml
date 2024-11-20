@@ -23,13 +23,11 @@
         </links>
         <menu inherit="top" name="Overview">
             <item name="Getting Started" href="index.html"/>
+            <item name="Maven Plugin" href="maven/plugin/index.html"/>
         </menu>
         <menu name="Distributions">
             <item name="Core Profile" href="dist/coreprofile/index.html" />
             <item name="Embedded" href="embedded/index.html" />
-        </menu>
-        <menu inherit="bottom" name="Maven">
-            <item name="Plugin" href="maven/plugin/index.html"/>
         </menu>
         <menu name="Piranha Micro">
             <item name="Overview" href="micro/index.html"/>
