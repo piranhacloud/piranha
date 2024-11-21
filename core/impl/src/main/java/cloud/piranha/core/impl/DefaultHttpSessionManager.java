@@ -236,7 +236,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     @Override
-    @SuppressWarnings({"deprecation", "removal"})
+    @SuppressWarnings({"removal"})
     public synchronized HttpSession createSession(HttpServletRequest request) {
         String sessionId = UUID.randomUUID().toString();
         DefaultHttpSession session = new DefaultHttpSession(webApplication, sessionId, true);

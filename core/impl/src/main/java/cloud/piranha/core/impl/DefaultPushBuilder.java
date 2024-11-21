@@ -37,6 +37,7 @@ import java.util.Set;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
+@SuppressWarnings("deprecation")
 public class DefaultPushBuilder implements PushBuilder {
 
     /**

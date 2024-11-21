@@ -352,17 +352,6 @@ public class DefaultServletRequestDispatcher implements RequestDispatcher {
         }
     }
 
-    private ServletRequestWrapper getLastWrapper(ServletRequestWrapper wrapper) {
-        ServletRequestWrapper currentWrapper = wrapper;
-        ServletRequest currentRequest = wrapper;
-        while (currentRequest instanceof ServletRequestWrapper wrapped) {
-            currentWrapper = wrapped;
-            currentRequest = currentWrapper.getRequest();
-        }
-
-        return currentWrapper;
-    }
-
     /**
      * Send an error response.
      *

@@ -35,7 +35,9 @@ module cloud.piranha.dist.platform {
 
     exports cloud.piranha.dist.platform;
     opens cloud.piranha.dist.platform;
+    requires transitive cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.platform;
     requires cloud.piranha.multi;
+    requires transitive jakarta.servlet;
 }

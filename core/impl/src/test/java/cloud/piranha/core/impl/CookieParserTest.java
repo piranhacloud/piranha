@@ -75,7 +75,7 @@ class CookieParserTest {
     */
 
     @Nested
-    @SuppressWarnings({"deprecation", "removal"})
+    @SuppressWarnings({"removal"})
     class Netscape {
         @Test
         void parseSingleCookie() {

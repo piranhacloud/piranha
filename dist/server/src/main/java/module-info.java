@@ -35,6 +35,7 @@ module cloud.piranha.dist.server {
 
     exports cloud.piranha.dist.server;
     opens cloud.piranha.dist.server;
+    requires transitive cloud.piranha.core.api;
     requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.servlet;
     requires cloud.piranha.multi;

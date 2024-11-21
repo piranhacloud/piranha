@@ -35,18 +35,15 @@ import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpUpgradeHandler;
 import jakarta.servlet.http.WebConnection;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.Enumeration;
@@ -855,6 +852,7 @@ class DefaultWebApplicationRequestTest {
     /**
      * Test newPushBuilder method.
      */
+    @SuppressWarnings("deprecation")
     @Test
     void testNewPushBuilder() {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();

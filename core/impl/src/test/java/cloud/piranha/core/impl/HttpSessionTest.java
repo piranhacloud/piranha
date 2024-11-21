@@ -412,7 +412,7 @@ public class HttpSessionTest {
     /**
      * Test getCookies method.
      */
-    @SuppressWarnings({"deprecation", "removal"})
+    @SuppressWarnings({"removal"})
     @Test
     void testGetCookies() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
@@ -602,7 +602,7 @@ public class HttpSessionTest {
      */
     public static class TestSetCommentListener implements ServletContextListener {
 
-        @SuppressWarnings({"deprecation", "removal"})
+        @SuppressWarnings({"removal"})
         @Override
         public void contextInitialized(ServletContextEvent event) {
             event.getServletContext().getSessionCookieConfig().setComment("MY COMMENT");
@@ -615,7 +615,7 @@ public class HttpSessionTest {
      */
     public static class TestSetCommentServlet extends HttpServlet {
 
-        @SuppressWarnings({"deprecation", "removal"})
+        @SuppressWarnings({"removal"})
         @Override
         protected void service(HttpServletRequest request,
                 HttpServletResponse response) throws ServletException, IOException {
@@ -824,7 +824,7 @@ public class HttpSessionTest {
      *
      * @throws Exception when a serious error occurs.
      */
-    @SuppressWarnings({"deprecation", "removal"})
+    @SuppressWarnings({"removal"})
     @Test
     void testSetComment() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
@@ -836,7 +836,7 @@ public class HttpSessionTest {
     /**
      * Test setComment.
      */
-    @SuppressWarnings({"deprecation", "removal"})
+    @SuppressWarnings({"removal"})
     @Test
     void testSetComment2() throws Exception {
         DefaultWebApplication webApplication = new DefaultWebApplication();
