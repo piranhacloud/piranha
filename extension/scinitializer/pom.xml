@@ -44,5 +44,5 @@
             <id>default</id>
             <url>file:///tmp/piranha/extension/scinitializer</url>
         </site>
-    </distributionManagement>  
+    </distributionManagement>
 </project>

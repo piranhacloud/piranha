@@ -27,12 +27,30 @@
  */
 
 /**
- * This module integrates Eclipse Tyrus into Piranha.
+ * This module integrates Tyrus into Piranha.
+ * 
+ * <p>
+ * The following properties can be used to influence the workings of this module.
+ * </p>
+ * <table>
+ *  <tr>
+ *   <th>Property</th>
+ *   <th>Notes</th>
+ *  </tr>
+ *  <tr>
+ *   <td>cloud.piranha.extension.tyrus.TyrusExtension.enabled</td>
+ *   <td>true to enable this extension (default), false to disable</td>
+ *  </tr>
+ *  <caption>Configurable properties</caption>
+ * </table>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 module cloud.piranha.extension.tyrus {
     
+    exports cloud.piranha.extension.tyrus;
+    opens cloud.piranha.extension.tyrus;
     requires cloud.piranha.core.api;
+    requires org.glassfish.tyrus.container.servlet;
     requires static cloud.piranha.extension.scinitializer;
 }

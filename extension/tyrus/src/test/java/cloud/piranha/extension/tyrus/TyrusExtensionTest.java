@@ -27,55 +27,41 @@
  */
 package cloud.piranha.extension.tyrus;
 
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationExtension;
-import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.TRACE;
-import org.glassfish.tyrus.servlet.TyrusServletContainerInitializer;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
- * The extension that delivers Tyrus to Piranha.
- *
+ * The JUnit tests for the TyrusExtension class.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class TyrusExtension implements WebApplicationExtension {
-
+public class TyrusExtensionTest {
+    
     /**
-     * Stores the property used for enabling/disabling Tyrus.
+     * Test configure method.
      */
-    public static final String TYRUS_ENABLED_PROPERTY
-            = "cloud.piranha.extension.tyrus.TyrusExtension.enabled";
-
+    @Test
+    public void testConfigure() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        TyrusExtension extension = new TyrusExtension();
+        extension.configure(webApplication);
+        assertNull(System.getProperty(TyrusExtension.TYRUS_ENABLED_PROPERTY));
+    }
+    
     /**
-     * Stores the property used for ignore initializers.
+     * Test configure method and disabling Tyrus.
      */
-    private static final String IGNORE_INITIALIZER_PROPERTY
-            = "cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension.ignoreInitializers";
-
-    /**
-     * Stores the logger.
-     */
-    private static final Logger LOGGER = System.getLogger(TyrusExtension.class.getName());
-
-    /**
-     * Configure the extension.
-     *
-     * @param webApplication the web application.
-     */
-    @Override
-    public void configure(WebApplication webApplication) {
-        LOGGER.log(DEBUG, "Configuring Tyrus extension");
-
-        if (!Boolean.parseBoolean(System.getProperty(TYRUS_ENABLED_PROPERTY, "true"))) {
-            LOGGER.log(TRACE, "Disabling Tyrus extension");
-
-            String ignoredInitializers = System.getProperty(IGNORE_INITIALIZER_PROPERTY, "");
-            if (ignoredInitializers.equals("")) {
-                ignoredInitializers = TyrusServletContainerInitializer.class.getName();
-            }
-
-            System.setProperty(IGNORE_INITIALIZER_PROPERTY, ignoredInitializers);
-        }
+    @Test
+    public void testConfigureAndDisableTyrus() {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        TyrusExtension extension = new TyrusExtension();
+        System.setProperty(TyrusExtension.TYRUS_ENABLED_PROPERTY, "false");
+        extension.configure(webApplication);
+        assertNotNull(System.getProperty(
+                ServletContainerInitializerExtension.IGNORE_INITIALIZERS_PROPERTY));
+        System.clearProperty(TyrusExtension.TYRUS_ENABLED_PROPERTY);
     }
 }

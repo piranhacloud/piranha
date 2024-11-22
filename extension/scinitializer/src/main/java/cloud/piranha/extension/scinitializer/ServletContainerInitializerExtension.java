@@ -50,6 +50,12 @@ import cloud.piranha.core.api.WebApplicationExtension;
 public class ServletContainerInitializerExtension implements WebApplicationExtension {
 
     /**
+     * Stores the ignore initializers property.
+     */
+    public static final String IGNORE_INITIALIZERS_PROPERTY
+            = ServletContainerInitializerExtension.class.getName() + ".ignoreInitializers";
+
+    /**
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(ServletContainerInitializerExtension.class.getPackage().getName());
@@ -96,6 +102,15 @@ public class ServletContainerInitializerExtension implements WebApplicationExten
                 "cloud.piranha.extension.scinitializer.ServletContainerInitializerExtensionp.enabled",
                 "true"))) {
 
+            if (System.getProperty(IGNORE_INITIALIZERS_PROPERTY) != null) {
+                String[] initializers = System.getProperty(IGNORE_INITIALIZERS_PROPERTY).split(",");
+                if (initializers.length > 0) {
+                    for(int i=0; i<initializers.length; i++) {
+                        ignoreInitializers.add(initializers[i]);
+                    }
+                }
+            }
+            
             ServiceLoader<ServletContainerInitializer> serviceLoader = ServiceLoader.load(
                     ServletContainerInitializer.class, webApplication.getClassLoader());
 
