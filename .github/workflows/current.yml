@@ -1,13 +1,14 @@
-name: build
+name: current
 on: 
   push:
     branches:
-      - '*'
+      - 'current'
     tags-ignore:
       - 'v*'
   workflow_dispatch:
 jobs:
   docs:
+    if: github.repository == 'piranhacloud/piranha'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Piranha
@@ -26,7 +27,7 @@ jobs:
         java-version: 21
     - name: Build with Maven
       run: |
-        mvn -B -DskipTests -DskipITs -DstagingDirectory=$PWD/target/staging -ntp -T 1 install site site:stage
+        mvn -B -DskipTests -DskipITs -DstagingDirectory=$PWD/target/staging --ntp -P '!test' -T 1 install site site:stage
         rm -rf piranha-website/snapshot || true
         mkdir -p piranha-website/snapshot || true
         cp -R target/staging/* piranha-website/snapshot/
