@@ -27,7 +27,6 @@
  */
 package cloud.piranha.single;
 
-import cloud.piranha.single.SinglePiranha;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 

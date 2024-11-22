@@ -27,8 +27,6 @@
  */
 package cloud.piranha.single;
 
-import cloud.piranha.single.SinglePiranha;
-import cloud.piranha.single.SinglePiranhaBuilder;
 import java.net.ConnectException;
 import java.net.Socket;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

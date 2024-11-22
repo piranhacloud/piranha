@@ -42,4 +42,6 @@ module cloud.piranha.multi {
     requires cloud.piranha.feature.webapps;
     requires java.logging;
     requires java.naming;
+    requires transitive cloud.piranha.core.api;
+    requires transitive jakarta.servlet;
 }

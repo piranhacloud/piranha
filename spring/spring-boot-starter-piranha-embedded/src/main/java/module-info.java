@@ -36,8 +36,8 @@ module cloud.piranha.spring.starter.embedded {
     exports cloud.piranha.spring.starter.embedded;
     opens cloud.piranha.spring.starter.embedded;
     requires cloud.piranha.embedded;
-    requires cloud.piranha.http.api;
     requires cloud.piranha.http.impl;
     requires cloud.piranha.http.webapp;
-    requires spring.boot;
+    requires transitive cloud.piranha.http.api;
+    requires transitive spring.boot;
 }

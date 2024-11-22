@@ -53,8 +53,8 @@ module cloud.piranha.micro.core {
     requires cloud.piranha.http.webapp;
     requires cloud.piranha.resource.shrinkwrap;
     requires jakarta.annotation;
-    requires jakarta.cdi;
-    requires jakarta.security;
+    requires transitive jakarta.cdi;
+    requires transitive jakarta.security;
     requires java.logging;
     requires java.naming;
     requires java.xml;

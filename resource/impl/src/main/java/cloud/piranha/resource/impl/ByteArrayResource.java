@@ -91,6 +91,7 @@ public class ByteArrayResource implements Resource {
      * @param url the url in string form.
      * @return the URL, or null if not found.
      */
+    @SuppressWarnings("deprecation")
     @Override
     public URL getResource(String url) {
         String location = getLocationFromUrl(url);
@@ -150,6 +151,7 @@ public class ByteArrayResource implements Resource {
 
         // Relative URL: [bytes://][root][location] eg bytes://root/WEB-INF/web.xml
         try {
+            @SuppressWarnings("deprecation")
             URL bytesURL = new URL(url.substring(url.indexOf(BYTES_PROTOCOL)));
 
             String hostName = bytesURL.getHost();

@@ -61,6 +61,7 @@ public class PiranhaBeanArchiveHandler implements BeanArchiveHandler {
             indexURL = "shrinkwrap://cloud.piranha.modular.classes/META-INF/jandex.idx";
         } else {
             try {
+                @SuppressWarnings("deprecation")
                 URL url = new URL(beanArchiveReference);
                 String protocol = url.getProtocol();
                 if (!protocol.equals("shrinkwrap")) {

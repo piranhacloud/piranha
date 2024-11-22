@@ -77,6 +77,7 @@ public class JarResource implements Resource {
     /**
      * {@return the resource}
      */
+    @SuppressWarnings("deprecation")
     @Override
     public URL getResource(String location) {
         URL result = null;

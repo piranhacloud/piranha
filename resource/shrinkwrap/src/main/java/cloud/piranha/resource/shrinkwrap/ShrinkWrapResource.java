@@ -108,6 +108,7 @@ public class ShrinkWrapResource implements Resource {
         archiveStreamHandler = new ArchiveURLStreamHandler(this.archive);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public URL getResource(String url) {
         String location = getLocationFromUrl(url);
@@ -221,6 +222,7 @@ public class ShrinkWrapResource implements Resource {
 
         // Relative URL: [shrinkwrap://][jar name][location]
         try {
+            @SuppressWarnings("deprecation")
             URL archiveURL = new URL(url.substring(url.indexOf(SHRINKWRAP_PROTOCOL)));
 
             String archiveName = archiveURL.getHost();

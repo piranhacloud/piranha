@@ -116,6 +116,7 @@ public class SinglePiranha implements Piranha, Runnable {
     /**
      * Run method.
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void run() {
         long startTime = System.currentTimeMillis();

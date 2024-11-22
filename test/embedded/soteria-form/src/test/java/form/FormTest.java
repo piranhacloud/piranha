@@ -110,6 +110,7 @@ class FormTest {
 
         assertEquals(302, response.getStatus(), "Should redirect");
 
+        @SuppressWarnings("deprecation")
         URL redirectUrl = new URL(response.getHeader("Location"));
         request = new EmbeddedRequestBuilder()
                 .servletPath(redirectUrl.getPath())

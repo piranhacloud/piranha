@@ -83,6 +83,7 @@ public class PrefixJarResource implements Resource {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public URL getResource(String location) {
         URL result = null;
