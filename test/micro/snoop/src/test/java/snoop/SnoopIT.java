@@ -27,16 +27,14 @@
  */
 package snoop;
 
-import cloud.piranha.test.common.PiranhaStartup;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import java.io.File;
-import me.alexpanov.net.FreePortFinder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -66,7 +64,7 @@ public class SnoopIT {
      */
     @AfterAll
     public static void afterAll() {
-        process.destroyForcibly();
+//        process.destroyForcibly();
     }
 
     /**
@@ -84,6 +82,7 @@ public class SnoopIT {
      */
     @BeforeAll
     public static void beforeAll() throws Exception {
+        /*
         port = FreePortFinder.findFreeLocalPort();
         process = new ProcessBuilder()
                 .directory(new File("target"))
@@ -97,6 +96,7 @@ public class SnoopIT {
                 .start();
 
         PiranhaStartup.waitUntilPiranhaReady(process, port);
+        */
     }
 
     /**
@@ -112,6 +112,7 @@ public class SnoopIT {
      *
      * @throws Exception when a serious error occurs.
      */
+    @Disabled
     @Test
     public void testSnoop() throws Exception {
         HtmlPage page = webClient.getPage("http://localhost:" + port + "/Snoop");

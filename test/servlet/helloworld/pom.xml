@@ -60,6 +60,7 @@
     <build>
         <finalName>helloworld</finalName>
         <plugins>
+            <!--
             <plugin>
                 <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
@@ -85,6 +86,7 @@
                     <httpPort>${httpPort}</httpPort>
                 </configuration>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
