@@ -39,7 +39,7 @@ class HelloWorldIT {
  
     @Test
     void testHelloWorldHtml() throws Exception {
-        Thread.sleep(2000);
+        Thread.sleep(3000);
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
                 .newBuilder(new URI("http://localhost:" + System.getProperty("httpPort") + "/helloworld/helloworld.html"))
