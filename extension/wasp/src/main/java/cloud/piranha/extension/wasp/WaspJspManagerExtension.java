@@ -34,6 +34,7 @@ import java.lang.System.Logger;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import jakarta.servlet.ServletContainerInitializer;
+import static java.lang.System.Logger.Level.DEBUG;
 
 /**
  * The extension that will enable WaSP JspManager.
@@ -43,10 +44,21 @@ import jakarta.servlet.ServletContainerInitializer;
 public class WaspJspManagerExtension implements WebApplicationExtension {
 
     /**
+     * Stores the property to enable to extension (true) or to disable it (false).
+     */
+    public static final String ENABLED_PROPERTY = "cloud.piranha.extension.wasp.WaspJspManagerExtension.enabled";
+
+    /**
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(WaspJspManagerExtension.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public WaspJspManagerExtension() {
+    }
+    
     /**
      * Configure the web application.
      *
@@ -54,8 +66,10 @@ public class WaspJspManagerExtension implements WebApplicationExtension {
      */
     @Override
     public void configure(WebApplication webApplication) {
-        try {
+        if (Boolean.parseBoolean(System.getProperty(ENABLED_PROPERTY, "true"))) {
+            LOGGER.log(DEBUG, "Configuring WaSP JspManager extension");
 
+        try {
             webApplication.addInitializer(
                 webApplication.getClassLoader()
                               .loadClass(WaspJspManagerInitializer.class.getName())
@@ -63,8 +77,11 @@ public class WaspJspManagerExtension implements WebApplicationExtension {
                               .getDeclaredConstructor()
                               .newInstance());
 
-        } catch (ReflectiveOperationException | SecurityException ex) {
-            LOGGER.log(WARNING, "Unable to add the WaspJspManagerInitializer", ex);
+            } catch (ReflectiveOperationException | SecurityException ex) {
+                LOGGER.log(WARNING, "Unable to add the WaspJspManagerInitializer", ex);
+            }
+        } else {
+            LOGGER.log(DEBUG, "Skipping WaSP JspManager extension");
         }
     }
 }

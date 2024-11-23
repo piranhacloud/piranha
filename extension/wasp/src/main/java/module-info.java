@@ -27,13 +27,30 @@
  */
 
 /**
- * This module delivers the WaSP integration extension.
- *
+ * This module integrates Eclipse WaSP into Piranha.
+ * 
  * <p>
- *  This extension integrates WaSP into Piranha. See 
- *  https://github.com/eclipse-ee4j/wasp for more information about its
+ *  See https://github.com/eclipse-ee4j/wasp for more information about its
  *  project.
  * </p>
+ * <p>
+ * The following property can be used to influence the workings of this module.
+ * </p>
+ * <table>
+ *  <tr>
+ *   <th>Property</th>
+ *   <th>Notes</th>
+ *  </tr>
+ *  <tr>
+ *   <td>cloud.piranha.extension.wasp.WaspExtension.enabled</td>
+ *   <td>true to enable (default), false to disable</td>
+ *  </tr>
+ *  <tr>
+ *   <td>cloud.piranha.extension.wasp.WaspJspManagerExtension.enabled</td>
+ *   <td>true to enable (default), false to disable</td>
+ *  </tr>
+ *  <caption>Configurable properties</caption>
+ * </table>
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */

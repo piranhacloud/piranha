@@ -10,6 +10,9 @@
     <artifactId>piranha-extension-wasp</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - Extension - WaSP</name>
+    <description>
+        The WaSP extension integrates Eclipse WaSP into Piranha.
+    </description>
     <dependencies>
         <!-- compile -->
         <dependency>
@@ -69,5 +72,30 @@
             <artifactId>junit-platform-launcher</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/extension/wasp</url>
+        </site>
+    </distributionManagement>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.8.0</version>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
