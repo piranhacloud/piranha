@@ -128,11 +128,10 @@ class IntegrationIT {
      */
     @Test
     @RunAsClient
-    @Disabled
     void testFaces() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(new URI(baseUrl + "/faces.xhtml"))
+                .newBuilder(new URI(baseUrl + "faces.xhtml"))
                 .build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         assertTrue(response.body().contains("Faces works!"));
