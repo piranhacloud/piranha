@@ -1,6 +1,7 @@
 # Create a REST service
 
-If you are looking to create a REST service with Piranha then consider Piranha Core Profile. It features a runtime ideally suited for REST and micro services.
+If you are looking to create a REST service with Piranha then consider Piranha 
+Core Profile. It features a runtime ideally suited for REST and micro services.
 
 In 6 steps you will learn how to create the REST service. They are:
 
@@ -13,7 +14,8 @@ In 6 steps you will learn how to create the REST service. They are:
 
 ## Create the Maven POM file
 
-Create an empty directory to store your Maven project. Inside of that directory create the ```pom.xml``` file with the content as below.
+Create an empty directory to store your Maven project. Inside of that directory
+create the ```pom.xml``` file with the content as below.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -23,19 +25,19 @@ Create an empty directory to store your Maven project. Inside of that directory 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>cloud.piranha.guides.coreprofile</groupId>
+    <groupId>example</groupId>
     <artifactId>rest</artifactId>
-    <version>24.11.0-SNAPSHOT</version>
+    <version>1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Piranha Core Profile - REST service</name>
+    <name>Create a REST service</name>
     <properties>
         <jakartaee.version>11.0.0-M4</jakartaee.version>
-        <java.version>17</java.version>
-        <junit.version>5.10.0-M1</junit.version>
-        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>3.0.0</maven-failsafe-plugin.version>
-        <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
-        <piranha.version>23.6.0</piranha.version>
+        <java.version>21</java.version>
+        <junit.version>5.11.3</junit.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
+        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
+        <piranha.version>23.11.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -124,7 +126,8 @@ Create an empty directory to store your Maven project. Inside of that directory 
 
 ## Add the application class
 
-Add the Application class in the `src/main/java` directory, which allows you to set the application path using the @ApplicationPath annotation.
+Add the Application class in the `src/main/java` directory, which allows you to
+set the application path using the @ApplicationPath annotation.
 
 ```java
 package rest;
@@ -139,7 +142,8 @@ public class RestApplication extends Application {
 
 ## Add the endpoint
 
-And we are adding a simple 'Hello World' endpoint that is listening on the `/helloworld` path.
+And we are adding a simple 'Hello World' endpoint that is listening on the 
+`/helloworld` path.
 
 ```java
 package rest;
@@ -161,7 +165,8 @@ public class HelloWorldBean {
 
 ## Add an integration test
 
-As we want to make sure the application gets tested before we release an integration test is added which will be executed as part of the build.
+As we want to make sure the application gets tested before we release an 
+integration test is added which will be executed as part of the build.
 
 We'll add the integration test to the `src/test/java` directory.
 
@@ -193,7 +198,9 @@ class HelloWorldIT {
 
 ## Test the application
 
-The application is setup to use JUnit to do integration testing using the Piranha Maven plugin so when you are building the application it will also execute an integration test validating the endpoint works.
+The application is setup to use JUnit to do integration testing using the 
+Piranha Maven plugin so when you are building the application it will also 
+execute an integration test validating the endpoint works.
 
 To build and test the application execute the following command:
 
@@ -208,7 +215,9 @@ To deploy your application you will need 2 pieces.
 1. The Piranha Core Profile runtime JAR.
 2. The WAR file you just produced. 
 
-For the WAR file see the `target` directory. For the Piranha Core Profile distribution go to Maven Central. And then the following command line will deploy your application:
+For the WAR file see the `target` directory. For the Piranha Core Profile 
+distribution go to Maven Central. And then the following command line will 
+deploy your application:
 
 ```bash
   java -jar piranha-dist-coreprofile.jar --war-file rest.war
@@ -217,10 +226,3 @@ For the WAR file see the `target` directory. For the Piranha Core Profile distri
 ## Conclusion
 
 As you can see getting started with Piranha Core Profile does not have to take long.
-
-## References
-
-1. [Piranha Core Profile](index.html)
-1. [Piranha Maven plugin documentation](../maven-plugin/index.html)
-
-[Up](index.html)
