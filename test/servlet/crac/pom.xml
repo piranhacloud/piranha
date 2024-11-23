@@ -90,6 +90,7 @@
                 <configuration>
                     <distribution>servlet</distribution>
                     <httpPort>${httpPort}</httpPort>
+                    <startTimeout>60</startTimeout>
                 </configuration>
             </plugin>
             <plugin>
