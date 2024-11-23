@@ -24,50 +24,38 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- */
-package cloud.piranha.extension.wasp;
+ */package cloud.piranha.extension.wasp;
 
-import jakarta.servlet.ServletRegistration;
-import jakarta.servlet.descriptor.JspConfigDescriptor;
-
-import cloud.piranha.core.api.JspManager;
 import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import org.junit.jupiter.api.Test;
 
 /**
- * The WaSP manager delivered by the Jasper integration.
+ * The JUnit tests for the WaspExtension class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WaspJspManager implements JspManager {
-
-    /**
-     * Stores the JSP config descriptor.
-     */
-    protected JspConfigDescriptor jspConfigDescriptor;
-
-    /**
-     * Constructor.
-     */
-    public WaspJspManager() {
-    }
+public class WaspJspManagerExtensionTest {
     
-    @Override
-    public ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile) {
-        ServletRegistration.Dynamic registration = webApplication.addServlet(servletName, new WaspServlet(jspFile));
-        registration.addMapping(jspFile);
-        registration.setInitParameter("classpath", System.getProperty("java.class.path"));
-        registration.setInitParameter("compilerSourceVM", "1.8");
-        registration.setInitParameter("compilerTargetVM", "1.8");
-        return registration;
+    /**
+     * Test configure method.
+     */
+    @Test
+    public void testConfigure() {
+        WebApplication webApplication = new DefaultWebApplication();
+        WaspJspManagerExtension extension = new WaspJspManagerExtension();
+        extension.configure(webApplication);
     }
 
-    @Override
-    public JspConfigDescriptor getJspConfigDescriptor() {
-        return jspConfigDescriptor;
-    }
-
-    @Override
-    public void setJspConfigDescriptor(JspConfigDescriptor jspConfigDescriptor) {
-        this.jspConfigDescriptor = jspConfigDescriptor;
+    /**
+     * Test configure method.
+     */
+    @Test
+    public void testConfigureWhenEnabledPropertyIsFalse() {
+        System.setProperty(WaspJspManagerExtension.ENABLED_PROPERTY, "false");
+        WebApplication webApplication = new DefaultWebApplication();
+        WaspJspManagerExtension extension = new WaspJspManagerExtension();
+        extension.configure(webApplication);
+        System.clearProperty(WaspJspManagerExtension.ENABLED_PROPERTY);
     }
 }

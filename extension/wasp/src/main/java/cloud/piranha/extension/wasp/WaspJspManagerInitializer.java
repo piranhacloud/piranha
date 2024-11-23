@@ -48,6 +48,12 @@ public class WaspJspManagerInitializer implements ServletContainerInitializer {
     private static final Logger LOGGER = System.getLogger(WaspJspManagerInitializer.class.getName());
 
     /**
+     * Constructor.
+     */
+    public WaspJspManagerInitializer() {
+    }
+    
+    /**
      * Initialize WaSP.
      *
      * @param classes the classes.
