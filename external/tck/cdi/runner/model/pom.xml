@@ -61,7 +61,7 @@
         <dependency>
             <groupId>jakarta.enterprise</groupId>
             <artifactId>cdi-tck-lang-model</artifactId>
-            <version>4.0.13</version>
+            <version>${cdi.tck.version}</version>
             <scope>test</scope>
         </dependency>
 
