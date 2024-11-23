@@ -23,6 +23,7 @@ releases see the [Patch releases](#patch-releases) section below
     1. Apply whatever fixes are needed
     1. Commit and push them to release-X.Y.Z
     1. Retrigger the release
+1. Trigger release docs workflow
 1. Create release notes
 1. Set correct tag for release notes
 1. Make sure “Create a discussion for this release” is checked
