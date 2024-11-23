@@ -45,6 +45,10 @@
  *   <td>cloud.piranha.extension.wasp.WaspExtension.enabled</td>
  *   <td>true to enable (default), false to disable</td>
  *  </tr>
+ *  <tr>
+ *   <td>cloud.piranha.extension.wasp.WaspJspManagerExtension.enabled</td>
+ *   <td>true to enable (default), false to disable</td>
+ *  </tr>
  *  <caption>Configurable properties</caption>
  * </table>
  * 
