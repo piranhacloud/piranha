@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [ 21, 23 ]
+        java: [ 21 ]
         os: [ubuntu-latest, windows-latest]
     steps:
     - name: Checkout Sources
@@ -41,7 +41,7 @@ jobs:
         distribution: 'temurin'
         java-version: '21'
     - name: Build with Maven
-      run: mvn -B -DskipTests=true -DskipITs=true --ntp install
+      run: mvn -B -DskipTests=true -DskipITs=true -ntp install
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
   docs:
@@ -56,4 +56,4 @@ jobs:
         java-version: 21
     - name: Build with Maven
       run: |
-        mvn -B -DskipTests -DskipITs --ntp -T 1 install site
+        mvn -B -DskipTests=true -DskipITs=true -ntp -T 1 install site
