@@ -535,6 +535,7 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
         sendRedirect(location, SC_FOUND, true);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void sendRedirect(String location, int status, boolean resetBuffer) throws IOException {
         verifyNotCommitted("sendRedirect");

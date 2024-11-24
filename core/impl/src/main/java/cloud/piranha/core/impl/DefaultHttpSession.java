@@ -40,7 +40,6 @@ import java.util.UUID;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@SuppressWarnings("deprecation")
 public class DefaultHttpSession implements HttpSession {
 
     /**
