@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project 
+    xmlns="http://maven.apache.org/DECORATION/1.8.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 https://maven.apache.org/xsd/decoration-1.8.0.xsd">
+    <body>
+        <menu name="Overview">
+            <item name="Introduction" href="index.html"/>
+        </menu>
+        <menu name="Guides">
+            <item name="Create a Faces application" href="create_a_faces_application.html"/>
+            <item name="Create a Hello World web application" href="create_a_hello_world_web_application.html"/>
+            <item name="Create a Jakarta Pages application" href="create_jakarta_pages_application.html"/>
+            <item name="Create a WebSocket application" href="create_a_websocket_application.html"/>
+            <item name="Run a web application on CRaC" href="run_a_web_application_on_crac.html"/>
+        </menu>
+    </body>
+</project>

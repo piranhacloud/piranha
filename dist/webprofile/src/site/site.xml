@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project 
+    xmlns="http://maven.apache.org/DECORATION/1.8.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 https://maven.apache.org/xsd/decoration-1.8.0.xsd">
+    <body>
+        <menu name="Overview">
+            <item name="Introduction" href="index.html"/>
+        </menu>
+        <menu name="Guides">
+            <item name="Create a Faces application" href="create_a_faces_application.html"/>
+            <item name="Create a Hello World application" href="create_a_hello_world_application.html"/>
+            <item name="Create a Jakarta REST service" href="create_a_jakarta_rest_service.html"/>
+            <item name="Create a Pages application" href="create_a_pages_application.html"/>
+            <item name="Testing with JUnit 5 and Playwright" href="testing_with_junit5_and_playwright.html"/>
+            <item name="Testing with our container image" href="testing_with_our_container_image.html"/>
+        </menu>
+    </body>
+</project>

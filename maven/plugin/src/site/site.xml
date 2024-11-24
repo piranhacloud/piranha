@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="Piranha Maven Plugin">
-    <bannerLeft>
-        <name>Piranha Maven Plugin</name>
-    </bannerLeft>
+<project>
     <body>
-        <footer><![CDATA[Copyright (c) 2002-2024 Manorrock.com. All rights reserved.]]></footer>
         <menu name="Overview">
             <item name="About" href="index.html"/>
             <item name="Plugin Documentation" href="plugin-info.html"/>
         </menu>
     </body>
-    <poweredBy>
-    </poweredBy>
-    <publishDate position="none"/>
-    <skin>
-        <groupId>org.apache.maven.skins</groupId>
-        <artifactId>maven-fluido-skin</artifactId>
-        <version>2.0.0</version>
-    </skin>
-    <version position="none"/>
 </project>
