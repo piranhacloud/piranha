@@ -15,21 +15,23 @@ java -jar piranha-webprofile-X.Y.Z.jar --war-file your-webapplication.war
 The short answer is that it depends on your needs. 
 
 If you want to embed Piranha into your application you can pick Piranha Embedded
-to start embedding Piranha directly into your own application. If you are
-looking for a lean REST runtime then you should pick Piranha Core Profile. 
+to start embedding Piranha directly into your own application. 
+
+If you are looking for a lean REST runtime then you should pick Piranha Core
+Profile. 
 
 If you are looking for a traditional Servlet container, similar to Tomcat and
 Jetty, then Piranha Server or Piranha Servlet are your best bet. For hosting
 multiple web applications on the same distribution use Piranha Server. For
 hosting just a single web application pick Piranha Servlet.
 
-If you are wondering what Jakarta EE or Micro Profile specification each of the
-distribution supports see our [Jakarta EE / Micro Profile matrix](https://piranha.cloud/getting-started/matrix.html)
+If you are looking for a Web Profile capable runtime, similar to Glassfish,
+Payara, WebLogic or WebSphere, then Piranha Web Profile is your best bet.
 
 ## Distribution specific documentation
 
 * [Piranha Core Profile](dist/coreprofile/index.html)
-* [Piranha Embedded](dist/embedded/index.html)
+* [Piranha Embedded](embedded/index.html)
 * [Piranha Servlet](dist/servlet/index.html)
 * [Piranha Server](dist/server/index.html)
 * [Piranha Web Profile](dist/webprofile/index.html)

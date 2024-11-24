@@ -14,55 +14,26 @@
     </bannerRight>
     <body>
         <links>
+            <item name="Main" href="/index.html"/>
             <item name="Core Profile" href="/dist/coreprofile/index.html" />
             <item name="Embedded" href="/embedded/index.html" />
-            <item name="Micro" href="/micro/index.html" />
-            <item name="Server" href="/server/index.html" />
-            <item name="Servlet" href="/servlet/index.html" />
-            <item name="Web Profile" href="/webprofile/index.html" />
+            <item name="Micro" href="/dist/micro/index.html" />
+            <item name="Server" href="/dist/server/index.html" />
+            <item name="Servlet" href="/dist/servlet/index.html" />
+            <item name="Web Profile" href="/dist/webprofile/index.html" />
         </links>
-        <menu inherit="top" name="Overview">
+        <menu name="Overview">
             <item name="Getting Started" href="index.html"/>
             <item name="Maven Plugin" href="maven/plugin/index.html"/>
         </menu>
         <menu name="Distributions">
-            <item name="Core Profile" href="dist/coreprofile/index.html" />
+            <item name="Core Profile" href="dist/coreprofile/index.html"/>
             <item name="Embedded" href="embedded/index.html" />
+            <item name="Micro" href="dist/micro/index.html"/>
+            <item name="Server" href="dist/server/index.html"/>
+            <item name="Servlet" href="dist/servlet/index.html"/>
+            <item name="Web Profile" href="dist/webprofile/index.html"/>
         </menu>
-        <menu name="Piranha Micro">
-            <item name="Overview" href="micro/index.html"/>
-            <item name="Guides">
-                <item name="Create a Hello World web application" href="micro/create_a_hello_world_web_application.html"/>
-            </item>
-        </menu>
-        <menu name="Piranha Server">
-            <item name="Overview" href="server/index.html"/>
-            <item name="Guides">
-                <item name="Create a Hello World web application" href="server/create_a_hello_world_web_application.html"/>
-            </item>
-        </menu>
-        <menu name="Piranha Servlet">
-            <item name="Overview" href="servlet/index.html"/>
-            <item name="Guides">
-                <item name="Create a Faces application" href="servlet/create_a_faces_application.html"/>
-                <item name="Create a Hello World web application" href="servlet/create_a_hello_world_web_application.html"/>
-                <item name="Create a Jakarta Pages application" href="servlet/create_jakarta_pages_application.html"/>
-                <item name="Create a WebSocket application" href="servlet/create_a_websocket_application.html"/>
-                <item name="Run a web application on CRaC" href="servlet/run_a_web_application_on_crac.html"/>
-            </item>
-        </menu>
-        <menu name="Piranha Web Profile">
-            <item name="Overview" href="webprofile/index.html"/>
-            <item name="Guides">
-                <item name="Create a Faces application" href="webprofile/create_a_faces_application.html"/>
-                <item name="Create a Hello World application" href="webprofile/create_a_hello_world_application.html"/>
-                <item name="Create a Jakarta REST service" href="webprofile/create_a_jakarta_rest_service.html"/>
-                <item name="Create a Pages application" href="webprofile/create_a_pages_application.html"/>
-                <item name="Testing with JUnit 5 and Playwright" href="webprofile/testing_with_junit5_and_playwright.html"/>
-                <item name="Testing with our container image" href="webprofile/testing_with_our_container_image.html"/>
-            </item>
-        </menu>
-        <menu ref="modules"/>
     </body>
     <custom>
         <fluidoSkin>
