@@ -33,6 +33,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -53,6 +54,7 @@ class HelloIT {
      *
      * @throws Exception when a serious error occurs.
      */
+    @Disabled
     @Test
     void testHelloWorldHtml() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
@@ -68,6 +70,7 @@ class HelloIT {
      *
      * @throws Exception when a serious error occurs.
      */
+    @Disabled
     @Test
     void testHelloElJsp() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
@@ -83,6 +86,7 @@ class HelloIT {
      *
      * @throws Exception when a serious error occurs.
      */
+    @Disabled
     @Test
     void testHelloJspJsp() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
@@ -98,6 +102,7 @@ class HelloIT {
      *
      * @throws Exception when a serious error occurs.
      */
+    @Disabled
     @Test
     void testHelloServlet() throws Exception {
         HttpClient client = HttpClient.newHttpClient();

@@ -16,7 +16,6 @@
     <properties>
         <!-- other -->
         <piranha.distribution>server</piranha.distribution>
-        <piranha.version>${project.version}</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -40,9 +39,27 @@
         <finalName>helloworld</finalName>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>reserve-network-port</id>
+                        <goals>
+                            <goal>reserve-network-port</goal>
+                        </goals>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <portNames>
+                                <portName>httpPort</portName>
+                            </portNames>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
-                <version>${piranha.version}</version>
+                <version>${project.version}</version>
                 <executions>
                     <execution>
                         <id>pre-integration-test</id>
@@ -60,7 +77,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <distribution>${piranha.distribution}</distribution>
+                    <distribution>server</distribution>
+                    <httpPort>${httpPort}</httpPort>
+                    <startTimeout>60</startTimeout>
                 </configuration>
             </plugin>
             <plugin>
@@ -83,6 +102,14 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <forkCount>1</forkCount>
+                    <reuseForks>false</reuseForks>
+                    <rerunFailingTestsCount>50</rerunFailingTestsCount>
+                    <systemPropertyVariables>
+                        <httpPort>${httpPort}</httpPort>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

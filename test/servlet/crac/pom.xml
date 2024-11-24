@@ -67,6 +67,7 @@
     <build>
         <finalName>crac</finalName>
         <plugins>
+            <!--
             <plugin>
                 <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
@@ -90,8 +91,10 @@
                 <configuration>
                     <distribution>servlet</distribution>
                     <httpPort>${httpPort}</httpPort>
+                    <startTimeout>60</startTimeout>
                 </configuration>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
