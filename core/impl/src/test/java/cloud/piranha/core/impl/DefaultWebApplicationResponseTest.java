@@ -892,6 +892,7 @@ class DefaultWebApplicationResponseTest {
     /**
      * Test setCharacterEncoding method.
      */
+    @SuppressWarnings("deprecation")
     @Test
     void testSetCharacterEncoding6() {
         DefaultWebApplication webApplication = new DefaultWebApplication();

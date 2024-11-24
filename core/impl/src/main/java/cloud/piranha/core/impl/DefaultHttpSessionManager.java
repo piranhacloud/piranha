@@ -288,7 +288,6 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     @Override
-    @SuppressWarnings({"deprecation", "removal"})
     public String getComment() {
         return comment;
     }
@@ -382,7 +381,6 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     @Override
-    @SuppressWarnings({"deprecation", "removal"})
     public void setComment(String comment) {
         if (webApplication.isInitialized()) {
             throw new IllegalStateException("You cannot call setComment once ServletContext is initialized");

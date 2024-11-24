@@ -57,6 +57,7 @@ public class DefaultHttpHeaderManager implements HttpHeaderManager {
     /**
      * Constructor.
      */
+    @SuppressWarnings("deprecation")
     public DefaultHttpHeaderManager() {
         headers = new HashMap<>();
         locale = new Locale("en", "US", "ISO-8859-1");

@@ -1076,7 +1076,6 @@ public class HttpSessionTest {
         assertNull(session);
     }
 
-    // --------------------- TODO finish alphabetizng -------------------------
     /**
      * Test createListener method to create a HttpSessionListener.
      *

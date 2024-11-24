@@ -44,7 +44,6 @@ import java.io.IOException;
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@SuppressWarnings({"deprecation"})
 public class DefaultFilterChain implements FilterChain {
 
     /**

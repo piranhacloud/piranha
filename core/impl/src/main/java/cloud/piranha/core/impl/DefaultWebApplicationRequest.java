@@ -556,6 +556,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         return localPort;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public Locale getLocale() {
         Locale result = Locale.getDefault();
@@ -573,6 +574,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
         return result;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public Enumeration<Locale> getLocales() {
         ArrayList<Locale> locales = new ArrayList<>();
