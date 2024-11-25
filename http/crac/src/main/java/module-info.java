@@ -41,6 +41,6 @@ module cloud.piranha.http.crac {
 
     exports cloud.piranha.http.crac;
     opens cloud.piranha.http.crac;
-    requires cloud.piranha.http.api;
-    requires org.crac;
+    requires transitive cloud.piranha.http.api;
+    requires transitive org.crac;
 }

@@ -36,7 +36,7 @@ module cloud.piranha.feature.isolatedwebapp {
     exports cloud.piranha.feature.isolatedwebapp;
     opens cloud.piranha.feature.isolatedwebapp;    
     requires cloud.piranha.feature.impl;
-    requires cloud.piranha.http.webapp;
+    requires transitive cloud.piranha.http.webapp;
     requires cloud.piranha.micro.builder;
     requires cloud.piranha.micro.loader;
     requires shrinkwrap.api;

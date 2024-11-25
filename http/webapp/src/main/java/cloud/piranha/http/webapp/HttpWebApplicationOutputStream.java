@@ -96,6 +96,7 @@ public class HttpWebApplicationOutputStream extends DefaultWebApplicationOutputS
         httpServerResponse.writeStatusLine();
     }
 
+    @SuppressWarnings("removal")
     @Override
     public void writeHeaders() throws IOException {
 

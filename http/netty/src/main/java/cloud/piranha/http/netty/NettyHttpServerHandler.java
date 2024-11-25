@@ -94,6 +94,7 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttp
     @Override
     protected void channelRead0(ChannelHandlerContext context, FullHttpRequest object) {
         NettyHttpServerRequest nettyRequest = new NettyHttpServerRequest(context, object, secure);
+        @SuppressWarnings("deprecation")
         FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, true);
         NettyHttpServerResponse nettyResponse = new NettyHttpServerResponse(response);
         httpServerProcessor.process(nettyRequest, nettyResponse);

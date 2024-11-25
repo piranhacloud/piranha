@@ -186,6 +186,7 @@ public abstract class BaseMojo extends AbstractMojo {
      * @return the URL.
      * @throws IOException when an I/O error occurs.
      */
+    @SuppressWarnings("deprecation")
     protected URL createMavenCentralArtifactUrl(String groupId, String artifactId,
             String version, String type) throws IOException {
         return new URL("https://repo1.maven.org/maven2/"

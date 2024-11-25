@@ -36,6 +36,6 @@ module cloud.piranha.http.virtual {
 
     exports cloud.piranha.http.virtual;
     opens cloud.piranha.http.virtual;
-    requires cloud.piranha.http.api;
+    requires transitive cloud.piranha.http.api;
     requires cloud.piranha.http.impl;
 }
