@@ -15,7 +15,6 @@ The following components are available in the Piranha Servlet distribution:
 
 ## Documentation
 
-1. [Create a Faces application](create_a_faces_application.html)
 1. [Create a Hello World web application](create_a_hello_world_web_application.html)
 1. [Create a Jakarta Pages application](create_a_jakarta_pages_application.html)
 1. [Create a WebSocket application](create_a_websocket_application.html)

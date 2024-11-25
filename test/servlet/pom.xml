@@ -31,7 +31,6 @@
     </dependencies>
     <modules>
         <module>crac</module>
-        <module>faces</module>
         <module>hello</module>
         <module>helloworld</module>
         <module>integration</module>
