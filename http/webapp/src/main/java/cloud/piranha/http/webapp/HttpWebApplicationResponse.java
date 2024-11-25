@@ -47,7 +47,7 @@ public class HttpWebApplicationResponse extends DefaultWebApplicationResponse {
     /**
      * Stores the wrapped HttpServerResponse.
      */
-    private final HttpServerResponse wrapped;
+    protected final HttpServerResponse wrapped;
 
     /**
      * Constructor.

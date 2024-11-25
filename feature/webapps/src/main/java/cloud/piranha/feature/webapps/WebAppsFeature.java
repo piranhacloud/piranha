@@ -34,6 +34,7 @@ import cloud.piranha.feature.webapp.WebAppFeature;
 import cloud.piranha.http.api.HttpServerProcessor;
 import cloud.piranha.http.webapp.HttpWebApplicationServer;
 import java.io.File;
+import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 
 /**
@@ -107,6 +108,10 @@ public class WebAppsFeature extends DefaultFeature {
 
     @Override
     public void init() {
+        if (LOGGER.isLoggable(Level.DEBUG)) {
+            LOGGER.log(Level.DEBUG, "Initializing WebAppsFeature");
+        }
+
         if (webApplicationServer == null) {
             webApplicationServer = new HttpWebApplicationServer();
         }

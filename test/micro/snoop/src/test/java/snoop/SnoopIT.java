@@ -45,11 +45,6 @@ import org.junit.jupiter.api.Test;
 public class SnoopIT {
 
     /**
-     * Stores the process.
-     */
-    static private Process process;
-
-    /**
      * Stores the port
      */
     private static int port;
