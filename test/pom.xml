@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
 
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cloud.piranha</groupId>
         <artifactId>project</artifactId>
         <version>24.12.0-SNAPSHOT</version>
     </parent>
-
     <groupId>cloud.piranha.test</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
-
-    <name>Piranha - Test - Project</name>
-
+    <name>Piranha - Test</name>
     <modules>
         <module>embedded</module>
         <module>common</module>
@@ -25,11 +25,9 @@
         <module>servlet</module>
         <module>webprofile</module>
     </modules>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -47,7 +45,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <build>
         <plugins>
             <plugin>

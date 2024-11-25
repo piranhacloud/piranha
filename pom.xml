@@ -916,6 +916,17 @@
                             <docfilessubdirs>true</docfilessubdirs>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>aggregate</id> 
+                        <goals> 
+                            <goal>aggregate</goal> 
+                        </goals> 
+                        <configuration>
+                            <additionalOptions>-html5</additionalOptions>
+                            <docfilessubdirs>true</docfilessubdirs>
+                            <outputDirectory>${project.build.directory}/staging</outputDirectory> 
+                        </configuration> 
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
