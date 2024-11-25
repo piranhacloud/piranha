@@ -9,7 +9,6 @@
             <item name="Introduction" href="index.html"/>
         </menu>
         <menu name="Guides">
-            <item name="Create a Faces application" href="create_a_faces_application.html"/>
             <item name="Create a Hello World web application" href="create_a_hello_world_web_application.html"/>
             <item name="Create a Jakarta Pages application" href="create_jakarta_pages_application.html"/>
             <item name="Create a WebSocket application" href="create_a_websocket_application.html"/>

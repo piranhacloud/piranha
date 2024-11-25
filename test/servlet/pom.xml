@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cloud.piranha.test</groupId>
         <artifactId>project</artifactId>
         <version>24.12.0-SNAPSHOT</version>
     </parent>
-
     <groupId>cloud.piranha.test.servlet</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
-
     <name>Piranha - Test - Servlet - Project</name>
-
     <!--
      
       Make sure the Piranha Servlet distribution is available before 
@@ -32,7 +31,6 @@
     </dependencies>
     <modules>
         <module>crac</module>
-        <module>faces</module>
         <module>hello</module>
         <module>helloworld</module>
         <module>pages</module>
