@@ -50,5 +50,5 @@ module cloud.piranha.extension.tempdir {
     
     exports cloud.piranha.extension.tempdir;
     opens cloud.piranha.extension.tempdir;
-    requires cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
 }

@@ -35,6 +35,6 @@ module cloud.piranha.extension.servletannotations {
 
     exports cloud.piranha.extension.servletannotations;
     opens cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
     requires jakarta.annotation;
 }
