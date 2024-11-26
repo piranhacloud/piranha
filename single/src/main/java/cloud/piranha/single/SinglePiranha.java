@@ -217,10 +217,6 @@ public class SinglePiranha implements Piranha, Runnable {
             featureManager.addFeature(exitOnStopFeature);
         }
 
-        long finishTime = System.currentTimeMillis();
-        LOGGER.log(INFO, "Started Piranha");
-        LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
-
         if (configuration.getLong("pid") != null) {
             File pidFile = new File("tmp", "piranha.pid");
             if (!pidFile.getParentFile().exists() && !pidFile.getParentFile().mkdirs()) {
@@ -234,6 +230,10 @@ public class SinglePiranha implements Piranha, Runnable {
             }
         }
 
+        long finishTime = System.currentTimeMillis();
+        LOGGER.log(INFO, "Started Piranha");
+        LOGGER.log(INFO, "It took {0} milliseconds", finishTime - startTime);
+        
         while (!stop) {
             if (configuration.getLong("pid") != null) {
                 File pidFile = new File("tmp", "piranha.pid");
@@ -249,7 +249,7 @@ public class SinglePiranha implements Piranha, Runnable {
             }
 
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (InterruptedException ie) {
                 Thread.currentThread().interrupt();
             }
