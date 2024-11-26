@@ -34,7 +34,6 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -49,7 +48,6 @@ class IndexJspIT {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Disabled
     @Test
     void testIndexJsp() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
@@ -66,7 +64,6 @@ class IndexJspIT {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Disabled
     @Test
     void testIndexJsp2() throws Exception {
         HttpClient client = HttpClient.newHttpClient();

@@ -27,21 +27,21 @@ create the ```pom.xml``` file with the content as below.
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>cloud.piranha.guides.webprofile</groupId>
-    <artifactId>playwright</artifactId>
+    <groupId>cloud.piranha.dist.webprofile.guide</groupId>
+    <artifactId>junit5-and-playwright</artifactId>
     <version>24.11.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Testing with JUnit 5 and Playwright</name>
     <properties>
         <jakartaee.version>11.0.0-M4</jakartaee.version>
         <java.version>21</java.version>
-        <junit.version>5.10.0</junit.version>
-        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>3.1.2</maven-failsafe-plugin.version>
+        <junit.version>5.11.3</junit.version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <piranha.distribution>webprofile</piranha.distribution>
-        <piranha.version>23.9.0</piranha.version>
-        <playwright.version>1.38.0</playwright.version>
+        <piranha.version>24.11.0</piranha.version>
+        <playwright.version>1.48.0</playwright.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -80,7 +80,7 @@ create the ```pom.xml``` file with the content as below.
         <finalName>playwright</finalName>
         <plugins>
             <plugin>
-                <groupId>cloud.piranha.maven.plugins</groupId>
+                <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
                 <version>${piranha.version}</version>
                 <executions>
