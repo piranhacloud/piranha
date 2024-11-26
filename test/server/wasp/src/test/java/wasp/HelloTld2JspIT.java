@@ -33,7 +33,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -48,7 +47,6 @@ class HelloTld2JspIT {
      *
      * @throws Exception when a serious error occurs.
      */
-    @Disabled
     @Test
     void testHelloTld2Jsp() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
