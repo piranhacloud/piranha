@@ -27,9 +27,10 @@
  */
 package cloud.piranha.feature.logging;
 
-import static java.util.logging.Level.INFO;
+import static java.util.logging.Level.ALL;
 import static java.util.logging.Level.SEVERE;
 import java.util.logging.LogManager;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
@@ -59,7 +60,7 @@ class LoggingFeatureTest {
     void testInit() {
         LoggingFeature feature = new LoggingFeature();
         feature.init();
-        assertEquals(INFO, LogManager.getLogManager().getLogger("").getLevel());
+        assertEquals(ALL, LogManager.getLogManager().getLogger("").getLevel());
         feature = new LoggingFeature();
         feature.setLevel("SEVERE");
         feature.init();

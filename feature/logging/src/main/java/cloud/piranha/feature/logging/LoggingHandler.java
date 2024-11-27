@@ -27,78 +27,79 @@
  */
 package cloud.piranha.feature.logging;
 
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+import java.util.logging.LogRecord;
+import java.util.logging.ConsoleHandler;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.TimeUnit;
 
-import cloud.piranha.feature.impl.DefaultFeature;
-
-/**
- * The Logging feature.
- *
- * @author Manfred Riem (mriem@manorrock.com)
- */
-public class LoggingFeature extends DefaultFeature {
-    
-    /**
-     * Stores the logger.
-     */
-    private static final java.lang.System.Logger LOGGER = System.getLogger(LoggingFeature.class.getName());
+public class LoggingHandler extends Handler {
 
     /**
-     * Stores the logging level.
+     * Stores the executor service for handling log records.
      */
-    private String level;
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     /**
-     * Get the logging level.
-     *
-     * @return the logging level.
+     * Stores the original ConsoleHandler.
      */
-    public String getLevel() {
-        return level;
+    private final ConsoleHandler consoleHandler = new ConsoleHandler();
+
+    /**
+     * Constructor.
+     */
+    public LoggingHandler() {
+        consoleHandler.setLevel(getLevel());
     }
 
     @Override
-    public void init() {
-        /*
-         * Remote the default console handler.
-         */
-        Logger rootLogger = Logger.getLogger("");
-        Handler[] handlers = rootLogger.getHandlers();
-        if (handlers[0] instanceof ConsoleHandler) {
-            rootLogger.removeHandler(handlers[0]);
-        }
-
-        /*
-         * Add our custom console handler.
-         */
-        LoggingHandler loggingHandler = new LoggingHandler();
-        rootLogger.addHandler(loggingHandler);
-        rootLogger.setLevel(Level.ALL);
-
-        /**
-         * Set the log level (if set).
-         */
-        if (level != null) {
-            Logger logger = LogManager.getLogManager().getLogger("");
-            logger.setLevel(Level.parse(level));
-            handlers = logger.getHandlers();
-            for(int i=0; i<handlers.length; i++) {
-                handlers[i].setLevel(Level.parse(level));
-            }
-            LOGGER.log(System.Logger.Level.INFO, "Setting log level to " + level);
-        }
+    public void publish(LogRecord record) {
+        executorService.submit(new LogRecordPublisher(record));
     }
 
     /**
-     * Set the level.
-     *
-     * @param level the level.
+     * The LogRecordPublisher class.
      */
-    public void setLevel(String level) {
-        this.level = level;
+    private class LogRecordPublisher implements Runnable {
+
+        /**
+         * Stores the LogRecord.
+         */
+        private final LogRecord record;
+
+        /**
+         * Constructor.
+         * 
+         * @param record the log record.
+         */
+        LogRecordPublisher(LogRecord record) {
+            this.record = record;
+        }
+
+        @Override
+        public void run() {
+            Future<?> future = executorService.submit(() -> consoleHandler.publish(record));
+            try {
+                future.get(10, TimeUnit.SECONDS);
+            } catch (TimeoutException e) {
+                future.cancel(true);
+            } catch (Exception e) {
+                // Handle other exceptions
+            }
+        }
+    }
+
+    @Override
+    public void flush() {
+        consoleHandler.flush();
+    }
+
+    @Override
+    public void close() throws SecurityException {
+        consoleHandler.close();
+        executorService.shutdown();
     }
 }

@@ -36,5 +36,5 @@ module cloud.piranha.feature.logging {
     exports cloud.piranha.feature.logging;
     opens cloud.piranha.feature.logging;
     requires transitive cloud.piranha.feature.impl;
-    requires java.logging;
+    requires transitive java.logging;
 }
