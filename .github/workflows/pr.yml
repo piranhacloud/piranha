@@ -10,7 +10,7 @@ jobs:
       fail-fast: true
       matrix:
         java: [ 21 ]
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
     - name: Checkout Sources
       uses: actions/checkout@v4
