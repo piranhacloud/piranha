@@ -50,7 +50,7 @@ module cloud.piranha.extension.tyrus {
     
     exports cloud.piranha.extension.tyrus;
     opens cloud.piranha.extension.tyrus;
-    requires cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
     requires org.glassfish.tyrus.container.servlet;
     requires static cloud.piranha.extension.scinitializer;
 }

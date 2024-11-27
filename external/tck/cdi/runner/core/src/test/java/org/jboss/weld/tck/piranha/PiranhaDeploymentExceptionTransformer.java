@@ -60,6 +60,7 @@ public class PiranhaDeploymentExceptionTransformer implements DeploymentExceptio
 
     @Override
     public Throwable transform(Throwable throwable) {
+        @SuppressWarnings("unchecked")
         List<Throwable> throwableList = ExceptionUtils.getThrowableList(throwable);
         if (throwableList.size() < 1)
             return throwable;

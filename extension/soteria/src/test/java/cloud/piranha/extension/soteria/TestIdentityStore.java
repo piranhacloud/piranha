@@ -43,6 +43,7 @@ import java.util.HashSet;
 @ApplicationScoped
 public class TestIdentityStore implements IdentityStore {
 
+    @SuppressWarnings("exports")
     public CredentialValidationResult validate(
             UsernamePasswordCredential usernamePasswordCredential) {
 

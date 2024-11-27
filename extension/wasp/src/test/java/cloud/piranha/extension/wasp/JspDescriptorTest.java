@@ -29,7 +29,6 @@ package cloud.piranha.extension.wasp;
 
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.embedded.EmbeddedPiranha;
 import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
@@ -53,7 +52,7 @@ class JspDescriptorTest {
     @Test
     void testGetJspConfigDescriptor() throws Exception {
         WebApplication webApplication = new DefaultWebApplication();
-        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
+        new EmbeddedPiranhaBuilder()
                 .webApplication(webApplication)
                 .initializer(WaspInitializer.class.getName())
                 .buildAndStart();

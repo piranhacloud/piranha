@@ -303,11 +303,13 @@ public class InternalWebXmlProcessor {
         });
     }
 
+    @SuppressWarnings("unchecked")
     private EnumSet<DispatcherType> toEnumDispatcherTypes(List<String> dispatchers) {
         if (dispatchers == null) {
             return null;
         }
 
+        @SuppressWarnings("rawtypes")
         EnumSet enumSet = EnumSet.noneOf(DispatcherType.class);
         for (String dispatcherType : dispatchers) {
             enumSet.add(DispatcherType.valueOf(dispatcherType));
