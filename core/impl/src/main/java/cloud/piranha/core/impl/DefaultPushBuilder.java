@@ -63,6 +63,7 @@ public class DefaultPushBuilder implements PushBuilder {
     /**
      * Stores the web application request.
      */
+    @SuppressWarnings("unused")
     private final WebApplicationRequest request;
     
     /**

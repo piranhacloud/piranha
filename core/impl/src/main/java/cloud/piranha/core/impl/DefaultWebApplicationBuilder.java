@@ -98,6 +98,7 @@ public class DefaultWebApplicationBuilder {
      *
      * @return the web application.
      */
+    @SuppressWarnings("unchecked")
     public DefaultWebApplication build() {
         DefaultWebApplication webApplication = new DefaultWebApplication();
         for (Resource resource : resources) {

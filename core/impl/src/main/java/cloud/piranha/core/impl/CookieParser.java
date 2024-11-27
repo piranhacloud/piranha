@@ -80,7 +80,7 @@ public class CookieParser {
         return cookieList.toArray(new Cookie[0]);
     }
 
-    @SuppressWarnings({"deprecation", "removal"})
+    @SuppressWarnings({"removal"})
     private static Cookie[] parseRFC2109(String cookiesValue) {
         List<Cookie> cookieList = new ArrayList<>();
         String[] cookieCandidates = cookiesValue.split("[;,]");

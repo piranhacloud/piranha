@@ -200,6 +200,7 @@ public class DefaultModuleFinder implements ModuleFinder {
             InputStream inputStream = resource.getResourceAsStream(providerFile);
             if (inputStream == null)
                 continue;
+            @SuppressWarnings("resource")
             List<String> providerList = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
                     .lines()
                     .filter(x -> !x.startsWith("#"))

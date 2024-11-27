@@ -111,7 +111,6 @@ public class DefaultNamedRequestDispatcher implements RequestDispatcher {
             throws ServletException, IOException {
 
         WebApplicationRequest request = unwrap(servletRequest);
-        WebApplicationResponse response = unwrap(servletResponse);
 
         /* - JAVADOC, Servlet:SPEC:192
          *

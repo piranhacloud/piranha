@@ -1341,6 +1341,7 @@ public class HttpSessionTest {
      */
     @Test
     void testSetSessionTrackingModesWithEmptyHashSet() {
+        @SuppressWarnings({ "rawtypes", "unchecked" })
         WebApplication webApplication = new DefaultWebApplicationBuilder()
                 .sessionTrackingModes(new HashSet())
                 .build();

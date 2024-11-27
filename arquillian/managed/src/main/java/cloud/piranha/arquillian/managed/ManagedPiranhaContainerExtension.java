@@ -43,6 +43,7 @@ public class ManagedPiranhaContainerExtension implements LoadableExtension {
     public ManagedPiranhaContainerExtension() {
     }
 
+    @SuppressWarnings("exports")
     @Override
     public void register(ExtensionBuilder extensionBuilder) {
         extensionBuilder.service(DeployableContainer.class, ManagedPiranhaContainer.class);

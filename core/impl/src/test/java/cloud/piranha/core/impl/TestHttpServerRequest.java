@@ -88,6 +88,7 @@ public class TestHttpServerRequest implements HttpServerRequest {
     /**
      * Stores the query string.
      */
+    @SuppressWarnings("unused")
     private String queryString;
 
     /**

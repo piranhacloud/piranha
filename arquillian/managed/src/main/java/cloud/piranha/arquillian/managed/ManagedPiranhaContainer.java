@@ -108,11 +108,13 @@ public class ManagedPiranhaContainer implements DeployableContainer<ManagedPiran
         this.configuration = configuration;
     }
 
+    @SuppressWarnings("exports")
     @Override
     public ProtocolDescription getDefaultProtocol() {
         return new ProtocolDescription(configuration.getProtocol());
     }
 
+    @SuppressWarnings("exports")
     @Override
     public ProtocolMetaData deploy(Archive<?> archive) throws DeploymentException {
         LOGGER.log(INFO, "Deploying " + archive.getName());
@@ -300,6 +302,7 @@ public class ManagedPiranhaContainer implements DeployableContainer<ManagedPiran
      * @return the URL.
      * @throws IOException when an I/O error occurs.
      */
+    @SuppressWarnings("deprecation")
     private URL createMavenCentralArtifactUrl(String groupId, String artifactId, String version, String type) throws IOException {
         return new URL("https://repo1.maven.org/maven2/" + createArtifactPath(groupId, artifactId, version, type));
     }

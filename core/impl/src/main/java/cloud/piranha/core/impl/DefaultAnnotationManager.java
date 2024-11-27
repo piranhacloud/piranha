@@ -59,6 +59,7 @@ public class DefaultAnnotationManager implements AnnotationManager {
             classes.add(clazz);
             annotatedClasses.put(annotationClass, classes);
         } else {
+            @SuppressWarnings({ "rawtypes", "unchecked" })
             HashSet<Class<?>> classes = (HashSet) annotatedClasses.get(annotationClass);
             classes.add(clazz);
         }
@@ -108,6 +109,7 @@ public class DefaultAnnotationManager implements AnnotationManager {
         return annotatedClasses.getOrDefault(annotationClass, Collections.emptySet());
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Set<Class<?>> getAnnotatedClasses(Class<?>[] annotationClasses) {
         HashSet<Class<?>> result = new HashSet<>();

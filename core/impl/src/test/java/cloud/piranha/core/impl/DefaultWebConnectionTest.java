@@ -57,6 +57,7 @@ class DefaultWebConnectionTest {
     @Test
     void testGetInputStream() throws Exception {
         DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        @SuppressWarnings("resource")
         DefaultWebConnection connection = new DefaultWebConnection(request, null);
         assertNotNull(connection.getInputStream());
     }
@@ -67,6 +68,7 @@ class DefaultWebConnectionTest {
     @Test
     void testGetOutputStream() throws Exception {
         DefaultWebApplicationResponse response = new DefaultWebApplicationResponse();
+        @SuppressWarnings("resource")
         DefaultWebConnection connection = new DefaultWebConnection(null, response);
         assertNotNull(connection.getOutputStream());
     }
