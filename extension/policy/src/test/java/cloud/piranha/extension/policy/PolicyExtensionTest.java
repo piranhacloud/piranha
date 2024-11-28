@@ -77,6 +77,7 @@ class PolicyExtensionTest {
         PolicyExtension extension = new PolicyExtension();
         extension.configure(webApplication);
         webApplication.addListener(new ServletRequestListener() {
+            @SuppressWarnings("removal")
             @Override
             public void requestInitialized(ServletRequestEvent sre) {
                 assertNull(webApplication.getAttribute(Policy.class.getName()));
@@ -104,6 +105,7 @@ class PolicyExtensionTest {
         PolicyExtension extension = new PolicyExtension();
         extension.configure(webApplication);
         webApplication.addListener(new ServletRequestListener() {
+            @SuppressWarnings("removal")
             @Override
             public void requestInitialized(ServletRequestEvent sre) {
                 assertNotNull(webApplication.getAttribute(Policy.class.getName()));

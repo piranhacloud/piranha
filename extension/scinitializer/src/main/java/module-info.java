@@ -51,6 +51,6 @@ module cloud.piranha.extension.scinitializer {
 
     exports cloud.piranha.extension.scinitializer;
     opens cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
     uses jakarta.servlet.ServletContainerInitializer;
 }

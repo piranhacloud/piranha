@@ -57,6 +57,7 @@ public class PolicyExtension implements WebApplicationExtension {
      *
      * @param webApplication the web application.
      */
+    @SuppressWarnings("removal")
     @Override
     public void configure(WebApplication webApplication) {
 

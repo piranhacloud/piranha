@@ -47,7 +47,7 @@ module cloud.piranha.extension.platform {
     
     exports cloud.piranha.extension.platform;
     opens cloud.piranha.extension.platform;
-    requires cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.annotationscan.classfile;
     requires cloud.piranha.extension.expressly;

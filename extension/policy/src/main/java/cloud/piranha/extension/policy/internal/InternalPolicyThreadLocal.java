@@ -40,11 +40,13 @@ public class InternalPolicyThreadLocal {
     /**
      * Stores the policies by thread id.
      */
+    @SuppressWarnings("removal")
     private static final HashMap<Long, Policy> POLICIES = new HashMap<>(1);
 
     /**
      * Remove the policy.
      */
+    @SuppressWarnings("deprecation")
     public static void removePolicy() {
         POLICIES.remove(Thread.currentThread().getId());
     }
@@ -54,6 +56,7 @@ public class InternalPolicyThreadLocal {
      *
      * @param policy the policy.
      */
+    @SuppressWarnings({ "removal", "deprecation" })
     public static void setPolicy(Policy policy) {
         POLICIES.put(Thread.currentThread().getId(), policy);
     }

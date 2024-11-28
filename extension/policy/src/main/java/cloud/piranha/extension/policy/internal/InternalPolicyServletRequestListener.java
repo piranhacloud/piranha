@@ -53,6 +53,7 @@ public class InternalPolicyServletRequestListener implements ServletRequestListe
         InternalPolicyThreadLocal.removePolicy();
     }
 
+    @SuppressWarnings("removal")
     @Override
     public void requestInitialized(ServletRequestEvent event) {
         LOGGER.log(DEBUG, "Setting Policy");

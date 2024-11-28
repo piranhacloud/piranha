@@ -35,5 +35,5 @@ module cloud.piranha.extension.policy {
 
     exports cloud.piranha.extension.policy;
     opens cloud.piranha.extension.policy;
-    requires cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
 }
