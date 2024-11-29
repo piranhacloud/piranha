@@ -35,6 +35,6 @@ module cloud.piranha.extension.bytesstreamhandler {
 
     exports cloud.piranha.extension.bytesstreamhandler;
     opens cloud.piranha.extension.bytesstreamhandler;
-    requires cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
     requires cloud.piranha.resource.impl;
 }

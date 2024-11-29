@@ -25,25 +25,45 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.arquillian.managed;
+
+import org.jboss.arquillian.core.spi.LoadableExtension.ExtensionBuilder;
+import org.jboss.arquillian.core.spi.context.Context;
+import org.junit.jupiter.api.Test;
 
 /**
- * This module delivers the default DataSource extension
- *
- * <p>
- *  This extension adds a default DataSource under the 
- *  <code>java:comp/DefaultDataSource</code> JNDI name as specified by Jakarta
- *  EE.
- * </p>
+ * The JUnit tests for the ManagedPiranhaContainerExtension class.
  * 
- * @author Arjan Tijms
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.datasource {
-    
-    exports cloud.piranha.extension.datasource;
-    opens cloud.piranha.extension.datasource;
-    requires transitive cloud.piranha.core.api;
-    requires transitive java.sql;
-    requires java.naming;
-    requires jakarta.cdi;
-    requires jakarta.transaction;
+class ManagedPiranhaContainerExtensionTest {
+
+    @Test
+    void testRegister() {
+        ExtensionBuilder extensionBuilder = new ExtensionBuilder() {
+
+            @Override
+            public <T> ExtensionBuilder service(Class<T> service, Class<? extends T> impl) {
+                return this;
+            }
+
+            @Override
+            public <T> ExtensionBuilder override(Class<T> service, Class<? extends T> oldServiceImpl,
+                    Class<? extends T> newServiceImpl) {
+                throw new UnsupportedOperationException("Unimplemented method 'override'");
+            }
+
+            @Override
+            public ExtensionBuilder observer(Class<?> handler) {
+                throw new UnsupportedOperationException("Unimplemented method 'observer'");
+            }
+
+            @Override
+            public ExtensionBuilder context(Class<? extends Context> context) {
+                throw new UnsupportedOperationException("Unimplemented method 'context'");
+            }
+        };
+        ManagedPiranhaContainerExtension extension = new ManagedPiranhaContainerExtension();
+        extension.register(extensionBuilder);
+    }
 }

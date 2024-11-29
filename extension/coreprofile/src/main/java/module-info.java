@@ -47,7 +47,7 @@ module cloud.piranha.extension.coreprofile {
     
     exports cloud.piranha.extension.coreprofile;
     opens cloud.piranha.extension.coreprofile;
-    requires cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.annotationscan.classfile;
     requires cloud.piranha.extension.herring;
