@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package integration;
+package cloud.piranha.test.coreprofile.distribution;
 
 import java.io.File;
 import java.net.URI;
@@ -68,8 +68,8 @@ class IntegrationIT {
         return create(WebArchive.class)
                 .addClass(DependencyInjectionBean.class)
                 .addClass(IntegrationApplication.class)
-                .addClass(IntegrationBean.class)
-                .addClass(InterceptBean.class)
+                .addClass(RestBean.class)
+                .addClass(InterceptedBean.class)
                 .addClass(InterceptInterceptor.class)
                 .addClass(Jsonb.class)
                 .addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"));

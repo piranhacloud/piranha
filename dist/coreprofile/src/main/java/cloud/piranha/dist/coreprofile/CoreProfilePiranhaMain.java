@@ -28,6 +28,7 @@
 package cloud.piranha.dist.coreprofile;
 
 import cloud.piranha.extension.coreprofile.CoreProfileExtension;
+import cloud.piranha.http.grizzly.GrizzlyHttpServer;
 import cloud.piranha.single.SingleMain;
 import cloud.piranha.single.SinglePiranhaBuilder;
 
@@ -35,9 +36,13 @@ import cloud.piranha.single.SinglePiranhaBuilder;
  * The Main for Piranha Core Profile.
  *
  * <p>
- * This version of Main sets the extension class to the CoreProfileExtension to
- * deliver Piranha Core Profile (unless it was overridden).
+ * This version of Main changes the following:
  * </p>
+ * <ol>
+ *  <li>extensionClass - set to CoreProfileExtension (unless it was overridden)</li>
+ *  <li>httpServerClass - set to GrizzlyHttpServer (unless it was overridden)</li>
+ *  <li>httpsServerClass - set to GrizzlyHttpServer (unless it was overridden)</li>
+ * </ol>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -53,6 +58,12 @@ public class CoreProfilePiranhaMain extends SingleMain {
         if (builder != null) {
             if (builder.getConfiguration().getClass("extensionClass") == null) {
                 builder.extensionClass(CoreProfileExtension.class);
+            }
+            if (builder.getConfiguration().getClass("httpServerClass") == null) {
+                builder.httpServerClass(GrizzlyHttpServer.class.getName());
+            }
+            if (builder.getConfiguration().getClass("httpsServerClass") == null) {
+                builder.httpsServerClass(GrizzlyHttpServer.class.getName());
             }
             builder.build().start();
         } else {

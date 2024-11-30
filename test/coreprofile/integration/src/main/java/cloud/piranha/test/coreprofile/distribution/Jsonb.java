@@ -25,16 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package integration;
-
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
+package cloud.piranha.test.coreprofile.distribution;
 
 /**
- * The HelloWorld application.
+ * The JSON Binding POJO.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@ApplicationPath("")
-public class IntegrationApplication extends Application {
+public class Jsonb {
+
+    /**
+     * Stores the string.
+     */
+    private String string = "JSON Binding works!";
+
+    /**
+     * Get the string.
+     * 
+     * @return the string.
+     */
+    public String getString() {
+        return string;
+    }
+
+    /**
+     * Set the string.
+     * 
+     * @param string the string.
+     */
+    public void setString(String string) {
+        this.string = string;
+    }
 }

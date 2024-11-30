@@ -25,24 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package integration;
+package cloud.piranha.test.coreprofile.distribution;
 
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
 
 /**
- * The one and only Dependency Injection bean.
+ * The HelloWorld application.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@ApplicationScoped
-public class DependencyInjectionBean {
-
-    /**
-     * Get the string to validate dependency injection works.
-     * 
-     * @return the string.
-     */
-    public String dependencyInjection() {
-        return "Dependency Injection works!";
-    }
+@ApplicationPath("")
+public class IntegrationApplication extends Application {
 }

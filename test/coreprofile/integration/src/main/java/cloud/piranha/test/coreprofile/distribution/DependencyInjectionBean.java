@@ -25,28 +25,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package integration;
+package cloud.piranha.test.coreprofile.distribution;
 
-import jakarta.interceptor.AroundInvoke;
-import jakarta.interceptor.Interceptor;
-import jakarta.interceptor.InvocationContext;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
- * The intercept interceptor.
- *
+ * The one and only Dependency Injection bean.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Interceptor
-public class InterceptInterceptor {
+@ApplicationScoped
+public class DependencyInjectionBean {
 
     /**
-     * Intercept the call and return 'Interceptor works!'.
+     * Get the string to validate dependency injection works.
      * 
-     * @param context the invocation context.
-     * @return 'Interceptor works!'.
+     * @return the string.
      */
-    @AroundInvoke
-    public Object intercepted(InvocationContext context) {
-        return "Interceptor works!";
+    public String dependencyInjection() {
+        return "Dependency Injection works!";
     }
 }

@@ -25,19 +25,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package integration;
+package cloud.piranha.test.coreprofile.distribution;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.interceptor.Interceptors;
 
 /**
- * The Intercept bean.
+ * The Intercepted bean.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
 @ApplicationScoped
 @Interceptors(InterceptInterceptor.class)
-public class InterceptBean {
+public class InterceptedBean {
     
     /**
      * Get the string to validate the interceptor works.

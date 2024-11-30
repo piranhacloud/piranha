@@ -25,35 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package integration;
+package cloud.piranha.test.coreprofile.distribution;
+
+import jakarta.interceptor.AroundInvoke;
+import jakarta.interceptor.Interceptor;
+import jakarta.interceptor.InvocationContext;
 
 /**
- * The JSON Binding POJO.
- * 
+ * The intercept interceptor.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class Jsonb {
+@Interceptor
+public class InterceptInterceptor {
 
     /**
-     * Stores the string.
-     */
-    private String string = "JSON Binding works!";
-
-    /**
-     * Get the string.
+     * Intercept the call and return 'Interceptor works!'.
      * 
-     * @return the string.
+     * @param context the invocation context.
+     * @return 'Interceptor works!'.
      */
-    public String getString() {
-        return string;
-    }
-
-    /**
-     * Set the string.
-     * 
-     * @param string the string.
-     */
-    public void setString(String string) {
-        this.string = string;
+    @AroundInvoke
+    public Object intercepted(InvocationContext context) {
+        return "Interceptor works!";
     }
 }

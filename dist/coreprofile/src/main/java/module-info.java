@@ -36,5 +36,6 @@ module cloud.piranha.dist.coreprofile {
     exports cloud.piranha.dist.coreprofile;
     opens cloud.piranha.dist.coreprofile;
     requires cloud.piranha.extension.coreprofile;
+    requires cloud.piranha.http.grizzly;
     requires cloud.piranha.single;
 }

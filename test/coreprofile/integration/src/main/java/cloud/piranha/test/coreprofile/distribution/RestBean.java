@@ -25,7 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package integration;
+package cloud.piranha.test.coreprofile.distribution;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -45,7 +45,7 @@ import java.io.StringReader;
  */
 @Path("")
 @RequestScoped
-public class IntegrationBean {
+public class RestBean {
 
     /**
      * Stores the DependencyInjectionBean.
@@ -57,7 +57,7 @@ public class IntegrationBean {
      * Stores the intercept bean.
      */
     @Inject
-    private InterceptBean interceptBean;
+    private InterceptedBean interceptedBean;
 
     /**
      * Validate the correct string is returned using the bean injected using the
@@ -79,7 +79,7 @@ public class IntegrationBean {
     @GET
     @Path("/intercept")
     public String intercept() {
-        return interceptBean.intercept();
+        return interceptedBean.intercept();
     }
 
     /**
