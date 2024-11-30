@@ -49,7 +49,7 @@ module cloud.piranha.extension.eclipselink {
     requires cloud.piranha.core.impl;
     requires cloud.piranha.extension.datasource;
     requires eclipselink;
-    requires transitive jakarta.cdi;
+    requires jakarta.cdi;
     requires transitive jakarta.servlet;
     requires jakarta.transaction;
     requires java.naming;
