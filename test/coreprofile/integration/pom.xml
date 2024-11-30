@@ -56,6 +56,31 @@
         <finalName>piranha-test-coreprofile-integration</finalName>
         <plugins>
             <plugin>
+                <groupId>cloud.piranha.maven</groupId>
+                <artifactId>piranha-maven-plugin</artifactId>
+                <version>${project.version}</version>
+                <executions>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>post-integration-test</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <distribution>coreprofile</distribution>
+                    <httpPort>${httpPort}</httpPort>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <executions>
@@ -68,6 +93,9 @@
                 </executions>
                 <configuration>
                     <rerunFailingTestsCount>10</rerunFailingTestsCount>
+                    <systemPropertyVariables>
+                        <httpPort>${httpPort}</httpPort>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>            
             <plugin>
@@ -77,6 +105,41 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>reserve-network-port</id>
+                        <goals>
+                            <goal>reserve-network-port</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <portNames>
+                                <portName>httpPort</portName>
+                            </portNames>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>debug</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>cloud.piranha.maven</groupId>
+                        <artifactId>piranha-maven-plugin</artifactId>
+                        <version>${project.version}</version>
+                        <configuration>
+                            <jvmArguments>-Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=9009</jvmArguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

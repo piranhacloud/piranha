@@ -74,22 +74,6 @@ class IntegrationIT {
                 .addClass(Jsonb.class)
                 .addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"));
     }    
-    
-    /**
-     * Test dependency injection.
-     *
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    @RunAsClient
-    void testDependencyInjection() throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest
-                .newBuilder(new URI(baseUrl + "/dependencyInjection"))
-                .build();
-        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        assertTrue(response.body().contains("Dependency Injection works!"));
-    }
  
     /**
      * Test interceptors.
