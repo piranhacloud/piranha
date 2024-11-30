@@ -89,6 +89,15 @@ public class HttpWebApplicationRequest extends DefaultWebApplicationRequest {
         while (headerNames.hasNext()) {
             String name = headerNames.next();
             String value = serverRequest.getHeader(name);
+
+            /*
+             * If the request is passing in an Accept header we should honor it
+             * and remove the default Accept header.
+             */
+            if (name.equalsIgnoreCase("Accept")) {
+                headerManager.removeHeader("Accept");
+            }
+            
             serverRequest.getHeaders(name).forEachRemaining(x -> addHeader(name, x));
             if (name.equalsIgnoreCase("Content-Type")) {
                 setContentType(value);
