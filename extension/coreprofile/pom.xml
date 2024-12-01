@@ -73,6 +73,12 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- runtime -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
     <distributionManagement>
         <site>

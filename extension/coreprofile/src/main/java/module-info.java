@@ -27,20 +27,20 @@
  */
 
 /**
- * This module delivers the meta extension for Jakarta Core Profile.
+ * This module delivers the extension for Jakarta Core Profile.
  *
  * <p>
- *  The following extensions and/or dependencies are delivered as part of this
- *  meta extension:
+ *  The following extensions and/or dependencies are included:
  * </p>
  * <ul>
  *  <li>Annotation Scanning</li>
- *  <li>Eclipse Parsson (JSON)</li>
- *  <li>Eclipse Yasson (JSON-B)</li>
- *  <li>Eclipse Jersey (REST)</li>
  *  <li>Herring (JNDI)</li>
+ *  <li>Jersey (REST)</li>
+ *  <li>Parsson (JSON)</li>
  *  <li>ServletContainerInitializer</li>
  *  <li>web.xml support</li>
+ *  <li>Weld (CDI)</li>
+ *  <li>Yasson (JSON-B)</li>
  * </ul>
  */
 module cloud.piranha.extension.coreprofile {
