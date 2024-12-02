@@ -38,12 +38,12 @@ import java.net.http.HttpResponse;
 public class BeanParamIT {
 
     @Test
-    public void testBeanParamAnnotation() throws Exception {
+    public void testBeanParamAnnotationWithoutContent() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:"
                         + System.getProperty("httpPort")
-                        + "/piranha-test-coreprofile-integration/beanParam?queryParam=10"))
+                        + "/piranha-test-coreprofile-integration/beanParam/withoutContent?queryParam=10"))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .POST(HttpRequest.BodyPublishers.ofString("formParam=formParam1"))
                 .build();
@@ -53,5 +53,23 @@ public class BeanParamIT {
 
         assertEquals(200, response.statusCode());
         assertEquals("UserInput{formParam='formParam1', queryParam=10, contentType='application/x-www-form-urlencoded'}", response.body());
+    }
+
+    @Test
+    public void testBeanParamAnnotationWithContent() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:"
+                        + System.getProperty("httpPort")
+                        + "/piranha-test-coreprofile-integration/beanParam/withContent?queryParam=10"))
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .POST(HttpRequest.BodyPublishers.ofString("CONTENT"))
+                .build();
+
+        HttpResponse<String> response = client.send(request, 
+                HttpResponse.BodyHandlers.ofString());
+
+        assertEquals(200, response.statusCode());
+        assertEquals("CONTENT,UserInput{formParam='null', queryParam=10, contentType='application/x-www-form-urlencoded'}", response.body());
     }
 }

@@ -41,19 +41,35 @@ import jakarta.ws.rs.core.Response;
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Path("/beanParam")
+@Path("beanParam")
 public class BeanParamBean { 
 
     /**
-     * Process BeanParam annotated input.
+     * Process BeanParam annotated input without content body.
      * 
      * @param input the input.
      * @return the response.
      */
-    @POST 
+    @POST
+    @Path("withoutContent")
     @Consumes(APPLICATION_FORM_URLENCODED) 
     @Produces(TEXT_PLAIN) 
     public Response beanParamInput(@BeanParam BeanParamInput input) { 
         return Response.ok(input.toString()).build();
+    } 
+
+    /**
+     * Process BeanParam annotated input with content body.
+     * 
+     * @param content the content body.
+     * @param input the input.
+     * @return the response.
+     */
+    @POST
+    @Path("withContent")
+    @Consumes(APPLICATION_FORM_URLENCODED) 
+    @Produces(TEXT_PLAIN) 
+    public Response beanParamInputWithContent(String content, @BeanParam BeanParamInput input) { 
+        return Response.ok(content + "," + input.toString()).build();
     } 
 }

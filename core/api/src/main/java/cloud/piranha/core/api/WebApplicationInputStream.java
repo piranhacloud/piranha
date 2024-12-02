@@ -32,6 +32,13 @@ import jakarta.servlet.ServletInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -121,11 +128,40 @@ public abstract class WebApplicationInputStream extends ServletInputStream imple
                 return -1;
             }
             if (inputStream.available() > 0) {
+                /*
+                 * Because the inputstream indicates we have bytes available we
+                 * read the next byte assuming it won't block.
+                 */
                 read = inputStream.read();
-                index++;
-                if (index == webApplicationRequest.getContentLength() || read == -1) {
-                    finished = true;
+            } else {
+                /*
+                 * Because we do not know if the underlying inputstream can
+                 * block indefinitely we make sure we read from the inputstream
+                 * with a timeout so we do not block the thread indefinitely.
+                 *
+                 * If we do not get a read to succeed within the 30 seconds
+                 * timeout we return -1 to indicate we assume the end of the
+                 * stream has been reached.
+                 */
+                ExecutorService executor = Executors.newSingleThreadExecutor();
+
+                Callable<Integer> readTask = () -> {
+                    return inputStream.read();
+                };
+
+                Future<Integer> future = executor.submit(readTask);
+
+                try {
+                    read = future.get(30, TimeUnit.SECONDS);
+                } catch (TimeoutException | InterruptedException | ExecutionException e) {
+                    read = -1;
+                } finally {
+                    executor.shutdown();
                 }
+            }
+            index++;
+            if (index == webApplicationRequest.getContentLength() || read == -1) {
+                finished = true;
             }
         } else {
             if (inputStream.available() > 0) {
