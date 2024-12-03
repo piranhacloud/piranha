@@ -35,20 +35,19 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class BeanParamIT {
+public class BeanParamIT extends ITBase {
 
     @Test
     public void testBeanParamAnnotationWithoutContent() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:"
-                        + System.getProperty("httpPort")
-                        + "/piranha-test-coreprofile-integration/beanParam/withoutContent?queryParam=10"))
+                .uri(URI.create(baseUrl
+                        + "/beanParam/withoutContent?queryParam=10"))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .POST(HttpRequest.BodyPublishers.ofString("formParam=formParam1"))
                 .build();
 
-        HttpResponse<String> response = client.send(request, 
+        HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
 
         assertEquals(200, response.statusCode());
@@ -59,14 +58,13 @@ public class BeanParamIT {
     public void testBeanParamAnnotationWithContent() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:"
-                        + System.getProperty("httpPort")
-                        + "/piranha-test-coreprofile-integration/beanParam/withContent?queryParam=10"))
+                .uri(URI.create(baseUrl
+                        + "/beanParam/withContent?queryParam=10"))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .POST(HttpRequest.BodyPublishers.ofString("CONTENT"))
                 .build();
 
-        HttpResponse<String> response = client.send(request, 
+        HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
 
         assertEquals(200, response.statusCode());

@@ -27,30 +27,27 @@
  */
 package cloud.piranha.test.coreprofile.distribution;
 
-import org.junit.jupiter.api.Test;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
-public class ProducesIT extends ITBase {
-
-    @Test
-    public void notAcceptable() throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(baseUrl + "/produces/notAcceptable"))
-                .header("Accept", "text/xml")
-                .GET()
-                .build();
-
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-
-        assertEquals(406, response.statusCode());
-        assertNotEquals("This should not show up!", response.body());
-    }
+/**
+ * The bean to test the Produces annotation.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
+@Path("async")
+public class AsyncBean {
+    
+    /**
+     * Test to validate NOT_ACCEPTABLE (406) is returned.
+     * 
+     * @return "This should not show up!"
+     */
+    @TRACE
+    @Path("notAcceptable")
+    @Produces(TEXT_PLAIN) 
+    public String notAcceptable() { 
+        return "This should not show up!";
+    } 
 }

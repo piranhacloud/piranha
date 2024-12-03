@@ -35,15 +35,13 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DependencyInjectionIT {
+public class DependencyInjectionIT extends ITBase {
 
     @Test
     public void testDependencyInjection() throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest
-                .newBuilder(URI.create("http://localhost:"
-                        + System.getProperty("httpPort")
-                        + "/piranha-test-coreprofile-integration/dependencyInjection"))
+                .newBuilder(URI.create(baseUrl + "/dependencyInjection"))
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         assertTrue(response.body().contains("Dependency Injection works!"));

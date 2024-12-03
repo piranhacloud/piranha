@@ -156,6 +156,7 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
             networkListener.setSecure(ssl);
             networkListener.registerAddOn(new Http2AddOn());
         }
+        httpServer.getServerConfiguration().setPassTraceRequest(true);
         httpServer.getServerConfiguration().addHttpHandler(new HttpHandler() {
             @Override
             public void service(Request request, Response response) throws Exception {
