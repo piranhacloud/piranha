@@ -34,6 +34,20 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+        <!-- runtime -->
+        <!--
+             
+            TODO - Somehow without this the runtime dependency for the Jakarta
+                   REST API being pulled in is 3.1.0 instead of the required
+                   4.0.0. 
+                                
+          -->
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <version>4.0.0</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>

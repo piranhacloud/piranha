@@ -27,47 +27,27 @@
  */
 package cloud.piranha.test.coreprofile.distribution;
 
-import static cloud.piranha.test.coreprofile.distribution.ITBase.baseUrl;
-import jakarta.ws.rs.client.AsyncInvoker;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.net.http.HttpResponse;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-import org.junit.jupiter.api.Test;
+import jakarta.annotation.Priority;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.container.ContainerRequestFilter;
+import jakarta.ws.rs.container.PreMatching;
+import jakarta.ws.rs.ext.Provider;
+import java.io.IOException;
 
 /**
- * The integration tests validating async integration works.
- *
+ * The ContainerRequestFilter used to validate we can access the 
+ * ContainerRequestContext and see the given header string.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class AsyncIT extends ITBase {
+@Provider
+@Priority(100)
+@PreMatching
+public class ContainerRequestContextFilter implements ContainerRequestFilter {
 
-    /**
-     * Test that validates that an async invocation to an endpoint with the
-     * wrong accept header and using the TRACE HTTP method returns the 
-     * NOT_ACCEPTABlE status code.
-     */
-    @Test
-    void testAsyncNotAcceptable() {
-        Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(baseUrl + "/async/notAcceptable");
-        AsyncInvoker invoker = target.request(MediaType.TEXT_XML).async();
-        Future<Response> future = invoker.trace(Response.class);
-        try {
-            Response response = future.get();
-            assertEquals(406, response.getStatus());
-        } catch (InterruptedException | ExecutionException ex) {
-            fail(ex);
-        }
+    @Override
+    public void filter(ContainerRequestContext requestContext) throws IOException {
+        boolean equals = requestContext.containsHeaderString("accept", "text/plain"::equals);
+        System.setProperty("containsHeaderString", Boolean.toString(equals));
     }
 }

@@ -28,46 +28,29 @@
 package cloud.piranha.test.coreprofile.distribution;
 
 import static cloud.piranha.test.coreprofile.distribution.ITBase.baseUrl;
-import jakarta.ws.rs.client.AsyncInvoker;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
-import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /**
- * The integration tests validating async integration works.
+ * The integration tests validating ContainerRequestContext is available.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class AsyncIT extends ITBase {
+public class ContainerRequestContextIT extends ITBase {
 
-    /**
-     * Test that validates that an async invocation to an endpoint with the
-     * wrong accept header and using the TRACE HTTP method returns the 
-     * NOT_ACCEPTABlE status code.
-     */
     @Test
-    void testAsyncNotAcceptable() {
-        Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(baseUrl + "/async/notAcceptable");
-        AsyncInvoker invoker = target.request(MediaType.TEXT_XML).async();
-        Future<Response> future = invoker.trace(Response.class);
-        try {
-            Response response = future.get();
-            assertEquals(406, response.getStatus());
-        } catch (InterruptedException | ExecutionException ex) {
-            fail(ex);
-        }
+    public void testContainsHeaderString() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(URI.create(baseUrl
+                        + "/containerRequestContext/containsHeaderString"))
+                .header("Accept", "text/plain")
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertTrue(response.body().contains("true"));
     }
 }
