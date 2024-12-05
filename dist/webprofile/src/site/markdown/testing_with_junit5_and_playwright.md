@@ -41,7 +41,7 @@ create the ```pom.xml``` file with the content as below.
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <piranha.distribution>webprofile</piranha.distribution>
         <piranha.version>24.11.0</piranha.version>
-        <playwright.version>1.48.0</playwright.version>
+        <playwright.version>1.49.0</playwright.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
