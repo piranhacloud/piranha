@@ -27,28 +27,36 @@
  */
 package cloud.piranha.test.coreprofile.distribution;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * The bean to test the ContainerRequestContext integration works.
- * 
+ * Integration tests to test SSE integration.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Path("containerRequestContext")
-public class ContainerRequestContextBean {
-    
+public class SseIT extends ITBase {
+
     /**
-     * Test to validate if the "accept" header with value "text/plain" is found.
-     * 
-     * @return "This should not show up!"
+     * Test string based SSE.
+     *
+     * @throws Exception when a serious error occurs.
      */
-    @GET
-    @Path("containsHeaderString")
-    @Produces(TEXT_PLAIN) 
-    public String containsHeaderString() { 
-        return System.getProperty("containsHeaderString");
-    } 
+    @Test
+    void testSseString() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI(baseUrl + "/sse/string"))
+                .build();
+        HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+        assertNotNull(response.body());
+        assertTrue(response.body().contains("data: Event 4"));
+    }
 }

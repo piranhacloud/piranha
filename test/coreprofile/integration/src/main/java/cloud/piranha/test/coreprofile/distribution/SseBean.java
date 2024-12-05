@@ -30,25 +30,49 @@ package cloud.piranha.test.coreprofile.distribution;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
-import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Context;
+import static jakarta.ws.rs.core.MediaType.SERVER_SENT_EVENTS;
+import jakarta.ws.rs.sse.OutboundSseEvent;
+import jakarta.ws.rs.sse.Sse;
+import jakarta.ws.rs.sse.SseEventSink;
+import java.io.IOException;
 
 /**
- * The bean to test the ContainerRequestContext integration works.
- * 
+ * The bean to test the Server Side Event (SSE) integration works.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-@Path("containerRequestContext")
-public class ContainerRequestContextBean {
-    
+@Path("/sse")
+public class SseBean {
+
     /**
-     * Test to validate if the "accept" header with value "text/plain" is found.
-     * 
-     * @return "This should not show up!"
+     * Stores the SSE context.
      */
+    @Context
+    private Sse sse;
+
+    /**
+     * Test string based SSE.
+     *
+     * @param eventSink the event sink.
+     */
+    @Path("string")
     @GET
-    @Path("containsHeaderString")
-    @Produces(TEXT_PLAIN) 
-    public String containsHeaderString() { 
-        return System.getProperty("containsHeaderString");
-    } 
+    @Produces(SERVER_SENT_EVENTS)
+    public void string(@Context SseEventSink eventSink) {
+        new Thread(() -> {
+            try (SseEventSink sink = eventSink; eventSink) {
+                for (int i = 0; i < 5; i++) {
+                    Thread.sleep(1000);
+                    OutboundSseEvent event = sse.newEventBuilder().
+                            name("string").
+                            data(String.class, "Event " + i).build();
+                    sink.send(event);
+                }
+            } catch (InterruptedException | IOException e) {
+                throw new WebApplicationException(e);
+            }
+        }).start();
+    }
 }
