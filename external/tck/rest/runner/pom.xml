@@ -68,6 +68,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>3.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.omnifaces.arquillian</groupId>
             <artifactId>glassfish-client-ee11</artifactId>
             <version>${glassfish-client-ee11.version}</version>
