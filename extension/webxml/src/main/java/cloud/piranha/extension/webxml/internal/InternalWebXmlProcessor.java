@@ -514,6 +514,10 @@ public class InternalWebXmlProcessor {
             if (!isEmpty(jspFile)) {
                 dynamic = webApplication.addJspFile(servlet.getServletName(), jspFile);
             } else {
+                if (isEmpty(servlet.getClassName())) {
+                    servlet.setClassName(servlet.getServletName());
+                    LOGGER.log(DEBUG, "Setting servlet-class from servlet-name");
+                }
                 dynamic = webApplication.addServlet(servlet.getServletName(), servlet.getClassName());
             }
 
