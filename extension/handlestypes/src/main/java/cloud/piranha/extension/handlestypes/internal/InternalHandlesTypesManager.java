@@ -28,7 +28,6 @@
 package cloud.piranha.extension.handlestypes.internal;
 
 import cloud.piranha.core.api.HandlesTypesManager;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
