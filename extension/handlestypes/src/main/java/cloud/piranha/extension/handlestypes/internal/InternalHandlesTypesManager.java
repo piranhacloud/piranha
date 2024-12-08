@@ -62,34 +62,40 @@ public class InternalHandlesTypesManager implements HandlesTypesManager {
 
     @Override
     public void addAnnotatedClass(Class<?> annotationClass, Class<?> annotatedClass) {
-        if (!annotatedClasses.containsKey(annotationClass)) {
-            HashSet<Class<?>> hashSet = new HashSet<>();
-            hashSet.add(annotatedClass);
-            annotatedClasses.put(annotationClass, hashSet);
-        } else {
-            annotatedClasses.get(annotationClass).add(annotatedClass);
+        synchronized (annotatedClasses) {
+            if (!annotatedClasses.containsKey(annotationClass)) {
+                HashSet<Class<?>> hashSet = new HashSet<>();
+                hashSet.add(annotatedClass);
+                annotatedClasses.put(annotationClass, hashSet);
+            } else {
+                annotatedClasses.get(annotationClass).add(annotatedClass);
+            }
         }
     }
 
     @Override
     public void addExtendingClass(Class<?> baseClass, Class<?> extendingClass) {
-        if (!extendingClasses.containsKey(baseClass)) {
-            HashSet<Class<?>> hashSet = new HashSet<>();
-            hashSet.add(extendingClass);
-            extendingClasses.put(baseClass, hashSet);
-        } else {
-            extendingClasses.get(baseClass).add(extendingClass);
+        synchronized (extendingClasses) {
+            if (!extendingClasses.containsKey(baseClass)) {
+                HashSet<Class<?>> hashSet = new HashSet<>();
+                hashSet.add(extendingClass);
+                extendingClasses.put(baseClass, hashSet);
+            } else {
+                extendingClasses.get(baseClass).add(extendingClass);
+            }
         }
     }
 
     @Override
     public void addImplementingClass(Class<?> interfaceClass, Class<?> implementingClass) {
-        if (!implementingClasses.containsKey(interfaceClass)) {
-            HashSet<Class<?>> hashSet = new HashSet<>();
-            hashSet.add(implementingClass);
-            implementingClasses.put(interfaceClass, hashSet);
-        } else {
-            implementingClasses.get(interfaceClass).add(implementingClass);
+        synchronized (implementingClasses) {
+            if (!implementingClasses.containsKey(interfaceClass)) {
+                HashSet<Class<?>> hashSet = new HashSet<>();
+                hashSet.add(implementingClass);
+                implementingClasses.put(interfaceClass, hashSet);
+            } else {
+                implementingClasses.get(interfaceClass).add(implementingClass);
+            }
         }
     }
 
