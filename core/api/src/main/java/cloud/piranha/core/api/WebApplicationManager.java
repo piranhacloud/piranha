@@ -70,6 +70,13 @@ public interface WebApplicationManager {
     DispatcherManager getDispatcherManager();
     
     /**
+     * Get the HandlesTypes manager.
+     * 
+     * @return the HandlesTypes manager.
+     */
+    HandlesTypesManager getHandlesTypesManager();
+    
+    /**
      * Get the HTTP session manager.
      * 
      * @return the HTTP session manager.
@@ -152,6 +159,13 @@ public interface WebApplicationManager {
      * @param errorPageManager the error page manager.
      */
     void setErrorPageManager(ErrorPageManager errorPageManager);
+    
+    /**
+     * Set the HandlesTypes manager.
+     * 
+     * @param handlesTypesManager the HandlesTypes manager. 
+     */
+    void setHandlesTypesManager(HandlesTypesManager handlesTypesManager);
     
     /**
      * Set the HTTP session manager.

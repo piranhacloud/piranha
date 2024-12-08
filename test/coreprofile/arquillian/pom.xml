@@ -76,6 +76,13 @@
                         </goals>
                     </execution>
                 </executions>
+<!--
+                <configuration>
+                    <systemPropertyVariables>
+                        <piranha.suspend>true</piranha.suspend>
+                    </systemPropertyVariables>
+                </configuration>
+-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

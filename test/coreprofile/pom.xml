@@ -33,5 +33,6 @@
         <module>arquillian</module>
         <module>integration</module>
         <module>json</module>
+        <module>no_servlet_class</module>
     </modules>
 </project>

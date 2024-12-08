@@ -200,7 +200,7 @@ public class WebAppFeature extends DefaultFeature {
 
             try {
                 webApplication.initialize();
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 LOGGER.log(ERROR, "Failed to initialize web application");
             }
         }

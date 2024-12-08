@@ -25,40 +25,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.coreprofile;
+package cloud.piranha.extension.handlestypes;
 
+import cloud.piranha.extension.handlestypes.internal.InternalHandlesTypesManager;
+import cloud.piranha.extension.handlestypes.internal.InternalHandlesTypesInitializer;
+import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.core.api.WebApplicationExtensionContext;
-import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
-import cloud.piranha.extension.annotationscan.classfile.ClassfileAnnotationScanExtension;
-import cloud.piranha.extension.handlestypes.HandlesTypesExtension;
-import cloud.piranha.extension.herring.HerringExtension;
-import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
-import cloud.piranha.extension.webxml.WebXmlExtension;
-import cloud.piranha.extension.weld.WeldExtension;
 
 /**
- * The extension that delivers the extensions for Jakarta Core Profile.
- *
+ * The HandlesTypes extension delivers a HandlesTypes manager.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class CoreProfileExtension implements WebApplicationExtension {
+public class HandlesTypesExtension implements WebApplicationExtension {
 
+    /**
+     * Configure the web application.
+     * 
+     * @param webApplication the web application.
+     */
     @Override
-    public void extend(WebApplicationExtensionContext context) {
-        context.add(HandlesTypesExtension.class);                   // HandlesTypes support
-        context.add(HerringExtension.class);                        // Herring (JNDI)
-        context.add(WebXmlExtension.class);
-        context.add(getAnnotationScanExtensionClass());
-        context.add(WeldExtension.class);                           // CDI / Weld
-        context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
+    public void configure(WebApplication webApplication) {
+        webApplication.getManager().setHandlesTypesManager(
+                new InternalHandlesTypesManager());
+        webApplication.addInitializer(new InternalHandlesTypesInitializer());
     }
-
-    private static Class<? extends WebApplicationExtension> getAnnotationScanExtensionClass() {
-        if (System.getProperty(ClassfileAnnotationScanExtension.EXPERIMENTAL_PROPERTY) != null) {
-            return ClassfileAnnotationScanExtension.class;   // Annotation scanning using the new Classfile API
-        }
-        return AnnotationScanExtension.class;  // Annotation scanning
-    }
-
 }

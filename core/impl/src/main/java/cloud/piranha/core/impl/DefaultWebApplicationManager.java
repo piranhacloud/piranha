@@ -31,6 +31,7 @@ import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.core.api.AsyncManager;
 import cloud.piranha.core.api.DispatcherManager;
 import cloud.piranha.core.api.ErrorPageManager;
+import cloud.piranha.core.api.HandlesTypesManager;
 import cloud.piranha.core.api.HttpSessionManager;
 import cloud.piranha.core.api.JspManager;
 import cloud.piranha.core.api.LocaleEncodingManager;
@@ -49,27 +50,32 @@ import cloud.piranha.core.api.ServletRequestManager;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultWebApplicationManager implements WebApplicationManager {
-    
+
     /**
      * Stores the annotation manager.
      */
     protected AnnotationManager annotationManager;
-    
+
     /**
      * Stores the async manager.
      */
     protected AsyncManager asyncManager = new DefaultAsyncManager();
-    
+
     /**
      * Stores the dispatcher manager.
      */
     protected DispatcherManager dispatcherManager = new DefaultDispatcherManager();
-    
+
     /**
      * Stores the error page manager.
      */
     protected ErrorPageManager errorPageManager = new DefaultErrorPageManager();
-    
+
+    /**
+     * Stores the HandlesTypes manager.
+     */
+    protected HandlesTypesManager handlesTypesManager;
+
     /**
      * Stores the HTTP session manager.
      */
@@ -79,22 +85,22 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
      * Stores the JSP manager.
      */
     protected JspManager jspManager = new DefaultJspManager();
-    
+
     /**
      * Stores the locale encoding manager.
      */
     protected LocaleEncodingManager localeEncodingManager = new DefaultLocaleEncodingManager();
-    
+
     /**
      * Stores the multi-part manager.
      */
     protected MultiPartManager multiPartManager = new DefaultMultiPartManager();
-    
+
     /**
      * Stores the object instance manager.
      */
     protected ObjectInstanceManager objectInstanceManager = new DefaultObjectInstanceManager();
-    
+
     /**
      * Stores the resource manager.
      */
@@ -104,7 +110,7 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
      * Stores the security manager.
      */
     protected SecurityManager securityManager = new DefaultSecurityManager();
-    
+
     /**
      * Stores the servlet request manager.
      */
@@ -125,11 +131,6 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
         return asyncManager;
     }
 
-    /**
-     * Get the dispatcher manager.
-     * 
-     * @return the dispatcher manager.
-     */
     @Override
     public DispatcherManager getDispatcherManager() {
         return dispatcherManager;
@@ -138,6 +139,11 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     @Override
     public ErrorPageManager getErrorPageManager() {
         return errorPageManager;
+    }
+
+    @Override
+    public HandlesTypesManager getHandlesTypesManager() {
+        return handlesTypesManager;
     }
 
     @Override
@@ -201,8 +207,8 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     }
 
     @Override
-    public void setServletRequestManager(ServletRequestManager servletRequestManager) {
-        this.servletRequestManager = servletRequestManager;
+    public void setHandlesTypesManager(HandlesTypesManager handlesTypesManager) {
+        this.handlesTypesManager = handlesTypesManager;
     }
 
     @Override
@@ -238,6 +244,11 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
     @Override
     public void setSecurityManager(SecurityManager securityManager) {
         this.securityManager = securityManager;
+    }
+
+    @Override
+    public void setServletRequestManager(ServletRequestManager servletRequestManager) {
+        this.servletRequestManager = servletRequestManager;
     }
 
     @Override

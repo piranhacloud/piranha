@@ -25,37 +25,24 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.handlestypes.internal;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * This module delivers the extension for Jakarta Core Profile.
- *
- * <p>
- *  The following extensions and/or dependencies are included:
- * </p>
- * <ul>
- *  <li>Annotation Scanning</li>
- *  <li>HandlesTypes support</li>
- *  <li>Herring (JNDI)</li>
- *  <li>Jersey (REST)</li>
- *  <li>Parsson (JSON)</li>
- *  <li>ServletContainerInitializer</li>
- *  <li>web.xml support</li>
- *  <li>Weld (CDI)</li>
- *  <li>Yasson (JSON-B)</li>
- * </ul>
+ * The JUnit tests for the InternalHandlesTypesManager class.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.coreprofile {
-    
-    exports cloud.piranha.extension.coreprofile;
-    opens cloud.piranha.extension.coreprofile;
-    requires transitive cloud.piranha.core.api;
-    requires cloud.piranha.extension.annotationscan;
-    requires cloud.piranha.extension.annotationscan.classfile;
-    requires cloud.piranha.extension.handlestypes;
-    requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.jersey;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.weld;
-    requires cloud.piranha.extension.yasson;
+public class InternalHandlesTypesManagerTest {
+
+    /**
+     * Test getClasses method.
+     */
+    @Test
+    public void testGetClasses() {
+        InternalHandlesTypesManager manager = new InternalHandlesTypesManager();
+        assertNull(manager.getClasses(null));
+    }
 }

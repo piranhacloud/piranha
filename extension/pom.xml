@@ -30,6 +30,7 @@
         <module>exousia</module>
         <module>expressly</module>
         <module>fileupload</module>
+        <module>handlestypes</module>
         <module>hazelcast</module>
         <module>herring</module>
         <module>hibernate-validator</module>

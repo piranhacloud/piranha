@@ -93,6 +93,7 @@ import static java.util.stream.Collectors.toSet;
 import java.util.stream.Stream;
 import cloud.piranha.core.api.WebApplicationManager;
 import static java.lang.System.Logger.Level.INFO;
+import java.util.Arrays;
 
 /**
  * The default WebApplication.
@@ -505,14 +506,18 @@ public class DefaultWebApplication implements WebApplication {
         DefaultServletEnvironment servletEnvironment = servletEnvironments.get(servletName);
         if (servletEnvironment == null) {
             servletEnvironment = new DefaultServletEnvironment(this, servletName);
-            servletEnvironment.setClassName(className);
+            if (className != null && !className.isBlank()) {
+                servletEnvironment.setClassName(className);
+            }
             servletEnvironments.put(servletName, servletEnvironment);
         } else {
             if (!isEmpty(servletEnvironment.getClassName())) {
                 // Servlet already set, can't override
                 return null;
             }
-            servletEnvironment.setClassName(className);
+            if (className != null && !className.isBlank()) {
+                servletEnvironment.setClassName(className);
+            }
         }
         return servletEnvironment;
     }
@@ -984,7 +989,7 @@ public class DefaultWebApplication implements WebApplication {
                 try {
                     environment.initialize();
                     environment.getFilter().init(environment);
-                } catch (Exception e) {
+                } catch (Throwable e) {
                     LOGGER.log(WARNING, () -> "Unable to initialize filter: " + environment.getFilterName(), e);
                     environment.setStatus(UNAVAILABLE);
                 }
@@ -1010,20 +1015,41 @@ public class DefaultWebApplication implements WebApplication {
             try {
                 HandlesTypes annotation = initializer.getClass().getAnnotation(HandlesTypes.class);
                 Set<Class<?>> classes = Collections.emptySet();
-                if (annotation != null && manager.getAnnotationManager() != null) {
+                if (annotation != null) {
                     Class<?>[] value = annotation.value();
-                    // Get instances
-                    Stream<Class<?>> instances = manager.getAnnotationManager()
-                            .getInstances(value).stream();
 
-                    // Get classes by target type
-                    List<AnnotationInfo<?>> annotations = manager.getAnnotationManager()
-                            .getAnnotations(value);
+                    if (manager.getAnnotationManager() != null) {
+                        // Get instances
+                        Stream<Class<?>> instances = manager.getAnnotationManager()
+                                .getInstances(value).stream();
 
-                    Stream<Class<?>> classStream = annotations.stream().map(AnnotationInfo::getTargetType);
+                        // Get classes by target type
+                        List<AnnotationInfo<?>> annotations = manager.getAnnotationManager()
+                                .getAnnotations(value);
 
-                    classes = Stream.concat(instances, classStream).collect(Collectors.toSet());
-                    classes.addAll(manager.getAnnotationManager().getAnnotatedClasses(annotation.value()));
+                        Stream<Class<?>> classStream = annotations.stream().map(AnnotationInfo::getTargetType);
+
+                        classes = Stream.concat(instances, classStream).collect(Collectors.toSet());
+                        classes.addAll(manager.getAnnotationManager().getAnnotatedClasses(annotation.value()));
+                    }
+
+                    /*
+                     * If we have a HandlesTypes manager we use it to get the
+                     * set of classes we need to pass to the onStartup method.
+                     */
+                    if (manager.getHandlesTypesManager() != null && value != null) {
+                        Set<Class<?>> handlesTypesClasses
+                                = manager.getHandlesTypesManager().getClasses(
+                                        Arrays.stream(value)
+                                                .collect(Collectors.toSet()));
+                        if (handlesTypesClasses != null && !handlesTypesClasses.isEmpty()) {
+                            if (classes == null) {
+                                classes = handlesTypesClasses;
+                            } else {
+                                classes.addAll(handlesTypesClasses);
+                            }
+                        }
+                    }
                 }
                 try {
                     source = initializer;
@@ -1031,7 +1057,7 @@ public class DefaultWebApplication implements WebApplication {
                 } finally {
                     source = null;
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 LOGGER.log(WARNING, () -> "Initializer " + initializer.getClass().getName() + " failing onStartup", e);
                 error = true;
             }
@@ -1084,7 +1110,7 @@ public class DefaultWebApplication implements WebApplication {
             }
             environment.getServlet().init(environment);
             LOGGER.log(DEBUG, "Initialized servlet: {0}", environment.servletName);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             LOGGER.log(WARNING, () -> "Unable to initialize servlet: " + environment.className, e);
 
             environment.setStatus(ServletEnvironment.UNAVAILABLE);
