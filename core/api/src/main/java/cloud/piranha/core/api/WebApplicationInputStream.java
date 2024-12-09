@@ -122,51 +122,50 @@ public abstract class WebApplicationInputStream extends ServletInputStream imple
 
     @Override
     public int read() throws IOException {
-        int read = -1;
+        int read;
         if (readListener == null) {
             if (finished || webApplicationRequest.getContentLength() == 0) {
                 return -1;
             }
-            if (inputStream.available() > 0) {
-                /*
-                 * Because the inputstream indicates we have bytes available we
-                 * read the next byte assuming it won't block.
-                 */
-                read = inputStream.read();
-            } else {
-                /*
-                 * Because we do not know if the underlying inputstream can
-                 * block indefinitely we make sure we read from the inputstream
-                 * with a timeout so we do not block the thread indefinitely.
-                 *
-                 * If we do not get a read to succeed within the 30 seconds
-                 * timeout we return -1 to indicate we assume the end of the
-                 * stream has been reached.
-                 */
-                ExecutorService executor = Executors.newSingleThreadExecutor();
-
-                Callable<Integer> readTask = () -> {
-                    return inputStream.read();
-                };
-
-                Future<Integer> future = executor.submit(readTask);
-
-                try {
-                    read = future.get(30, TimeUnit.SECONDS);
-                } catch (TimeoutException | InterruptedException | ExecutionException e) {
-                    read = -1;
-                } finally {
-                    executor.shutdown();
-                }
-            }
+            read = readWithTimeout();
             index++;
             if (index == webApplicationRequest.getContentLength() || read == -1) {
                 finished = true;
             }
         } else {
-            if (inputStream.available() > 0) {
-                read = inputStream.read();
-            }
+            read = readWithTimeout();
+        }
+        return read;
+    }
+
+    /**
+     * Read with a timeout.
+     *
+     * @return the byte read or -1 if the end has been reached (or a timeout
+     * occurred).
+     */
+    private int readWithTimeout() {
+        int read = -1;
+        /*
+        * Because we do not know if the underlying inputstream can
+        * block indefinitely we make sure we read from the inputstream
+        * with a timeout so we do not block the thread indefinitely.
+        *
+        * If we do not get a read to succeed within the 30 seconds
+        * timeout we return -1 to indicate we assume the end of the
+        * stream has been reached.
+         */
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<Integer> readTask = () -> {
+            return inputStream.read();
+        };
+        Future<Integer> future = executor.submit(readTask);
+        try {
+            read = future.get(30, TimeUnit.SECONDS);
+        } catch (TimeoutException | InterruptedException | ExecutionException e) {
+            read = -1;
+        } finally {
+            executor.shutdown();
         }
         return read;
     }
