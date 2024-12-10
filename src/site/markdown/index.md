@@ -38,7 +38,9 @@ Payara, WebLogic or WebSphere, then Piranha Web Profile is your best bet.
 
 ## Maven Plugin documentation
 
-If you are using Maven and want to use our convenient Maven plugin for a quick iterative development cycle, see the [Piranha Maven plugin documentation](maven/plugin/index.html).
+If you are using Maven and want to use our convenient Maven plugin for a quick
+iterative development cycle, see the 
+[Piranha Maven plugin documentation](maven/plugin/plugin-info.html).
 
 ## Extending Piranha
 
