@@ -9,7 +9,7 @@
     <parent>
         <groupId>cloud.piranha.external</groupId>
         <artifactId>project</artifactId>
-        <version>24.12.0-SNAPSHOT</version>
+        <version>25.1.0-SNAPSHOT</version>
     </parent>
     <groupId>cloud.piranha.external.coreprofiletck</groupId>
     <artifactId>project</artifactId>
