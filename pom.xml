@@ -120,7 +120,7 @@
         <omni-mp-config.version>3.0.0</omni-mp-config.version>
         <omnibeans.version>0.3</omnibeans.version>
         <omniservices.version>0.4</omniservices.version>
-        <omniutils.version>0.13</omniutils.version>
+        <omniutils.version>0.14</omniutils.version>
         <parsson.version>1.1.7</parsson.version>
         <shrinkwrap-impl-base.version>2.0.0-beta-1</shrinkwrap-impl-base.version>
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
