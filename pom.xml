@@ -940,56 +940,25 @@
                 <configuration>
                     <ruleSet>
                         <rules>
-                            <!-- keep Eclipse Mojarra at EE 10 compliant version -->
-                            <!--
                             <rule>
-                                <groupId>org.glassfish</groupId>
-                                <artifactId>jakarta.faces</artifactId>
+                                <groupId>com.hazelcast</groupId>
+                                <artifactId>hazelcast</artifactId>
                                 <ignoreVersions>
                                     <ignoreVersion>
-                                        <type>range</type>
-                                        <version>[4.1.0,)</version>
+                                        <version>5.5.0</version>
                                     </ignoreVersion>
                                 </ignoreVersions>
                             </rule>
-                            -->
-                            <!-- keep Eclipse Expressly at EE 10 compliant version -->
-                            <!--
                             <rule>
-                                <groupId>org.glassfish.expressly</groupId>
-                                <artifactId>expressly</artifactId>
+                                <groupId>org.moditect</groupId>
+                                <artifactId>moditect-maven-plugin</artifactId>
                                 <ignoreVersions>
                                     <ignoreVersion>
                                         <type>range</type>
-                                        <version>[6.0.0-M1,)</version>
+                                        <version>[1.0.0.RC3,1.2.2.Final]</version>
                                     </ignoreVersion>
                                 </ignoreVersions>
                             </rule>
-                            -->
-                            <!-- keep EclipseLink at EE 10 compliant version -->
-                            <!--
-                            <rule>
-                                <groupId>org.eclipse.persistence</groupId>
-                                <ignoreVersions>
-                                    <ignoreVersion>
-                                        <type>range</type>
-                                        <version>[5.0.0-B01,)</version>
-                                    </ignoreVersion>
-                                </ignoreVersions>
-                            </rule>
-                            -->
-                            <!-- keep Hibernate Validator at EE 10 compliant version -->
-                            <!--
-                            <rule>
-                                <groupId>org.hibernate.validator</groupId>
-                                <ignoreVersions>
-                                    <ignoreVersion>
-                                        <type>range</type>
-                                        <version>[9.0.0-Beta2,)</version>
-                                    </ignoreVersion>
-                                </ignoreVersions>
-                            </rule>
-                            -->
                         </rules>
                     </ruleSet>
                 </configuration>
