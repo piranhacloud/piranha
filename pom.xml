@@ -109,7 +109,7 @@
         <junit-pioneer.version>2.3.0</junit-pioneer.version>
         <junit-platform-launcher.version>1.11.3</junit-platform-launcher.version>
         <junit.version>5.11.3</junit.version>
-        <maven-plugin-annotations.version>3.15.0</maven-plugin-annotations.version>
+        <maven-plugin-annotations.version>3.15.1</maven-plugin-annotations.version>
         <maven-plugin-api.version>3.9.9</maven-plugin-api.version>
         <maven-plugin-tools-annotations.version>3.15.0</maven-plugin-tools-annotations.version>
         <microprofile-config-api.version>3.1</microprofile-config-api.version>
@@ -961,6 +961,15 @@
                             </rule>
                             <rule>
                                 <groupId>org.apache.maven.plugins</groupId>
+                                <ignoreVersions>
+                                    <ignoreVersion>
+                                        <type>range</type>
+                                        <version>[4.0.0-beta-1,)</version>
+                                    </ignoreVersion>
+                                </ignoreVersions>
+                            </rule>
+                            <rule>
+                                <groupId>org.apache.maven.plugin-tools</groupId>
                                 <ignoreVersions>
                                     <ignoreVersion>
                                         <type>range</type>
