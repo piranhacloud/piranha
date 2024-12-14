@@ -25,19 +25,19 @@ create the ```pom.xml``` file with the content as below.
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>example</groupId>
+    <groupId>cloud.piranha.guide.coreprofile</groupId>
     <artifactId>rest</artifactId>
     <version>1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Create a REST service</name>
     <properties>
-        <jakartaee.version>11.0.0-M4</jakartaee.version>
+        <jakartaee.version>11.0.0</jakartaee.version>
         <java.version>21</java.version>
         <junit.version>5.11.3</junit.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
-        <piranha.version>23.11.0</piranha.version>
+        <piranha.version>24.12.0</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -70,7 +70,7 @@ create the ```pom.xml``` file with the content as below.
         <finalName>rest</finalName>
         <plugins>
             <plugin>
-                <groupId>cloud.piranha.maven.plugins</groupId>
+                <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
                 <version>${piranha.version}</version>
                 <executions>
