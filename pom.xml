@@ -962,7 +962,8 @@
                                 <groupId>org.apache.maven.plugins</groupId>
                                 <ignoreVersions>
                                     <ignoreVersion>
-                                        <version>4.0.0-beta-1</version>
+                                        <type>range</type>
+                                        <version>[4.0.0-beta-1,)</version>
                                     </ignoreVersion>
                                 </ignoreVersions>
                             </rule>
