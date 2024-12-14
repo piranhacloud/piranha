@@ -43,7 +43,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <argLine>
-                        --patch-module shrinkwrap.api=${settings.localRepository}/org/jboss/shrinkwrap/shrinkwrap-impl-base/2.0.0-beta-1/shrinkwrap-impl-base-2.0.0-beta-1.jar
+                        --patch-module shrinkwrap.api=${settings.localRepository}/org/jboss/shrinkwrap/shrinkwrap-impl-base/2.0.0-beta-2/shrinkwrap-impl-base-2.0.0-beta-2.jar
                     </argLine>
                 </configuration>
             </plugin>
