@@ -115,7 +115,7 @@
         <microprofile-jwt-auth-api.version>2.1</microprofile-jwt-auth-api.version>
         <microprofile-jwt-auth.version>3.0.0</microprofile-jwt-auth.version>
         <mojarra.version>4.1.2</mojarra.version>
-        <netty.version>4.1.114.Final</netty.version>
+        <netty.version>4.1.115.Final</netty.version>
         <nimbus-jose-jwt.version>9.47</nimbus-jose-jwt.version>
         <omni-mp-config.version>3.0.0</omni-mp-config.version>
         <omnibeans.version>0.3</omnibeans.version>
@@ -946,6 +946,23 @@
                                 <ignoreVersions>
                                     <ignoreVersion>
                                         <version>5.5.0</version>
+                                    </ignoreVersion>
+                                </ignoreVersions>
+                            </rule>
+                            <rule>
+                                <groupId>io.netty</groupId>
+                                <ignoreVersions>
+                                    <ignoreVersion>
+                                        <type>range</type>
+                                        <version>[4.2.0.Alpha1,)</version>
+                                    </ignoreVersion>
+                                </ignoreVersions>
+                            </rule>
+                            <rule>
+                                <groupId>org.apache.maven.plugins</groupId>
+                                <ignoreVersions>
+                                    <ignoreVersion>
+                                        <version>4.0.0-beta-1</version>
                                     </ignoreVersion>
                                 </ignoreVersions>
                             </rule>
