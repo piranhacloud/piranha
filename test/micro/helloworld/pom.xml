@@ -5,46 +5,25 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!--
-
-    WARNING - Do not remove the versions in the properties section as this
-    particular project is used as a basis for the guide content at 
-    docs/src/site/markdown/micro/create_a_hello_world_web_application.md.
-  
-    When updating the guide do the following:
-
-    1. Drop the parent part below
-    2. Change the name of the project to read 'Create a Hello World application'
-    3. Change the version to the latest released version of Piranha
-
-    -->
     <parent>
         <groupId>cloud.piranha.test.micro</groupId>
         <artifactId>project</artifactId>
         <version>25.1.0-SNAPSHOT</version>
     </parent>
-    <groupId>cloud.piranha.test.micro</groupId>
-    <artifactId>helloworld</artifactId>
-    <version>25.1.0-SNAPSHOT</version>
+    <artifactId>piranha-test-micro-helloworld</artifactId>
     <packaging>war</packaging>
     <name>Piranha - Test - Micro - Hello World application</name>
     <properties>
         <!-- dependencies -->
-        <jakarta.jakartaee-web-api.version>11.0.0-M4</jakarta.jakartaee-web-api.version>
-        <junit.version>5.11.2</junit.version>
         <!-- other -->
         <java.version>21</java.version>
         <piranha.distribution>micro</piranha.distribution>
         <piranha.version>${project.version}</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- plugins -->
-        <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
-        <maven-failsafe-plugin.version>3.5.1</maven-failsafe-plugin.version>
-        <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
     </properties>
     <build>
-        <finalName>helloworld</finalName>
+        <finalName>piranha-test-micro-helloworld</finalName>
         <plugins>
             <!--
             <plugin>
@@ -76,7 +55,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <release>${java.version}</release>
                 </configuration>
@@ -84,7 +62,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${maven-failsafe-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -102,7 +79,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>${maven-war-plugin.version}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
@@ -110,7 +86,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>${build-helper-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>reserve-network-port</id>
@@ -132,13 +107,11 @@
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>
-            <version>${jakarta.jakartaee-web-api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
