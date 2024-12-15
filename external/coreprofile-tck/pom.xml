@@ -16,8 +16,15 @@
     <packaging>pom</packaging>
     <name>Piranha - External - Core Profile TCK - Project</name>
     <properties>
+        <annotations.tck.version>3.0.0</annotations.tck.version>
+        <commons-httpclient.version>3.1</commons-httpclient.version>
+        <glassfish-client-ee11.version>1.6.1</glassfish-client-ee11.version>
+        <hamcrest.version>3.0</hamcrest.version>
+        <rest.tck.version>4.0.1</rest.tck.version>
+        <sigtest-maven-plugin.version>2.2</sigtest-maven-plugin.version>
     </properties>
     <modules>
         <module>annotations</module>
+	<module>rest</module>
     </modules>
 </project>

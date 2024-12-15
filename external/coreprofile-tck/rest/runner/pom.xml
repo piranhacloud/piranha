@@ -3,12 +3,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>cloud.piranha.external.tck.rest</groupId>
+        <groupId>cloud.piranha.external.coreprofiletck.rest</groupId>
         <artifactId>project</artifactId>
         <version>25.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-external-tck-rest-runner</artifactId>
+    <artifactId>piranha-external-coreprofiletck-rest-runner</artifactId>
     <packaging>jar</packaging>
     <name>Piranha - External - TCK - REST - Runner</name>
 
@@ -49,7 +49,7 @@
         <dependency>
             <groupId>org.jboss.arquillian.protocol</groupId>
             <artifactId>arquillian-protocol-servlet-jakarta</artifactId>
-            <version>${arquillian.version}</version>
+            <version>${arquillian-jakarta.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -70,7 +70,7 @@
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
-            <version>3.0</version>
+            <version>${hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -110,7 +110,6 @@
                         <arquillian.launch>piranha</arquillian.launch>
                         <cts.harness.debug>true</cts.harness.debug>
                         <junit.log.traceflag>true</junit.log.traceflag>
-                        <optional.tech.packages.to.ignore>jakarta.xml.bind</optional.tech.packages.to.ignore>
                         <porting.ts.url.class.1>ee.jakarta.tck.ws.rs.lib.implementation.sun.common.SunRIURL</porting.ts.url.class.1>
                         <servlet_adaptor>org.glassfish.jersey.servlet.ServletContainer</servlet_adaptor>
                         <webServerHost>localhost</webServerHost>

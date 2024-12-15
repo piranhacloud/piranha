@@ -24,7 +24,6 @@
         <module>jsonb</module>
         <module>jsonp</module>
         <module>jwt</module>
-        <module>rest</module>
         <module>server</module>
         <module>wasp</module>
     </modules>

@@ -15,11 +15,6 @@
 
     <name>Piranha - External - Core Profile TCK - Annotations - Project</name>
 
-    <properties>
-        <annotations.tck.version>3.0.0</annotations.tck.version>
-        <sigtest-maven-plugin.version>2.2</sigtest-maven-plugin.version>
-    </properties>
-
     <modules>
         <module>installer</module>
         <module>runner</module>

@@ -183,13 +183,13 @@ jobs:
       run: mvn -B -DskipTests=true -ntp install
     - name: Run TCK
       run: |
-        cd external/tck/rest
+        cd external/coreprofile-tck/rest
         mvn -B -ntp -T 1 verify        
     - name: Test Summary
       uses: test-summary/action@v2
       id: test_summary
       with:
-        paths: "external/tck/rest/runner/target/failsafe-reports/**/TEST-*.xml"
+        paths: "external/coreprofile-tck/rest/runner/target/failsafe-reports/**/TEST-*.xml"
         output: test-summary.md
       if: always()
     - name: Job Summary
