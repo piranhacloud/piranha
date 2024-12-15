@@ -36,6 +36,7 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import java.util.Set;
 import org.glassfish.exousia.AuthorizationService;
+import org.glassfish.exousia.modules.def.DefaultPolicyConfigurationFactory;
 import org.glassfish.exousia.modules.def.DefaultPolicyFactory;
 
 /**
@@ -118,6 +119,12 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
         Class<? extends Policy> policyClass = getAttribute(context, AUTHZ_POLICY_CLASS);
 
         PolicyFactory.setPolicyFactory(new DefaultPolicyFactory());
+        
+        /*
+         * Required since Exousia 3.0.0-M3.
+         */
+        System.setProperty("jakarta.security.jacc.PolicyConfigurationFactory.provider", 
+            DefaultPolicyConfigurationFactory.class.getName());
         
         // No need for the previous policy (likely the Java SE "JavaPolicy") to be consulted.
 //        Policy.setPolicy(null);
