@@ -27,7 +27,9 @@
  */
 package cloud.piranha.test.coreprofile.distribution;
 
+import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
@@ -45,6 +47,12 @@ import java.io.IOException;
  */
 @Path("/sse")
 public class SseBean {
+
+    /**
+     * Stores the broadcaster.
+     */
+    @Inject
+    private SseBroadcastBean broadcastBean;
 
     /**
      * Stores the SSE context.
@@ -74,5 +82,27 @@ public class SseBean {
                 throw new WebApplicationException(e);
             }
         }).start();
+    }
+
+    /**
+     * Perform a SSE Broadcast.
+     * 
+     * @param message the message to broadcast.
+     */
+    @Path("broadcast")
+    @POST
+    public void broadcast(String message) {
+        broadcastBean.broadcast("Message");
+    }
+
+    /**
+     * Register to receive messages.
+     *
+     * @param eventSink the event sink.
+     */
+    @Path("register")
+    @GET
+    public void register(@Context SseEventSink eventSink) {
+        broadcastBean.register(eventSink);
     }
 }

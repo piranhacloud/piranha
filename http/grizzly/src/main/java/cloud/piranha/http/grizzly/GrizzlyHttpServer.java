@@ -164,7 +164,7 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
                 GrizzlyHttpServerResponse gResponse = new GrizzlyHttpServerResponse(response);
                 HttpServerProcessorEndState state = httpServerProcessor.process(gRequest, gResponse);
                 if (state == ASYNCED) {
-                    response.suspend();
+                    response.suspend(60, SECONDS);
                 }
             }
         });

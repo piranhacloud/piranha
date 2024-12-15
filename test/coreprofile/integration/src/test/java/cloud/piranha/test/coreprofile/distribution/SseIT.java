@@ -31,8 +31,18 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -58,5 +68,54 @@ public class SseIT extends ITBase {
         System.out.println(response.body());
         assertNotNull(response.body());
         assertTrue(response.body().contains("data: Event 4"));
+    }
+
+    /**
+     * Test SSE broadcast.
+     *
+     * @throw Exception when a serious error occurs.
+     */
+    @Disabled
+    @Test
+    void testSseBroadcast() throws Exception {
+
+        List<String> messages = new ArrayList<>();
+        HttpClient client = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(120))
+                .build();
+
+        /*
+         * Register client and collect events.
+         */
+        CompletableFuture<Void> future = client.sendAsync(HttpRequest.newBuilder()
+                .uri(new URI(baseUrl + "/sse/register"))
+                .build(), BodyHandlers.ofLines())
+                .thenAccept(response -> response.body().forEach(message -> {
+            messages.add(message);
+            System.out.println("Received message: " + message);
+        }));
+
+        /*
+         * Simulate server broadcast.
+         */
+        client.send(HttpRequest.newBuilder()
+                .uri(new URI(baseUrl + "/sse/broadcast"))
+                .POST(HttpRequest.BodyPublishers.ofString("Broadcast message"))
+                .build(), HttpResponse.BodyHandlers.ofString());
+
+        /*
+         * Wait for the future to complete.
+         */
+        try {
+            future.get(10, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            fail("Test timed out");
+        }
+
+        /*
+         * Check if we have received 10 events.
+         */
+        assertEquals(10, messages.size(), "Should have received 10 events");
+        messages.forEach(System.out::println);
     }
 }
