@@ -25,45 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package jersey;
+package cloud.piranha.test.coreprofile.rest;
 
-import cloud.piranha.embedded.EmbeddedPiranha;
-import cloud.piranha.embedded.EmbeddedPiranhaBuilder;
-import cloud.piranha.embedded.EmbeddedRequest;
-import cloud.piranha.embedded.EmbeddedRequestBuilder;
-import cloud.piranha.embedded.EmbeddedResponse;
-import cloud.piranha.extension.webxml.WebXmlExtension;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
 
 /**
- * The JUnit tests for the HelloResource class.
- *
+ * A REST bean.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class JerseyTest {
-
+@Path("")
+public class RestBean {
+    
     /**
-     * Test /rest/hello.
-     *
-     * @throws Exception when a serious error occurs.
+     * Invoke the '/hellorest' endpoint.
+     * 
+     * @return "Hello REST" 
      */
-    @Test
-    void testHello() throws Exception {
-        EmbeddedPiranha piranha = new EmbeddedPiranhaBuilder()
-                .directoryResource("src/main/webapp")
-                .extension(WebXmlExtension.class)
-                .build()
-                .start();
-        EmbeddedRequest request = new EmbeddedRequestBuilder()
-                .contextPath("")
-                .servletPath("/rest")
-                .pathInfo("/hello")
-                .build();
-        EmbeddedResponse response = new EmbeddedResponse();
-        piranha.service(request, response);
-        assertEquals(200, response.getStatus());
-        assertTrue(response.getResponseAsString().contains("Hello"));
+    @GET
+    @Produces(TEXT_PLAIN)
+    @Path("/hellorest")
+    public String helloRest() {
+        return "Hello REST";
     }
 }

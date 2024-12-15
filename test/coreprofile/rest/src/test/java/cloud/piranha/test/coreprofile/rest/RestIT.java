@@ -25,29 +25,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package jersey;
+package cloud.piranha.test.coreprofile.rest;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
-/**
- * A Hello resource.
- * 
- * @author Manfred Riem (mriem@manorrock.com)
- */
-@Path("/hello")
-public class HelloResource {
+class RestIT {
     
-    /**
-     * GET request
-     * 
-     * @return "Hello" 
-     */
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
-        return "Hello";
+    private String httpPort = System.getProperty("httpPort");
+ 
+    @Test
+    void testHelloRest() throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest
+                .newBuilder(new URI("http://localhost:" + httpPort + "/rest/hellorest"))
+                .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        assertEquals("Hello REST", response.body());
     }
 }
