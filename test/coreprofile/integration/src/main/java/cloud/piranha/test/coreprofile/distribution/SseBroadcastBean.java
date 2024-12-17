@@ -31,9 +31,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.sse.OutboundSseEvent;
 import jakarta.ws.rs.sse.Sse;
+import jakarta.ws.rs.sse.SseBroadcaster;
 import jakarta.ws.rs.sse.SseEventSink;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * The single and one and only SSE broadcast bean.
@@ -44,9 +43,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class SseBroadcastBean {
 
     /**
-     * List of SSE event sinks.
+     * Stores the broadcaster.
      */
-    private final List<SseEventSink> sinks = new CopyOnWriteArrayList<>();
+    private SseBroadcaster broadcaster;
 
     /**
      * Store the SSE.
@@ -55,12 +54,23 @@ public class SseBroadcastBean {
     private Sse sse;
 
     /**
+     * Constructor.
+     */
+    public SseBroadcastBean() {
+    }
+
+    /**
      * Register the given SSE event sink.
      *
      * @param sink the SSE event sink.
      */
     public void register(SseEventSink sink) {
-        sinks.add(sink);
+        synchronized (sse) {
+            if (broadcaster == null) {
+                broadcaster = sse.newBroadcaster();
+            }
+        }
+        broadcaster.register(sink);
     }
 
     /**
@@ -69,13 +79,21 @@ public class SseBroadcastBean {
      * @param message the message.
      */
     public void broadcast(String message) {
-        for (int i = 1; i <= 10; i++) {
-            String eventMessage = message + " #" + i;
-            OutboundSseEvent event = sse.newEventBuilder()
-                    .name("message")
-                    .data(String.class, eventMessage)
-                    .build();
-            sinks.forEach(sink -> sink.send(event));
+        if (broadcaster != null) {
+            for (int i = 1; i <= 10; i++) {
+                String eventMessage = message + " #" + i;
+                OutboundSseEvent event = sse.newEventBuilder()
+                        .data(String.class, eventMessage)
+                        .build();
+                broadcaster.broadcast(event);
+            }
         }
+    }
+
+    /**
+     * Close the event sinks.
+     */
+    public void close() {
+        broadcaster.close();
     }
 }

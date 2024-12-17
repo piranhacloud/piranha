@@ -94,6 +94,15 @@ public class SseBean {
     public void broadcast(String message) {
         broadcastBean.broadcast("Message");
     }
+    
+    /**
+     * Close the broadcast.
+     */
+    @Path("close")
+    @GET
+    public void close() {
+        broadcastBean.close();
+    }
 
     /**
      * Register to receive messages.
@@ -102,6 +111,7 @@ public class SseBean {
      */
     @Path("register")
     @GET
+    @Produces(SERVER_SENT_EVENTS)
     public void register(@Context SseEventSink eventSink) {
         broadcastBean.register(eventSink);
     }

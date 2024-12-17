@@ -40,9 +40,6 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
-
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -65,7 +62,6 @@ public class SseIT extends ITBase {
                 .build();
         HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
         assertNotNull(response.body());
         assertTrue(response.body().contains("data: Event 4"));
     }
@@ -75,11 +71,10 @@ public class SseIT extends ITBase {
      *
      * @throw Exception when a serious error occurs.
      */
-    @Disabled
     @Test
     void testSseBroadcast() throws Exception {
 
-        List<String> messages = new ArrayList<>();
+        List<String> events = new ArrayList<>();
         HttpClient client = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(120))
                 .build();
@@ -90,10 +85,16 @@ public class SseIT extends ITBase {
         CompletableFuture<Void> future = client.sendAsync(HttpRequest.newBuilder()
                 .uri(new URI(baseUrl + "/sse/register"))
                 .build(), BodyHandlers.ofLines())
-                .thenAccept(response -> response.body().forEach(message -> {
-            messages.add(message);
-            System.out.println("Received message: " + message);
+                .thenAccept(response -> response.body().forEach(event -> {
+            if (!event.isBlank()) {
+                events.add(event);
+            }
         }));
+
+        /*
+         * Give client time to bootstrap.
+         */
+        Thread.sleep(2000);
 
         /*
          * Simulate server broadcast.
@@ -109,13 +110,27 @@ public class SseIT extends ITBase {
         try {
             future.get(10, TimeUnit.SECONDS);
         } catch (Exception e) {
-            fail("Test timed out");
         }
 
         /*
          * Check if we have received 10 events.
          */
-        assertEquals(10, messages.size(), "Should have received 10 events");
-        messages.forEach(System.out::println);
+        assertEquals(10, events.size(), "Should have received 10 events");
+
+        /*
+         * Close broadcast.
+         */
+        HttpResponse<Void> closeResponse = client.send(HttpRequest.newBuilder()
+                .uri(new URI(baseUrl + "/sse/close"))
+                .timeout(Duration.ofMinutes(5))
+                .GET()
+                .build(), HttpResponse.BodyHandlers.discarding());
+
+        /*
+         * Give the server time to close.
+         */
+        Thread.sleep(2000);
+
+        assertEquals(204, closeResponse.statusCode());
     }
 }
