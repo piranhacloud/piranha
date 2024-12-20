@@ -27,10 +27,11 @@
  */
 package cloud.piranha.core.impl;
 
-import jakarta.servlet.http.Cookie;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import jakarta.servlet.http.Cookie;
 
 /**
  * The Cookie parser
@@ -77,7 +78,7 @@ public class CookieParser {
             Cookie cookie = new Cookie(cookieName, cookieValue);
             cookieList.add(cookie);
         }
-        return cookieList.toArray(new Cookie[0]);
+        return cookieList.toArray(Cookie[]::new);
     }
 
     @SuppressWarnings({"removal"})
@@ -110,7 +111,7 @@ public class CookieParser {
                 cookieList.add(currentCookie);
             }
         }
-        return cookieList.toArray(new Cookie[0]);
+        return cookieList.toArray(Cookie[]::new);
     }
 
     private static String removeQuotes(String value) {

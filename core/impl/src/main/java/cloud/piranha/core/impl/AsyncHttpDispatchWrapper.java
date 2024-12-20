@@ -27,17 +27,6 @@
  */
 package cloud.piranha.core.impl;
 
-import cloud.piranha.core.api.AttributeManager;
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationRequest;
-import jakarta.servlet.AsyncContext;
-import jakarta.servlet.DispatcherType;
-import static jakarta.servlet.DispatcherType.ASYNC;
-import jakarta.servlet.MultipartConfigElement;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletRequestWrapper;
 import java.security.Principal;
 import java.util.ArrayList;
 import static java.util.Collections.enumeration;
@@ -49,6 +38,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import static java.util.Objects.requireNonNull;
+
+import cloud.piranha.core.api.AttributeManager;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationRequest;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import static jakarta.servlet.DispatcherType.ASYNC;
+import jakarta.servlet.MultipartConfigElement;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 /**
  * The async HTTP dispatch wrapper.
@@ -137,11 +138,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
         return pathInfo;
     }
 
-    /**
-     * Set the path info.
-     *
-     * @param pathInfo the path info.
-     */
+    @Override
     public void setPathInfo(String pathInfo) {
         this.pathInfo = pathInfo;
     }
@@ -276,11 +273,7 @@ public class AsyncHttpDispatchWrapper extends HttpServletRequestWrapper implemen
         return super.getParameterValues(name);
     }
 
-    /**
-     * Set the query string.
-     *
-     * @param queryString the query string.
-     */
+    @Override
     public void setQueryString(String queryString) {
         this.queryString = queryString;
     }
