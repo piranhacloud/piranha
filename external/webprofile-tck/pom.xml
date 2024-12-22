@@ -20,6 +20,7 @@
         <cdi.tck.version>4.0.13</cdi.tck.version>
     </properties>
     <modules>
+        <module>annotations</module>
         <module>atinject</module>
         <module>cdi</module>
         <module>jsonb</module>
