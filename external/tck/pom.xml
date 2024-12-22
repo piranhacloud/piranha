@@ -16,7 +16,6 @@
     <name>Piranha - External - TCK - Project</name>
 
     <modules>
-        <module>annotations</module>
         <module>cdi</module>
         <module>coreprofile</module>
         <module>el</module>

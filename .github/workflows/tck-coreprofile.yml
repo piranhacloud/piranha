@@ -23,12 +23,12 @@ jobs:
       run: mvn -B -DskipTests=true -ntp install
     - name: Run TCK
       run: |
-        cd external/tck/annotations
+        cd external/coreprofile-tck/annotations
         mvn -B -ntp verify
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "external/tck/annotations/runner/target/failsafe-reports/*IT.xml"
+        paths: "external/coreprofile-tck/annotations/runner/target/failsafe-reports/*IT.xml"
       if: always()
   cdi:
     if: github.repository == 'piranhacloud/piranha'
