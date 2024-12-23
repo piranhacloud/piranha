@@ -4,16 +4,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.external.tck</groupId>
+        <groupId>cloud.piranha.external.coreprofiletck</groupId>
         <artifactId>project</artifactId>
         <version>25.1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cloud.piranha.external.tck.inject</groupId>
+    <groupId>cloud.piranha.external.coreprofiletck.inject</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha - External - TCK - Inject - Project</name>
+    <name>Piranha - External - Core Profile TCK - Inject - Project</name>
 
     <properties>
         <inject.tck.version>2.0.2</inject.tck.version>

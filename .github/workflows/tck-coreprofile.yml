@@ -103,12 +103,12 @@ jobs:
       run: mvn -B -DskipTests=true -ntp install
     - name: Run TCK
       run: |
-        cd external/tck/inject
+        cd external/coreprofile-tck/inject
         mvn -B -ntp verify
     - name: Test Summary
       uses: test-summary/action@v2
       with:
-        paths: "external/tck//inject/installer/target/tck/example/target/surefire-reports/TEST-*.xml"
+        paths: "external/coreprofile-tck/inject/installer/target/tck/example/target/surefire-reports/TEST-*.xml"
       if: always()
   jsonb:
     if: github.repository == 'piranhacloud/piranha'

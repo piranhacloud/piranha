@@ -25,6 +25,7 @@
     </properties>
     <modules>
         <module>annotations</module>
+        <module>inject</module>
 	<module>rest</module>
     </modules>
 </project>
