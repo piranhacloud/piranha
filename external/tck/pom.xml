@@ -18,7 +18,6 @@
     <modules>
         <module>cdi</module>
         <module>coreprofile</module>
-        <module>el</module>
         <module>jsonb</module>
         <module>jsonp</module>
         <module>jwt</module>
