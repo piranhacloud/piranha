@@ -23,6 +23,5 @@
         <module>jsonp</module>
         <module>jwt</module>
         <module>server</module>
-        <module>wasp</module>
     </modules>
 </project>

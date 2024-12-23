@@ -1,5 +1,7 @@
 name: tck-servlet
 on:
+  schedule:
+  - cron: "0 0 * * 1"
   workflow_dispatch:
     inputs:
       httpImplementation:
@@ -25,7 +27,7 @@ jobs:
       run: mvn -B -DskipTests=true install
     - name: Run TCK
       run: mvn -amd -B -P external -pl external/tck/el verify
-  jakarta-pages:
+  pages:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -42,7 +44,7 @@ jobs:
     - name: Setup for TCK
       run: mvn -B -DskipTests=true install
     - name: Run TCK
-      run: mvn -amd -B -P external -pl external/tck/wasp verify
+      run: mvn -amd -B -P external -pl external/servlet-tck/pages verify
   servlet:
     runs-on: ${{ matrix.os }}
     strategy:
