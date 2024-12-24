@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.external.tck.jsonp</groupId>
+        <groupId>cloud.piranha.external.coreprofiletck.jsonp</groupId>
         <artifactId>project</artifactId>
         <version>25.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-external-tck-jsonp-installer</artifactId>
+    <artifactId>piranha-external-coreprofiletck-jsonp-installer</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha - External - TCK - JSON Processing - Installer</name>
+    <name>Piranha - External - Core Profile TCK - JSON Processing - Installer</name>
 
     <properties>
         <tck.home>${project.build.directory}/tck</tck.home>
