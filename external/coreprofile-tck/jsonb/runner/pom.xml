@@ -4,15 +4,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.external.tck.jsonb</groupId>
+        <groupId>cloud.piranha.external.coreprofiletck.jsonb</groupId>
         <artifactId>project</artifactId>
         <version>25.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>piranha-external-tck-jsonb-runner</artifactId>
+    <artifactId>piranha-external-coreprofiletck-jsonb-runner</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha - External - TCK - JSON Binding - Runner</name>
+    <name>Piranha - External - Core Profile TCK - JSON Binding - Runner</name>
 
     <properties>
         <tck.home>${project.build.directory}/../../installer/target/tck</tck.home>
@@ -31,8 +31,8 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>cloud.piranha.external.tck.jsonb</groupId>
-            <artifactId>piranha-external-tck-jsonb-installer</artifactId>
+            <groupId>cloud.piranha.external.coreprofiletck.jsonb</groupId>
+            <artifactId>piranha-external-coreprofiletck-jsonb-installer</artifactId>
             <version>${project.version}</version>
             <type>pom</type>
         </dependency>

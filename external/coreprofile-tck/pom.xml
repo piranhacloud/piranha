@@ -26,6 +26,7 @@
     <modules>
         <module>annotations</module>
         <module>inject</module>
+	<module>jsonb</module>
 	<module>rest</module>
     </modules>
 </project>

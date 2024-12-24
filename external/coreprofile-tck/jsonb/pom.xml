@@ -4,16 +4,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cloud.piranha.external.tck</groupId>
+        <groupId>cloud.piranha.external.coreprofiletck</groupId>
         <artifactId>project</artifactId>
         <version>25.1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>cloud.piranha.external.tck.jsonb</groupId>
+    <groupId>cloud.piranha.external.coreprofiletck.jsonb</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha - External - TCK - JSON Binding - Project</name>
+    <name>Piranha - External - Core Profile TCK - JSON Binding - Project</name>
 
     <properties>
         <jsonb.tck.version>3.0.0</jsonb.tck.version>
