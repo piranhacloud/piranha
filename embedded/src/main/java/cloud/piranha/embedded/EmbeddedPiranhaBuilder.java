@@ -73,7 +73,7 @@ public class EmbeddedPiranhaBuilder implements PiranhaBuilder<EmbeddedPiranha> {
     /**
      * Stores the extension.
      */
-    private List<Class<? extends WebApplicationExtension>> extensionClasses;
+    private final List<Class<? extends WebApplicationExtension>> extensionClasses;
 
     /**
      * Stores the initializers.
@@ -177,6 +177,7 @@ public class EmbeddedPiranhaBuilder implements PiranhaBuilder<EmbeddedPiranha> {
      *
      * @return the instance.
      */
+    @Override
     public EmbeddedPiranha build() {
         EmbeddedPiranha piranha;
 
@@ -234,7 +235,7 @@ public class EmbeddedPiranhaBuilder implements PiranhaBuilder<EmbeddedPiranha> {
             String servletName = servletMapping.getKey();
             List<String> urlPatterns = servletMapping.getValue();
             ServletRegistration servlet = webApplication.getServletRegistration(servletName);
-            servlet.addMapping(urlPatterns.toArray(new String[0]));
+            servlet.addMapping(urlPatterns.toArray(String[]::new));
         });
 
         filters.entrySet().forEach(entry -> {
@@ -254,13 +255,10 @@ public class EmbeddedPiranhaBuilder implements PiranhaBuilder<EmbeddedPiranha> {
             String filterName = filterMapping.getKey();
             List<String> urlPatterns = filterMapping.getValue();
             FilterRegistration filter = webApplication.getFilterRegistration(filterName);
-            filter.addMappingForUrlPatterns(null, false, urlPatterns.toArray(new String[0]));
+            filter.addMappingForUrlPatterns(null, false, urlPatterns.toArray(String[]::new));
         });
 
-        webApplication.initializeInitializers();
-        webApplication.initializeFilters();
-        webApplication.initializeServlets();
-        webApplication.initializeFinish();
+        webApplication.initialize();
 
         return piranha;
     }

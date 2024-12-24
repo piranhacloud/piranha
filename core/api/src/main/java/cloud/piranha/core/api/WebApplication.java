@@ -52,6 +52,38 @@ import java.util.Set;
 public interface WebApplication extends ServletContext {
 
     /**
+     * Status enum.
+     */
+    enum Status {
+        
+        /**
+         * Web application is in setup mode.
+         */
+        SETUP,
+        
+        /**
+         * Web application has processed system declared constructs (e.g. 
+         * web.xml / web-fragment.xml and Servlet annotations).
+         */
+        DECLARED,
+        
+        /**
+         * Web application is initialized.
+         */
+        INITIALIZED,
+        
+        /**
+         * Web application is servicing.
+         */
+        SERVICING,
+        
+        /**
+         * Web application is in error state.
+         */
+        ERROR
+    }
+    
+    /**
      * Add a mapping for the given filter.
      *
      * @param filterName the filter name.
@@ -196,6 +228,13 @@ public interface WebApplication extends ServletContext {
     default String getServletContextId() {
         return getVirtualServerName() + " " + getContextPath();
     }
+    
+    /**
+     * Get the status.
+     * 
+     * @return the status.
+     */
+    Status getStatus();
 
     /**
      * Initialize the web application.
@@ -203,31 +242,6 @@ public interface WebApplication extends ServletContext {
      * @return the web application.
      */
     WebApplication initialize();
-
-    /**
-     * Marks the end of initializing declared (web.xml, annotations) artifacts
-     */
-    void initializeDeclaredFinish();
-
-    /**
-     * Initialize the filters.
-     */
-    void initializeFilters();
-
-    /**
-     * Finish the initialization.
-     */
-    void initializeFinish();
-
-    /**
-     * Initialize the servlet container initializers.
-     */
-    void initializeInitializers();
-
-    /**
-     * Initialize the servlets.
-     */
-    void initializeServlets();
 
     /**
      * Is the application distributable.
@@ -348,6 +362,13 @@ public interface WebApplication extends ServletContext {
      */
     void setServletContextName(String servletContextName);
 
+    /**
+     * Set the status.
+     * 
+     * @param status the status.
+     */
+    void setStatus(Status status);
+    
     /**
      * Set the virtual server name.
      * 
