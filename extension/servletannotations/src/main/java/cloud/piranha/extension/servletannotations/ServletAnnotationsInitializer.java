@@ -30,6 +30,7 @@ package cloud.piranha.extension.servletannotations;
 import cloud.piranha.core.api.AnnotationInfo;
 import cloud.piranha.core.api.AnnotationManager;
 import cloud.piranha.core.api.WebApplication;
+import static cloud.piranha.core.api.WebApplication.Status.DECLARED;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.servlet.DispatcherType;
@@ -220,7 +221,13 @@ public class ServletAnnotationsInitializer implements ServletContainerInitialize
             }
 
         }
-        webApp.initializeDeclaredFinish();
+        
+        /*
+         * TODO - This should be moved into its on WebApplicationExtension so
+         *        it is clear when the system declared constructs have been 
+         *        processed and when the user ones start. 
+         */
+        webApp.setStatus(DECLARED);
     }
 
     @SuppressWarnings("unchecked")

@@ -1432,16 +1432,6 @@ class DefaultWebApplicationTest {
     }
 
     /**
-     * Test initializeDeclaredFinish method.
-     */
-    @Test
-    void testInitializeDeclaredFinish() {
-        DefaultWebApplication webApplication = new DefaultWebApplication();
-        webApplication.initializeDeclaredFinish();
-        assertFalse(webApplication.isInitialized());
-    }
-
-    /**
      * Test initializeFilters method.
      */
     @Test

@@ -32,6 +32,11 @@ import cloud.piranha.core.api.AnnotationInfo;
 import cloud.piranha.core.api.ServletEnvironment;
 import static cloud.piranha.core.api.ServletEnvironment.UNAVAILABLE;
 import cloud.piranha.core.api.WebApplication;
+import static cloud.piranha.core.api.WebApplication.Status.DECLARED;
+import static cloud.piranha.core.api.WebApplication.Status.ERROR;
+import static cloud.piranha.core.api.WebApplication.Status.INITIALIZED;
+import static cloud.piranha.core.api.WebApplication.Status.SERVICING;
+import static cloud.piranha.core.api.WebApplication.Status.SETUP;
 import cloud.piranha.core.api.WebApplicationRequestMapper;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.Filter;
@@ -115,32 +120,6 @@ import java.util.Arrays;
 public class DefaultWebApplication implements WebApplication {
 
     /**
-     * Stores the SETUP constant.
-     */
-    protected static final int SETUP = 0;
-
-    /**
-     * Stores the INITIALIZED_DECLARED constant. This signals that web.xml,
-     * web-fragment.xml and annotations have been processed.
-     */
-    protected static final int INITIALIZED_DECLARED = 4;
-
-    /**
-     * Stores the INITIALIZED constant.
-     */
-    protected static final int INITIALIZED = 1;
-
-    /**
-     * Stores the SERVICING constant.
-     */
-    protected static final int SERVICING = 2;
-
-    /**
-     * Stores the ERROR constant.
-     */
-    protected static final int ERROR = 3;
-
-    /**
      * Stores the 'Illegal to add listener because state is not SETUP' message.
      */
     private static final String ILLEGAL_TO_ADD_LISTENER = "Illegal to add listener because state is not SETUP";
@@ -192,6 +171,11 @@ public class DefaultWebApplication implements WebApplication {
     protected String servletContextName;
 
     /**
+     * Stores the status.
+     */
+    protected Status status;
+
+    /**
      * Stores the virtual server name.
      */
     protected String virtualServerName = "server";
@@ -200,11 +184,6 @@ public class DefaultWebApplication implements WebApplication {
      * Stores the response character encoding.
      */
     protected String responseCharacterEncoding;
-
-    /**
-     * Stores the status.
-     */
-    protected int status;
 
     /**
      * Stores the active requests and the associated responses.
@@ -334,7 +313,7 @@ public class DefaultWebApplication implements WebApplication {
         mimeTypes.put("htm", "text/html");
         mimeTypes.put("text", "text/plain");
         mimeTypes.put("txt", "text/plain");
-
+        status = SETUP;
     }
 
     @Override
@@ -409,7 +388,7 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public ServletRegistration.Dynamic addJspFile(String servletName, String jspFile) {
-        if (status != SETUP && status != INITIALIZED_DECLARED) {
+        if (status != SETUP && status != DECLARED) {
             throw new IllegalStateException("Illegal to add JSP file because state is not SETUP");
         }
         if (isEmpty(servletName)) {
@@ -423,7 +402,7 @@ public class DefaultWebApplication implements WebApplication {
     public void addListener(String className) {
         checkTainted();
 
-        if (status != SETUP && status != INITIALIZED_DECLARED) {
+        if (status != SETUP && status != DECLARED) {
             throw new IllegalStateException(ILLEGAL_TO_ADD_LISTENER);
         }
 
@@ -437,7 +416,7 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void addListener(Class<? extends EventListener> type) {
         checkTainted();
-        if (status != SETUP && status != INITIALIZED_DECLARED) {
+        if (status != SETUP && status != DECLARED) {
             throw new IllegalStateException(ILLEGAL_TO_ADD_LISTENER);
         }
         try {
@@ -450,7 +429,7 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public <T extends EventListener> void addListener(T listener) {
         checkTainted();
-        if (status != SETUP && status != INITIALIZED_DECLARED) {
+        if (status != SETUP && status != DECLARED) {
             throw new IllegalStateException(ILLEGAL_TO_ADD_LISTENER);
         }
         if (listener instanceof ServletContextListener servletContextListener) {
@@ -458,7 +437,7 @@ public class DefaultWebApplication implements WebApplication {
                 throw new IllegalArgumentException("Illegal to add ServletContextListener because this context was not passed to a ServletContainerInitializer");
             }
 
-            if (status == INITIALIZED_DECLARED) {
+            if (status == DECLARED) {
                 contextListeners.add(servletContextListener);
             } else {
                 declaredContextListeners.add(servletContextListener);
@@ -949,6 +928,11 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @Override
+    public Status getStatus() {
+        return status;
+    }
+
+    @Override
     public String getVirtualServerName() {
         return virtualServerName;
     }
@@ -970,20 +954,11 @@ public class DefaultWebApplication implements WebApplication {
         return this;
     }
 
-    @Override
-    public void initializeDeclaredFinish() {
-        if (status == SETUP) {
-            status = INITIALIZED_DECLARED;
-            LOGGER.log(DEBUG, "Initialized declared items for web application at {0}", contextPath);
-        }
-        if (status == ERROR) {
-            LOGGER.log(WARNING, "An error occurred initializing webapplication at {0}", contextPath);
-        }
-    }
-
-    @Override
-    public void initializeFilters() {
-        if (status == SETUP || status == INITIALIZED_DECLARED) {
+    /**
+     * Initialize the filters.
+     */
+    protected void initializeFilters() {
+        if (status == SETUP || status == DECLARED) {
             List<String> filterNames = new ArrayList<>(filters.keySet());
             filterNames.stream().map(filters::get).forEach(environment -> {
                 try {
@@ -997,9 +972,11 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    @Override
-    public void initializeFinish() {
-        if (status == SETUP || status == INITIALIZED_DECLARED) {
+    /**
+     * Finish the initialization.
+     */
+    protected void initializeFinish() {
+        if (status == SETUP || status == DECLARED) {
             status = INITIALIZED;
             LOGGER.log(DEBUG, "Initialized web application at {0}", contextPath);
         }
@@ -1008,8 +985,10 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    @Override
-    public void initializeInitializers() {
+    /**
+     * Initialize the servlet container initializers.
+     */
+    protected void initializeInitializers() {
         boolean error = false;
         for (ServletContainerInitializer initializer : initializers) {
             try {
@@ -1091,7 +1070,7 @@ public class DefaultWebApplication implements WebApplication {
     }
 
     @SuppressWarnings("unchecked")
-    private void initializeServlet(DefaultServletEnvironment environment) {
+    protected void initializeServlet(DefaultServletEnvironment environment) {
         try {
             LOGGER.log(DEBUG, "Initializing servlet: {0}", environment.servletName);
             if (environment.getServlet() == null) {
@@ -1129,9 +1108,11 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    @Override
-    public void initializeServlets() {
-        if (status == SETUP || status == INITIALIZED_DECLARED) {
+    /**
+     * Initialize the servlets.
+     */
+    protected void initializeServlets() {
+        if (status == SETUP || status == DECLARED) {
             List<String> servletsToBeRemoved = new ArrayList<>();
             List<String> servletNames = new ArrayList<>(servletEnvironments.keySet());
 
@@ -1168,7 +1149,8 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public boolean isInitialized() {
-        return status >= INITIALIZED && status < ERROR;
+        return status.ordinal() >= INITIALIZED.ordinal()
+                && status.ordinal() < ERROR.ordinal();
     }
 
     @Override
@@ -1307,7 +1289,7 @@ public class DefaultWebApplication implements WebApplication {
     public boolean setInitParameter(String name, String value) {
         requireNonNull(name);
         checkTainted();
-        if (status != SETUP && status != INITIALIZED_DECLARED) {
+        if (status != SETUP && status != DECLARED) {
             throw new IllegalStateException("Cannot set init parameter once web application is initialized");
         }
         boolean result = true;
@@ -1342,7 +1324,7 @@ public class DefaultWebApplication implements WebApplication {
     @Override
     public void setSessionTimeout(int sessionTimeout) {
         checkTainted();
-        if (status != SETUP && status != INITIALIZED_DECLARED) {
+        if (status != SETUP && status != DECLARED) {
             throw new IllegalStateException("Illegal to set session timeout because state is not SETUP");
         }
         getManager().getHttpSessionManager().setSessionTimeout(sessionTimeout);
@@ -1358,6 +1340,11 @@ public class DefaultWebApplication implements WebApplication {
         checkTainted();
         checkServicing();
         getManager().getHttpSessionManager().setSessionTrackingModes(sessionTrackingModes);
+    }
+    
+    @Override
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
@@ -1413,7 +1400,7 @@ public class DefaultWebApplication implements WebApplication {
      * @param desiredStatus the desired status.
      * @param message the message.
      */
-    protected void verifyState(int desiredStatus, String message) {
+    protected void verifyState(Status desiredStatus, String message) {
         if (status != desiredStatus) {
             throw new RuntimeException(message);
         }
