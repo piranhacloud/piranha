@@ -65,7 +65,7 @@ public class ServletExtension implements WebApplicationExtension {
         context.add(WebXmlExtension.class);                         // web.xml
         context.add(getAnnotationScanExtensionClass());             // Annotation scanning
         context.add(ServletAnnotationsExtension.class);             // Servlet annotations
-        context.add(DeclaredExtension.class)
+        context.add(DeclaredExtension.class);                       //
         context.add(WaspExtension.class);                           // WaSP
         context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
         context.add(ServletSecurityExtension.class);                // Security implementation
