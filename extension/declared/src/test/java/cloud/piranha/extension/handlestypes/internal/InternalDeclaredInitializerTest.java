@@ -25,37 +25,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.handlestypes.internal;
 
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.extension.micro.MicroExtension;
+import cloud.piranha.core.api.WebApplication.Status;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.extension.declared.internal.InternalDeclaredInitializer;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
- * This module delivers the meta extension for Piranha Micro.
+ * The JUnit tests for the InternalHandlesTypesInitializer class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.micro {
+public class InternalDeclaredInitializerTest {
 
-    exports cloud.piranha.extension.micro;
-    opens cloud.piranha.extension.micro;
-    provides WebApplicationExtension with MicroExtension;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.fileupload;
-    required cloud.piranha.extension.declared;
-    requires cloud.piranha.extension.datasource;
-    requires cloud.piranha.extension.eclipselink;
-    requires cloud.piranha.extension.exousia;
-    requires cloud.piranha.extension.expressly;
-    requires cloud.piranha.extension.jersey;
-    requires cloud.piranha.extension.naming.cdi;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.jakarta;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.transact;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
+    /**
+     * Test onStartup method.
+     */
+    @Test
+    public void testOnStartup() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        InternalDeclaredInitializer initializer = new InternalDeclaredInitializer();
+        initializer.onStartup(null, webApplication);
+        assertEquals(Status.DECLARED, webApplication.getStatus());
+    }
 }

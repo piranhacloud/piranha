@@ -32,6 +32,7 @@ import static java.util.Arrays.asList;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
+import cloud.piranha.extension.declared.DeclaredExtension;
 import cloud.piranha.extension.datasource.DefaultDatasourceExtension;
 import cloud.piranha.extension.eclipselink.EclipseLinkExtension;
 import cloud.piranha.extension.exousia.AuthorizationPostInitializer;
@@ -66,6 +67,7 @@ public class MicroExtension implements WebApplicationExtension {
         context.add(FileUploadExtension.class);                 // Upload
         context.add(WebXmlExtension.class);                     // web.xml
         context.add(ServletAnnotationsExtension.class);         // Servlet annotations
+        context.add(DeclaredExtension.class);                   // 
         context.add(NamingExtension.class);                     // Naming (JNDI)
         context.add(DefaultDatasourceExtension.class);          // Default data source
         context.add(JakartaSecurityExtension.class);            // Jakarta Security (includes Jakarta CDI)

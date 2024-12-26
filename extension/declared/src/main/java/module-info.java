@@ -26,36 +26,15 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.extension.micro.MicroExtension;
-
 /**
- * This module delivers the meta extension for Piranha Micro.
- *
+ * The module that delivers declared extension.
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.micro {
+module cloud.piranha.extension.declared {
 
-    exports cloud.piranha.extension.micro;
-    opens cloud.piranha.extension.micro;
-    provides WebApplicationExtension with MicroExtension;
+    exports cloud.piranha.extension.declared;
+    opens cloud.piranha.extension.declared;
     requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.fileupload;
-    required cloud.piranha.extension.declared;
-    requires cloud.piranha.extension.datasource;
-    requires cloud.piranha.extension.eclipselink;
-    requires cloud.piranha.extension.exousia;
-    requires cloud.piranha.extension.expressly;
-    requires cloud.piranha.extension.jersey;
-    requires cloud.piranha.extension.naming.cdi;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.jakarta;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.transact;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
+    requires java.logging;
 }

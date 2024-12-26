@@ -31,9 +31,10 @@ import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.core.api.WebApplicationExtensionContext;
 import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
 import cloud.piranha.extension.annotationscan.classfile.ClassfileAnnotationScanExtension;
-import cloud.piranha.extension.fileupload.FileUploadExtension;
 import cloud.piranha.extension.datasource.DefaultDatasourceExtension;
+import cloud.piranha.extension.declared.DeclaredExtension;
 import cloud.piranha.extension.eclipselink.EclipseLinkExtension;
+import cloud.piranha.extension.fileupload.FileUploadExtension;
 import cloud.piranha.extension.glassfish7x.Glassfish7xExtension;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.policy.PolicyExtension;
@@ -68,6 +69,7 @@ public class WebProfileExtension implements WebApplicationExtension {
         context.add(WebXmlExtension.class);                         // web.xml
         context.add(getAnnotationScanExtensionClass());             // Annotation scanning
         context.add(ServletAnnotationsExtension.class);             // Servlet annotations
+        context.add(DeclaredExtension.class);                       //
         context.add(WeldExtension.class);                           // CDI / Weld
         context.add(DefaultDatasourceExtension.class);              // Default data source
         context.add(TransactExtension.class);                       // OmniFish Transaction

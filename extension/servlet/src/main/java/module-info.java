@@ -54,6 +54,7 @@ module cloud.piranha.extension.servlet {
     requires transitive cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.annotationscan.classfile;
+    requires cloud.piranha.extension.declared;
     requires cloud.piranha.extension.fileupload;
     requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.tomcat10x;

@@ -25,37 +25,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.declared.internal;
 
-import cloud.piranha.core.api.WebApplicationExtension;
-import cloud.piranha.extension.micro.MicroExtension;
+import cloud.piranha.core.api.WebApplication;
+import static cloud.piranha.core.api.WebApplication.Status.DECLARED;
+import jakarta.servlet.ServletContainerInitializer;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import java.util.Set;
 
 /**
- * This module delivers the meta extension for Piranha Micro.
+ * The ServletContainerInitializer that signals the end of declared web.xml,
+ * web-fragment.xml files and Servlet annotation support processing.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.micro {
+public class InternalDeclaredInitializer implements ServletContainerInitializer {
 
-    exports cloud.piranha.extension.micro;
-    opens cloud.piranha.extension.micro;
-    provides WebApplicationExtension with MicroExtension;
-    requires cloud.piranha.core.api;
-    requires cloud.piranha.extension.fileupload;
-    required cloud.piranha.extension.declared;
-    requires cloud.piranha.extension.datasource;
-    requires cloud.piranha.extension.eclipselink;
-    requires cloud.piranha.extension.exousia;
-    requires cloud.piranha.extension.expressly;
-    requires cloud.piranha.extension.jersey;
-    requires cloud.piranha.extension.naming.cdi;
-    requires cloud.piranha.extension.policy;
-    requires cloud.piranha.extension.scinitializer;
-    requires cloud.piranha.extension.security.jakarta;
-    requires cloud.piranha.extension.security.servlet;
-    requires cloud.piranha.extension.servletannotations;
-    requires cloud.piranha.extension.tempdir;
-    requires cloud.piranha.extension.transact;
-    requires cloud.piranha.extension.wasp;
-    requires cloud.piranha.extension.webxml;
-    requires cloud.piranha.extension.welcomefile;
+    @Override
+    public void onStartup(Set<Class<?>> classes, ServletContext context)
+            throws ServletException {
+
+        WebApplication webApplication = (WebApplication) context;
+        webApplication.setStatus(DECLARED);
+    }
 }

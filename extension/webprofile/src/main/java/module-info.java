@@ -58,6 +58,7 @@ module cloud.piranha.extension.webprofile {
     requires transitive cloud.piranha.core.api;
     requires cloud.piranha.extension.annotationscan;
     requires cloud.piranha.extension.annotationscan.classfile;
+    requires cloud.piranha.extension.declared;
     requires cloud.piranha.extension.fileupload;
     requires cloud.piranha.extension.expressly;
     requires cloud.piranha.extension.datasource;
