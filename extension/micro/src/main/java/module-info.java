@@ -41,7 +41,7 @@ module cloud.piranha.extension.micro {
     provides WebApplicationExtension with MicroExtension;
     requires cloud.piranha.core.api;
     requires cloud.piranha.extension.fileupload;
-    required cloud.piranha.extension.declared;
+    requires cloud.piranha.extension.declared;
     requires cloud.piranha.extension.datasource;
     requires cloud.piranha.extension.eclipselink;
     requires cloud.piranha.extension.exousia;
