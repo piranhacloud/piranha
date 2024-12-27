@@ -12,7 +12,7 @@
     <artifactId>piranha-external-coreprofiletck-rest-installer</artifactId>
     <packaging>pom</packaging>
 
-    <name>Piranha - External - TCK - REST - Installer</name>
+    <name>Piranha - External - Core Profile TCK - REST - Installer</name>
 
     <properties>
         <tck.home>${project.build.directory}/tck</tck.home>

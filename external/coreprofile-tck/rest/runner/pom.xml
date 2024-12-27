@@ -10,7 +10,7 @@
 
     <artifactId>piranha-external-coreprofiletck-rest-runner</artifactId>
     <packaging>jar</packaging>
-    <name>Piranha - External - TCK - REST - Runner</name>
+    <name>Piranha - External - Core Profile TCK - REST - Runner</name>
 
     <properties>
         <piranha.version>${project.version}</piranha.version>
