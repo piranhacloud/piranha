@@ -24,7 +24,6 @@
         <sigtest-maven-plugin.version>2.2</sigtest-maven-plugin.version>
     </properties>
     <modules>
-        <module>annotations</module>
         <module>inject</module>
 	<module>jsonb</module>
         <module>jsonp</module>

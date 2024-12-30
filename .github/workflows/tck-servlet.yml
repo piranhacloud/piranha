@@ -10,6 +10,7 @@ on:
         required: true
 jobs:
   expression:
+    if: github.repository == 'piranhacloud/piranha'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -28,6 +29,7 @@ jobs:
     - name: Run TCK
       run: mvn -amd -B -P external -pl external/servlet-tck/expression verify
   pages:
+    if: github.repository == 'piranhacloud/piranha'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -46,6 +48,7 @@ jobs:
     - name: Run TCK
       run: mvn -amd -B -P external -pl external/servlet-tck/pages verify
   servlet:
+    if: github.repository == 'piranhacloud/piranha'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
