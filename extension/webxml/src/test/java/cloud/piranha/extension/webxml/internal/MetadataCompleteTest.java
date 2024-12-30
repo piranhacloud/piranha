@@ -25,19 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.extension.webxml.WebXmlInitializer;
+import cloud.piranha.resource.impl.DirectoryResource;
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * This module delivers the web.xml processing extension.
+ * The JUnit tests testing web.xml metadata-complete attribute.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
+class MetadataCompleteTest {
 
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
+    /**
+     * Test metadata-complete.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testGetInitParameter() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/metadataComplete")));
+        webApplication.addInitializer(new WebXmlInitializer());
+        webApplication.initialize();
+        assertTrue(webApplication.isMetadataComplete());
+    }
 }

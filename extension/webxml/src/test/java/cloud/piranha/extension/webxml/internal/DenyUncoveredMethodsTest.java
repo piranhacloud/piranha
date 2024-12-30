@@ -25,19 +25,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
 
 /**
- * This module delivers the web.xml processing extension.
+ * The JUnit tests testing web.xml &lt;context-param&gt;.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
+class DenyUncoveredMethodsTest {
 
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
+    // TODO - move this test to security-servlet extension.
+    /**
+     * Test getDenyUncoveredMethods method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    /*
+    @Test
+    void testGetDenyUncoveredMethods() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/denyUncoveredMethods")));
+        webApplication.addInitializer(new ServletSecurityManagerInitializer());
+        webApplication.addInitializer(new WebXmlInitializer());
+        webApplication.initialize();
+        assertTrue(webApplication.getManager().getSecurityManager().getDenyUncoveredHttpMethods());
+    }
+    */
 }

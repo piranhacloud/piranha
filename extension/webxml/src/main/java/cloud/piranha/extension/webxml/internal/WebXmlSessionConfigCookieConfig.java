@@ -25,19 +25,13 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
 
 /**
- * This module delivers the web.xml processing extension.
- * 
+ * A session-config cookie-config inside of web.xml/web-fragment.xml.
+ *
+ * @param name the name.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
-
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
+public record WebXmlSessionConfigCookieConfig(String name) {
 }

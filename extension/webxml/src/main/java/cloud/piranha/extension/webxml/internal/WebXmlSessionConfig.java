@@ -25,19 +25,64 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
 
 /**
- * This module delivers the web.xml processing extension.
- * 
+ * A session-config inside of web.xml or web-fragment.xml.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
+public class WebXmlSessionConfig {
 
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
+    /**
+     * Stores the cookie config.
+     */
+    private WebXmlSessionConfigCookieConfig cookieConfig;
+
+    /**
+     * Stores the timeout.
+     */
+    private int sessionTimeout;
+
+    /**
+     * Default constructor.
+     */
+    public WebXmlSessionConfig() {
+    }
+    
+    /**
+     * Get the cookie config.
+     *
+     * @return the cookie config.
+     */
+    public WebXmlSessionConfigCookieConfig getCookieConfig() {
+        return cookieConfig;
+    }
+
+    /**
+     * Get the session timeout.
+     *
+     * @return the session timeout.
+     */
+    public int getSessionTimeout() {
+        return sessionTimeout;
+    }
+
+    /**
+     * Set the cookie config.
+     * 
+     * @param cookieConfig the cookie config.
+     */
+    public void setCookieConfig(WebXmlSessionConfigCookieConfig cookieConfig) {
+        this.cookieConfig = cookieConfig;
+    }
+
+    /**
+     * Set the session timeout.
+     *
+     * @param sessionTimeout the session timeout.
+     */
+    public void setSessionTimeout(int sessionTimeout) {
+        this.sessionTimeout = sessionTimeout;
+    }
 }

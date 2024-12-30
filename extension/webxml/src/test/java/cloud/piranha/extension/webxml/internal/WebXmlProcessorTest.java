@@ -25,19 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
+
+import cloud.piranha.core.api.SecurityManager;
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import org.junit.jupiter.api.Test;
 
 /**
- * This module delivers the web.xml processing extension.
+ * The JUnit tests for the WebXmlProcessor class.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
-
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
+public class WebXmlProcessorTest {
+    
+    /**
+     * Test process method.
+     */
+    @Test
+    public void testProcessWithSecurityConstraints() {
+        WebXml webXml = new WebXml();
+        webXml.getSecurityConstraints().add(new WebXmlSecurityConstraint());
+        WebApplication webApplication = new DefaultWebApplication();
+        WebXmlProcessor processor = new WebXmlProcessor();
+        processor.process(webXml, webApplication);
+        
+        SecurityManager securityManager = webApplication.getManager().getSecurityManager();
+        assertFalse(securityManager.getSecurityConstraints().isEmpty());
+    }
 }

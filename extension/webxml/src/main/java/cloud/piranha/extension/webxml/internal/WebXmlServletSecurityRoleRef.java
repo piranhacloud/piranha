@@ -25,19 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
 
 /**
- * This module delivers the web.xml processing extension.
- * 
- * @author Manfred Riem (mriem@manorrock.com)
+ * A servlet security-role-ref inside of web.xml/web-fragment.xml.
+ *
+ * @param roleName The role name scoped to a specific servlet, and the role name
+ * used in the <code>isUser/CallerInRole</code> methods.
+ * @param roleLink The "global" application role, as defined by a
+ * <code>declareRoles</code> or a <code>security-role</code>
+ * @author Arjan Tijms
  */
-module cloud.piranha.extension.webxml {
+public record WebXmlServletSecurityRoleRef(String roleName, String roleLink) {
 
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
 }

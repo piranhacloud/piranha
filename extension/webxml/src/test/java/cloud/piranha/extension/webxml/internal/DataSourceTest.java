@@ -25,19 +25,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplicationExtensionContext;
+import cloud.piranha.extension.herring.HerringExtension;
+import cloud.piranha.extension.webxml.WebXmlInitializer;
+import cloud.piranha.resource.impl.DirectoryResource;
+import java.io.File;
+import javax.naming.InitialContext;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
- * This module delivers the web.xml processing extension.
+ * The JUnit tests testing web.xml &lt;data-source&gt;.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
+class DataSourceTest {
 
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
+    /**
+     * Test data-source.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testDataSource() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        DefaultWebApplicationExtensionContext extensionContext = new DefaultWebApplicationExtensionContext();
+        extensionContext.add(HerringExtension.class);
+        extensionContext.configure(webApplication);
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/dataSource")));
+        webApplication.addInitializer(new WebXmlInitializer());
+        webApplication.initialize();
+        InitialContext context = new InitialContext();
+        assertNotNull(context.lookup("jdbc/demo"));
+    }
 }

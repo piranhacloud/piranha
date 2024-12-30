@@ -25,19 +25,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
+
+import cloud.piranha.core.api.FilterEnvironment;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.extension.webxml.WebXmlInitializer;
+import cloud.piranha.resource.impl.DirectoryResource;
+import jakarta.servlet.FilterRegistration;
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
 
 /**
- * This module delivers the web.xml processing extension.
+ * The JUnit tests testing web.xml filter-mapping elements.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
+class FilterMappingTest {
 
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
+    /**
+     * Test filter-mapping.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testFilterMapping() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/filterMappings")));
+        webApplication.addInitializer(new WebXmlInitializer());
+        webApplication.initialize();
+        assertNotNull(webApplication.getFilterRegistration("TestFilter"));
+        FilterRegistration filter = webApplication.getFilterRegistration("TestFilter");
+        FilterEnvironment filterEnvironment = (FilterEnvironment) filter;
+        assertTrue(filterEnvironment.isAsyncSupported());
+    }
 }

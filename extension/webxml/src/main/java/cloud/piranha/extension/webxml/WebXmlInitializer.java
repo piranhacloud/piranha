@@ -27,10 +27,15 @@
  */
 package cloud.piranha.extension.webxml;
 
-import cloud.piranha.extension.webxml.internal.InternalWebXmlParser;
-import cloud.piranha.extension.webxml.internal.InternalWebXmlProcessor;
-import cloud.piranha.extension.webxml.internal.InternalWebXmlManager;
+import cloud.piranha.extension.webxml.internal.WebXmlParser;
+import cloud.piranha.extension.webxml.internal.WebXmlProcessor;
+import cloud.piranha.extension.webxml.internal.WebXmlManager;
 import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.extension.webxml.internal.WebXmlManager;
+import cloud.piranha.extension.webxml.internal.WebXmlParser;
+import cloud.piranha.extension.webxml.internal.WebXmlProcessor;
+import cloud.piranha.extension.webxml.internal.WebXml;
+import cloud.piranha.extension.webxml.internal.WebXmlServletMapping;
 import jakarta.servlet.ServletContainerInitializer;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -76,10 +81,10 @@ public class WebXmlInitializer implements ServletContainerInitializer {
 
         try {
             WebApplication webApplication = (WebApplication) servletContext;
-            InternalWebXmlManager manager = new InternalWebXmlManager();
+            WebXmlManager manager = new WebXmlManager();
             webApplication.setAttribute("cloud.piranha.extension.webxml.WebXmlManager", manager);
 
-            InternalWebXmlParser parser = new InternalWebXmlParser();
+            WebXmlParser parser = new WebXmlParser();
             InputStream inputStream = servletContext.getResourceAsStream("WEB-INF/web.xml");
             if (inputStream != null) {
                 WebXml webXml = parser.parse(servletContext.getResourceAsStream("WEB-INF/web.xml"));
@@ -106,7 +111,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
 
             if (manager.getWebXml() != null) {
                 WebXml webXml = manager.getWebXml();
-                InternalWebXmlProcessor processor = new InternalWebXmlProcessor();
+                WebXmlProcessor processor = new WebXmlProcessor();
 
                 processor.process(webXml, webApplication);
 
@@ -134,7 +139,7 @@ public class WebXmlInitializer implements ServletContainerInitializer {
      * @param webApp the web application.
      * @param manager the web.xml manager.
      */
-    private void removeExistingServletMappings(WebApplication webApp, InternalWebXmlManager manager) {
+    private void removeExistingServletMappings(WebApplication webApp, WebXmlManager manager) {
         for(WebXmlServletMapping mapping : manager.getWebXml().getServletMappings()) {
             for(WebXml fragment : manager.getOrderedFragments()) {
                 ArrayList<WebXmlServletMapping> candidateList = new ArrayList<>(fragment.getServletMappings());

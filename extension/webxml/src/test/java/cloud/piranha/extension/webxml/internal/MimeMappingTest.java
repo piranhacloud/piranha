@@ -25,19 +25,33 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.extension.webxml.WebXmlInitializer;
+import cloud.piranha.resource.impl.DirectoryResource;
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 /**
- * This module delivers the web.xml processing extension.
+ * The JUnit tests testing web.xml &lt;mime-mapping&gt;.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
+class MimeMappingTest {
 
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
+    /**
+     * Test getMimeType method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void testGetMimeType() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/mimeMapping")));
+        webApplication.addInitializer(new WebXmlInitializer());
+        webApplication.initialize();
+        assertEquals("application/x-java-class", webApplication.getMimeType("my.class"));
+    }
 }

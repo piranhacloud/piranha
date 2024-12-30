@@ -25,19 +25,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
 
 /**
- * This module delivers the web.xml processing extension.
- * 
+ * An error-page inside of web.xml/web-fragment.xml.
+ *
+ * @param errorCode the error code.
+ * @param exceptionType the exception type.
+ * @param location the location.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
+public record WebXmlErrorPage(String errorCode, String exceptionType, String location) {
 
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
 }

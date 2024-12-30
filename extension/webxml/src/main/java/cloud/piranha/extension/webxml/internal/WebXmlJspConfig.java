@@ -25,19 +25,35 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This module delivers the web.xml processing extension.
- * 
+ * A jsp-config inside web.xml/web-fragment.xml.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
+public class WebXmlJspConfig {
+    
+    /**
+     * Stores the list of taglib.
+     */
+    private List<WebXmlJspConfigTaglib> taglibs = new ArrayList<>();
+    
+    /**
+     * Default constructor.
+     */
+    public WebXmlJspConfig() {
+    }
 
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
+    /**
+     * Get the list of taglib.
+     * 
+     * @return the list.
+     */
+    public List<WebXmlJspConfigTaglib> getTaglibs() {
+        return taglibs;
+    }
 }

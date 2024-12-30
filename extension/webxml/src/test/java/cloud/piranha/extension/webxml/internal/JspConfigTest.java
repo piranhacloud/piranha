@@ -25,19 +25,39 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
+
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.resource.impl.DirectoryResource;
+import cloud.piranha.extension.wasp.WaspJspManagerInitializer;
+import cloud.piranha.extension.webxml.WebXmlInitializer;
+import jakarta.servlet.descriptor.JspConfigDescriptor;
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 /**
- * This module delivers the web.xml processing extension.
+ * The JUnit tests testing web.xml &lt;jsp-config&gt;.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
+class JspConfigTest {
 
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
+    /**
+     * Test getJspConfig method.
+     *
+     * @throws Exception when a serious error occurs.
+     */
+    @Test
+    void tetGetJspConfig() throws Exception {
+        DefaultWebApplication webApplication = new DefaultWebApplication();
+        webApplication.addResource(new DirectoryResource(new File("src/test/webxml/jspConfig")));
+        webApplication.addInitializer(new WaspJspManagerInitializer());
+        webApplication.addInitializer(new WebXmlInitializer());
+        webApplication.initialize();
+        assertNotNull(webApplication.getJspConfigDescriptor());
+        JspConfigDescriptor descriptor = webApplication.getJspConfigDescriptor();
+        assertFalse(descriptor.getTaglibs().isEmpty());
+    }
 }

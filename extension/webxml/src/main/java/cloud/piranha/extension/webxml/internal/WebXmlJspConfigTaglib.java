@@ -25,19 +25,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
 
 /**
- * This module delivers the web.xml processing extension.
- * 
+ * A taglib inside jsp-config of web.xml/web-fragment.xml.
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
+public class WebXmlJspConfigTaglib {
 
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
+    /**
+     * Stores the location.
+     */
+    private final String location;
+    
+    /**
+     * Stores the URI.
+     */
+    private final String uri;
+    
+    /**
+     * Constructor.
+     * 
+     * @param location the location.
+     * @param uri the URI.
+     */
+    public WebXmlJspConfigTaglib(String location, String uri) {
+        this.location = location;
+        this.uri = uri;
+    }
+
+    /**
+     * Get the location.
+     * 
+     * @return the location.
+     */
+    public String getLocation() {
+        return location;
+    }
+
+    /**
+     * Get the URI.
+     * 
+     * @return the URI.
+     */
+    public String getUri() {
+        return uri;
+    }
 }

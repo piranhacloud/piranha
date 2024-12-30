@@ -25,19 +25,21 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
 
 /**
- * This module delivers the web.xml processing extension.
- * 
+ * A login-config inside of web.xml/web-fragment.xml.
+ *
+ * @param authMethod the auth method.
+ * @param realmName the realm name.
+ * @param formLoginPage the form login page.
+ * @param formErrorPage the form error page.
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
+public record WebXmlLoginConfig(
+        String authMethod,
+        String realmName,
+        String formLoginPage,
+        String formErrorPage) {
 
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
 }

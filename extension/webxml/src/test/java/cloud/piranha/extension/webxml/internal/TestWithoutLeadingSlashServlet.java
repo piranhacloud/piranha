@@ -25,19 +25,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+package cloud.piranha.extension.webxml.internal;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
- * This module delivers the web.xml processing extension.
+ * A simple servlet asserting the servlet-mapping without a leading slash works.
  * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-module cloud.piranha.extension.webxml {
+public class TestWithoutLeadingSlashServlet extends HttpServlet {
 
-    exports cloud.piranha.extension.webxml;
-    opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
-    requires static cloud.piranha.core.impl;
-    requires static java.naming;
-    requires static java.sql;
-    requires java.xml;
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        PrintWriter writer = response.getWriter();
+        writer.println("Working without a leading slash");
+    }
 }
