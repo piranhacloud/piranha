@@ -4,10 +4,28 @@
     <servlet>
         <servlet-name>Test Servlet</servlet-name>
         <servlet-class>cloud.piranha.extension.webxml.tests.TestServlet</servlet-class>
+        <security-role-ref>
+            <description>mydescription</description>
+            <role-name>myrole</role-name>
+            <role-link>myrole</role-link>
+        </security-role-ref>
     </servlet>
     <servlet-mapping>
         <servlet-name>Test Servlet</servlet-name>
         <url-pattern>/foo</url-pattern>
         <url-pattern>/bar</url-pattern>
     </servlet-mapping>
+    <security-role>
+        <role-name>myrole</role-name>
+    </security-role>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>mywebresourcename</web-resource-name>
+            <description>mydescription</description>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>myrole</role-name>
+        </auth-constraint>
+    </security-constraint>
 </web-app>

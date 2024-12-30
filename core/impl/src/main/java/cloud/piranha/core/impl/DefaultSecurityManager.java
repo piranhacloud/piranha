@@ -28,6 +28,7 @@
 package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.SecurityConstraint;
+import cloud.piranha.core.api.SecurityRoleReference;
 import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +36,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -53,12 +56,18 @@ public class DefaultSecurityManager implements cloud.piranha.core.api.SecurityMa
      * Stores the security constraints.
      */
     private List<SecurityConstraint> securityConstraints;
+    
+    /**
+     * Stores the security role references.
+     */
+    private Map<String, List<SecurityRoleReference>> securityRoleReferences;
 
     /**
      * Constructor.
      */
     public DefaultSecurityManager() {
         securityConstraints = new ArrayList<>();
+        securityRoleReferences = new HashMap<>();
     }
     
     @Override
@@ -78,6 +87,11 @@ public class DefaultSecurityManager implements cloud.piranha.core.api.SecurityMa
     @Override
     public List<SecurityConstraint> getSecurityConstraints() {
         return securityConstraints;
+    }
+
+    @Override
+    public Map<String, List<SecurityRoleReference>> getSecurityRoleReferences() {
+        return securityRoleReferences;
     }
 
     @Override
@@ -102,6 +116,11 @@ public class DefaultSecurityManager implements cloud.piranha.core.api.SecurityMa
     @Override
     public void setSecurityConstraints(List<SecurityConstraint> securityConstraints) {
         this.securityConstraints = securityConstraints;
+    }
+
+    @Override
+    public void setSecurityRoleReferences(Map<String, List<SecurityRoleReference>> securityRoleReferences) {
+        this.securityRoleReferences = securityRoleReferences;
     }
 
     @Override

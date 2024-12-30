@@ -58,6 +58,12 @@ public class WebXmlInitializer implements ServletContainerInitializer {
     private static final Logger LOGGER = System.getLogger(WebXmlInitializer.class.getName());
 
     /**
+     * Constructor.
+     */
+    public WebXmlInitializer() {
+    }
+    
+    /**
      * On startup.
      *
      * @param classes the classes.

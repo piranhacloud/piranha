@@ -25,54 +25,58 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.webxml;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.System.Logger.Level;
-import java.lang.System.Logger;
-
-import jakarta.servlet.ServletContainerInitializer;
-
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationExtension;
+package cloud.piranha.core.api;
 
 /**
- * The extension for web.xml processing.
- *
+ * A security role ref(erence).
+ * 
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class WebXmlExtension implements WebApplicationExtension {
+public class SecurityRoleReference {
 
     /**
-     * Stores the logger.
+     * Stores the role link.
      */
-    private static final Logger LOGGER = System.getLogger(WebXmlExtension.class.getName());
+    private String roleLink;
 
     /**
-     * Constructor.
+     * Stores the role name.
      */
-    public WebXmlExtension() {
+    private String roleName;
+    
+    /**
+     * Get the role link.
+     * 
+     * @return the role link.
+     */
+    public String getRoleLink() {
+        return roleLink;
     }
     
     /**
-     * Configure the web application.
-     *
-     * @param webApplication the web application.
+     * Get the role name.
+     * 
+     * @return the role name.
      */
-    @Override
-    public void configure(WebApplication webApplication) {
-        try {
-            ClassLoader classLoader = webApplication.getClassLoader();
-            Class<? extends ServletContainerInitializer> clazz
-                    = classLoader.
-                            loadClass(WebXmlInitializer.class.getName())
-                            .asSubclass(ServletContainerInitializer.class);
-            ServletContainerInitializer initializer = clazz.getDeclaredConstructor().newInstance();
-            webApplication.addInitializer(initializer);
-        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException
-                | InstantiationException | IllegalAccessException
-                | IllegalArgumentException | InvocationTargetException ex) {
-            LOGGER.log(Level.WARNING, "Unable to enable the WebXmlExtension", ex);
-        }
+    public String getRoleName() {
+        return roleName;
+    }
+
+    /**
+     * Set the role link.
+     * 
+     * @param roleLink the role link.
+     */
+    public void setRoleLink(String roleLink) {
+        this.roleLink = roleLink;
+    }
+    
+    /**
+     * Set the role name.
+     * 
+     * @param roleName the role name.
+     */
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 }

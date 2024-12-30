@@ -45,6 +45,5 @@ module cloud.piranha.extension.exousia {
     requires cloud.piranha.core.impl;
     requires jakarta.security.jacc;
     requires jakarta.servlet;
-    requires static cloud.piranha.extension.webxml;
     requires transitive org.glassfish.exousia;
 }

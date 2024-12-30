@@ -29,16 +29,12 @@ package cloud.piranha.extension.exousia;
 
 import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.SecurityWebResourceCollection;
-import cloud.piranha.extension.webxml.WebXmlServletSecurityRoleRef;
-import cloud.piranha.extension.webxml.WebXml;
-import cloud.piranha.extension.webxml.WebXmlServlet;
+import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.ServletSecurityElement;
 import jakarta.servlet.annotation.ServletSecurity;
 import static jakarta.servlet.annotation.ServletSecurity.TransportGuarantee.CONFIDENTIAL;
 import static jakarta.servlet.annotation.ServletSecurity.TransportGuarantee.NONE;
 import java.util.ArrayList;
-import java.util.Collections;
-import static java.util.Collections.emptyList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -112,7 +108,7 @@ public class PiranhaToExousiaConverter {
 
         List<SecurityConstraint> constraints = new ArrayList<>();
 
-        for (cloud.piranha.core.api.SecurityConstraint xmlConstraint 
+        for (cloud.piranha.core.api.SecurityConstraint xmlConstraint
                 : securityManager.getSecurityConstraints()) {
 
             List<WebResourceCollection> webResourceCollections = new ArrayList<>();
@@ -135,55 +131,31 @@ public class PiranhaToExousiaConverter {
     }
 
     /**
-     * Get the security role refs from web.xml
+     * Get the security role refs from the web application.
      *
      * @param servletNames the servlet names.
-     * @param webXml the web.xml.
+     * @param webApplication the web application.
      * @return the security role refs.
      */
-    public Map<String, List<SecurityRoleRef>> getSecurityRoleRefsFromWebXml(Set<String> servletNames, WebXml webXml) {
+    public Map<String, List<SecurityRoleRef>> getSecurityRoleRefsFromSecurityManager(Set<String> servletNames, WebApplication webApplication) {
         Map<String, List<SecurityRoleRef>> securityRoleRefs = new HashMap<>();
 
+        SecurityManager securityManager = webApplication.getManager().getSecurityManager();
         for (String servletName : servletNames) {
-            securityRoleRefs.put(servletName, webXml == null ? emptyList() : getSecurityRoleRefsByServletName(webXml, servletName));
+            List<SecurityRoleRef> securityRoleRefList = new ArrayList<>();
+            if (securityManager.getSecurityRoleReferences().get(servletName) != null) {
+                securityManager.getSecurityRoleReferences().get(servletName).forEach(
+                        roleReference -> {
+                            SecurityRoleRef securityRole = new SecurityRoleRef(
+                                    roleReference.getRoleName(), 
+                                    roleReference.getRoleLink());
+                            securityRoleRefList.add(securityRole);
+                        }
+                );
+            }
+            securityRoleRefs.put(servletName, securityRoleRefList);
         }
 
         return securityRoleRefs;
-    }
-
-    private List<SecurityRoleRef> getSecurityRoleRefsByServletName(WebXml webXml, String servletName) {
-        List<WebXmlServletSecurityRoleRef> piranhaSecurityRoleRefs = getWebXmlSecurityRoleRefsByServletName(webXml, servletName);
-        if (piranhaSecurityRoleRefs.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        List<SecurityRoleRef> exousiaSecurityRoleRefs = new ArrayList<>();
-
-        for (WebXmlServletSecurityRoleRef piranhaSecurityRoleRef : piranhaSecurityRoleRefs) {
-            exousiaSecurityRoleRefs.add(new SecurityRoleRef(
-                    piranhaSecurityRoleRef.roleName(),
-                    piranhaSecurityRoleRef.roleLink()));
-        }
-
-        return exousiaSecurityRoleRefs;
-    }
-
-    private List<WebXmlServletSecurityRoleRef> getWebXmlSecurityRoleRefsByServletName(WebXml webXml, String servletName) {
-        WebXmlServlet servlet = getServletByName(webXml, servletName);
-        if (servlet == null) {
-            return emptyList();
-        }
-
-        return servlet.getSecurityRoleRefs();
-    }
-
-    private WebXmlServlet getServletByName(WebXml webXml, String servletName) {
-        for (WebXmlServlet servlet : webXml.getServlets()) {
-            if (servlet.getServletName().equals(servletName)) {
-                return servlet;
-            }
-        }
-
-        return null;
     }
 }

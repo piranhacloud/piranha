@@ -51,7 +51,6 @@ import org.glassfish.exousia.constraints.WebResourceCollection;
 import org.glassfish.exousia.mapping.SecurityRoleRef;
 
 import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.extension.webxml.WebXmlManager;
 import jakarta.security.jacc.PolicyConfiguration;
 import jakarta.security.jacc.PolicyContextException;
 import jakarta.servlet.FilterRegistration;
@@ -232,12 +231,8 @@ public class AuthorizationPostInitializer implements ServletContainerInitializer
      * @throws ServletException when a Servlet error occurs.
      */
     public Map<String, List<SecurityRoleRef>> getSecurityRoleRefsFromWebXml(WebApplication webApplication) throws ServletException {
-        WebXmlManager manager = (WebXmlManager) webApplication.getAttribute("cloud.piranha.extension.webxml.WebXmlManager");
-        return piranhaToExousiaConverter.getSecurityRoleRefsFromWebXml(webApplication.getServletRegistrations().keySet(), manager.getWebXml());
+        return piranhaToExousiaConverter.getSecurityRoleRefsFromSecurityManager(webApplication.getServletRegistrations().keySet(), webApplication);
     }
-
-
-
 
     private boolean hasPermissionsSet(ServletContext servletContext) {
         return getOptionalAttribute(servletContext, UNCHECKED_PERMISSIONS) != null

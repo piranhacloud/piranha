@@ -49,6 +49,7 @@ import cloud.piranha.core.api.ErrorPageManager;
 import cloud.piranha.core.api.LocaleEncodingManager;
 import cloud.piranha.core.api.SecurityConstraint;
 import cloud.piranha.core.api.SecurityManager;
+import cloud.piranha.core.api.SecurityRoleReference;
 import cloud.piranha.core.api.SecurityWebResourceCollection;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.extension.webxml.WebXml;
@@ -67,11 +68,13 @@ import cloud.piranha.core.api.WelcomeFileManager;
 import cloud.piranha.core.impl.DefaultJspConfigDescriptor;
 import cloud.piranha.core.impl.DefaultTaglibDescriptor;
 import cloud.piranha.extension.webxml.WebXmlSecurityConstraint;
+import cloud.piranha.extension.webxml.WebXmlServletSecurityRoleRef;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.descriptor.JspConfigDescriptor;
+import java.util.ArrayList;
 
 /**
  * The web.xml / web-fragment.xml processor.
@@ -540,6 +543,20 @@ public class InternalWebXmlProcessor {
                     servletRegistration.setInitParameter(initParam.name(), initParam.value());
                 }
             });
+            
+            SecurityManager securityManager = webApplication.getManager().getSecurityManager();
+            for(WebXmlServletSecurityRoleRef roleRef : servlet.getSecurityRoleRefs()) {
+                String servletName = servlet.getServletName();
+                List<SecurityRoleReference> roleReferences = securityManager.getSecurityRoleReferences().get(servletName);
+                if (roleReferences == null) {
+                    roleReferences = new ArrayList<>();
+                    securityManager.getSecurityRoleReferences().put(servletName, roleReferences);
+                }
+                SecurityRoleReference roleReference = new SecurityRoleReference();
+                roleReference.setRoleName(roleRef.roleName());
+                roleReference.setRoleLink(roleRef.roleLink());
+                roleReferences.add(roleReference);
+            }
 
             LOGGER.log(DEBUG, () -> "Configured Servlet: " + servlet.getServletName());
         }

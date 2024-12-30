@@ -33,6 +33,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -209,6 +210,13 @@ public interface SecurityManager {
      * @return the security constraints.
      */
     List<SecurityConstraint> getSecurityConstraints();
+    
+    /**
+     * Get the security role references.
+     * 
+     * @return the security role references.
+     */
+    Map<String, List<SecurityRoleReference>> getSecurityRoleReferences();
 
     /**
      * Get the handler that may be used by the login method to contact an
@@ -365,6 +373,13 @@ public interface SecurityManager {
      * @param securityConstraints the security constraints.
      */
     void setSecurityConstraints(List<SecurityConstraint> securityConstraints);
+    
+    /**
+     * Set the security role references.
+     * 
+     * @param securityRoleReferences the security role references.
+     */
+    void setSecurityRoleReferences(Map<String, List<SecurityRoleReference>> securityRoleReferences);
 
     /**
      * Set the handler that may be used by the login method to contact an

@@ -44,6 +44,7 @@ import org.glassfish.exousia.AuthorizationService;
 import cloud.piranha.core.api.AuthenticatedIdentity;
 import cloud.piranha.core.api.SecurityConstraint;
 import cloud.piranha.core.api.SecurityManager;
+import cloud.piranha.core.api.SecurityRoleReference;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
 import cloud.piranha.core.impl.DefaultAuthenticatedIdentity;
@@ -54,7 +55,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.glassfish.epicyro.config.helper.Caller;
 import org.glassfish.epicyro.services.DefaultAuthenticationService;
 
@@ -102,6 +105,11 @@ public class ServletSecurityManager implements SecurityManager {
     protected List<SecurityConstraint> securityConstraints;
     
     /**
+     * Stores the security role references.
+     */
+    protected Map<String, List<SecurityRoleReference>> securityRoleReferences;
+    
+    /**
      * Handler for the specific HttpServletRequest#login method call
      */
     protected UsernamePasswordLoginHandler usernamePasswordLoginHandler;
@@ -115,7 +123,8 @@ public class ServletSecurityManager implements SecurityManager {
      * Constructor.
      */
     public ServletSecurityManager() {
-        this.securityConstraints = new ArrayList<>();
+        securityConstraints = new ArrayList<>();
+        securityRoleReferences = new HashMap<>();
     }
 
     @Override
@@ -236,6 +245,11 @@ public class ServletSecurityManager implements SecurityManager {
         return securityConstraints;
     }
 
+    @Override
+    public Map<String, List<SecurityRoleReference>> getSecurityRoleReferences() {
+        return securityRoleReferences;
+    }
+
     private String getServletName(HttpServletRequest request) {
         ServletConfig servletConfig = (ServletConfig) request.getAttribute(DefaultServletEnvironment.class.getName());
         if (servletConfig != null && servletConfig.getServletName() != null) {
@@ -345,6 +359,11 @@ public class ServletSecurityManager implements SecurityManager {
     @Override
     public void setSecurityConstraints(List<SecurityConstraint> securityConstraints) {
         this.securityConstraints = securityConstraints;
+    }
+
+    @Override
+    public void setSecurityRoleReferences(Map<String, List<SecurityRoleReference>> securityRoleReferences) {
+        this.securityRoleReferences = securityRoleReferences;
     }
 
     @Override
