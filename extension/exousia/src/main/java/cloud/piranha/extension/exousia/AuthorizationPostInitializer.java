@@ -114,7 +114,7 @@ public class AuthorizationPostInitializer implements ServletContainerInitializer
     }
 
     private List<SecurityConstraint> getAllScurityConstraints(WebApplication context) {
-        List<SecurityConstraint> webXmlConstraints = getConstraintsFromWebXml(context);
+        List<SecurityConstraint> webXmlConstraints = getConstraintsFromSecurityManager(context);
         List<SecurityConstraint> annotationConstraints = filterAnnotatedConstraints(
                 webXmlConstraints,
                 getConstraintsFromSecurityAnnotations(context));
@@ -219,9 +219,9 @@ public class AuthorizationPostInitializer implements ServletContainerInitializer
      * @param webApplication the web application.
      * @return the list of security constraints.
      */
-    private List<SecurityConstraint> getConstraintsFromWebXml(WebApplication webApplication) {
-        WebXmlManager manager = (WebXmlManager) webApplication.getAttribute("cloud.piranha.extension.webxml.WebXmlManager");
-        return piranhaToExousiaConverter.getConstraintsFromWebXml(manager.getWebXml());
+    private List<SecurityConstraint> getConstraintsFromSecurityManager(WebApplication webApplication) {
+        return piranhaToExousiaConverter.getConstraintsFromSecurityManager(
+                webApplication.getManager().getSecurityManager());
     }
 
     /**

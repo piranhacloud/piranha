@@ -16,3 +16,4 @@ dist/server/tmp/
 dist/platform/tmp/
 .flattened-pom.xml
 bin/
+piranha.pid

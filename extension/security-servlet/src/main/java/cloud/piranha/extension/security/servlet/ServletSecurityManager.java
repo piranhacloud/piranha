@@ -42,6 +42,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.glassfish.exousia.AuthorizationService;
 
 import cloud.piranha.core.api.AuthenticatedIdentity;
+import cloud.piranha.core.api.SecurityConstraint;
 import cloud.piranha.core.api.SecurityManager;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationRequest;
@@ -52,6 +53,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import org.glassfish.epicyro.config.helper.Caller;
 import org.glassfish.epicyro.services.DefaultAuthenticationService;
 
@@ -94,6 +97,11 @@ public class ServletSecurityManager implements SecurityManager {
     protected final Set<String> roles = ConcurrentHashMap.newKeySet();
 
     /**
+     * Stores the security constraints.
+     */
+    protected List<SecurityConstraint> securityConstraints;
+    
+    /**
      * Handler for the specific HttpServletRequest#login method call
      */
     protected UsernamePasswordLoginHandler usernamePasswordLoginHandler;
@@ -102,6 +110,13 @@ public class ServletSecurityManager implements SecurityManager {
      * Stores the web application.
      */
     protected WebApplication webApplication;
+
+    /**
+     * Constructor.
+     */
+    public ServletSecurityManager() {
+        this.securityConstraints = new ArrayList<>();
+    }
 
     @Override
     public boolean authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -216,6 +231,11 @@ public class ServletSecurityManager implements SecurityManager {
         return roles;
     }
 
+    @Override
+    public List<SecurityConstraint> getSecurityConstraints() {
+        return securityConstraints;
+    }
+
     private String getServletName(HttpServletRequest request) {
         ServletConfig servletConfig = (ServletConfig) request.getAttribute(DefaultServletEnvironment.class.getName());
         if (servletConfig != null && servletConfig.getServletName() != null) {
@@ -226,12 +246,18 @@ public class ServletSecurityManager implements SecurityManager {
     }
 
     @Override
-    public boolean isRequestSecurityAsRequired(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (getAuthorizationService(request) != null) {
-            return getAuthorizationService(request).checkWebUserDataPermission(request);
-        } else {
-            return false;
-        }
+    public UsernamePasswordLoginHandler getUsernamePasswordLoginHandler() {
+        return usernamePasswordLoginHandler;
+    }
+
+    @Override
+    public WebApplication getWebApplication() {
+        return webApplication;
+    }
+
+    @Override
+    public boolean isCallerAuthorizedForResource(HttpServletRequest request) {
+        return getAuthorizationService(request).checkWebResourcePermission(request);
     }
 
     @Override
@@ -240,10 +266,13 @@ public class ServletSecurityManager implements SecurityManager {
     }
 
     @Override
-    public boolean isCallerAuthorizedForResource(HttpServletRequest request) {
-        return getAuthorizationService(request).checkWebResourcePermission(request);
+    public boolean isRequestSecurityAsRequired(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        if (getAuthorizationService(request) != null) {
+            return getAuthorizationService(request).checkWebUserDataPermission(request);
+        } else {
+            return false;
+        }
     }
-
     @Override
     public boolean isUserInRole(HttpServletRequest request, String role) {
         return getAuthorizationService(request).checkWebRoleRefPermission(getServletName(request), role);
@@ -260,11 +289,6 @@ public class ServletSecurityManager implements SecurityManager {
     }
 
     @Override
-    public void postRequestProcess(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        getAuthenticationService(request).secureResponse(request, response);
-    }
-
-    @Override
     public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         getAuthenticationService(request).clearSubject(request, response, getCurrentSubject());
 
@@ -276,28 +300,28 @@ public class ServletSecurityManager implements SecurityManager {
     }
 
     @Override
-    public UsernamePasswordLoginHandler getUsernamePasswordLoginHandler() {
-        return usernamePasswordLoginHandler;
+    public void postRequestProcess(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        getAuthenticationService(request).secureResponse(request, response);
     }
 
     @Override
-    public WebApplication getWebApplication() {
-        return webApplication;
-    }
-
-    @Override
-    public void setWebApplication(WebApplication webApplication) {
-        this.webApplication = webApplication;
-    }
-
-    @Override
-    public void setUsernamePasswordLoginHandler(UsernamePasswordLoginHandler usernamePasswordLoginHandler) {
-        this.usernamePasswordLoginHandler = usernamePasswordLoginHandler;
+    public void setAuthMethod(String authMethod) {
+        this.authMethod = authMethod;
     }
 
     @Override
     public void setDenyUncoveredHttpMethods(boolean denyUncoveredHttpMethods) {
         this.denyUncoveredHttpMethods = denyUncoveredHttpMethods;
+    }
+
+    @Override
+    public void setFormErrorPage(String formErrorPage) {
+        this.formErrorPage = formErrorPage;
+    }    
+    
+    @Override
+    public void setFormLoginPage(String formLoginPage) {
+        this.formLoginPage = formLoginPage;
     }
 
     private void setIdentityForCurrentRequest(HttpServletRequest request, Principal callerPrincipal, Set<String> groups, String authType) {
@@ -312,23 +336,24 @@ public class ServletSecurityManager implements SecurityManager {
         DefaultAuthenticatedIdentity.setCurrentIdentity(currentPrincipal, groups);
     }
 
-    @Override
-    public void setAuthMethod(String authMethod) {
-        this.authMethod = authMethod;
-    }
-
-    @Override
-    public void setFormErrorPage(String formErrorPage) {
-        this.formErrorPage = formErrorPage;
-    }    
-    
-    @Override
-    public void setFormLoginPage(String formLoginPage) {
-        this.formLoginPage = formLoginPage;
-    }
 
     @Override
     public void setRealmName(String realmName) {
         this.realmName = realmName;
+    }
+
+    @Override
+    public void setSecurityConstraints(List<SecurityConstraint> securityConstraints) {
+        this.securityConstraints = securityConstraints;
+    }
+
+    @Override
+    public void setUsernamePasswordLoginHandler(UsernamePasswordLoginHandler usernamePasswordLoginHandler) {
+        this.usernamePasswordLoginHandler = usernamePasswordLoginHandler;
+    }
+
+    @Override
+    public void setWebApplication(WebApplication webApplication) {
+        this.webApplication = webApplication;
     }
 }

@@ -27,9 +27,10 @@
  */
 package cloud.piranha.extension.exousia;
 
+import cloud.piranha.core.api.SecurityManager;
+import cloud.piranha.core.api.SecurityWebResourceCollection;
 import cloud.piranha.extension.webxml.WebXmlServletSecurityRoleRef;
 import cloud.piranha.extension.webxml.WebXml;
-import cloud.piranha.extension.webxml.WebXmlSecurityConstraint;
 import cloud.piranha.extension.webxml.WebXmlServlet;
 import jakarta.servlet.ServletSecurityElement;
 import jakarta.servlet.annotation.ServletSecurity;
@@ -102,22 +103,20 @@ public class PiranhaToExousiaConverter {
     }
 
     /**
-     * Get the security constraints from web.xml.
+     * Get the security constraints from the security manager.
      *
-     * @param webXml the web.xml
+     * @param securityManager the security manager.
      * @return the security constraints.
      */
-    public List<SecurityConstraint> getConstraintsFromWebXml(WebXml webXml) {
-        if (webXml == null || webXml.getSecurityConstraints() == null) {
-            return null;
-        }
+    public List<SecurityConstraint> getConstraintsFromSecurityManager(SecurityManager securityManager) {
 
         List<SecurityConstraint> constraints = new ArrayList<>();
 
-        for (WebXmlSecurityConstraint xmlConstraint : webXml.getSecurityConstraints()) {
+        for (cloud.piranha.core.api.SecurityConstraint xmlConstraint 
+                : securityManager.getSecurityConstraints()) {
 
             List<WebResourceCollection> webResourceCollections = new ArrayList<>();
-            for (WebXmlSecurityConstraint.WebResourceCollection xmlCollection : xmlConstraint.getWebResourceCollections()) {
+            for (SecurityWebResourceCollection xmlCollection : xmlConstraint.getSecurityWebResourceCollections()) {
                 webResourceCollections.add(new WebResourceCollection(
                         xmlCollection.getUrlPatterns(),
                         xmlCollection.getHttpMethods(),

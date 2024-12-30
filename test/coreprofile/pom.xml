@@ -25,8 +25,7 @@
             <groupId>cloud.piranha.dist</groupId>
             <artifactId>piranha-dist-coreprofile</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
-            <type>pom</type>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <modules>

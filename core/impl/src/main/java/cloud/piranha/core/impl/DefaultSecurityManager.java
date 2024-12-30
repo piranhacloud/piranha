@@ -27,12 +27,15 @@
  */
 package cloud.piranha.core.impl;
 
+import cloud.piranha.core.api.SecurityConstraint;
 import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -46,6 +49,18 @@ import java.util.Set;
  */
 public class DefaultSecurityManager implements cloud.piranha.core.api.SecurityManager {
 
+    /**
+     * Stores the security constraints.
+     */
+    private List<SecurityConstraint> securityConstraints;
+
+    /**
+     * Constructor.
+     */
+    public DefaultSecurityManager() {
+        securityConstraints = new ArrayList<>();
+    }
+    
     @Override
     public boolean authenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         return false;
@@ -58,6 +73,11 @@ public class DefaultSecurityManager implements cloud.piranha.core.api.SecurityMa
     @Override
     public Set<String> getRoles() {
         return Collections.emptySet();
+    }
+
+    @Override
+    public List<SecurityConstraint> getSecurityConstraints() {
+        return securityConstraints;
     }
 
     @Override
@@ -77,6 +97,11 @@ public class DefaultSecurityManager implements cloud.piranha.core.api.SecurityMa
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    }
+
+    @Override
+    public void setSecurityConstraints(List<SecurityConstraint> securityConstraints) {
+        this.securityConstraints = securityConstraints;
     }
 
     @Override

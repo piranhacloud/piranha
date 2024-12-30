@@ -32,6 +32,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -201,6 +202,13 @@ public interface SecurityManager {
      * @return the roles
      */
     Set<String> getRoles();
+    
+    /**
+     * Get the security constraints.
+     * 
+     * @return the security constraints.
+     */
+    List<SecurityConstraint> getSecurityConstraints();
 
     /**
      * Get the handler that may be used by the login method to contact an
@@ -350,6 +358,13 @@ public interface SecurityManager {
      */
     default void setRealmName(String realmName) {
     }
+    
+    /**
+     * Set the security constraints.
+     * 
+     * @param securityConstraints the security constraints.
+     */
+    void setSecurityConstraints(List<SecurityConstraint> securityConstraints);
 
     /**
      * Set the handler that may be used by the login method to contact an

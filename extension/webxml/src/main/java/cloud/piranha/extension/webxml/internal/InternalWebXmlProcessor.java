@@ -47,7 +47,9 @@ import javax.sql.CommonDataSource;
 
 import cloud.piranha.core.api.ErrorPageManager;
 import cloud.piranha.core.api.LocaleEncodingManager;
+import cloud.piranha.core.api.SecurityConstraint;
 import cloud.piranha.core.api.SecurityManager;
+import cloud.piranha.core.api.SecurityWebResourceCollection;
 import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.extension.webxml.WebXml;
 import cloud.piranha.extension.webxml.WebXmlContextParam;
@@ -64,6 +66,7 @@ import cloud.piranha.extension.webxml.WebXmlSessionConfig;
 import cloud.piranha.core.api.WelcomeFileManager;
 import cloud.piranha.core.impl.DefaultJspConfigDescriptor;
 import cloud.piranha.core.impl.DefaultTaglibDescriptor;
+import cloud.piranha.extension.webxml.WebXmlSecurityConstraint;
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterRegistration;
 import jakarta.servlet.MultipartConfigElement;
@@ -579,6 +582,16 @@ public class InternalWebXmlProcessor {
     }
 
     /**
+     * Is the string empty.
+     * 
+     * @param string the string.
+     * @return true if it is, false otherwise.
+     */
+    private boolean isEmpty(String string) {
+        return string == null || string.isEmpty();
+    }
+
+    /**
      * Process the session config.
      *
      * @param webApplication the web application.
@@ -591,10 +604,6 @@ public class InternalWebXmlProcessor {
         }
     }
 
-    private boolean isEmpty(String string) {
-        return string == null || string.isEmpty();
-    }
-
     /**
      * Process the security constraints.
      *
@@ -602,6 +611,20 @@ public class InternalWebXmlProcessor {
      * @param webXml the web.xml.
      */
     private void processSecurityConstraints(WebApplication webApplication, WebXml webXml) {
-        // what are we to do here?
+        SecurityManager securityManager = webApplication.getManager().getSecurityManager();
+        for(WebXmlSecurityConstraint constraint : webXml.getSecurityConstraints()) {
+            SecurityConstraint securityConstraint = new SecurityConstraint();
+            securityConstraint.getRoleNames().addAll(constraint.getRoleNames());
+            securityConstraint.setTransportGuarantee(constraint.getTransportGuarantee());
+            for(WebXmlSecurityConstraint.WebResourceCollection collection :
+                    constraint.getWebResourceCollections()) {
+                SecurityWebResourceCollection swrc = new SecurityWebResourceCollection();
+                swrc.getHttpMethodOmissions().addAll(collection.getHttpMethodOmissions());
+                swrc.getHttpMethods().addAll(collection.getHttpMethods());
+                swrc.getUrlPatterns().addAll(collection.getUrlPatterns());
+                securityConstraint.getSecurityWebResourceCollections().add(swrc);
+            }
+            securityManager.getSecurityConstraints().add(securityConstraint);
+        }
     }
 }
