@@ -16,7 +16,6 @@
     <name>Piranha - External - TCK - Project</name>
 
     <modules>
-        <module>cdi</module>
         <module>jwt</module>
         <module>server</module>
     </modules>
