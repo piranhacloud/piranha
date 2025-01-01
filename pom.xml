@@ -801,7 +801,7 @@
                             <property name="fileExtensions" value="java"/>
                             <module name="Header">
                                 <property name="header"
-                                          value="/*\n * Copyright (c) 2002-2024 Manorrock.com. All Rights Reserved.\n *"/>
+                                          value="/*\n * Copyright (c) 2002-2025 Manorrock.com. All Rights Reserved.\n *"/>
                             </module>
                             <module name="SuppressWarningsFilter"/>
                             <module name="TreeWalker">
