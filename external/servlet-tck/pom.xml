@@ -16,7 +16,6 @@
     <packaging>pom</packaging>
     <name>Piranha - External - Servlet TCK - Project</name>
     <modules>
-        <module>expression</module>
         <module>pages</module>
     </modules>
 </project>
