@@ -32,7 +32,6 @@
         <module>jakartaee-samples</module>
         <module>kickoff</module>
         <module>quicklook</module>
-        <module>servlet-tck</module>
         <module>tck</module>
         <module>webprofile-tck</module>
     </modules>
