@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>cloud.piranha</groupId>
     <artifactId>project</artifactId>
     <version>25.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-
     <name>Piranha</name>
     <description>
         The Piranha Project delivers you with a variety of cloud containers
@@ -24,7 +25,6 @@
             <url>https://raw.githubusercontent.com/piranhacloud/piranha/current/LICENSE</url>
         </license>
     </licenses>
-
     <developers>
         <developer>
             <id>mriem</id>
@@ -40,7 +40,6 @@
             <name>Thiago Henrique Hupner</name>
         </developer>
     </developers>
-
     <modules>
         <module>arquillian</module>
         <module>bom</module>
@@ -58,7 +57,6 @@
         <module>single</module>
         <module>spring</module>
     </modules>
-
     <scm>
         <connection>scm:git:git://github.com/piranhacloud/piranha.git</connection>
         <developerConnection>scm:git:git@github.com:piranhacloud/piranha.git</developerConnection>
@@ -74,7 +72,6 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-
     <properties>
         <!-- dependencies -->
         <angus.activation.version>2.0.2</angus.activation.version>
@@ -176,7 +173,6 @@
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencyManagement>
         <dependencies>
             <!-- Apache Commons Compress -->
@@ -1085,7 +1081,6 @@
             </plugin>
         </plugins>
     </build>
-
     <reporting>
         <plugins>
             <plugin>
@@ -1103,9 +1098,7 @@
             </plugin>
         </plugins>
     </reporting>
-    
     <profiles>
-
         <!-- 
 
         This profile is for Eclipse m2e users.
@@ -1200,17 +1193,6 @@
                     </plugins>
                 </pluginManagement>
             </build>
-        </profile>
-        <!--
-
-        This profile is used to run external tests (e.g. TCK tests).
-            
-        -->
-        <profile>
-            <id>external</id>
-            <modules>
-                <module>external</module>
-            </modules>
         </profile>
         <!-- 
 
