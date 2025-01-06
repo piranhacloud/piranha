@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.ERROR;
+import static java.lang.System.Logger.Level.TRACE;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -89,6 +90,9 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
      * @param contextPath the context path.
      */
     public void addMapping(String servletContextName, String contextPath) {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Adding context path: %s for: %s", contextPath, servletContextName);
+        }
         for (WebApplication webApp : webApplications.values()) {
             if (webApp.getServletContextName().equals(servletContextName)) {
                 requestMapper.addMapping(webApp, contextPath);
@@ -99,7 +103,9 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
 
     @Override
     public void addWebApplication(WebApplication webApplication) {
-        LOGGER.log(DEBUG, () -> "Adding web application with context path: " + webApplication.getContextPath());
+        if (LOGGER.isLoggable(DEBUG)) {
+            LOGGER.log(DEBUG, () -> "Adding web application with context path: " + webApplication.getContextPath());
+        }
         webApplications.put(webApplication.getContextPath(), webApplication);
         requestMapper.addMapping(webApplication, webApplication.getContextPath());
     }
@@ -111,17 +117,24 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
 
     @Override
     public void initialize() {
-        LOGGER.log(DEBUG, "Starting initialization of {0} web application(s)", webApplications.size());
+        if (LOGGER.isLoggable(DEBUG)) {
+            LOGGER.log(DEBUG, "Starting initialization of {0} web application(s)", webApplications.size());
+        }
         for (WebApplication webApp : webApplications.values()) {
             ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
             try {
                 Thread.currentThread().setContextClassLoader(webApp.getClassLoader());
+                if (LOGGER.isLoggable(TRACE)) {
+                    LOGGER.log(TRACE, "Initializing web application at: %s", webApp.getContextPath());
+                }
                 webApp.initialize();
             } finally {
                 Thread.currentThread().setContextClassLoader(oldClassLoader);
             }
         }
-        LOGGER.log(DEBUG, "Finished initialization of {0} web application(s)", webApplications.size());
+        if (LOGGER.isLoggable(DEBUG)) {
+            LOGGER.log(DEBUG, "Finished initialization of {0} web application(s)", webApplications.size());
+        }
     }
 
     @Override
@@ -140,6 +153,11 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         } catch (Throwable t) {
             LOGGER.log(ERROR, "An error occurred while processing the request", t);
         }
+        
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Processor end state: %s", state.name());
+        }
+        
         return state;
     }
 
@@ -154,13 +172,24 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
     @Override
     public void service(WebApplicationRequest request, WebApplicationResponse response) throws IOException, ServletException {
         String requestUri = request.getRequestURI();
+
         if (requestUri == null) {
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Request URI is invalid");
+            }
             response.sendError(500);
             return;
         }
 
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Request URI: %s", requestUri);
+        }
+
         WebApplication webApplication = requestMapper.findMapping(requestUri);
         if (webApplication == null) {
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "No web application found for request URI: %s", requestUri);
+            }
             response.sendError(404);
             return;
         }
@@ -174,6 +203,11 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
             request.setWebApplication(webApplication);
             response.setWebApplication(webApplication);
 
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Context Path: %s", contextPath);
+                LOGGER.log(TRACE, "Servlet Path: %s", request.getServletPath());
+            }
+            
             webApplication.service(request, response);
 
             // Make sure the request is fully read wrt parameters (if any still)
