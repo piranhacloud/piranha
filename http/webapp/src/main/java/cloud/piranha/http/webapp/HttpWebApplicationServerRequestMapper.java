@@ -27,25 +27,39 @@
  */
 package cloud.piranha.http.webapp;
 
+import cloud.piranha.core.api.WebApplication;
+import cloud.piranha.core.api.WebApplicationServerRequestMapper;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.TRACE;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import cloud.piranha.core.api.WebApplication;
-import cloud.piranha.core.api.WebApplicationServerRequestMapper;
-
 /**
- * The default WebApplicationServerRequestMapper.
+ * The HTTP WebApplicationServerRequestMapper.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class HttpWebApplicationServerRequestMapper implements WebApplicationServerRequestMapper {
 
     /**
-     * Stores the mappings.
+     * Stores the logger.
      */
-    private final ConcurrentHashMap<String, WebApplication> mappings = new ConcurrentHashMap<>();
+    private static final Logger LOGGER
+            = System.getLogger(HttpWebApplicationServerRequestMapper.class.getName());
+
+    /**
+     * Stores the web application mappings.
+     */
+    private final ConcurrentHashMap<String, WebApplication> mappings;
+
+    /**
+     * Constructor.
+     */
+    public HttpWebApplicationServerRequestMapper() {
+        this.mappings = new ConcurrentHashMap<>();
+    }
 
     /**
      * Add a mapping.
@@ -62,6 +76,9 @@ public class HttpWebApplicationServerRequestMapper implements WebApplicationServ
             if (this.mappings.containsKey(urlPattern)) {
                 result.add(urlPattern);
             } else {
+                if (LOGGER.isLoggable(TRACE)) {
+                    LOGGER.log(TRACE, "Adding url pattern: %s", urlPattern);
+                }
                 this.mappings.put(urlPattern, webApplication);
             }
         }
@@ -77,10 +94,20 @@ public class HttpWebApplicationServerRequestMapper implements WebApplicationServ
      */
     @Override
     public WebApplication findMapping(String path) {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Finding web application for: %s", path);
+        }
         WebApplication result = null;
         String mapping = findPrefixMatch(path);
         if (mapping != null) {
             result = this.mappings.get(mapping);
+        }
+        if (LOGGER.isLoggable(TRACE)) {
+            if (result != null) {
+                LOGGER.log(TRACE, "Found web application at: %s", result.getContextPath());
+            } else {
+                LOGGER.log(TRACE, "Unable to find web application for: %s", path);
+            }
         }
         return result;
     }
@@ -92,6 +119,9 @@ public class HttpWebApplicationServerRequestMapper implements WebApplicationServ
      * @return the mapping, or null if not found.
      */
     private String findPrefixMatch(String path) {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Find prefix for: %s", path);
+        }
         String result = null;
         String found;
 
@@ -104,6 +134,13 @@ public class HttpWebApplicationServerRequestMapper implements WebApplicationServ
             }
         }
 
+        if (LOGGER.isLoggable(TRACE)) {
+            if (result != null) {
+                LOGGER.log(TRACE, "Found prefix: %s", result);
+            } else {
+                LOGGER.log(TRACE, "Unable to find prefix for: %s", path);
+            }
+        }
         return result;
     }
 
