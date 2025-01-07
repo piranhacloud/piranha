@@ -77,7 +77,7 @@ public class HttpWebApplicationServerRequestMapper implements WebApplicationServ
                 result.add(urlPattern);
             } else {
                 if (LOGGER.isLoggable(TRACE)) {
-                    LOGGER.log(TRACE, "Adding url pattern: %s", urlPattern);
+                    LOGGER.log(TRACE, "Adding url pattern: {0}", urlPattern);
                 }
                 this.mappings.put(urlPattern, webApplication);
             }
@@ -95,7 +95,7 @@ public class HttpWebApplicationServerRequestMapper implements WebApplicationServ
     @Override
     public WebApplication findMapping(String path) {
         if (LOGGER.isLoggable(TRACE)) {
-            LOGGER.log(TRACE, "Finding web application for: %s", path);
+            LOGGER.log(TRACE, "Finding web application for: {0}", path);
         }
         WebApplication result = null;
         String mapping = findPrefixMatch(path);
@@ -104,9 +104,9 @@ public class HttpWebApplicationServerRequestMapper implements WebApplicationServ
         }
         if (LOGGER.isLoggable(TRACE)) {
             if (result != null) {
-                LOGGER.log(TRACE, "Found web application at: %s", result.getContextPath());
+                LOGGER.log(TRACE, "Found web application at: {0}", result.getContextPath());
             } else {
-                LOGGER.log(TRACE, "Unable to find web application for: %s", path);
+                LOGGER.log(TRACE, "Unable to find web application for: {0}", path);
             }
         }
         return result;
@@ -120,7 +120,7 @@ public class HttpWebApplicationServerRequestMapper implements WebApplicationServ
      */
     private String findPrefixMatch(String path) {
         if (LOGGER.isLoggable(TRACE)) {
-            LOGGER.log(TRACE, "Find prefix for: %s", path);
+            LOGGER.log(TRACE, "Find prefix for: {0}", path);
         }
         String result = null;
         String found;
@@ -136,9 +136,9 @@ public class HttpWebApplicationServerRequestMapper implements WebApplicationServ
 
         if (LOGGER.isLoggable(TRACE)) {
             if (result != null) {
-                LOGGER.log(TRACE, "Found prefix: %s", result);
+                LOGGER.log(TRACE, "Found prefix: {0}", result);
             } else {
-                LOGGER.log(TRACE, "Unable to find prefix for: %s", path);
+                LOGGER.log(TRACE, "Unable to find prefix for: {0}", path);
             }
         }
         return result;

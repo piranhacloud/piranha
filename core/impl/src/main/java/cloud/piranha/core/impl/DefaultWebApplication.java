@@ -98,6 +98,7 @@ import static java.util.stream.Collectors.toSet;
 import java.util.stream.Stream;
 import cloud.piranha.core.api.WebApplicationManager;
 import static java.lang.System.Logger.Level.INFO;
+import static java.lang.System.Logger.Level.TRACE;
 import java.util.Arrays;
 
 /**
@@ -939,7 +940,9 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public WebApplication initialize() {
-        LOGGER.log(DEBUG, "Initializing web application at {0}", contextPath);
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Initializing web application at {0}", contextPath);
+        }
         verifyState(SETUP, "Unable to initialize web application");
         ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
         try {
@@ -961,9 +964,15 @@ public class DefaultWebApplication implements WebApplication {
         if (status == SETUP || status == DECLARED) {
             List<String> filterNames = new ArrayList<>(filters.keySet());
             filterNames.stream().map(filters::get).forEach(environment -> {
+                if (LOGGER.isLoggable(TRACE)) {
+                    LOGGER.log(TRACE, "Initializing filter: {0}", environment.getFilterName());
+                }
                 try {
                     environment.initialize();
                     environment.getFilter().init(environment);
+                    if (LOGGER.isLoggable(TRACE)) {
+                        LOGGER.log(TRACE, "Initialized filter: {0}", environment.getFilterName());
+                    }
                 } catch (Throwable e) {
                     LOGGER.log(WARNING, () -> "Unable to initialize filter: " + environment.getFilterName(), e);
                     environment.setStatus(UNAVAILABLE);
@@ -978,7 +987,9 @@ public class DefaultWebApplication implements WebApplication {
     protected void initializeFinish() {
         if (status == SETUP || status == DECLARED) {
             status = INITIALIZED;
-            LOGGER.log(DEBUG, "Initialized web application at {0}", contextPath);
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Initialized web application at {0}", contextPath);
+            }
         }
         if (status == ERROR) {
             LOGGER.log(WARNING, () -> "An error occurred initializing webapplication at " + contextPath);
@@ -991,6 +1002,9 @@ public class DefaultWebApplication implements WebApplication {
     protected void initializeInitializers() {
         boolean error = false;
         for (ServletContainerInitializer initializer : initializers) {
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Initializing initializer: {0}", initializer.getClass().getName());
+            }
             try {
                 HandlesTypes annotation = initializer.getClass().getAnnotation(HandlesTypes.class);
                 Set<Class<?>> classes = Collections.emptySet();
@@ -1033,6 +1047,9 @@ public class DefaultWebApplication implements WebApplication {
                 try {
                     source = initializer;
                     initializer.onStartup(classes, this);
+                    if (LOGGER.isLoggable(TRACE)) {
+                        LOGGER.log(TRACE, "Initialized initializer: {0}", initializer.getClass().getName());
+                    }
                 } finally {
                     source = null;
                 }
@@ -1069,10 +1086,16 @@ public class DefaultWebApplication implements WebApplication {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * Initialize the Servlet.
+     *
+     * @param environment the Servlet environment.
+     */
     protected void initializeServlet(DefaultServletEnvironment environment) {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Initializing servlet: {0}", environment.servletName);
+        }
         try {
-            LOGGER.log(DEBUG, "Initializing servlet: {0}", environment.servletName);
             if (environment.getServlet() == null) {
                 Class<? extends Servlet> clazz = environment.getServletClass();
                 if (clazz == null) {
@@ -1088,7 +1111,10 @@ public class DefaultWebApplication implements WebApplication {
                 environment.setServlet(createServlet(clazz));
             }
             environment.getServlet().init(environment);
-            LOGGER.log(DEBUG, "Initialized servlet: {0}", environment.servletName);
+
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Initialized servlet: {0}", environment.servletName);
+            }
         } catch (Throwable e) {
             LOGGER.log(WARNING, () -> "Unable to initialize servlet: " + environment.className, e);
 
@@ -1205,6 +1231,9 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Servicing request: {0} and response: {1}", request, response);
+        }
         verifyState(SERVICING, "Unable to service request");
         verifyRequestResponseTypes(request, response);
 
@@ -1232,6 +1261,10 @@ public class DefaultWebApplication implements WebApplication {
         if (webAppRequest.isUpgraded()) {
             WebConnection connection = new DefaultWebConnection(webAppRequest, webAppResponse);
             webAppRequest.getUpgradeHandler().init(connection);
+        }
+        
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Serviced request: {0} and response: {1}", request, response);
         }
     }
 
@@ -1341,7 +1374,7 @@ public class DefaultWebApplication implements WebApplication {
         checkServicing();
         getManager().getHttpSessionManager().setSessionTrackingModes(sessionTrackingModes);
     }
-    
+
     @Override
     public void setStatus(Status status) {
         this.status = status;
@@ -1359,19 +1392,27 @@ public class DefaultWebApplication implements WebApplication {
 
     @Override
     public WebApplication start() {
-        LOGGER.log(DEBUG, "Starting web application at {0}", contextPath);
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Starting web application at {0}", contextPath);
+        }
         verifyState(INITIALIZED, "Unable to start servicing");
         status = SERVICING;
-        LOGGER.log(DEBUG, "Started web application at {0}", contextPath);
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Started web application at {0}", contextPath);
+        }
         return this;
     }
 
     @Override
     public WebApplication stop() {
-        LOGGER.log(DEBUG, "Stopping web application at {0}", contextPath);
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Stopping web application at {0}", contextPath);
+        }
         verifyState(SERVICING, "Unable to stop servicing");
         status = INITIALIZED;
-        LOGGER.log(DEBUG, "Stopped web application at {0}", contextPath);
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Stopped web application at {0}", contextPath);
+        }
         return this;
     }
 
