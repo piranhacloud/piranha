@@ -27,16 +27,18 @@
  */
 package cloud.piranha.core.impl;
 
+import cloud.piranha.core.api.ServletRequestManager;
+import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletRequestAttributeEvent;
 import jakarta.servlet.ServletRequestAttributeListener;
+import jakarta.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletRequestListener;
 import jakarta.servlet.http.HttpServletRequest;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.TRACE;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
-import jakarta.servlet.ServletRequestListener;
-import cloud.piranha.core.api.ServletRequestManager;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletRequestEvent;
 
 /**
  * The default servlet request manager.
@@ -45,6 +47,12 @@ import jakarta.servlet.ServletRequestEvent;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultServletRequestManager implements ServletRequestManager {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER
+            = System.getLogger(DefaultServletRequestManager.class.getName());
 
     /**
      * Stores the ServletRequestAttribute listeners.
@@ -59,45 +67,66 @@ public class DefaultServletRequestManager implements ServletRequestManager {
     @Override
     public <T extends EventListener> void addListener(T listener) {
         if (listener instanceof ServletRequestAttributeListener attributeListener) {
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Adding ServletRequestAttributeListener: {0}", listener);
+            }
             attributeListeners.add(attributeListener);
         }
         if (listener instanceof ServletRequestListener requestListener) {
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Adding ServletRequestlistener: {0}", listener);
+            }
             requestListeners.add(requestListener);
         }
     }
 
     @Override
     public void attributeAdded(HttpServletRequest request, String name, Object value) {
-        attributeListeners.stream().forEach(listener 
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Attribute: {0} added with value: {1}", name, value);
+        }
+        attributeListeners.stream().forEach(listener
                 -> listener.attributeAdded(new ServletRequestAttributeEvent(
                         request.getServletContext(), request, name, value)));
     }
 
     @Override
     public void attributeRemoved(HttpServletRequest request, String name, Object value) {
-        attributeListeners.stream().forEach(listener 
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Attribute: {0} removed with value: {1}", name, value);
+        }
+        attributeListeners.stream().forEach(listener
                 -> listener.attributeRemoved(new ServletRequestAttributeEvent(
                         request.getServletContext(), request, name, value)));
     }
 
     @Override
     public void attributeReplaced(HttpServletRequest request, String name, Object value) {
-        attributeListeners.stream().forEach(listener 
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Attribute: {0} replaced with value: {1}", name, value);
+        }
+        attributeListeners.stream().forEach(listener
                 -> listener.attributeReplaced(new ServletRequestAttributeEvent(
                         request.getServletContext(), request, name, value)));
     }
 
     @Override
     public void requestDestroyed(ServletRequest request) {
-        requestListeners.stream().forEach(servletRequestListener 
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Request: {0} destroyed", request);
+        }
+        requestListeners.stream().forEach(servletRequestListener
                 -> servletRequestListener.requestDestroyed(new ServletRequestEvent(
                         request.getServletContext(), request)));
     }
-    
+
     @Override
     public void requestInitialized(ServletRequest request) {
-            requestListeners.stream().forEach(servletRequestListener 
-                    -> servletRequestListener.requestInitialized(new ServletRequestEvent(
-                            request.getServletContext(), request)));
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Request: {0} initialized", request);
+        }
+        requestListeners.stream().forEach(servletRequestListener
+                -> servletRequestListener.requestInitialized(new ServletRequestEvent(
+                        request.getServletContext(), request)));
     }
 }
