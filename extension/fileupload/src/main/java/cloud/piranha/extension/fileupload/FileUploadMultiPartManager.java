@@ -50,10 +50,10 @@ import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload;
  * The ApacheMultiPartManager.
  *
  * <p>
- The FileUploadMultiPartManager implements the MultiPartManager API that delivers
- file upload functionality to a web application by delegating to Apache
- Commons File Upload.
- </p>
+ * The FileUploadMultiPartManager implements the MultiPartManager API that
+ * delivers file upload functionality to a web application by delegating to
+ * Apache Commons File Upload.
+ * </p>
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -73,9 +73,14 @@ public class FileUploadMultiPartManager implements MultiPartManager {
     @SuppressWarnings("unchecked")
     @Override
     public Collection<Part> getParts(WebApplication webApplication, WebApplicationRequest request) throws ServletException {
-        LOGGER.log(TRACE, "Getting parts for request: {0}", request);
-
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Getting parts for request: {0}", request);
+        }
+        
         if (!JakartaServletFileUpload.isMultipartContent(request)) {
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Request: {0} is not a multipart/form-date request");
+            }
             throw new ServletException("Not a multipart/form-data request");
         }
 
@@ -98,14 +103,25 @@ public class FileUploadMultiPartManager implements MultiPartManager {
 
     @Override
     public Part getPart(WebApplication webApplication, WebApplicationRequest request, String name) throws ServletException {
-        LOGGER.log(TRACE, "Getting part: {0} for request: {1}", name, request);
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Getting part: {0} for request: {1}", name, request);
+        }
         if (!JakartaServletFileUpload.isMultipartContent(request)) {
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Request: {0} is not a multipart/form-date request");
+            }
             throw new ServletException("Not a multipart/form-data request");
         }
         for (Part part : getParts(webApplication, request)) {
             if (part.getName().equals(name)) {
+                if (LOGGER.isLoggable(TRACE)) {
+                    LOGGER.log(TRACE, "Found part: {0}", part.getName());
+                }
                 return part;
             }
+        }
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Unable to find part: {0}", name);
         }
         return null;
     }
