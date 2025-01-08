@@ -38,6 +38,8 @@ import jakarta.servlet.UnavailableException;
 import jakarta.servlet.http.HttpServletResponse;
 import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import java.io.IOException;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.TRACE;
 
 /**
  * The default FilterChain.
@@ -45,6 +47,12 @@ import java.io.IOException;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultFilterChain implements FilterChain {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER
+            = System.getLogger(DefaultFilterChain.class.getName());
 
     /**
      * Stores the filter.
@@ -57,14 +65,14 @@ public class DefaultFilterChain implements FilterChain {
     private FilterChain nextFilterChain;
 
     /**
-     *
-     */
-    private ServletInvocation servletInvocation;
-
-    /**
      * Stores the servlet.
      */
     private Servlet servlet;
+
+    /**
+     * Stores the servlet invocation.
+     */
+    private ServletInvocation servletInvocation;
 
     /**
      * Constructor.
@@ -105,13 +113,25 @@ public class DefaultFilterChain implements FilterChain {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
         if (filter != null) {
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Calling filter: {0}", filter);
+            }
             filter.doFilter(request, response, nextFilterChain);
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Called filter: {0}", filter);
+            }
         } else if (servlet != null) {
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Calling servlet: {0}", servlet);
+            }
             request.setAttribute(DefaultServletEnvironment.class.getName(), servlet.getServletConfig());
             try {
                 servlet.service(request, response);
             } finally {
                 request.removeAttribute(DefaultServletEnvironment.class.getName());
+            }
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Called servlet: {0}", servlet);
             }
         } else if (servletInvocation != null && servletInvocation.isServletUnavailable()) {
             // We've reached the servlet, but the servlet is not available (for instance because
@@ -129,10 +149,21 @@ public class DefaultFilterChain implements FilterChain {
                 httpServletResponse.setStatus(500);
             }
 
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "The servlet: {0} is unavailable, because of: {1}", 
+                        servletInvocation.getServletName(),
+                        servletInvocation.getServletEnvironment().getUnavailableException());
+            }
+            
             request.setAttribute("piranha.request.exception", exception);
             throw new ServletException(exception);
 
         } else if (response instanceof HttpServletResponse httpServletResponse) {
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE,
+                        "We did not find a proper filter chain for request: {0} and response: {1}", 
+                        request, response);
+            }
             httpServletResponse.sendError(SC_NOT_FOUND);
         }
     }
