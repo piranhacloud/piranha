@@ -28,11 +28,31 @@
 package cloud.piranha.core.impl;
 
 import cloud.piranha.core.api.WebApplicationInputStream;
+import java.io.IOException;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.TRACE;
 
 /**
  * The default WebApplicationInputStream.
- * 
+ *
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultWebApplicationInputStream extends WebApplicationInputStream {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER
+            = System.getLogger(DefaultWebApplicationInputStream.class.getName());
+
+    @Override
+    public void close() throws IOException {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Closing input stream");
+        }
+        super.close();
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Closed input stream");
+        }
+    }
 }
