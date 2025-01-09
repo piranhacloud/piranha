@@ -48,6 +48,8 @@ import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.TRACE;
 
 /**
  * The invocation finder tries to find a servlet invocation matching a request
@@ -57,11 +59,15 @@ import jakarta.servlet.ServletException;
  * Invocations returned by this finder take into account the various mappings,
  * filters, welcome files and the default servlet.
  *
- *
  * @author Arjan Tijms
- *
  */
 public class DefaultInvocationFinder {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER
+            = System.getLogger(DefaultInvocationFinder.class.getName());
 
     /**
      * Stores the web application.
@@ -101,6 +107,12 @@ public class DefaultInvocationFinder {
      * @throws ServletException when a Servlet error occurs.
      */
     public DefaultServletInvocation findServletInvocationByPath(DispatcherType dispatcherType, String servletPath, String pathInfo) throws IOException, ServletException {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Find servlet invocation by path");
+            LOGGER.log(TRACE, "DispatcherType: {0}", dispatcherType.name());
+            LOGGER.log(TRACE, "Servlet path: {0}", servletPath);
+            LOGGER.log(TRACE, "Path info: {0}", pathInfo);
+        }
         DefaultServletInvocation servletInvocation = getDirectServletInvocationByPath(servletPath, pathInfo);
 
         if (servletInvocation == null) {
@@ -143,14 +155,14 @@ public class DefaultInvocationFinder {
             return servletInvocation;
         }
 
-        List<FilterEnvironment> filterEnvironments =
-            findFilterEnvironments(
-                dispatcherType,
-                // Look at the servletInvocation if there is one, as a welcome file can be set
-                // that differs from the request path
-                servletInvocation == null ? servletPath : servletInvocation.getServletPath(),
-                servletInvocation == null ? pathInfo : servletInvocation.getPathInfo(),
-                servletInvocation == null ? null : servletInvocation.getServletName());
+        List<FilterEnvironment> filterEnvironments
+                = findFilterEnvironments(
+                        dispatcherType,
+                        // Look at the servletInvocation if there is one, as a welcome file can be set
+                        // that differs from the request path
+                        servletInvocation == null ? servletPath : servletInvocation.getServletPath(),
+                        servletInvocation == null ? pathInfo : servletInvocation.getPathInfo(),
+                        servletInvocation == null ? null : servletInvocation.getServletName());
 
         if (filterEnvironments != null) {
             if (servletInvocation == null) {
