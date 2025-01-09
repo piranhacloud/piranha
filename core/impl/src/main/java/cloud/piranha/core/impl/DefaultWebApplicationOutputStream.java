@@ -35,6 +35,8 @@ import static jakarta.servlet.http.HttpServletResponse.SC_SWITCHING_PROTOCOLS;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.TRACE;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -48,6 +50,12 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultWebApplicationOutputStream extends WebApplicationOutputStream implements Runnable {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER
+            = System.getLogger(DefaultWebApplicationOutputStream.class.getName());
 
     /**
      * Stores the buffer.
@@ -78,7 +86,7 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
      * Stores the write listener.
      */
     protected WriteListener writeListener;
-    
+
     /**
      * Stores the write listener lock.
      */
@@ -94,6 +102,9 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
 
     @Override
     public void close() throws IOException {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Closing input stream");
+        }
         if (!response.isCommitted()) {
             response.flushBuffer();
             outputStream.flush();
@@ -104,7 +115,13 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
     @Override
     public void flush() throws IOException {
         if (response.isBufferResetting()) {
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Buffer resetting, ignoring flush");
+            }
             return;
+        }
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Flushing the input stream");
         }
         if (!response.isCommitted()) {
             response.flushBuffer();
@@ -128,6 +145,9 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
      */
     @Override
     public void flushBuffer() throws IOException {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Flushing the buffer");
+        }
         if (!response.isBodyOnly()) {
             writeStatusLine();
             writeHeaders();
@@ -182,6 +202,9 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
 
     @Override
     public void resetBuffer() {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Reset the buffer");
+        }
         this.buffer = new byte[buffer.length];
     }
 
@@ -214,6 +237,9 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
 
     @Override
     public void setBufferSize(int bufferSize) {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Setting buffer size: {0}", bufferSize);
+        }
         this.buffer = new byte[bufferSize];
     }
 
@@ -229,6 +255,9 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
 
     @Override
     public void setWriteListener(WriteListener writeListener) {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Setting WriteListener: {0}", writeListener);
+        }
         if (writeListener == null) {
             throw new NullPointerException("Write listener cannot be null");
         }
@@ -253,6 +282,9 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
              * response is no longer in buffer resetting mode.
              */
             if (response.isBufferResetting()) {
+                if (LOGGER.isLoggable(TRACE)) {
+                    LOGGER.log(TRACE, "Buffer is resetting, ignoring write");
+                }
                 return;
             }
 
@@ -264,6 +296,9 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
              * directly to the underlying output stream.
              */
             if (index == buffer.length - 1) {
+                if (LOGGER.isLoggable(TRACE)) {
+                    LOGGER.log(TRACE, "Buffer is full, flushing");
+                }
                 flushBuffer();
                 outputStream.write(integer);
             } else if (index == buffer.length) {
@@ -296,6 +331,9 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
         if (response.getContentLanguage() == null) {
             return;
         }
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Writing Content-Language: {0}", response.getContentLanguage());
+        }
         outputStream.write("Content-Language: ".getBytes());
         outputStream.write(response.getContentLanguage().getBytes());
         outputStream.write("\n".getBytes());
@@ -308,13 +346,19 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
      */
     private void writeContentType() throws IOException {
         if (response.getContentType() != null) {
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Writing Content-Type: {0}", response.getContentType());
+            }
             outputStream.write("Content-Type: ".getBytes());
             outputStream.write(response.getContentType().getBytes());
             /*
              * Add the character encoding if it is not already there.
              */
-            if (response.getCharacterEncoding() != null &&
-                    !response.getContentType().contains("charset")) {
+            if (response.getCharacterEncoding() != null
+                    && !response.getContentType().contains("charset")) {
+                if (LOGGER.isLoggable(TRACE)) {
+                    LOGGER.log(TRACE, "Writing Content-Type Charset: {0}", response.getCharacterEncoding());
+                }
                 outputStream.write(";charset=".getBytes());
                 outputStream.write(response.getCharacterEncoding().getBytes());
             }
@@ -330,28 +374,50 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
      */
     @SuppressWarnings({"removal"})
     private void writeCookie(Cookie cookie) throws IOException {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Writing Cookie Name: {0}", cookie.getName());
+        }
         outputStream.write("Set-Cookie: ".getBytes());
         outputStream.write(cookie.getName().getBytes());
         outputStream.write("=".getBytes());
         if (cookie.getValue() != null) {
             outputStream.write(cookie.getValue().getBytes());
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Writing Cookie value: {0}", cookie.getValue());
+            }
         }
         if (cookie.getMaxAge() > -1) {
             outputStream.write(("; Max-Age=" + cookie.getMaxAge()).getBytes());
             String expireDate = formatDateToGMT(Instant.now().plusSeconds(cookie.getMaxAge()).toEpochMilli());
             outputStream.write(("; Expires=" + expireDate).getBytes());
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Writing Cookie Max-Age: {0}", cookie.getMaxAge());
+                LOGGER.log(TRACE, "Writing Cookie Expires: {0}", expireDate);
+            }
         }
         if (cookie.getSecure()) {
             outputStream.write("; Secure".getBytes());
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Writing Cookie Secure: {0}", cookie.getSecure());
+            }
         }
         if (cookie.isHttpOnly()) {
             outputStream.write("; HttpOnly".getBytes());
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Writing Cookie HttpOnly: {0}", cookie.isHttpOnly());
+            }
         }
         if (cookie.getPath() != null) {
             outputStream.write(("; Path=" + cookie.getPath()).getBytes());
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Writing Cookie Path: {0}", cookie.isHttpOnly());
+            }
         }
         if (cookie.getVersion() > 0) {
             outputStream.write(("; Version=" + cookie.getVersion()).getBytes());
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "Writing Cookie Version: {0}", cookie.getVersion());
+            }
         }
         outputStream.write("\n".getBytes());
     }
@@ -362,6 +428,9 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
      * @throws IOException when an I/O error occurs.
      */
     private void writeCookies() throws IOException {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Writing cookies");
+        }
         for (Cookie cookie : response.getCookies()) {
             writeCookie(cookie);
         }
@@ -384,6 +453,9 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
                 if (values.hasNext()) {
                     outputStream.write(",".getBytes());
                 }
+                if (LOGGER.isLoggable(TRACE)) {
+                    LOGGER.log(TRACE, "Writing header: {0} with value: {1}", name, value);
+                }
             }
         }
         outputStream.write("\n".getBytes());
@@ -395,6 +467,9 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
      * @throws IOException when an I/O error occurs.
      */
     public void writeHeaders() throws IOException {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Writing headers");
+        }
         writeContentType();
         writeContentLanguage();
         writeCookies();
@@ -410,6 +485,11 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
      * @throws IOException when an I/O error occurs.
      */
     public void writeStatusLine() throws IOException {
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Writing status line: {0}",
+                    "HTTP/1.1 " + Integer.toString(response.getStatus()));
+        }
+
         outputStream.write("HTTP/1.1".getBytes());
         outputStream.write(" ".getBytes());
         outputStream.write(Integer.toString(response.getStatus()).getBytes());
