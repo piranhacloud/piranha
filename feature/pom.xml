@@ -23,9 +23,10 @@
         <module>impl</module>
         <module>isolatedwebapp</module>
         <module>logging</module>
+        <module>pid</module>
+        <module>trace</module>
         <module>webapp</module>
         <module>webapps</module>
-        <module>pid</module>
     </modules>
     <dependencyManagement>
         <dependencies>
