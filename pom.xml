@@ -102,11 +102,11 @@
         <jandex.version>3.2.3</jandex.version>
         <jaxb-runtime.version>4.0.5</jaxb-runtime.version>
         <jboss-classfilewriter.version>1.3.1.Final</jboss-classfilewriter.version>
-        <jersey.version>4.0.0-M1</jersey.version>
+        <jersey.version>4.0.0-M2</jersey.version>
         <jstl.version>3.0.1</jstl.version>
         <junit-pioneer.version>2.3.0</junit-pioneer.version>
-        <junit-platform-launcher.version>1.11.3</junit-platform-launcher.version>
-        <junit.version>5.11.3</junit.version>
+        <junit-platform-launcher.version>1.11.4</junit-platform-launcher.version>
+        <junit.version>5.11.4</junit.version>
         <maven-plugin-annotations.version>3.15.1</maven-plugin-annotations.version>
         <maven-plugin-api.version>3.9.9</maven-plugin-api.version>
         <maven-plugin-tools-annotations.version>3.15.1</maven-plugin-tools-annotations.version>
@@ -114,8 +114,8 @@
         <microprofile-jwt-auth-api.version>2.1</microprofile-jwt-auth-api.version>
         <microprofile-jwt-auth.version>3.0.0</microprofile-jwt-auth.version>
         <mojarra.version>4.1.2</mojarra.version>
-        <netty.version>4.1.115.Final</netty.version>
-        <nimbus-jose-jwt.version>9.47</nimbus-jose-jwt.version>
+        <netty.version>4.1.116.Final</netty.version>
+        <nimbus-jose-jwt.version>10.0.1</nimbus-jose-jwt.version>
         <omni-mp-config.version>3.0.0</omni-mp-config.version>
         <omnibeans.version>0.3</omnibeans.version>
         <omniservices.version>0.4</omniservices.version>
