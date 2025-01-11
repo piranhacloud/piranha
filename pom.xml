@@ -92,7 +92,7 @@
         <glassfish-client-ee11.version>1.6.1</glassfish-client-ee11.version>
         <grizzly.version>4.1.0-M1</grizzly.version>
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
-        <guava.version>33.3.1-jre</guava.version>
+        <guava.version>33.4.0-jre</guava.version>
         <h2.version>2.3.232</h2.version>
         <!-- kept at 5.4.0 because 5.5.0 adds remote repositories -->
         <hazelcast.version>5.4.0</hazelcast.version>
