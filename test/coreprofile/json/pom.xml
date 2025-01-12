@@ -15,7 +15,6 @@
     <name>Piranha - Test - Core Profile - Create a JSON temperature service</name>
     <properties>
         <!-- other -->
-        <piranha.version>${project.version}</piranha.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -46,7 +45,7 @@
             <plugin>
                 <groupId>cloud.piranha.maven</groupId>
                 <artifactId>piranha-maven-plugin</artifactId>
-                <version>${piranha.version}</version>
+                <version>${project.version}</version>
                 <executions>
                     <execution>
                         <id>pre-integration-test</id>
