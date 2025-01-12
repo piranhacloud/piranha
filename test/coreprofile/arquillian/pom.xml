@@ -14,8 +14,6 @@
     <packaging>war</packaging>
     <name>Piranha - Test - Core Profile - Testing with JUnit 5 and Arquillian</name>
     <properties>
-        <!-- dependencies -->
-        <piranha.version>${project.version}</piranha.version>
         <!-- other -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -28,7 +26,7 @@
         <dependency>
             <groupId>cloud.piranha.arquillian</groupId>
             <artifactId>piranha-arquillian-managed</artifactId>
-            <version>${piranha.version}</version>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
