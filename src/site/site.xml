@@ -24,7 +24,7 @@
         </links>
         <menu name="Overview">
             <item name="Getting Started" href="index.html"/>
-            <item name="Maven Plugin" href="maven/plugin/index.html"/>
+            <item name="Maven Plugin" href="maven/plugin/plugin-info.html"/>
         </menu>
         <menu name="Distributions">
             <item name="Core Profile" href="dist/coreprofile/index.html"/>
