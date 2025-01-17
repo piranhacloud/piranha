@@ -57,7 +57,6 @@ module cloud.piranha.extension.servlet {
     requires cloud.piranha.extension.declared;
     requires cloud.piranha.extension.fileupload;
     requires cloud.piranha.extension.herring;
-    requires cloud.piranha.extension.tomcat10x;
     requires cloud.piranha.extension.expressly;
     requires cloud.piranha.extension.policy;
     requires cloud.piranha.extension.scinitializer;
