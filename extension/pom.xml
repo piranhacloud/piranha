@@ -20,7 +20,6 @@
         <module>annotationscan-classfile</module>
         <module>angus</module>
         <module>bytesstreamhandler</module>
-        <module>compat-glassfish7x</module>
         <module>compat-tomcat10x</module>
         <module>concurro</module>
         <module>coreprofile</module>

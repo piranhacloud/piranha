@@ -63,7 +63,6 @@ module cloud.piranha.extension.webprofile {
     requires cloud.piranha.extension.expressly;
     requires cloud.piranha.extension.datasource;
     requires cloud.piranha.extension.eclipselink;
-    requires cloud.piranha.extension.glassfish7x;
     requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.jersey;
     requires cloud.piranha.extension.policy;

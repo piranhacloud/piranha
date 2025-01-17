@@ -35,7 +35,6 @@ import cloud.piranha.extension.datasource.DefaultDatasourceExtension;
 import cloud.piranha.extension.declared.DeclaredExtension;
 import cloud.piranha.extension.eclipselink.EclipseLinkExtension;
 import cloud.piranha.extension.fileupload.FileUploadExtension;
-import cloud.piranha.extension.glassfish7x.Glassfish7xExtension;
 import cloud.piranha.extension.herring.HerringExtension;
 import cloud.piranha.extension.policy.PolicyExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
@@ -77,7 +76,6 @@ public class WebProfileExtension implements WebApplicationExtension {
         context.add(WaspExtension.class);                           // WaSP
         context.add(EclipseLinkExtension.class);                    // Jakarta Persistence
         context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
-        context.add(Glassfish7xExtension.class);                    // Glassfish 7.x compatbility
     }
 
     private static Class<? extends WebApplicationExtension> getAnnotationScanExtensionClass() {
