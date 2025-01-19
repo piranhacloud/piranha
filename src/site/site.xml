@@ -34,6 +34,9 @@
             <item name="Servlet" href="dist/servlet/index.html"/>
             <item name="Web Profile" href="dist/webprofile/index.html"/>
         </menu>
+        <menu name="Extensions">
+            <item name="File Upload" href="extension/file-upload/index.html"/>
+        </menu>
     </body>
     <custom>
         <fluidoSkin>
