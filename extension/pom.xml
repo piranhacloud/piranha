@@ -20,10 +20,9 @@
         <module>annotationscan-classfile</module>
         <module>angus</module>
         <module>bytesstreamhandler</module>
-        <module>compat-tomcat10x</module>
         <module>concurro</module>
         <module>coreprofile</module>
-	<module>declared</module>
+      	<module>declared</module>
         <module>default-datasource</module>
         <module>eclipselink</module>
         <module>epicyro</module>

@@ -40,7 +40,6 @@ import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
 import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.servletannotations.ServletAnnotationsExtension;
 import cloud.piranha.extension.tempdir.TempDirExtension;
-import cloud.piranha.extension.tomcat10x.Tomcat10xExtension;
 import cloud.piranha.extension.wasp.WaspExtension;
 import cloud.piranha.extension.wasp.WaspJspManagerExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
@@ -69,7 +68,6 @@ public class ServletExtension implements WebApplicationExtension {
         context.add(WaspExtension.class);                           // WaSP
         context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
         context.add(ServletSecurityExtension.class);                // Security implementation
-        context.add(Tomcat10xExtension.class);                      // Tomcat 10x compatbility
     }
 
     private static Class<? extends WebApplicationExtension> getAnnotationScanExtensionClass() {
