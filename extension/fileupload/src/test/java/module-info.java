@@ -25,35 +25,17 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.fileupload;
-
-import cloud.piranha.core.impl.DefaultWebApplication;
-import cloud.piranha.core.impl.DefaultWebApplicationRequest;
-import jakarta.servlet.MultipartConfigElement;
-import java.io.File;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import org.junit.jupiter.api.Test;
 
 /**
- * The JUnit tests for the FileUploadMultiPartManager class.
+ * This module delivers the tests for the File Upload extension.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-class FileUploadMultiPartManagerTest {
+module cloud.piranha.extension.fileupload.tests {
 
-    /**
-     * Test getPart method.
-     * 
-     * @throws Exception when a serious error occurs.
-     */
-    @Test
-    void testGetPart() throws Exception {
-        DefaultWebApplication application = new DefaultWebApplication();
-        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
-        request.setMultipartConfig(new MultipartConfigElement(new File("target").getAbsolutePath()));
-        request.setContentType("multipart/form-data");
-        request.setMethod("POST");
-        FileUploadMultiPartManager manager = new FileUploadMultiPartManager();
-        assertNull(manager.getPart(application, request, "part_test"));
-    }
+    exports cloud.piranha.extension.fileupload.tests;
+    opens cloud.piranha.extension.fileupload.tests;
+    requires cloud.piranha.core.impl;
+    requires cloud.piranha.extension.fileupload;
+    requires org.junit.jupiter.api;
 }

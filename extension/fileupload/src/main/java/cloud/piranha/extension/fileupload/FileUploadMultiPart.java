@@ -36,7 +36,7 @@ import java.util.Collection;
 import org.apache.commons.fileupload2.core.FileItem;
 
 /**
- * The Part for the ApacheMultiPartManager.
+ * The Part for the FileUploadMultiPartManager.
  *
  * <p>
  * This class implements the Servlet Part API and delegates to an Apache Commons

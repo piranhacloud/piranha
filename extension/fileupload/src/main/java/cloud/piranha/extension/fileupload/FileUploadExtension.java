@@ -32,8 +32,8 @@ import cloud.piranha.core.api.WebApplicationExtension;
 import static java.lang.System.Logger.Level.TRACE;
 
 /**
- * The WebApplicationExtension that is responsible for setting up the Apache
- * multi-part manager.
+ * The File Upload extension that configures the web application so it can 
+ * support file uploads.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
@@ -52,7 +52,7 @@ public class FileUploadExtension implements WebApplicationExtension {
     
     @Override
     public void configure(WebApplication webApplication) {
-        LOGGER.log(TRACE, "Configuring Apache Commons FileUpload extension");
+        LOGGER.log(TRACE, "Configuring File Upload extension");
         webApplication.addInitializer(FileUploadMultiPartInitializer.class.getName());
     }
 }

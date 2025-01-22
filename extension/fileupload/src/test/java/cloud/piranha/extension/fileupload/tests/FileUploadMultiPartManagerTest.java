@@ -25,50 +25,36 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package cloud.piranha.extension.fileupload;
+package cloud.piranha.extension.fileupload.tests;
 
-import cloud.piranha.core.api.WebApplication;
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-import java.lang.System.Logger;
-import static java.lang.System.Logger.Level.TRACE;
-import java.util.Set;
+import cloud.piranha.core.impl.DefaultWebApplication;
+import cloud.piranha.core.impl.DefaultWebApplicationRequest;
+import cloud.piranha.extension.fileupload.FileUploadMultiPartManager;
+import jakarta.servlet.MultipartConfigElement;
+import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 
 /**
- * The ServletContainerInitializer that is used to configure the web application
- * to support file upload:
- *
- * <p>
- * The ServletContainerInitializer performs the following steps:
- * </p>
- *
- * <ol>
- * <li>Sets the MultiPartManager to an instance of FileUploadMultiPartManager.</li>
- * <li>Adds the JakartaFileCleaner listener that cleans up the temporary files.</li>
- * </ol>
+ * The JUnit tests for the FileUploadMultiPartManager class.
  *
  * @author Manfred Riem (mriem@manorrock.com)
  */
-public class FileUploadMultiPartInitializer implements ServletContainerInitializer {
+class FileUploadMultiPartManagerTest {
 
     /**
-     * Stores the logger.
+     * Test getPart method.
+     * 
+     * @throws Exception when a serious error occurs.
      */
-    private static final Logger LOGGER = System.getLogger(FileUploadMultiPartInitializer.class.getName());
-
-    /**
-     * Constructor.
-     */
-    public FileUploadMultiPartInitializer() {
-    }
-    
-    @Override
-    public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
-        WebApplication webApplication = (WebApplication) servletContext;
-        LOGGER.log(TRACE, "Setting the MultiPartManager");
-        webApplication.getManager().setMultiPartManager(new FileUploadMultiPartManager());
-        LOGGER.log(TRACE, "Adding the listener used to cleanup temporary files");
-        webApplication.addListener("org.apache.commons.fileupload2.jakarta.servlet6.JakartaFileCleaner");
+    @Test
+    void testGetPart() throws Exception {
+        DefaultWebApplication application = new DefaultWebApplication();
+        DefaultWebApplicationRequest request = new DefaultWebApplicationRequest();
+        request.setMultipartConfig(new MultipartConfigElement(new File("target").getAbsolutePath()));
+        request.setContentType("multipart/form-data");
+        request.setMethod("POST");
+        FileUploadMultiPartManager manager = new FileUploadMultiPartManager();
+        assertNull(manager.getPart(application, request, "part_test"));
     }
 }

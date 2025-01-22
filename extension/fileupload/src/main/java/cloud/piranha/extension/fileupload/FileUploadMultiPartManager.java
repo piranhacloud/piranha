@@ -60,6 +60,12 @@ import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload;
 public class FileUploadMultiPartManager implements MultiPartManager {
 
     /**
+     * Stores the constant for the file size treshold.
+     */
+    private static final String FILE_SIZE_THRESHOLD_NAME
+            = "cloud.piranha.extension.fileupload.fileSizeTreshold";
+
+    /**
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(FileUploadMultiPartManager.class.getName());
@@ -76,7 +82,7 @@ public class FileUploadMultiPartManager implements MultiPartManager {
         if (LOGGER.isLoggable(TRACE)) {
             LOGGER.log(TRACE, "Getting parts for request: {0}", request);
         }
-        
+
         if (!JakartaServletFileUpload.isMultipartContent(request)) {
             if (LOGGER.isLoggable(TRACE)) {
                 LOGGER.log(TRACE, "Request: {0} is not a multipart/form-date request");
@@ -147,6 +153,13 @@ public class FileUploadMultiPartManager implements MultiPartManager {
                 outputDirectory = location;
             }
             int sizeThreshold = 10240;
+            if (webApplication.getInitParameter(FILE_SIZE_THRESHOLD_NAME) != null) {
+                try {
+                    sizeThreshold = Integer.parseInt(webApplication.getInitParameter("cloud.piranha.extension.fileupload.fileSizeTreshold"));
+                } catch (NumberFormatException nfe) {
+                    // ignore and let defaults apply.
+                }
+            }
             if (multipartConfig.getFileSizeThreshold() != 0) {
                 sizeThreshold = multipartConfig.getFileSizeThreshold();
             }
