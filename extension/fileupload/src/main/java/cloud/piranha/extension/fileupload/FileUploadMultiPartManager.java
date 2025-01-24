@@ -156,7 +156,7 @@ public class FileUploadMultiPartManager implements MultiPartManager {
              * If the multipart config has a location use it. If it is relative
              * use the TEMPDIR as the parent directory.
              */
-            if (multipartConfig.getLocation() != null && multipartConfig.getLocation().isEmpty()) {
+            if (multipartConfig.getLocation() != null && !multipartConfig.getLocation().isEmpty()) {
                 File location = new File(multipartConfig.getLocation());
                 if (!location.isAbsolute()) {
                     location = ((File) webApplication.getAttribute(TEMPDIR)).toPath().resolve(location.toPath()).toFile();
