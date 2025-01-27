@@ -13,7 +13,6 @@ The following configuration parameters are available:
 
 1. `cloud.piranha.extension.fileupload.outputDirectory` - the directory where
    the file upload will store temporary files. The default is the location as
-   of the ServletContext TEMPDIR.
    
 1. `cloud.piranha.extension.fileupload.fileSizeTreshold` - the file size
    threshold (in bytes) before the runtime will create a temporary file on the

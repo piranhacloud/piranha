@@ -44,8 +44,10 @@ import java.util.Set;
  * </p>
  *
  * <ol>
- * <li>Sets the MultiPartManager to an instance of FileUploadMultiPartManager.</li>
- * <li>Adds the JakartaFileCleaner listener that cleans up the temporary files.</li>
+ * <li>Sets the MultiPartManager to an instance of
+ * FileUploadMultiPartManager.</li>
+ * <li>Adds the JakartaFileCleaner listener that cleans up the temporary
+ * files.</li>
  * </ol>
  *
  * @author Manfred Riem (mriem@manorrock.com)
@@ -62,13 +64,17 @@ public class FileUploadMultiPartInitializer implements ServletContainerInitializ
      */
     public FileUploadMultiPartInitializer() {
     }
-    
+
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication webApplication = (WebApplication) servletContext;
-        LOGGER.log(TRACE, "Setting the MultiPartManager");
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Setting the MultiPartManager");
+        }
         webApplication.getManager().setMultiPartManager(new FileUploadMultiPartManager());
-        LOGGER.log(TRACE, "Adding the listener used to cleanup temporary files");
+        if (LOGGER.isLoggable(TRACE)) {
+            LOGGER.log(TRACE, "Adding the listener used to cleanup temporary files");
+        }
         webApplication.addListener("org.apache.commons.fileupload2.jakarta.servlet6.JakartaFileCleaner");
     }
 }
