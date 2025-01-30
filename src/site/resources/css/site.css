@@ -1,0 +1,89 @@
+/* Set the background color to black */
+body {
+    background-color: black;
+    color: white;
+}
+
+/* Style headers with gold color */
+h1, h2, h3, h4, h5, h6 {
+    color: goldenrod;
+}
+
+/* Style links with gold color */
+a {
+    color: goldenrod;
+}
+
+/* Style navigation menu with black background and gold text */
+.navbar, .navbar-default {
+    background-color: black;
+    color: goldenrod;
+}
+
+.navbar a {
+    color: goldenrod;
+}
+
+/* Style footer with black background and gold text */
+footer {
+    background-color: black;
+    color: goldenrod;
+}
+
+#breadcrumbs {
+    background-color: black;
+    color: goldenrod;
+}
+
+#breadcrumbs ul {
+    background-color: black;
+}
+
+#breadcrumbs li {
+    background-color: black;
+    color: goldenrod;
+}
+
+#breadcrumbs a {
+    color: goldenrod;
+}
+
+#breadcrumbs .divider {
+    color: goldenrod;
+}
+
+#publishDate {
+    color: goldenrod;
+    background-color: black;
+}
+
+.nav.nav-list {
+    background-color: black;
+    color: goldenrod;
+}
+
+.nav.nav-list a {
+    color: goldenrod;
+}
+
+.nav.nav-list .active {
+    background-color: black;
+    font-style: italic;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+.sidebar-nav {
+    background-color: black;
+    color: goldenrod;
+    border: none;
+}
+
+.sidebar-nav a {
+    color: goldenrod;
+}
+
+.well.sidebar-nav {
+    border: none;
+}

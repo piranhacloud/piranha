@@ -27,7 +27,7 @@
  */
 
 /**
- * This module delivers the default DataSource extension
+ * This module delivers the datasource extension
  *
  * <p>
  *  This extension adds a default DataSource under the 
