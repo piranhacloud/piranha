@@ -36,6 +36,7 @@
         </menu>
         <menu name="Extensions">
             <item name="File Upload" href="extension/file-upload/index.html"/>
+            <item name="Temp Dir" href="extesnion/tempdir/index.html"/>
         </menu>
     </body>
     <custom>

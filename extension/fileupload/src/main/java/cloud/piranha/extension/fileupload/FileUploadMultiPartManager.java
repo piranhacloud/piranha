@@ -66,6 +66,12 @@ public class FileUploadMultiPartManager implements MultiPartManager {
             = "cloud.piranha.extension.fileupload.fileSizeTreshold";
 
     /**
+     * Stores the constant for the output directory.
+     */
+    private static final String OUTPUT_DIRECTORY_NAME
+            = "cloud.piranha.extension.fileupload.outputDirectory";
+
+    /**
      * Stores the logger.
      */
     private static final Logger LOGGER = System.getLogger(FileUploadMultiPartManager.class.getName());
@@ -142,26 +148,46 @@ public class FileUploadMultiPartManager implements MultiPartManager {
     private synchronized JakartaServletFileUpload setupFileUpload(WebApplication webApplication, MultipartConfigElement multipartConfig) {
         JakartaServletFileUpload upload = (JakartaServletFileUpload) webApplication.getAttribute(FileUploadMultiPartManager.class.getName());
         if (upload == null) {
-            File outputDirectory;
-            if (multipartConfig.getLocation() == null || multipartConfig.getLocation().isEmpty()) {
-                outputDirectory = (File) webApplication.getAttribute(TEMPDIR);
-            } else {
+            /*
+             * Default to TEMPDIR.
+             */
+            File outputDirectory = (File) webApplication.getAttribute(TEMPDIR);
+            /*
+             * If the multipart config has a location use it. If it is relative
+             * use the TEMPDIR as the parent directory.
+             */
+            if (multipartConfig.getLocation() != null && !multipartConfig.getLocation().isEmpty()) {
                 File location = new File(multipartConfig.getLocation());
                 if (!location.isAbsolute()) {
                     location = ((File) webApplication.getAttribute(TEMPDIR)).toPath().resolve(location.toPath()).toFile();
                 }
                 outputDirectory = location;
             }
+            /*
+             * If OUTPUT_DIRECTORY_NAME is set use it.
+             */
+            if (webApplication.getInitParameter(OUTPUT_DIRECTORY_NAME) != null) {
+                outputDirectory = new File(webApplication.getInitParameter(OUTPUT_DIRECTORY_NAME));
+            }
+            /*
+             * Default to 10240 (10 KB).
+             */
             int sizeThreshold = 10240;
+            /*
+             * If the multipart config has a size > 0 use it.
+             */
+            if (multipartConfig.getFileSizeThreshold() != 0) {
+                sizeThreshold = multipartConfig.getFileSizeThreshold();
+            }
+            /*
+             * If FILE_SIZE_THRESHOLD_NAME is set use it.
+             */
             if (webApplication.getInitParameter(FILE_SIZE_THRESHOLD_NAME) != null) {
                 try {
                     sizeThreshold = Integer.parseInt(webApplication.getInitParameter("cloud.piranha.extension.fileupload.fileSizeTreshold"));
                 } catch (NumberFormatException nfe) {
                     // ignore and let defaults apply.
                 }
-            }
-            if (multipartConfig.getFileSizeThreshold() != 0) {
-                sizeThreshold = multipartConfig.getFileSizeThreshold();
             }
             DiskFileItemFactory factory = DiskFileItemFactory
                     .builder()
