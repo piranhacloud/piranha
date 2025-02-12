@@ -32,8 +32,8 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.enterprise.concurrent</artifactId>
+            <groupId>org.glassfish.concurro</groupId>
+            <artifactId>concurro</artifactId>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
