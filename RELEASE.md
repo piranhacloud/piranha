@@ -6,6 +6,7 @@ releases see the [Patch releases](#patch-releases) section below
 ## On the 11th of the month
 
 1. Create release-X.Y.Z branch from current
+1. Trigger the current workflow against the release-X.Y.Z branch
 1. Wait for the build on the release-X.Y.Z branch to complete
 1. If the build was not successful
     1. Checkout the release-X.Y.Z branch
@@ -38,5 +39,6 @@ releases see the [Patch releases](#patch-releases) section below
 ## Patch releases
 
 If you are creating a patch release against a branch please follow all the
-steps above and replace current with the branch you are patching against where 
-appropriate (without waiting a day in between).
+steps above skipping the release docs workflow and replace current with
+the branch you are patching against where appropriate (without waiting a 
+day in between).

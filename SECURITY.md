@@ -2,5 +2,5 @@
 
 ## Reporting a Vulnerability
 
-Please email infor@piranha.cloud describing the issue
+Please email info@piranha.cloud describing the issue
 (preferably with a reproducer and/or a fix)
