@@ -35,6 +35,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.File;
 import java.net.URL;
 
+import org.htmlunit.DefaultCredentialsProvider;
+import org.htmlunit.FailingHttpStatusCodeException;
+import org.htmlunit.TextPage;
+import org.htmlunit.WebClient;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -43,12 +47,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
-import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
-import com.gargoylesoftware.htmlunit.TextPage;
-import com.gargoylesoftware.htmlunit.WebClient;
-
 
 @RunWith(Arquillian.class)
 public class ProtectedServletIT {
@@ -85,7 +83,7 @@ public class ProtectedServletIT {
     @Test
     public void testGetWithCorrectCredentials() throws Exception {
         DefaultCredentialsProvider credentialsProvider = new DefaultCredentialsProvider();
-        credentialsProvider.addCredentials("test", "pass");
+        credentialsProvider.addCredentials("test", "pass".toCharArray());
 
         webClient.setCredentialsProvider(credentialsProvider);
         TextPage page = webClient.getPage(base + "protected/servlet");
@@ -96,7 +94,7 @@ public class ProtectedServletIT {
     @Test
     public void testGetWithIncorrectCredentials() throws Exception {
         DefaultCredentialsProvider credentialsProvider = new DefaultCredentialsProvider();
-        credentialsProvider.addCredentials("wrong", "incorrect");
+        credentialsProvider.addCredentials("wrong", "incorrect".toCharArray());
         webClient.setCredentialsProvider(credentialsProvider);
 
         try {
