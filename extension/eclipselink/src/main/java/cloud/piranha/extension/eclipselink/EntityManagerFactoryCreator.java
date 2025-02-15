@@ -27,8 +27,6 @@
  */
 package cloud.piranha.extension.eclipselink;
 
-import static jakarta.persistence.spi.PersistenceUnitTransactionType.JTA;
-
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -103,6 +101,7 @@ public class EntityManagerFactoryCreator {
         return entityManagerFactories.computeIfAbsent(unitName, this::create);
     }
 
+    @SuppressWarnings("removal")
     private EntityManagerFactory create(String unitName) {
         Map<Object, Object> properties = new HashMap<>();
 
@@ -122,7 +121,7 @@ public class EntityManagerFactoryCreator {
             throw new IllegalStateException("No persistence unit found for [" + unitName + "]");
         }
 
-        persistenceUnitInfo.setTransactionType(JTA);
+        persistenceUnitInfo.setTransactionType(jakarta.persistence.spi.PersistenceUnitTransactionType.JTA);
 
         if (persistenceUnitInfo.getJtaDataSource() != null && persistenceUnitInfo.getJtaDataSource().getClass().getName().equals("org.eclipse.persistence.internal.jpa.jdbc.DataSourceImpl")) {
             for (Method method : persistenceUnitInfo.getJtaDataSource().getClass().getDeclaredMethods()) {

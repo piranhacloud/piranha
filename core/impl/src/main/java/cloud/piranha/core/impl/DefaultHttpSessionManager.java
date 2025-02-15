@@ -288,6 +288,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     @Override
+    @SuppressWarnings("removal")
     public String getComment() {
         return comment;
     }
