@@ -35,8 +35,9 @@ module cloud.piranha.extension.webxml {
 
     exports cloud.piranha.extension.webxml;
     opens cloud.piranha.extension.webxml;
-    requires static cloud.piranha.core.api;
+    requires transitive cloud.piranha.core.api;
     requires static cloud.piranha.core.impl;
+    requires transitive jakarta.servlet;
     requires static java.naming;
     requires static java.sql;
     requires java.xml;
