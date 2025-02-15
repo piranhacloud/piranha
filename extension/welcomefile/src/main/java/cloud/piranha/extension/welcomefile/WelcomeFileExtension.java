@@ -45,6 +45,12 @@ public class WelcomeFileExtension implements WebApplicationExtension {
      */
     private static final Logger LOGGER = System.getLogger(WelcomeFileExtension.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public WelcomeFileExtension() {
+    }
+
     @Override
     public void configure(WebApplication webApplication) {
         LOGGER.log(DEBUG, "Setting the StandardWelcomeFileManager");

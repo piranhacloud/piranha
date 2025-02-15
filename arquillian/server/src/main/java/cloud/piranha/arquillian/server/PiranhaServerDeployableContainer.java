@@ -66,6 +66,11 @@ public class PiranhaServerDeployableContainer extends PiranhaServerLoadableExten
      */
     private MicroOuterDeployer microOuterDeployer;
 
+    /**
+     * Constructor.
+     */
+    public PiranhaServerDeployableContainer() {
+    }
 
     @Override
     public void setup(PiranhaServerContainerConfiguration configuration) {

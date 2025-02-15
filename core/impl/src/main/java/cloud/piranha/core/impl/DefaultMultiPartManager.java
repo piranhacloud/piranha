@@ -46,6 +46,12 @@ import java.util.Collections;
  */
 public class DefaultMultiPartManager implements MultiPartManager {
 
+    /**
+     * Constructor.
+     */
+    public DefaultMultiPartManager() {
+    }
+
     @Override
     public Collection<Part> getParts(WebApplication webApplication, WebApplicationRequest request) throws ServletException {
         return Collections.emptyList();

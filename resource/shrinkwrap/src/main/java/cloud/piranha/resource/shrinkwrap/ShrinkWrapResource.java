@@ -45,9 +45,9 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import cloud.piranha.resource.api.Resource;
 
 /**
- *
+ * A ShrinkWrap resource.
+ * 
  * @author Arjan Tijms
- *
  */
 public class ShrinkWrapResource implements Resource {
 

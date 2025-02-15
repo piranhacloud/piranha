@@ -44,6 +44,12 @@ public class DefaultPiranhaConfiguration implements PiranhaConfiguration {
      */
     private final Map<String, Object> configuration = new HashMap<>();
 
+    /**
+     * Constructor
+     */
+    public DefaultPiranhaConfiguration() {
+    }
+
     @Override
     public boolean getBoolean(String key, boolean defaultValue) {
         if (configuration.containsKey(key)) {

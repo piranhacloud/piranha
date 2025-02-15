@@ -53,6 +53,12 @@ public class LoggingFeature extends DefaultFeature {
     private String level;
 
     /**
+     * Constructor.
+     */
+    public LoggingFeature() {
+    }
+
+    /**
      * Get the logging level.
      *
      * @return the logging level.

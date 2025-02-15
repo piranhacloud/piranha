@@ -52,6 +52,12 @@ public class DefaultWebApplicationRequestBuilder {
     private WebApplication webApplication;
 
     /**
+     * Constructor.
+     */
+    public DefaultWebApplicationRequestBuilder() {
+    }
+
+    /**
      * Build the request.
      * 
      * @return the request.

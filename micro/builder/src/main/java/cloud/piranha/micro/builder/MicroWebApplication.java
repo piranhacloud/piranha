@@ -68,6 +68,13 @@ public class MicroWebApplication extends DefaultWebApplication {
     private Consumer<Map<String, Object>> deployedApplication;
 
     /**
+     * Constructor.
+     */
+    public MicroWebApplication() {
+        super();
+    }
+
+    /**
      * {@return the deployed application}
      */
     public Consumer<Map<String, Object>> getDeployedApplication() {

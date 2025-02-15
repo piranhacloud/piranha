@@ -48,6 +48,13 @@ public class ExitOnStopFeature extends DefaultFeature {
     private volatile boolean exiting;
 
     /**
+     * Constructor.
+     */
+    public ExitOnStopFeature() {
+        exiting = false;
+    }
+
+    /**
      * Are we in the process of exiting?
      *
      * @return true if we are, false otherwise.

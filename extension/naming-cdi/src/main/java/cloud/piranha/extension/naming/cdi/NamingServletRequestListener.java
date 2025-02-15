@@ -48,6 +48,12 @@ public class NamingServletRequestListener implements ServletRequestListener {
      */
     private static final System.Logger LOGGER = System.getLogger(NamingServletRequestListener.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public NamingServletRequestListener() {
+    }
+
     @Override
     public void requestDestroyed(ServletRequestEvent event) {
         LOGGER.log(DEBUG, "Removing InitialContext");

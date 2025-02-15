@@ -34,6 +34,12 @@ package cloud.piranha.debug;
 public class Debug {
 
     /**
+     * Constructor
+     */
+    public Debug() {
+    }
+
+    /**
      * Main method
      * @param args args for main method
      */

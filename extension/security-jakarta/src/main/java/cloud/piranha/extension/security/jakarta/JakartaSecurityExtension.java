@@ -48,6 +48,12 @@ public class JakartaSecurityExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(JakartaSecurityExtension.class.getName());
 
     /**
+     * Constructor.
+     */
+    public JakartaSecurityExtension() {
+    }
+
+    /**
      * Configure the web application.
      *
      * @param webApplication the web application.

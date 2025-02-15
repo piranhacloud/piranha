@@ -48,6 +48,12 @@ public class ServletSecurityManagerInitializer implements ServletContainerInitia
     private static final Logger LOGGER = System.getLogger(
             ServletSecurityManagerInitializer.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public ServletSecurityManagerInitializer() {
+    }
+
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext)
             throws ServletException {

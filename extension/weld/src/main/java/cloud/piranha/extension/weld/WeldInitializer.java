@@ -43,6 +43,12 @@ import cloud.piranha.core.api.WebApplication;
 public class WeldInitializer implements ServletContainerInitializer {
 
     /**
+     * Constructor.
+     */
+    public WeldInitializer() {
+    }
+
+    /**
      * On startup.
      *
      * @param classes the annotated classes.

@@ -41,6 +41,12 @@ import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtensio
  */
 public class MicroProfileExtension implements WebApplicationExtension {
 
+    /**
+     * Constructor.
+     */
+    public MicroProfileExtension() {
+    }
+
     @Override
     public void extend(WebApplicationExtensionContext context) {
         context.add(HerringExtension.class);                        // Herring (JNDI)

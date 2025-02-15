@@ -54,6 +54,12 @@ public class NonTxEntityManagerHolder implements Serializable {
     private transient EntityManager entityManager;
 
     /**
+     * Constructor.
+     */
+    public NonTxEntityManagerHolder() {
+    }
+
+    /**
      * Gets the entity manager or computes and stores it if not yet available.
      *
      * @param entityManagerSupplier the supplier to get the entity manager from

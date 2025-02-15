@@ -50,6 +50,12 @@ public class WeldObjectInstanceManager implements ObjectInstanceManager {
      */
     private static final Logger LOGGER = System.getLogger(WeldObjectInstanceManager.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public WeldObjectInstanceManager() {
+    }
+
     @Override
     public <T extends Filter> T createFilter(Class<T> filterClass) throws ServletException {
         T result = null;

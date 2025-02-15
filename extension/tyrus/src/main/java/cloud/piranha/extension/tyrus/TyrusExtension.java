@@ -59,6 +59,12 @@ public class TyrusExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(TyrusExtension.class.getName());
 
     /**
+     * Constructor.
+     */
+    public TyrusExtension() {
+    }
+
+    /**
      * Configure the extension.
      *
      * @param webApplication the web application.

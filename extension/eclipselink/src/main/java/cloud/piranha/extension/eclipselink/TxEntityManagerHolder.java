@@ -54,6 +54,12 @@ public class TxEntityManagerHolder implements Serializable {
     private EntityManager entityManager;
 
     /**
+     * Constructor.
+     */
+    public TxEntityManagerHolder() {
+    }
+
+    /**
      * Gets the entity manager or computes and stores it if not yet available.
      *
      * @param entityManagerSupplier the supplier to get the entity manager from

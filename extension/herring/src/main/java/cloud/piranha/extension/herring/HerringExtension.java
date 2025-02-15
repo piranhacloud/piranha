@@ -63,6 +63,12 @@ public class HerringExtension implements WebApplicationExtension {
     private static final System.Logger LOGGER = System.getLogger(HerringExtension.class.getName());
 
     /**
+     * Constructor.
+     */
+    public HerringExtension() {
+    }
+
+    /**
      * Configure the web application.
      *
      * @param webApplication the web application.

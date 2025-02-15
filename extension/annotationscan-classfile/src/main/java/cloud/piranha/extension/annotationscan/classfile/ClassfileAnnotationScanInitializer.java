@@ -256,6 +256,7 @@ class Holder {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private static MethodHandles.Lookup getLookup() {
         MethodHandles.Lookup lookup = MethodHandles.lookup();
         try {

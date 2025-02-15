@@ -52,6 +52,12 @@ public class EclipseLinkInitializer implements ServletContainerInitializer {
     private static final Logger LOGGER = System.getLogger(EclipseLinkInitializer.class.getName());
 
     /**
+     * Constructor.
+     */
+    public EclipseLinkInitializer() {
+    }
+
+    /**
      * Initialize EclipseLink.
      *
      * @param classes the classes.

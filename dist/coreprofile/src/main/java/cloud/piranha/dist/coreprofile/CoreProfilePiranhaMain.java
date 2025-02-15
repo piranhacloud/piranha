@@ -49,6 +49,13 @@ import cloud.piranha.single.SinglePiranhaBuilder;
 public class CoreProfilePiranhaMain extends SingleMain {
 
     /**
+     * Constructor.
+     */
+    public CoreProfilePiranhaMain() {
+        super();
+    }
+    
+    /**
      * Main method.
      *
      * @param arguments the arguments.

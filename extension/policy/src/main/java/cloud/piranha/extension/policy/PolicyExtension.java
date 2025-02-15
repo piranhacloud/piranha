@@ -53,6 +53,12 @@ public class PolicyExtension implements WebApplicationExtension {
     private static final System.Logger LOGGER = System.getLogger(PolicyExtension.class.getName());
 
     /**
+     * Constructor.
+     */
+    public PolicyExtension() {
+    }
+
+    /**
      * Configure the web application.
      *
      * @param webApplication the web application.

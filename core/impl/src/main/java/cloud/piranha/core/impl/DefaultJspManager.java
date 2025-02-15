@@ -44,6 +44,12 @@ public class DefaultJspManager implements JspManager {
      */
     private JspConfigDescriptor descriptor;
 
+    /**
+     * Constructor.
+     */
+    public DefaultJspManager() {
+    }
+
     @Override
     public ServletRegistration.Dynamic addJspFile(WebApplication webApplication, String servletName, String jspFile) {
         return null;

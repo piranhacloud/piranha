@@ -60,7 +60,7 @@ public class InMemoryIdentityStore implements IdentityStore {
      * @author Manfred Riem (mriem@manorrock.com)
      */
     public static class Credential {
-        
+
         /**
          * Stores the caller name.
          */
@@ -116,6 +116,13 @@ public class InMemoryIdentityStore implements IdentityStore {
      * Stores the caller to credentials map.
      */
     private static final Map<String, Credential> CALLER_TO_CREDENTIALS = new ConcurrentHashMap<>();
+
+    /**
+     * Constructor.
+     */
+    public InMemoryIdentityStore() {
+        super();
+    }
 
     /**
      * {@return the caller to credentials map}

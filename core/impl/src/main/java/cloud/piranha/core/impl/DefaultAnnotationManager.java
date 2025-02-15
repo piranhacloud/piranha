@@ -49,6 +49,12 @@ public class DefaultAnnotationManager implements AnnotationManager {
      */
     private HashMap<Class<? extends Annotation>, Set<Class<?>>> annotatedClasses = new HashMap<>();
 
+    /**
+     * Constructor.
+     */
+    public DefaultAnnotationManager() {
+    }        
+
     @Override
     public void addAnnotatedClass(Class<? extends Annotation> annotationClass, Class<?> clazz) {
         if (annotationClass == null) {

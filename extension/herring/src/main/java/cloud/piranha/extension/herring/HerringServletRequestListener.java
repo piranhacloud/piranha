@@ -48,6 +48,12 @@ public class HerringServletRequestListener implements ServletRequestListener {
      */
     private static final System.Logger LOGGER = System.getLogger(HerringServletRequestListener.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public HerringServletRequestListener() {
+    }
+
     @Override
     public void requestDestroyed(ServletRequestEvent event) {
         LOGGER.log(DEBUG, "Removing InitialContext");

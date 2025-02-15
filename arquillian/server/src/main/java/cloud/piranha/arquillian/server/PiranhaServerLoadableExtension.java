@@ -48,6 +48,12 @@ import cloud.piranha.micro.loader.MicroConfiguration;
  */
 public class PiranhaServerLoadableExtension implements LoadableExtension {
 
+    /**
+     * Constructor.
+     */
+    public PiranhaServerLoadableExtension() {
+    }
+
     // Defines the deployable container used; PiranhaServerDeployableContainer.class
     // This is the actual "connector" that controls Piranha.
 
@@ -67,6 +73,12 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
      * @author Manfred Riem (mriem@manorrock.com)
      */
     public abstract static class PiranhaServerContainerBase implements DeployableContainer<PiranhaServerContainerConfiguration> {
+
+        /**
+         * Constructor.
+         */
+        public PiranhaServerContainerBase() {
+        }
 
         @Override
         public Class<PiranhaServerContainerConfiguration> getConfigurationClass() {
@@ -119,7 +131,12 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
         }
 
         /**
-         * Just calls {@link #postConstruct()}
+         * Validates the configuration.
+         * 
+         * <p>
+         *  Just calls {@link #postConstruct()}
+         * </p>
+         * 
          * @throws ConfigurationException - never thrown
          */
         @Override
@@ -143,6 +160,8 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
         }
 
         /**
+         * Are we automatically assigning a port?
+         * 
          * @return whether automatically assign port
          */
         public boolean isAutoPort() {
@@ -150,6 +169,8 @@ public class PiranhaServerLoadableExtension implements LoadableExtension {
         }
 
         /**
+         * Set whether we are automatically assigning a port.
+         * 
          * @param autoPort Whether automatically assign port
          */
         public void setAutoPort(boolean autoPort) {

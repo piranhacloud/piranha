@@ -46,6 +46,12 @@ import org.jboss.weld.security.spi.SecurityServices;
  */
 public class WeldSecurityService implements SecurityServices {
 
+    /**
+     * Constructor.
+     */
+    public WeldSecurityService() {
+    }
+
     @Override
     public Principal getPrincipal() {
         Instance<SecurityContext> securityServiceInstance =  CDI.current().select(SecurityContext.class);

@@ -80,6 +80,12 @@ public class WebAppsFeature extends DefaultFeature {
     private HttpWebApplicationServer webApplicationServer;
 
     /**
+     * Constructor.
+     */
+    public WebAppsFeature() {
+    }
+
+    /**
      * Get the HttpServerProcessor.
      *
      * @return the HttpServerProcessor.

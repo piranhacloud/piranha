@@ -43,6 +43,12 @@ public class DefaultDispatcherManager implements DispatcherManager {
      * Stores the web application.
      */
     private WebApplication webApplication;
+
+    /**
+     * Constructor.
+     */
+    public DefaultDispatcherManager() {
+    }
     
     @Override
     public RequestDispatcher getNamedDispatcher(String name) {

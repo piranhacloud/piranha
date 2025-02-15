@@ -45,6 +45,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.SystemException;
 import jakarta.transaction.TransactionManager;
 
+/**
+ * The Transact filter.
+ * 
+ * @author Arjan Tijms
+ */
 public class TransactFilter extends HttpFilter {
 
     private static final long serialVersionUID = 1L;
@@ -66,6 +71,12 @@ public class TransactFilter extends HttpFilter {
      */
     @Inject
     private TransactionManager transactionManager;
+
+    /**
+     * Constructor.
+     */
+    public TransactFilter() {
+    }
 
     @Override
     public void init() throws ServletException {

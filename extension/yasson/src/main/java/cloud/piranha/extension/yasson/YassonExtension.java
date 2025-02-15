@@ -45,6 +45,12 @@ public class YassonExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(YassonExtension.class.getName());
     
     /**
+     * Constructor.
+     */
+    public YassonExtension() {
+    }
+
+    /**
      * Configure the extension.
      * 
      * @param webApplication the web application.

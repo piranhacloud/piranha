@@ -48,6 +48,12 @@ public class DefaultInitialContextFactory implements InitialContextFactory {
     private static Context theOneAndOnlyInstance = new DefaultInitialContext();
 
     /**
+     * Constructor.
+     */
+    public DefaultInitialContextFactory() {
+    }
+
+    /**
      * Sets the static (initial) context
      * @param context the (initial) context
      */

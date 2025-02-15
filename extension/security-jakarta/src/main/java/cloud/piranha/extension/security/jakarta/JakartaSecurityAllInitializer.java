@@ -79,6 +79,12 @@ public class JakartaSecurityAllInitializer implements ServletContainerInitialize
     };
 
     /**
+     * Constructor.
+     */
+    public JakartaSecurityAllInitializer() {
+    }
+
+    /**
      * Initialize Jakarta Security
      *
      * @param classes the classes.

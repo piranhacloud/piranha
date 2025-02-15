@@ -65,6 +65,12 @@ public class MultiPiranhaBuilder implements PiranhaBuilder<MultiPiranha> {
     private boolean verbose = false;
 
     /**
+     * Constructor.
+     */
+    public MultiPiranhaBuilder() {
+    }
+
+    /**
      * Build the server.
      *
      * @return the server.

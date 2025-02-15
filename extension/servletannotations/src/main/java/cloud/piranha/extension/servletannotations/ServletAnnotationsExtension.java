@@ -47,6 +47,12 @@ public class ServletAnnotationsExtension implements WebApplicationExtension {
      */
     private static final Logger LOGGER = System.getLogger(ServletAnnotationsExtension.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public ServletAnnotationsExtension() {
+    }
+
     @Override
     public void configure(WebApplication webApplication) {
         try {

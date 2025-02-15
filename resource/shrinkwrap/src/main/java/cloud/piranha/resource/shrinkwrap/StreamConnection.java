@@ -32,9 +32,9 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
+ * A stream connection.
  * 
  * @author Arjan Tijms
- *
  */
 public abstract class StreamConnection extends URLConnection {
 

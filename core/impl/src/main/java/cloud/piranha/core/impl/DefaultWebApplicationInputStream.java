@@ -45,6 +45,13 @@ public class DefaultWebApplicationInputStream extends WebApplicationInputStream 
     private static final Logger LOGGER
             = System.getLogger(DefaultWebApplicationInputStream.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public DefaultWebApplicationInputStream() {
+        super();
+    }
+
     @Override
     public void close() throws IOException {
         if (LOGGER.isLoggable(TRACE)) {

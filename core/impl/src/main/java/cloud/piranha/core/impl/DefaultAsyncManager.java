@@ -33,7 +33,18 @@ import cloud.piranha.core.api.WebApplication;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 
+/**
+ * The default implementation of the AsyncManager API.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 public class DefaultAsyncManager implements AsyncManager {
+
+    /**
+     * Constructor.
+     */
+    public DefaultAsyncManager() {
+    }
 
     @Override
     public AsyncDispatcher getDispatcher(WebApplication webApplication, String path, ServletRequest asyncStartRequest, ServletResponse asyncStartResponse) {

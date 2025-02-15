@@ -36,6 +36,11 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The LoggingHandler class.
+ * 
+ * @author Manfred Riem (mriem@manorrock.com)
+ */
 public class LoggingHandler extends Handler {
 
     /**

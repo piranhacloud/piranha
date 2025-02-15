@@ -47,6 +47,12 @@ public class AnnotationScanExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(AnnotationScanExtension.class.getName());
 
     /**
+     * Constructor.
+     */
+    public AnnotationScanExtension() {
+    }
+
+    /**
      * Configure the web application.
      *
      * @param webApplication the web application.

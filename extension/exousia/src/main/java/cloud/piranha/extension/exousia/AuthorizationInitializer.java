@@ -44,6 +44,12 @@ import cloud.piranha.core.api.WebApplication;
 public class AuthorizationInitializer implements ServletContainerInitializer {
 
     /**
+     * Constructor.
+     */
+    public AuthorizationInitializer() {
+    }
+
+    /**
      * Installs the authorization filter
      * 
      * @param classes the classes.

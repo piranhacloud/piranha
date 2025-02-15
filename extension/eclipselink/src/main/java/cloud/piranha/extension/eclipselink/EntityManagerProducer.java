@@ -49,6 +49,12 @@ import jakarta.persistence.PersistenceProperty;
 public class EntityManagerProducer {
 
     /**
+     * Constructor.
+     */
+    public EntityManagerProducer() {
+    }
+
+    /**
      *
      * @param injectionPoint the injectionPoint
      * @return EntityManager

@@ -49,6 +49,12 @@ public class WarFileExtractor {
     private static final System.Logger LOGGER = System.getLogger(WarFileExtractor.class.getName());
 
     /**
+     * Constructor.
+     */
+    private WarFileExtractor() {
+    }
+
+    /**
      * Extract the WAR file to the given directory.
      *
      * @param warFile the WAR file.

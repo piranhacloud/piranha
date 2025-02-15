@@ -72,6 +72,12 @@ public class ServletAnnotationsInitializer implements ServletContainerInitialize
      */
     private static final Logger LOGGER = System.getLogger(ServletAnnotationsInitializer.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public ServletAnnotationsInitializer() {
+    }
+
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication webApp = (WebApplication) servletContext;

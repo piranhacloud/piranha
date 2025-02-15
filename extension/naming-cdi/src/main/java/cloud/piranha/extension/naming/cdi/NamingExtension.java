@@ -68,6 +68,12 @@ public class NamingExtension implements WebApplicationExtension {
     private static final System.Logger LOGGER = System.getLogger(NamingExtension.class.getName());
 
     /**
+     * Constructor.
+     */
+    public NamingExtension() {
+    }
+
+    /**
      * Configure the web application.
      *
      * @param webApplication the web application.

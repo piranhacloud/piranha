@@ -62,6 +62,12 @@ public class PidFeature extends DefaultFeature implements Runnable {
     private Thread thread;
 
     /**
+     * Constructor.
+     */
+    public PidFeature() {
+    }
+
+    /**
      * Get the PID.
      *
      * @return the PID.

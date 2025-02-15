@@ -47,6 +47,12 @@ import java.util.EventListener;
 public class DefaultObjectInstanceManager implements ObjectInstanceManager {
 
     /**
+     * Constructor.
+     */
+    public DefaultObjectInstanceManager() {
+    }
+
+    /**
      * Create the filter.
      *
      * @param <T> the return type.

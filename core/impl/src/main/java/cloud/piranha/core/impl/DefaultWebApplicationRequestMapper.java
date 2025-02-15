@@ -65,7 +65,12 @@ public class DefaultWebApplicationRequestMapper implements WebApplicationRequest
      * Stores the default servlet
      */
     protected String defaultServlet;
-    
+
+    /**
+     * Constructor.
+     */
+    public DefaultWebApplicationRequestMapper() {
+    }
 
     @Override
     public Set<String> addFilterMapping(Set<DispatcherType> dispatcherTypes, String filterName, String... urlPatterns) {

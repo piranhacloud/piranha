@@ -41,6 +41,12 @@ import jakarta.enterprise.inject.spi.Extension;
 public class CdiExtension implements Extension {
 
     /**
+     * Constructor.
+     */
+    public CdiExtension() {
+    }
+
+    /**
      * Register the in-memory identity store.
      *
      * @param beforeBeanDiscovery the before bean discovery.

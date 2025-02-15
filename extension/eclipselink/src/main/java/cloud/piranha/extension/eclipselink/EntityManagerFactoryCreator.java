@@ -60,8 +60,7 @@ import jakarta.persistence.MappedSuperclass;
 /**
 * This bean takes care of creating an EntityManagerFactory using EclipseLink specific APIs.
 *
-* @author arjan
-*
+* @author Arjan Tijms
 */
 @ApplicationScoped
 public class EntityManagerFactoryCreator {
@@ -77,16 +76,24 @@ public class EntityManagerFactoryCreator {
     private AnnotationManager annotationManager;
 
     /**
-     * Gets the AnnotationManager used to lookup entity classes etc
-     * @return
+     * Constructor.
+     */
+    public EntityManagerFactoryCreator() {
+    }
+
+    /**
+     * Gets the AnnotationManager used to lookup entity classes etc.
+     * 
+     * @return the annotation manager.
      */
     public AnnotationManager getAnnotationManager() {
         return annotationManager;
     }
 
     /**
-     * Sets the AnnotationManager used to lookup entity classes etc
-     * @param annotationManager
+     * Sets the AnnotationManager used to lookup entity classes etc.
+     * 
+     * @param annotationManager the annotation manager.
      */
     public void setAnnotationManager(AnnotationManager annotationManager) {
         this.annotationManager = annotationManager;

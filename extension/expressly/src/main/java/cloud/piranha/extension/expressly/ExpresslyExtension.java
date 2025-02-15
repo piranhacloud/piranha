@@ -45,6 +45,12 @@ public class ExpresslyExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(ExpresslyExtension.class.getName());
     
     /**
+     * Constructor.
+     */
+    public ExpresslyExtension() {
+    }
+
+    /**
      * Configure the extension.
      * 
      * @param webApplication the web application.

@@ -95,6 +95,12 @@ public class WebAppFeature extends DefaultFeature {
     private HttpWebApplicationServer httpWebApplicationServer;
 
     /**
+     * Constructor.
+     */
+    public WebAppFeature() {
+    }
+
+    /**
      * Get the context path.
      *
      * @return the context path.

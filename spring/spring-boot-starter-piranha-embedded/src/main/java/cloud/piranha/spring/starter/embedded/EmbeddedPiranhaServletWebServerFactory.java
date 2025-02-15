@@ -54,6 +54,12 @@ public class EmbeddedPiranhaServletWebServerFactory implements ServletWebServerF
      */
     private HttpServer httpServer;
 
+    /**
+     * Constructor.
+     */
+    public EmbeddedPiranhaServletWebServerFactory() {
+    }
+
     @Override
     public WebServer getWebServer(ServletContextInitializer... initializers) {
         EmbeddedPiranhaWebServer webServer = new EmbeddedPiranhaWebServer();

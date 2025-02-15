@@ -92,6 +92,12 @@ public class AuthorizationPreInitializer implements ServletContainerInitializer 
     PiranhaToExousiaConverter piranhaToExousiaConverter = new PiranhaToExousiaConverter();
 
     /**
+     * Constructor.
+     */
+    public AuthorizationPreInitializer() {
+    }
+
+    /**
      * Initialize Exousia
      *
      * @param classes the classes.

@@ -101,6 +101,12 @@ public class DefaultServletInvocation implements ServletInvocation {
      */
     private boolean fromNamed;
 
+    /**
+     * Constructor.
+     */
+    public DefaultServletInvocation() {
+    }
+
     @Override
     public String getInvocationPath() {
         return invocationPath;
@@ -186,6 +192,8 @@ public class DefaultServletInvocation implements ServletInvocation {
     }
     
     /**
+     * Get the HTTP servlet mapping.
+     * 
      * @return the httpServletMapping
      */
     public DefaultHttpServletMapping getHttpServletMapping() {

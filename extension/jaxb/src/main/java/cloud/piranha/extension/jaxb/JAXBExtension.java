@@ -45,6 +45,12 @@ public class JAXBExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(JAXBExtension.class.getName());
     
     /**
+     * Constructor.
+     */
+    public JAXBExtension() {
+    }
+
+    /**
      * Configure the extension.
      * 
      * @param webApplication the web application.

@@ -40,9 +40,9 @@ import org.jboss.shrinkwrap.api.Node;
 import org.jboss.shrinkwrap.api.asset.Asset;
 
 /**
- *
+ * A Shrinkwrap Archive URL stream handler.
+ * 
  * @author Arjan Tijms
- *
  */
 public class ArchiveURLStreamHandler extends URLStreamHandler {
 

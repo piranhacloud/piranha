@@ -54,7 +54,11 @@ public class MicroDeployOutcome {
      */
     private String deployedContextRoot;
 
-   
+    /**
+     * Constructor.
+     */
+    public MicroDeployOutcome() {
+    }
 
     /**
      * {@return the deploy outcome}

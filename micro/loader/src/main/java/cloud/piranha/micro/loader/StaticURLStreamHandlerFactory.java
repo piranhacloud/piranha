@@ -52,6 +52,12 @@ public class StaticURLStreamHandlerFactory implements URLStreamHandlerFactory {
     private static final Map<String, Function<URL, URLConnection>> HANDLERS = new ConcurrentHashMap<>();
 
     /**
+     * Constructor.
+     */
+    public StaticURLStreamHandlerFactory() {
+    }
+
+    /**
      * {@return the handlers}
      */
     public static Map<String, Function<URL, URLConnection>> getHandlers() {

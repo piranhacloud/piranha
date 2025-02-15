@@ -47,6 +47,12 @@ public class OmniUtilsExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(OmniUtilsExtension.class.getName());
 
     /**
+     * Constructor.
+     */
+    public OmniUtilsExtension() {
+    }
+
+    /**
      * Configure the web application.
      *
      * @param webApplication the web application.

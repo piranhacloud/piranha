@@ -47,6 +47,12 @@ import java.util.logging.Logger;
  */
 public class TraceFeature extends DefaultFeature {
 
+    /**
+     * Constructor.
+     */
+    public TraceFeature() {
+    }
+
     @Override
     public void init() {
         boolean enabled = Boolean.parseBoolean("CLOUD_PIRANHA_FEATURE_TRACE_ENABLED");

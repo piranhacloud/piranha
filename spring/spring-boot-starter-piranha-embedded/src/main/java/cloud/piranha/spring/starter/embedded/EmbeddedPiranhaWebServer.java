@@ -63,6 +63,12 @@ public class EmbeddedPiranhaWebServer implements WebServer {
      */
     private int port = 8080;
     
+    /**
+     * Constructor.
+     */
+    public EmbeddedPiranhaWebServer() {
+    }
+
     @Override
     public int getPort() {
         return port;

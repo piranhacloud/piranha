@@ -44,6 +44,12 @@ import org.jboss.weld.resources.spi.ResourceLoader;
 public class WeldContainer implements Container {
 
     /**
+     * Constructor.
+     */
+    public WeldContainer() {
+    }
+
+    /**
      * Destroy the container.
      *
      * @param context the container context.

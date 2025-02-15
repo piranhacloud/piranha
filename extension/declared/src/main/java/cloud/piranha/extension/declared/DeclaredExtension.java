@@ -39,6 +39,12 @@ import cloud.piranha.extension.declared.internal.InternalDeclaredInitializer;
 public class DeclaredExtension implements WebApplicationExtension {
 
     /**
+     * Constructor.
+     */
+    public DeclaredExtension() {
+    }
+
+    /**
      * Configure the web application.
      * 
      * @param webApplication the web application.

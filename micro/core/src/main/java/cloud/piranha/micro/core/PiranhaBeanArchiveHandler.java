@@ -50,6 +50,12 @@ import org.jboss.weld.environment.deployment.discovery.BeanArchiveHandler;
 @Priority(10)
 public class PiranhaBeanArchiveHandler implements BeanArchiveHandler {
 
+    /**
+     * Constructor.
+     */
+    public PiranhaBeanArchiveHandler() {
+    }
+
     @Override
     public BeanArchiveBuilder handle(String beanArchiveReference) {
         

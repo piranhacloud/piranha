@@ -46,6 +46,12 @@ public class HerringInitialContextFactory implements InitialContextFactory {
     private static Context theOneAndOnlyInstance = new DefaultInitialContext();
 
     /**
+     * Constructor.
+     */
+    public HerringInitialContextFactory() {
+    }
+
+    /**
      * Sets the initial context
      * 
      * @param context the initial context

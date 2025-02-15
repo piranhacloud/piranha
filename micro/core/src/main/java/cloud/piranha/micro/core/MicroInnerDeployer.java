@@ -201,6 +201,12 @@ public class MicroInnerDeployer {
     private HttpServer httpServer;
 
     /**
+     * Constructor.
+     */
+    public MicroInnerDeployer() {
+    }  
+
+    /**
      * Start the application.
      *
      * @param applicationArchive the application archive.

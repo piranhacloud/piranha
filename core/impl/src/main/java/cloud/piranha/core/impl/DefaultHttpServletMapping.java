@@ -57,7 +57,12 @@ public class DefaultHttpServletMapping implements HttpServletMapping {
      * Stores the servletName
      */
     private String servletName;
-  
+
+    /**
+     * Constructor.
+     */
+    public DefaultHttpServletMapping() {
+    }
 
     @Override
     public MappingMatch getMappingMatch() {
@@ -65,6 +70,8 @@ public class DefaultHttpServletMapping implements HttpServletMapping {
     }
     
     /**
+     * Set the mapping match.
+     * 
      * @param mappingMatch the mappingMatch to set
      */
     public void setMappingMatch(MappingMatch mappingMatch) {
@@ -77,6 +84,8 @@ public class DefaultHttpServletMapping implements HttpServletMapping {
     }
     
     /**
+     * Set the matchValue.
+     * 
      * @param matchValue the matchValue to set
      */
     public void setMatchValue(String matchValue) {
@@ -90,6 +99,8 @@ public class DefaultHttpServletMapping implements HttpServletMapping {
     }
     
     /**
+     * Set the pattern.
+     * 
      * @param pattern the pattern to set
      */
     public void setPattern(String pattern) {
@@ -103,6 +114,8 @@ public class DefaultHttpServletMapping implements HttpServletMapping {
     }
     
     /**
+     * Set the servlet name.
+     * 
      * @param servletName the servletName to set
      */
     public void setServletName(String servletName) {

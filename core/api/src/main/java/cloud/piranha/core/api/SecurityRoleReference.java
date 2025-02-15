@@ -43,6 +43,12 @@ public class SecurityRoleReference {
      * Stores the role name.
      */
     private String roleName;
+
+    /**
+     * Constructor.
+     */
+    public SecurityRoleReference() {
+    }
     
     /**
      * Get the role link.

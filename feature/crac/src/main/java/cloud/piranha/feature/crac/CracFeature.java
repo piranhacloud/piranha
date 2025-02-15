@@ -49,6 +49,12 @@ public class CracFeature extends DefaultFeature {
     private static final Logger LOGGER = System.getLogger(CracFeature.class.getName());
 
     /**
+     * Constructor.
+     */
+    public CracFeature() {
+    }
+
+    /**
      * Create the CRaC HttpServer instance.
      *
      * @param httpServer the HttpServer instance to wrap.

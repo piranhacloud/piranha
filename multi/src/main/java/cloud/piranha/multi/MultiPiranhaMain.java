@@ -42,6 +42,12 @@ public class MultiPiranhaMain {
     private static final System.Logger LOGGER = System.getLogger(MultiPiranhaMain.class.getName());
 
     /**
+     * Constructor.
+     */
+    public MultiPiranhaMain() {
+    }
+
+    /**
      * Main method.
      *
      * @param arguments the arguments.

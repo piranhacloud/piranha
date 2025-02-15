@@ -101,11 +101,12 @@ public class PiranhaEntityManager extends EntityManagerWrapper implements Serial
     private transient TransactionManager transactionManager;
 
     /**
-     *
-     * @param unitName
-     * @param contextType
-     * @param synchronizationType
-     * @param properties
+     * Constructor.
+     * 
+     * @param unitName the unit name.
+     * @param contextType the persistence context type.
+     * @param synchronizationType the synchronization type.
+     * @param properties the properties.
      */
     public PiranhaEntityManager(String unitName, PersistenceContextType contextType, SynchronizationType synchronizationType, Map<Object, Object> properties) {
         this.unitName = unitName;
@@ -450,6 +451,13 @@ public class PiranhaEntityManager extends EntityManagerWrapper implements Serial
                    getEntityManagerFactory().createEntityManager(synchronizationType, properties));
     }
 
+    /**
+     * Deserialize the object.
+     * 
+     * @param stream the stream.
+     * @throws IOException when an IOException occurs.
+     * @throws ClassNotFoundException when a ClassNotFoundException occurs.
+     */
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
         stream.defaultReadObject();
     }

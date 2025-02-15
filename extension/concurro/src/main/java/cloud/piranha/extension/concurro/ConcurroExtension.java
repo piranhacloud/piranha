@@ -46,6 +46,12 @@ public class ConcurroExtension implements WebApplicationExtension {
             ConcurroExtension.class.getName());
 
     /**
+     * Constructor.
+     */
+    public ConcurroExtension() {
+    }
+
+    /**
      * Configure the extension.
      *
      * @param webApplication the web application.

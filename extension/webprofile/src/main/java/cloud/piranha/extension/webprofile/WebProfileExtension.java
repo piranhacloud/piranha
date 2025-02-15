@@ -56,6 +56,12 @@ import cloud.piranha.extension.weld.WeldExtension;
  */
 public class WebProfileExtension implements WebApplicationExtension {
 
+    /**
+     * Constructor.
+     */
+    public WebProfileExtension() {
+    }
+
     @Override
     public void extend(WebApplicationExtensionContext context) {
         context.add(PolicyExtension.class);                         // JavaPolicy

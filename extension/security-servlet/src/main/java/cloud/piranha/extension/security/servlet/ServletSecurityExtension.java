@@ -47,6 +47,12 @@ public class ServletSecurityExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(ServletSecurityExtension.class.getName());
 
     /**
+     * Constructor.
+     */
+    public ServletSecurityExtension() {
+    }
+
+    /**
      * Configure the web application.
      *
      * @param webApplication the web application.

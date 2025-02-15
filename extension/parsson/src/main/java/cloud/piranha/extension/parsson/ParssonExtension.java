@@ -45,6 +45,12 @@ public class ParssonExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(ParssonExtension.class.getName());
     
     /**
+     * Constructor.
+     */
+    public ParssonExtension() {
+    }
+
+    /**
      * Configure the extension.
      * 
      * @param webApplication the web application.

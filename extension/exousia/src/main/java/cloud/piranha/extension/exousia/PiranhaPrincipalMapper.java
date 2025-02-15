@@ -42,6 +42,12 @@ import javax.security.auth.Subject;
  */
 public class PiranhaPrincipalMapper implements PrincipalMapper {
 
+    /**
+     * Constructor.
+     */
+    public PiranhaPrincipalMapper() {
+    }
+
     @Override
     public Principal getCallerPrincipal(Subject sbjct) {
         return null;

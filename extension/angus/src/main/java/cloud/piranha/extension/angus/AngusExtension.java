@@ -45,6 +45,12 @@ public class AngusExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(AngusExtension.class.getName());
     
     /**
+     * Constructor.
+     */
+    public AngusExtension() {
+    }
+
+    /**
      * Configure the extension.
      * 
      * @param webApplication the web application.

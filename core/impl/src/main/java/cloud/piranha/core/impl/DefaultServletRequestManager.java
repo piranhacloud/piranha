@@ -64,6 +64,12 @@ public class DefaultServletRequestManager implements ServletRequestManager {
      */
     private final List<ServletRequestListener> requestListeners = new ArrayList<>();
 
+    /**
+     * Constructor.
+     */
+    public DefaultServletRequestManager() {
+    }
+
     @Override
     public <T extends EventListener> void addListener(T listener) {
         if (listener instanceof ServletRequestAttributeListener attributeListener) {

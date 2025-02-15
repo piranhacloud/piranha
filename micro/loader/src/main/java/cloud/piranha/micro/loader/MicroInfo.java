@@ -40,6 +40,12 @@ public class MicroInfo {
     private static final String PLATFORM = "micro";
 
     /**
+     * Constructor.
+     */
+    public MicroInfo() {
+    }        
+
+    /**
      * Get the platform.
      * 
      * @return the platform, set info based on properties later

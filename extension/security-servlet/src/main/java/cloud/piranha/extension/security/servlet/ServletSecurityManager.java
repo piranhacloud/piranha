@@ -207,10 +207,22 @@ public class ServletSecurityManager implements SecurityManager {
         return getAuthenticationService(request).getWrappedResponseIfSet(request, response);
     }
 
+    /**
+     * Get the authentication service.
+     * 
+     * @param request the request.
+     * @return the authentication service.
+     */
     protected DefaultAuthenticationService getAuthenticationService(HttpServletRequest request) {
         return (DefaultAuthenticationService) request.getServletContext().getAttribute(AUTH_SERVICE);
     }
 
+    /**
+     * Get the authorization service.
+     * 
+     * @param request the request.
+     * @return the authorization service.
+     */
     protected AuthorizationService getAuthorizationService(HttpServletRequest request) {
         return (AuthorizationService) request.getServletContext().getAttribute(AUTHZ_SERVICE);
     }

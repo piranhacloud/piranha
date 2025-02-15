@@ -44,6 +44,12 @@ public class SingleMain {
     private static final Logger LOGGER = System.getLogger(SingleMain.class.getName());
 
     /**
+     * Constructor.
+     */
+    public SingleMain() {
+    }
+
+    /**
      * Main method.
      *
      * @param arguments the arguments.

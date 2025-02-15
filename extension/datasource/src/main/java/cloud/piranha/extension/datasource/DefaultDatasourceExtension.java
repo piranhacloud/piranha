@@ -47,6 +47,12 @@ public class DefaultDatasourceExtension implements WebApplicationExtension {
      */
     private static final Logger LOGGER = System.getLogger(DefaultDatasourceExtension.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public DefaultDatasourceExtension() {
+    }
+
     @Override
     public void configure(WebApplication webApplication) {
         LOGGER.log(DEBUG, "Adding the DefaultDatasourceExtension");

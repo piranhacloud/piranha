@@ -60,6 +60,12 @@ import jakarta.servlet.http.Part;
 public abstract class RealtimeHttpServletRequestWrapper implements HttpServletRequest {
 
     /**
+     * Constructor.
+     */
+    public RealtimeHttpServletRequestWrapper() {
+    }
+
+    /**
      * {@return the async context}
      */
     @Override

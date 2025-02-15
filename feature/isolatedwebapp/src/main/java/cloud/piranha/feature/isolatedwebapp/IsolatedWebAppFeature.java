@@ -61,6 +61,12 @@ public class IsolatedWebAppFeature extends DefaultFeature {
     private File warFile;
 
     /**
+     * Constructor.
+     */
+    public IsolatedWebAppFeature() {
+    }
+
+    /**
      * Get the HttpWebApplicationServer.
      *
      * @return the HttpWebApplicationServer.

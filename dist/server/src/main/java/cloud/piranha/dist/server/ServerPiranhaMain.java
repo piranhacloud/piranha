@@ -39,6 +39,13 @@ import cloud.piranha.multi.MultiPiranhaMain;
 public class ServerPiranhaMain extends MultiPiranhaMain {
 
     /**
+     * Constructor.
+     */
+    public ServerPiranhaMain() {
+        super();
+    }
+
+    /**
      * Main method.
      *
      * @param arguments the arguments.

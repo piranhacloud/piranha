@@ -53,6 +53,12 @@ public class DefaultWebApplicationResponseBuilder {
     private WebApplication webApplication;
     
     /**
+     * Constructor.
+     */
+    public DefaultWebApplicationResponseBuilder() {
+    }
+    
+    /**
      * Set the body only flag.
      * 
      * @param bodyOnly the body only flag.

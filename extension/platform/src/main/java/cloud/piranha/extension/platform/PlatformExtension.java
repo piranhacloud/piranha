@@ -41,6 +41,12 @@ import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtensio
  */
 public class PlatformExtension implements WebApplicationExtension {
 
+    /**
+     * Constructor.
+     */
+    public PlatformExtension() {
+    }
+
     @Override
     public void extend(WebApplicationExtensionContext context) {
         context.add(HerringExtension.class);                        // Herring (JNDI)

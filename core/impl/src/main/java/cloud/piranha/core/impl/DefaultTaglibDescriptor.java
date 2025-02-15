@@ -46,6 +46,12 @@ public class DefaultTaglibDescriptor implements TaglibDescriptor {
      */
     private String taglibURI;
 
+    /**
+     * Constructor.
+     */
+    public DefaultTaglibDescriptor() {
+    }
+
     @Override
     public String getTaglibLocation() {
         return taglibLocation;

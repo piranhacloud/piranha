@@ -57,6 +57,12 @@ public class TransactInitializer implements ServletContainerInitializer {
     private static final Logger LOGGER = System.getLogger(TransactInitializer.class.getName());
 
     /**
+     * Constructor.
+     */
+    public TransactInitializer() {
+    }
+
+    /**
      * Initialize Transact.
      *
      * @param classes the classes.

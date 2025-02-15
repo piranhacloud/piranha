@@ -41,7 +41,13 @@ public class DefaultFeature implements Feature {
      * Stores the feature manager.
      */
     protected FeatureManager featureManager;
-
+    
+    /**
+     * Constructor.
+     */
+    public DefaultFeature() {
+    }
+    
     @Override
     public FeatureManager getFeatureManager() {
         return featureManager;

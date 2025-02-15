@@ -49,6 +49,12 @@ public class DefaultPiranhaBuilder<T> implements PiranhaBuilder<T> {
      * Stores the class type.
      */
     private Class<T> clazz;
+
+    /**
+     * Constructor.
+     */
+    public DefaultPiranhaBuilder() {
+    }
     
     @Override
     public T build() {

@@ -36,6 +36,12 @@ import jakarta.servlet.ServletConnection;
  */
 public class DefaultServletConnection implements ServletConnection {
 
+    /**
+     * Constructor.
+     */
+    public DefaultServletConnection() {
+    }
+
     @Override
     public String getConnectionId() {
         throw new UnsupportedOperationException("Not supported yet.");

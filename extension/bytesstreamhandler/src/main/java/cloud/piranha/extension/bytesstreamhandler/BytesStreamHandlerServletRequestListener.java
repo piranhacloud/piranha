@@ -46,6 +46,12 @@ public class BytesStreamHandlerServletRequestListener implements ServletRequestL
      */
     private static final System.Logger LOGGER = System.getLogger(BytesStreamHandlerServletRequestListener.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public BytesStreamHandlerServletRequestListener() {
+    }
+
     @Override
     public void requestDestroyed(ServletRequestEvent event) {
         LOGGER.log(DEBUG, "Removing bytes:// stream handler");

@@ -50,6 +50,12 @@ public class DefaultErrorPageManager implements ErrorPageManager {
      * Stores the error pages by exception.
      */
     private final Map<String, String> errorPagesByException = new HashMap<>();
+
+    /**
+     * Constructor.
+     */
+    public DefaultErrorPageManager() {
+    }
     
     @Override
     public void addErrorPage(int statusCode, String page) {

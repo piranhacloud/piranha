@@ -55,6 +55,12 @@ import org.glassfish.exousia.mapping.SecurityRoleRef;
 public class PiranhaToExousiaConverter {
 
     /**
+     * Constructor.
+     */
+    public PiranhaToExousiaConverter() {
+    }
+
+    /**
      * Get the security constraints from security elements.
      *
      * @param elements the security elements.

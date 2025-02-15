@@ -45,6 +45,12 @@ public class HibernateValidatorExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(HibernateValidatorExtension.class.getName());
     
     /**
+     * Constructor.
+     */
+    public HibernateValidatorExtension() {
+    }
+
+    /**
      * Configure the extension.
      * 
      * @param webApplication the web application.

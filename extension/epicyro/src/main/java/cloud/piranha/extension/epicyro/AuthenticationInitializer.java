@@ -80,6 +80,12 @@ public class AuthenticationInitializer implements ServletContainerInitializer {
     public static final Logger LOGGER = System.getLogger(AuthenticationInitializer.class.getName());
 
     /**
+     * Constructor.
+     */
+    public AuthenticationInitializer() {
+    }
+
+    /**
      * Initialize Epicyro.
      *
      * @param classes the classes.

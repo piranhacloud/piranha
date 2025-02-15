@@ -37,6 +37,12 @@ import cloud.piranha.core.api.WebApplicationExtension;
  */
 public class WeldExtension implements WebApplicationExtension {
 
+    /**
+     * Constructor.
+     */
+    public WeldExtension() {
+    }
+
     @Override
     public void configure(WebApplication webApplication) {
         webApplication.addInitializer(WeldInitializer.class.getName());

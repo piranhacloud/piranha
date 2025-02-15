@@ -48,6 +48,12 @@ public class TransactExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(TransactExtension.class.getName());
 
     /**
+     * Constructor.
+     */
+    public TransactExtension() {
+    }
+
+    /**
      * Configure the web application.
      *
      * @param webApplication the web application.

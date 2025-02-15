@@ -46,6 +46,12 @@ public class DefaultJspConfigDescriptor implements JspConfigDescriptor {
      */
     private List<TaglibDescriptor> taglibs = new ArrayList<>();
 
+    /**
+     * Constructor.
+     */
+    public DefaultJspConfigDescriptor() {
+    }
+
     @Override
     public Collection<TaglibDescriptor> getTaglibs() {
         return taglibs;

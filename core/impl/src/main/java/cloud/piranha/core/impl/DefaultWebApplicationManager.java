@@ -121,6 +121,12 @@ public class DefaultWebApplicationManager implements WebApplicationManager {
      */
     protected WelcomeFileManager welcomeFileManager;
 
+    /**
+     * Constructor.
+     */
+    public DefaultWebApplicationManager() {
+    }
+
     @Override
     public AnnotationManager getAnnotationManager() {
         return annotationManager;

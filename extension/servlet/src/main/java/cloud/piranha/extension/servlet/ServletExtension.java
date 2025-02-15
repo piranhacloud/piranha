@@ -52,6 +52,12 @@ import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
  */
 public class ServletExtension implements WebApplicationExtension {
 
+    /**
+     * Constructor.
+     */
+    public ServletExtension() {
+    }
+
     @Override
     public void extend(WebApplicationExtensionContext context) {
         context.add(PolicyExtension.class);                         // JavaPolicy

@@ -47,6 +47,12 @@ public class ConfigExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(ConfigExtension.class.getName());
 
     /**
+     * Constructor.
+     */
+    public ConfigExtension() {
+    }
+
+    /**
      * Configure the web application.
      *
      * @param webApplication the web application.

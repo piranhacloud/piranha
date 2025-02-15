@@ -40,6 +40,12 @@ import cloud.piranha.core.api.WebApplicationExtension;
 public class HandlesTypesExtension implements WebApplicationExtension {
 
     /**
+     * Constructor.
+     */
+    public HandlesTypesExtension() {
+    }
+
+    /**
      * Configure the web application.
      * 
      * @param webApplication the web application.

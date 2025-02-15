@@ -46,6 +46,12 @@ public class ServletSecurityManagerExtension implements WebApplicationExtension 
     private static final Logger LOGGER = System.getLogger(
             ServletSecurityManagerExtension.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public ServletSecurityManagerExtension() {
+    }
+
     @Override
     public void configure(WebApplication webApplication) {
         LOGGER.log(DEBUG, "Adding ServletSecurityManagerInitializer");

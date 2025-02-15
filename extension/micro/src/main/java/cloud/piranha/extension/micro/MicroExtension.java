@@ -57,6 +57,12 @@ import cloud.piranha.extension.welcomefile.WelcomeFileExtension;
  */
 public class MicroExtension implements WebApplicationExtension {
 
+    /**
+     * Constructor.
+     */
+    public MicroExtension() {
+    }
+
     @Override
     public void extend(WebApplicationExtensionContext context) {
         // Servlet

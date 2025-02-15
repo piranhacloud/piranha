@@ -71,6 +71,12 @@ public class AuthorizationPostInitializer implements ServletContainerInitializer
     PiranhaToExousiaConverter piranhaToExousiaConverter = new PiranhaToExousiaConverter();
 
     /**
+     * Constructor.
+     */
+    public AuthorizationPostInitializer() {
+    }
+
+    /**
      * Initialize Exousia
      *
      * @param classes the classes.

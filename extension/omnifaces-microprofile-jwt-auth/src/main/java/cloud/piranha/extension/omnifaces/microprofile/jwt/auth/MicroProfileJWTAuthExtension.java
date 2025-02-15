@@ -47,6 +47,12 @@ public class MicroProfileJWTAuthExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(MicroProfileJWTAuthExtension.class.getName());
 
     /**
+     * Constructor.
+     */
+    public MicroProfileJWTAuthExtension() {
+    }
+
+    /**
      * Configure the web application.
      *
      * @param webApplication the web application.

@@ -44,6 +44,12 @@ import cloud.piranha.extension.weld.WeldExtension;
  */
 public class CoreProfileExtension implements WebApplicationExtension {
 
+    /**
+     * Constructor.
+     */
+    public CoreProfileExtension() {
+    }
+
     @Override
     public void extend(WebApplicationExtensionContext context) {
         context.add(HandlesTypesExtension.class);                   // HandlesTypes support

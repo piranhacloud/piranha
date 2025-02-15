@@ -44,6 +44,12 @@ public class DefaultFeatureManager implements FeatureManager {
      */
     private final ArrayList<Feature> features = new ArrayList<>();
     
+    /**
+     * Constructor.
+     */
+    public DefaultFeatureManager() {
+    }
+
     @Override
     public void addFeature(Feature feature) {
         features.add(feature);

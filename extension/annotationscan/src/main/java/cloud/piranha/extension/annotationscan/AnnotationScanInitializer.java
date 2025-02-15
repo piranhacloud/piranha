@@ -64,6 +64,12 @@ public class AnnotationScanInitializer implements ServletContainerInitializer {
     private static final Logger LOGGER = System.getLogger(AnnotationScanInitializer.class.getName());
 
     /**
+     * Constructor.
+     */
+    public AnnotationScanInitializer() {
+    }
+
+    /**
      * On startup.
      *
      * @param classes the classes.

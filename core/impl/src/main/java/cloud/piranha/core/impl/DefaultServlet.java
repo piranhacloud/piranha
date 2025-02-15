@@ -51,6 +51,12 @@ public class DefaultServlet extends HttpServlet {
     private static final long serialVersionUID = 1331822806510796938L;
 
     /**
+     * Constructor.
+     */
+    public DefaultServlet() {
+    }
+
+    /**
      * Get the requested resource.
      *
      * @param request the request.

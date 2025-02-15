@@ -46,9 +46,16 @@ import jakarta.persistence.PersistenceContext;
 public class EclipseLinkCdiExtension implements Extension {
 
     /**
-     *
-     * @param beforeBean
-     * @param beanManager
+     * Constructor.
+     */
+    public EclipseLinkCdiExtension() {
+    }
+
+    /**
+     * Register the required annotated types.
+     * 
+     * @param beforeBean the before bean discovery event.
+     * @param beanManager the bean manager.
      */
     public void register(@Observes BeforeBeanDiscovery beforeBean, BeanManager beanManager) {
         addAnnotatedTypes(beforeBean, beanManager,
@@ -59,9 +66,10 @@ public class EclipseLinkCdiExtension implements Extension {
     }
 
     /**
-     *
-     * @param <T>
-     * @param pat
+     * Process the annotated types.
+     * 
+     * @param <T> the type.
+     * @param pat the process annotated type event.
      */
     public <T> void processAnnotatedType(@Observes ProcessAnnotatedType<T> pat) {
         pat.configureAnnotatedType()

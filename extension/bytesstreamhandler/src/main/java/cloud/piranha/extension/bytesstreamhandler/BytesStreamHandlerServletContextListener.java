@@ -45,6 +45,12 @@ public class BytesStreamHandlerServletContextListener implements ServletContextL
      */
     private static final System.Logger LOGGER = System.getLogger(BytesStreamHandlerServletContextListener.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public BytesStreamHandlerServletContextListener() {
+    }
+
     @Override
     public void contextInitialized(ServletContextEvent event) {
         LOGGER.log(DEBUG, "Removing bytes:// stream handler");

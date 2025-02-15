@@ -51,6 +51,12 @@ public class DefaultDatasourceInitializer implements ServletContainerInitializer
      */
     private static final Logger LOGGER = System.getLogger(DefaultDatasourceInitializer.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public DefaultDatasourceInitializer() {
+    }
+
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         createDataSource(

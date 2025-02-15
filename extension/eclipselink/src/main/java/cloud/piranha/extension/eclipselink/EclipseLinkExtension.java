@@ -48,6 +48,12 @@ public class EclipseLinkExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(EclipseLinkExtension.class.getName());
 
     /**
+     * Constructor.
+     */
+    public EclipseLinkExtension() {
+    }
+
+    /**
      * Configure the web application.
      *
      * @param webApplication the web application.

@@ -64,6 +64,12 @@ public class DoNothingServerAuthModule implements ServerAuthModule {
      */
     private Class<?>[] supportedMessageTypes = new Class[]{HttpServletRequest.class, HttpServletResponse.class};
 
+    /**
+     * Constructor.
+     */
+    public DoNothingServerAuthModule() {
+    }
+
     @Override
     public void initialize(MessagePolicy requestPolicy, MessagePolicy responsePolicy, CallbackHandler handler,
             @SuppressWarnings("rawtypes") Map options) throws AuthException {

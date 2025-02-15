@@ -45,6 +45,12 @@ public class BytesStreamHandlerExtension implements WebApplicationExtension {
      */
     private static final System.Logger LOGGER = System.getLogger(BytesStreamHandlerExtension.class.getName());
 
+    /**
+     * Constructor.
+     */
+    public BytesStreamHandlerExtension() {
+    }
+
     @Override
     public void configure(WebApplication webApplication) {
         LOGGER.log(DEBUG, "Configuring 'bytes://' stream handler functionality");

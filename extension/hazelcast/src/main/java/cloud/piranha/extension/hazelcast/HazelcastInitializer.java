@@ -42,6 +42,12 @@ import java.util.Set;
  */
 public class HazelcastInitializer implements ServletContainerInitializer {
 
+    /**
+     * Constructor.
+     */
+    public HazelcastInitializer() {
+    }
+
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         WebApplication webApplication = (WebApplication) servletContext;

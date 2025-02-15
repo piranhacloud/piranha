@@ -50,6 +50,12 @@ public class MicroEmbeddedPiranhaBuilder implements PiranhaBuilder<MicroEmbedded
     private Archive<?> archive;
 
     /**
+     * Constructor
+     */
+    public MicroEmbeddedPiranhaBuilder() {
+    }
+
+    /**
      * Sets the configuration for Piranha Micro
      *
      * @param configuration the configuration

@@ -61,6 +61,12 @@ public class HttpFeature extends DefaultFeature {
      */
     private int port = 8080;
     
+    /**
+     * Constructor.
+     */
+    public HttpFeature() {
+    }
+
     @Override
     public void destroy() {
         httpServer = null;

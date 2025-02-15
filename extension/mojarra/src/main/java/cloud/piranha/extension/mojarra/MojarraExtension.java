@@ -45,6 +45,12 @@ public class MojarraExtension implements WebApplicationExtension {
     private static final Logger LOGGER = System.getLogger(MojarraExtension.class.getName());
     
     /**
+     * Constructor.
+     */
+    public MojarraExtension() {
+    }
+
+    /**
      * Configure the extension.
      * 
      * @param webApplication the web application.

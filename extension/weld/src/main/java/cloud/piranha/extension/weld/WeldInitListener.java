@@ -59,7 +59,13 @@ public class WeldInitListener extends ForwardingServletListener {
      * Stores the weld target listener.
      */
     private ServletListener weldTargetListener = new Listener();
-    
+   
+    /**
+     * Constructor.
+     */
+    public WeldInitListener() {
+    }
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         // Do nothing

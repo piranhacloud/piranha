@@ -382,6 +382,7 @@ public class DefaultHttpSessionManager implements HttpSessionManager, SessionCoo
     }
 
     @Override
+    @SuppressWarnings("removal")
     public void setComment(String comment) {
         if (webApplication.isInitialized()) {
             throw new IllegalStateException("You cannot call setComment once ServletContext is initialized");
