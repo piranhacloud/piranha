@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - 'current'
+  workflow_dispatch:
 jobs:
   build:
     if: github.repository == 'piranhacloud/piranha'
@@ -10,7 +11,8 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: [ 23 ]
+        distribution: ['temurin', 'oracle']
+        java: [ '23', '24-ea', '25-ea' ]
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
     - name: Checkout Sources
@@ -18,7 +20,7 @@ jobs:
     - name: Setup Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
-        distribution: 'temurin'
+        distribution: ${{ matrix.distribution }}
         java-version: ${{ matrix.java }}
     - name: Build with Maven
       run: mvn -B -ntp -T 1 install
