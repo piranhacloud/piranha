@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        distribution: ['temurin', 'oracle']
+        distribution: [ 'temurin' ]
         java: [ '23', '24-ea', '25-ea' ]
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
