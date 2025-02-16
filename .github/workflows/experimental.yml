@@ -9,7 +9,7 @@ jobs:
     if: github.repository == 'piranhacloud/piranha'
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         distribution: ['temurin', 'oracle']
         java: [ '23', '24-ea', '25-ea' ]
