@@ -17,6 +17,7 @@
     <properties>
         <!-- TCK versions -->
         <annotations.tck.version>3.0.0</annotations.tck.version>
+        <coreprofile.tck.version>11.0.0</coreprofile.tck.version>
         <inject.tck.version>2.0.2</inject.tck.version>
         <jsonb.tck.version>3.0.0</jsonb.tck.version>
         <jsonp.tck.version>2.1.1</jsonp.tck.version>
@@ -41,6 +42,7 @@
     </dependencyManagement>
     <modules>
         <module>annotations</module>
+        <module>coreprofile</module>
         <module>inject</module>
         <module>jsonb</module>
         <module>jsonp</module>
