@@ -28,11 +28,38 @@ jobs:
       run: |
         mvn -B -DskipTests=true -DskipITs=true -ntp install
         cd test/tck/coreprofile/annotations
-        mvn -B -ntp install
+        mvn -B -fae -ntp install
     - name: Annotation TCK Test Summary
       uses: test-summary/action@v2
       with:
         paths: "test/tck/coreprofile/annotations/runner/target/failsafe-reports/*IT.xml"
+      if: always()
+  cdi:
+    if: ${{ always() }} && github.repository == 'piranhacloud/piranha'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        java: [ '21' ]
+        os: [ubuntu-latest]
+    steps:
+    - name: Checkout Sources
+      uses: actions/checkout@v4
+    - name: Set up Java ${{ matrix.java }}
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: ${{ matrix.java }}
+    - name: Run TCK
+      run: |
+        mvn -B -DskipTests=true -DskipITs=true -ntp install
+        cd test/tck/coreprofile/cdi
+        mvn -B -fae -ntp install
+    - name: Test Summary
+      uses: test-summary/action@v2
+      with:
+        paths: |
+          cdi/runner/core/target/surefire-reports/junitreports/TEST-*.xml
+          cdi/runner/model/target/surefire-reports/TEST-*.xml
       if: always()
   coreprofile:
     if: ${{ always() }} && github.repository == 'piranhacloud/piranha'
@@ -53,7 +80,7 @@ jobs:
       run: |
         mvn -B -DskipTests=true -DskipITs=true -ntp install
         cd test/tck/coreprofile/coreprofile
-        mvn -B -ntp install
+        mvn -B -fae -ntp install
     - name: Test Summary
       uses: test-summary/action@v2
       with:
@@ -78,7 +105,7 @@ jobs:
       run: |
         mvn -B -DskipTests=true -DskipITs=true -ntp install
         cd test/tck/coreprofile/inject
-        mvn -B -ntp install
+        mvn -B -fae -ntp install
     - name: Test Summary
       uses: test-summary/action@v2
       with:
@@ -103,7 +130,7 @@ jobs:
       run: |
         mvn -B -DskipTests=true -DskipITs=true -ntp install
         cd test/tck/coreprofile/jsonb
-        mvn -B -ntp install
+        mvn -B -fae -ntp install
     - name: Test Summary
       uses: test-summary/action@v2
       with:
@@ -128,7 +155,7 @@ jobs:
       run: |
         mvn -B -DskipTests=true -DskipITs=true -ntp install
         cd test/tck/coreprofile/jsonp
-        mvn -B -ntp install
+        mvn -B -fae -ntp install
     - name: Test Summary
       uses: test-summary/action@v2
       with:
@@ -155,7 +182,7 @@ jobs:
       run: |
         mvn -B -DskipTests=true -DskipITs=true -ntp install
         cd test/tck/coreprofile/rest
-        mvn -B -ntp install
+        mvn -B -fae -ntp install
     - name: Test Summary
       uses: test-summary/action@v2
       id: test_summary
