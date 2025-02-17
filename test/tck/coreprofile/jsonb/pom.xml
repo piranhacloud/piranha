@@ -10,19 +10,10 @@
         <artifactId>project</artifactId>
         <version>25.3.0-SNAPSHOT</version>
     </parent>
-    <groupId>cloud.piranha.test.tck.coreprofile.annotations</groupId>
+    <groupId>cloud.piranha.test.tck.coreprofile.jsonb</groupId>
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
-    <name>Piranha - Test - TCK - Core Profile - Annotations TCK</name>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>jakarta.annotation</groupId>
-                <artifactId>jakarta-annotations-tck</artifactId>
-                <version>${annotations.tck.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <name>Piranha - Test - TCK - Core Profile - JSON Binding TCK - Project</name>
     <modules>
         <module>installer</module>
         <module>runner</module>

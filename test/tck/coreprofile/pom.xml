@@ -15,8 +15,11 @@
     <packaging>pom</packaging>
     <name>Piranha - Test - TCK - Core Profile</name>
     <properties>
+        <!-- TCK versions -->
         <annotations.tck.version>3.0.0</annotations.tck.version>
         <inject.tck.version>2.0.2</inject.tck.version>
+        <jsonb.tck.version>3.0.0</jsonb.tck.version>
+        <!-- Maven plugin versions -->
         <sigtest-maven-plugin.version>2.4</sigtest-maven-plugin.version>
     </properties>
     <dependencyManagement>
@@ -33,15 +36,11 @@
                 <artifactId>sigtest-maven-plugin</artifactId>
                 <version>${sigtest-maven-plugin.version}</version>
             </dependency>
-            <dependency>
-                <groupId>jakarta.annotation</groupId>
-                <artifactId>jakarta-annotations-tck</artifactId>
-                <version>${annotations.tck.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
     <modules>
         <module>annotations</module>
         <module>inject</module>
+        <module>jsonb</module>
     </modules>
 </project>
