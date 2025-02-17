@@ -37,6 +37,11 @@ jobs:
       with:
         paths: "test/tck/coreprofile/annotations/runner/target/failsafe-reports/*IT.xml"
       if: always()
+    - name: Inject TCK Test Summary
+      uses: test-summary/action@v2
+      with:
+        paths: "test/tck/coreprofile/inject/installer/target/tck/example/target/surefire-reports/TEST-*.xml"
+      if: always()
   result:
     if: ${{ always() }} && github.repository == 'piranhacloud/piranha'
     runs-on: ubuntu-latest

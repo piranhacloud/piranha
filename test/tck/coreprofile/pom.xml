@@ -16,10 +16,18 @@
     <name>Piranha - Test - TCK - Core Profile</name>
     <properties>
         <annotations.tck.version>3.0.0</annotations.tck.version>
+        <inject.tck.version>2.0.2</inject.tck.version>
         <sigtest-maven-plugin.version>2.4</sigtest-maven-plugin.version>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>cloud.piranha</groupId>
+                <artifactId>bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>jakarta.tck</groupId>
                 <artifactId>sigtest-maven-plugin</artifactId>
@@ -34,5 +42,6 @@
     </dependencyManagement>
     <modules>
         <module>annotations</module>
+        <module>inject</module>
     </modules>
 </project>
