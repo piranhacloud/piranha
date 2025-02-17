@@ -21,6 +21,7 @@
         <inject.tck.version>2.0.2</inject.tck.version>
         <jsonb.tck.version>3.0.0</jsonb.tck.version>
         <jsonp.tck.version>2.1.1</jsonp.tck.version>
+        <rest.tck.version>4.0.1</rest.tck.version>
         <!-- Maven plugin versions -->
         <sigtest-maven-plugin.version>2.4</sigtest-maven-plugin.version>
     </properties>
@@ -46,5 +47,6 @@
         <module>inject</module>
         <module>jsonb</module>
         <module>jsonp</module>
+        <module>rest</module>
     </modules>
 </project>
