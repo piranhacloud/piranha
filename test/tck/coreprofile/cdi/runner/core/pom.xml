@@ -13,7 +13,7 @@
     <artifactId>core</artifactId>
     <name>Piranha - Test - TCK - Core Profile - CDI TCK - Runner - Core</name>
     <properties>
-        <testng.version>7.10.2</testng.version>
+        <testng.version>7.9.0</testng.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -51,6 +51,7 @@
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-core-impl</artifactId>
             <version>${weld.version}</version>
+            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>org.testng</groupId>
@@ -200,7 +201,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
     <build>
         <plugins>
             <!-- 
@@ -216,7 +216,6 @@
                     <compilerArgument>-Xlint:unchecked</compilerArgument>
                 </configuration>
             </plugin>
-        
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
@@ -280,8 +279,7 @@
                             <goal>test-jar</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>
-                                ${project.build.directory}/dependency/lib</outputDirectory>
+                            <outputDirectory>${project.build.directory}/dependency/lib</outputDirectory>
                             <archive>
                                 <manifest>
                                     <addClasspath>false</addClasspath>
@@ -327,8 +325,7 @@
                     <reuseForks>false</reuseForks>
                     <systemPropertyVariables>
                         <piranha.jvmArguments>-ea</piranha.jvmArguments>
-                        <org.jboss.cdi.tck.libraryDirectory>
-                            ${project.build.directory}/dependency/lib</org.jboss.cdi.tck.libraryDirectory>
+                        <org.jboss.cdi.tck.libraryDirectory>${project.build.directory}/dependency/lib</org.jboss.cdi.tck.libraryDirectory>
                     </systemPropertyVariables>
                     <testFailureIgnore>true</testFailureIgnore>
                 </configuration>

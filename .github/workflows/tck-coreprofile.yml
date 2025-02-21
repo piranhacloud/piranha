@@ -197,7 +197,7 @@ jobs:
   result:
     if: ${{ always() }} && github.repository == 'piranhacloud/piranha'
     runs-on: ubuntu-latest
-    needs: [annotations, coreprofile, inject, jsonb, jsonp, rest]
+    needs: [annotations, cdi, coreprofile, inject, jsonb, jsonp, rest]
     steps:
       - name: Check build results
         run: |
