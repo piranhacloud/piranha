@@ -32,6 +32,7 @@ import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.time.Duration;
 
 import org.htmlunit.WebClient;
 import org.htmlunit.html.HtmlPage;
@@ -96,7 +97,9 @@ public class SnoopIT {
                         "--http-port",
                         String.valueOf(port),
                         "--war-file",
-                        "snoop.war")
+                        "snoop.war",
+                        "--verbose")
+                .inheritIO()
                 .start();
 
         PiranhaStartup.waitUntilPiranhaReady(process, port);
@@ -117,6 +120,7 @@ public class SnoopIT {
      */
     @Test
     public void testSnoop() throws Exception {
+        Thread.sleep(Duration.ofSeconds(5));
         HtmlPage page = webClient.getPage("http://localhost:" + port + "/Snoop");
         assertTrue(page.asXml().contains("Snoop"));
     }
