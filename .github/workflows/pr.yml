@@ -21,6 +21,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B -ntp -T 1 install
     - name: Build Docker images
+      if: matrix.os != 'windows-latest'
       run: |
         cd docker
         mvn -B -ntp install
