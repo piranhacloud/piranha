@@ -20,6 +20,10 @@ jobs:
         java-version: ${{ matrix.java }}
     - name: Build with Maven
       run: mvn -B -ntp -T 1 install
+    - name: Build Docker images
+      run: |
+        cd docker
+        mvn -B -ntp install
   codeql:
     name: codeql
     runs-on: ubuntu-latest

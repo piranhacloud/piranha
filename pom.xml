@@ -126,6 +126,7 @@
         <shrinkwrap-resolver.version>3.3.3</shrinkwrap-resolver.version>
         <soteria.version>4.0.0-M3</soteria.version>
         <spring-boot.version>3.4.2</spring-boot.version>
+        <testcontainers.version>1.20.5</testcontainers.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.2.0</tyrus.version>
         <undertow.version>2.3.18.Final</undertow.version>
@@ -590,6 +591,12 @@
                 <groupId>io.smallrye</groupId>
                 <artifactId>jandex</artifactId>
                 <version>${jandex.version}</version>
+            </dependency>
+            <!-- TestContainers -->
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers</artifactId>
+                <version>${testcontainers.version}</version>
             </dependency>
             <!-- Undertow -->
             <dependency>
@@ -1099,6 +1106,17 @@
         </plugins>
     </reporting>
     <profiles>
+        <!--
+        
+        This profile is used for building our Docker images.
+
+          -->
+        <profile>
+            <id>docker</id>
+            <modules>
+                <module>docker</module>
+            </modules>
+        </profile>
         <!-- 
 
         This profile is for Eclipse m2e users.

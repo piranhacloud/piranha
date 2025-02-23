@@ -81,11 +81,11 @@ jobs:
       with:
         version: v0.10.0
     - run: docker buildx inspect
-    - name: Build Piranha Core Profile image
+    - name: Build Docker images
       run: |
         mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
-        cd dist/coreprofile
-        mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
+        cd docker
+        mvn -B -DskipTests=true -DskipITs=true -ntp deploy
     - name: Build Piranha Isolated image
       run: |
         mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
