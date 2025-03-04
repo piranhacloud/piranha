@@ -38,12 +38,6 @@ import org.junit.jupiter.api.Test;
 
 class HelloWorldIT {
  
-    /*
-     * TODO - local runs on Windows do have some measure of success. However
-     *        because the test is a flake we have disabled it pending
-     *        hardening of the Piranha Maven plugin.
-     */
-    @Disabled
     @Test
     void testHelloWorldHtml() throws Exception {
         Thread.sleep(3000);
