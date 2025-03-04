@@ -34,6 +34,7 @@ import jakarta.servlet.ServletException;
 import java.io.File;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
 import java.util.Set;
 
 /**
@@ -50,6 +51,11 @@ public class TempDirServletContainerInitializer implements ServletContainerIniti
     private static final Logger LOGGER = System.getLogger(TempDirServletContainerInitializer.class.getName());
 
     /**
+     * Stores the constant for the temp directory location.
+     */
+    private static final String TEMP_DIR_LOCATION_NAME = "cloud.piranha.extension.tempdir.location";
+
+    /**
      * Constructor.
      */
     public TempDirServletContainerInitializer() {
@@ -58,6 +64,13 @@ public class TempDirServletContainerInitializer implements ServletContainerIniti
     @Override
     public void onStartup(Set<Class<?>> classes, ServletContext servletContext) throws ServletException {
         File baseDir = new File("tmp");
+        String tempDirLocation = servletContext.getInitParameter(TEMP_DIR_LOCATION_NAME);
+        if (tempDirLocation != null && !tempDirLocation.isEmpty()) {
+            baseDir = new File(tempDirLocation);
+            if (!baseDir.isAbsolute()) {
+                baseDir = new File("tmp", tempDirLocation);
+            }
+        }
         String name = servletContext.getContextPath();
         name = name.replace("/", "_");
         if (name.trim().equals("")) {
@@ -65,7 +78,9 @@ public class TempDirServletContainerInitializer implements ServletContainerIniti
         }
         File tempDir = new File(baseDir, name);
         if (!tempDir.exists()) {
-            tempDir.mkdirs();
+            if (!tempDir.mkdirs()) {
+                LOGGER.log(WARNING, "Failed to create temp directory: {0}", tempDir);
+            }
         }
         LOGGER.log(DEBUG, "Setting TEMPDIR for context ''{0}'' to ''{1}''",
                 servletContext.getContextPath(), tempDir);

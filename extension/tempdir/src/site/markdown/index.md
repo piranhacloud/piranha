@@ -8,3 +8,9 @@ following runtimes:
 1. Piranha Servlet
 1. Piranha Web Profile
 
+## Configuration parameters
+
+The following configuration parameter is available:
+
+1. `cloud.piranha.extension.tempdir.location` - the directory where the temporary files will be stored. The default is `tmp`.
+
