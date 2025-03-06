@@ -72,4 +72,11 @@
             </plugin>            
         </plugins>
     </build>
+
+    <distributionManagement>
+        <site>
+            <id>default</id>
+            <url>file:///tmp/piranha/extension/datasource/</url>
+        </site>
+    </distributionManagement>        
 </project>
