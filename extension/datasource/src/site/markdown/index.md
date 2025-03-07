@@ -28,7 +28,7 @@ You override the default DataSource using the snippet below:
     </data-source>
 ```
 
-For runtimes that do not include the web.xml extension you will need to add it if you want
+For runtimes that do not include the Piranha web.xml extension you will need to add it if you want
 to override the default DataSource as described above. You can do this by adding the
 following dependency to your pom.xml:
 
@@ -39,3 +39,23 @@ following dependency to your pom.xml:
     <version>${piranha.version}</version>
 </dependency>
 ```
+
+## Register Any Other DataSource
+
+You can register any other DataSource by using a similar approach. Below is an example of configuring a PostgreSQL DataSource:
+
+```xml
+    <data-source>
+        <name>java:comp/PostgreSQLDataSource</name>
+        <class-name>org.postgresql.ds.PGSimpleDataSource</class-name>
+        <url>jdbc:postgresql://localhost:5432/mydb</url>
+        <user>myuser</user>
+        <password>mypassword</password>
+        <property>
+            <name>ssl</name>
+            <value>true</value>
+        </property>
+    </data-source>
+```
+
+Make sure to replace the values with your actual PostgreSQL database details.
