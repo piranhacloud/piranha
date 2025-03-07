@@ -2,6 +2,14 @@
 
 The DataSource extension delivers you with a default DataSource in a Piranha runtime.
 
+## Default DataSource Configuration
+
+The default DataSource is configured with the following details:
+
+- **Name**: `java:comp/DefaultDataSource`
+- **Class**: `org.h2.jdbcx.JdbcDataSource`
+- **URL**: `jdbc:h2:mem:test;DB_CLOSE_DELAY=-1`
+
 ## Override the default DataSource using web.xml
 
 You override the default DataSource using the snippet below:
