@@ -34,11 +34,12 @@ jobs:
       with:
         version: v0.10.0
     - run: docker buildx inspect
-    - name: Build Docker images
-      run: |
-        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
-        cd docker
-        mvn -B -DskipTests=true -DskipITs=true -ntp deploy
+#    - run: docker buildx inspect
+#    - name: Build Docker images
+#      run: |
+#        mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install
+#        cd docker
+#        mvn -B -DskipTests=true -DskipITs=true -ntp -P docker docker:deploy
     - name: Build Piranha Micro image
       run: |
         mvn -B -Dmaven.javadoc.skip=true -DskipTests=true -DskipITs=true -ntp -P '!test' install

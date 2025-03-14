@@ -8,7 +8,7 @@
     <parent>
         <groupId>cloud.piranha.test.coreprofile</groupId>
         <artifactId>project</artifactId>
-        <version>25.3.0-SNAPSHOT</version>
+        <version>25.4.0-SNAPSHOT</version>
     </parent>
     <artifactId>piranha-test-coreprofile-integration</artifactId>
     <packaging>war</packaging>
