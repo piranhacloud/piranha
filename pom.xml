@@ -115,7 +115,7 @@
         <microprofile-jwt-auth.version>3.0.0</microprofile-jwt-auth.version>
         <mojarra.version>4.1.2</mojarra.version>
         <netty.version>4.1.118.Final</netty.version>
-        <nimbus-jose-jwt.version>10.0.1</nimbus-jose-jwt.version>
+        <nimbus-jose-jwt.version>10.0.2</nimbus-jose-jwt.version>
         <omni-mp-config.version>3.0.0</omni-mp-config.version>
         <omnibeans.version>0.3</omnibeans.version>
         <omniservices.version>0.4</omniservices.version>
