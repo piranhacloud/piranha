@@ -307,6 +307,12 @@ public class DefaultWebApplicationOutputStream extends WebApplicationOutputStrea
                  * the buffer was previously flushed.
                  */
                 outputStream.write(integer);
+            } else if (index > buffer.length) {
+                /*
+                 * The buffer is full, so we need to write the integer directly
+                 * to the underlying output stream.
+                 */
+                outputStream.write(integer);
             } else {
                 /*
                  * Add the integer to the buffer.
