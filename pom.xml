@@ -82,9 +82,9 @@
         <checkstyle.version>10.21.2</checkstyle.version>
         <commons-compress.version>1.27.1</commons-compress.version>
         <commons-fileupload2-jakarta-servlet6.version>2.0.0-M2</commons-fileupload2-jakarta-servlet6.version>
-        <concurro.version>3.1.0-M5</concurro.version>
+        <concurro.version>3.1.0-M6</concurro.version>
         <crac.version>0.1.3</crac.version>
-        <eclipselink.version>5.0.0-B06</eclipselink.version>
+        <eclipselink.version>5.0.0-B07</eclipselink.version>
         <epicyro.version>3.1.0</epicyro.version>
         <exousia.version>3.0.0-M3</exousia.version>
         <expressly.version>6.0.0-M2</expressly.version>
@@ -92,7 +92,7 @@
         <glassfish-client-ee11.version>1.6.1</glassfish-client-ee11.version>
         <grizzly.version>4.1.0-M1</grizzly.version>
         <grizzly-npn-api.version>2.0.0</grizzly-npn-api.version>
-        <guava.version>33.4.0-jre</guava.version>
+        <guava.version>33.4.8-jre</guava.version>
         <h2.version>2.3.232</h2.version>
         <!-- kept at 5.4.0 because 5.5.0 adds remote repositories -->
         <hazelcast.version>5.4.0</hazelcast.version>
@@ -114,7 +114,7 @@
         <microprofile-jwt-auth-api.version>2.1</microprofile-jwt-auth-api.version>
         <microprofile-jwt-auth.version>3.0.1</microprofile-jwt-auth.version>
         <mojarra.version>4.1.2</mojarra.version>
-        <netty.version>4.2.0.Final</netty.version>
+        <netty.version>4.2.1.Final</netty.version>
         <nimbus-jose-jwt.version>10.0.2</nimbus-jose-jwt.version>
         <omni-mp-config.version>3.0.0</omni-mp-config.version>
         <omnibeans.version>0.3</omnibeans.version>
@@ -125,13 +125,13 @@
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.3.3</shrinkwrap-resolver.version>
         <soteria.version>4.0.0-M3</soteria.version>
-        <spring-boot.version>3.4.2</spring-boot.version>
-        <testcontainers.version>1.20.6</testcontainers.version>
+        <spring-boot.version>3.4.5</spring-boot.version>
+        <testcontainers.version>1.21.0</testcontainers.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.2.0</tyrus.version>
         <undertow.version>2.3.18.Final</undertow.version>
         <wasp.version>4.0.0</wasp.version>
-        <weld.version>6.0.1.Final</weld.version>
+        <weld.version>6.0.2.Final</weld.version>
         <yasson.version>3.0.4</yasson.version>
         <!-- plugins -->
         <build-helper-maven-plugin.version>3.6.0</build-helper-maven-plugin.version>
@@ -144,12 +144,12 @@
         <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
         <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
-        <maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-clean-plugin.version>3.4.1</maven-clean-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
         <maven-deploy-plugin.version>3.1.3</maven-deploy-plugin.version>
         <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
-        <maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
+        <maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
         <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
         <maven-install-plugin.version>3.1.3</maven-install-plugin.version>
         <maven-invoker-plugin.version>3.9.0</maven-invoker-plugin.version>
@@ -162,7 +162,7 @@
         <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
         <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-        <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <!-- Kept at 1.0.0.RC2 because 1.0.0.[RC3-Final] through 1.2.2.Final do not work -->
         <moditect-maven-plugin.version>1.0.0.RC2</moditect-maven-plugin.version>
@@ -1093,7 +1093,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.9.0</version>
                 <inherited>true</inherited>
                 <reportSets>
                     <reportSet>
