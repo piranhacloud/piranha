@@ -48,9 +48,9 @@ import java.util.Iterator;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 import me.alexpanov.net.FreePortFinder;
-import org.junitpioneer.jupiter.RetryingTest;
 
 /**
  * An abstract JUnit test for any HttpServer implementation.
@@ -302,7 +302,6 @@ public abstract class HttpServerTest {
      *
      * @throws Exception when an error occurs.
      */
-    @RetryingTest(3)
     void testRequestHTTP10() throws Exception {
         int port = findPort();
         HttpServer server = createServer(port, HttpServerTest::returnProtocol);
@@ -316,7 +315,7 @@ public abstract class HttpServerTest {
             inputStream.transferTo(response);
             assertTrue(response.toString(StandardCharsets.UTF_8).contains("HTTP/1.0"));
         }
-
+        Thread.sleep(5000);
         server.stop();
     }
 
@@ -325,12 +324,10 @@ public abstract class HttpServerTest {
      *
      * @throws Exception when an error occurs.
      */
-    @RetryingTest(3)
     void testRequestHTTP11() throws Exception {
         int port = findPort();
         HttpServer server = createServer(port, HttpServerTest::returnProtocol);
         server.start();
-
         try (Socket socket = new Socket(InetAddress.getLocalHost().getHostAddress(), port);
              OutputStream outputStream = socket.getOutputStream()) {
             outputStream.write(("GET / HTTP/1.1\r\nHost: localhost:" + port + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
@@ -340,7 +337,7 @@ public abstract class HttpServerTest {
             inputStream.transferTo(response);
             assertTrue(response.toString(StandardCharsets.UTF_8).contains("HTTP/1.1"));
         }
-
+        Thread.sleep(5000);
         server.stop();
     }
 
