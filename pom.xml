@@ -87,7 +87,7 @@
         <eclipselink.version>5.0.0-B07</eclipselink.version>
         <epicyro.version>3.1.0</epicyro.version>
         <exousia.version>3.0.0-M3</exousia.version>
-        <expressly.version>6.0.0-M2</expressly.version>
+        <expressly.version>6.0.0</expressly.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
         <glassfish-client-ee11.version>1.6.1</glassfish-client-ee11.version>
         <grizzly.version>4.1.0-M1</grizzly.version>
