@@ -24,7 +24,7 @@
         <jsonp.tck.version>2.1.1</jsonp.tck.version>
         <rest.tck.version>4.0.1</rest.tck.version>
         <!-- Maven plugin versions -->
-        <sigtest-maven-plugin.version>2.4</sigtest-maven-plugin.version>
+        <sigtest-maven-plugin.version>2.6</sigtest-maven-plugin.version>
     </properties>
     <dependencyManagement>
         <dependencies>
