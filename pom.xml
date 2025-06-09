@@ -126,7 +126,7 @@
         <shrinkwrap-resolver.version>3.3.3</shrinkwrap-resolver.version>
         <soteria.version>4.0.0-M3</soteria.version>
         <spring-boot.version>3.4.5</spring-boot.version>
-        <testcontainers.version>1.21.0</testcontainers.version>
+        <testcontainers.version>1.21.1</testcontainers.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.2.0</tyrus.version>
         <undertow.version>2.3.18.Final</undertow.version>
