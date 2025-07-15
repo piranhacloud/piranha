@@ -122,7 +122,7 @@ jobs:
         cd dist/webprofile
         mvn -B -DskipTests=true -DskipITs=true -ntp -P docker deploy
   sonatype:
-    if: github.repository == 'piranhacloud/piranha'
+    if: false # github.repository == 'piranhacloud/piranha'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
