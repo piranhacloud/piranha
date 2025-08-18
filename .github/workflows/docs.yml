@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Piranha
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         ref: v${{ github.event.inputs.version }}
     - name: Checkout Piranha Website
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         repository: piranhacloud/piranha-website
         token: ${{ secrets.GIT_PASSWORD }}

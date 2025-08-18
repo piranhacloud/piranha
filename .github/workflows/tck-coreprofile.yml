@@ -19,7 +19,7 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
@@ -44,7 +44,7 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
@@ -71,7 +71,7 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
@@ -96,7 +96,7 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
@@ -121,7 +121,7 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
@@ -146,7 +146,7 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
@@ -173,7 +173,7 @@ jobs:
         os: [ubuntu-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Set up Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:

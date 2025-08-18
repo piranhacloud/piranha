@@ -17,7 +17,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     steps:
     - name: Checkout Sources
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Setup Java ${{ matrix.java }}
       uses: actions/setup-java@v4
       with:
@@ -30,9 +30,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Piranha
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Checkout Piranha Website
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         repository: piranhacloud/piranha-website
         token: ${{ secrets.GIT_PASSWORD }}
@@ -60,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Setup Java
       uses: actions/setup-java@v4
       with:
@@ -126,7 +126,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout sources
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Setup Java
       uses: actions/setup-java@v4
       with:
