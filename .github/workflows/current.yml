@@ -19,7 +19,7 @@ jobs:
     - name: Checkout Sources
       uses: actions/checkout@v5
     - name: Setup Java ${{ matrix.java }}
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
@@ -39,7 +39,7 @@ jobs:
         path: piranha-website
         ref: 'gh-pages'
     - name: Setup Java
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: 21
@@ -62,7 +62,7 @@ jobs:
     - name: Checkout sources
       uses: actions/checkout@v5
     - name: Setup Java
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: 21
@@ -128,7 +128,7 @@ jobs:
     - name: Checkout sources
       uses: actions/checkout@v5
     - name: Setup Java
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: 21
