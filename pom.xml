@@ -162,7 +162,7 @@
         <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
         <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-        <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <!-- Kept at 1.0.0.RC2 because 1.0.0.[RC3-Final] through 1.2.2.Final do not work -->
         <moditect-maven-plugin.version>1.0.0.RC2</moditect-maven-plugin.version>
