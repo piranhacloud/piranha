@@ -98,7 +98,7 @@
         <hazelcast.version>5.5.0</hazelcast.version>
         <herring.version>23.12.0</herring.version>
         <hibernate-validator.version>9.0.1.Final</hibernate-validator.version>
-        <htmlunit.version>4.15.0</htmlunit.version>
+        <htmlunit.version>4.16.0</htmlunit.version>
         <jandex.version>3.5.0</jandex.version>
         <jaxb-runtime.version>4.0.5</jaxb-runtime.version>
         <jboss-classfilewriter.version>1.3.1.Final</jboss-classfilewriter.version>
@@ -113,9 +113,9 @@
         <microprofile-config-api.version>3.1</microprofile-config-api.version>
         <microprofile-jwt-auth-api.version>2.1</microprofile-jwt-auth-api.version>
         <microprofile-jwt-auth.version>3.0.1</microprofile-jwt-auth.version>
-        <mojarra.version>4.1.3</mojarra.version>
-        <netty.version>4.2.5.Final</netty.version>
-        <nimbus-jose-jwt.version>10.4.2</nimbus-jose-jwt.version>
+        <mojarra.version>4.1.4</mojarra.version>
+        <netty.version>4.2.6.Final</netty.version>
+        <nimbus-jose-jwt.version>10.5</nimbus-jose-jwt.version>
         <omni-mp-config.version>3.0.0</omni-mp-config.version>
         <omnibeans.version>0.3</omnibeans.version>
         <omniservices.version>0.4</omniservices.version>
