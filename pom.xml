@@ -78,7 +78,7 @@
         <angus.mail.version>2.0.3</angus.mail.version>
         <arquillian.version>1.9.5.Final</arquillian.version>
         <arquillian-jakarta.version>10.0.0.Final</arquillian-jakarta.version>
-        <bcel.version>6.10.0</bcel.version>
+        <bcel.version>6.11.0</bcel.version>
         <checkstyle.version>10.21.2</checkstyle.version>
         <commons-compress.version>1.28.0</commons-compress.version>
         <commons-fileupload2-jakarta-servlet6.version>2.0.0-M4</commons-fileupload2-jakarta-servlet6.version>
