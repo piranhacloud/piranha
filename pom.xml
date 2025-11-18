@@ -107,7 +107,7 @@
         <junit-pioneer.version>2.3.0</junit-pioneer.version>
         <junit-platform-launcher.version>1.11.4</junit-platform-launcher.version>
         <junit.version>5.11.4</junit.version>
-        <maven-plugin-annotations.version>3.15.1</maven-plugin-annotations.version>
+        <maven-plugin-annotations.version>3.15.2</maven-plugin-annotations.version>
         <maven-plugin-api.version>3.9.11</maven-plugin-api.version>
         <maven-plugin-tools-annotations.version>3.15.1</maven-plugin-tools-annotations.version>
         <microprofile-config-api.version>3.1</microprofile-config-api.version>
