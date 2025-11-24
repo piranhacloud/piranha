@@ -129,7 +129,7 @@
         <testcontainers.version>2.0.1</testcontainers.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.2.0</tyrus.version>
-        <undertow.version>2.3.19.Final</undertow.version>
+        <undertow.version>2.3.20.Final</undertow.version>
         <wasp.version>4.0.0</wasp.version>
         <weld.version>6.0.3.Final</weld.version>
         <yasson.version>3.0.4</yasson.version>
