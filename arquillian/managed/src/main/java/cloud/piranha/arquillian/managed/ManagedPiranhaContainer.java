@@ -317,12 +317,52 @@ public class ManagedPiranhaContainer implements DeployableContainer<ManagedPiran
     }
 
     /**
+     * Kill any process currently listening on the given port.
+     *
+     * @param port the port to free up.
+     */
+    private void killProcessOnPort(int port) {
+        try {
+            ProcessBuilder finder = new ProcessBuilder(
+                    "sh", "-c",
+                    "lsof -ti tcp:" + port + " -sTCP:LISTEN");
+            finder.redirectErrorStream(true);
+            Process findProcess = finder.start();
+            String pids = new String(findProcess.getInputStream().readAllBytes()).trim();
+            findProcess.waitFor(5, TimeUnit.SECONDS);
+            if (!pids.isEmpty()) {
+                for (String pid : pids.split("\\s+")) {
+                    if (!pid.isEmpty()) {
+                        LOGGER.log(WARNING, "Port {0} is still in use by PID {1}, killing it", port, pid);
+                        new ProcessBuilder("kill", "-9", pid)
+                                .start()
+                                .waitFor(5, TimeUnit.SECONDS);
+                    }
+                }
+                // Brief pause so the OS releases the port
+                Thread.sleep(200);
+            }
+        } catch (IOException | InterruptedException e) {
+            LOGGER.log(WARNING, "Could not clean up port {0}: {1}", port, e.getMessage());
+        }
+    }
+
+    /**
      * Start Piranha.
      *
      * @param runtimeDirectory the runtime directory.
      * @param warFile the WAR filename.
      */
     private void startPiranha(File runtimeDirectory, File warFile) throws IOException, DeploymentException {
+        killProcessOnPort(configuration.getHttpPort());
+        File stalePidFile = new File(runtimeDirectory, PID_FILENAME);
+        if (stalePidFile.exists()) {
+            try {
+                Files.delete(stalePidFile.toPath());
+            } catch (IOException ioe) {
+                LOGGER.log(WARNING, "Could not delete stale PID file: {0}", ioe.getMessage());
+            }
+        }
         List<String> commands = new ArrayList<>();
         StringBuilder classpath = new StringBuilder();
         commands.add("java");
