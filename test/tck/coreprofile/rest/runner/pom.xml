@@ -125,6 +125,8 @@
                         <signature.sigTestClasspath>${settings.localRepository}/jakarta/ws/rs/jakarta.ws.rs-api/4.0.0/jakarta.ws.rs-api-4.0.0.jar:${jimage.dir}/java.base:${jimage.dir}/java.rmi:${jimage.dir}/java.sql:${jimage.dir}/java.naming</signature.sigTestClasspath>
                         <webServerHost>localhost</webServerHost>
                         <webServerPort>8080</webServerPort>
+                        <user>j2ee</user>
+                        <password>j2ee</password>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>  
