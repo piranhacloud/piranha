@@ -381,6 +381,13 @@ public class ManagedPiranhaContainer implements DeployableContainer<ManagedPiran
             }
         }
 
+        if (!configuration.getCallerName().isEmpty()) {
+            commands.add("-Dio.piranha.identitystore.callers=<callers><caller callername=\""
+                    + configuration.getCallerName() + "\" password=\""
+                    + configuration.getCallerPassword() + "\" groups=\""
+                    + configuration.getCallerGroups() + "\"/></callers>");
+        }
+
         if (configuration.isDebug()) {
             commands.add("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=localhost:9009");
         }

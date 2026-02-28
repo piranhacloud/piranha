@@ -62,6 +62,21 @@ import static java.lang.System.Logger.Level.INFO;
  * <td>if not set an unused port will be automatically chosen</td>
  * </tr>
  * <tr>
+ * <td>piranha.callerName</td>
+ * <td>The username to seed into the in-memory identity store</td>
+ * <td>not set by default</td>
+ * </tr>
+ * <tr>
+ * <td>piranha.callerPassword</td>
+ * <td>The password for the caller to seed into the in-memory identity store</td>
+ * <td>not set by default</td>
+ * </tr>
+ * <tr>
+ * <td>piranha.callerGroups</td>
+ * <td>The comma-separated groups for the caller to seed into the in-memory identity store</td>
+ * <td>not set by default</td>
+ * </tr>
+ * <tr>
  * <td>piranha.jvmArguments</td>
  * <td>The string with JVM arguments to pass to the Piranha process</td>
  * <td>no additional JVM arguments are passed by default</td>
@@ -87,6 +102,21 @@ public class ManagedPiranhaContainerConfiguration implements ContainerConfigurat
      * Stores the logger.
      */
     private static final System.Logger LOGGER = System.getLogger(ManagedPiranhaContainerConfiguration.class.getName());
+
+    /**
+     * Stores the caller groups.
+     */
+    private String callerGroups = System.getProperty("piranha.callerGroups", "");
+
+    /**
+     * Stores the caller name.
+     */
+    private String callerName = System.getProperty("piranha.callerName", "");
+
+    /**
+     * Stores the caller password.
+     */
+    private String callerPassword = System.getProperty("piranha.callerPassword", "");
 
     /**
      * Stores the distribution to use.
@@ -122,6 +152,33 @@ public class ManagedPiranhaContainerConfiguration implements ContainerConfigurat
      * Constructor.
      */
     public ManagedPiranhaContainerConfiguration() {
+    }
+
+    /**
+     * Get the caller groups.
+     *
+     * @return the caller groups.
+     */
+    public String getCallerGroups() {
+        return callerGroups;
+    }
+
+    /**
+     * Get the caller name.
+     *
+     * @return the caller name.
+     */
+    public String getCallerName() {
+        return callerName;
+    }
+
+    /**
+     * Get the caller password.
+     *
+     * @return the caller password.
+     */
+    public String getCallerPassword() {
+        return callerPassword;
     }
 
     /**
@@ -179,6 +236,33 @@ public class ManagedPiranhaContainerConfiguration implements ContainerConfigurat
      */
     public boolean isSuspend() {
         return suspend;
+    }
+
+    /**
+     * Set the caller groups.
+     *
+     * @param callerGroups the caller groups.
+     */
+    public void setCallerGroups(String callerGroups) {
+        this.callerGroups = callerGroups;
+    }
+
+    /**
+     * Set the caller name.
+     *
+     * @param callerName the caller name.
+     */
+    public void setCallerName(String callerName) {
+        this.callerName = callerName;
+    }
+
+    /**
+     * Set the caller password.
+     *
+     * @param callerPassword the caller password.
+     */
+    public void setCallerPassword(String callerPassword) {
+        this.callerPassword = callerPassword;
     }
 
     /**
