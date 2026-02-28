@@ -38,7 +38,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.StructuredTaskScope;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
@@ -177,14 +176,16 @@ public class VirtualHttpServer implements HttpServer {
      * @throws InterruptedException if an error occurs
      */
     private void serve(ServerSocket serverSocket) throws IOException, InterruptedException {
-        try (StructuredTaskScope<Void> scope = new StructuredTaskScope<>()) {
-            try {
-                while (isRunning()) {
-                    Socket socket = serverSocket.accept();
-                    scope.fork(() -> handle(socket));
-                }
-            } finally {
-                scope.join().shutdown();
+        try (ExecutorService virtualExecutor = Executors.newVirtualThreadPerTaskExecutor()) {
+            while (isRunning()) {
+                Socket socket = serverSocket.accept();
+                virtualExecutor.execute(() -> {
+                    try {
+                        handle(socket);
+                    } catch (IOException ioe) {
+                        LOGGER.log(WARNING, ioe);
+                    }
+                });
             }
         }
     }

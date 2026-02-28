@@ -33,7 +33,10 @@ import cloud.piranha.extension.annotationscan.AnnotationScanExtension;
 import cloud.piranha.extension.annotationscan.classfile.ClassfileAnnotationScanExtension;
 import cloud.piranha.extension.handlestypes.HandlesTypesExtension;
 import cloud.piranha.extension.herring.HerringExtension;
+import cloud.piranha.extension.policy.PolicyExtension;
 import cloud.piranha.extension.scinitializer.ServletContainerInitializerExtension;
+import cloud.piranha.extension.security.servlet.ServletSecurityExtension;
+import cloud.piranha.extension.security.servlet.ServletSecurityManagerExtension;
 import cloud.piranha.extension.webxml.WebXmlExtension;
 import cloud.piranha.extension.weld.WeldExtension;
 
@@ -52,11 +55,14 @@ public class CoreProfileExtension implements WebApplicationExtension {
 
     @Override
     public void extend(WebApplicationExtensionContext context) {
+        context.add(PolicyExtension.class);                         // JavaPolicy
+        context.add(ServletSecurityManagerExtension.class);         // SecurityManager
         context.add(HandlesTypesExtension.class);                   // HandlesTypes support
         context.add(HerringExtension.class);                        // Herring (JNDI)
         context.add(WebXmlExtension.class);
         context.add(getAnnotationScanExtensionClass());
         context.add(WeldExtension.class);                           // CDI / Weld
+        context.add(ServletSecurityExtension.class);                // Security implementation
         context.add(ServletContainerInitializerExtension.class);    // ServletContainerInitializer
     }
 
