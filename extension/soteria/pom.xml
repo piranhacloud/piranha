@@ -41,7 +41,7 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.soteria</groupId>
-            <artifactId>jakarta.security.enterprise</artifactId>
+            <artifactId>soteria</artifactId>
             <scope>compile</scope>
         </dependency>
         <!-- test -->
