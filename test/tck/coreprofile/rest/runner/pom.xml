@@ -114,6 +114,7 @@
                     </dependenciesToScan>
                     <forkCount>1</forkCount>
                     <reuseForks>false</reuseForks>
+                    <forkedProcessTimeoutInSeconds>120</forkedProcessTimeoutInSeconds>
                     <systemPropertyVariables>
                         <arquillian.launch>piranha</arquillian.launch>
                         <cts.harness.debug>true</cts.harness.debug>
