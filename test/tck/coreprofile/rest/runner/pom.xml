@@ -16,6 +16,7 @@
     <properties>
         <commons-httpclient.version>3.1</commons-httpclient.version>
         <hamcrest.version>3.0</hamcrest.version>
+        <jimage.dir>${project.build.directory}/jimage</jimage.dir>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -80,6 +81,11 @@
             <version>${commons-httpclient.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>jakarta.tck</groupId>
+            <artifactId>sigtest-maven-plugin</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -107,6 +113,8 @@
                         <junit.log.traceflag>true</junit.log.traceflag>
                         <porting.ts.url.class.1>ee.jakarta.tck.ws.rs.lib.implementation.sun.common.SunRIURL</porting.ts.url.class.1>
                         <servlet_adaptor>org.glassfish.jersey.servlet.ServletContainer</servlet_adaptor>
+                        <jimage.dir>${jimage.dir}</jimage.dir>
+                        <signature.sigTestClasspath>${settings.localRepository}/jakarta/ws/rs/jakarta.ws.rs-api/4.0.0/jakarta.ws.rs-api-4.0.0.jar:${jimage.dir}/java.base:${jimage.dir}/java.rmi:${jimage.dir}/java.sql:${jimage.dir}/java.naming</signature.sigTestClasspath>
                         <webServerHost>localhost</webServerHost>
                         <webServerPort>8080</webServerPort>
                     </systemPropertyVariables>
