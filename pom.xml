@@ -82,11 +82,11 @@
         <checkstyle.version>10.21.2</checkstyle.version>
         <commons-compress.version>1.28.0</commons-compress.version>
         <commons-fileupload2-jakarta-servlet6.version>2.0.0-M4</commons-fileupload2-jakarta-servlet6.version>
-        <concurro.version>3.1.0-M6</concurro.version>
+        <concurro.version>3.1.0</concurro.version>
         <crac.version>0.1.3</crac.version>
         <eclipselink.version>5.0.0-B07</eclipselink.version>
-        <epicyro.version>3.1.0</epicyro.version>
-        <exousia.version>3.0.0-M3</exousia.version>
+        <epicyro.version>3.1.1</epicyro.version>
+        <exousia.version>3.0.1</exousia.version>
         <expressly.version>6.0.0</expressly.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
         <glassfish-client-ee11.version>1.8</glassfish-client-ee11.version>
@@ -124,7 +124,7 @@
         <shrinkwrap-impl-base.version>2.0.0-beta-2</shrinkwrap-impl-base.version>
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.3.3</shrinkwrap-resolver.version>
-        <soteria.version>4.0.0-M3</soteria.version>
+        <soteria.version>4.0.2</soteria.version>
         <spring-boot.version>3.5.7</spring-boot.version>
         <testcontainers.version>2.0.1</testcontainers.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
@@ -349,7 +349,7 @@
             </dependency>
             <dependency>
                 <groupId>org.glassfish.soteria</groupId>
-                <artifactId>jakarta.security.enterprise</artifactId>
+                <artifactId>soteria</artifactId>
                 <version>${soteria.version}</version>
             </dependency>
             <!-- Eclipse Tyrus -->
