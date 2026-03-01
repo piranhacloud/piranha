@@ -939,6 +939,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
 
     @Override
     public boolean isAsyncStarted() {
+        LOGGER.log(java.lang.System.Logger.Level.TRACE, "isAsyncStarted -> {0}", asyncStarted);
         return asyncStarted;
     }
 
@@ -1396,6 +1397,7 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
 
     @Override
     public AsyncContext startAsync() throws IllegalStateException {
+        LOGGER.log(java.lang.System.Logger.Level.TRACE, "startAsync() enter");
         if (!isAsyncSupported()) {
             throw new IllegalStateException("Async is not supported");
         }
@@ -1405,6 +1407,9 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
 
     @Override
     public AsyncContext startAsync(ServletRequest request, ServletResponse response) throws IllegalStateException {
+        LOGGER.log(java.lang.System.Logger.Level.TRACE,
+                "startAsync(request={0}, response={1}) enter",
+                request.getClass().getName(), response.getClass().getName());
         requireNonNull(request);
         requireNonNull(response);
 
@@ -1422,6 +1427,9 @@ public class DefaultWebApplicationRequest implements WebApplicationRequest {
 
         asyncContext = new DefaultAsyncContext(request, response);
         asyncStarted = true;
+        LOGGER.log(java.lang.System.Logger.Level.TRACE,
+                "startAsync(request,response) asyncStarted=true asyncContext={0}",
+                asyncContext.getClass().getName());
 
         Object previousAttribute = request.getAttribute(PREVIOUS_REQUEST);
         while (previousAttribute instanceof HttpServletRequest httpServletRequest) {

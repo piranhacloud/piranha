@@ -30,6 +30,7 @@ package cloud.piranha.http.webapp;
 import cloud.piranha.http.api.HttpServerResponse;
 import cloud.piranha.core.impl.DefaultWebApplicationResponse;
 import java.io.IOException;
+import static java.lang.System.Logger.Level.TRACE;
 import static java.lang.System.Logger.Level.WARNING;
 
 /**
@@ -58,11 +59,13 @@ public class HttpWebApplicationResponse extends DefaultWebApplicationResponse {
         this.wrapped = wrapped;
         setWebApplicationOutputStream(new HttpWebApplicationOutputStream(this, wrapped));
         setResponseCloser(() -> {
+            LOGGER.log(TRACE, "responseCloser enter wrapping {0}", wrapped.getClass().getName());
             try {
                 wrapped.closeResponse();
             } catch (IOException ioe) {
                 LOGGER.log(WARNING, () -> "IOException when flushing the underlying async output stream", ioe);
             }
+            LOGGER.log(TRACE, "responseCloser exit");
         });
     }
 }

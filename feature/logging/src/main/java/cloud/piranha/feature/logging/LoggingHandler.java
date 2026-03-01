@@ -28,13 +28,11 @@
 package cloud.piranha.feature.logging;
 
 import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.ConsoleHandler;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * The LoggingHandler class.
@@ -42,6 +40,15 @@ import java.util.concurrent.TimeUnit;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class LoggingHandler extends Handler {
+
+    /**
+     * When {@code -Dpiranha.async.stacktrace=true} every published log record
+     * automatically gets a {@link Throwable} attached so that the configured
+     * {@link java.util.logging.Formatter} renders the full call stack.
+     * Evaluated once at class-load time; restart required to change.
+     */
+    private static final boolean STACK_TRACE_ENABLED =
+            Boolean.getBoolean("piranha.async.stacktrace");
 
     /**
      * Stores the executor service for handling log records.
@@ -57,11 +64,15 @@ public class LoggingHandler extends Handler {
      * Constructor.
      */
     public LoggingHandler() {
-        consoleHandler.setLevel(getLevel());
+        super.setLevel(Level.ALL);
+        consoleHandler.setLevel(Level.ALL);
     }
 
     @Override
     public void publish(LogRecord record) {
+        if (STACK_TRACE_ENABLED && record.getThrown() == null) {
+            record.setThrown(new Throwable("caller stack"));
+        }
         executorService.submit(new LogRecordPublisher(record));
     }
 
@@ -86,14 +97,7 @@ public class LoggingHandler extends Handler {
 
         @Override
         public void run() {
-            Future<?> future = executorService.submit(() -> consoleHandler.publish(record));
-            try {
-                future.get(10, TimeUnit.SECONDS);
-            } catch (TimeoutException e) {
-                future.cancel(true);
-            } catch (Exception e) {
-                // Handle other exceptions
-            }
+            consoleHandler.publish(record);
         }
     }
 

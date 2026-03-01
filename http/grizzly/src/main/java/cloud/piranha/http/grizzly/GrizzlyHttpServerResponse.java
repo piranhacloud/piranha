@@ -29,6 +29,8 @@ package cloud.piranha.http.grizzly;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import static java.lang.System.Logger.Level.TRACE;
+import java.lang.System.Logger;
 
 import org.glassfish.grizzly.http.server.Response;
 
@@ -42,6 +44,11 @@ import cloud.piranha.http.api.HttpServerResponse;
 public class GrizzlyHttpServerResponse implements HttpServerResponse {
 
     /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(GrizzlyHttpServerResponse.class.getName());
+
+    /**
      * Stores the response.
      */
     private final Response response;
@@ -52,41 +59,62 @@ public class GrizzlyHttpServerResponse implements HttpServerResponse {
      * @param response the Grizzly response.
      */
     public GrizzlyHttpServerResponse(Response response) {
+        LOGGER.log(TRACE, "GrizzlyHttpServerResponse constructor");
         this.response = response;
     }
 
     @Override
     public void addHeader(String name, String value) {
+        LOGGER.log(TRACE, "addHeader name={0} value={1}", name, value);
         response.addHeader(name, value);
     }
 
     @Override
     public String getHeader(String name) {
-        return response.getHeader(name);
+        String value = response.getHeader(name);
+        LOGGER.log(TRACE, "getHeader name={0} -> {1}", name, value);
+        return value;
     }
 
     @Override
     public OutputStream getOutputStream() {
+        LOGGER.log(TRACE, "getOutputStream");
         return response.getOutputStream();
     }
 
     @Override
     public void setHeader(String name, String value) {
+        LOGGER.log(TRACE, "setHeader name={0} value={1}", name, value);
         response.setHeader(name, value);
     }
 
     @Override
     public void setStatus(int status) {
+        LOGGER.log(TRACE, "setStatus status={0} grizzly.isSuspended={1} grizzly.isCommitted={2}",
+                status, response.isSuspended(), response.isCommitted());
         response.setStatus(status);
     }
 
     @Override
     public void writeHeaders() throws IOException {
+        LOGGER.log(TRACE, "writeHeaders grizzly.isSuspended={0} grizzly.isCommitted={1}",
+                response.isSuspended(), response.isCommitted());
         // writing the headers is taken care of when writing out the response.
     }
 
     @Override
     public void writeStatusLine() throws IOException {
+        LOGGER.log(TRACE, "writeStatusLine grizzly.isSuspended={0} grizzly.isCommitted={1}",
+                response.isSuspended(), response.isCommitted());
         // writing the status line is taken care of when writing out the response.
+    }
+
+    @Override
+    public void closeResponse() throws IOException {
+        LOGGER.log(TRACE, "closeResponse enter grizzly.isSuspended={0} grizzly.isCommitted={1}",
+                response.isSuspended(), response.isCommitted());
+        // delegate to interface default: flush + close output stream
+        HttpServerResponse.super.closeResponse();
+        LOGGER.log(TRACE, "closeResponse exit grizzly.isSuspended={0}", response.isSuspended());
     }
 }

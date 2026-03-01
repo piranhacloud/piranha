@@ -40,6 +40,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.lang.System.Logger;
+import static java.lang.System.Logger.Level.TRACE;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Instant;
@@ -60,6 +62,11 @@ import java.util.function.Supplier;
  * @author Manfred Riem (mriem@manorrock.com)
  */
 public class DefaultWebApplicationResponse implements WebApplicationResponse {
+
+    /**
+     * Stores the logger.
+     */
+    private static final Logger LOGGER = System.getLogger(DefaultWebApplicationResponse.class.getName());
 
     /**
      * Defines the 'ISO-8859-1' constant.
@@ -247,7 +254,9 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
 
     @Override
     public void closeAsyncResponse() {
+        LOGGER.log(TRACE, "closeAsyncResponse enter responseCloser={0}", responseCloser.getClass().getName());
         responseCloser.run();
+        LOGGER.log(TRACE, "closeAsyncResponse exit");
     }
 
     @Override
@@ -707,6 +716,7 @@ public class DefaultWebApplicationResponse implements WebApplicationResponse {
 
     @Override
     public void setResponseCloser(Runnable responseCloser) {
+        LOGGER.log(TRACE, "setResponseCloser responseCloser={0}", responseCloser.getClass().getName());
         this.responseCloser = responseCloser;
     }
 

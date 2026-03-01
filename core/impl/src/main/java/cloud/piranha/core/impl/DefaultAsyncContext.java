@@ -44,6 +44,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.lang.System.Logger;
 import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
 import static java.lang.System.Logger.Level.WARNING;
 import java.util.ArrayList;
 import java.util.List;
@@ -143,16 +144,20 @@ public class DefaultAsyncContext implements AsyncContext {
         originalRequest = unwrapFully(asyncStartRequest);
         originalResponse = unwrapFully(asyncStartResponse);
 
+        LOGGER.log(TRACE, "DefaultAsyncContext constructor asyncStartRequest={0} asyncStartResponse={1}",
+                asyncStartRequest.getClass().getName(), asyncStartResponse.getClass().getName());
         scheduledThreadPoolExecutor.schedule(this::onTimeOut, timeout, MILLISECONDS);
     }
 
     @Override
     public void addListener(AsyncListener listener) {
+        LOGGER.log(TRACE, "addListener {0}", listener.getClass().getName());
         this.listeners.add(listener);
     }
 
     @Override
     public void addListener(AsyncListener listener, ServletRequest request, ServletResponse response) {
+        LOGGER.log(TRACE, "addListener {0} (with request/response)", listener.getClass().getName());
         this.listeners.add(listener);
     }
 
@@ -171,6 +176,7 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void dispatch() {
+        LOGGER.log(TRACE, "dispatch()");
         String path;
         if (asyncStartRequest instanceof HttpServletRequest httpServletRequest) {
             path = httpServletRequest.getRequestURI().substring(httpServletRequest.getContextPath().length());
@@ -185,6 +191,7 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void dispatch(String path) {
+        LOGGER.log(TRACE, "dispatch(path={0})", path);
         dispatch(asyncStartRequest.getServletContext(), path);
     }
 
@@ -196,6 +203,7 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void dispatch(ServletContext servletContext, String path) {
+        LOGGER.log(TRACE, "dispatch(servletContext, path={0})", path);
         if (dispatched) {
             throw new IllegalStateException("Dispatch already called on this async contexct");
         }
@@ -209,6 +217,7 @@ public class DefaultAsyncContext implements AsyncContext {
 
     @Override
     public void complete() {
+        LOGGER.log(TRACE, "complete enter originalResponse={0}", originalResponse.getClass().getName());
 
         scheduledThreadPoolExecutor.shutdownNow();
 
@@ -232,13 +241,16 @@ public class DefaultAsyncContext implements AsyncContext {
             LOGGER.log(WARNING, () -> "IOException when flushing async asyncStartResponse buffer", ioe);
         }
 
+        LOGGER.log(TRACE, "complete calling originalResponse.closeAsyncResponse");
         originalResponse.closeAsyncResponse();
+        LOGGER.log(TRACE, "complete exit");
     }
 
     /**
      * Process on timeout
      */
     public void onTimeOut() {
+        LOGGER.log(TRACE, "onTimeOut enter originalResponse={0}", originalResponse.getClass().getName());
         scheduledThreadPoolExecutor.shutdownNow();
 
         if (!listeners.isEmpty()) {
@@ -261,31 +273,39 @@ public class DefaultAsyncContext implements AsyncContext {
             }
         }
 
+        LOGGER.log(TRACE, "onTimeOut calling originalResponse.closeAsyncResponse");
         originalResponse.closeAsyncResponse();
+        LOGGER.log(TRACE, "onTimeOut exit");
     }
 
     @Override
     public ServletRequest getRequest() {
+        LOGGER.log(TRACE, "getRequest");
         return asyncStartRequest;
     }
 
     @Override
     public ServletResponse getResponse() {
+        LOGGER.log(TRACE, "getResponse");
         return asyncStartResponse;
     }
 
     @Override
     public long getTimeout() {
+        LOGGER.log(TRACE, "getTimeout -> {0}", timeout);
         return timeout;
     }
 
     @Override
     public boolean hasOriginalRequestAndResponse() {
-        return originalRequest == asyncStartRequest && originalResponse == asyncStartResponse;
+        boolean result = originalRequest == asyncStartRequest && originalResponse == asyncStartResponse;
+        LOGGER.log(TRACE, "hasOriginalRequestAndResponse -> {0}", result);
+        return result;
     }
 
     @Override
     public void setTimeout(long timeout) {
+        LOGGER.log(TRACE, "setTimeout({0})", timeout);
         this.timeout = timeout;
     }
 
@@ -296,6 +316,7 @@ public class DefaultAsyncContext implements AsyncContext {
      */
     @Override
     public void start(Runnable runnable) {
+        LOGGER.log(TRACE, "start runnable={0}", runnable.getClass().getName());
         LOGGER.log(DEBUG, "Starting async context with: {0}", runnable);
         Thread thread = new Thread(runnable);
         thread.start();

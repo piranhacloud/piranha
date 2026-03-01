@@ -33,6 +33,7 @@ import static cloud.piranha.http.api.HttpServerProcessorEndState.ASYNCED;
 import java.io.IOException;
 import java.util.concurrent.Semaphore;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.lang.System.Logger.Level.TRACE;
 import static java.lang.System.Logger.Level.WARNING;
 import java.lang.System.Logger;
 import org.glassfish.grizzly.CompletionHandler;
@@ -115,36 +116,44 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
 
     @Override
     public HttpServerProcessor getHttpServerProcessor() {
+        LOGGER.log(TRACE, "getHttpServerProcessor");
         return httpServerProcessor;
     }
 
     @Override
     public int getServerPort() {
+        LOGGER.log(TRACE, "getServerPort -> {0}", port);
         return port;
     }
 
     @Override
     public boolean getSSL() {
+        LOGGER.log(TRACE, "getSSL -> {0}", ssl);
         return ssl;
     }
 
     @Override
     public boolean isRunning() {
-        return httpServer != null;
+        boolean running = httpServer != null;
+        LOGGER.log(TRACE, "isRunning -> {0}", running);
+        return running;
     }
 
     @Override
     public void setHttpServerProcessor(HttpServerProcessor httpServerProcessor) {
+        LOGGER.log(TRACE, "setHttpServerProcessor");
         this.httpServerProcessor = httpServerProcessor;
     }
 
     @Override
     public void setServerPort(int serverPort) {
+        LOGGER.log(TRACE, "setServerPort({0})", serverPort);
         this.port = serverPort;
     }
 
     @Override
     public void setSSL(boolean ssl) {
+        LOGGER.log(TRACE, "setSSL({0})", ssl);
         this.ssl = ssl;
     }
 
@@ -160,28 +169,46 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
         httpServer.getServerConfiguration().addHttpHandler(new HttpHandler() {
             @Override
             public void service(Request request, Response response) throws Exception {
+                LOGGER.log(TRACE, "service enter uri={0} thread={1} grizzly.isSuspended={2} grizzly.isCommitted={3}",
+                        request.getRequestURI(), Thread.currentThread().getName(),
+                        response.isSuspended(), response.isCommitted());
                 GrizzlyHttpServerRequest gRequest = new GrizzlyHttpServerRequest(request);
                 GrizzlyHttpServerResponse gResponse = new GrizzlyHttpServerResponse(response);
                 HttpServerProcessorEndState state = httpServerProcessor.process(gRequest, gResponse);
-                if (state == ASYNCED) {
+                LOGGER.log(TRACE, "service processor returned state={0} grizzly.isSuspended={1} grizzly.isCommitted={2}",
+                        state, response.isSuspended(), response.isCommitted());
+                if (state == ASYNCED && !response.isCommitted()) {
+                    LOGGER.log(TRACE, "service state=ASYNCED calling response.suspend(60s) grizzly.isSuspended={0}",
+                            response.isSuspended());
                     response.suspend(60, SECONDS, new CompletionHandler<Response>() {
                         @Override
                         public void cancelled() {
+                            LOGGER.log(TRACE, "grizzly CompletionHandler.cancelled thread={0}",
+                                    Thread.currentThread().getName());
                         }
 
                         @Override
                         public void failed(Throwable thrwbl) {
+                            LOGGER.log(TRACE, "grizzly CompletionHandler.failed thread={0}",
+                                    Thread.currentThread().getName());
                         }
 
                         @Override
                         public void completed(Response e) {
+                            LOGGER.log(TRACE, "grizzly CompletionHandler.completed thread={0}",
+                                    Thread.currentThread().getName());
                         }
 
                         @Override
                         public void updated(Response e) {
+                            LOGGER.log(TRACE, "grizzly CompletionHandler.updated thread={0}",
+                                    Thread.currentThread().getName());
                         }
                     });
+                    LOGGER.log(TRACE, "service response.suspend() returned grizzly.isSuspended={0}",
+                            response.isSuspended());
                 }
+                LOGGER.log(TRACE, "service exit thread={0}", Thread.currentThread().getName());
             }
         });
         try {
@@ -193,6 +220,7 @@ public class GrizzlyHttpServer implements cloud.piranha.http.api.HttpServer {
 
     @Override
     public void stop() {
+        LOGGER.log(TRACE, "stop");
         Semaphore lock = new Semaphore(1);
         lock.acquireUninterruptibly();
         httpServer.shutdown(5, SECONDS).addCompletionHandler(

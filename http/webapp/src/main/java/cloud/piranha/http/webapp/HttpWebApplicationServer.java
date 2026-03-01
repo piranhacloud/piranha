@@ -143,6 +143,9 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         try {
             HttpWebApplicationRequest serverRequest = new HttpWebApplicationRequest(request);
             HttpWebApplicationResponse serverResponse = new HttpWebApplicationResponse(response);
+            if (LOGGER.isLoggable(TRACE)) {
+                LOGGER.log(TRACE, "process enter request={0}", request.getClass().getName());
+            }
             service(serverRequest, serverResponse);
             if (serverRequest.isAsyncStarted()) {
                 state = ASYNCED;
@@ -155,7 +158,7 @@ public class HttpWebApplicationServer implements HttpServerProcessor, WebApplica
         }
         
         if (LOGGER.isLoggable(TRACE)) {
-            LOGGER.log(TRACE, "Processor end state: {0}", state.name());
+            LOGGER.log(TRACE, "process exit state={0}", state.name());
         }
         
         return state;
