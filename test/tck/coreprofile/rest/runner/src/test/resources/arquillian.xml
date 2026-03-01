@@ -8,6 +8,9 @@
     <container qualifier="piranha" default="true">
         <configuration>
             <property name="httpPort">8080</property>
+            <property name="callerName">j2ee</property>
+            <property name="callerPassword">j2ee</property>
+            <property name="callerGroups">DIRECTOR</property>
         </configuration>
     </container>
 </arquillian>

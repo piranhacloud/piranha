@@ -42,6 +42,7 @@
  *  <li>web.xml support</li>
  *  <li>Weld (CDI)</li>
  *  <li>Yasson (JSON-B)</li>
+ *  <li>Servlet security (Basic auth, security constraints)</li>
  * </ul>
  */
 module cloud.piranha.extension.coreprofile {
@@ -54,6 +55,8 @@ module cloud.piranha.extension.coreprofile {
     requires cloud.piranha.extension.handlestypes;
     requires cloud.piranha.extension.herring;
     requires cloud.piranha.extension.jersey;
+    requires cloud.piranha.extension.policy;
+    requires cloud.piranha.extension.security.servlet;
     requires cloud.piranha.extension.scinitializer;
     requires cloud.piranha.extension.webxml;
     requires cloud.piranha.extension.weld;
