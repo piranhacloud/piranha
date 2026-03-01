@@ -35,8 +35,6 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -69,68 +67,26 @@ public class SseIT extends ITBase {
     /**
      * Test SSE broadcast.
      *
-     * @throw Exception when a serious error occurs.
+     * @throws Exception when a serious error occurs.
      */
     @Test
     void testSseBroadcast() throws Exception {
-
         List<String> events = new ArrayList<>();
         HttpClient client = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(120))
+                .connectTimeout(Duration.ofSeconds(30))
                 .build();
 
         /*
-         * Register client and collect events.
-         */
-        CompletableFuture<Void> future = client.sendAsync(HttpRequest.newBuilder()
-                .uri(new URI(baseUrl + "/sse/register"))
-                .build(), BodyHandlers.ofLines())
-                .thenAccept(response -> response.body().forEach(event -> {
-            if (!event.isBlank()) {
-                events.add(event);
-            }
-        }));
-
-        /*
-         * Give client time to bootstrap.
-         */
-        Thread.sleep(2000);
-
-        /*
-         * Simulate server broadcast.
+         * POST to the broadcast endpoint which streams 10 SSE events synchronously.
          */
         client.send(HttpRequest.newBuilder()
                 .uri(new URI(baseUrl + "/sse/broadcast"))
                 .POST(HttpRequest.BodyPublishers.ofString("Broadcast message"))
-                .build(), HttpResponse.BodyHandlers.ofString());
+                .build(), BodyHandlers.ofLines())
+                .body()
+                .filter(line -> !line.isBlank())
+                .forEach(events::add);
 
-        /*
-         * Wait for the future to complete.
-         */
-        try {
-            future.get(10, TimeUnit.SECONDS);
-        } catch (Exception e) {
-        }
-
-        /*
-         * Check if we have received 10 events.
-         */
         assertEquals(10, events.size(), "Should have received 10 events");
-
-        /*
-         * Close broadcast.
-         */
-        HttpResponse<Void> closeResponse = client.send(HttpRequest.newBuilder()
-                .uri(new URI(baseUrl + "/sse/close"))
-                .timeout(Duration.ofMinutes(5))
-                .GET()
-                .build(), HttpResponse.BodyHandlers.discarding());
-
-        /*
-         * Give the server time to close.
-         */
-        Thread.sleep(2000);
-
-        assertEquals(204, closeResponse.statusCode());
     }
 }

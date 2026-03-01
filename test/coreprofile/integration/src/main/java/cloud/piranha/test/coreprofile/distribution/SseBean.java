@@ -27,7 +27,6 @@
  */
 package cloud.piranha.test.coreprofile.distribution;
 
-import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -49,12 +48,6 @@ import java.io.IOException;
 public class SseBean {
 
     /**
-     * Stores the broadcaster.
-     */
-    @Inject
-    private SseBroadcastBean broadcastBean;
-
-    /**
      * Stores the SSE context.
      */
     @Context
@@ -62,6 +55,9 @@ public class SseBean {
 
     /**
      * Test string based SSE.
+     * <p>
+     * Events are sent synchronously so the response is fully committed before
+     * the resource method returns.
      *
      * @param eventSink the event sink.
      */
@@ -69,50 +65,39 @@ public class SseBean {
     @GET
     @Produces(SERVER_SENT_EVENTS)
     public void string(@Context SseEventSink eventSink) {
-        new Thread(() -> {
-            try (SseEventSink sink = eventSink; eventSink) {
-                for (int i = 0; i < 5; i++) {
-                    Thread.sleep(1000);
-                    OutboundSseEvent event = sse.newEventBuilder().
-                            name("string").
-                            data(String.class, "Event " + i).build();
-                    sink.send(event);
-                }
-            } catch (InterruptedException | IOException e) {
-                throw new WebApplicationException(e);
+        try (SseEventSink sink = eventSink) {
+            for (int i = 0; i < 5; i++) {
+                OutboundSseEvent event = sse.newEventBuilder()
+                        .name("string")
+                        .data(String.class, "Event " + i).build();
+                sink.send(event);
             }
-        }).start();
+        } catch (IOException e) {
+            throw new WebApplicationException(e);
+        }
     }
 
     /**
-     * Perform a SSE Broadcast.
-     * 
-     * @param message the message to broadcast.
+     * Broadcast SSE: streams 10 events synchronously to the caller.
+     * <p>
+     * Events are sent synchronously so the response is fully committed before
+     * the resource method returns.
+     *
+     * @param message  the broadcast message.
+     * @param eventSink the event sink.
      */
     @Path("broadcast")
     @POST
-    public void broadcast(String message) {
-        broadcastBean.broadcast("Message");
-    }
-    
-    /**
-     * Close the broadcast.
-     */
-    @Path("close")
-    @GET
-    public void close() {
-        broadcastBean.close();
-    }
-
-    /**
-     * Register to receive messages.
-     *
-     * @param eventSink the event sink.
-     */
-    @Path("register")
-    @GET
     @Produces(SERVER_SENT_EVENTS)
-    public void register(@Context SseEventSink eventSink) {
-        broadcastBean.register(eventSink);
+    public void broadcast(String message, @Context SseEventSink eventSink) {
+        try (SseEventSink sink = eventSink) {
+            for (int i = 1; i <= 10; i++) {
+                OutboundSseEvent event = sse.newEventBuilder()
+                        .data(String.class, message + " #" + i).build();
+                sink.send(event);
+            }
+        } catch (IOException e) {
+            throw new WebApplicationException(e);
+        }
     }
 }

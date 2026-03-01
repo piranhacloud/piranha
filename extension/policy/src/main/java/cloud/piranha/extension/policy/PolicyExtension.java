@@ -33,8 +33,6 @@ import cloud.piranha.core.api.WebApplication;
 import cloud.piranha.core.api.WebApplicationExtension;
 import cloud.piranha.extension.policy.internal.InternalPolicyServletRequestListener;
 import static java.lang.System.Logger.Level.TRACE;
-import static java.lang.System.Logger.Level.WARNING;
-import java.security.NoSuchAlgorithmException;
 import java.security.Policy;
 
 /**
@@ -70,16 +68,12 @@ public class PolicyExtension implements WebApplicationExtension {
         Boolean disabled = Boolean.valueOf((String) webApplication.getAttribute(PolicyExtension.class.getName() + ".disable"));
 
         if (!disabled) {
-            try {
-                LOGGER.log(TRACE, "Configuring Policy extension");
-                Policy policy = Policy.getInstance("JavaPolicy", null);
-                webApplication.setAttribute(Policy.class.getName(), policy);
-                InternalPolicyThreadLocal.setPolicy(policy);
-                webApplication.addListener(InternalPolicyServletContextListener.class.getName());
-                webApplication.addListener(InternalPolicyServletRequestListener.class.getName());
-            } catch (NoSuchAlgorithmException ex) {
-                LOGGER.log(WARNING, "Error setting up Policy", ex);
-            }
+            LOGGER.log(TRACE, "Configuring Policy extension");
+            Policy policy = Policy.getPolicy();
+            webApplication.setAttribute(Policy.class.getName(), policy);
+            InternalPolicyThreadLocal.setPolicy(policy);
+            webApplication.addListener(InternalPolicyServletContextListener.class.getName());
+            webApplication.addListener(InternalPolicyServletRequestListener.class.getName());
         } else {
             LOGGER.log(TRACE, "Policy extension is disabled");
         }
