@@ -82,11 +82,11 @@
         <checkstyle.version>10.21.2</checkstyle.version>
         <commons-compress.version>1.28.0</commons-compress.version>
         <commons-fileupload2-jakarta-servlet6.version>2.0.0-M4</commons-fileupload2-jakarta-servlet6.version>
-        <concurro.version>3.1.0-M6</concurro.version>
+        <concurro.version>3.1.0</concurro.version>
         <crac.version>0.1.3</crac.version>
         <eclipselink.version>5.0.0-B07</eclipselink.version>
-        <epicyro.version>3.1.0</epicyro.version>
-        <exousia.version>3.0.0-M3</exousia.version>
+        <epicyro.version>3.1.1</epicyro.version>
+        <exousia.version>3.0.1</exousia.version>
         <expressly.version>6.0.0</expressly.version>
         <free-port-finder.version>1.1.1</free-port-finder.version>
         <glassfish-client-ee11.version>1.8</glassfish-client-ee11.version>
@@ -114,7 +114,7 @@
         <microprofile-jwt-auth-api.version>2.1</microprofile-jwt-auth-api.version>
         <microprofile-jwt-auth.version>3.0.1</microprofile-jwt-auth.version>
         <mojarra.version>4.1.4</mojarra.version>
-        <netty.version>4.2.7.Final</netty.version>
+        <netty.version>4.2.8.Final</netty.version>
         <nimbus-jose-jwt.version>10.5</nimbus-jose-jwt.version>
         <omni-mp-config.version>3.0.0</omni-mp-config.version>
         <omnibeans.version>0.3</omnibeans.version>
@@ -124,12 +124,12 @@
         <shrinkwrap-impl-base.version>2.0.0-beta-2</shrinkwrap-impl-base.version>
         <shrinkwrap-descriptors-api-base.version>2.0.0</shrinkwrap-descriptors-api-base.version>
         <shrinkwrap-resolver.version>3.3.3</shrinkwrap-resolver.version>
-        <soteria.version>4.0.0-M3</soteria.version>
+        <soteria.version>4.0.2</soteria.version>
         <spring-boot.version>3.5.7</spring-boot.version>
         <testcontainers.version>2.0.1</testcontainers.version>
         <transact-cdi-beans.version>1.0.1</transact-cdi-beans.version>
         <tyrus.version>2.2.0</tyrus.version>
-        <undertow.version>2.3.19.Final</undertow.version>
+        <undertow.version>2.3.21.Final</undertow.version>
         <wasp.version>4.0.0</wasp.version>
         <weld.version>6.0.3.Final</weld.version>
         <yasson.version>3.0.4</yasson.version>
@@ -148,7 +148,7 @@
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>3.9.0</maven-dependency-plugin.version>
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
-        <maven-enforcer-plugin.version>3.6.1</maven-enforcer-plugin.version>
+        <maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
         <maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
         <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
         <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
@@ -156,12 +156,12 @@
         <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.11.3</maven-javadoc-plugin.version>
         <maven-plugin-plugin.version>3.15.1</maven-plugin-plugin.version>
-        <maven-plugin-report-plugin.version>3.15.1</maven-plugin-report-plugin.version>
+        <maven-plugin-report-plugin.version>3.15.2</maven-plugin-report-plugin.version>
         <maven-replacer-plugin.version>1.5.3</maven-replacer-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <maven-shade-plugin.version>3.6.1</maven-shade-plugin.version>
         <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
-        <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+        <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
         <maven-war-plugin.version>3.5.0</maven-war-plugin.version>
         <!-- Kept at 1.0.0.RC2 because 1.0.0.[RC3-Final] through 1.2.2.Final do not work -->
@@ -169,7 +169,7 @@
         <native-image-maven-plugin.version>21.2.0</native-image-maven-plugin.version>
         <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
         <tidy-maven-plugin.version>1.4.0</tidy-maven-plugin.version>
-        <versions-maven-plugin.version>2.19.1</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.20.1</versions-maven-plugin.version>
         <!-- other -->
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -349,7 +349,7 @@
             </dependency>
             <dependency>
                 <groupId>org.glassfish.soteria</groupId>
-                <artifactId>jakarta.security.enterprise</artifactId>
+                <artifactId>soteria</artifactId>
                 <version>${soteria.version}</version>
             </dependency>
             <!-- Eclipse Tyrus -->
